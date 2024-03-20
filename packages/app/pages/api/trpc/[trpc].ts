@@ -1,20 +1,18 @@
-import * as trpcNext from "@trpc/server/adapters/next"
-import { nodeHTTPFormDataContentTypeHandler } from "@trpc/server/adapters/node-http/content-type/form-data"
-import { nodeHTTPJSONContentTypeHandler } from "@trpc/server/adapters/node-http/content-type/json"
-import { addEmailToInviteList } from "server/invite"
-import { getSignedUploadParams } from "server/media"
-import { createContext, router } from "server/trpc"
-import { getAuthenticatedUser, setProfileImage } from "server/user"
+import * as trpcNext from "@trpc/server/adapters/next";
+import { nodeHTTPFormDataContentTypeHandler } from "@trpc/server/adapters/node-http/content-type/form-data";
+import { nodeHTTPJSONContentTypeHandler } from "@trpc/server/adapters/node-http/content-type/json";
+import { createContext, router } from "server/trpc";
 
 export const appRouter = router({
-  getAuthenticatedUser,
-  addEmailToInviteList,
-  setProfileImage,
-  getSignedUploadParams,
-})
+  // define your API procedures here
+  // see `server/trpc.ts` for more details
+  // publicProcedure,
+  // user: {
+  //
+});
 
 // export type definition of API
-export type AppRouter = typeof appRouter
+export type AppRouter = typeof appRouter;
 
 export default trpcNext.createNextApiHandler({
   router: appRouter,
@@ -29,6 +27,6 @@ export default trpcNext.createNextApiHandler({
       type,
       path,
       message: error.message || error.cause?.message,
-    })
+    });
   },
-})
+});

@@ -12,7 +12,7 @@
     "db:reset": "bob-tsm scripts/reset.ts",
     "db:format": "prisma format",
     "db:view": "prisma studio",
-    "dev": "pnpm db:generate && pnpm db:push"
+    "dev": ""
   },
   "keywords": [],
   "author": "",
