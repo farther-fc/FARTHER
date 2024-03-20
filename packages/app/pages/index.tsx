@@ -1,5 +1,5 @@
-import { SiteHeader } from "@components/nav/SiteHeader"
-import Head from "next/head"
+import { SiteHeader } from "@components/nav/SiteHeader";
+import Head from "next/head";
 
 export default function Home() {
   return (
@@ -12,15 +12,11 @@ export default function Home() {
       </Head>
       <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
         <div className="flex max-w-[980px] flex-col items-start gap-2">
-          <h1 className="text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl">
-            Farther
-          </h1>
           <p className="text-muted-foreground max-w-[700px]">
-            An exclusive community <br className="hidden sm:inline" />
-            for musicians and DJs
+            Ready to go farther?
           </p>
         </div>
       </section>
     </>
-  )
+  );
 }
