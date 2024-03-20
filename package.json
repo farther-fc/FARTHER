@@ -1,0 +1,31 @@
+{
+  "name": "farther",
+  "private": true,
+  "scripts": {
+    "build": "pnpm pull-env && dotenv -- turbo build",
+    "dev": "dotenv -- turbo dev",
+    "lint": "turbo lint --log-prefix=none",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "pull-env": "dotenv-vault pull",
+    "push-env": "dotenv-vault push",
+    "db:push": "dotenv -- pnpm --filter=@farther/db db:push",
+    "db:view": "dotenv -- pnpm --filter=@farther/db db:view",
+    "db:reset": "dotenv -- pnpm --filter=@farther/db db:reset"
+  },
+  "devDependencies": {
+    "@farther/eslint-config": "workspace:*",
+    "@farther/typescript-config": "workspace:*",
+    "@types/node": "^20.11.5",
+    "prettier": "^3.2.4",
+    "turbo": "^1.11.3",
+    "typescript": "^5.3.3"
+  },
+  "packageManager": "pnpm@8.9.0",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "dotenv-cli": "^7.3.0",
+    "dotenv-vault": "^1.26.0"
+  }
+}

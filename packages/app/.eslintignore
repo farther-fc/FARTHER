@@ -1,0 +1,15 @@
+dist/*
+.cache
+public
+node_modules
+*.esm.js
+
+# next config
+next.config.js
+
+# tailwind config
+tailwind.config.js
+postcss.config.js
+
+# jest config
+jest.config.js
