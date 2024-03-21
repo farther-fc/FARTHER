@@ -1,9 +1,9 @@
-import { ROUTES } from "@lib/config"
-import { prisma } from "@lib/prisma"
-import { revalidatePath } from "next/cache"
+import { ROUTES } from "@lib/constants";
+import { prisma } from "@lib/prisma";
+import { revalidatePath } from "next/cache";
 
 export async function addEmailToInviteList(formData: FormData) {
-  const email = formData.get("email") as string
+  const email = formData.get("email") as string;
 
   const upsertedInvite = await prisma.invite.upsert({
     where: {
@@ -13,9 +13,9 @@ export async function addEmailToInviteList(formData: FormData) {
     create: {
       email,
     },
-  })
+  });
 
-  revalidatePath(ROUTES.admin.path)
+  revalidatePath(ROUTES.admin.path);
 
-  return upsertedInvite
+  return upsertedInvite;
 }
