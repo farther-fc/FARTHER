@@ -28,8 +28,8 @@ export const ROUTES = {
     title: "Liqudity",
     path: "/liquidity",
   },
-  shill: {
-    title: "Shill",
-    path: "/shill",
+  evangelize: {
+    title: "Evangelize",
+    path: "/evangelize",
   },
 } as const;
