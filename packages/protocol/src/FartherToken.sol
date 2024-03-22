@@ -1,18 +1,19 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.20;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
-import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
-import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol";
+import {Nonces} from "openzeppelin/utils/Nonces.sol";
+import {ERC20} from "openzeppelin/token/ERC20/ERC20.sol";
+import {ERC20Burnable} from "openzeppelin/token/ERC20/extensions/ERC20Burnable.sol";
+import {ERC20Pausable} from "openzeppelin/token/ERC20/extensions/ERC20Pausable.sol";
+import {Ownable} from "openzeppelin/access/Ownable.sol";
+import {ERC20Permit} from "openzeppelin/token/ERC20/extensions/ERC20Permit.sol";
+import {ERC20Votes} from "openzeppelin/token/ERC20/extensions/ERC20Votes.sol";
 
 /**
- * @notice The Degen token
+ * @notice The Farther token
  * @custom:security-contact jacek@degen.tips
  */
-contract DegenToken is
+contract FartherToken is
     ERC20,
     ERC20Burnable,
     ERC20Pausable,
