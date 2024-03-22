@@ -4,7 +4,7 @@ pragma solidity ^0.8.13;
 import {Test, console} from "forge-std/Test.sol";
 import {FartherToken} from "../src/FartherToken.sol";
 
-contract CounterTest is Test {
+contract FartherTokenTest is Test {
     FartherToken public fartherToken;
 
     function setUp() public {

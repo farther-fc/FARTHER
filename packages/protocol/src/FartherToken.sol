@@ -24,17 +24,17 @@ contract FartherToken is
     /**
      * @dev EIP-20 token name for this token
      */
-    string public constant TOKEN_NAME = "Degen";
+    string public constant TOKEN_NAME = "Farther";
 
     /**
      * @dev EIP-20 token symbol for this token
      */
-    string public constant TOKEN_SYMBOL = "DEGEN";
+    string public constant TOKEN_SYMBOL = "FARTHER";
 
     /**
      * @dev Total number of tokens in circulation
      */
-    uint256 public constant TOKEN_INITIAL_SUPPLY = 36_965_935_954;
+    uint256 public constant TOKEN_INITIAL_SUPPLY = 1_000_000_000;
 
     /**
      * @dev Minimum time between mints
@@ -44,7 +44,7 @@ contract FartherToken is
     /**
      * @dev Cap on the percentage of totalSupply that can be minted at each mint
      */
-    uint8 public constant MINT_CAP = 1;
+    uint8 public constant MINT_CAP = 2;
 
     /**
      * @dev The timestamp after which minting may occur
@@ -72,10 +72,10 @@ contract FartherToken is
     /**
      * @dev Attempted to mint more than the cap allows
      */
-    error DegenMintCapExceeded();
+    error MintCapExceeded();
 
     /**
-     * @dev Construct a new Degen token
+     * @dev Construct a new token
      * @param mintingAllowedAfter_ The timestamp after which minting may occur
      */
     constructor(
@@ -116,7 +116,7 @@ contract FartherToken is
 
         // mint the amount
         if (amount > (totalSupply() * MINT_CAP) / 100) {
-            revert DegenMintCapExceeded();
+            revert MintCapExceeded();
         }
 
         _mint(to, amount);
