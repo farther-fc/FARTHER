@@ -4,3 +4,6 @@
 [submodule "packages/protocol/lib/openzeppelin-contracts"]
 	path = packages/protocol/lib/openzeppelin-contracts
 	url = https://github.com/openzeppelin/openzeppelin-contracts
+[submodule "packages/protocol/lib/murky"]
+	path = packages/protocol/lib/murky
+	url = https://github.com/dmfxyz/murky
