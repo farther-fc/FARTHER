@@ -79,6 +79,58 @@ contract FartherAirdropTest is TestConfig {
         }
     }
 
+    function test_alreadyClaimed_fails() external {
+        airdrop.claim(0, accounts[0], amounts[0], merkle.getProof(leaves, 0));
+
+        vm.expectRevert(FartherAirdrop1.AlreadyClaimed.selector);
+
+        airdrop.claim(0, accounts[0], amounts[0], merkle.getProof(leaves, 0));
+    }
+
+    function test_invalidProof_fails() external {
+        bytes32[] memory proof = merkle.getProof(leaves, 1);
+
+        vm.expectRevert(FartherAirdrop1.InvalidProof.selector);
+        airdrop.claim(0, accounts[0], amounts[0], proof);
+    }
+
+    function test_claimWindowFinished_fails() external {
+        bytes32[] memory proof = merkle.getProof(leaves, 0);
+
+        vm.warp(block.timestamp + 365 days + 1);
+
+        vm.expectRevert(FartherAirdrop1.ClaimWindowFinished.selector);
+        airdrop.claim(0, accounts[0], amounts[0], proof);
+    }
+
+    function test_withdraw_succeeds() external {
+        // Assert that owner (this contract) has the correct balance after funding the airdrop
+        assertEq(
+            token.balanceOf(address(this)),
+            token.TOKEN_INITIAL_SUPPLY() *
+                10 ** token.decimals() -
+                amounts[0] -
+                amounts[1] -
+                amounts[2]
+        );
+
+        vm.warp(block.timestamp + 365 days + 1);
+        airdrop.withdraw();
+
+        assertEq(token.balanceOf(address(airdrop)), 0);
+
+        // Assert that owner (this contract) is back to the full initial supply
+        assertEq(
+            token.balanceOf(address(this)),
+            token.TOKEN_INITIAL_SUPPLY() * 10 ** token.decimals()
+        );
+    }
+
+    function test_withdrawDuringClaim_fails() external {
+        vm.expectRevert(FartherAirdrop1.NoWithdrawDuringClaim.selector);
+        airdrop.withdraw();
+    }
+
     // HELPERS
 
     function deployAirdrop() public returns (FartherAirdrop1 airdrop_) {
