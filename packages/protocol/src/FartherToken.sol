@@ -11,7 +11,6 @@ import {ERC20Votes} from "openzeppelin/token/ERC20/extensions/ERC20Votes.sol";
 
 /**
  * @notice The Farther token
- * @custom:security-contact jacek@degen.tips
  */
 contract FartherToken is
     ERC20,
