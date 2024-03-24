@@ -12,27 +12,28 @@ contract Deploy is Script {
     uint testAmount = 10970375203;
 
     function run() public {
+        Merkle merkle = new Merkle();
+
+        bytes32[] memory leaves = new bytes32[](2);
+        leaves[0] = keccak256(abi.encodePacked(uint(0), VBUTERIN, testAmount));
+        leaves[1] = keccak256(
+            abi.encodePacked(uint(0), DEPLOYER, testAmount * 2)
+        );
+
+        bytes32 root = merkle.getRoot(leaves);
+
         vm.startBroadcast();
 
-        FartherToken token = new FartherToken(block.timestamp);
-        // Merkle merkle = new Merkle();
+        FartherToken token = new FartherToken(block.timestamp + 10);
 
-        // bytes32[] memory leaves = new bytes32[](2);
-        // leaves[0] = keccak256(abi.encodePacked(uint(0), VBUTERIN, testAmount));
-        // leaves[1] = keccak256(
-        //     abi.encodePacked(uint(0), DEPLOYER, testAmount * 2)
-        // );
+        FartherAirdrop1 airdrop = new FartherAirdrop1(
+            address(token),
+            root,
+            block.timestamp + 1 hours
+        );
 
-        // bytes32 root = merkle.getRoot(leaves);
-
-        // FartherAirdrop1 airdrop = new FartherAirdrop1(
-        //     address(token),
-        //     root,
-        //     block.timestamp + 1 hours
-        // );
-
-        // // Fund the airdrop
-        // token.transfer(address(airdrop), testAmount * 3);
+        // Fund the airdrop
+        token.transfer(address(airdrop), testAmount * 3);
 
         vm.stopBroadcast();
     }
