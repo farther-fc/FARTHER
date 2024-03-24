@@ -80,11 +80,13 @@ contract FartherAirdropTest is TestConfig {
     }
 
     function test_alreadyClaimed_fails() external {
-        airdrop.claim(0, accounts[0], amounts[0], merkle.getProof(leaves, 0));
+        bytes32[] memory proof = merkle.getProof(leaves, 0);
+
+        airdrop.claim(0, accounts[0], amounts[0], proof);
 
         vm.expectRevert(FartherAirdrop1.AlreadyClaimed.selector);
 
-        airdrop.claim(0, accounts[0], amounts[0], merkle.getProof(leaves, 0));
+        airdrop.claim(0, accounts[0], amounts[0], proof);
     }
 
     function test_invalidProof_fails() external {
