@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  fid            String    @id
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  email          String?
+  address        String?
+  airdrops       Allocation[]
+}
+
+// Airdrop allocation
+model Allocation {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  userId      String
+  user        User      @relation(fields: [userId], references: [fid])
+  airdropId   String
+  airdrop     Airdrop   @relation(fields: [airdropId], references: [id])
+  isClaimed   Boolean   @default(false)
+}
+
+// Airdrop
+model Airdrop {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  version       Int       @unique
+  createdAt     DateTime  @default(now())
+  network       Network
+  address       String?
+  amount        Int
+
+  allocations   Allocation[]
+
+  @@unique([version, network])
+  @@unique([address, network])
+}
+
+enum Network {
+  BASE
+  BASE_SEPOLIA
+}

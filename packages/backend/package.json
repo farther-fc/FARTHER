@@ -1,5 +1,5 @@
 {
-  "name": "@farther/db",
+  "name": "@farther/backend",
   "version": "1.0.0",
   "description": "",
   "main": "prisma/index.ts",

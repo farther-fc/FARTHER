@@ -15,7 +15,7 @@ importers:
         specifier: ^1.26.0
         version: 1.26.0(@types/node@20.11.12)(typescript@5.3.3)
     devDependencies:
-      '@farther/eslint-config':
+      '@farther/common':
         specifier: workspace:*
         version: link:packages/eslint-config
       '@farther/typescript-config':
@@ -42,7 +42,7 @@ importers:
       '@aws-sdk/s3-presigned-post':
         specifier: ^3.507.0
         version: 3.507.0
-      '@farther/db':
+      '@farther/backend':
         specifier: workspace:*
         version: link:../db
       '@hookform/resolvers':

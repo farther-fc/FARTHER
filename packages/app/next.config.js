@@ -3,8 +3,8 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   webpack: (config) => {
-    config.resolve.fallback = { fs: false, net: false, tls: false }
-    return config
+    config.resolve.fallback = { fs: false, net: false, tls: false };
+    return config;
   },
   experimental: {
     scrollRestoration: true,
@@ -19,7 +19,7 @@ const nextConfig = {
       },
     ],
   },
-  transpilePackages: ["@farther/db"],
+  transpilePackages: ["@farther/backend"],
   async headers() {
     return [
       {
@@ -39,12 +39,11 @@ const nextConfig = {
           },
         ],
       },
-    ]
+    ];
   },
-}
+};
 
-module.exports = nextConfig
-
+module.exports = nextConfig;
 
 // Injected content via Sentry wizard below
 
@@ -85,5 +84,5 @@ module.exports = withSentryConfig(
     // https://docs.sentry.io/product/crons/
     // https://vercel.com/docs/cron-jobs
     automaticVercelMonitors: true,
-  }
+  },
 );

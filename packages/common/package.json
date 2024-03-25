@@ -1,5 +1,5 @@
 {
-  "name": "@farther/eslint-config",
+  "name": "@farther/common",
   "version": "0.0.0",
   "private": true,
   "files": [
