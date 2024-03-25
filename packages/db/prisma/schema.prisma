@@ -9,88 +9,19 @@ datasource db {
 }
 
 model User {
-  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  fid        String    @id
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
-  deletedAt  DateTime?
-  privyId    String    @unique
-  artistName String?   @unique
-  email      String    @unique
-  releases   Release[]
-  comments   Comment[]
-  role       Role      @default(USER)
+  email      String?   
+  rewards    Reward[]
 }
 
-enum Role {
-  USER
-  ARTIST
-  ADMIN
-}
-
-model Release {
+model Reward {
   id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   deletedAt   DateTime?
-  title       String
-  titleSlug   String
-  description String?
-  recordLabel String?
-  releaseDate DateTime?
-
-  artist   User?     @relation(fields: [artistId], references: [id])
-  artistId String?   @db.Uuid
-  comments Comment[]
-  genres   Genre[]
-
-  @@unique([artistId, titleSlug])
-  @@index(artistId)
-  @@index(title)
-  @@index(titleSlug)
-}
-
-model Genre {
-  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  name      String    @unique
-  releases  Release[]
-}
-
-model Comment {
-  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
-  User      User?     @relation(fields: [userId], references: [id])
-  userId    String?   @db.Uuid
-  Release   Release?  @relation(fields: [releaseId], references: [id])
-  releaseId String?   @db.Uuid
-
-  @@index(userId)
-}
-
-model Media {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Each media can be associated with a single model (ex: User, Release)
-  relationId   String
-  mediaType       MediaType
-
-  // S3 Key
-  key             String @unique
-
-  @@unique([relationId, mediaType])
-}
-// Each relation must be prepended with a model name
-// e.g. USER_<NAME>
-enum MediaType {
-  USER_AVATAR
-  RELEASE_COVER_ART
-}
-
-model Invite {
-  email String @unique
+  userId      String
+  user        User      @relation(fields: [userId], references: [fid])
+  
 }

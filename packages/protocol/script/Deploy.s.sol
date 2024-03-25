@@ -29,7 +29,7 @@ contract Deploy is Script {
         FartherAirdrop1 airdrop = new FartherAirdrop1(
             address(token),
             root,
-            block.timestamp + 1 hours
+            block.timestamp + 365 days
         );
 
         // Fund the airdrop
