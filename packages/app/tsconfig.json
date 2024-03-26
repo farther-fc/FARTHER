@@ -33,6 +33,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "tailwind.config.ts",
+    "../common/src/neynar.ts",
   ],
   "exclude": ["node_modules"],
 }

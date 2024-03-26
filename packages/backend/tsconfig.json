@@ -1,5 +1,7 @@
 {
-  "extends": "@farther/typescript-config/base.json",
+  "ts-node": {
+    "require": ["tsconfig-paths/register"],
+  },
   "compilerOptions": {
     "paths": {
       "@common/*": ["../common/src/*"],

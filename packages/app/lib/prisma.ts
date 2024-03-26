@@ -1,5 +1,5 @@
 import { isProduction } from "./env";
-import { PrismaClient } from "../../backend/prisma";
+import { PrismaClient } from "@farther/backend/src/prisma";
 
 const globalForPrisma = global as unknown as {
   prisma: PrismaClient | undefined;

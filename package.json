@@ -13,6 +13,7 @@
     "db:reset": "dotenv -- pnpm --filter=@farther/backend db:reset"
   },
   "devDependencies": {
+    "@types/underscore": "^1.11.15",
     "@farther/common": "workspace:*",
     "@farther/typescript-config": "workspace:*",
     "@types/node": "^20.11.5",

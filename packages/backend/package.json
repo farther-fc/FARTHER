@@ -12,7 +12,7 @@
     "db:reset": "bob-tsm scripts/reset.ts",
     "db:format": "prisma format",
     "db:view": "prisma studio",
-    "dev": ""
+    "dev": "pnpm db:push"
   },
   "keywords": [],
   "author": "",
@@ -21,16 +21,19 @@
     "@neondatabase/serverless": "^0.7.2",
     "@prisma/client": "^5.1.0",
     "bob-tsm": "^1.1.2",
-    "pg": "^8.11.3"
+    "pg": "^8.11.3",
+    "underscore": "^1.13.6"
   },
   "devDependencies": {
     "@prisma/client": "^5.1.0",
     "@types/node": "^20.11.3",
     "@types/pg": "^8.10.9",
+    "@types/underscore": "^1.11.15",
     "dotenv": "^16.3.2",
     "esbuild-register": "^3.5.0",
     "prisma": "^5.8.1",
     "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3"
   }
 }

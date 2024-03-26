@@ -1,8 +1,8 @@
-import { initTRPC } from "@trpc/server";
+import { TRPCError, initTRPC } from "@trpc/server";
 import { CreateNextContextOptions } from "@trpc/server/adapters/next";
 
 export const createContext = async (opts: CreateNextContextOptions) => {
-  return { req: opts.req };
+  return opts;
 };
 
 const t = initTRPC
@@ -16,3 +16,17 @@ export const router = t.router;
  * Unprotected procedure
  */
 export const publicProcedure = t.procedure;
+
+export const adminProcedure = t.procedure.use(async function (opts) {
+  const { req } = opts.ctx;
+
+  const authHeader = req.headers.authorization;
+
+  if (authHeader !== `Bearer ${process.env.ADMIN_SECRET}`) {
+    throw new TRPCError({ code: "UNAUTHORIZED", message: "Invalid secret" });
+  }
+
+  return opts.next({
+    ctx: opts.ctx,
+  });
+});
