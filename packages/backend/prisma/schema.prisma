@@ -15,7 +15,7 @@ model User {
   updatedAt               DateTime  @updatedAt
   email                   String?
   address                 String?
-  airdropAllocations       Allocation[]
+  airdropAllocations      Allocation[]
 }
 
 // Airdrop allocation
@@ -35,17 +35,12 @@ model Airdrop {
   id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   version       Int       @unique
   createdAt     DateTime  @default(now())
-  network       Network
+  chainId       Int
   address       String?
   amount        Int
 
   allocations   Allocation[]
 
-  @@unique([version, network])
-  @@unique([address, network])
-}
-
-enum Network {
-  BASE
-  BASE_SEPOLIA
+  @@unique([version, chainId])
+  @@unique([address, chainId])
 }

@@ -9,7 +9,7 @@
     "migrate:prod": "dotenv -e ../../.env.production prisma migrate deploy",
     "db:generate": "prisma generate",
     "db:push": "prisma db push --skip-generate",
-    "db:reset": "bob-tsm scripts/reset.ts",
+    "db:reset": "dotenv -e ../../.env bob-tsm src/scripts/reset.ts",
     "db:format": "prisma format",
     "db:view": "prisma studio",
     "dev": "pnpm db:push"
