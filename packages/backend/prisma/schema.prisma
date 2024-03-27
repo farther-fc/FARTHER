@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id                      String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  fid                     Int       @unique
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+  email                   String?
+  address                 String?
+  airdropAllocations      Allocation[]
+}
+
+// Airdrop allocation
+model Allocation {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  userId      String    @db.Uuid
+  user        User      @relation(fields: [userId], references: [id])
+  airdropId   String    @db.Uuid
+  airdrop     Airdrop   @relation(fields: [airdropId], references: [id])
+  isClaimed   Boolean   @default(false)
+
+  // Index of the node in the merkle tree
+  index       Int?
+}
+
+// Airdrop
+model Airdrop {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  version       Int       @unique
+  createdAt     DateTime  @default(now())
+  chainId       Int
+  address       String?
+  amount        Int
+
+  allocations   Allocation[]
+
+  @@unique([version, chainId])
+  @@unique([address, chainId])
+}

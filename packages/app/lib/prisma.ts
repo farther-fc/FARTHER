@@ -1,9 +1,9 @@
-import { isProduction } from "./env"
-import { PrismaClient } from "@farther/db"
+import { isProduction } from "../../common/src/env";
+import { PrismaClient } from "@farther/backend";
 
 const globalForPrisma = global as unknown as {
-  prisma: PrismaClient | undefined
-}
+  prisma: PrismaClient | undefined;
+};
 
 export const prisma =
   globalForPrisma.prisma ??
@@ -14,6 +14,6 @@ export const prisma =
       "warn",
       "error",
     ],
-  })
+  });
 
-if (isProduction) globalForPrisma.prisma = prisma
+if (isProduction) globalForPrisma.prisma = prisma;

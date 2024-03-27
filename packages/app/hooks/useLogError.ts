@@ -1,4 +1,5 @@
-import { defaultChainId, networkNames } from "@lib/constants";
+import { networkNames } from "@common/constants";
+import { defaultChainId } from "@common/env";
 import * as Sentry from "@sentry/nextjs";
 import type { SeverityLevel } from "@sentry/nextjs";
 import { useLatestRef } from "hooks/useLatestRef";

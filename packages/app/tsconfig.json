@@ -19,6 +19,7 @@
       "@components/*": ["components/*"],
       "@lib/*": ["lib/*"],
       "@styles/*": ["styles/*"],
+      "@common/*": ["../common/src/*"],
     },
     "plugins": [
       {
@@ -32,6 +33,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "tailwind.config.ts",
+    "../common/src/neynar.ts",
+    "../common/src/env.ts",
   ],
   "exclude": ["node_modules"],
 }

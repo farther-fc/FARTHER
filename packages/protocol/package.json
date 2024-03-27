@@ -2,11 +2,22 @@
   "name": "protocol",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "exports": "./index.js",
+  "type": "module",
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "scripts": {
-    "deploy:staging": "EVM_NETWORK=sepolia source .env && forge script script/Deploy.s.sol:Deploy --rpc-url $SEPOLIA_RPC_URL --private-key $PRIVATE_KEY --verify -vvvv --broadcast"
+    "deploy:staging": "EVM_NETWORK=sepolia source .env && forge script script/Deploy.s.sol:Deploy --rpc-url $SEPOLIA_RPC_URL --private-key $PRIVATE_KEY --verify -vvvv --broadcast",
+    "foundry": "curl -L https://foundry.paradigm.xyz | bash && source /vercel/.bashrc && foundryup && forge install",
+    "generate": "dotenv -e ../../.env wagmi generate"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@wagmi/cli": "^2.1.4",
+    "viem": "^2.8.14",
+    "wagmi": "^2.5.11"
+  }
 }

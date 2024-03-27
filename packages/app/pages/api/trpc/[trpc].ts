@@ -2,13 +2,10 @@ import * as trpcNext from "@trpc/server/adapters/next";
 import { nodeHTTPFormDataContentTypeHandler } from "@trpc/server/adapters/node-http/content-type/form-data";
 import { nodeHTTPJSONContentTypeHandler } from "@trpc/server/adapters/node-http/content-type/json";
 import { createContext, router } from "server/trpc";
+import { updateAirdropRecipients } from "server/airdrop";
 
 export const appRouter = router({
-  // define your API procedures here
-  // see `server/trpc.ts` for more details
-  // publicProcedure,
-  // user: {
-  //
+  updateAirdropRecipients,
 });
 
 // export type definition of API
