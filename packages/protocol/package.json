@@ -9,9 +9,10 @@
   },
   "scripts": {
     "deploy:staging": "EVM_NETWORK=sepolia source .env && forge script script/Deploy.s.sol:Deploy --rpc-url $SEPOLIA_RPC_URL --private-key $PRIVATE_KEY --verify -vvvv --broadcast",
+    "foundry": "curl -L https://foundry.paradigm.xyz | bash && source /vercel/.bashrc && foundryup && forge install",
     "build": "forge build --out ../common/src/abis",
     "generate": "dotenv -e ../../.env wagmi generate",
-    "postinstall": "pnpm build && pnpm generate"
+    "postinstall": "pnpm foundry && pnpm build && pnpm generate"
   },
   "keywords": [],
   "author": "",
