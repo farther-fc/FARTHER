@@ -1,5 +1,4 @@
 import fetch from "node-fetch";
-import { chunk } from "underscore";
 import { neynar } from "@common/neynar";
 import {
   TOTAL_AIRDROP_SUPPLY,
