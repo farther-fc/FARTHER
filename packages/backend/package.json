@@ -7,12 +7,13 @@
   "scripts": {
     "migrate:staging": "dotenv -e ../../.env.staging prisma migrate deploy",
     "migrate:prod": "dotenv -e ../../.env.production prisma migrate deploy",
-    "db:generate": "prisma generate",
-    "db:push": "prisma db push --skip-generate",
-    "db:reset": "dotenv -e ../../.env bob-tsm src/scripts/reset.ts",
+    "generate": "prisma generate",
+    "db:push": "pnpm load-env prisma db push --skip-generate",
+    "db:reset": "pnpm load-env bob-tsm src/scripts/reset.ts",
     "db:format": "prisma format",
-    "db:view": "prisma studio",
-    "dev": "pnpm db:push"
+    "db:view": "pnpm load-env prisma studio",
+    "load-env": "dotenv -e ../../.env",
+    "dev": "pnpm db:push && pnpm generate"
   },
   "keywords": [],
   "author": "",

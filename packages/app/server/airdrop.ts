@@ -1,10 +1,6 @@
 import fetch from "node-fetch";
 import { chunk } from "underscore";
-import {
-  neynarClient,
-  neynarScheduler,
-  NEYNAR_DATA_SIZE_LIMIT,
-} from "@common/neynar";
+import { neynar } from "@common/neynar";
 import {
   TOTAL_AIRDROP_SUPPLY,
   WARPCAST_API_BASE_URL,
@@ -17,13 +13,12 @@ import { defaultChainId } from "@common/env";
 async function updatePendingRecipients() {
   console.log("Updating pending recipients");
 
-  // Fetch users from DB with unclaimed airdrop tokens
+  // Fetch users from DB with an airdrop allocation but no connected wallet address
   const users = await prisma.user.findMany({
     where: {
+      address: null,
       airdropAllocations: {
-        some: {
-          isClaimed: false,
-        },
+        some: {},
       },
     },
   });
@@ -32,12 +27,18 @@ async function updatePendingRecipients() {
 
   // Check Neynar to see if ^those users have connected wallet since last check
   const fids = users.map((u) => u.fid);
-  const usersWithConnectedAddress = await getUsersWithConnectedAddress(fids);
+  const usersWithConnectedAddress = (await neynar.getUsers(fids)).filter(
+    (u) => u.verified_addresses.eth_addresses.length > 0,
+  );
 
   console.log(
     "Pending recipients who recently connected wallet:",
     usersWithConnectedAddress.length,
   );
+
+  if (usersWithConnectedAddress.length === 0) {
+    return;
+  }
 
   // Update database
   await prisma.$transaction(
@@ -50,7 +51,7 @@ async function updatePendingRecipients() {
   );
 
   console.log(
-    "Updated database with pending recipients who have connected addresses\n\n",
+    `Updated database with pending recipients who have connected addresses. Fids: ${usersWithConnectedAddress.map((u) => u.fid)}`,
   );
 }
 
@@ -67,8 +68,8 @@ async function prepareNewRecipients() {
 
   console.log("Warpcast power users:", powerUserFids.length);
 
-  // Get users from DB who have been allocated airdrop tokens (claimed or unclaimed). Remove the matches from the previous step.
-  const users = await prisma.user.findMany({
+  // Get users from DB who have been allocated airdrop tokens (claimed or unclaimed.
+  const usersWithAllocation = await prisma.user.findMany({
     where: {
       airdropAllocations: {
         some: {},
@@ -76,15 +77,14 @@ async function prepareNewRecipients() {
     },
   });
 
-  console.log("Users with airdrop allocations:", users.length);
-
-  // Check Neynar to see if ^those users have connected wallet
-  const usersWithConnectedAddress = await getUsersWithConnectedAddress(
-    users.map((u) => u.fid),
+  // Filter power users who already have an allocation
+  const filteredFids = powerUserFids.filter(
+    (fid) => !usersWithAllocation.some((u) => u.fid === fid),
   );
 
-  if (usersWithConnectedAddress.length === 0) {
-    console.log("No users with connected addresses");
+  console.log("New power users:", filteredFids.length);
+
+  if (filteredFids.length === 0) {
     return;
   }
 
@@ -99,38 +99,33 @@ async function prepareNewRecipients() {
     update: {},
   });
 
+  console.log("Airdrop:", airdrop);
+
+  // Get data from Neynar
+  const users = await neynar.getUsers(filteredFids);
+
   // Upsert User records (connected wallet address)
   // Create Allocation records
   await prisma.$transaction(
-    usersWithConnectedAddress.map((u) => {
-      return prisma.user.update({
-        where: { fid: u.fid },
-        data: {
-          address: u.verified_addresses.eth_addresses[0],
-          airdropAllocations: {
-            create: {
-              airdropId: airdrop.id,
-            },
+    users.map((u) => {
+      const data = {
+        fid: u.fid,
+        address: u.verified_addresses.eth_addresses.length
+          ? u.verified_addresses.eth_addresses[0]
+          : null,
+        airdropAllocations: {
+          create: {
+            airdropId: airdrop.id,
           },
         },
+      };
+      return prisma.user.upsert({
+        where: { fid: u.fid },
+        create: data,
+        update: data,
       });
     }),
   );
-}
-
-async function getUsersWithConnectedAddress(fids: number[]) {
-  const fidChunks = chunk(fids, NEYNAR_DATA_SIZE_LIMIT);
-
-  const bulkUsersArray = await Promise.all(
-    fidChunks.map((fids) =>
-      neynarScheduler.schedule(() => neynarClient.fetchBulkUsers(fids)),
-    ),
-  );
-
-  return bulkUsersArray
-    .map((data) => data.users)
-    .flat()
-    .filter((u) => u.verified_addresses.eth_addresses.length > 0);
 }
 
 // TODO: Put this on an hourly cron
@@ -138,6 +133,7 @@ export const updateAirdropRecipients = adminProcedure.mutation(async () => {
   try {
     await updatePendingRecipients();
     await prepareNewRecipients();
+    console.log("done");
   } catch (e) {
     console.error(e);
   }

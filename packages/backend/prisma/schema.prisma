@@ -9,7 +9,7 @@ datasource db {
 }
 
 model User {
-  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id                      String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   fid                     Int       @unique
   createdAt               DateTime  @default(now())
   updatedAt               DateTime  @updatedAt
@@ -23,11 +23,14 @@ model Allocation {
   id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  userId      String
+  userId      String    @db.Uuid
   user        User      @relation(fields: [userId], references: [id])
-  airdropId   String    @unique @db.Uuid
+  airdropId   String    @db.Uuid
   airdrop     Airdrop   @relation(fields: [airdropId], references: [id])
   isClaimed   Boolean   @default(false)
+
+  // Index of the node in the merkle tree
+  index       Int?
 }
 
 // Airdrop
