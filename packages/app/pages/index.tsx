@@ -1,4 +1,3 @@
-import { SiteHeader } from "@components/nav/SiteHeader";
 import Head from "next/head";
 
 export default function Home() {

@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 import { base, baseSepolia } from "viem/chains";
 
 export const NODE_ENV = process.env.NODE_ENV || "development";

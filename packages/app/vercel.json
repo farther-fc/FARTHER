@@ -4,5 +4,10 @@
       "path": "/api/trpc/updateAirdropRecipients",
       "schedule": "*/10 * * * *"
     }
-  ]
+  ],
+  "functions": {
+    "pages/api/**/*": {
+      "maxDuration": 60
+    }
+  }
 }

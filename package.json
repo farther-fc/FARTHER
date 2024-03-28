@@ -2,7 +2,8 @@
   "name": "farther",
   "private": true,
   "scripts": {
-    "build": "pnpm pull-env && dotenv -- turbo build",
+    "build": "dotenv -- turbo build",
+    "build:web": "dotenv -- turbo build:web",
     "dev": "dotenv -- turbo dev",
     "lint": "turbo lint --log-prefix=none",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",

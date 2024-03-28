@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 import { NeynarAPIClient } from "@neynar/nodejs-sdk";
 import { chunk } from "underscore";
 import Bottleneck from "bottleneck";

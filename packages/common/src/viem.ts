@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 import { createPublicClient, http } from "viem";
 import { base, baseSepolia } from "viem/chains";
 

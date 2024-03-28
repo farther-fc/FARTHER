@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 import "@styles/globals.css";
 import { GlobalModal } from "@components/modals/GlobalModal";
 import { SiteHeader } from "@components/nav/SiteHeader";

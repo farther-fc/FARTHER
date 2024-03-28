@@ -103,9 +103,11 @@ async function prepareNewRecipients() {
   // Get data from Neynar
   const users = await neynar.getUsers(filteredFids);
 
+  console.log("Users from Neynar:", users.length);
+
   // Upsert User records (connected wallet address)
   // Create Allocation records
-  await prisma.$transaction(
+  await Promise.all(
     users.map((u) => {
       const data = {
         fid: u.fid,
@@ -128,12 +130,16 @@ async function prepareNewRecipients() {
 }
 
 // TODO: Put this on an hourly cron
-export const updateAirdropRecipients = adminProcedure.mutation(async () => {
-  try {
-    await updatePendingRecipients();
-    await prepareNewRecipients();
-    console.log("done");
-  } catch (e) {
-    console.error(e);
-  }
-});
+export const updateAirdropRecipients = adminProcedure.mutation(
+  async ({ ctx: { res } }) => {
+    try {
+      await updatePendingRecipients();
+      await prepareNewRecipients();
+      console.log("done");
+      res.status(200).send({ success: true });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ error });
+    }
+  },
+);
