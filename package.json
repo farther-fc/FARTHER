@@ -4,7 +4,7 @@
   "scripts": {
     "build": "dotenv -- turbo build",
     "build:web": "dotenv -- turbo build:web",
-    "dev": "dotenv -- turbo dev",
+    "dev": "dotenv -e .env.staging turbo dev",
     "lint": "turbo lint --log-prefix=none",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "pull-env": "dotenv-vault pull",

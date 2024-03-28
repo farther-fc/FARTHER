@@ -22,7 +22,7 @@ export const adminProcedure = t.procedure.use(async function (opts) {
 
   const authHeader = req.headers.authorization;
 
-  if (authHeader !== `Bearer ${process.env.ADMIN_SECRET}`) {
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     throw new TRPCError({ code: "UNAUTHORIZED", message: "Invalid secret" });
   }
 

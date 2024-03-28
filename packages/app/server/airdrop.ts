@@ -8,6 +8,7 @@ import {
 import { prisma } from "@lib/prisma";
 import { adminProcedure } from "server/trpc";
 import { defaultChainId } from "@common/env";
+import { dbLimiter } from "@lib/utils";
 
 async function updatePendingRecipients() {
   console.log("Updating pending recipients");
@@ -120,17 +121,19 @@ async function prepareNewRecipients() {
           },
         },
       };
-      return prisma.user.upsert({
-        where: { fid: u.fid },
-        create: data,
-        update: data,
-      });
+      return dbLimiter.schedule(() =>
+        prisma.user.upsert({
+          where: { fid: u.fid },
+          create: data,
+          update: data,
+        }),
+      );
     }),
   );
 }
 
 // TODO: Put this on an hourly cron
-export const updateAirdropRecipients = adminProcedure.mutation(
+export const updateAirdropRecipients = adminProcedure.query(
   async ({ ctx: { res } }) => {
     try {
       await updatePendingRecipients();
