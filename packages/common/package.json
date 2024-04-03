@@ -21,6 +21,7 @@
     "@neynar/nodejs-sdk": "^1.13.1",
     "bottleneck": "^2.19.5",
     "ethers": "^6.11.1",
+    "merkletreejs": "^0.3.11",
     "viem": "^2.8.14"
   }
 }

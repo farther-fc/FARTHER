@@ -1,3 +1,5 @@
+# Modify these as needed. Putting them here for when auto-verification fails.
+
 forge verify-contract \
 --watch \
 --verifier-url "https://api-sepolia.basescan.org/api" \
@@ -10,4 +12,4 @@ forge verify-contract \
 --verifier-url "https://api-sepolia.basescan.org/api" \
 --chain-id 84532 \
 --constructor-args $(cast abi-encode "constructor(address,bytes32,uint256)" 0x8ad5b9007556749DE59E088c88801a3Aaa87134B 0xc3c83029b86e20a9d13921348739359d51a4a29d15952cfa297ef581fcafab86 1711307146) \
-0xac59c449ee6e15b0afb1c3d2d30600af29099fb2 src/FartherAirdrop.sol:FartherAirdrop1
+0xac59c449ee6e15b0afb1c3d2d30600af29099fb2 src/FartherAirdrop.sol:FartherAirdrop

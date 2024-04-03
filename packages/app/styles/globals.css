@@ -4,6 +4,39 @@
 
 @layer base {
   :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47.4% 11.2%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 47.4% 11.2%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 88% 31%;
+    --destructive-foreground: 210 40% 98%;
+
+    --ring: 215 20.2% 65.1%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
     --background: 224 71% 4%;
     --foreground: 213 31% 91%;
 
@@ -38,43 +71,38 @@
 }
 
 h1 {
-  font-size: 320%;
+  font-size: 220%;
   line-height: 1.35;
   font-style: normal;
   margin: 1.5em 0 0.8em;
 }
 
 h2 {
-  font-weight: bold;
-  font-size: 200%;
+  font-weight: normal;
+  font-size: 180%;
   margin: 1em 0 0.8em;
 }
 
 h3 {
   font-weight: normal;
   font-size: 150%;
-  letter-spacing: 0.15em;
   margin: 1.75em 0 0.8em;
 }
 
 h4 {
   font-weight: normal;
   font-size: 130%;
-  letter-spacing: 0.1em;
   margin: 1.5em 0 0.8em;
 }
 
 h5 {
   font-weight: normal;
-  font-style: italic;
   font-size: 120%;
   margin: 1.5em 0 0.8em;
 }
 
 h6 {
-  font-weight: bold;
   font-size: 100%;
-  letter-spacing: 0.1em;
   margin: 1.5em 0 0.8em;
 }
 
@@ -89,6 +117,7 @@ h6 {
 
   body {
     @apply bg-background text-foreground;
+    font-size: 18px;
     font-feature-settings:
       "rlig" 1,
       "calt" 1;
@@ -96,5 +125,47 @@ h6 {
 
   label {
     @apply text-xs;
+  }
+
+  a {
+    @apply text-blue-600 hover:text-blue-800 transition-colors;
+  }
+
+  hr {
+    @apply my-12;
+  }
+
+  /* CUSTOM CLASSES */
+  .content {
+    @apply container;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  /* ANIMATIONS */
+  /** the following code is from https://codepen.io/thetallweeks/pen/yybGra **/
+  .loading-ellipsis:after {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: bottom;
+    -webkit-animation: ellipsis steps(4, end) 900ms infinite;
+    animation: ellipsis steps(4, end) 900ms infinite;
+    content: "\2026"; /* ascii code for the ellipsis character */
+    width: 0px;
+    margin-right: 1.25em;
+  }
+
+  @keyframes ellipsis {
+    to {
+      width: 1.25em;
+      margin-right: 0;
+    }
+  }
+
+  @-webkit-keyframes ellipsis {
+    to {
+      width: 1.25em;
+      margin-right: 0;
+    }
   }
 }

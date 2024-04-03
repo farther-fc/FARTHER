@@ -6,12 +6,12 @@ import {MerkleProof} from "@openzeppelin/contracts/utils/cryptography/MerkleProo
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
- * @notice Farther Airdrop 1, distributes tokens to a list of addresses
+ * @notice Farther Airdrop, distributes tokens to a list of addresses
  * @dev Slightly modified version of: https://github.com/Uniswap/merkle-distributor/blob/master/contracts/MerkleDistributorWithDeadline.sol
  * Changes include:
  * - remove "./interfaces/IMerkleDistributor.sol" inheritance
  */
-contract FartherAirdrop1 is Ownable {
+contract FartherAirdrop is Ownable {
     using SafeERC20 for IERC20;
 
     /**

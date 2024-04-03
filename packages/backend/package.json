@@ -1,19 +1,25 @@
 {
-  "name": "@farther/backend",
+  "name": "backend",
   "version": "1.0.0",
   "description": "",
   "main": "prisma/index.ts",
   "types": "prisma/index.ts",
   "scripts": {
-    "migrate:staging": "dotenv -e ../../.env.staging prisma migrate deploy",
+    "env:dev": "dotenv -e ../../.env",
+    "env:staging": "dotenv -e ../../.env.staging",
+    "preparePowerDrop:staging": "pnpm env:staging ts-node src/scripts/preparePowerDrop.ts",
+    "preparePowerDrop:dev": "pnpm env:dev ts-node src/scripts/preparePowerDrop.ts",
+    "migrate:staging": "env:staging prisma migrate deploy",
     "migrate:prod": "dotenv -e ../../.env.production prisma migrate deploy",
     "generate": "prisma generate",
-    "db:push": "pnpm load-env prisma db push --skip-generate",
-    "db:reset": "pnpm load-env bob-tsm src/scripts/reset.ts",
+    "db:push": "pnpm env:dev prisma db push --skip-generate",
+    "db:reset": "pnpm env:dev ts-node src/scripts/reset.ts",
     "db:format": "prisma format",
-    "db:view": "pnpm load-env prisma studio",
-    "load-env": "dotenv -e ../../.env",
+    "db:view": "pnpm env:dev prisma studio",
     "dev": "pnpm db:push && pnpm generate"
+  },
+  "prisma": {
+    "schema": "./src/prisma/schema.prisma"
   },
   "keywords": [],
   "author": "",
@@ -21,9 +27,10 @@
   "dependencies": {
     "@neondatabase/serverless": "^0.7.2",
     "@prisma/client": "^5.1.0",
-    "bob-tsm": "^1.1.2",
+    "ethers": "^6.11.1",
     "pg": "^8.11.3",
-    "underscore": "^1.13.6"
+    "underscore": "^1.13.6",
+    "viem": "^2.8.14"
   },
   "devDependencies": {
     "@prisma/client": "^5.1.0",

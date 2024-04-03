@@ -1,0 +1,23 @@
+{
+  "autorun": false,
+  "terminals": [
+    {
+      "name": "Anvil",
+      "description": "Runs Anvil local blockchain",
+      "open": true,
+      "command": "anvil --mnemonic \"question federal analyst minimum outdoor clarify canoe cream relax poet thing embrace\""
+    },
+    {
+      "name": "Protocol",
+      "description": "Deploys contracts",
+      "open": true,
+      "command": "pnpm deploy:dev"
+    },
+    {
+      "name": "App & Backend",
+      "description": "Runs services in turbo",
+      "open": true,
+      "command": "pnpm dev"
+    }
+  ]
+}

@@ -19,7 +19,7 @@ const nextConfig = {
       },
     ],
   },
-  transpilePackages: ["@farther/backend"],
+  transpilePackages: ["backend"],
   async headers() {
     return [
       {

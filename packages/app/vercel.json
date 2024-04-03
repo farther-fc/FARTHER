@@ -1,7 +1,7 @@
 {
   "crons": [
     {
-      "path": "/api/trpc/updateAirdropRecipients",
+      "path": "/api/trpc/updatePowerUsers",
       "schedule": "*/10 * * * *"
     }
   ],

@@ -11,7 +11,7 @@
       "outputs": [".next/**", "!.next/cache/**"]
     },
     "build:web": {
-      "dependsOn": ["@farther/backend#generate"],
+      "dependsOn": ["backend#generate"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
     "typecheck": {

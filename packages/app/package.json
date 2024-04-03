@@ -1,5 +1,5 @@
 {
-  "name": "@farther/app",
+  "name": "app",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -16,7 +16,6 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.507.0",
     "@aws-sdk/s3-presigned-post": "^3.507.0",
-    "@farther/backend": "workspace:*",
     "@hookform/resolvers": "^3.3.4",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.5",
@@ -32,8 +31,10 @@
     "@trpc/next": "11.0.0-next-beta.228",
     "@trpc/react-query": "11.0.0-next-beta.228",
     "@trpc/server": "11.0.0-next-beta.228",
+    "@wagmi/core": "^2.6.14",
     "@web3modal/wagmi": "^4.1.1",
     "alchemy-sdk": "^3.2.0",
+    "backend": "workspace:*",
     "class-variance-authority": "^0.4.0",
     "clsx": "^1.2.1",
     "cookie": "^0.6.0",
@@ -42,6 +43,7 @@
     "next": "^14.1.0",
     "next-themes": "^0.2.1",
     "node-fetch": "^3.3.2",
+    "numeral": "^2.0.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
@@ -60,6 +62,7 @@
     "@types/cookie": "^0.6.0",
     "@types/node": "^17.0.45",
     "@types/node-fetch": "^2.6.11",
+    "@types/numeral": "^2.0.5",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
     "@typescript-eslint/parser": "^5.61.0",

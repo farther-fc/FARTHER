@@ -7,7 +7,7 @@ if (!process.env.ALCHEMY_API_KEY) {
 
 const config = {
   apiKey: process.env.ALCHEMY_API_KEY,
-  network: isProduction ? Network.BASE_MAINNET : Network.BASE_SEPOLIA,
+  network: isProduction ? Network.BASE_MAINNET : Network.ETH_SEPOLIA,
 };
 
 export const alchemy = new Alchemy(config);

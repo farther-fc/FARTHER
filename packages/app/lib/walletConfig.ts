@@ -1,7 +1,7 @@
 import { defaultWagmiConfig } from "@web3modal/wagmi/react/config";
 
 import { cookieStorage, createStorage } from "wagmi";
-import { mainnet, sepolia } from "wagmi/chains";
+import { base, sepolia, anvil } from "wagmi/chains";
 
 export const WALLET_CONNECT_PROJECT_ID = "4861dc911064227b7cf8377990e49577";
 
@@ -13,7 +13,7 @@ const metadata = {
 };
 
 // Create wagmiConfig
-const chains = [mainnet, sepolia] as const;
+const chains = [base, sepolia, anvil] as const;
 export const wagmiConfig = defaultWagmiConfig({
   chains,
   projectId: WALLET_CONNECT_PROJECT_ID,

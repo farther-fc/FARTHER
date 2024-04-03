@@ -2,10 +2,16 @@ import * as trpcNext from "@trpc/server/adapters/next";
 import { nodeHTTPFormDataContentTypeHandler } from "@trpc/server/adapters/node-http/content-type/form-data";
 import { nodeHTTPJSONContentTypeHandler } from "@trpc/server/adapters/node-http/content-type/json";
 import { createContext, router } from "server/trpc";
-import { updateAirdropRecipients } from "server/airdrop";
+import { updatePowerUsers } from "server/airdrop/updatePowerUsers";
+import { getMerkleProof } from "server/airdrop/getMerkleProof";
+import { setAllocationClaimed } from "server/airdrop/setAllocationClaimed";
+import { getUser } from "server/user";
 
 export const appRouter = router({
-  updateAirdropRecipients,
+  updatePowerUsers,
+  getMerkleProof,
+  setAllocationClaimed,
+  getUser,
 });
 
 // export type definition of API

@@ -20,6 +20,7 @@
       "@lib/*": ["lib/*"],
       "@styles/*": ["styles/*"],
       "@common/*": ["../common/src/*"],
+      "@backend/*": ["../backend/src/*"],
     },
     "plugins": [
       {

@@ -11,7 +11,9 @@ type LogErrorProps = {
   error: any;
   capture?: boolean;
   extra?: Record<string, unknown>;
+  toastMsg?: string;
   toastDuration?: number;
+  showGenericToast?: boolean;
   level?: SeverityLevel;
 };
 
@@ -29,7 +31,9 @@ export function useLogError({
       error,
       capture = true,
       extra,
+      toastMsg,
       toastDuration = 5000,
+      showGenericToast,
       level,
     }: LogErrorProps) => {
       // eslint-disable-next-line no-console
@@ -49,7 +53,7 @@ export function useLogError({
       ) {
         toast({
           description: REQUEST_REJECTED_TOAST_MESSAGE,
-          variant: "error",
+          variant: "destructive",
           duration: toastDuration,
         });
         return;
@@ -58,10 +62,20 @@ export function useLogError({
       if (error?.message?.includes("Unsupported chain id")) {
         toast({
           description: `Please connect your wallet to ${networkNames[defaultChainId]}`,
-          variant: "error",
+          variant: "destructive",
           duration: toastDuration,
         });
         return;
+      }
+
+      if (toastMsg || showGenericToast) {
+        toast({
+          description:
+            toastMsg ||
+            "Something went wrong. Please try again or reach out in the Farther channel on Warpcast if you continue experiencing this problem",
+          variant: "destructive",
+          duration: toastDuration,
+        });
       }
 
       if (capture) {

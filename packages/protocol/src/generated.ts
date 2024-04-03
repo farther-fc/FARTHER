@@ -6,6 +6,165 @@ import {
 } from 'wagmi/codegen'
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// FartherAirdrop
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const fartherAirdropAbi = [
+  {
+    stateMutability: 'nonpayable',
+    type: 'constructor',
+    inputs: [
+      { name: 'token_', internalType: 'address', type: 'address' },
+      { name: 'merkleRoot_', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'endTime_', internalType: 'uint256', type: 'uint256' },
+    ],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'END_TIME',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'MERKLE_ROOT',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'TOKEN',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'index', internalType: 'uint256', type: 'uint256' },
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: 'merkleProof', internalType: 'bytes32[]', type: 'bytes32[]' },
+    ],
+    name: 'claim',
+    outputs: [],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: 'index', internalType: 'uint256', type: 'uint256' }],
+    name: 'isClaimed',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'owner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [],
+    name: 'renounceOwnership',
+    outputs: [],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
+    name: 'transferOwnership',
+    outputs: [],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [],
+    name: 'withdraw',
+    outputs: [],
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'index',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: true,
+      },
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'amount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: true,
+      },
+    ],
+    name: 'Claimed',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'previousOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'OwnershipTransferred',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'target', internalType: 'address', type: 'address' }],
+    name: 'AddressEmptyCode',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'AddressInsufficientBalance',
+  },
+  { type: 'error', inputs: [], name: 'AlreadyClaimed' },
+  { type: 'error', inputs: [], name: 'ClaimWindowFinished' },
+  { type: 'error', inputs: [], name: 'EndTimeInPast' },
+  { type: 'error', inputs: [], name: 'FailedInnerCall' },
+  { type: 'error', inputs: [], name: 'InvalidProof' },
+  { type: 'error', inputs: [], name: 'NoWithdrawDuringClaim' },
+  {
+    type: 'error',
+    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
+    name: 'OwnableInvalidOwner',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'OwnableUnauthorizedAccount',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'token', internalType: 'address', type: 'address' }],
+    name: 'SafeERC20FailedOperation',
+  },
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // FartherAirdrop1
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -775,6 +934,161 @@ export const fartherTokenAbi = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // React
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link fartherAirdropAbi}__
+ */
+export const useReadFartherAirdrop = /*#__PURE__*/ createUseReadContract({
+  abi: fartherAirdropAbi,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link fartherAirdropAbi}__ and `functionName` set to `"END_TIME"`
+ */
+export const useReadFartherAirdropEndTime = /*#__PURE__*/ createUseReadContract(
+  { abi: fartherAirdropAbi, functionName: 'END_TIME' },
+)
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link fartherAirdropAbi}__ and `functionName` set to `"MERKLE_ROOT"`
+ */
+export const useReadFartherAirdropMerkleRoot =
+  /*#__PURE__*/ createUseReadContract({
+    abi: fartherAirdropAbi,
+    functionName: 'MERKLE_ROOT',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link fartherAirdropAbi}__ and `functionName` set to `"TOKEN"`
+ */
+export const useReadFartherAirdropToken = /*#__PURE__*/ createUseReadContract({
+  abi: fartherAirdropAbi,
+  functionName: 'TOKEN',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link fartherAirdropAbi}__ and `functionName` set to `"isClaimed"`
+ */
+export const useReadFartherAirdropIsClaimed =
+  /*#__PURE__*/ createUseReadContract({
+    abi: fartherAirdropAbi,
+    functionName: 'isClaimed',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link fartherAirdropAbi}__ and `functionName` set to `"owner"`
+ */
+export const useReadFartherAirdropOwner = /*#__PURE__*/ createUseReadContract({
+  abi: fartherAirdropAbi,
+  functionName: 'owner',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link fartherAirdropAbi}__
+ */
+export const useWriteFartherAirdrop = /*#__PURE__*/ createUseWriteContract({
+  abi: fartherAirdropAbi,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link fartherAirdropAbi}__ and `functionName` set to `"claim"`
+ */
+export const useWriteFartherAirdropClaim = /*#__PURE__*/ createUseWriteContract(
+  { abi: fartherAirdropAbi, functionName: 'claim' },
+)
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link fartherAirdropAbi}__ and `functionName` set to `"renounceOwnership"`
+ */
+export const useWriteFartherAirdropRenounceOwnership =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: fartherAirdropAbi,
+    functionName: 'renounceOwnership',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link fartherAirdropAbi}__ and `functionName` set to `"transferOwnership"`
+ */
+export const useWriteFartherAirdropTransferOwnership =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: fartherAirdropAbi,
+    functionName: 'transferOwnership',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link fartherAirdropAbi}__ and `functionName` set to `"withdraw"`
+ */
+export const useWriteFartherAirdropWithdraw =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: fartherAirdropAbi,
+    functionName: 'withdraw',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link fartherAirdropAbi}__
+ */
+export const useSimulateFartherAirdrop =
+  /*#__PURE__*/ createUseSimulateContract({ abi: fartherAirdropAbi })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link fartherAirdropAbi}__ and `functionName` set to `"claim"`
+ */
+export const useSimulateFartherAirdropClaim =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: fartherAirdropAbi,
+    functionName: 'claim',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link fartherAirdropAbi}__ and `functionName` set to `"renounceOwnership"`
+ */
+export const useSimulateFartherAirdropRenounceOwnership =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: fartherAirdropAbi,
+    functionName: 'renounceOwnership',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link fartherAirdropAbi}__ and `functionName` set to `"transferOwnership"`
+ */
+export const useSimulateFartherAirdropTransferOwnership =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: fartherAirdropAbi,
+    functionName: 'transferOwnership',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link fartherAirdropAbi}__ and `functionName` set to `"withdraw"`
+ */
+export const useSimulateFartherAirdropWithdraw =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: fartherAirdropAbi,
+    functionName: 'withdraw',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link fartherAirdropAbi}__
+ */
+export const useWatchFartherAirdropEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({ abi: fartherAirdropAbi })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link fartherAirdropAbi}__ and `eventName` set to `"Claimed"`
+ */
+export const useWatchFartherAirdropClaimedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: fartherAirdropAbi,
+    eventName: 'Claimed',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link fartherAirdropAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ */
+export const useWatchFartherAirdropOwnershipTransferredEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: fartherAirdropAbi,
+    eventName: 'OwnershipTransferred',
+  })
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link fartherAirdrop1Abi}__

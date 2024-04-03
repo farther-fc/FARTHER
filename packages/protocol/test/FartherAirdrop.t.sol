@@ -4,7 +4,7 @@ pragma solidity 0.8.20;
 import {console} from "forge-std/Test.sol";
 import {TestConfig} from "./TestConfig.sol";
 import {Merkle} from "murky/Merkle.sol";
-import {FartherAirdrop1} from "../src/FartherAirdrop.sol";
+import {FartherAirdrop} from "../src/FartherAirdrop.sol";
 import {FartherToken} from "../src/FartherToken.sol";
 
 contract FartherAirdropTest is TestConfig {
@@ -14,10 +14,12 @@ contract FartherAirdropTest is TestConfig {
         uint256 indexed amount
     );
 
-    FartherAirdrop1 public airdrop;
+    FartherAirdrop public airdrop;
+
+    uint256 pk = uint256(bytes32(vm.parseBytes(vm.envString("PRIVATE_KEY"))));
 
     address[] accounts = [
-        getFundedAccount(1),
+        getFundedAccount(pk),
         getFundedAccount(2),
         getFundedAccount(3)
     ];
@@ -84,7 +86,7 @@ contract FartherAirdropTest is TestConfig {
 
         airdrop.claim(0, accounts[0], amounts[0], proof);
 
-        vm.expectRevert(FartherAirdrop1.AlreadyClaimed.selector);
+        vm.expectRevert(FartherAirdrop.AlreadyClaimed.selector);
 
         airdrop.claim(0, accounts[0], amounts[0], proof);
     }
@@ -92,7 +94,7 @@ contract FartherAirdropTest is TestConfig {
     function test_invalidProof_fails() external {
         bytes32[] memory proof = merkle.getProof(leaves, 1);
 
-        vm.expectRevert(FartherAirdrop1.InvalidProof.selector);
+        vm.expectRevert(FartherAirdrop.InvalidProof.selector);
         airdrop.claim(0, accounts[0], amounts[0], proof);
     }
 
@@ -101,7 +103,7 @@ contract FartherAirdropTest is TestConfig {
 
         vm.warp(block.timestamp + 365 days + 1);
 
-        vm.expectRevert(FartherAirdrop1.ClaimWindowFinished.selector);
+        vm.expectRevert(FartherAirdrop.ClaimWindowFinished.selector);
         airdrop.claim(0, accounts[0], amounts[0], proof);
     }
 
@@ -129,15 +131,15 @@ contract FartherAirdropTest is TestConfig {
     }
 
     function test_withdrawDuringClaim_fails() external {
-        vm.expectRevert(FartherAirdrop1.NoWithdrawDuringClaim.selector);
+        vm.expectRevert(FartherAirdrop.NoWithdrawDuringClaim.selector);
         airdrop.withdraw();
     }
 
     // HELPERS
 
-    function deployAirdrop() public returns (FartherAirdrop1 airdrop_) {
+    function deployAirdrop() public returns (FartherAirdrop airdrop_) {
         return
-            new FartherAirdrop1(
+            new FartherAirdrop(
                 address(token),
                 root,
                 block.timestamp + 365 days

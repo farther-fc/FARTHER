@@ -1,0 +1,20 @@
+{
+  "root": "0x3168a2b6e0bfe2f2a7edbe5be4feb3daed18cf0ab7f009ad3fbfe0b24a054297",
+  "rawLeafData": [
+    {
+      "index": 0,
+      "address": "0x91031dcfdea024b4d51e775486111d2b2a715871",
+      "amount": "23000000000000000000000000"
+    },
+    {
+      "index": 1,
+      "address": "0x8fc5d6afe572fefc4ec153587b63ce543f6fa2ea",
+      "amount": "23000000000000000000000000"
+    },
+    {
+      "index": 2,
+      "address": "0xc7c0a4b59de6bec1f9fdac7e760e1300fadd6db2",
+      "amount": "23000000000000000000000000"
+    }
+  ]
+}

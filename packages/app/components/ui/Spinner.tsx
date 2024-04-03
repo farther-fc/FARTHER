@@ -1,7 +1,7 @@
-import React from "react"
+import React from "react";
 
-function Spinner() {
-  return (
+function Spinner({ variant }: { variant?: "page" }) {
+  const spinner = (
     <div role="status">
       <svg
         aria-hidden="true"
@@ -21,7 +21,15 @@ function Spinner() {
       </svg>
       <span className="sr-only">Loading...</span>
     </div>
-  )
+  );
+
+  if (variant === "page") {
+    return (
+      <div className="flex h-[300px] items-center justify-center">
+        {spinner}
+      </div>
+    );
+  } else return spinner;
 }
 
-export default Spinner
+export default Spinner;

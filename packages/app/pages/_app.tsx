@@ -11,20 +11,23 @@ import { trpcClient } from "@lib/trpcClient";
 import type { AppProps } from "next/app";
 import React from "react";
 import Web3ModalProvider from "@lib/context/Web3ModalContext";
+import { UserProvider } from "@lib/context/UserContext";
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
     <Web3ModalProvider>
-      <MediaQueryProvider>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <ModalProvider>
-            <Toaster />
-            <SiteHeader />
-            <GlobalModal />
-            <Component {...pageProps} />
-          </ModalProvider>
-        </ThemeProvider>
-      </MediaQueryProvider>
+      <UserProvider>
+        <MediaQueryProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <ModalProvider>
+              <Toaster />
+              <SiteHeader />
+              <GlobalModal />
+              <Component {...pageProps} />
+            </ModalProvider>
+          </ThemeProvider>
+        </MediaQueryProvider>
+      </UserProvider>
     </Web3ModalProvider>
   );
 };

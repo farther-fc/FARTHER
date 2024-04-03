@@ -12,14 +12,14 @@ if (!NEYNAR_API_KEY) {
 
 const NEYNAR_DATA_SIZE_LIMIT = 100;
 
-const neynarClient = new NeynarAPIClient(NEYNAR_API_KEY);
+export const neynarClient = new NeynarAPIClient(NEYNAR_API_KEY);
 
 const neynarScheduler = new Bottleneck({
   minTime: 200,
   maxConcurrent: 3,
 });
 
-export const neynar = {
+export const neynarLimiter = {
   async getUsers(fids: number[]) {
     const fidChunks = chunk(fids, NEYNAR_DATA_SIZE_LIMIT);
 

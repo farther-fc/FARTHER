@@ -3,6 +3,7 @@
     "require": ["tsconfig-paths/register"],
   },
   "compilerOptions": {
+    "esModuleInterop": true,
     "paths": {
       "@common/*": ["../common/src/*"],
     },

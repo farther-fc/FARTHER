@@ -21,13 +21,15 @@ export function NavMenu() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="flex w-40 flex-col px-4 pt-4" align="end">
-        {Object.values(ROUTES).map((route) => (
-          <Link href={route.path} legacyBehavior>
-            <a onClick={closeMenu} className="mb-4 text-right">
-              {route.title}
-            </a>
-          </Link>
-        ))}
+        {Object.values(ROUTES)
+          .filter((route) => !route.hidden)
+          .map((route) => (
+            <Link href={route.path} legacyBehavior key={route.path}>
+              <a onClick={closeMenu} className="mb-4 text-right">
+                {route.title}
+              </a>
+            </Link>
+          ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -1,6 +1,5 @@
-import { Container } from "@components/ui/Container";
 import React from "react";
 
 export default function EvangelizePage() {
-  return <Container variant="page">evangelize</Container>;
+  return <main className="container mt-16">evangelize</main>;
 }
