@@ -22,6 +22,6 @@
     "bottleneck": "^2.19.5",
     "ethers": "^6.11.1",
     "merkletreejs": "^0.3.11",
-    "viem": "^2.8.14"
+    "viem": "2.8.14"
   }
 }

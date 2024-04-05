@@ -21,7 +21,7 @@ export default function AirdropPage() {
           <h3>Congratulations! 🎉</h3>
           <p>
             You have <strong>{formatWad(powerDrop.amount)} </strong>tokens ready
-            to claim on the <Link href={ROUTES.claims.path}>claims page</Link>
+            to claim on the <Link href={ROUTES.rewards.path}>rewards page</Link>
           </p>
           <hr />
           <h2>About airdrops</h2>
@@ -31,7 +31,7 @@ export default function AirdropPage() {
       {!account.isConnected && (
         <p className={"mt-12"}>
           If you think you are eligible, connect your wallet and visit the{" "}
-          <Link href={ROUTES.claims.path}>claims</Link> page.
+          <Link href={ROUTES.rewards.path}>rewards</Link> page.
         </p>
       )}
     </main>

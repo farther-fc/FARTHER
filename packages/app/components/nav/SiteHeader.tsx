@@ -1,13 +1,13 @@
-import { useWeb3Modal } from "@web3modal/wagmi/react";
 import Link from "next/link";
 import { NavMenu } from "@components/nav/NavMenu";
 import { useUser } from "@lib/context/UserContext";
 import { Button } from "@components/ui/Button";
 import { ProfileMenu } from "@components/nav/ProfileMenu";
 import { ThemeToggle } from "@components/ThemeToggle";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
 
 export function SiteHeader() {
-  const { open } = useWeb3Modal();
+  const { openConnectModal } = useConnectModal();
   const { account } = useUser();
 
   return (
@@ -21,9 +21,15 @@ export function SiteHeader() {
           {account.isConnected ? (
             <ProfileMenu />
           ) : (
-            <Button variant="ghost" className="px-2" onClick={() => open()}>
-              Connect
-            </Button>
+            openConnectModal && (
+              <Button
+                variant="ghost"
+                className="px-2"
+                onClick={() => openConnectModal()}
+              >
+                Connect
+              </Button>
+            )
           )}
           <NavMenu />
         </div>

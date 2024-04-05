@@ -21,9 +21,9 @@ export const ROUTES = {
     path: "/liquidity",
     hidden: false,
   },
-  claims: {
-    title: "Claims",
-    path: "/claims",
+  rewards: {
+    title: "Rewards",
+    path: "/rewards",
     hidden: true,
   },
 };

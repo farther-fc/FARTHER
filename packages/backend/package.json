@@ -30,7 +30,7 @@
     "ethers": "^6.11.1",
     "pg": "^8.11.3",
     "underscore": "^1.13.6",
-    "viem": "^2.8.14"
+    "viem": "2.8.14"
   },
   "devDependencies": {
     "@prisma/client": "^5.1.0",

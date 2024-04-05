@@ -7,9 +7,9 @@ import {FartherToken} from "../src/FartherToken.sol";
 import {Merkle} from "murky/Merkle.sol";
 
 contract Deploy is Script {
-    uint constant AIRDROP_AMOUNT = 69000000000000000000000000;
+    uint constant AIRDROP_AMOUNT = 68999999999999999999999448;
     bytes32 constant ROOT =
-        0x2ecb046ca22426c3b259e65d5bddd9e3f0a1be947cc789f19ead030c5d858fb8;
+        0xa8011c27e48a627450f0eeaa368b44649e8a48f90480297fa8f0d06a7172e43f;
 
     function run() public {
         vm.startBroadcast();

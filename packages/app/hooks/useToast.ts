@@ -9,7 +9,7 @@ const TOAST_DEFAULT_DURATION = 3000;
 type ToasterToast = ToastProps & {
   id: string;
   title?: React.ReactNode;
-  description?: React.ReactNode;
+  msg?: React.ReactNode;
   action?: ToastActionElement;
 };
 

@@ -1,7 +1,6 @@
 require("dotenv").config();
 
-import { base, sepolia } from "viem/chains";
-import { LOCAL_CHAIN_ID } from "./constants";
+import { base, sepolia, anvil } from "viem/chains";
 
 export const NODE_ENV = process.env.NODE_ENV || "development";
 
@@ -23,4 +22,4 @@ export const defaultChainId = isProduction
   ? base.id
   : ENVIRONMENT === "staging"
     ? sepolia.id
-    : LOCAL_CHAIN_ID;
+    : anvil.id;

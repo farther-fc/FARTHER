@@ -1,26 +1,46 @@
-import { defaultWagmiConfig } from "@web3modal/wagmi/react/config";
-
-import { cookieStorage, createStorage } from "wagmi";
-import { base, sepolia, anvil } from "wagmi/chains";
+import "@rainbow-me/rainbowkit/styles.css";
+import { getDefaultConfig } from "@rainbow-me/rainbowkit";
+import { sepolia, base, anvil } from "wagmi/chains";
+import {
+  createClient,
+  createPublicClient,
+  http,
+  PublicClientConfig,
+} from "viem";
+import { defaultChainId } from "@common/env";
 
 export const WALLET_CONNECT_PROJECT_ID = "4861dc911064227b7cf8377990e49577";
 
-const metadata = {
-  name: "Web3Modal",
-  description: "Web3Modal Example",
-  url: "https://web3modal.com", // origin must match your domain & subdomain
-  icons: ["https://avatars.githubusercontent.com/u/37784886"],
-};
-
-// Create wagmiConfig
-const chains = [base, sepolia, anvil] as const;
-export const wagmiConfig = defaultWagmiConfig({
-  chains,
+export const wagmiConfig = getDefaultConfig({
+  appName: "Farther",
   projectId: WALLET_CONNECT_PROJECT_ID,
-  metadata,
+  chains: [sepolia, base, anvil],
   ssr: true,
-  storage: createStorage({
-    storage: cookieStorage,
-  }),
-  // ...wagmiOptions // Optional - Override createConfig parameters
 });
+
+type ChainId = typeof base.id | typeof sepolia.id | typeof anvil.id;
+
+const publicChains = [base, sepolia, anvil] as const;
+
+export const publicClientConfig = {
+  [base.id]: {
+    chain: base,
+    transport: http(),
+  },
+  [sepolia.id]: {
+    chain: sepolia,
+    transport: http(),
+  },
+  [anvil.id]: {
+    chain: anvil,
+    transport: http(),
+  },
+} as const satisfies Record<
+  ChainId,
+  PublicClientConfig & { chain: (typeof publicChains)[number] }
+>;
+
+export const viemClient = createClient(publicClientConfig[defaultChainId]);
+export const viemPublicClient = createPublicClient(
+  publicClientConfig[defaultChainId],
+);

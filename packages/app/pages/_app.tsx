@@ -10,25 +10,47 @@ import { ThemeProvider } from "@lib/context/ThemeProvider";
 import { trpcClient } from "@lib/trpcClient";
 import type { AppProps } from "next/app";
 import React from "react";
-import Web3ModalProvider from "@lib/context/Web3ModalContext";
 import { UserProvider } from "@lib/context/UserContext";
+import "@rainbow-me/rainbowkit/styles.css";
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { WagmiProvider } from "wagmi";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { wagmiConfig } from "@lib/walletConfig";
+import ComingSoon from "@components/ComingSoon";
+import { isProduction } from "@common/env";
+
+// Setup queryClient
+const queryClient = new QueryClient();
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
-    <Web3ModalProvider>
-      <UserProvider>
-        <MediaQueryProvider>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <ModalProvider>
-              <Toaster />
-              <SiteHeader />
-              <GlobalModal />
-              <Component {...pageProps} />
-            </ModalProvider>
-          </ThemeProvider>
-        </MediaQueryProvider>
-      </UserProvider>
-    </Web3ModalProvider>
+    <WagmiProvider config={wagmiConfig}>
+      <QueryClientProvider client={queryClient}>
+        {" "}
+        <RainbowKitProvider>
+          <UserProvider>
+            <MediaQueryProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+              >
+                {isProduction ? (
+                  <ComingSoon />
+                ) : (
+                  <ModalProvider>
+                    <Toaster />
+                    <SiteHeader />
+                    <GlobalModal />
+                    <Component {...pageProps} />
+                  </ModalProvider>
+                )}
+              </ThemeProvider>
+            </MediaQueryProvider>
+          </UserProvider>
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
   );
 };
 

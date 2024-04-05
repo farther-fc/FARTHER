@@ -21,7 +21,7 @@ import { useToast } from "hooks/useToast";
 
 type ElementType<T> = T extends (infer U)[] ? U : T;
 
-export function ClaimsTableRow({
+export function RewardsTableRow({
   allocation,
 }: {
   allocation: NonNullable<
@@ -71,6 +71,7 @@ export function ClaimsTableRow({
       return;
     }
 
+    // Sanity check
     if (!allocation.airdrop.address) {
       logError({
         error: new Error("No airdrop address found"),
@@ -113,7 +114,7 @@ export function ClaimsTableRow({
     setAllocationClaimed({ allocationId: allocation.id });
 
     toast({
-      description: "Claim complete. Enjoy your tokens!",
+      msg: "Claim complete. Enjoy your tokens!",
     });
   }, [setAllocationClaimed, isSuccess, allocation.id, toast]);
 
@@ -137,12 +138,21 @@ export function ClaimsTableRow({
       <TableCell className="text-right">
         <Button
           variant="outline"
-          disabled={allocation.isClaimed || loading}
+          disabled={
+            !allocation.airdrop.address ||
+            allocation.isClaimed ||
+            isSuccess ||
+            loading
+          }
           loading={loading}
           loadingText="Claiming"
           onClick={handleClaim}
         >
-          {claimed || isSuccess ? "Claimed" : "Claim"}
+          {!allocation.airdrop.address
+            ? "Available Soon"
+            : claimed || isSuccess
+              ? "Claimed"
+              : "Claim"}
         </Button>
       </TableCell>
     </TableRow>

@@ -63,33 +63,21 @@ async function preparePowerDrop() {
   });
 
   // Add allocations to db
-  await prisma.$transaction(
-    recipients.map((r, i) =>
-      prisma.allocation.upsert({
-        where: {
-          userId_airdropId: {
-            userId: r.id,
-            airdropId: airdrop.id,
-          },
-        },
-        create: {
-          amount: amountPerRecipient.toString(),
-          index: i,
-          airdrop: {
-            connect: {
-              id: airdrop.id,
-            },
-          },
-          user: {
-            connect: {
-              id: r.id,
-            },
-          },
-        },
-        update: {},
-      }),
-    ),
-  );
+  await prisma.$transaction([
+    prisma.allocation.deleteMany({
+      where: {
+        airdropId: airdrop.id,
+      },
+    }),
+    prisma.allocation.createMany({
+      data: recipients.map((recipient, i) => ({
+        amount: amountPerRecipient.toString(),
+        index: i,
+        airdropId: airdrop.id,
+        userId: recipient.id,
+      })),
+    }),
+  ]);
 
   await writeFile(
     `airdrops/${defaultChainId}/power-user-airdrop-${powerUserAirdropConfig.NUMBER}.json`,

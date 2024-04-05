@@ -54,10 +54,11 @@ export function ProfileMenu() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="flex flex-col" align="end">
-        <div className="p-2 text-center text-xs">
-          <h5 className="mb-2 mt-0">Balance:</h5>
-          {formatWad(balance ? balance.toString() : "0", "0a")}{" "}
-          <span>$FARTHER</span>
+        <div className="flex flex-col p-2 text-center">
+          <span className="mb-2 mt-0 text-xs">$FARTHER balance:</span>
+          <span className="text-sm">
+            {formatWad(balance ? balance.toString() : "0")}{" "}
+          </span>
         </div>
         <hr className="my-1" />
         <Button

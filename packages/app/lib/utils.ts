@@ -2,7 +2,7 @@ import Bottleneck from "bottleneck";
 import { clsx, type ClassValue } from "clsx";
 import numeral from "numeral";
 import { twMerge } from "tailwind-merge";
-import { Address, formatEther } from "viem";
+import { Address, encodeAbiParameters, formatEther, keccak256 } from "viem";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -34,6 +34,39 @@ export const formatDate = (date: Date) => {
   }).format(new Date(date));
 };
 
-export const formatWad = (amount: string, formatSchema: string = "0,0") => {
+export const formatWad = (amount: string, formatSchema: string = "0,0.00") => {
   return numeral(formatEther(BigInt(amount))).format(formatSchema);
+};
+
+export const getIncentiveKey = ({
+  rewardToken,
+  pool,
+  startTime,
+  endTime,
+  refundee,
+  hashed,
+}: {
+  rewardToken: Address;
+  pool: Address;
+  startTime: number;
+  endTime: number;
+  refundee: Address;
+  hashed: boolean;
+}) => {
+  const encodedData = encodeAbiParameters(
+    [
+      { type: "address", name: "rewardToken" },
+      { type: "address", name: "pool" },
+      { type: "uint256", name: "startTime" },
+      { type: "uint256", name: "endTime" },
+      { type: "address", name: "refundee" },
+    ],
+    [rewardToken, pool, BigInt(startTime), BigInt(endTime), refundee],
+  );
+
+  if (hashed) {
+    return keccak256(encodedData);
+  }
+
+  return encodedData;
 };

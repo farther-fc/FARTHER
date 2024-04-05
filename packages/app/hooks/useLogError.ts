@@ -52,7 +52,7 @@ export function useLogError({
         )
       ) {
         toast({
-          description: REQUEST_REJECTED_TOAST_MESSAGE,
+          msg: REQUEST_REJECTED_TOAST_MESSAGE,
           variant: "destructive",
           duration: toastDuration,
         });
@@ -61,7 +61,7 @@ export function useLogError({
 
       if (error?.message?.includes("Unsupported chain id")) {
         toast({
-          description: `Please connect your wallet to ${networkNames[defaultChainId]}`,
+          msg: `Please connect your wallet to ${networkNames[defaultChainId]}`,
           variant: "destructive",
           duration: toastDuration,
         });
@@ -70,7 +70,7 @@ export function useLogError({
 
       if (toastMsg || showGenericToast) {
         toast({
-          description:
+          msg:
             toastMsg ||
             "Something went wrong. Please try again or reach out in the Farther channel on Warpcast if you continue experiencing this problem",
           variant: "destructive",
