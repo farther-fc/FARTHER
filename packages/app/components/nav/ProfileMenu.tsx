@@ -17,7 +17,7 @@ import { Address } from "viem";
 import React from "react";
 
 export function ProfileMenu() {
-  const tokenAddress = contractAddresses[defaultChainId].TOKEN;
+  const tokenAddress = contractAddresses[defaultChainId].FARTHER;
   const { isTablet } = useMediaQuery();
   const { disconnect } = useDisconnect();
   const { user, account } = useUser();
