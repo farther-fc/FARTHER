@@ -2,14 +2,12 @@ import * as trpcNext from "@trpc/server/adapters/next";
 import { nodeHTTPFormDataContentTypeHandler } from "@trpc/server/adapters/node-http/content-type/form-data";
 import { nodeHTTPJSONContentTypeHandler } from "@trpc/server/adapters/node-http/content-type/json";
 import { createContext, router } from "server/trpc";
-import { updatePowerUsers } from "server/airdrop/updatePowerUsers";
 import { getMerkleProof } from "server/airdrop/getMerkleProof";
 import { setAllocationClaimed } from "server/airdrop/setAllocationClaimed";
 import { getUser } from "server/user";
 import { validateTweet } from "server/evangelize/validateTweet";
 
 export const appRouter = router({
-  updatePowerUsers,
   getMerkleProof,
   setAllocationClaimed,
   getUser,

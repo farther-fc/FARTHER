@@ -1,29 +1,58 @@
 import {
   ANVIL_AIRDROP_ADDRESS,
   DEV_USER_FID,
-  NeynarUser,
   WAD_SCALER,
+  WARPCAST_API_BASE_URL,
   isProduction,
   neynarLimiter,
   powerUserAirdropConfig,
   tokenAllocations,
 } from "@farther/common";
-import { AllocationType, User, prisma } from "../prisma";
+import { AllocationType, prisma } from "../prisma";
 import { getMerkleRoot } from "@farther/common";
 import { writeFile } from "../utils/helpers";
 import { ENVIRONMENT, CHAIN_ID } from "@farther/common";
 import { allocateTokens } from "../utils/allocateTokens";
-import { updateVerifiedAddresses } from "../utils/updateVerifiedAddresses";
 
-// Prior to calling it, the updatePowerUsers cron should be paused (which effectively becomes the snapshot time)
-// After calling it, deploy the airdrop contract with the merkle root, manually update Airdrop.address & Airdrop.root in the DB,
-// update the config with the next airdrop's values, and restart the cron.
 async function preparePowerDrop() {
-  // Get all powers users who have not received an airdrop allocation but do have an address
-  const usersWithAllocations = await prisma.user.findMany({
+  // 1. Get power users from Warpcast
+  const warpcastResponse = (await (
+    await fetch(`${WARPCAST_API_BASE_URL}power-badge-users`)
+  ).json()) as { result: { fids: number[] } };
+
+  const powerUserFids = warpcastResponse.result.fids;
+
+  // 2. Get user data from Neynar
+  const latestUserData = await neynarLimiter.getUsersByFid(
+    warpcastResponse.result.fids,
+  );
+
+  // 2. Upsert the ones who have a power badge & verified address
+  const data = latestUserData
+    .filter((u) => !!u.power_badge && !!u.verified_addresses.eth_addresses[0])
+    .map((u) => ({
+      fid: u.fid,
+      address: u.verified_addresses.eth_addresses[0],
+    }));
+
+  await prisma.$transaction([
+    prisma.user.deleteMany({
+      where: {
+        fid: {
+          in: data.map((u) => u.fid),
+        },
+      },
+    }),
+    prisma.user.createMany({
+      data,
+    }),
+  ]);
+
+  // 4. Get all powers users who have not received an airdrop allocation
+  const recipients = await prisma.user.findMany({
     where: {
-      address: {
-        not: null,
+      fid: {
+        in: powerUserFids,
       },
       allocations: {
         // Each user only gets one power user airdrop
@@ -34,14 +63,6 @@ async function preparePowerDrop() {
     },
   });
 
-  // Update the verified addresses of these users in case they recently removed the one being stored
-  const recipients = await updateVerifiedAddresses(usersWithAllocations);
-
-  // Sanity check
-  if (usersWithAllocations.length !== recipients.length) {
-    throw new Error("Mismatch between usersWithAllocations and recipients");
-  }
-
   const totalAllocation =
     powerUserAirdropConfig.RATIO * tokenAllocations.powerUserAirdrops;
 
@@ -50,14 +71,15 @@ async function preparePowerDrop() {
 
   const basePerRecipientWad = halfOfTotalWad / BigInt(recipients.length);
 
-  const latestUserData: NeynarUser[] = await neynarLimiter.getUsersByFid(
-    recipients.map((r) => r.fid),
-  );
-
-  const followerCounts = latestUserData.map((u) => ({
-    fid: u.fid,
-    followers: u.follower_count,
-  }));
+  const followerCounts = recipients.map((u) => {
+    const followers = latestUserData.find(
+      (user) => user.fid === u.fid,
+    )?.follower_count;
+    return {
+      fid: u.fid,
+      followers,
+    };
+  });
 
   // Add test user (pretending this user is on Farcaster)
   if (!isProduction) {
@@ -65,15 +87,6 @@ async function preparePowerDrop() {
       fid: DEV_USER_FID,
       followers: 3993,
     });
-  }
-
-  if (followerCounts.length !== recipients.length) {
-    // Find the mismatches
-    const missingFids = recipients
-      .map((r) => r.fid)
-      .filter((fid) => !followerCounts.some((u) => u.fid === fid));
-
-    throw new Error(`Missing data for fids: ${missingFids.join(", ")}`);
   }
 
   const bonusAllocations = allocateTokens(
@@ -111,7 +124,7 @@ async function preparePowerDrop() {
     address: ENVIRONMENT === "development" ? ANVIL_AIRDROP_ADDRESS : undefined,
   };
 
-  // Create Airdrop
+  // Upsert Airdrop
   const airdrop = await prisma.airdrop.upsert({
     where: { number: powerUserAirdropConfig.NUMBER, chainId: CHAIN_ID },
     create: airdropData,
@@ -126,11 +139,11 @@ async function preparePowerDrop() {
       },
     }),
     prisma.allocation.createMany({
-      data: recipientsWithAllocations.map((recipient, i) => ({
-        amount: recipient.allocation.toString(),
+      data: recipientsWithAllocations.map((r, i) => ({
+        amount: r.allocation.toString(),
         index: i,
         airdropId: airdrop.id,
-        userId: recipient.id,
+        userId: r.id,
         type: AllocationType.POWER_USER,
       })),
     }),

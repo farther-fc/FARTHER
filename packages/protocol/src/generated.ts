@@ -15,6 +15,7 @@ export const fartherAirdropAbi = [
     inputs: [
       { name: 'token_', internalType: 'address', type: 'address' },
       { name: 'merkleRoot_', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'startTime_', internalType: 'uint256', type: 'uint256' },
       { name: 'endTime_', internalType: 'uint256', type: 'uint256' },
     ],
     stateMutability: 'nonpayable',
@@ -31,6 +32,13 @@ export const fartherAirdropAbi = [
     inputs: [],
     name: 'MERKLE_ROOT',
     outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'START_TIME',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'view',
   },
   {
@@ -142,7 +150,16 @@ export const fartherAirdropAbi = [
     name: 'AddressInsufficientBalance',
   },
   { type: 'error', inputs: [], name: 'AlreadyClaimed' },
-  { type: 'error', inputs: [], name: 'ClaimWindowFinished' },
+  {
+    type: 'error',
+    inputs: [{ name: 'endTime', internalType: 'uint256', type: 'uint256' }],
+    name: 'ClaimWindowFinished',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'startTime', internalType: 'uint256', type: 'uint256' }],
+    name: 'ClaimWindowHasNotStarted',
+  },
   { type: 'error', inputs: [], name: 'EndTimeInPast' },
   { type: 'error', inputs: [], name: 'FailedInnerCall' },
   { type: 'error', inputs: [], name: 'InvalidProof' },
@@ -944,6 +961,15 @@ export const useReadFartherAirdropMerkleRoot =
   /*#__PURE__*/ createUseReadContract({
     abi: fartherAirdropAbi,
     functionName: 'MERKLE_ROOT',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link fartherAirdropAbi}__ and `functionName` set to `"START_TIME"`
+ */
+export const useReadFartherAirdropStartTime =
+  /*#__PURE__*/ createUseReadContract({
+    abi: fartherAirdropAbi,
+    functionName: 'START_TIME',
   })
 
 /**

@@ -34,6 +34,8 @@ contract FartherAirdropTest is TestConfig {
 
     FartherToken public token;
 
+    uint256 public constant DURATION = 365 days;
+
     function setUp() public {
         token = new FartherToken("Farther", "FARTHER", block.timestamp);
         merkle = new Merkle();
@@ -52,10 +54,10 @@ contract FartherAirdropTest is TestConfig {
         }
     }
 
-    function test_deploy_succeeds() external {
+    function test_deploy_succeeds() external view {
         assertEq(airdrop.TOKEN(), address(token));
         assertEq(airdrop.MERKLE_ROOT(), root);
-        assertEq(airdrop.END_TIME(), block.timestamp + 365 days);
+        assertEq(airdrop.END_TIME(), block.timestamp + DURATION);
         assertEq(
             token.balanceOf(address(airdrop)),
             amounts[0] + amounts[1] + amounts[2]
@@ -98,12 +100,41 @@ contract FartherAirdropTest is TestConfig {
         airdrop.claim(0, accounts[0], amounts[0], proof);
     }
 
+    function test_claimWindowHasNotStarted_fails() external {
+        bytes32[] memory proof = merkle.getProof(leaves, 0);
+
+        uint256 startTime = block.timestamp + 1;
+
+        FartherAirdrop delayedDrop = new FartherAirdrop(
+            address(token),
+            root,
+            startTime,
+            startTime + DURATION
+        );
+
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                FartherAirdrop.ClaimWindowHasNotStarted.selector,
+                startTime
+            )
+        );
+
+        delayedDrop.claim(0, accounts[0], amounts[0], proof);
+    }
+
     function test_claimWindowFinished_fails() external {
         bytes32[] memory proof = merkle.getProof(leaves, 0);
 
-        vm.warp(block.timestamp + 365 days + 1);
+        uint256 endTime = block.timestamp + DURATION;
 
-        vm.expectRevert(FartherAirdrop.ClaimWindowFinished.selector);
+        vm.warp(endTime + 1);
+
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                FartherAirdrop.ClaimWindowFinished.selector,
+                endTime
+            )
+        );
         airdrop.claim(0, accounts[0], amounts[0], proof);
     }
 
@@ -118,7 +149,7 @@ contract FartherAirdropTest is TestConfig {
                 amounts[2]
         );
 
-        vm.warp(block.timestamp + 365 days + 1);
+        vm.warp(block.timestamp + DURATION + 1);
         airdrop.withdraw();
 
         assertEq(token.balanceOf(address(airdrop)), 0);
@@ -142,7 +173,8 @@ contract FartherAirdropTest is TestConfig {
             new FartherAirdrop(
                 address(token),
                 root,
-                block.timestamp + 365 days
+                block.timestamp,
+                block.timestamp + DURATION
             );
     }
 }

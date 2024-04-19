@@ -13,6 +13,7 @@
     - [ ]  `AIRDROP_AMOUNT`
     - [ ]  `ROOT`
     - [ ]  `OWNER`
+    - [ ]  `START_TIME`
     - [ ]  `DURATION`
 - [ ]  Deploy contract
 - [ ]  Put address in Airdrop database row

@@ -27,12 +27,12 @@ export default function AirdropPage() {
             </p>
           ) : (
             <p>
-              You are eligible for{" "}
-              <strong>{formatWad(powerDrop.amount)} </strong>
-              tokens in the next airdrop! Check the{" "}
-              <Link href={ROUTES.rewards.path}>rewards page</Link> after{" "}
-              {formatDate(powerUserAirdropConfig.CLAIM_DATE)} to claim your
-              rewards.
+              You are eligible for tokens in the next airdrop! <br />
+              Check the <Link href={ROUTES.rewards.path}>
+                rewards page
+              </Link>{" "}
+              after {formatDate(powerUserAirdropConfig.CLAIM_DATE)} to claim
+              your rewards.
             </p>
           )}
         </InfoContainer>

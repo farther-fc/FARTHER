@@ -1,6 +1,6 @@
 import React from "react";
 import { TableCell, TableRow } from "@components/ui/Table";
-import { claimNames } from "@lib/constants";
+import { PENDING_ALLOCATION_ID, claimNames } from "@lib/constants";
 import { formatDate, formatWad } from "@lib/utils";
 import { Button } from "@components/ui/Button";
 import { useLogError } from "hooks/useLogError";
@@ -21,6 +21,7 @@ import {
 } from "wagmi";
 import { CHAIN_ID } from "@farther/common";
 import { useToast } from "hooks/useToast";
+import { Tooltip } from "@components/ui/Tooltip";
 
 type ElementType<T> = T extends (infer U)[] ? U : T;
 
@@ -64,7 +65,12 @@ export function RewardsTableRow({
       address: account.address as Address,
       type: AllocationType.POWER_USER,
     },
-    { enabled: !!account.address },
+    {
+      enabled:
+        !!account.address &&
+        allocation.id !== PENDING_ALLOCATION_ID &&
+        !allocation.isClaimed,
+    },
   );
 
   const handleClaim = async () => {
@@ -134,18 +140,38 @@ export function RewardsTableRow({
     }
   }, [setAllocationClaimed, allocation, isClaimed]);
 
+  const startTime = allocation.airdrop?.startTime;
+  const startTimeNum = startTime
+    ? new Date(startTime).getTime()
+    : Number.POSITIVE_INFINITY;
+  const claimHasStarted = Date.now() > startTimeNum;
+
   return (
     <TableRow>
       <TableCell className="font-medium">
         {claimNames[allocation.type]}
       </TableCell>
       <TableCell className="text-right">
-        {formatWad(allocation.amount)}
+        {allocation.id === PENDING_ALLOCATION_ID ? (
+          <Tooltip
+            content={
+              <div className="max-w-[300px] rounded-2xl p-4 text-left">
+                Your allocation will depend on how many other users earn a power
+                badge during this cycle. Check back at the end of the month!
+              </div>
+            }
+          >
+            <span className="cursor-default rounded border p-2">TBD</span>
+          </Tooltip>
+        ) : (
+          formatWad(allocation.amount)
+        )}
       </TableCell>
       <TableCell className="text-right">
         <Button
-          variant="outline"
+          variant="secondary"
           disabled={
+            !claimHasStarted ||
             !allocation.airdrop?.address ||
             allocation.isClaimed ||
             isSuccess ||
@@ -159,7 +185,9 @@ export function RewardsTableRow({
             ? `Available ${formatDate(powerUserAirdropConfig.CLAIM_DATE)}`
             : claimed || isSuccess
               ? "Claimed"
-              : "Claim"}
+              : claimHasStarted
+                ? "Claim"
+                : `Available ${formatDate(new Date(startTime as string), { weekday: "short", minute: "2-digit", hour: "2-digit", timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })}`}
         </Button>
       </TableCell>
     </TableRow>

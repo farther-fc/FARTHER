@@ -14,7 +14,6 @@ async function prepareEvangelistDrop() {
   // Get all evangelists with pending rewards
   const recipients = await prisma.user.findMany({
     where: {
-      isPowerUser: true,
       address: {
         not: null,
       },

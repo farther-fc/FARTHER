@@ -49,9 +49,9 @@ export function ProfileMenu() {
             {formatWad(balance ? balance.toString() : "0")}{" "}
           </span>
         </div>
-        <hr className="my-1" />
         <Button
-          variant="ghost"
+          className="my-2"
+          variant="outline"
           onClick={() => router.push(ROUTES.rewards.path)}
         >
           Rewards

@@ -24,12 +24,12 @@ export default function Home() {
         <h2>Why</h2>
         <ul>
           <li>
-            Online social relationships should be as direct and portable as they
+            Social relationships should be as direct and portable online as they
             are in real life.
           </li>
           <li>
-            Online cultural norms and values should be as fluid and localizable
-            as they are offline.
+            Cultural norms should be as localizable and enforceable online as
+            they are offline.
           </li>
           <li>
             Our time and attention should not be a product sold to advertisers
@@ -44,9 +44,8 @@ export default function Home() {
 
         <h2>How</h2>
         <p>
-          $FARTHER is an Ethereum token. It will be a foundation for incentive
-          mechanisms that encourage people to use Farcaster. These are some of
-          the ways it will be used:
+          $FARTHER is an Ethereum token and a foundation upon which incentive
+          mechanisms are built to encourage people to join Farcaster:
         </p>
         <ul>
           <li>Airdrops to power users spanning the next 2 years</li>

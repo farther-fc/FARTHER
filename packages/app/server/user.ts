@@ -1,9 +1,9 @@
-import { prisma } from "../../backend/src/prisma";
+import { AllocationType, prisma } from "../../backend/src/prisma";
 import { publicProcedure } from "server/trpc";
 import { apiSchemas } from "@lib/types/apiSchemas";
 import { isProduction, neynarClient } from "@farther/common";
 import { DEV_USER_ADDRESS, DEV_USER_FID } from "@farther/common";
-import { TRPCError } from "@trpc/server";
+import { pendingAllocation } from "@lib/constants";
 
 export const getUser = publicProcedure
   .input(apiSchemas.getUser.input)
@@ -25,20 +25,12 @@ export const getUser = publicProcedure
         return null;
       }
 
-      const fid = isProduction ? user.fid : DEV_USER_FID;
-      const isPowerUser = isProduction ? user.power_badge : true;
+      const fid = user.fid ?? DEV_USER_FID;
 
-      const dbUser = await prisma.user.upsert({
+      const dbUser = await prisma.user.findFirst({
         where: {
-          address,
           fid,
         },
-        create: {
-          address,
-          fid,
-          isPowerUser,
-        },
-        update: {},
         select: {
           allocations: {
             select: {
@@ -48,22 +40,32 @@ export const getUser = publicProcedure
               index: true,
               type: true,
               airdrop: {
-                select: { id: true, address: true, number: true },
+                select: {
+                  id: true,
+                  address: true,
+                  number: true,
+                  startTime: true,
+                  endTime: true,
+                },
               },
             },
           },
         },
       });
 
-      if (!isProduction) {
-        if (
-          opts.input.address.toLowerCase() !== DEV_USER_ADDRESS.toLowerCase()
-        ) {
-          throw new TRPCError({
-            code: "NOT_FOUND",
-            message: `Connect with ${DEV_USER_ADDRESS} to see the test user.`,
-          });
-        }
+      if (!dbUser) {
+        await prisma.user.create({
+          data: { address, fid },
+        });
+      }
+
+      if (!isProduction && address === DEV_USER_ADDRESS.toLowerCase()) {
+        const allocations = dbUser?.allocations.find(
+          (a) => a.type === AllocationType.POWER_USER,
+        )
+          ? dbUser?.allocations
+          : [...(dbUser?.allocations || []), pendingAllocation];
+
         return {
           fid: DEV_USER_FID,
           username: "testuser",
@@ -71,8 +73,19 @@ export const getUser = publicProcedure
           pfpUrl:
             "https://wrpcd.net/cdn-cgi/image/fit=contain,f=auto,w=168/https%3A%2F%2Fi.imgur.com%2F3hrPNK8.jpg",
           profileBio: "Test bio",
-          allocations: dbUser?.allocations,
+          allocations,
         };
+      }
+
+      const allocations = dbUser?.allocations || [];
+
+      // If user has a power badge, add the pending allocation for UX purposes
+      // (doesn't get added for real until airdrop is created)
+      if (
+        user.power_badge &&
+        !allocations.find((a) => a.type === AllocationType.POWER_USER)
+      ) {
+        allocations.push(pendingAllocation);
       }
 
       return {
@@ -81,7 +94,7 @@ export const getUser = publicProcedure
         displayName: user.display_name,
         pfpUrl: user.pfp_url,
         profileBio: user.profile.bio.text,
-        allocations: dbUser?.allocations,
+        allocations,
       };
     } catch (error) {
       // TODO: Log to Sentry

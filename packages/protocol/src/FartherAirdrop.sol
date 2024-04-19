@@ -25,6 +25,11 @@ contract FartherAirdrop is Ownable {
     bytes32 public immutable MERKLE_ROOT;
 
     /**
+     *  @dev The time at which claims can begin
+     */
+    uint256 public immutable START_TIME;
+
+    /**
      *  @dev The time after which the airdrop can no longer be claimed
      */
     uint256 public immutable END_TIME;
@@ -59,9 +64,14 @@ contract FartherAirdrop is Ownable {
     error EndTimeInPast();
 
     /**
+     *  @dev The claim window has not started
+     */
+    error ClaimWindowHasNotStarted(uint256 startTime);
+
+    /**
      *  @dev The claim window has finished
      */
-    error ClaimWindowFinished();
+    error ClaimWindowFinished(uint256 endTime);
 
     /**
      *  @dev Cannot withdraw during the claim window
@@ -71,9 +81,11 @@ contract FartherAirdrop is Ownable {
     constructor(
         address token_,
         bytes32 merkleRoot_,
+        uint256 startTime_,
         uint256 endTime_
     ) Ownable(msg.sender) {
         if (endTime_ <= block.timestamp) revert EndTimeInPast();
+        START_TIME = startTime_;
         END_TIME = endTime_;
         TOKEN = token_;
         MERKLE_ROOT = merkleRoot_;
@@ -116,7 +128,9 @@ contract FartherAirdrop is Ownable {
         uint256 amount,
         bytes32[] calldata merkleProof
     ) external virtual {
-        if (block.timestamp > END_TIME) revert ClaimWindowFinished();
+        if (block.timestamp < START_TIME)
+            revert ClaimWindowHasNotStarted(START_TIME);
+        if (block.timestamp > END_TIME) revert ClaimWindowFinished(END_TIME);
 
         if (isClaimed(index)) revert AlreadyClaimed();
 

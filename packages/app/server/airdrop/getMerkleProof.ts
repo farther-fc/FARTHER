@@ -37,7 +37,7 @@ export const getMerkleProof = publicProcedure
       if (!airdrop) {
         throw new TRPCError({
           code: "NOT_FOUND",
-          message: `Airdrop not found for address ${address}`,
+          message: `Airdrop not found for address ${address.toLowerCase()}`,
         });
       }
 
@@ -98,6 +98,8 @@ export const getMerkleProof = publicProcedure
           amount: r.allocations[0].amount,
         };
       });
+
+      unhashedLeaves.sort((a, b) => a.index - b.index);
 
       const root = getMerkleRoot(unhashedLeaves);
 

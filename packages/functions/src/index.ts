@@ -6,7 +6,7 @@ const CRON_SECRET = defineString("CRON_SECRET");
 const ENV = defineString("NEXT_PUBLIC_ENVIRONMENT");
 
 exports.updatePowerUsers = functions.pubsub
-  .schedule("*/15 * * * *")
+  .schedule("0 * * * *")
   .onRun(async () => {
     try {
       const response = await axios(`${getBaseUrl()}updatePowerUsers`, {

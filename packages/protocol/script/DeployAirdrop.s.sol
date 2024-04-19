@@ -9,13 +9,14 @@ import {Merkle} from "murky/Merkle.sol";
 contract DeployAirdrop is Script {
     address constant TOKEN = 0x65Fb1f9Cb54fF76eBCb40b7F9aa4297B49C3Cf1a;
 
-    uint constant AIRDROP_AMOUNT = 1249999999999999999999998122;
+    uint constant AIRDROP_AMOUNT = 1249855308999999999999998682;
 
     bytes32 constant ROOT =
-        0x67653fdd3b9fd675ffea145a1cf02ec6424f7821cc72622ead0dfd3f7f91ab56;
+        0x6df5fc871ed7eac7d95c811403d9bdd2e6886fd95122e5eea90131e589cfc425;
 
     address OWNER = 0x85EcbFCc3a8a9049E531Cd0fEeBa3Dedf5789e60;
 
+    uint START_TIME = 1713546000;
     uint DURATION = 730 days;
 
     function run() public {
@@ -24,7 +25,8 @@ contract DeployAirdrop is Script {
         FartherAirdrop airdrop = new FartherAirdrop(
             address(TOKEN),
             ROOT,
-            block.timestamp + DURATION
+            START_TIME,
+            START_TIME + DURATION
         );
 
         // Transfer amount to airdrop
