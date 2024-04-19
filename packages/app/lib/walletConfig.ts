@@ -7,7 +7,7 @@ import {
   http,
   PublicClientConfig,
 } from "viem";
-import { defaultChainId } from "@common/env";
+import { CHAIN_ID } from "@farther/common";
 
 export const WALLET_CONNECT_PROJECT_ID = "4861dc911064227b7cf8377990e49577";
 
@@ -40,7 +40,7 @@ export const publicClientConfig = {
   PublicClientConfig & { chain: (typeof publicChains)[number] }
 >;
 
-export const viemClient = createClient(publicClientConfig[defaultChainId]);
+export const viemClient = createClient(publicClientConfig[CHAIN_ID]);
 export const viemPublicClient = createPublicClient(
-  publicClientConfig[defaultChainId],
+  publicClientConfig[CHAIN_ID],
 );

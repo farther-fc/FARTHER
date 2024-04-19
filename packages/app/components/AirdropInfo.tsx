@@ -1,46 +1,54 @@
-import {
-  LAUNCH_DATE,
-  TOTAL_POWER_USER_AIRDROP_SUPPLY,
-  allocationRatios,
-} from "@common/constants";
+import { LAUNCH_DATE, allocationRatios } from "@farther/common";
 import { formatDate } from "@lib/utils";
 import React from "react";
-import numeral from "numeral";
 import { ExternalLink } from "./ui/ExternalLink";
-import { Container } from "@components/ui/Container";
+import { POWER_BADGE_INFO_URL } from "@lib/constants";
 
 export function AirdropInfo() {
   return (
-    <div className="content">
-      <ul className="ml-5 list-disc">
-        <li className="mt-3">
-          {allocationRatios.POWER_DROPS * 100}% (
-          {numeral(TOTAL_POWER_USER_AIRDROP_SUPPLY).format("0a")}) of all
-          Farther are reserved for active Farcaster users.
-        </li>
-        <li className="mt-3">
-          The tokens are being distributed via eight airdrops over two years
-          beginning on {formatDate(LAUNCH_DATE)}.
-        </li>
-        <li className="mt-3">
-          Each Farcaster account is only be eligible for one airdrop.
-        </li>
-        <li className="mt-3">
-          Having a{" "}
-          <ExternalLink href={"https://warpcast.com/v/0x0bd49f9c"}>
-            Power Badge
-          </ExternalLink>{" "}
-          is required to ensure users are actively contributing to the network,
-          however the criteria is subject to change if it is found that people
-          are gaming the algorithm.
-        </li>
-        <li className="mt-3">
-          23% of the total airdrop supply is allocated for the first drop. The
-          seven subsequent drops each represent 11% of the total. This
-          distribution was chosen based on growth rate and number of Power
-          Badges at the time of the first airdrop.
-        </li>
-      </ul>
-    </div>
+    <ul>
+      <li className="mt-3">
+        {allocationRatios.POWER_DROPS * 100}% of all Farther tokens are reserved
+        for high-quality Farcaster users.
+      </li>
+      <li className="mt-3">
+        Currently, the{" "}
+        <ExternalLink href={POWER_BADGE_INFO_URL}>
+          Warpcast Power Badge
+        </ExternalLink>{" "}
+        is used to determine who is high-quality, but this may change in the
+        future.
+      </li>
+      <li className="mt-3">
+        Each Farcaster account is only eligible for one airdrop.
+      </li>
+      <li>Eligibility is updated every hour.</li>
+      <li>
+        If you become eligible but lose your power badge before the airdrop, you
+        will need to re-earn it to become eligible for the next airdrop.
+      </li>
+      <li className="mt-3">
+        The tokens are being distributed via monthly airdrops over two years
+        beginning on{" "}
+        {formatDate(LAUNCH_DATE, {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        })}
+        .
+      </li>
+      <li>
+        The allocation each user receives is determined by:{" "}
+        <ol>
+          <li>The current airdrop's token supply</li>
+          <li>The current number of eligible users</li>
+          <li>
+            Follower count - half of each airdrop is distributed equally among
+            currently eligible users. The other half is allocated based on a
+            curve correlating with follower count.
+          </li>
+        </ol>
+      </li>
+    </ul>
   );
 }

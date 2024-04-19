@@ -1,25 +1,43 @@
-import { useReadContract, useWriteContract } from "wagmi";
-import { NFTPositionMngrAbi, UniswapV3Staker } from "@common/abis";
-import { contractAddresses, uniswapIncentivePrograms } from "@common/constants";
-import { defaultChainId } from "@common/env";
+import { useWriteContract } from "wagmi";
+import { NFTPositionMngrAbi, UniswapV3StakerAbi } from "@farther/common";
+import { contractAddresses, incentivePrograms } from "@farther/common";
 import { useUser } from "@lib/context/UserContext";
-import { Address, getAddress } from "viem";
+import { Address } from "viem";
 import React from "react";
 import { readContract } from "viem/actions";
-import { viemClient, viemPublicClient } from "@lib/walletConfig";
+import { viemClient } from "@lib/walletConfig";
 import { useLogError } from "hooks/useLogError";
-import { Position } from "@lib/types/contractTypes";
 import { getIncentiveKey } from "@lib/utils";
-import { sepolia } from "viem/chains";
 import { useToast } from "hooks/useToast";
-import { FartherAirdrop__factory } from "@common/typechain";
+import {
+  Position as RawPosition,
+  Reward,
+  Token,
+  Account,
+  Pool,
+  getBuiltGraphSDK,
+} from "../.graphclient";
+import { useQuery } from "@tanstack/react-query";
+
+type Position = Pick<RawPosition, "id" | "tokenId" | "isStaked"> & {
+  account: Pick<Account, "id"> & {
+    rewards: Array<
+      Pick<Reward, "amount"> & {
+        token: Pick<Token, "id">;
+      }
+    >;
+  };
+  pool: Pick<Pool, "id">;
+  reward: bigint;
+};
+
+const sdk = getBuiltGraphSDK();
 
 export function useLiquidityPositions() {
   const { account } = useUser();
+  const [positions, setPositions] = React.useState<Position[]>();
   const logError = useLogError();
   const { toast } = useToast();
-  const [loadingPositions, setLoadingPositions] = React.useState(false);
-  const [positions, setPositions] = React.useState<Record<string, Position>>();
   const {
     writeContractAsync: transferToStakerContract,
     error: stakeError,
@@ -28,128 +46,38 @@ export function useLiquidityPositions() {
     isSuccess: stakeSuccess,
   } = useWriteContract();
 
-  const { refetch: balanceOf } = useReadContract({
-    abi: NFTPositionMngrAbi,
-    address: contractAddresses[defaultChainId].NFT_POSITION_MANAGER,
-    functionName: "balanceOf",
-    args: [account.address as Address],
-    query: {
-      enabled: !!account.address,
-    },
+  const {
+    writeContractAsync: unstake,
+    error: unstakeError,
+    failureReason: unstakeFailureReason,
+    isPending: unstakePending,
+    isSuccess: unstakeSuccess,
+  } = useWriteContract();
+
+  const {
+    writeContractAsync: claimReward,
+    error: claimError,
+    failureReason: claimFailureReason,
+    isPending: claimPending,
+    isSuccess: claimSuccess,
+  } = useWriteContract();
+
+  const {
+    data: positionsData,
+    error: positionsFetchError,
+    isLoading: positionsLoading,
+    refetch: refetchPositions,
+  } = useQuery({
+    queryKey: [account.address],
+    queryFn: () =>
+      sdk.FartherPositions({
+        account: account.address as Address,
+        poolId: contractAddresses.UNIV3_FARTHER_ETH_30BPS_POOL,
+      }),
+    enabled: !!account.address,
   });
 
-  React.useEffect(() => {
-    (async () => {
-      if (!account.address) return;
-      console.log("fetching logs");
-      const latestBlock = await viemPublicClient.getBlockNumber();
-
-      const logs = await viemPublicClient.getContractEvents({
-        address: contractAddresses[defaultChainId].NFT_POSITION_MANAGER,
-        abi: NFTPositionMngrAbi,
-        eventName: "Transfer",
-        args: {
-          from: getAddress(account.address),
-          to: getAddress(contractAddresses[defaultChainId].UNISWAP_V3_STAKER),
-        },
-        // fromBlock: latestBlock - BigInt(10000),
-      });
-
-      console.log({ logs });
-    })();
-  }, [account.address]);
-
-  /**
-   * Fetches & filters LP tokens the user currently holds (hasn't staked)
-   */
-  React.useEffect(() => {
-    if (!account.address) return;
-
-    setLoadingPositions(true);
-    balanceOf().then(async ({ data: balance }) => {
-      if (!balance) {
-        setLoadingPositions(false);
-        return;
-      }
-
-      if (typeof balance !== "bigint" && typeof balance !== "number") {
-        throw new Error("Invalid balance type");
-      }
-
-      try {
-        for (let i = 0; i < balance; i++) {
-          const tokenId = await readContract(viemClient, {
-            abi: NFTPositionMngrAbi,
-            address: contractAddresses[defaultChainId].NFT_POSITION_MANAGER,
-            functionName: "tokenOfOwnerByIndex",
-            args: [account.address as Address, BigInt(i)],
-          });
-
-          if (!tokenId) {
-            throw new Error(
-              `Failed to read NonfungiblePositionManager.tokenOfOwnerByIndex for ${account.address} at index ${i}`,
-            );
-          }
-
-          const positionInfo = await readContract(viemClient, {
-            abi: NFTPositionMngrAbi,
-            address: contractAddresses[defaultChainId].NFT_POSITION_MANAGER,
-            functionName: "positions",
-            args: [tokenId],
-          });
-
-          const [
-            nonce,
-            operator,
-            token0,
-            token1,
-            fee,
-            tickLower,
-            tickUpper,
-            liquidity,
-            feeGrowthInside0LastX128,
-            feeGrowthInside1LastX128,
-            tokensOwed0,
-            tokensOwed1,
-          ] = positionInfo;
-
-          // Filter out positions that are not for the 0.03% fee tier FARTHER-ETH (WETH) pool
-          if (
-            token0.toLowerCase() !==
-              contractAddresses[defaultChainId].FARTHER ||
-            token1.toLowerCase() !== contractAddresses[defaultChainId].WETH ||
-            fee !== 3000
-          ) {
-            continue;
-          }
-
-          setPositions((prev) => ({
-            ...prev,
-            [tokenId.toString()]: {
-              nonce,
-              operator,
-              token0,
-              token1,
-              fee,
-              tickLower,
-              tickUpper,
-              liquidity,
-              feeGrowthInside0LastX128,
-              feeGrowthInside1LastX128,
-              tokensOwed0,
-              tokensOwed1,
-            },
-          }));
-        }
-      } catch (error: any) {
-        logError({ error: error.message });
-      }
-
-      setLoadingPositions(false);
-    });
-  }, [account.address, balanceOf, logError]);
-
-  const handleStakeLpToken = async (tokenId: string) => {
+  const handleStake = async (tokenId: string) => {
     if (!account.address) {
       logError({ error: "No account address found", showGenericToast: true });
       return;
@@ -158,23 +86,73 @@ export function useLiquidityPositions() {
     try {
       await transferToStakerContract({
         abi: NFTPositionMngrAbi,
-        address: contractAddresses[defaultChainId].NFT_POSITION_MANAGER,
+        address: contractAddresses.NFT_POSITION_MANAGER,
         functionName: "safeTransferFrom",
         args: [
           account.address,
-          contractAddresses[defaultChainId].UNISWAP_V3_STAKER,
+          contractAddresses.UNISWAP_V3_STAKER,
           BigInt(tokenId),
           getIncentiveKey({
-            rewardToken:
-              uniswapIncentivePrograms[defaultChainId][1].rewardToken,
-            pool: uniswapIncentivePrograms[defaultChainId][1].pool,
-            startTime: uniswapIncentivePrograms[defaultChainId][1].startTime,
-            endTime: uniswapIncentivePrograms[defaultChainId][1].endTime,
-            refundee: uniswapIncentivePrograms[defaultChainId][1].refundee,
+            rewardToken: incentivePrograms[1].rewardToken,
+            pool: incentivePrograms[1].pool,
+            startTime: incentivePrograms[1].startTime,
+            endTime: incentivePrograms[1].endTime,
+            refundee: incentivePrograms[1].refundee,
             hashed: false,
           }),
         ],
       });
+
+      await refetchPositions();
+    } catch (error) {
+      logError({ error });
+    }
+  };
+
+  const handleUnstake = async (tokenId: string) => {
+    if (!account.address) {
+      logError({ error: "No account address found", showGenericToast: true });
+      return;
+    }
+
+    try {
+      await unstake({
+        abi: UniswapV3StakerAbi,
+        address: contractAddresses.UNISWAP_V3_STAKER,
+        functionName: "unstakeToken",
+        args: [
+          {
+            rewardToken: incentivePrograms[1].rewardToken,
+            pool: incentivePrograms[1].pool,
+            startTime: BigInt(incentivePrograms[1].startTime),
+            endTime: BigInt(incentivePrograms[1].endTime),
+            refundee: incentivePrograms[1].refundee,
+          },
+          BigInt(tokenId),
+        ],
+      });
+
+      await refetchPositions();
+    } catch (error) {
+      logError({ error });
+    }
+  };
+
+  const handleClaim = async (amount: bigint) => {
+    if (!account.address) {
+      logError({ error: "No account address found", showGenericToast: true });
+      return;
+    }
+
+    try {
+      await claimReward({
+        abi: UniswapV3StakerAbi,
+        address: contractAddresses.UNISWAP_V3_STAKER,
+        functionName: "claimReward",
+        args: [contractAddresses.FARTHER, account.address, amount],
+      });
+
+      await refetchPositions();
     } catch (error) {
       logError({ error });
     }
@@ -194,11 +172,42 @@ export function useLiquidityPositions() {
     toast({ msg: "Staking complete. Enjoy your rewards!" });
   }, [toast, stakeSuccess]);
 
+  React.useEffect(() => {
+    if (!positionsData?.positions.length || !account.address) return;
+
+    const positions: Position[] = [];
+
+    (async () => {
+      for (const position of positionsData.positions) {
+        const reward = await readContract(viemClient, {
+          abi: UniswapV3StakerAbi,
+          address: contractAddresses.UNISWAP_V3_STAKER,
+          functionName: "rewards",
+          args: [contractAddresses.FARTHER, account.address as Address],
+        });
+
+        positions.push({ ...position, reward });
+      }
+      setPositions(positions);
+    })();
+  }, [positionsData, account.address]);
+
+  /** Wipe positions when account is changed */
+  React.useEffect(() => {
+    if (!account.address) return;
+    setPositions(undefined);
+  }, [account.address]);
+
   return {
-    loadingPositions,
+    positionsLoading,
     positions,
-    handleStakeLpToken,
+    handleClaim,
+    handleStake,
+    handleUnstake,
+    claimPending,
     stakePending,
+    unstakePending,
     stakeSuccess,
+    unstakeSuccess,
   };
 }

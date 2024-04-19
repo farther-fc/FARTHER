@@ -1,10 +1,4 @@
 {
-  "crons": [
-    {
-      "path": "/api/trpc/updatePowerUsers",
-      "schedule": "*/10 * * * *"
-    }
-  ],
   "functions": {
     "pages/api/**/*": {
       "maxDuration": 60

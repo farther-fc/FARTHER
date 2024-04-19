@@ -1,4 +1,4 @@
-import { prisma } from "@backend/prisma";
+import { prisma } from "@farther/backend";
 import { publicProcedure } from "server/trpc";
 import { apiSchemas } from "@lib/types/apiSchemas";
 

@@ -1,0 +1,19 @@
+{
+  "name": "@farther/subgraph",
+  "license": "UNLICENSED",
+  "scripts": {
+    "codegen": "graph codegen",
+    "deploy:staging": "pnpm codegen && pnpm build && graph deploy --studio farther-base",
+    "build": "pnpm prepare && graph build --network base",
+    "prepare": "mustache protocols/config/deployments/base/configurations.json configurations/configure.mustache > configurations/configure.ts"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "^0.69.2",
+    "@graphprotocol/graph-ts": "^0.34.0",
+    "@farther/common": "*"
+  },
+  "devDependencies": {
+    "mustache": "^4.2.0",
+    "prettier": "^3.0.2"
+  }
+}

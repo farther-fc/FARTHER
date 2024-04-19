@@ -1,22 +1,23 @@
 {
-  "name": "backend",
+  "name": "@farther/backend",
   "version": "1.0.0",
   "description": "",
-  "main": "prisma/index.ts",
-  "types": "prisma/index.ts",
+  "main": "src/prisma/index.ts",
+  "types": "src/prisma/index.ts",
   "scripts": {
-    "env:dev": "dotenv -e ../../.env",
-    "env:staging": "dotenv -e ../../.env.staging",
+    "env:dev": "dotenv -e ../../.env -- ",
+    "env:staging": "dotenv -e ../../.env.staging -- ",
     "preparePowerDrop:staging": "pnpm env:staging ts-node src/scripts/preparePowerDrop.ts",
     "preparePowerDrop:dev": "pnpm env:dev ts-node src/scripts/preparePowerDrop.ts",
-    "migrate:staging": "env:staging prisma migrate deploy",
+    "migrate:staging": "pnpm env:staging prisma migrate deploy",
     "migrate:prod": "dotenv -e ../../.env.production prisma migrate deploy",
     "generate": "prisma generate",
-    "db:push": "pnpm env:dev prisma db push --skip-generate",
-    "db:reset": "pnpm env:dev ts-node src/scripts/reset.ts",
+    "db:push": "prisma db push --skip-generate",
+    "db:reset": "ts-node src/scripts/reset.ts",
     "db:format": "prisma format",
-    "db:view": "pnpm env:dev prisma studio",
-    "dev": "pnpm db:push && pnpm generate"
+    "db:view": "pnpm prisma studio",
+    "dev": "pnpm db:push && pnpm generate",
+    "test": "jest"
   },
   "prisma": {
     "schema": "./src/prisma/schema.prisma"
@@ -25,15 +26,19 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@farther/common": "*",
     "@neondatabase/serverless": "^0.7.2",
     "@prisma/client": "^5.1.0",
     "ethers": "^6.11.1",
+    "jest": "^29.7.0",
     "pg": "^8.11.3",
+    "ts-jest": "^29.1.2",
     "underscore": "^1.13.6",
     "viem": "2.8.14"
   },
   "devDependencies": {
     "@prisma/client": "^5.1.0",
+    "@types/jest": "^29.5.12",
     "@types/node": "^20.11.3",
     "@types/pg": "^8.10.9",
     "@types/underscore": "^1.11.15",
@@ -43,5 +48,23 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3"
+  },
+  "jest": {
+    "globals": {
+      "ts-jest": {
+        "tsconfig": "tsconfig.json"
+      }
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "./node_modules/ts-jest/preprocessor.js"
+    },
+    "testMatch": [
+      "**/tests/**/*.test.(ts|js)"
+    ],
+    "testEnvironment": "node"
   }
 }

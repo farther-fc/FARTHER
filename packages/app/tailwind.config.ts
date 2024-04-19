@@ -17,7 +17,9 @@ const config = {
       },
     },
     screens: {
-      lg: "1200px",
+      sm: "640px",
+      md: "768px",
+      lg: "1024px",
       xl: "1200px",
       "2xl": "1200px",
     },
@@ -55,6 +57,12 @@ const config = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        link: {
+          DEFAULT: "#60a5fa",
+          hover: "#2563eb",
+          light: "#2563eb",
+          "light-hover": "#1e40af",
         },
       },
       borderRadius: {

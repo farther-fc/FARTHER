@@ -15,7 +15,6 @@ import React from "react";
 
 export default function RewardsPage() {
   const { account, user, userIsLoading } = useUser();
-
   const { positions } = useLiquidityPositions();
 
   return (
@@ -25,7 +24,7 @@ export default function RewardsPage() {
         <Spinner variant="page" />
       ) : (
         <>
-          <p>Your $FARTHER token rewards</p>
+          <p>Your Farther token rewards</p>
           <div className="mt-16">
             {!account.isConnected ? (
               <>Please connect your wallet to check if you have any rewards.</>

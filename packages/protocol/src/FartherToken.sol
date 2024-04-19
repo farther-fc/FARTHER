@@ -21,19 +21,9 @@ contract FartherToken is
     Ownable
 {
     /**
-     * @dev EIP-20 token name for this token
-     */
-    string public constant TOKEN_NAME = "Farther";
-
-    /**
-     * @dev EIP-20 token symbol for this token
-     */
-    string public constant TOKEN_SYMBOL = "FARTHER";
-
-    /**
      * @dev Total number of tokens in circulation
      */
-    uint256 public constant TOKEN_INITIAL_SUPPLY = 1_000_000_000;
+    uint256 public constant TOKEN_INITIAL_SUPPLY = 50_000_000_000;
 
     /**
      * @dev Minimum time between mints
@@ -78,12 +68,10 @@ contract FartherToken is
      * @param mintingAllowedAfter_ The timestamp after which minting may occur
      */
     constructor(
+        string memory tokenName,
+        string memory tokenSymbol,
         uint256 mintingAllowedAfter_
-    )
-        ERC20(TOKEN_NAME, TOKEN_SYMBOL)
-        ERC20Permit(TOKEN_NAME)
-        Ownable(msg.sender)
-    {
+    ) ERC20(tokenName, tokenSymbol) ERC20Permit(tokenName) Ownable(msg.sender) {
         if (mintingAllowedAfter_ < block.timestamp) {
             revert MintAllowedAfterDeployOnly(
                 block.timestamp,

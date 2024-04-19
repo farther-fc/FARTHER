@@ -1,15 +1,15 @@
 import { prisma } from "../../backend/src/prisma";
 import { publicProcedure } from "server/trpc";
 import { apiSchemas } from "@lib/types/apiSchemas";
-import { neynarClient } from "@common/neynar";
-import { ENVIRONMENT, isProduction } from "@common/env";
-import { TEST_USER_ADDRESS, TEST_USER_FID } from "@common/constants";
+import { isProduction, neynarClient } from "@farther/common";
+import { DEV_USER_ADDRESS, DEV_USER_FID } from "@farther/common";
 import { TRPCError } from "@trpc/server";
 
 export const getUser = publicProcedure
   .input(apiSchemas.getUser.input)
   .query(async (opts) => {
-    const { address } = opts.input;
+    const address = opts.input.address.toLowerCase();
+
     try {
       // Get user data from neynar
       const response = await neynarClient.fetchBulkUsersByEthereumAddress([
@@ -17,19 +17,28 @@ export const getUser = publicProcedure
       ]);
 
       // Neynar returns weird data structure
-      const [user] = response[address.toLowerCase()]
-        ? response[address.toLowerCase()]
-        : [];
+      const [user] = response[address] ? response[address] : [];
 
-      // In prod, we know that the user is on Neynar. Otherwise we pretend they are.
+      // In prod, if Neynar doesn't find a user, return null.
+      // But in staging/dev we use the test user (which we know isn't on Farcaster or in Neynar's db)
       if (!user && isProduction) {
         return null;
       }
 
-      const dbUser = await prisma.user.findFirst({
+      const fid = isProduction ? user.fid : DEV_USER_FID;
+      const isPowerUser = isProduction ? user.power_badge : true;
+
+      const dbUser = await prisma.user.upsert({
         where: {
-          address: opts.input.address.toLowerCase(),
+          address,
+          fid,
         },
+        create: {
+          address,
+          fid,
+          isPowerUser,
+        },
+        update: {},
         select: {
           allocations: {
             select: {
@@ -37,32 +46,31 @@ export const getUser = publicProcedure
               amount: true,
               isClaimed: true,
               index: true,
+              type: true,
               airdrop: {
-                select: { id: true, type: true, address: true, number: true },
+                select: { id: true, address: true, number: true },
               },
             },
           },
-          address: true,
         },
       });
 
       if (!isProduction) {
         if (
-          opts.input.address.toLowerCase() !== TEST_USER_ADDRESS.toLowerCase()
+          opts.input.address.toLowerCase() !== DEV_USER_ADDRESS.toLowerCase()
         ) {
           throw new TRPCError({
             code: "NOT_FOUND",
-            message: `Connect with ${TEST_USER_ADDRESS} to see the test user.`,
+            message: `Connect with ${DEV_USER_ADDRESS} to see the test user.`,
           });
         }
         return {
-          fid: TEST_USER_FID,
+          fid: DEV_USER_FID,
           username: "testuser",
           displayName: "Test User",
           pfpUrl:
             "https://wrpcd.net/cdn-cgi/image/fit=contain,f=auto,w=168/https%3A%2F%2Fi.imgur.com%2F3hrPNK8.jpg",
           profileBio: "Test bio",
-          connectedAddress: TEST_USER_ADDRESS.toLowerCase(),
           allocations: dbUser?.allocations,
         };
       }
@@ -73,12 +81,10 @@ export const getUser = publicProcedure
         displayName: user.display_name,
         pfpUrl: user.pfp_url,
         profileBio: user.profile.bio.text,
-        connectedAddress: dbUser?.address,
-        verifiedAddresses: user.verified_addresses.eth_addresses,
         allocations: dbUser?.allocations,
       };
     } catch (error) {
-      // Log to Sentry
+      // TODO: Log to Sentry
       console.log(error);
       return null;
     }

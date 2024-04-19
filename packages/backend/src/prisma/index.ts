@@ -1,6 +1,6 @@
 export * from "@prisma/client";
 import { PrismaClient } from "@prisma/client";
-import { isProduction } from "@common/env";
+import { isProduction } from "@farther/common";
 
 const globalForPrisma = global as unknown as {
   prisma: PrismaClient | undefined;

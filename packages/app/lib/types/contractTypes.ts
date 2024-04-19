@@ -1,4 +1,4 @@
-import { NFTPositionMngrAbi } from "@common/abis";
+import { NFTPositionMngrAbi } from "@farther/common";
 import { AbiParametersToPrimitiveTypes, ExtractAbiFunction } from "abitype";
 
 type PositionsReturnType = AbiParametersToPrimitiveTypes<

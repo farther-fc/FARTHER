@@ -6,7 +6,8 @@ import {FartherToken} from "../src/FartherToken.sol";
 import {Ownable} from "openzeppelin/access/Ownable.sol";
 
 contract FartherToken_Test is Test {
-    FartherToken fartherToken = new FartherToken(block.timestamp);
+    FartherToken fartherToken =
+        new FartherToken("Farther", "FARTHER", block.timestamp);
     address owner;
     address rando;
     uint256 initialSupply;
@@ -22,7 +23,7 @@ contract FartherToken_Test is Test {
     }
 
     /// @dev Tests that the constructor sets the correct initial state.
-    function test_constructor_succeeds() external view {
+    function test_constructor_succeeds() external {
         assertEq(fartherToken.owner(), owner);
         assertEq(fartherToken.name(), "Farther");
         assertEq(fartherToken.symbol(), "FARTHER");

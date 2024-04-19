@@ -16,7 +16,7 @@ contract FartherAirdropTest is TestConfig {
 
     FartherAirdrop public airdrop;
 
-    uint256 pk = uint256(bytes32(vm.parseBytes(vm.envString("PRIVATE_KEY"))));
+    uint256 pk = uint256(bytes32(vm.parseBytes(vm.envString("DEPLOYER_PK"))));
 
     address[] accounts = [
         getFundedAccount(pk),
@@ -35,7 +35,7 @@ contract FartherAirdropTest is TestConfig {
     FartherToken public token;
 
     function setUp() public {
-        token = new FartherToken(block.timestamp);
+        token = new FartherToken("Farther", "FARTHER", block.timestamp);
         merkle = new Merkle();
 
         leaves = new bytes32[](accounts.length);
@@ -52,7 +52,7 @@ contract FartherAirdropTest is TestConfig {
         }
     }
 
-    function test_deploy_succeeds() external view {
+    function test_deploy_succeeds() external {
         assertEq(airdrop.TOKEN(), address(token));
         assertEq(airdrop.MERKLE_ROOT(), root);
         assertEq(airdrop.END_TIME(), block.timestamp + 365 days);

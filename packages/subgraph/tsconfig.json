@@ -1,0 +1,8 @@
+{
+  "extends": "@graphprotocol/graph-ts/types/tsconfig.base.json",
+  "include": ["src", "config/networkConfig.ts"],
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "baseUrl": "."
+  }
+}

@@ -141,7 +141,7 @@ type ToastFnProps = Omit<ToasterToast, "id">;
 function toast({ ...props }: ToastFnProps) {
   const id = genId();
 
-  if (props.variant === "destructive" && !props.title) {
+  if (props.variant === "error" && !props.title) {
     props.title = "Error";
   }
 

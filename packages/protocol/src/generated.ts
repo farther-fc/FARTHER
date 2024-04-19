@@ -11,37 +11,36 @@ import {
 
 export const fartherAirdropAbi = [
   {
-    stateMutability: 'nonpayable',
     type: 'constructor',
     inputs: [
       { name: 'token_', internalType: 'address', type: 'address' },
       { name: 'merkleRoot_', internalType: 'bytes32', type: 'bytes32' },
       { name: 'endTime_', internalType: 'uint256', type: 'uint256' },
     ],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'END_TIME',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'MERKLE_ROOT',
     outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'TOKEN',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'index', internalType: 'uint256', type: 'uint256' },
@@ -51,41 +50,42 @@ export const fartherAirdropAbi = [
     ],
     name: 'claim',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [{ name: 'index', internalType: 'uint256', type: 'uint256' }],
     name: 'isClaimed',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'owner',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [],
     name: 'renounceOwnership',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
     name: 'transferOwnership',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [],
     name: 'withdraw',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
     type: 'event',
@@ -170,37 +170,36 @@ export const fartherAirdropAbi = [
 
 export const fartherAirdrop1Abi = [
   {
-    stateMutability: 'nonpayable',
     type: 'constructor',
     inputs: [
       { name: 'token_', internalType: 'address', type: 'address' },
       { name: 'merkleRoot_', internalType: 'bytes32', type: 'bytes32' },
       { name: 'endTime_', internalType: 'uint256', type: 'uint256' },
     ],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'END_TIME',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'MERKLE_ROOT',
     outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'TOKEN',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'index', internalType: 'uint256', type: 'uint256' },
@@ -210,41 +209,42 @@ export const fartherAirdrop1Abi = [
     ],
     name: 'claim',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [{ name: 'index', internalType: 'uint256', type: 'uint256' }],
     name: 'isClaimed',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'owner',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [],
     name: 'renounceOwnership',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
     name: 'transferOwnership',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [],
     name: 'withdraw',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
     type: 'event',
@@ -329,67 +329,54 @@ export const fartherAirdrop1Abi = [
 
 export const fartherTokenAbi = [
   {
-    stateMutability: 'nonpayable',
     type: 'constructor',
     inputs: [
+      { name: 'tokenName', internalType: 'string', type: 'string' },
+      { name: 'tokenSymbol', internalType: 'string', type: 'string' },
       {
         name: 'mintingAllowedAfter_',
         internalType: 'uint256',
         type: 'uint256',
       },
     ],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'CLOCK_MODE',
     outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'DOMAIN_SEPARATOR',
     outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'MINIMUM_TIME_BETWEEN_MINTS',
     outputs: [{ name: '', internalType: 'uint32', type: 'uint32' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'MINT_CAP',
     outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'TOKEN_INITIAL_SUPPLY',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'TOKEN_NAME',
-    outputs: [{ name: '', internalType: 'string', type: 'string' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'TOKEN_SYMBOL',
-    outputs: [{ name: '', internalType: 'string', type: 'string' }],
-  },
-  {
-    stateMutability: 'view',
     type: 'function',
     inputs: [
       { name: 'owner', internalType: 'address', type: 'address' },
@@ -397,9 +384,9 @@ export const fartherTokenAbi = [
     ],
     name: 'allowance',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'spender', internalType: 'address', type: 'address' },
@@ -407,23 +394,23 @@ export const fartherTokenAbi = [
     ],
     name: 'approve',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
     name: 'balanceOf',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [{ name: 'value', internalType: 'uint256', type: 'uint256' }],
     name: 'burn',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'account', internalType: 'address', type: 'address' },
@@ -431,9 +418,9 @@ export const fartherTokenAbi = [
     ],
     name: 'burnFrom',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [
       { name: 'account', internalType: 'address', type: 'address' },
@@ -451,30 +438,30 @@ export const fartherTokenAbi = [
         ],
       },
     ],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'clock',
     outputs: [{ name: '', internalType: 'uint48', type: 'uint48' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'decimals',
     outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [{ name: 'delegatee', internalType: 'address', type: 'address' }],
     name: 'delegate',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'delegatee', internalType: 'address', type: 'address' },
@@ -486,16 +473,16 @@ export const fartherTokenAbi = [
     ],
     name: 'delegateBySig',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
     name: 'delegates',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'eip712Domain',
@@ -508,16 +495,16 @@ export const fartherTokenAbi = [
       { name: 'salt', internalType: 'bytes32', type: 'bytes32' },
       { name: 'extensions', internalType: 'uint256[]', type: 'uint256[]' },
     ],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [{ name: 'timepoint', internalType: 'uint256', type: 'uint256' }],
     name: 'getPastTotalSupply',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [
       { name: 'account', internalType: 'address', type: 'address' },
@@ -525,16 +512,16 @@ export const fartherTokenAbi = [
     ],
     name: 'getPastVotes',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
     name: 'getVotes',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'to', internalType: 'address', type: 'address' },
@@ -542,58 +529,58 @@ export const fartherTokenAbi = [
     ],
     name: 'mint',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'mintingAllowedAfter',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'name',
     outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
     name: 'nonces',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
     name: 'numCheckpoints',
     outputs: [{ name: '', internalType: 'uint32', type: 'uint32' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'owner',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [],
     name: 'pause',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'paused',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'owner', internalType: 'address', type: 'address' },
@@ -606,30 +593,30 @@ export const fartherTokenAbi = [
     ],
     name: 'permit',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [],
     name: 'renounceOwnership',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'symbol',
     outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'totalSupply',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'to', internalType: 'address', type: 'address' },
@@ -637,9 +624,9 @@ export const fartherTokenAbi = [
     ],
     name: 'transfer',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'from', internalType: 'address', type: 'address' },
@@ -648,20 +635,21 @@ export const fartherTokenAbi = [
     ],
     name: 'transferFrom',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
     name: 'transferOwnership',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [],
     name: 'unpause',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
     type: 'event',
@@ -1296,22 +1284,6 @@ export const useReadFartherTokenTokenInitialSupply =
   /*#__PURE__*/ createUseReadContract({
     abi: fartherTokenAbi,
     functionName: 'TOKEN_INITIAL_SUPPLY',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link fartherTokenAbi}__ and `functionName` set to `"TOKEN_NAME"`
- */
-export const useReadFartherTokenTokenName = /*#__PURE__*/ createUseReadContract(
-  { abi: fartherTokenAbi, functionName: 'TOKEN_NAME' },
-)
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link fartherTokenAbi}__ and `functionName` set to `"TOKEN_SYMBOL"`
- */
-export const useReadFartherTokenTokenSymbol =
-  /*#__PURE__*/ createUseReadContract({
-    abi: fartherTokenAbi,
-    functionName: 'TOKEN_SYMBOL',
   })
 
 /**

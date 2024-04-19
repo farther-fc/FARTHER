@@ -1,4 +1,4 @@
-import { isProduction } from "@common/env";
+import { isProduction } from "@farther/common";
 import { Alchemy, Network } from "alchemy-sdk";
 
 if (!process.env.ALCHEMY_API_KEY) {

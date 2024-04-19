@@ -1,4 +1,3 @@
-import Bottleneck from "bottleneck";
 import { clsx, type ClassValue } from "clsx";
 import numeral from "numeral";
 import { twMerge } from "tailwind-merge";
@@ -7,10 +6,6 @@ import { Address, encodeAbiParameters, formatEther, keccak256 } from "viem";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
-
-export const dbLimiter = new Bottleneck({
-  maxConcurrent: 60,
-});
 
 export const shortenHash = (
   hash: Address = "0x",
@@ -24,14 +19,16 @@ export const shortenHash = (
   );
 };
 
-export const formatDate = (date: Date) => {
-  const language =
-    typeof navigator !== "undefined" ? navigator.language : "en-US";
-  return new Intl.DateTimeFormat(language, {
-    year: "numeric",
+export const formatDate = (
+  date: Date,
+  options: Intl.DateTimeFormatOptions = {
     month: "short",
     day: "numeric",
-  }).format(new Date(date));
+  },
+) => {
+  const language =
+    typeof navigator !== "undefined" ? navigator.language : "en-US";
+  return new Intl.DateTimeFormat(language, options).format(new Date(date));
 };
 
 export const formatWad = (amount: string, formatSchema: string = "0,0.00") => {
@@ -70,3 +67,21 @@ export const getIncentiveKey = ({
 
   return encodedData;
 };
+
+export const isValidTweetUrl = (url: string) => {
+  const tweetValidatorRegex =
+    /^(https?:\/\/)?(www\.)?(twitter|x)\.com\/[a-zA-Z0-9_]{1,15}\/status\/[0-9]+$/;
+
+  return tweetValidatorRegex.test(url);
+};
+
+export function extractTweetId(tweetUrl: string) {
+  if (!isValidTweetUrl(tweetUrl)) {
+    return false;
+  }
+
+  const tweetIdRegex = /\/status\/(\d+)/;
+  const match = tweetIdRegex.exec(tweetUrl);
+
+  return match ? match[1] : null; // Returns the tweet ID if matched, otherwise null
+}

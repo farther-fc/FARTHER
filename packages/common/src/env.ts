@@ -18,8 +18,22 @@ export { ENVIRONMENT };
 
 export const isProduction = ENVIRONMENT === "production";
 
-export const defaultChainId = isProduction
-  ? base.id
-  : ENVIRONMENT === "staging"
-    ? sepolia.id
-    : anvil.id;
+export const NETWORK =
+  (["base", "sepolia", "anvil"] as const).find(
+    (v) => v === process.env.NEXT_PUBLIC_NETWORK,
+  ) ||
+  (() => {
+    throw Error(
+      `Invalid NETWORK value: ${process.env.NEXT_PUBLIC_NETWORK}, expected: 'base' | 'sepolia' | 'anvil'`,
+    );
+  })();
+
+export const chainIds = {
+  base: base.id,
+  sepolia: sepolia.id,
+  anvil: anvil.id,
+} as const;
+
+export const CHAIN_ID = chainIds[NETWORK];
+
+export const WAD_SCALER = BigInt(10 ** 18);

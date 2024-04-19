@@ -4,10 +4,6 @@
       "mode": "auto"
     }
   ],
-  "tailwindCSS.experimental.classRegex": [
-    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
-    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
-  ],
   "commands.commands": [
     {
       "command": "terminals.runTerminals",

@@ -1,0 +1,36 @@
+{
+  "sepolia": {
+    "Factory": {
+      "address": "0x0227628f3F023bb0B980b67D528571c95c6DaC1c",
+      "startBlock": 5624321
+    },
+    "NonFungiblePositionManager": {
+      "address": "0x1238536071E1c677A632429e3655c799b22cDA52",
+      "startBlock": 5624321
+    },
+    "Pool": {
+      "startBlock": 5624321
+    },
+    "UniswapV3Staker": {
+      "address": "0x52A941Cd52f48a1A7d73d7A07df1e23dd51A699e",
+      "startBlock": 5624321
+    }
+  },
+  "base": {
+    "Factory": {
+      "address": "0x33128a8fC17869897dcE68Ed026d694621f6FDfD",
+      "startBlock": 1371680
+    },
+    "NonFungiblePositionManager": {
+      "address": "0x03a520b32C04BF3bEEf7BEb72E919cf822Ed34f1",
+      "startBlock": 1371680
+    },
+    "Pool": {
+      "startBlock": 1371680
+    },
+    "UniswapV3Staker": {
+      "address": "0x42be4d6527829fefa1493e1fb9f3676d2425c3c1",
+      "startBlock": 1371680
+    }
+  }
+}

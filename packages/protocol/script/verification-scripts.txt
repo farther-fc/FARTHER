@@ -15,3 +15,11 @@ forge verify-contract \
 --chain-id 84532 \
 --constructor-args $(cast abi-encode "constructor(address,bytes32,uint256)" 0x0850724C967492C535BB748a139f9773CAEfa618 0xa8011c27e48a627450f0eeaa368b44649e8a48f90480297fa8f0d06a7172e43f 1775191894) \
 0x65Fb1f9Cb54fF76eBCb40b7F9aa4297B49C3Cf1a src/FartherAirdrop.sol:FartherAirdrop
+
+
+ETHERSCAN_API_KEY=3JYZ4DQKMQ5W4NJ89IBQI45UWDKYK3IM2B forge verify-contract \
+--watch \
+--verifier-url https://api.basescan.org/api \
+--chain-id 8453 \
+--constructor-args $(cast abi-encode "constructor(address,bytes32,uint256)" 0x65Fb1f9Cb54fF76eBCb40b7F9aa4297B49C3Cf1a 0x67653fdd3b9fd675ffea145a1cf02ec6424f7821cc72622ead0dfd3f7f91ab56 1776553521) \
+0x08373138d43D9502622B5AEe5A1b233814b02Db0 src/FartherAirdrop.sol:FartherAirdrop

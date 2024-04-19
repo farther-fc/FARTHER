@@ -18,24 +18,20 @@
     "paths": {
       "@components/*": ["components/*"],
       "@lib/*": ["lib/*"],
-      "@styles/*": ["styles/*"],
-      "@common/*": ["../common/src/*"],
-      "@backend/*": ["../backend/src/*"],
+      "@styles/*": ["styles/*"]
     },
     "plugins": [
       {
-        "name": "next",
-      },
-    ],
+        "name": "next"
+      }
+    ]
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "tailwind.config.ts",
-    "../common/src/neynar.ts",
-    "../common/src/env.ts",
+    "tailwind.config.ts"
   ],
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules"]
 }

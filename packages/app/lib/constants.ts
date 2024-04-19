@@ -1,36 +1,33 @@
-import { AirdropType } from "@backend/prisma";
+import { AllocationType } from "@farther/backend";
 
 export const ROUTES = {
-  tokenomics: {
-    title: "Tokenomics",
-    path: "/tokenomics",
-    hidden: false,
+  rewards: {
+    title: "Rewards",
+    path: "/rewards",
   },
   airdrop: {
     title: "Airdrops",
     path: "/airdrops",
-    hidden: false,
   },
   evangelize: {
     title: "Evangelize",
     path: "/evangelize",
-    hidden: false,
   },
   liquidty: {
     title: "Liqudity",
     path: "/liquidity",
-    hidden: false,
   },
-  rewards: {
-    title: "Rewards",
-    path: "/rewards",
-    hidden: true,
+  tips: {
+    title: "Tips",
+    path: "/tips",
   },
 };
 
 export const FARTHER_CHANNEL_URL = "https://warpcast.com/~/channel/farther";
 
+export const POWER_BADGE_INFO_URL = "https://warpcast.com/v/0x0bd49f9c";
+
 export const claimNames = {
-  [AirdropType.POWER_USER]: "Power User",
-  [AirdropType.EVANGELIST]: "Evangelist",
+  [AllocationType.POWER_USER]: "Power User",
+  [AllocationType.EVANGELIST]: "Evangelist",
 };

@@ -8,28 +8,16 @@ import { useUser } from "@lib/context/UserContext";
 import { formatWad, shortenHash } from "@lib/utils";
 import { Avatar } from "@components/ui/Avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
-import { useDisconnect, useReadContract } from "wagmi";
+import { useDisconnect } from "wagmi";
 import { useMediaQuery } from "@lib/context/MediaQueryContext";
-import { FartherToken__factory } from "@common/typechain";
-import { contractAddresses } from "@common/constants";
-import { defaultChainId } from "@common/env";
-import { Address } from "viem";
-import React from "react";
+import { ROUTES } from "@lib/constants";
+import { useRouter } from "next/router";
 
 export function ProfileMenu() {
-  const tokenAddress = contractAddresses[defaultChainId].FARTHER;
+  const router = useRouter();
   const { isTablet } = useMediaQuery();
   const { disconnect } = useDisconnect();
-  const { user, account } = useUser();
-  const { data: balance } = useReadContract({
-    abi: FartherToken__factory.abi,
-    address: tokenAddress,
-    functionName: "balanceOf",
-    args: [account.address as Address],
-    query: {
-      enabled: !!account.address,
-    },
-  });
+  const { user, account, balance } = useUser();
 
   function closeMenu() {
     document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
@@ -41,6 +29,7 @@ export function ProfileMenu() {
   };
 
   const profileHandle = user?.displayName || shortenHash(account.address);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -61,6 +50,12 @@ export function ProfileMenu() {
           </span>
         </div>
         <hr className="my-1" />
+        <Button
+          variant="ghost"
+          onClick={() => router.push(ROUTES.rewards.path)}
+        >
+          Rewards
+        </Button>
         <Button
           variant="ghost"
           className="w-auto p-0"

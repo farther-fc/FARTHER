@@ -1,13 +1,9 @@
-import {
-  TOTAL_POWER_USER_AIRDROP_SUPPLY,
-  powerUserAirdropConfig,
-} from "@common/constants";
-import { prisma } from "@backend/prisma";
+import { prisma } from "@farther/backend";
 import {
   getMerkleProof as getProof,
   getMerkleRoot,
   validateProof,
-} from "@common/merkle";
+} from "@farther/common";
 import { publicProcedure } from "server/trpc";
 import { TRPCError } from "@trpc/server";
 import { apiSchemas } from "@lib/types/apiSchemas";
@@ -27,9 +23,9 @@ export const getMerkleProof = publicProcedure
     try {
       const airdrop = await prisma.airdrop.findFirst({
         where: {
-          type,
           allocations: {
             some: {
+              type,
               user: {
                 address: address.toLowerCase(),
               },
@@ -86,11 +82,22 @@ export const getMerkleProof = publicProcedure
       }
 
       // Create a merkle tree with the above recipients
-      const unhashedLeaves = recipients.map((r, i) => ({
-        index: i,
-        address: r.address as `0x${string}`,
-        amount: r.allocations[0].amount,
-      }));
+      const unhashedLeaves = recipients.map((r) => {
+        if (
+          typeof r.allocations[0].index !== "number" ||
+          !r.address ||
+          !r.allocations[0].amount
+        )
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: `Invalid recipient data. index: ${r.allocations[0].index}, address: ${r.address}, amount: ${r.allocations[0].amount}`,
+          });
+        return {
+          index: r.allocations[0].index,
+          address: r.address as `0x${string}`,
+          amount: r.allocations[0].amount,
+        };
+      });
 
       const root = getMerkleRoot(unhashedLeaves);
 
@@ -101,9 +108,12 @@ export const getMerkleProof = publicProcedure
         });
       }
 
+      // We can assert this as a number because we throw an error earlier if it's not a number
+      const index = currentRecipient.allocations[0].index as number;
+
       const proof = getProof({
         unhashedLeaves,
-        index: currentRecipient.allocations[0].index,
+        index,
         address,
         amount: currentRecipient.allocations[0].amount,
       });
@@ -114,7 +124,7 @@ export const getMerkleProof = publicProcedure
           proof,
           root,
           leaf: {
-            index: currentRecipient.allocations[0].index,
+            index,
             address,
             amount: currentRecipient.allocations[0].amount,
           },

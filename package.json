@@ -17,7 +17,6 @@
   },
   "devDependencies": {
     "@types/underscore": "^1.11.15",
-    "@farther/common": "workspace:*",
     "@farther/typescript-config": "workspace:*",
     "@types/node": "^20.11.5",
     "prettier": "^3.2.4",
@@ -31,5 +30,8 @@
   "dependencies": {
     "dotenv-cli": "^7.3.0",
     "dotenv-vault": "^1.26.0"
-  }
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }

@@ -6,6 +6,7 @@ const containerVariants = cva("container prose", {
   variants: {
     variant: {
       textBlock: "max-w-[800px] mx-auto",
+      page: "min-h-[calc(100vh-160px)]",
     },
   },
 });

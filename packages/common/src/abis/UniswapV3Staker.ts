@@ -1,4 +1,4 @@
-export const UniswapV3Staker = [
+export const UniswapV3StakerAbi = [
   {
     inputs: [
       {

@@ -1,0 +1,11 @@
+{
+  "network": "sepolia",
+  "factoryAddress": "0x0227628f3F023bb0B980b67D528571c95c6DaC1c",
+  "factoryAddressStartBlock": 3518000,
+  "nonFungiblePositionManagerAddress": "0x1238536071e1c677a632429e3655c799b22cda52",
+  "nonFungiblePositionManagerAddressStartBlock": 1371000,
+  "deployment": "UNISWAP_V3_SEPOLIA",
+  "graftEnabled": false,
+  "subgraphId": "",
+  "graftStartBlock": 0
+}

@@ -1,19 +1,18 @@
 import fetch from "node-fetch";
-import { neynarLimiter } from "@common/neynar";
+import { neynarLimiter } from "@farther/common";
 import {
-  TEST_USER_ADDRESS,
-  TEST_USER_FID,
+  DEV_USER_ADDRESS,
+  DEV_USER_FID,
   WARPCAST_API_BASE_URL,
-} from "@common/constants";
-import { prisma } from "@backend/prisma";
+} from "@farther/common";
+import { prisma } from "@farther/backend";
 import { adminProcedure } from "server/trpc";
-import { dbLimiter } from "../../lib/utils";
 import { TRPCError } from "@trpc/server";
-import { ENVIRONMENT, isProduction } from "@common/env";
+import { ENVIRONMENT, isProduction } from "@farther/common";
 
 // Updates power users in the database who have recently connected an address
 async function updateConnectedAddresses() {
-  console.log("Updating power users");
+  console.log("Updating connected address of power users");
 
   // Fetch power users from DB without connected wallet address
   const users = await prisma.user.findMany({
@@ -27,9 +26,9 @@ async function updateConnectedAddresses() {
 
   // Check Neynar to see if ^those users have connected wallet since last check
   const fids = users.map((u) => u.fid);
-  const usersWithConnectedAddress = (await neynarLimiter.getUsers(fids)).filter(
-    (u) => u.verified_addresses.eth_addresses.length > 0,
-  );
+  const usersWithConnectedAddress = (
+    await neynarLimiter.getUsersByFid(fids)
+  ).filter((u) => u.verified_addresses.eth_addresses.length > 0);
 
   console.log(
     "Pending power users who recently connected wallet:",
@@ -71,40 +70,34 @@ async function prepareNewPowerUsers() {
   console.log("Warpcast power users:", powerUserFids.length);
 
   // Get data from Neynar
-  const users = await neynarLimiter.getUsers(powerUserFids);
+  const users = await neynarLimiter.getUsersByFid(powerUserFids);
 
   const time = new Date().getTime();
   console.log("Users from Neynar:", users.length);
 
   // Upsert User records
-  await Promise.all(
-    users.map((u) => {
-      const data = {
+  await prisma.$transaction([
+    prisma.user.deleteMany(),
+    prisma.user.createMany({
+      data: users.map((u) => ({
         fid: u.fid,
         address: u.verified_addresses.eth_addresses.length
           ? u.verified_addresses.eth_addresses[0].toLowerCase()
           : null,
         isPowerUser: true,
-      };
-      return dbLimiter.schedule(() =>
-        prisma.user.upsert({
-          where: { fid: u.fid },
-          create: data,
-          update: data,
-        }),
-      );
+      })),
     }),
-  );
+  ]);
 
   // For testing
   if (!isProduction) {
     const data = {
-      fid: TEST_USER_FID,
-      address: TEST_USER_ADDRESS.toLowerCase(),
+      fid: DEV_USER_FID,
+      address: DEV_USER_ADDRESS.toLowerCase(),
       isPowerUser: true,
     };
     await prisma.user.upsert({
-      where: { fid: TEST_USER_FID },
+      where: { fid: DEV_USER_FID },
       create: data,
       update: data,
     });
@@ -122,7 +115,6 @@ export const updatePowerUsers = adminProcedure.query(
       await updateConnectedAddresses();
       await prepareNewPowerUsers();
       console.log("done");
-      res.status(200).send({ success: true });
     } catch (error: any) {
       if (error instanceof TRPCError) throw error;
       throw new TRPCError({

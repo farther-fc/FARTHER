@@ -1,22 +1,25 @@
 import React from "react";
 import { TableCell, TableRow } from "@components/ui/Table";
 import { claimNames } from "@lib/constants";
-import { formatWad } from "@lib/utils";
+import { formatDate, formatWad } from "@lib/utils";
 import { Button } from "@components/ui/Button";
 import { useLogError } from "hooks/useLogError";
 import { GetUserOuput } from "@lib/types/apiTypes";
 import { useUser } from "@lib/context/UserContext";
 import { trpcClient } from "@lib/trpcClient";
-import { AirdropType } from "@backend/prisma";
+import { AllocationType } from "@farther/backend";
 import { Address } from "viem";
-import { FartherAirdrop__factory } from "@common/typechain";
+import {
+  FartherAirdrop__factory,
+  powerUserAirdropConfig,
+} from "@farther/common";
 import {
   useSwitchChain,
   useWriteContract,
   useWaitForTransactionReceipt,
   useReadContract,
 } from "wagmi";
-import { defaultChainId } from "@common/env";
+import { CHAIN_ID } from "@farther/common";
 import { useToast } from "hooks/useToast";
 
 type ElementType<T> = T extends (infer U)[] ? U : T;
@@ -28,17 +31,21 @@ export function RewardsTableRow({
     ElementType<NonNullable<GetUserOuput>["allocations"]>
   >;
 }) {
-  const { account } = useUser();
+  const { account, refetchBalance } = useUser();
   const logError = useLogError();
   const { mutate: setAllocationClaimed } =
     trpcClient.setAllocationClaimed.useMutation();
   const { switchChainAsync } = useSwitchChain();
   const { data: isClaimed } = useReadContract({
     abi: FartherAirdrop__factory.abi,
-    address: allocation.airdrop.address as Address,
+    address: allocation.airdrop?.address as Address,
     functionName: "isClaimed",
-    args: [BigInt(allocation.index)],
+    args: [BigInt(allocation.index || 0)],
+    query: {
+      enabled: !!allocation.airdrop?.address,
+    },
   });
+
   const {
     writeContract,
     data: claimTxHash,
@@ -55,7 +62,7 @@ export function RewardsTableRow({
   const { data: proof } = trpcClient.getMerkleProof.useQuery(
     {
       address: account.address as Address,
-      type: AirdropType.POWER_USER,
+      type: AllocationType.POWER_USER,
     },
     { enabled: !!account.address },
   );
@@ -72,17 +79,17 @@ export function RewardsTableRow({
     }
 
     // Sanity check
-    if (!allocation.airdrop.address) {
+    if (!allocation.airdrop?.address || !allocation.index) {
       logError({
-        error: new Error("No airdrop address found"),
+        error: new Error("Missing airdrop address or index"),
         showGenericToast: true,
       });
       return;
     }
 
-    if (account.chainId !== defaultChainId) {
+    if (account.chainId !== CHAIN_ID) {
       try {
-        await switchChainAsync({ chainId: defaultChainId });
+        await switchChainAsync({ chainId: CHAIN_ID });
       } catch (error) {
         logError({ error });
         return;
@@ -106,17 +113,17 @@ export function RewardsTableRow({
     if (!contractError) return;
 
     logError({ error: contractError, showGenericToast: true });
-  }, [logError, contractError]);
+  }, [logError, contractError, toast]);
 
   React.useEffect(() => {
     if (!isSuccess) return;
 
     setAllocationClaimed({ allocationId: allocation.id });
-
+    refetchBalance();
     toast({
       msg: "Claim complete. Enjoy your tokens!",
     });
-  }, [setAllocationClaimed, isSuccess, allocation.id, toast]);
+  }, [setAllocationClaimed, isSuccess, allocation.id, toast, refetchBalance]);
 
   /**
    * Fallback in case something happens which prevents the db getting updated with the claim status
@@ -130,7 +137,7 @@ export function RewardsTableRow({
   return (
     <TableRow>
       <TableCell className="font-medium">
-        {claimNames[allocation.airdrop.type]}
+        {claimNames[allocation.type]}
       </TableCell>
       <TableCell className="text-right">
         {formatWad(allocation.amount)}
@@ -139,7 +146,7 @@ export function RewardsTableRow({
         <Button
           variant="outline"
           disabled={
-            !allocation.airdrop.address ||
+            !allocation.airdrop?.address ||
             allocation.isClaimed ||
             isSuccess ||
             loading
@@ -148,8 +155,8 @@ export function RewardsTableRow({
           loadingText="Claiming"
           onClick={handleClaim}
         >
-          {!allocation.airdrop.address
-            ? "Available Soon"
+          {!allocation.airdrop?.address
+            ? `Available ${formatDate(powerUserAirdropConfig.CLAIM_DATE)}`
             : claimed || isSuccess
               ? "Claimed"
               : "Claim"}

@@ -1,19 +1,26 @@
 import {
   ANVIL_AIRDROP_ADDRESS,
-  TOTAL_POWER_USER_AIRDROP_SUPPLY,
+  DEV_USER_FID,
+  NeynarUser,
+  WAD_SCALER,
+  isProduction,
+  neynarLimiter,
   powerUserAirdropConfig,
-} from "@common/constants";
-import { AirdropType, prisma } from "../prisma";
-import { getMerkleRoot } from "@common/merkle";
+  tokenAllocations,
+} from "@farther/common";
+import { AllocationType, User, prisma } from "../prisma";
+import { getMerkleRoot } from "@farther/common";
 import { writeFile } from "../utils/helpers";
-import { ENVIRONMENT, defaultChainId } from "@common/env";
+import { ENVIRONMENT, CHAIN_ID } from "@farther/common";
+import { allocateTokens } from "../utils/allocateTokens";
+import { updateVerifiedAddresses } from "../utils/updateVerifiedAddresses";
 
 // Prior to calling it, the updatePowerUsers cron should be paused (which effectively becomes the snapshot time)
 // After calling it, deploy the airdrop contract with the merkle root, manually update Airdrop.address & Airdrop.root in the DB,
 // update the config with the next airdrop's values, and restart the cron.
 async function preparePowerDrop() {
   // Get all powers users who have not received an airdrop allocation but do have an address
-  const recipients = await prisma.user.findMany({
+  const usersWithAllocations = await prisma.user.findMany({
     where: {
       address: {
         not: null,
@@ -21,45 +28,94 @@ async function preparePowerDrop() {
       allocations: {
         // Each user only gets one power user airdrop
         none: {
-          airdrop: {
-            type: AirdropType.POWER_USER,
-          },
+          type: AllocationType.POWER_USER,
         },
       },
     },
   });
 
-  const totalAllocation =
-    BigInt(powerUserAirdropConfig.RATIO * TOTAL_POWER_USER_AIRDROP_SUPPLY) *
-    BigInt(10 ** 18);
+  // Update the verified addresses of these users in case they recently removed the one being stored
+  const recipients = await updateVerifiedAddresses(usersWithAllocations);
 
-  const amountPerRecipient = totalAllocation / BigInt(recipients.length);
+  // Sanity check
+  if (usersWithAllocations.length !== recipients.length) {
+    throw new Error("Mismatch between usersWithAllocations and recipients");
+  }
+
+  const totalAllocation =
+    powerUserAirdropConfig.RATIO * tokenAllocations.powerUserAirdrops;
+
+  // One half == equally distributed. Other half == bonus based on follower count.
+  const halfOfTotalWad = (BigInt(totalAllocation) * WAD_SCALER) / BigInt(2);
+
+  const basePerRecipientWad = halfOfTotalWad / BigInt(recipients.length);
+
+  const latestUserData: NeynarUser[] = await neynarLimiter.getUsersByFid(
+    recipients.map((r) => r.fid),
+  );
+
+  const followerCounts = latestUserData.map((u) => ({
+    fid: u.fid,
+    followers: u.follower_count,
+  }));
+
+  // Add test user (pretending this user is on Farcaster)
+  if (!isProduction) {
+    followerCounts.push({
+      fid: DEV_USER_FID,
+      followers: 3993,
+    });
+  }
+
+  if (followerCounts.length !== recipients.length) {
+    // Find the mismatches
+    const missingFids = recipients
+      .map((r) => r.fid)
+      .filter((fid) => !followerCounts.some((u) => u.fid === fid));
+
+    throw new Error(`Missing data for fids: ${missingFids.join(", ")}`);
+  }
+
+  const bonusAllocations = allocateTokens(
+    followerCounts.map((u) => ({ fid: u.fid, followers: u.followers })),
+    // Need to scale back down to decimal for this function
+    Number(halfOfTotalWad / WAD_SCALER),
+  );
+
+  const recipientsWithAllocations = recipients.map((r, i) => ({
+    ...r,
+    allocation:
+      basePerRecipientWad + BigInt(bonusAllocations[i].allocation) * WAD_SCALER,
+  }));
 
   // Throws away any remainder from the division
-  const trueTotalAllocation = amountPerRecipient * BigInt(recipients.length);
+  const trueTotalAllocation = recipientsWithAllocations.reduce(
+    (sum, r) => sum + r.allocation,
+    BigInt(0),
+  );
 
   // Create a merkle tree with the above recipients
-  const rawLeafData = recipients.map((r, i) => ({
+  const rawLeafData = recipientsWithAllocations.map((r, i) => ({
     index: i,
     address: r.address as `0x${string}`,
-    amount: amountPerRecipient.toString(), // Amount is not needed in the merkle proof
+    amount: r.allocation.toString(), // Amount is not needed in the merkle proof
   }));
 
   const root = getMerkleRoot(rawLeafData);
 
+  const airdropData = {
+    number: powerUserAirdropConfig.NUMBER,
+    chainId: CHAIN_ID,
+    amount: trueTotalAllocation.toString(),
+    root,
+    address: ENVIRONMENT === "development" ? ANVIL_AIRDROP_ADDRESS : undefined,
+  };
+
   // Create Airdrop
   const airdrop = await prisma.airdrop.upsert({
-    where: { number: powerUserAirdropConfig.NUMBER, chainId: defaultChainId },
-    create: {
-      number: powerUserAirdropConfig.NUMBER,
-      chainId: defaultChainId,
-      amount: trueTotalAllocation.toString(),
-      type: AirdropType.POWER_USER,
-      root,
-      address:
-        ENVIRONMENT === "development" ? ANVIL_AIRDROP_ADDRESS : undefined,
-    },
-    update: {},
+    where: { number: powerUserAirdropConfig.NUMBER, chainId: CHAIN_ID },
+    create: airdropData,
+    update: airdropData,
   });
 
   // Add allocations to db
@@ -70,17 +126,18 @@ async function preparePowerDrop() {
       },
     }),
     prisma.allocation.createMany({
-      data: recipients.map((recipient, i) => ({
-        amount: amountPerRecipient.toString(),
+      data: recipientsWithAllocations.map((recipient, i) => ({
+        amount: recipient.allocation.toString(),
         index: i,
         airdropId: airdrop.id,
         userId: recipient.id,
+        type: AllocationType.POWER_USER,
       })),
     }),
   ]);
 
   await writeFile(
-    `airdrops/${defaultChainId}/power-user-airdrop-${powerUserAirdropConfig.NUMBER}.json`,
+    `airdrops/${ENVIRONMENT}/power-user-airdrop-${powerUserAirdropConfig.NUMBER}.json`,
     JSON.stringify(
       {
         root,
@@ -91,11 +148,18 @@ async function preparePowerDrop() {
     ),
   );
 
+  const sortedAllocations = recipientsWithAllocations
+    .map((r) => Number(r.allocation / WAD_SCALER))
+    .sort((a, b) => a - b);
+
+  console.log(sortedAllocations);
+
   console.log({
     root,
     totalAllocation,
-    amountPerRecipient,
     trueTotalAllocation,
+    minUserAllocation: sortedAllocations[0],
+    maxUserAllocation: sortedAllocations[sortedAllocations.length - 1],
   });
 
   console.warn(

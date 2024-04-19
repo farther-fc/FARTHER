@@ -1,5 +1,4 @@
-import { networkNames } from "@common/constants";
-import { defaultChainId } from "@common/env";
+import { NETWORK } from "@farther/common";
 import * as Sentry from "@sentry/nextjs";
 import type { SeverityLevel } from "@sentry/nextjs";
 import { useLatestRef } from "hooks/useLatestRef";
@@ -53,7 +52,7 @@ export function useLogError({
       ) {
         toast({
           msg: REQUEST_REJECTED_TOAST_MESSAGE,
-          variant: "destructive",
+          variant: "error",
           duration: toastDuration,
         });
         return;
@@ -61,8 +60,8 @@ export function useLogError({
 
       if (error?.message?.includes("Unsupported chain id")) {
         toast({
-          msg: `Please connect your wallet to ${networkNames[defaultChainId]}`,
-          variant: "destructive",
+          msg: `Please connect your wallet to ${NETWORK}`,
+          variant: "error",
           duration: toastDuration,
         });
         return;
@@ -73,7 +72,7 @@ export function useLogError({
           msg:
             toastMsg ||
             "Something went wrong. Please try again or reach out in the Farther channel on Warpcast if you continue experiencing this problem",
-          variant: "destructive",
+          variant: "error",
           duration: toastDuration,
         });
       }

@@ -1,9 +1,8 @@
-import { AirdropInfo } from "@components/AirdropInfo";
-import { LiquidityInfo } from "@components/LiquidityInfo";
+import { allocationRatios } from "@farther/common/src/constants";
 import { ROUTES } from "@lib/constants";
+import Link from "next/link";
 import { useUser } from "@lib/context/UserContext";
 import Head from "next/head";
-import Link from "next/link";
 
 export default function Home() {
   const { account } = useUser();
@@ -15,17 +14,77 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="container">
-        <AirdropInfo />
-        <hr className="my-20" />
-        <LiquidityInfo />
-        {!account.isConnected && (
-          <p className={"mt-12"}>
-            If you would like to participate, connect your wallet and visit the{" "}
-            <Link href={ROUTES.liquidty.path}>liquidity</Link> page.
-          </p>
-        )}
-        <hr className="my-20" />
+      <main className="content">
+        <h2>Mission</h2>
+        <p>
+          Farther's mission is to accelerate the global adoption of Farcaster
+          and spread positive vibes.
+        </p>
+
+        <h2>Why</h2>
+        <ul>
+          <li>
+            Online social relationships should be as direct and portable as they
+            are in real life.
+          </li>
+          <li>
+            Online cultural norms and values should be as fluid and localizable
+            as they are offline.
+          </li>
+          <li>
+            Our time and attention should not be a product sold to advertisers
+            without our consent.
+          </li>
+        </ul>
+        <p>
+          Farcaster makes all of the above possible in a way that is more
+          credibly neutral and scalable than other decentralized social media
+          networks.
+        </p>
+
+        <h2>How</h2>
+        <p>
+          $FARTHER is an Ethereum token. It will be a foundation for incentive
+          mechanisms that encourage people to use Farcaster. These are some of
+          the ways it will be used:
+        </p>
+        <ul>
+          <li>Airdrops to power users spanning the next 2 years</li>
+          <li>Rewards for evangelizing on legacy social media platforms</li>
+          <li>Onchain liquidity rewards</li>
+          <li>Partnerships</li>
+          <li>
+            Grants for people building within the ecosystem:
+            <ul>
+              <li>Educational resources</li>
+              <li>Hackathon sponsorships</li>
+              <li>Open source R&D</li>
+            </ul>
+          </li>
+        </ul>
+
+        <h2>Tokenomics</h2>
+        <ul>
+          <li>
+            {allocationRatios.POWER_DROPS * 100}%{" "}
+            <Link href={ROUTES.airdrop.path}>airdrops to power users</Link>
+          </li>
+          <li>
+            {(allocationRatios.LIQUIDITY_REWARDS +
+              allocationRatios.LIQUIDITY_BACKSTOP) *
+              100}
+            %{" "}
+            <Link href={ROUTES.liquidty.path}>
+              liquidity pool & mining rewards
+            </Link>
+          </li>
+          <li>
+            {allocationRatios.EVANGELIST_REWARDS * 100}%{" "}
+            <Link href={ROUTES.evangelize.path}>evangelist rewards</Link>
+          </li>
+          <li>{allocationRatios.ECOSYSTEM_FUND * 100}% ecosystem fund</li>
+          <li>{allocationRatios.DEV_FUND * 100}% developer fund</li>
+        </ul>
       </main>
     </>
   );
