@@ -15,11 +15,6 @@ export function LiquidityInfo() {
           ETH-FARTHER (0.03%) pool on Base after the first airdrop. It will last
           for six months. Additional rewards programs will follow.
         </li>
-        <li className="mt-3">
-          An additional {allocationRatios.LIQUIDITY_BACKSTOP * 100}% of the
-          supply will be used to help bootstrap the pool and fund future
-          liquidity incentive programs.
-        </li>
       </ul>
     </div>
   );

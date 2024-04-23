@@ -54,6 +54,7 @@ const baseContractAddresses = {
     FARTHER: "0xTODO" as Address,
     WETH: "0x4200000000000000000000000000000000000006" as Address,
     UNISWAP_V3_STAKER: "0x42be4d6527829fefa1493e1fb9f3676d2425c3c1" as Address,
+    UNIV3_FACTORY: "0x33128a8fC17869897dcE68Ed026d694621f6FDfD" as Address,
     NFT_POSITION_MANAGER:
       "0x03a520b32c04bf3beef7beb72e919cf822ed34f1" as Address,
     UNIV3_FARTHER_ETH_30BPS_POOL: "0x" as Address,
@@ -62,6 +63,7 @@ const baseContractAddresses = {
     FARTHER: "0x65Fb1f9Cb54fF76eBCb40b7F9aa4297B49C3Cf1a" as Address,
     WETH: "0x4200000000000000000000000000000000000006" as Address,
     UNISWAP_V3_STAKER: "0x42be4d6527829fefa1493e1fb9f3676d2425c3c1" as Address,
+    UNIV3_FACTORY: "0x33128a8fC17869897dcE68Ed026d694621f6FDfD" as Address,
     NFT_POSITION_MANAGER:
       "0x03a520b32c04bf3beef7beb72e919cf822ed34f1" as Address,
     UNIV3_FARTHER_ETH_30BPS_POOL:
@@ -70,6 +72,7 @@ const baseContractAddresses = {
   development: {
     FARTHER: "0x" as Address,
     WETH: "0x" as Address,
+    UNIV3_FACTORY: "0x" as Address,
     UNISWAP_V3_STAKER: "0x" as Address,
     NFT_POSITION_MANAGER: "0x" as Address,
     UNIV3_FARTHER_ETH_30BPS_POOL: "0x" as Address,
