@@ -59,6 +59,20 @@ contract FartherToken_Test is Test {
         assertEq(fartherToken.balanceOf(owner), initialSupply);
         assertEq(fartherToken.totalSupply(), initialSupply);
     }
+
+    function test_mintToZeroAddress_reverts() external {
+        // Mint 100 tokens to the zero address.
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                FartherToken.MintToZeroAddressBlocked.selector
+            )
+        );
+        fartherToken.mint(address(0), 100);
+
+        // Balance does not update.
+        assertEq(fartherToken.balanceOf(address(0)), 0);
+        assertEq(fartherToken.totalSupply(), initialSupply);
+    }
     
 
     /// @dev Tests that the owner can successfully call `burn`.
@@ -206,5 +220,51 @@ contract FartherToken_Test is Test {
 
         // Owner is now the zero address.
         assertEq(fartherToken.owner(), address(0));
+    }
+
+    function test_getVotes() external {
+        address account = address(42069);
+        uint256 tokens = 370730799;
+
+        fartherToken.mint(account, tokens);
+
+        // Self delegate
+        vm.prank(account);
+        fartherToken.delegate(account);
+
+        assertEq(fartherToken.balanceOf(account), tokens);
+        assertEq(fartherToken.getVotes(account), tokens);
+    }
+
+    function test_getPastVotes() external {
+        address account = address(42069);
+        uint256 tokens = 370730799;
+        uint256 blockNum = block.number;
+
+        fartherToken.transfer(account, tokens);
+
+        // Self delegate
+        vm.prank(account);
+        fartherToken.delegate(account);
+
+        // Warp 100 blocks into the future
+        vm.roll(blockNum + 100);
+
+        // Check that past votes are accurate
+        assertEq(fartherToken.getPastVotes(account, blockNum), tokens);
+    }
+
+    function test_delegate() external {
+        address account1 = address(42069);
+        address account2 = address(42070);
+        uint256 tokens = 370730799;
+
+        fartherToken.mint(account1, tokens);
+
+        vm.prank(account1);
+        fartherToken.delegate(account2);
+
+        assertEq(fartherToken.getVotes(account2), tokens);
+        assertEq(fartherToken.delegates(account1), account2);
     }
 }
