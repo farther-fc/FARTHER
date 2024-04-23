@@ -23,7 +23,7 @@ export function NavMenu() {
       <DropdownMenuContent className="flex w-40 flex-col px-4 pt-4" align="end">
         {Object.entries(ROUTES)
           .filter(([id]) => id !== "rewards")
-          .map(([id, route]) => (
+          .map(([_id, route]) => (
             <Link href={route.path} legacyBehavior key={route.path}>
               <a onClick={closeMenu} className="mb-4 text-right">
                 {route.title}

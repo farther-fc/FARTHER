@@ -1,4 +1,3 @@
-import { YourFarcasterId } from "@components/YourFarcasterId";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { POINTS_EXPIRATION_MONTHS } from "@farther/common";
 import { POWER_BADGE_INFO_URL } from "@lib/constants";
@@ -13,7 +12,7 @@ export function EvangelistRules() {
       <ul>
         <li>
           The tweet must contain "Farcaster", and "FID
-          {user?.fid ?? <YourFarcasterId />}". Capitalization doesn't matter.
+          {user?.fid ?? "<Farcaster ID>"}". Capitalization doesn't matter.
         </li>
         <li>If you delete the tweet, your points become invalid.</li>
         <li>Rewards can only be requested once per user per week.</li>

@@ -38,9 +38,9 @@ export const BASE_TOKENS_PER_TWEET = 10_000;
 // IMPORTANT: UPDATE THESE VALUES RIGHT AFTER A NEW AIRDROP IS DEPLOYED!
 export const powerUserAirdropConfig = {
   NUMBER: 1,
-  // Airdrop 1: 10% of airdrop supply
-  // 23 subsequent airdrops: Each 3.913% of of airdrop supply
-  RATIO: 0.1,
+  // Airdrop 1: 12% of airdrop supply
+  // The rest is split evenly over 35 subsequent airdrops (3 years)
+  RATIO: 0.12,
   CLAIM_DATE: LAUNCH_DATE,
 } as const;
 
@@ -104,8 +104,8 @@ export const allIncentivePrograms = {
     1: {
       rewardToken: baseContractAddresses.staging.FARTHER,
       pool: baseContractAddresses.staging.UNIV3_FARTHER_ETH_30BPS_POOL,
-      startTime: 1712278771,
-      endTime: 1743814771,
+      startTime: 1713835426,
+      endTime: 1729387426,
       refundee: DEV_DEPLOYER_ADDRESS,
     },
   },
@@ -119,6 +119,8 @@ export const allIncentivePrograms = {
     },
   },
 } as const;
+
+export const IS_INCENTIVE_PROGRAM_ACTIVE = true;
 
 export const incentivePrograms = allIncentivePrograms[ENVIRONMENT];
 

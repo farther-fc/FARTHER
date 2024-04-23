@@ -1,11 +1,15 @@
-import { allocationRatios } from "@farther/common/src/constants";
+import {
+  TOTAL_TOKEN_SUPPLY,
+  allocationRatios,
+  contractAddresses,
+} from "@farther/common/src/constants";
 import { ROUTES } from "@lib/constants";
 import Link from "next/link";
-import { useUser } from "@lib/context/UserContext";
 import Head from "next/head";
+import numeral from "numeral";
+import { ExternalLink } from "@components/ui/ExternalLink";
 
 export default function Home() {
-  const { account } = useUser();
   return (
     <>
       <Head>
@@ -17,7 +21,8 @@ export default function Home() {
       <main className="content">
         <h2>Mission</h2>
         <p>
-          Farther's mission is to accelerate the global adoption of Farcaster
+          Farther's mission is to accelerate the global adoption of{" "}
+          <ExternalLink href="https://farcaster.xyz">Farcaster</ExternalLink>{" "}
           and spread positive vibes.
         </p>
 
@@ -44,13 +49,20 @@ export default function Home() {
 
         <h2>How</h2>
         <p>
-          $FARTHER is an Ethereum token and a foundation upon which incentive
-          mechanisms are built to encourage people to join Farcaster:
+          <ExternalLink
+            href={`https://basescan.org/token/${contractAddresses.FARTHER}`}
+          >
+            FARTHER
+          </ExternalLink>{" "}
+          is an Ethereum token intended to drive Farcaster growth. It will be
+          used to incentivize people to become active contributors, as well as
+          to reward developers building within the ecosystem.
         </p>
         <ul>
-          <li>Airdrops to power users spanning the next 2 years</li>
+          <li>Airdrops to power users spanning the next 3 years</li>
           <li>Rewards for evangelizing on legacy social media platforms</li>
           <li>Onchain liquidity rewards</li>
+          <li>Daily tip allocations</li>
           <li>Partnerships</li>
           <li>
             Grants for people building within the ecosystem:
@@ -63,6 +75,11 @@ export default function Home() {
         </ul>
 
         <h2>Tokenomics</h2>
+        <p>
+          The initial supply of FARTHER is{" "}
+          {numeral(TOTAL_TOKEN_SUPPLY).format("0,0")} tokens. It is allocated as
+          follows:
+        </p>
         <ul>
           <li>
             {allocationRatios.POWER_DROPS * 100}%{" "}
@@ -84,6 +101,17 @@ export default function Home() {
           <li>{allocationRatios.ECOSYSTEM_FUND * 100}% ecosystem fund</li>
           <li>{allocationRatios.DEV_FUND * 100}% developer fund</li>
         </ul>
+        <p>
+          In addition to the initial supply, the{" "}
+          <ExternalLink
+            href={`https://basescan.org/token/${contractAddresses.FARTHER}#code`}
+          >
+            Farther token contract
+          </ExternalLink>{" "}
+          is capable of minting up to 2% inflation per year to fund future
+          initiatives. There are currently no plans for this, and it can be
+          voided if the Farther community decides.
+        </p>
       </main>
     </>
   );

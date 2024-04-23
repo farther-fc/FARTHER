@@ -1,0 +1,3 @@
+{
+  "a901a14734d3e4a70273b0137639ca7dcbc4a7dbc8b04f16c03cf949e547cf42": "query FartherPositions($account: String!, $poolId: String!) {\n  positions(where: { account: $account, pool: $poolId }) {\n    id\n    tokenId\n    isStaked\n    account {\n      id\n      rewards {\n        amount\n        token {\n          id\n        }\n      }\n    }\n    pool {\n      id\n    }\n  }\n}"
+}

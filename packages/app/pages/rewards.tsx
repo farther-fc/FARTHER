@@ -1,4 +1,7 @@
+import { InfoContainer } from "@components/InfoContainer";
 import { RewardsTableRow } from "@components/RewardsTableRow";
+import { FartherChannelLink } from "@components/nav/FartherChannelLink";
+import { Button } from "@components/ui/Button";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import Spinner from "@components/ui/Spinner";
 import {
@@ -8,8 +11,8 @@ import {
   TableHeader,
   TableRow,
 } from "@components/ui/Table";
-import { FARTHER_CHANNEL_URL } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useLiquidityPositions } from "hooks/useLiquidityPositions";
 import React from "react";
 
@@ -17,17 +20,24 @@ export default function RewardsPage() {
   const { account, user, userIsLoading } = useUser();
   const { positions } = useLiquidityPositions();
 
+  const { openConnectModal } = useConnectModal();
   return (
-    <main className="content mt-16">
+    <main className="content">
       <h1>Rewards</h1>
       {userIsLoading ? (
         <Spinner variant="page" />
       ) : (
         <>
           <p>Your Farther token rewards</p>
-          <div className="mt-16">
+          <div className="mt-8">
             {!account.isConnected ? (
-              <>Please connect your wallet to check if you have any rewards.</>
+              <InfoContainer className="text-center">
+                Please{" "}
+                <Button variant="link" onClick={openConnectModal}>
+                  connect your wallet
+                </Button>{" "}
+                to check if you have any rewards.
+              </InfoContainer>
             ) : user?.allocations?.length ? (
               <Table>
                 <TableHeader>
@@ -44,14 +54,10 @@ export default function RewardsPage() {
                 </TableBody>
               </Table>
             ) : (
-              <>
-                You have no airdrop tokens to claim at this time. If you believe
-                this is an error, please reach out in the{" "}
-                <ExternalLink href={FARTHER_CHANNEL_URL}>
-                  Farther channel
-                </ExternalLink>
-                .
-              </>
+              <InfoContainer variant="muted">
+                No rewards founds. If you believe this is an error, please reach
+                out in the <FartherChannelLink />.
+              </InfoContainer>
             )}
           </div>
         </>

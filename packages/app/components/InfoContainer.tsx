@@ -7,14 +7,18 @@ export function InfoContainer({
   children,
 }: {
   children: React.ReactNode;
-  variant?: "muted";
+  variant?: "muted" | "warning";
   className?: string;
 }) {
   return (
     <p
       className={cn(
         `my-6 rounded-xl border p-8`,
-        variant === "muted" ? "text-muted" : "",
+        variant === "muted"
+          ? "text-muted"
+          : variant === "warning"
+            ? "border-red-900"
+            : "",
         className,
       )}
     >

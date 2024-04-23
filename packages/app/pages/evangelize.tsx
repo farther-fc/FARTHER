@@ -9,7 +9,8 @@ import { useUser } from "@lib/context/UserContext";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useToast } from "hooks/useToast";
 import { EvangelistRules } from "@components/EvangelistRules";
-import { YourFarcasterId } from "@components/YourFarcasterId";
+import { FartherChannelLink } from "@components/nav/FartherChannelLink";
+import { InfoContainer } from "@components/InfoContainer";
 
 export default function EvangelizePage() {
   const { openModal } = useModal();
@@ -55,18 +56,15 @@ export default function EvangelizePage() {
         followers of the evangelizing account. Currently, only X (Twitter) is
         supported but more will follow.
       </p>
-      <h2>Steps</h2>
       {isNotOnFarcaster && (
-        <div className="rounded border border-red-800 p-4">
+        <InfoContainer variant="muted">
           A Farcaster user associated with your connected address wasn't found.
           Please double check you have added it as a verified address in your
           Warpcast settings. If you believe this is an error, please reach out
-          for help in the{" "}
-          <ExternalLink href={FARTHER_CHANNEL_URL}>
-            Farther channel
-          </ExternalLink>
-        </div>
+          for help in the <FartherChannelLink />
+        </InfoContainer>
       )}
+      <h2>Steps</h2>
       <ol>
         {!account.address && (
           <li>
@@ -86,7 +84,7 @@ export default function EvangelizePage() {
             <li>"Farcaster"</li>
             <li>
               "FID
-              {user?.fid ?? <YourFarcasterId />}"{" "}
+              {user?.fid ?? "<Farcaster ID>"}"{" "}
               {user?.fid && "(This is your unique Farcaster ID)"}
             </li>
           </ul>

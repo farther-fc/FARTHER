@@ -1,14 +1,17 @@
 import { AirdropInfo } from "@components/AirdropInfo";
-import { FARTHER_CHANNEL_URL, ROUTES } from "@lib/constants";
+import { ROUTES } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import { formatDate, formatWad } from "@lib/utils";
 import Link from "next/link";
 import { powerUserAirdropConfig } from "@farther/common";
-import { ExternalLink } from "@components/ui/ExternalLink";
 import { InfoContainer } from "@components/InfoContainer";
+import { FartherChannelLink } from "@components/nav/FartherChannelLink";
+import { Button } from "@components/ui/Button";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
 
 export default function AirdropPage() {
   const { account, user } = useUser();
+  const { openConnectModal } = useConnectModal();
   const powerDrop = user?.allocations?.filter(
     (a) => a.type === "POWER_USER",
   )[0];
@@ -44,22 +47,20 @@ export default function AirdropPage() {
           </InfoContainer>
         ) : (
           !powerDrop && (
-            <>
+            <InfoContainer variant="muted">
               You are not currently eligible for an airdrop. If you believe this
-              is an error, please reach out in the{" "}
-              <ExternalLink href={FARTHER_CHANNEL_URL}>
-                Farther channel
-              </ExternalLink>
-            </>
+              is an error, please reach out in the <FartherChannelLink />.
+            </InfoContainer>
           )
         ))}
       <AirdropInfo />
       {!account.isConnected && (
-        <InfoContainer variant="muted">
-          <p className={"mt-12"}>
-            If you think you are eligible, connect your wallet and visit the{" "}
-            <Link href={ROUTES.rewards.path}>rewards</Link> page.
-          </p>
+        <InfoContainer className="text-center">
+          If you think you are eligible for an airdrop,{" "}
+          <Button variant="link" onClick={openConnectModal}>
+            connect your wallet
+          </Button>{" "}
+          and visit the <Link href={ROUTES.rewards.path}>rewards</Link> page.
         </InfoContainer>
       )}
     </main>

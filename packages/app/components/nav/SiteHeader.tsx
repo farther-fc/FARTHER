@@ -14,7 +14,7 @@ export function SiteHeader() {
     <header className="bg-background sticky top-0 z-40 w-full">
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center whitespace-pre md:text-xl">
-          F A R T H E R ↗
+          F A R T H E R ✨
         </Link>
         <div className="flex space-x-2">
           <ThemeToggle />

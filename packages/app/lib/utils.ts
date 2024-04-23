@@ -31,7 +31,7 @@ export const formatDate = (
   return new Intl.DateTimeFormat(language, options).format(new Date(date));
 };
 
-export const formatWad = (amount: string, formatSchema: string = "0,0.00") => {
+export const formatWad = (amount: string, formatSchema: string = "0,0") => {
   return numeral(formatEther(BigInt(amount))).format(formatSchema);
 };
 

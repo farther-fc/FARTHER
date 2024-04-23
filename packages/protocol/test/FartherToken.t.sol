@@ -59,6 +59,7 @@ contract FartherToken_Test is Test {
         assertEq(fartherToken.balanceOf(owner), initialSupply);
         assertEq(fartherToken.totalSupply(), initialSupply);
     }
+    
 
     /// @dev Tests that the owner can successfully call `burn`.
     function test_burn_succeeds() external {
@@ -141,6 +142,59 @@ contract FartherToken_Test is Test {
         // Balances have updated correctly.
         assertEq(fartherToken.balanceOf(rando), 50);
         assertEq(fartherToken.balanceOf(owner), initialSupply + 50);
+        assertEq(fartherToken.totalSupply(), initialSupply + 100);
+    }
+
+    function test_mintWhenMintCapExceeded_reverts() external {
+        address recipient = address(42069);
+
+        uint256 allowedInflation = ((fartherToken.totalSupply() * fartherToken.MINT_CAP()) / 100);
+
+        // Mint up to the cap - should succeed
+        fartherToken.mint(recipient, allowedInflation);
+
+        assertEq(fartherToken.balanceOf(recipient), allowedInflation);
+        assertEq(fartherToken.totalSupply(), initialSupply + allowedInflation);
+
+
+        uint256 unallowedInflation = ((fartherToken.totalSupply() * fartherToken.MINT_CAP()) / 100) + 1;
+
+        vm.warp(block.timestamp + fartherToken.MINIMUM_TIME_BETWEEN_MINTS());
+
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                FartherToken.MintCapExceeded.selector
+            )
+        );
+        fartherToken.mint(recipient, unallowedInflation);
+
+        // Balances have not updated.
+        assertEq(fartherToken.balanceOf(recipient), allowedInflation);
+        assertEq(fartherToken.totalSupply(), initialSupply + allowedInflation);
+    }
+
+    /// @dev Tests that no more minting can occur after `voidInflation` is called.
+    function test_voidInflation_succeeds() external {
+        // Mint 100 tokens.
+        fartherToken.mint(owner, 100);
+
+        fartherToken.voidInflation();
+
+        // Warp 100 years into the future
+        vm.warp(block.timestamp + fartherToken.MINIMUM_TIME_BETWEEN_MINTS() * 100);
+
+        // Minting is no longer allowed even if the minting date has passed.
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                FartherToken.MintingDateNotReached.selector
+            )
+        );
+
+        // Minting is no longer allowed.
+        fartherToken.mint(owner, 1);
+
+        // Balances have not updated.
+        assertEq(fartherToken.balanceOf(owner), initialSupply + 100);
         assertEq(fartherToken.totalSupply(), initialSupply + 100);
     }
 

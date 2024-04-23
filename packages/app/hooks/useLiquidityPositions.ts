@@ -19,7 +19,7 @@ import {
 } from "../.graphclient";
 import { useQuery } from "@tanstack/react-query";
 
-type Position = Pick<RawPosition, "id" | "tokenId" | "isStaked"> & {
+export type Position = Pick<RawPosition, "id" | "tokenId" | "isStaked"> & {
   account: Pick<Account, "id"> & {
     rewards: Array<
       Pick<Reward, "amount"> & {
@@ -28,13 +28,14 @@ type Position = Pick<RawPosition, "id" | "tokenId" | "isStaked"> & {
     >;
   };
   pool: Pick<Pool, "id">;
-  reward: bigint;
+  claimedRewards: bigint;
+  unclaimedRewards: bigint;
 };
 
 const sdk = getBuiltGraphSDK();
 
 export function useLiquidityPositions() {
-  const { account } = useUser();
+  const { account, refetchBalance } = useUser();
   const [positions, setPositions] = React.useState<Position[]>();
   const logError = useLogError();
   const { toast } = useToast();
@@ -52,14 +53,6 @@ export function useLiquidityPositions() {
     failureReason: unstakeFailureReason,
     isPending: unstakePending,
     isSuccess: unstakeSuccess,
-  } = useWriteContract();
-
-  const {
-    writeContractAsync: claimReward,
-    error: claimError,
-    failureReason: claimFailureReason,
-    isPending: claimPending,
-    isSuccess: claimSuccess,
   } = useWriteContract();
 
   const {
@@ -103,6 +96,10 @@ export function useLiquidityPositions() {
         ],
       });
 
+      toast({
+        msg: "Your position is now staked. You will accrue rewards while the price of Farther remains in your position's liquidity range.",
+      });
+
       await refetchPositions();
     } catch (error) {
       logError({ error });
@@ -132,44 +129,45 @@ export function useLiquidityPositions() {
         ],
       });
 
-      await refetchPositions();
-    } catch (error) {
-      logError({ error });
-    }
-  };
-
-  const handleClaim = async (amount: bigint) => {
-    if (!account.address) {
-      logError({ error: "No account address found", showGenericToast: true });
-      return;
-    }
-
-    try {
-      await claimReward({
-        abi: UniswapV3StakerAbi,
-        address: contractAddresses.UNISWAP_V3_STAKER,
-        functionName: "claimReward",
-        args: [contractAddresses.FARTHER, account.address, amount],
+      toast({
+        msg: "Your position is now unstaked and the rewards are in your wallet. Enjoy!",
       });
-
       await refetchPositions();
+      await refetchBalance();
     } catch (error) {
       logError({ error });
     }
   };
 
   React.useEffect(() => {
-    if (!stakeError && !stakeFailureReason) return;
+    if (
+      !stakeError &&
+      !stakeFailureReason &&
+      !unstakeError &&
+      !positionsFetchError &&
+      !unstakeFailureReason
+    )
+      return;
     logError({
       error: stakeError || stakeFailureReason,
       showGenericToast: true,
     });
-  }, [logError, stakeError, stakeFailureReason]);
+  }, [
+    logError,
+    stakeError,
+    stakeFailureReason,
+    unstakeError,
+    positionsFetchError,
+    unstakeFailureReason,
+  ]);
 
   React.useEffect(() => {
     if (!stakeSuccess) return;
 
-    toast({ msg: "Staking complete. Enjoy your rewards!" });
+    toast({
+      msg: "Staking complete. Rewards will now start accruing. You can claim them at any time without unstaking. When you do unstake, you will receive all accrued rewards.",
+      duration: 20000,
+    });
   }, [toast, stakeSuccess]);
 
   React.useEffect(() => {
@@ -179,14 +177,38 @@ export function useLiquidityPositions() {
 
     (async () => {
       for (const position of positionsData.positions) {
-        const reward = await readContract(viemClient, {
-          abi: UniswapV3StakerAbi,
-          address: contractAddresses.UNISWAP_V3_STAKER,
-          functionName: "rewards",
-          args: [contractAddresses.FARTHER, account.address as Address],
-        });
+        let claimedRewards = BigInt(0);
+        let unclaimedRewards = BigInt(0);
 
-        positions.push({ ...position, reward });
+        try {
+          claimedRewards = await readContract(viemClient, {
+            abi: UniswapV3StakerAbi,
+            address: contractAddresses.UNISWAP_V3_STAKER,
+            functionName: "rewards",
+            args: [contractAddresses.FARTHER, account.address as Address],
+          });
+        } catch (error) {}
+
+        try {
+          [unclaimedRewards] = await readContract(viemClient, {
+            abi: UniswapV3StakerAbi,
+            address: contractAddresses.UNISWAP_V3_STAKER,
+            functionName: "getRewardInfo",
+            args: [
+              {
+                rewardToken: contractAddresses.FARTHER,
+                pool: contractAddresses.UNIV3_FARTHER_ETH_30BPS_POOL,
+                startTime: BigInt(incentivePrograms[1].startTime),
+                endTime: BigInt(incentivePrograms[1].endTime),
+                refundee: incentivePrograms[1].refundee,
+              },
+              position.tokenId,
+            ],
+          });
+          // The above will throw an error if the position is not staked
+        } catch (error) {}
+
+        positions.push({ ...position, claimedRewards, unclaimedRewards });
       }
       setPositions(positions);
     })();
@@ -201,10 +223,8 @@ export function useLiquidityPositions() {
   return {
     positionsLoading,
     positions,
-    handleClaim,
     handleStake,
     handleUnstake,
-    claimPending,
     stakePending,
     unstakePending,
     stakeSuccess,
