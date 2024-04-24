@@ -37,11 +37,10 @@ function ResourcesPage() {
       <p>
         One of the goals of Farther is to become a primary resource for learning
         about Farcaster, particularly onboarding guides or general information
-        to help propsective users understand what it's all about. These are some
-        of the best resources available right now, but more are very welcome.
-        Please reach out in the <FartherChannelLink /> if you have any
-        suggestions or have an idea for something that may be a good candidate
-        for grant funding.
+        to help propsective users understand what it's all about. Please reach
+        out in the <FartherChannelLink /> if you have any suggestions or have an
+        idea for an educational resource that may be a good candidate for grant
+        funding.
       </p>
       <h2>Client apps</h2>
       <p>todo</p>

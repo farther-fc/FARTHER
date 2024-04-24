@@ -61,9 +61,9 @@ export default function Home() {
           >
             FARTHER
           </ExternalLink>{" "}
-          is an Ethereum token intended to drive Farcaster growth. It is being
-          used to incentivize people to become active contributors, as well as
-          to reward developers building within the ecosystem.
+          is an Ethereum token for driving Farcaster user growth. It is being
+          used to incentivize active users and builders within the ecosystem in
+          the following ways:
         </p>
         <ul>
           <li>

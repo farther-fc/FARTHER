@@ -11,7 +11,6 @@ import { extractTweetId } from "@lib/utils";
 import { useLogError } from "hooks/useLogError";
 import { useToast } from "hooks/useToast";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -24,7 +23,6 @@ type FormData = z.infer<typeof FormSchema>;
 
 export function SubmitTweet() {
   const { closeModal } = useModal();
-  const router = useRouter();
   const { toast } = useToast();
   const { user, refetchUser } = useUser();
   const logError = useLogError();
@@ -59,7 +57,6 @@ export function SubmitTweet() {
       } else {
         closeModal();
         refetchUser();
-        router.push(ROUTES.rewards.path);
         toast({
           msg: (
             <>
@@ -124,6 +121,7 @@ export function SubmitTweet() {
             className="mt-4"
             type="submit"
             disabled={!user}
+            loading={validateTweetMutation.isPending}
           >
             Submit
           </Button>

@@ -12,7 +12,9 @@ import {
   TableHeader,
   TableRow,
 } from "@components/ui/Table";
+import { AllocationType } from "@farther/backend";
 import { useUser } from "@lib/context/UserContext";
+import { removeFalsyValues } from "@lib/utils";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useLiquidityPositions } from "hooks/useLiquidityPositions";
 import React from "react";
@@ -20,6 +22,44 @@ import React from "react";
 export default function RewardsPage() {
   const { account, user, userIsLoading } = useUser();
   const { positions } = useLiquidityPositions();
+
+  const powerDrop = user?.allocations?.find(
+    (a) => a.type === AllocationType.POWER_USER,
+  );
+  const evangelistRows = user?.allocations?.filter(
+    (a) => a.type === AllocationType.EVANGELIST,
+  );
+  const evangelistPendingRows =
+    evangelistRows?.filter((a) => !a.airdrop?.address) || [];
+  const evangelistPendingRow = evangelistPendingRows.length
+    ? evangelistPendingRows.reduce((acc, a, i) => {
+        if (!acc) return a;
+        return {
+          ...acc,
+          amount: (BigInt(acc.amount) + BigInt(a.amount)).toString(),
+          aggregate: i + 1,
+        };
+      })
+    : null;
+
+  const evangelistClaimedRows =
+    evangelistRows?.filter((a) => a.isClaimed) || [];
+  const evangelistClaimedRow = evangelistClaimedRows.length
+    ? evangelistClaimedRows.reduce((acc, a, i) => {
+        if (!acc) return a;
+        return {
+          ...acc,
+          amount: (BigInt(acc.amount) + BigInt(a.amount)).toString(),
+          aggregate: i + 1,
+        };
+      })
+    : null;
+
+  const rows = removeFalsyValues([
+    powerDrop,
+    evangelistPendingRow,
+    evangelistClaimedRow,
+  ]);
 
   const { openConnectModal } = useConnectModal();
   return (
@@ -41,17 +81,18 @@ export default function RewardsPage() {
               </InfoCard>
             ) : !user ? (
               <NoUserFoundCard />
-            ) : user?.allocations?.length ? (
+            ) : rows.length ? (
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Type</TableHead>
-                    <TableHead className="text-right">Amount</TableHead>
+                    <TableHead className="pl-0">Type</TableHead>
+                    <TableHead className="pr-1 text-right">Amount</TableHead>
+                    <TableHead className="text-left"></TableHead>
                     <TableHead className="text-right"></TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {user.allocations?.map((a) => (
+                  {rows.map((a) => (
                     <RewardsTableRow key={a.id} allocation={a} />
                   ))}
                 </TableBody>

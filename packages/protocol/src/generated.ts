@@ -542,7 +542,7 @@ export const fartherTokenAbi = [
     type: 'function',
     inputs: [
       { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint96', type: 'uint96' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
     ],
     name: 'mint',
     outputs: [],
@@ -669,6 +669,13 @@ export const fartherTokenAbi = [
     stateMutability: 'nonpayable',
   },
   {
+    type: 'function',
+    inputs: [],
+    name: 'voidInflation',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
     type: 'event',
     anonymous: false,
     inputs: [
@@ -744,6 +751,7 @@ export const fartherTokenAbi = [
     name: 'DelegateVotesChanged',
   },
   { type: 'event', anonymous: false, inputs: [], name: 'EIP712DomainChanged' },
+  { type: 'event', anonymous: false, inputs: [], name: 'InflationVoided' },
   {
     type: 'event',
     anonymous: false,
@@ -1577,6 +1585,15 @@ export const useWriteFartherTokenUnpause = /*#__PURE__*/ createUseWriteContract(
 )
 
 /**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link fartherTokenAbi}__ and `functionName` set to `"voidInflation"`
+ */
+export const useWriteFartherTokenVoidInflation =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: fartherTokenAbi,
+    functionName: 'voidInflation',
+  })
+
+/**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link fartherTokenAbi}__
  */
 export const useSimulateFartherToken = /*#__PURE__*/ createUseSimulateContract({
@@ -1701,6 +1718,15 @@ export const useSimulateFartherTokenUnpause =
   })
 
 /**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link fartherTokenAbi}__ and `functionName` set to `"voidInflation"`
+ */
+export const useSimulateFartherTokenVoidInflation =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: fartherTokenAbi,
+    functionName: 'voidInflation',
+  })
+
+/**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link fartherTokenAbi}__
  */
 export const useWatchFartherTokenEvent =
@@ -1740,6 +1766,15 @@ export const useWatchFartherTokenEip712DomainChangedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: fartherTokenAbi,
     eventName: 'EIP712DomainChanged',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link fartherTokenAbi}__ and `eventName` set to `"InflationVoided"`
+ */
+export const useWatchFartherTokenInflationVoidedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: fartherTokenAbi,
+    eventName: 'InflationVoided',
   })
 
 /**

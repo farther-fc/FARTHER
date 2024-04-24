@@ -43,8 +43,8 @@ export default function AirdropPage() {
       )}
       {account.isConnected &&
         (powerDrop && powerDrop?.isClaimed ? (
-          <InfoCard variant="muted">
-            You have already claimed your airdrop.
+          <InfoCard variant="muted" className="text-center">
+            You have already claimed your airdrop. ✨
           </InfoCard>
         ) : user && !powerDrop ? (
           <InfoCard variant="muted">

@@ -46,7 +46,7 @@ export default function EvangelizePage() {
 
   const isNotOnFarcaster = account.address && !user && !userIsLoading;
 
-  const DEFAULT_TWEET_LINK = `https://twitter.com/intent/tweet?text=Farcaster%20is%20pushing%20social%20media%20$farther%E2%86%97%0A%0AFID${user?.fid}`;
+  const DEFAULT_TWEET_LINK = `https://twitter.com/intent/tweet?text=Farcaster%20is%20pushing%20social%20media%20farther%E2%9C%A8%0A%0AFID${user?.fid}`;
 
   return (
     <div className="content">
@@ -61,7 +61,7 @@ export default function EvangelizePage() {
       <p>
         The current base reward is{" "}
         {numeral(BASE_TOKENS_PER_TWEET).format("0,0")} tokens per valid tweet.
-        This may change from month to month based on current participation. An
+        This amount may change based on the participation each month. An
         additional bonus is applied based on your Twitter follower count. A tool
         for calculating your exact reward is coming soon.
       </p>

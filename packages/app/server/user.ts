@@ -10,6 +10,8 @@ export const getUser = publicProcedure
   .query(async (opts) => {
     const address = opts.input.address.toLowerCase();
 
+    let fid: number;
+
     try {
       // Get user data from neynar
       const response = await neynarClient.fetchBulkUsersByEthereumAddress([
@@ -25,56 +27,14 @@ export const getUser = publicProcedure
         return null;
       }
 
-      const fid = user.fid ?? DEV_USER_FID;
+      fid = user.fid;
 
-      const dbUser = await prisma.user.findFirst({
-        where: {
-          fid,
-        },
-        select: {
-          allocations: {
-            select: {
-              id: true,
-              amount: true,
-              isClaimed: true,
-              index: true,
-              type: true,
-              airdrop: {
-                select: {
-                  id: true,
-                  address: true,
-                  number: true,
-                  startTime: true,
-                  endTime: true,
-                },
-              },
-            },
-          },
-        },
-      });
+      const dbUser = await getDbUserByFid(fid);
 
       if (!dbUser) {
         await prisma.user.create({
           data: { address, fid },
         });
-      }
-
-      if (!isProduction && address === DEV_USER_ADDRESS.toLowerCase()) {
-        const allocations = dbUser?.allocations.find(
-          (a) => a.type === AllocationType.POWER_USER,
-        )
-          ? dbUser?.allocations
-          : [...(dbUser?.allocations || []), pendingAllocation];
-
-        return {
-          fid: DEV_USER_FID,
-          username: "testuser",
-          displayName: "Test User",
-          pfpUrl:
-            "https://wrpcd.net/cdn-cgi/image/fit=contain,f=auto,w=168/https%3A%2F%2Fi.imgur.com%2F3hrPNK8.jpg",
-          profileBio: "Test bio",
-          allocations,
-        };
       }
 
       const allocations = dbUser?.allocations || [];
@@ -98,9 +58,58 @@ export const getUser = publicProcedure
       };
     } catch (error: any) {
       if (error.response.statusText === "Not Found") {
+        // Return test user if in dev/staging
+        if (!isProduction && address === DEV_USER_ADDRESS.toLowerCase()) {
+          const dbUser = await getDbUserByFid(DEV_USER_FID);
+
+          const allocations = dbUser?.allocations.find(
+            (a) => a.type === AllocationType.POWER_USER,
+          )
+            ? dbUser?.allocations
+            : [...(dbUser?.allocations || []), pendingAllocation];
+
+          return {
+            fid: DEV_USER_FID,
+            username: "testuser",
+            displayName: "Test User",
+            pfpUrl:
+              "https://wrpcd.net/cdn-cgi/image/fit=contain,f=auto,w=168/https%3A%2F%2Fi.imgur.com%2F3hrPNK8.jpg",
+            profileBio: "Test bio",
+            allocations,
+          };
+        }
+
         return null;
       }
       // TODO: Log to Sentry?
       console.log(error);
     }
   });
+
+function getDbUserByFid(fid: number) {
+  return prisma.user.findFirst({
+    where: {
+      fid,
+    },
+    select: {
+      allocations: {
+        select: {
+          id: true,
+          amount: true,
+          isClaimed: true,
+          index: true,
+          type: true,
+          airdrop: {
+            select: {
+              id: true,
+              address: true,
+              number: true,
+              startTime: true,
+              endTime: true,
+            },
+          },
+        },
+      },
+    },
+  });
+}

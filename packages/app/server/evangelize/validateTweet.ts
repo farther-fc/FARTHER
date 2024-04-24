@@ -20,17 +20,45 @@ export const validateTweet = publicProcedure
   .mutation(async (opts) => {
     const { tweetId, fid } = opts.input;
 
-    let isValid: boolean;
-    let reason: string | undefined;
+    // let isValid: boolean;
+    // let reason: string | undefined;
     let tweetAuthorId: string;
     let tweetText: string;
 
-    // Check for matches in database
+    // Check for exact match in database
     const existingTweet = await prisma.tweet.findFirst({
       where: {
         id: tweetId,
       },
     });
+
+    // Get user's tweets from the past week
+    const pastTweets = await prisma.tweet.findMany({
+      where: {
+        allocation: {
+          user: {
+            fid,
+          },
+        },
+        createdAt: {
+          gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+        },
+      },
+    });
+
+    // Sort by oldest
+    pastTweets.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+
+    if (pastTweets.length >= 1) {
+      return {
+        isValid: false,
+        reason: `You've already submitted a tweet in the past week. Please try a week after your latest submission. ❤️`,
+      };
+    }
+
+    if (existingTweet) {
+      return { isValid: false, reason: "That tweet was already submitted 😉" };
+    }
 
     try {
       const response = await fetch(
@@ -69,7 +97,7 @@ export const validateTweet = publicProcedure
       });
     }
 
-    ({ isValid, reason } = verifyTweetText({ tweetText, fid: user.fid }));
+    const { isValid, reason } = verifyTweetText({ tweetText, fid: user.fid });
 
     if (isValid) {
       let followerCount;
@@ -93,7 +121,7 @@ export const validateTweet = publicProcedure
           amount: allocation.toString(),
           tweet: {
             create: {
-              tweetId,
+              id: tweetId,
             },
           },
           user: {

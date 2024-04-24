@@ -85,3 +85,22 @@ export function extractTweetId(tweetUrl: string) {
 
   return match ? match[1] : null; // Returns the tweet ID if matched, otherwise null
 }
+
+export function removeFalsyValues<T>(list: readonly T[]): NonNullable<T>[] {
+  return list.filter(
+    (item): item is NonNullable<T> => item != null,
+  ) as NonNullable<T>[];
+}
+
+export function startOfNextMonth() {
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth();
+  const nextMonth = new Date(currentYear, currentMonth + 1);
+
+  // Set the next month date to the first day at 00:00:00
+  nextMonth.setDate(1);
+  nextMonth.setHours(0, 0, 0, 0);
+
+  return nextMonth;
+}

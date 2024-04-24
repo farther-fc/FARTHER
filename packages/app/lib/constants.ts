@@ -1,4 +1,4 @@
-import { AllocationType } from "@farther/backend";
+import { Allocation, AllocationType } from "@farther/backend";
 
 export const ROUTES = {
   rewards: {
@@ -14,7 +14,7 @@ export const ROUTES = {
     path: "/evangelize",
   },
   liquidty: {
-    title: "Liqudity",
+    title: "Liquidity",
     path: "/liquidity",
   },
   tips: {
@@ -45,4 +45,4 @@ export const pendingAllocation = {
   amount: "0",
   airdrop: null,
   index: null,
-} as const;
+};

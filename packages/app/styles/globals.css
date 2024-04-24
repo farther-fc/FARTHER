@@ -160,7 +160,7 @@ ul > li:before {
   }
 
   a {
-    @apply dark:text-link dark:hover:text-link-hover transition-colors text-link-light hover:text-link-light-hover;
+    @apply dark:text-link dark:hover:text-link-hover transition-colors text-link-light hover:text-link-light-hover hover:underline;
   }
 
   hr {
@@ -184,6 +184,10 @@ ul > li:before {
     content: "\2026"; /* ascii code for the ellipsis character */
     width: 0px;
     margin-right: 1.25em;
+  }
+
+  .toast-styles a {
+    @apply text-white underline hover:text-white;
   }
 
   @keyframes ellipsis {

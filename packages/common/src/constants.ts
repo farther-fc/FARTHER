@@ -33,7 +33,7 @@ export const tokenAllocations = {
 };
 
 // Adjust this from month to month as needed
-export const BASE_TOKENS_PER_TWEET = 10_000;
+export const BASE_TOKENS_PER_TWEET = 25_000;
 
 // IMPORTANT: UPDATE THESE VALUES RIGHT AFTER A NEW AIRDROP IS DEPLOYED!
 export const powerUserAirdropConfig = {

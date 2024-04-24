@@ -1,7 +1,7 @@
 import React from "react";
 import { TableCell, TableRow } from "@components/ui/Table";
 import { PENDING_ALLOCATION_ID, claimNames } from "@lib/constants";
-import { formatDate, formatWad } from "@lib/utils";
+import { formatDate, formatWad, startOfNextMonth } from "@lib/utils";
 import { Button } from "@components/ui/Button";
 import { useLogError } from "hooks/useLogError";
 import { GetUserOuput } from "@lib/types/apiTypes";
@@ -22,6 +22,7 @@ import {
 import { CHAIN_ID } from "@farther/common";
 import { useToast } from "hooks/useToast";
 import { Tooltip } from "@components/ui/Tooltip";
+import { Info } from "lucide-react";
 
 type ElementType<T> = T extends (infer U)[] ? U : T;
 
@@ -29,7 +30,9 @@ export function RewardsTableRow({
   allocation,
 }: {
   allocation: NonNullable<
-    ElementType<NonNullable<GetUserOuput>["allocations"]>
+    ElementType<NonNullable<GetUserOuput>["allocations"]> & {
+      aggregate?: number;
+    }
   >;
 }) {
   const { account, refetchBalance } = useUser();
@@ -148,10 +151,10 @@ export function RewardsTableRow({
 
   return (
     <TableRow>
-      <TableCell className="font-medium">
+      <TableCell className="pl-0 font-medium">
         {claimNames[allocation.type]}
       </TableCell>
-      <TableCell className="text-right">
+      <TableCell className="pr-1 text-right ">
         {allocation.id === PENDING_ALLOCATION_ID ? (
           <Tooltip
             content={
@@ -161,13 +164,18 @@ export function RewardsTableRow({
               </div>
             }
           >
-            <span className="cursor-default rounded border p-2">TBD</span>
+            <span className="cursor-default rounded border p-1">
+              TBD <Info className="inline w-3" />
+            </span>
           </Tooltip>
         ) : (
           formatWad(allocation.amount)
         )}
       </TableCell>
-      <TableCell className="text-right">
+      <TableCell className="pl-0 text-left">
+        {allocation.aggregate ? <>({allocation.aggregate} posts)</> : null}
+      </TableCell>
+      <TableCell className="pr-0 text-right">
         <Button
           variant="secondary"
           disabled={
@@ -182,7 +190,7 @@ export function RewardsTableRow({
           onClick={handleClaim}
         >
           {!allocation.airdrop?.address
-            ? `Available ${formatDate(powerUserAirdropConfig.CLAIM_DATE)}`
+            ? `Available ${formatDate(startOfNextMonth())}`
             : claimed || isSuccess
               ? "Claimed"
               : claimHasStarted
