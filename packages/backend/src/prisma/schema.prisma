@@ -44,14 +44,11 @@ enum AllocationType {
 }
 
 model Tweet {
-  id           String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id           String     @id
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   allocationId String     @unique @db.Uuid
   allocation   Allocation @relation(fields: [allocationId], references: [id], onDelete: Cascade)
-  tweetId      String     @unique
-
-  @@unique([allocationId, tweetId])
 }
 
 // Airdrop

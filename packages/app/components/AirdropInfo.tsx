@@ -22,7 +22,6 @@ export function AirdropInfo() {
       <li className="mt-3">
         Each Farcaster account is only eligible for one airdrop.
       </li>
-      <li>Eligibility is updated every hour.</li>
       <li>
         If you become eligible but lose your power badge before the airdrop, you
         will need to re-earn it to become eligible for the next airdrop.

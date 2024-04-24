@@ -20,8 +20,17 @@ export const validateTweet = publicProcedure
   .mutation(async (opts) => {
     const { tweetId, fid } = opts.input;
 
+    let isValid: boolean;
+    let reason: string | undefined;
     let tweetAuthorId: string;
     let tweetText: string;
+
+    // Check for matches in database
+    const existingTweet = await prisma.tweet.findFirst({
+      where: {
+        id: tweetId,
+      },
+    });
 
     try {
       const response = await fetch(
@@ -60,7 +69,7 @@ export const validateTweet = publicProcedure
       });
     }
 
-    const { isValid, reason } = verifyTweetText({ tweetText, fid: user.fid });
+    ({ isValid, reason } = verifyTweetText({ tweetText, fid: user.fid }));
 
     if (isValid) {
       let followerCount;

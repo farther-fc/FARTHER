@@ -1,6 +1,6 @@
 import { EvangelistRules } from "@components/EvangelistRules";
 import { Button } from "@components/ui/Button";
-import { Form, FormField, FormItem } from "@components/ui/Form";
+import { Form, FormField, FormItem, FormMessage } from "@components/ui/Form";
 import { Input } from "@components/ui/Input";
 import { Label } from "@components/ui/Label";
 import { ROUTES } from "@lib/constants";
@@ -119,9 +119,19 @@ export function SubmitTweet() {
               </FormItem>
             )}
           />
-          <Button loadingText="Validating" className="mt-4" type="submit">
+          <Button
+            loadingText="Validating"
+            className="mt-4"
+            type="submit"
+            disabled={!user}
+          >
             Submit
           </Button>
+          {!user && (
+            <FormMessage className="text-destructive">
+              No Farcaser user found associated with your address
+            </FormMessage>
+          )}
         </form>
       </Form>
     </div>

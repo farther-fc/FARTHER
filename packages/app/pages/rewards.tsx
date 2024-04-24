@@ -1,4 +1,5 @@
-import { InfoContainer } from "@components/InfoContainer";
+import { InfoCard } from "@components/InfoCard";
+import { NoUserFoundCard } from "@components/NoUserFoundCard";
 import { RewardsTableRow } from "@components/RewardsTableRow";
 import { FartherChannelLink } from "@components/nav/FartherChannelLink";
 import { Button } from "@components/ui/Button";
@@ -31,13 +32,15 @@ export default function RewardsPage() {
           <p>Your Farther token rewards</p>
           <div className="mt-8">
             {!account.isConnected ? (
-              <InfoContainer className="text-center">
+              <InfoCard className="text-center">
                 Please{" "}
                 <Button variant="link" onClick={openConnectModal}>
                   connect your wallet
                 </Button>{" "}
                 to check if you have any rewards.
-              </InfoContainer>
+              </InfoCard>
+            ) : !user ? (
+              <NoUserFoundCard />
             ) : user?.allocations?.length ? (
               <Table>
                 <TableHeader>
@@ -54,10 +57,10 @@ export default function RewardsPage() {
                 </TableBody>
               </Table>
             ) : (
-              <InfoContainer variant="muted">
-                No rewards founds. If you believe this is an error, please reach
+              <InfoCard variant="muted">
+                No rewards found. If you believe this is an error, please reach
                 out in the <FartherChannelLink />.
-              </InfoContainer>
+              </InfoCard>
             )}
           </div>
         </>

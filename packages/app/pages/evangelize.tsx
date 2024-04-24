@@ -1,6 +1,7 @@
 import { SubmitTweet } from "@components/SubmitTweet";
 import { Button } from "@components/ui/Button";
-import { FARTHER_CHANNEL_URL, ROUTES } from "@lib/constants";
+import numeral from "numeral";
+import { ROUTES } from "@lib/constants";
 import { useModal } from "@lib/context/ModalContext";
 import Link from "next/link";
 import React from "react";
@@ -9,8 +10,8 @@ import { useUser } from "@lib/context/UserContext";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useToast } from "hooks/useToast";
 import { EvangelistRules } from "@components/EvangelistRules";
-import { FartherChannelLink } from "@components/nav/FartherChannelLink";
-import { InfoContainer } from "@components/InfoContainer";
+import { BASE_TOKENS_PER_TWEET } from "@farther/common";
+import { NoUserFoundCard } from "@components/NoUserFoundCard";
 
 export default function EvangelizePage() {
   const { openModal } = useModal();
@@ -50,20 +51,20 @@ export default function EvangelizePage() {
   return (
     <div className="content">
       <h1>Evangelize</h1>
+      {isNotOnFarcaster && <NoUserFoundCard />}
       <p>
         Farcaster users can earn Farther tokens by evangelizing Farcaster on
         legacy social media platforms. The rewards scale based on the number of
-        followers of the evangelizing account. Currently, only X (Twitter) is
+        followers of the evangelizing account. Currently only X (Twitter) is
         supported but more will follow.
       </p>
-      {isNotOnFarcaster && (
-        <InfoContainer variant="muted">
-          A Farcaster user associated with your connected address wasn't found.
-          Please double check you have added it as a verified address in your
-          Warpcast settings. If you believe this is an error, please reach out
-          for help in the <FartherChannelLink />
-        </InfoContainer>
-      )}
+      <p>
+        The current base reward is{" "}
+        {numeral(BASE_TOKENS_PER_TWEET).format("0,0")} tokens per valid tweet.
+        This may change from month to month based on current participation. An
+        additional bonus is applied based on your Twitter follower count. A tool
+        for calculating your exact reward is coming soon.
+      </p>
       <h2>Steps</h2>
       <ol>
         {!account.address && (
@@ -97,14 +98,14 @@ export default function EvangelizePage() {
           .
         </li>
         <li>
-          If you meet all the rules below, your reward points will become
+          If you meet all the conditions below, your reward points will become
           redeemable as Farther tokens on the{" "}
           <Link href={ROUTES.rewards.path}>rewards page</Link> at the end of the
           month.
         </li>
       </ol>
 
-      <h2>Rules</h2>
+      <h2>Conditions</h2>
       <EvangelistRules />
     </div>
   );

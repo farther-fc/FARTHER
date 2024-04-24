@@ -21,6 +21,10 @@ export const ROUTES = {
     title: "Tips",
     path: "/tips",
   },
+  resources: {
+    title: "Resources",
+    path: "/resources",
+  },
 };
 
 export const FARTHER_CHANNEL_URL = "https://warpcast.com/~/channel/farther";

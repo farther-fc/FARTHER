@@ -7,8 +7,7 @@ import { formatWad } from "@lib/utils";
 import { NETWORK } from "@farther/common";
 
 export function LiquidityTableRow({ position }: { position: Position }) {
-  const { handleStake, handleUnstake, stakePending, unstakePending } =
-    useLiquidityPositions();
+  const { handleStake, handleUnstake, txPending } = useLiquidityPositions();
 
   return (
     <TableRow key={position.id}>
@@ -22,19 +21,17 @@ export function LiquidityTableRow({ position }: { position: Position }) {
       <TableCell className="text-right">
         {formatWad(position.unclaimedRewards.toString())}
       </TableCell>
-      <TableCell className="text-right">
-        {formatWad(position.claimedRewards.toString())}
-      </TableCell>
-      <TableCell className="text-right">
+      <TableCell className="pr-0 text-right">
         <Button
+          className="w-28"
           onClick={() =>
             position.isStaked
               ? handleUnstake(position.tokenId)
               : handleStake(position.tokenId)
           }
           loadingText={position.isStaked ? "Unstaking" : "Staking"}
-          loading={stakePending || unstakePending}
-          disabled={stakePending || unstakePending}
+          loading={txPending}
+          disabled={txPending}
         >
           {position.isStaked ? "Unstake" : "Stake"}
         </Button>

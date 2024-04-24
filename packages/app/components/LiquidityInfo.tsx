@@ -26,14 +26,6 @@ export function LiquidityInfo() {
           </p>
           <ul>
             <li>
-              This rewards program is using the official{" "}
-              <ExternalLink href="https://github.com/Uniswap/v3-staker">
-                Uniswap V3 Staker contract
-              </ExternalLink>
-              . There is no public audit available, however it was developed by
-              Uniswap. Use at your own risk.
-            </li>
-            <li>
               If this is your first time providing liquidity in a decentralized
               exchange, please know you are exposing yourself to the risk of{" "}
               <ExternalLink href="https://support.uniswap.org/hc/en-us/articles/20904453751693-What-is-Impermanent-Loss">
@@ -42,10 +34,18 @@ export function LiquidityInfo() {
               .
             </li>
             <li>
+              This rewards program is using the official{" "}
+              <ExternalLink href="https://github.com/Uniswap/v3-staker">
+                Uniswap V3 Staker contract
+              </ExternalLink>
+              . There is no public audit available, however it was developed by
+              Uniswap. Use at your own risk.
+            </li>
+
+            <li>
               You only accrue Farther rewards while the price is within the
               range of liquidity of your position.
             </li>
-            <li>While staking, your position won't be listed on Uniswap.</li>
           </ul>
         </li>
         {!account.address && (
@@ -65,8 +65,8 @@ export function LiquidityInfo() {
           .
         </li>
         <li>
-          Return to this page. After a moment, your position should be
-          displayed.
+          Return to this page. After a moment, refresh the page and your
+          position should be displayed.
         </li>
         <li>
           Click <em>Stake</em> to initiate a transaction that locks your LP

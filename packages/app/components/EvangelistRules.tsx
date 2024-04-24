@@ -21,12 +21,17 @@ export function EvangelistRules() {
           $FARTHER tokens unless the user has a{" "}
           <ExternalLink href={POWER_BADGE_INFO_URL}>
             Warpcast Power Badge
-          </ExternalLink>{" "}
+          </ExternalLink>
           .
         </li>
         <li>
           Points expire if they don't become claimable within{" "}
           {POINTS_EXPIRATION_MONTHS} months.
+        </li>
+        <li>
+          The Farther team reserves the right to reject submissions from
+          accounts attempting to game the system by using Twitter accounts with
+          many fake followers.
         </li>
       </ul>
     </div>

@@ -4,10 +4,11 @@ import { useUser } from "@lib/context/UserContext";
 import { formatDate, formatWad } from "@lib/utils";
 import Link from "next/link";
 import { powerUserAirdropConfig } from "@farther/common";
-import { InfoContainer } from "@components/InfoContainer";
+import { InfoCard } from "@components/InfoCard";
 import { FartherChannelLink } from "@components/nav/FartherChannelLink";
 import { Button } from "@components/ui/Button";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
+import { NoUserFoundCard } from "@components/NoUserFoundCard";
 
 export default function AirdropPage() {
   const { account, user } = useUser();
@@ -20,7 +21,7 @@ export default function AirdropPage() {
     <main className="content">
       <h1>Airdrops</h1>
       {powerDrop && !powerDrop.isClaimed && (
-        <InfoContainer>
+        <InfoCard>
           <h3 className="mt-0">Congratulations 🎉</h3>
           {powerDrop.airdrop?.address ? (
             <p>
@@ -38,30 +39,30 @@ export default function AirdropPage() {
               your rewards.
             </p>
           )}
-        </InfoContainer>
+        </InfoCard>
       )}
       {account.isConnected &&
-        (powerDrop?.isClaimed ? (
-          <InfoContainer variant="muted">
+        (powerDrop && powerDrop?.isClaimed ? (
+          <InfoCard variant="muted">
             You have already claimed your airdrop.
-          </InfoContainer>
+          </InfoCard>
+        ) : user && !powerDrop ? (
+          <InfoCard variant="muted">
+            You are not currently eligible for an airdrop. If you believe this
+            is an error, please reach out in the <FartherChannelLink />.
+          </InfoCard>
         ) : (
-          !powerDrop && (
-            <InfoContainer variant="muted">
-              You are not currently eligible for an airdrop. If you believe this
-              is an error, please reach out in the <FartherChannelLink />.
-            </InfoContainer>
-          )
+          <NoUserFoundCard />
         ))}
       <AirdropInfo />
       {!account.isConnected && (
-        <InfoContainer className="text-center">
+        <InfoCard className="text-center">
           If you think you are eligible for an airdrop,{" "}
           <Button variant="link" onClick={openConnectModal}>
             connect your wallet
           </Button>{" "}
           and visit the <Link href={ROUTES.rewards.path}>rewards</Link> page.
-        </InfoContainer>
+        </InfoCard>
       )}
     </main>
   );

@@ -96,9 +96,11 @@ export const getUser = publicProcedure
         profileBio: user.profile.bio.text,
         allocations,
       };
-    } catch (error) {
-      // TODO: Log to Sentry
+    } catch (error: any) {
+      if (error.response.statusText === "Not Found") {
+        return null;
+      }
+      // TODO: Log to Sentry?
       console.log(error);
-      return null;
     }
   });
