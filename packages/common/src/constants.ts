@@ -41,7 +41,6 @@ export const powerUserAirdropConfig = {
   // Airdrop 1: 12% of airdrop supply
   // The rest is split evenly over 35 subsequent airdrops (3 years)
   RATIO: 0.12,
-  CLAIM_DATE: LAUNCH_DATE,
 } as const;
 
 // IMPORTANT: UPDATE THESE VALUES RIGHT AFTER A NEW AIRDROP IS DEPLOYED!

@@ -1,4 +1,4 @@
-import { Allocation, AllocationType } from "@farther/backend";
+import { AllocationType } from "@farther/backend";
 
 export const ROUTES = {
   rewards: {

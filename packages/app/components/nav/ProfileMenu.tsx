@@ -10,11 +10,9 @@ import { Avatar } from "@components/ui/Avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { useDisconnect } from "wagmi";
 import { useMediaQuery } from "@lib/context/MediaQueryContext";
-import { ROUTES } from "@lib/constants";
 import { useRouter } from "next/router";
 
 export function ProfileMenu() {
-  const router = useRouter();
   const { isTablet } = useMediaQuery();
   const { disconnect } = useDisconnect();
   const { user, account, balance } = useUser();
@@ -24,8 +22,11 @@ export function ProfileMenu() {
   }
 
   const handleDisconnect = () => {
-    disconnect();
     closeMenu();
+    // Delayed disconnect, see: https://github.com/wevm/wagmi/issues/69#issuecomment-1858845261
+    setTimeout(() => {
+      disconnect();
+    }, 100);
   };
 
   const profileHandle = user?.displayName || shortenHash(account.address);
@@ -49,13 +50,7 @@ export function ProfileMenu() {
             {formatWad(balance ? balance.toString() : "0")}{" "}
           </span>
         </div>
-        <Button
-          className="my-2"
-          variant="outline"
-          onClick={() => router.push(ROUTES.rewards.path)}
-        >
-          Rewards
-        </Button>
+        <hr className="my-1" />
         <Button
           variant="ghost"
           className="w-auto p-0"

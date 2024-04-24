@@ -18,26 +18,63 @@ export const getMerkleProof = publicProcedure
       });
     }
 
-    const { address, type } = opts.input;
+    const { id } = opts.input;
 
     try {
       const airdrop = await prisma.airdrop.findFirst({
         where: {
           allocations: {
             some: {
-              type,
-              user: {
-                address: address.toLowerCase(),
-              },
+              id,
             },
           },
+        },
+        select: {
+          id: true,
+          amount: true,
+          allocations: {
+            select: {
+              index: true,
+              address: true,
+              amount: true,
+            },
+          },
+          root: true,
         },
       });
 
       if (!airdrop) {
         throw new TRPCError({
           code: "NOT_FOUND",
-          message: `Airdrop not found for address ${address.toLowerCase()}`,
+          message: `Airdrop not found for allocation id ${id}`,
+        });
+      }
+
+      const currentRecipient = await prisma.user.findFirst({
+        where: {
+          allocations: {
+            some: {
+              id,
+            },
+          },
+        },
+        select: {
+          fid: true,
+          allocations: true,
+        },
+      });
+
+      if (!currentRecipient) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: `User not found for allocation id ${id}`,
+        });
+      }
+
+      if (!currentRecipient.allocations[0]) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: `Airdrop allocation not found for allocation ID ${id}`,
         });
       }
 
@@ -52,20 +89,9 @@ export const getMerkleProof = publicProcedure
         },
         select: {
           allocations: true,
-          address: true,
+          fid: true,
         },
       });
-
-      const currentRecipient = recipients.find(
-        (r) => r.address === address.toLowerCase(),
-      );
-
-      if (!currentRecipient) {
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: `Airdrop allocation not found for address ${address}`,
-        });
-      }
 
       const allocationSum = recipients.reduce(
         (acc, r) => acc + BigInt(r.allocations[0].amount),
@@ -85,16 +111,17 @@ export const getMerkleProof = publicProcedure
       const unhashedLeaves = recipients.map((r) => {
         if (
           typeof r.allocations[0].index !== "number" ||
-          !r.address ||
+          !r.allocations[0].address ||
           !r.allocations[0].amount
-        )
+        ) {
           throw new TRPCError({
             code: "INTERNAL_SERVER_ERROR",
-            message: `Invalid recipient data. index: ${r.allocations[0].index}, address: ${r.address}, amount: ${r.allocations[0].amount}`,
+            message: `Invalid recipient data. index: ${r.allocations[0].index}, address: ${r.allocations[0].address}, amount: ${r.allocations[0].amount}`,
           });
+        }
         return {
           index: r.allocations[0].index,
-          address: r.address as `0x${string}`,
+          address: r.allocations[0].address as `0x${string}`,
           amount: r.allocations[0].amount,
         };
       });
@@ -116,7 +143,7 @@ export const getMerkleProof = publicProcedure
       const proof = getProof({
         unhashedLeaves,
         index,
-        address,
+        address: currentRecipient.allocations[0].address as `0x${string}`,
         amount: currentRecipient.allocations[0].amount,
       });
 
@@ -127,7 +154,7 @@ export const getMerkleProof = publicProcedure
           root,
           leaf: {
             index,
-            address,
+            address: currentRecipient.allocations[0].address as `0x${string}`,
             amount: currentRecipient.allocations[0].amount,
           },
         })

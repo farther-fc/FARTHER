@@ -33,7 +33,7 @@ export const getUser = publicProcedure
 
       if (!dbUser) {
         await prisma.user.create({
-          data: { address, fid },
+          data: { fid },
         });
       }
 

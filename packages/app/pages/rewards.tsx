@@ -3,7 +3,6 @@ import { NoUserFoundCard } from "@components/NoUserFoundCard";
 import { RewardsTableRow } from "@components/RewardsTableRow";
 import { FartherChannelLink } from "@components/nav/FartherChannelLink";
 import { Button } from "@components/ui/Button";
-import { ExternalLink } from "@components/ui/ExternalLink";
 import Spinner from "@components/ui/Spinner";
 import {
   Table,
@@ -16,12 +15,10 @@ import { AllocationType } from "@farther/backend";
 import { useUser } from "@lib/context/UserContext";
 import { removeFalsyValues } from "@lib/utils";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import { useLiquidityPositions } from "hooks/useLiquidityPositions";
 import React from "react";
 
 export default function RewardsPage() {
   const { account, user, userIsLoading } = useUser();
-  const { positions } = useLiquidityPositions();
 
   const powerDrop = user?.allocations?.find(
     (a) => a.type === AllocationType.POWER_USER,

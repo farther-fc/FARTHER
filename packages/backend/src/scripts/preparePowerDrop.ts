@@ -27,14 +27,15 @@ async function preparePowerDrop() {
     warpcastResponse.result.fids,
   );
 
-  // 2. Upsert the ones who have a power badge & verified address
+  // 2. Filter the ones who have a power badge & verified address
   const data = latestUserData
     .filter((u) => !!u.power_badge && !!u.verified_addresses.eth_addresses[0])
     .map((u) => ({
       fid: u.fid,
-      address: u.verified_addresses.eth_addresses[0],
+      address: u.verified_addresses.eth_addresses[0].toLowerCase(),
     }));
 
+  // 3. Upsert users in db
   await prisma.$transaction([
     prisma.user.deleteMany({
       where: {
@@ -44,7 +45,8 @@ async function preparePowerDrop() {
       },
     }),
     prisma.user.createMany({
-      data,
+      // Only need fid
+      data: data.map((u) => ({ fid: u.fid })),
     }),
   ]);
 
@@ -60,6 +62,10 @@ async function preparePowerDrop() {
           type: AllocationType.POWER_USER,
         },
       },
+    },
+    select: {
+      id: true,
+      fid: true,
     },
   });
 
@@ -95,23 +101,50 @@ async function preparePowerDrop() {
     Number(halfOfTotalWad / WAD_SCALER),
   );
 
-  const recipientsWithAllocations = recipients.map((r, i) => ({
-    ...r,
-    allocation:
-      basePerRecipientWad + BigInt(bonusAllocations[i].allocation) * WAD_SCALER,
-  }));
+  const recipientsWithAllocations = recipients.map((r, i) => {
+    const address = latestUserData.find((u) => u.fid === r.fid)
+      ?.verified_addresses.eth_addresses[0];
+    return {
+      ...r,
+      amount:
+        basePerRecipientWad +
+        BigInt(bonusAllocations[i].allocation) * WAD_SCALER,
+      address: address ? address.toLowerCase() : undefined,
+    };
+  });
+
+  const recipientsWithoutAddress = recipientsWithAllocations.filter(
+    (r) => !r.address,
+  );
+  if (recipientsWithoutAddress.length > 0) {
+    await writeFile(
+      `airdrops/${ENVIRONMENT}/${AllocationType.POWER_USER}-${powerUserAirdropConfig.NUMBER}-null-addresses.json`,
+      JSON.stringify(
+        recipientsWithoutAddress.map((r) => ({
+          fid: r.fid,
+          allocation: r.amount.toString(),
+        })),
+        null,
+        2,
+      ),
+    );
+  }
+
+  const recipientsWithAddress = recipientsWithAllocations.filter(
+    (r) => r.address,
+  );
 
   // Throws away any remainder from the division
-  const trueTotalAllocation = recipientsWithAllocations.reduce(
-    (sum, r) => sum + r.allocation,
+  const allocationSum = recipientsWithAddress.reduce(
+    (sum, r) => sum + r.amount,
     BigInt(0),
   );
 
   // Create a merkle tree with the above recipients
-  const rawLeafData = recipientsWithAllocations.map((r, i) => ({
+  const rawLeafData = recipientsWithAddress.map((r, i) => ({
     index: i,
-    address: r.address as `0x${string}`,
-    amount: r.allocation.toString(), // Amount is not needed in the merkle proof
+    address: r.address.toLowerCase() as `0x${string}`,
+    amount: r.amount.toString(), // Amount is not needed in the merkle proof
   }));
 
   const root = getMerkleRoot(rawLeafData);
@@ -119,9 +152,9 @@ async function preparePowerDrop() {
   const airdropData = {
     number: powerUserAirdropConfig.NUMBER,
     chainId: CHAIN_ID,
-    amount: trueTotalAllocation.toString(),
+    amount: allocationSum.toString(),
     root,
-    address: ENVIRONMENT === "development" ? ANVIL_AIRDROP_ADDRESS : undefined,
+    address: undefined,
   };
 
   // Upsert Airdrop
@@ -139,21 +172,23 @@ async function preparePowerDrop() {
       },
     }),
     prisma.allocation.createMany({
-      data: recipientsWithAllocations.map((r, i) => ({
-        amount: r.allocation.toString(),
+      data: recipientsWithAddress.map((r, i) => ({
+        amount: r.amount.toString(),
         index: i,
         airdropId: airdrop.id,
         userId: r.id,
         type: AllocationType.POWER_USER,
+        address: r.address.toLowerCase(),
       })),
     }),
   ]);
 
   await writeFile(
-    `airdrops/${ENVIRONMENT}/power-user-airdrop-${powerUserAirdropConfig.NUMBER}.json`,
+    `airdrops/${ENVIRONMENT}/${AllocationType.POWER_USER}-${powerUserAirdropConfig.NUMBER}.json`,
     JSON.stringify(
       {
         root,
+        amount: allocationSum.toString(),
         rawLeafData,
       },
       null,
@@ -162,15 +197,14 @@ async function preparePowerDrop() {
   );
 
   const sortedAllocations = recipientsWithAllocations
-    .map((r) => Number(r.allocation / WAD_SCALER))
+    .map((r) => Number(r.amount / WAD_SCALER))
     .sort((a, b) => a - b);
 
   console.log(sortedAllocations);
 
   console.log({
     root,
-    totalAllocation,
-    trueTotalAllocation,
+    amount: allocationSum,
     minUserAllocation: sortedAllocations[0],
     maxUserAllocation: sortedAllocations[sortedAllocations.length - 1],
   });

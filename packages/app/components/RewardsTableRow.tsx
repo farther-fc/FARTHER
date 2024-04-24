@@ -7,12 +7,8 @@ import { useLogError } from "hooks/useLogError";
 import { GetUserOuput } from "@lib/types/apiTypes";
 import { useUser } from "@lib/context/UserContext";
 import { trpcClient } from "@lib/trpcClient";
-import { AllocationType } from "@farther/backend";
 import { Address } from "viem";
-import {
-  FartherAirdrop__factory,
-  powerUserAirdropConfig,
-} from "@farther/common";
+import { FartherAirdrop__factory } from "@farther/common";
 import {
   useSwitchChain,
   useWriteContract,
@@ -35,7 +31,7 @@ export function RewardsTableRow({
     }
   >;
 }) {
-  const { account, refetchBalance } = useUser();
+  const { user, account, refetchBalance } = useUser();
   const logError = useLogError();
   const { mutate: setAllocationClaimed } =
     trpcClient.setAllocationClaimed.useMutation();
@@ -65,14 +61,10 @@ export function RewardsTableRow({
 
   const { data: proof } = trpcClient.getMerkleProof.useQuery(
     {
-      address: account.address as Address,
-      type: AllocationType.POWER_USER,
+      id: allocation.id,
     },
     {
-      enabled:
-        !!account.address &&
-        allocation.id !== PENDING_ALLOCATION_ID &&
-        !allocation.isClaimed,
+      enabled: allocation.id !== PENDING_ALLOCATION_ID && !allocation.isClaimed,
     },
   );
 
@@ -104,6 +96,14 @@ export function RewardsTableRow({
         return;
       }
     }
+
+    // console.log({
+    //   address: allocation.airdrop.address,
+    //   index: allocation.index,
+    //   account: account.address,
+    //   amount: allocation.amount,
+    //   proof,
+    // });
 
     writeContract({
       abi: FartherAirdrop__factory.abi,

@@ -1,7 +1,7 @@
 import { AirdropInfo } from "@components/AirdropInfo";
 import { ROUTES } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
-import { formatDate, formatWad } from "@lib/utils";
+import { formatDate, formatWad, startOfNextMonth } from "@lib/utils";
 import Link from "next/link";
 import { powerUserAirdropConfig } from "@farther/common";
 import { InfoCard } from "@components/InfoCard";
@@ -11,7 +11,7 @@ import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { NoUserFoundCard } from "@components/NoUserFoundCard";
 
 export default function AirdropPage() {
-  const { account, user } = useUser();
+  const { account, user, userIsLoading } = useUser();
   const { openConnectModal } = useConnectModal();
   const powerDrop = user?.allocations?.filter(
     (a) => a.type === "POWER_USER",
@@ -21,7 +21,7 @@ export default function AirdropPage() {
     <main className="content">
       <h1>Airdrops</h1>
       {powerDrop && !powerDrop.isClaimed && (
-        <InfoCard>
+        <InfoCard className="text-center">
           <h3 className="mt-0">Congratulations 🎉</h3>
           {powerDrop.airdrop?.address ? (
             <p>
@@ -31,12 +31,10 @@ export default function AirdropPage() {
             </p>
           ) : (
             <p>
-              You are eligible for tokens in the next airdrop! <br />
+              You are eligible for $FARTHER tokens in the next airdrop! <br />
               Check the <Link href={ROUTES.rewards.path}>
                 rewards page
-              </Link>{" "}
-              after {formatDate(powerUserAirdropConfig.CLAIM_DATE)} to claim
-              your rewards.
+              </Link> on {formatDate(startOfNextMonth())} to claim your rewards.
             </p>
           )}
         </InfoCard>
@@ -52,7 +50,7 @@ export default function AirdropPage() {
             is an error, please reach out in the <FartherChannelLink />.
           </InfoCard>
         ) : (
-          <NoUserFoundCard />
+          !user && !userIsLoading && <NoUserFoundCard />
         ))}
       <AirdropInfo />
       {!account.isConnected && (

@@ -68,8 +68,6 @@ export function SubmitTweet() {
           ),
         });
       }
-
-      // console.log({ response });
     } catch (error) {
       logError({ error, capture: true, showGenericToast: true });
     }
