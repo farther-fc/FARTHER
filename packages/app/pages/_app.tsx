@@ -25,6 +25,14 @@ import { Container } from "@components/ui/Container";
 const queryClient = new QueryClient();
 
 const App = ({ Component, pageProps }: AppProps) => {
+  const [pw, setPw] = React.useState<string>("");
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      setPw(localStorage.get("pw"));
+    }
+  }, [setPw]);
+
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
@@ -37,7 +45,7 @@ const App = ({ Component, pageProps }: AppProps) => {
                 defaultTheme="system"
                 enableSystem
               >
-                {isProduction && localStorage.get("pw") !== "letmein" ? (
+                {isProduction && pw !== "letmein" ? (
                   <ComingSoon>
                     <h2>Coming Soon</h2>
                   </ComingSoon>
