@@ -40,7 +40,7 @@ export default function LiquidityPage() {
             <>
               <h2 className="flex items-end justify-between ">
                 <div className="!leading-tight">Positions</div>{" "}
-                <div className="!text-lg !leading-normal">
+                <div className="text-link rounded-lg border px-4 py-2 !text-lg !leading-normal">
                   Claimed: {formatWad(claimedRewards.toString())}
                 </div>
               </h2>

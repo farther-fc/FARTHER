@@ -42,13 +42,6 @@ function ResourcesPage() {
         idea for an educational resource that may be a good candidate for grant
         funding.
       </p>
-      <h2>Apps</h2>
-      <p>
-        <ExternalLink href="https://github.com/a16z/awesome-farcaster/blob/main/README.md">
-          Awesome Farcaster
-        </ExternalLink>{" "}
-        is the most extensive list of Farcaster apps.
-      </p>
       <h2>Media</h2>
       <ul className="ml-0 list-none">
         {media.map((item) => (
@@ -58,6 +51,13 @@ function ResourcesPage() {
           </li>
         ))}
       </ul>
+      <h2>Apps</h2>
+      <p>
+        <ExternalLink href="https://github.com/a16z/awesome-farcaster/blob/main/README.md">
+          Awesome Farcaster
+        </ExternalLink>{" "}
+        is the most extensive list of Farcaster apps and developer resources.
+      </p>
     </main>
   );
 }

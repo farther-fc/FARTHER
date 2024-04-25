@@ -1,14 +1,14 @@
 import React from "react";
 import { TableCell, TableRow } from "@components/ui/Table";
 import { PENDING_ALLOCATION_ID, claimNames } from "@lib/constants";
-import { formatAirdropTime, formatWad, startOfNextMonth } from "@lib/utils";
+import { formatAirdropTime, formatWad } from "@lib/utils";
 import { Button } from "@components/ui/Button";
 import { useLogError } from "hooks/useLogError";
 import { GetUserOuput } from "@lib/types/apiTypes";
 import { useUser } from "@lib/context/UserContext";
 import { trpcClient } from "@lib/trpcClient";
 import { Address } from "viem";
-import { FartherAirdrop__factory } from "@farther/common";
+import { FartherAirdrop__factory, startOfNextMonth } from "@farther/common";
 import {
   useSwitchChain,
   useWriteContract,

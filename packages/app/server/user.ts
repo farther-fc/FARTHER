@@ -4,6 +4,7 @@ import { apiSchemas } from "@lib/types/apiSchemas";
 import { isProduction, neynarClient } from "@farther/common";
 import { DEV_USER_ADDRESS, DEV_USER_FID } from "@farther/common";
 import { pendingAllocation } from "@lib/constants";
+import { TRPCError } from "@trpc/server";
 
 export const getUser = publicProcedure
   .input(apiSchemas.getUser.input)
@@ -49,8 +50,11 @@ export const getUser = publicProcedure
         allocations,
       };
     } catch (error: any) {
-      // TODO: Log to Sentry?
-      console.log(error);
+      if (error.response && error.response.statusText === "Not Found") {
+        console.warn("User not found in Neynar", address);
+      } else {
+        throw error;
+      }
     }
   });
 

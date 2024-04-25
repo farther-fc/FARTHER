@@ -39,11 +39,15 @@ export const tokenAllocations = {
 // Adjust this from month to month as needed
 export const BASE_TOKENS_PER_TWEET = 25_000;
 
+export const ONE_YEAR_IN_MS = 31_536_000_000;
+export const NEXT_AIRDROP_START_TIME = new Date("2024-05-01T00:00:00Z");
+export const NEXT_AIRDROP_END_TIME = new Date(
+  NEXT_AIRDROP_START_TIME.getTime() + ONE_YEAR_IN_MS,
+);
+
 // IMPORTANT: UPDATE THESE VALUES RIGHT AFTER A NEW AIRDROP IS DEPLOYED!
 export const powerUserAirdropConfig = {
   NUMBER: 1,
-  START_TIME: new Date("2024-05-01T00:00:00Z"),
-  END_TIME: new Date("2026-05-01T00:00:00Z"),
   // Airdrop 1: 12% of airdrop supply
   // The rest is split evenly over 35 subsequent airdrops (3 years)
   RATIO: 0.12,
@@ -51,8 +55,6 @@ export const powerUserAirdropConfig = {
 
 // IMPORTANT: UPDATE THESE VALUES RIGHT AFTER A NEW AIRDROP IS DEPLOYED!
 export const evangelistAirdropConfig = {
-  START_TIME: new Date("2024-05-01T00:00:00Z"),
-  END_TIME: new Date("2026-05-01T00:00:00Z"),
   NUMBER: 1,
 } as const;
 

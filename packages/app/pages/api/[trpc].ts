@@ -1,4 +1,5 @@
 import * as trpcNext from "@trpc/server/adapters/next";
+import * as Sentry from "@sentry/nextjs";
 import { nodeHTTPFormDataContentTypeHandler } from "@trpc/server/adapters/node-http/content-type/form-data";
 import { nodeHTTPJSONContentTypeHandler } from "@trpc/server/adapters/node-http/content-type/json";
 import { createContext, router } from "server/trpc";
@@ -24,12 +25,22 @@ export default trpcNext.createNextApiHandler({
     nodeHTTPFormDataContentTypeHandler(),
     nodeHTTPJSONContentTypeHandler(),
   ],
-  onError({ error, type, path, input, ctx, req }) {
-    // TODO: set up sentry
+  onError({ error, path, input, ctx, req }) {
     console.error("ERROR", {
-      type,
+      error,
       path,
       message: error.message || error.cause?.message,
+    });
+    Sentry.captureException(error, {
+      captureContext: {
+        tags: {
+          input: JSON.stringify(input),
+          path,
+          method: req.method,
+          url: req.url,
+          headers: req.headers.toString(),
+        },
+      },
     });
   },
 });
