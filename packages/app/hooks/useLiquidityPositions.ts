@@ -72,12 +72,6 @@ export function useLiquidityPositions() {
     _positionsLoading ||
     (positionsData?.positions.length && !positions?.length);
 
-  try {
-    throw new Error("test error from useLiquidityPositions");
-  } catch (e) {
-    logError({ error: e });
-  }
-
   const handleStake = async (tokenId: string) => {
     if (!account.address) {
       logError({ error: "No account address found", showGenericToast: true });

@@ -14,10 +14,6 @@ export const getUser = publicProcedure
     let fid: number;
 
     try {
-      throw new TRPCError({
-        code: "BAD_REQUEST",
-        message: "test error from getUser",
-      });
       const user = await getUserFromNeynar(address);
 
       if (!user) {

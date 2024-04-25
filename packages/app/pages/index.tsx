@@ -46,8 +46,8 @@ export default function Home() {
         <p>
           Centralized social networks aren't capable of fulfilling those
           requirements. Many new decentralized social protocols are striving for
-          these goals, but Farcaster stands out as having the greatest potential
-          to deliver them in a way that is both credibly neutral and scalable.
+          these goals, but Farcaster stands out as deliverying them in a way
+          that is both credibly neutral and scalable.
         </p>
         <p className="text-muted">
           Visit the <Link href={ROUTES.resources.path}>resources page</Link> to
