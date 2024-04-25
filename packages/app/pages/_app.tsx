@@ -37,8 +37,10 @@ const App = ({ Component, pageProps }: AppProps) => {
                 defaultTheme="system"
                 enableSystem
               >
-                {isProduction ? (
-                  <ComingSoon />
+                {isProduction && localStorage.get("pw") !== "letmein" ? (
+                  <ComingSoon>
+                    <h2>Coming Soon</h2>
+                  </ComingSoon>
                 ) : (
                   <ModalProvider>
                     <Toaster />

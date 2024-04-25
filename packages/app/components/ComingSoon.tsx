@@ -1,13 +1,9 @@
-import { FartherChannelLink } from "@components/nav/FartherChannelLink";
 import React from "react";
 
-function ComingSoon() {
+function ComingSoon({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-[calc(100vh-300px)] items-center justify-center text-center">
-      <div>
-        <h2>Tips coming soon!</h2>
-        <br /> Watch the <FartherChannelLink /> for updates.
-      </div>
+      <div>{children}</div>
     </div>
   );
 }
