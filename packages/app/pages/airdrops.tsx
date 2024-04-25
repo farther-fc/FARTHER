@@ -1,13 +1,14 @@
 import { AirdropInfo } from "@components/AirdropInfo";
 import { ROUTES } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
-import { formatDate, formatWad, startOfNextMonth } from "@lib/utils";
+import { formatDate, formatWad } from "@lib/utils";
 import Link from "next/link";
 import { InfoCard } from "@components/InfoCard";
 import { FartherChannelLink } from "@components/nav/FartherChannelLink";
 import { Button } from "@components/ui/Button";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { NoUserFoundCard } from "@components/NoUserFoundCard";
+import { startOfNextMonth } from "@farther/common";
 
 export default function AirdropPage() {
   const { account, user, userIsLoading } = useUser();

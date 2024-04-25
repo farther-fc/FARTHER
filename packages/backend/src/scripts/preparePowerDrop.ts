@@ -9,6 +9,8 @@ import {
   neynarLimiter,
   powerUserAirdropConfig,
   tokenAllocations,
+  NEXT_AIRDROP_START_TIME,
+  NEXT_AIRDROP_END_TIME,
 } from "@farther/common";
 import { AllocationType, prisma } from "../prisma";
 import { getMerkleRoot } from "@farther/common";
@@ -146,8 +148,8 @@ async function preparePowerDrop() {
     amount: allocationSum.toString(),
     root,
     address: undefined,
-    startTime: powerUserAirdropConfig.START_TIME,
-    endTime: powerUserAirdropConfig.END_TIME,
+    startTime: NEXT_AIRDROP_START_TIME,
+    endTime: NEXT_AIRDROP_END_TIME,
   };
 
   // Upsert Airdrop

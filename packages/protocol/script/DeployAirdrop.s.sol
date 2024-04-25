@@ -17,7 +17,7 @@ contract DeployAirdrop is Script {
     address OWNER = 0x85EcbFCc3a8a9049E531Cd0fEeBa3Dedf5789e60;
 
     uint START_TIME = 1714003200;
-    uint DURATION = 730 days;
+    uint DURATION = 365 days;
 
     function run() public {
         vm.startBroadcast();

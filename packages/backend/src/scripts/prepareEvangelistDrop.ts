@@ -8,6 +8,8 @@ import {
   GIGAMESH_FID,
   GIGAMESH_ADDRESS,
   NETWORK,
+  NEXT_AIRDROP_START_TIME,
+  NEXT_AIRDROP_END_TIME,
 } from "@farther/common";
 import { AllocationType, prisma } from "../prisma";
 import { getMerkleRoot } from "@farther/common";
@@ -89,8 +91,8 @@ async function prepareEvangelistDrop() {
     amount: allocationSum.toString(),
     root,
     address: ENVIRONMENT === "development" ? ANVIL_AIRDROP_ADDRESS : undefined,
-    startTime: evangelistAirdropConfig.START_TIME,
-    endTime: evangelistAirdropConfig.END_TIME,
+    startTime: NEXT_AIRDROP_START_TIME,
+    endTime: NEXT_AIRDROP_END_TIME,
   };
 
   // Create Airdrop
