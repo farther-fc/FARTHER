@@ -10,10 +10,7 @@ export const apiSchemas = {
   getMerkleProof: {
     input: z
       .object({
-        address: z.string().refine(addressValidation, {
-          message: "Invalid address",
-        }),
-        type: z.nativeEnum(AllocationType),
+        id: z.string(),
       })
       .nullish(),
   },

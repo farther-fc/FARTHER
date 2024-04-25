@@ -16,19 +16,17 @@ export function AirdropInfo() {
         <ExternalLink href={POWER_BADGE_INFO_URL}>
           Warpcast Power Badge
         </ExternalLink>{" "}
-        is used to determine who is high-quality, but this may change in the
-        future.
+        is required. This requirement may expand or change in the future.
       </li>
       <li className="mt-3">
         Each Farcaster account is only eligible for one airdrop.
       </li>
-      <li>Eligibility is updated every hour.</li>
       <li>
         If you become eligible but lose your power badge before the airdrop, you
-        will need to re-earn it to become eligible for the next airdrop.
+        will need to re-earn it to become eligible for the next one.
       </li>
       <li className="mt-3">
-        The tokens are being distributed via monthly airdrops over two years
+        The tokens are being distributed via monthly airdrops over three years
         beginning on{" "}
         {formatDate(LAUNCH_DATE, {
           year: "numeric",

@@ -7,6 +7,10 @@ export const DEV_USER_ADDRESS = "0xc7c0a4b59de6bec1f9fdac7e760e1300fadd6db2";
 
 export const DEV_USER_FID = 999999999;
 
+export const GIGAMESH_FID = 4378;
+
+export const GIGAMESH_ADDRESS = "0x795050decc0322567c4f0098209d4edc5a69b9d0";
+
 export const TOTAL_TOKEN_SUPPLY = 50_000_000_000;
 export const allocationRatios = {
   POWER_DROPS: 0.25,
@@ -33,19 +37,22 @@ export const tokenAllocations = {
 };
 
 // Adjust this from month to month as needed
-export const BASE_TOKENS_PER_TWEET = 10_000;
+export const BASE_TOKENS_PER_TWEET = 25_000;
 
 // IMPORTANT: UPDATE THESE VALUES RIGHT AFTER A NEW AIRDROP IS DEPLOYED!
 export const powerUserAirdropConfig = {
   NUMBER: 1,
-  // Airdrop 1: 10% of airdrop supply
-  // 23 subsequent airdrops: Each 3.913% of of airdrop supply
-  RATIO: 0.1,
-  CLAIM_DATE: LAUNCH_DATE,
+  START_TIME: new Date("2024-05-01T00:00:00Z"),
+  END_TIME: new Date("2026-05-01T00:00:00Z"),
+  // Airdrop 1: 12% of airdrop supply
+  // The rest is split evenly over 35 subsequent airdrops (3 years)
+  RATIO: 0.12,
 } as const;
 
 // IMPORTANT: UPDATE THESE VALUES RIGHT AFTER A NEW AIRDROP IS DEPLOYED!
 export const evangelistAirdropConfig = {
+  START_TIME: new Date("2024-05-01T00:00:00Z"),
+  END_TIME: new Date("2026-05-01T00:00:00Z"),
   NUMBER: 1,
 } as const;
 
@@ -104,8 +111,8 @@ export const allIncentivePrograms = {
     1: {
       rewardToken: baseContractAddresses.staging.FARTHER,
       pool: baseContractAddresses.staging.UNIV3_FARTHER_ETH_30BPS_POOL,
-      startTime: 1712278771,
-      endTime: 1743814771,
+      startTime: 1713835426,
+      endTime: 1729387426,
       refundee: DEV_DEPLOYER_ADDRESS,
     },
   },
@@ -119,6 +126,8 @@ export const allIncentivePrograms = {
     },
   },
 } as const;
+
+export const IS_INCENTIVE_PROGRAM_ACTIVE = true;
 
 export const incentivePrograms = allIncentivePrograms[ENVIRONMENT];
 

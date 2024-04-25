@@ -13,7 +13,6 @@ model User {
   fid       Int      @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  address   String?
 
   allocations Allocation[]
 }
@@ -33,7 +32,11 @@ model Allocation {
   // Index of the node in the merkle tree - can stay undefined until the merkle root is calculated
   index     Int?
 
-  tweet Tweet?
+  // Address of user receiving the allocation - the reason this doesn't live at the user level is we user Neynar &
+  // the user's wallet connection, and don't store the recipient's address until an airdrop merkle root is calculated.
+  address   String?
+
+  tweets     Tweet[]
 
   @@unique([userId, airdropId])
 }
@@ -44,14 +47,14 @@ enum AllocationType {
 }
 
 model Tweet {
-  id           String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id           String     @id
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
-  allocationId String     @unique @db.Uuid
+  allocationId String     @db.Uuid
   allocation   Allocation @relation(fields: [allocationId], references: [id], onDelete: Cascade)
-  tweetId      String     @unique
 
-  @@unique([allocationId, tweetId])
+  // Each tweet has its own reward, which gets summed to the allocation amount
+  reward        String
 }
 
 // Airdrop
@@ -68,8 +71,8 @@ model Airdrop {
   // Evanglist airdrops have a fixed supply. Any remaining supply is carried over to the next airdorp.
   supply String?
 
-  startTime DateTime @default(now())
-  endTime   DateTime @default(now())
+  startTime DateTime
+  endTime   DateTime
 
   allocations Allocation[]
 

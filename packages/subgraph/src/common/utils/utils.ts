@@ -27,15 +27,15 @@ export function percToDecBI(percentage: BigInt): BigInt {
 
 export function calculateFee(
   pool: Pool,
-  trackedAmountUSD: BigDecimal
+  trackedAmountUSD: BigDecimal,
 ): BigDecimal[] {
   const tradingFee = getPoolFee(pool.fees[0]);
   const protocolFee = getPoolFee(pool.fees[1]);
   const tradingFeeAmount = trackedAmountUSD.times(
-    percToDec(tradingFee.feePercentage!)
+    percToDec(tradingFee.feePercentage!),
   );
   const protocolFeeAmount = trackedAmountUSD.times(
-    percToDec(protocolFee.feePercentage!)
+    percToDec(protocolFee.feePercentage!),
   );
 
   return [tradingFeeAmount, protocolFeeAmount];
@@ -67,7 +67,7 @@ export function exponentToBigDecimalBi(decimals: BigInt): BigDecimal {
 
 export function convertTokenToDecimal(
   tokenAmount: BigInt,
-  exchangeDecimals: i32
+  exchangeDecimals: i32,
 ): BigDecimal {
   if (exchangeDecimals == INT_ZERO) {
     return tokenAmount.toBigDecimal();
@@ -100,7 +100,7 @@ export function safeDivBigInt(amount0: BigInt, amount1: BigInt): BigInt {
 // Convert 2 BigInt to 2 BigDecimal and do a safe division on them
 export function safeDivBigIntToBigDecimal(
   amount0: BigInt,
-  amount1: BigInt
+  amount1: BigInt,
 ): BigDecimal {
   if (amount1.equals(BIGINT_ZERO)) {
     return BIGDECIMAL_ZERO;
@@ -112,7 +112,7 @@ export function safeDivBigIntToBigDecimal(
 // Subtract multiple BigInt Lists from each other without using map.
 export function subtractBigIntLists(
   list1: BigInt[],
-  list2: BigInt[]
+  list2: BigInt[],
 ): BigInt[] {
   const result: BigInt[] = [];
   for (let i = 0; i < list1.length; i++) {
@@ -124,7 +124,7 @@ export function subtractBigIntLists(
 // Subtract multiple BigDecimal Lists from each other without using map.
 export function subtractBigDecimalLists(
   list1: BigDecimal[],
-  list2: BigDecimal[]
+  list2: BigDecimal[],
 ): BigDecimal[] {
   const result: BigDecimal[] = [];
   for (let i = 0; i < list1.length; i++) {
@@ -145,7 +145,7 @@ export function toLowerCase(list: string[]): string[] {
 
 export function bigDecimalExponentiated(
   base: BigDecimal,
-  exponent: BigInt
+  exponent: BigInt,
 ): BigDecimal {
   let x = base;
   let y = BIGDECIMAL_ONE;
@@ -259,7 +259,7 @@ export function sumBigIntList(list: BigInt[]): BigInt {
 // Convert BigIntList to BigDecimalList with token conversion
 export function convertBigIntListToBigDecimalList(
   tokens: Token[],
-  list: BigInt[]
+  list: BigInt[],
 ): BigDecimal[] {
   const result = new Array<BigDecimal>(list.length);
   for (let i = 0; i < list.length; i++) {
@@ -271,7 +271,7 @@ export function convertBigIntListToBigDecimalList(
 // Save div BigDecimal
 export function safeDivBigDecimal(
   numerator: BigDecimal,
-  denominator: BigDecimal
+  denominator: BigDecimal,
 ): BigDecimal {
   if (denominator.equals(BIGDECIMAL_ZERO)) {
     return BIGDECIMAL_ZERO;

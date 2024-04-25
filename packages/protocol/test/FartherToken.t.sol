@@ -60,6 +60,21 @@ contract FartherToken_Test is Test {
         assertEq(fartherToken.totalSupply(), initialSupply);
     }
 
+    function test_mintToZeroAddress_reverts() external {
+        // Mint 100 tokens to the zero address.
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                FartherToken.MintToZeroAddressBlocked.selector
+            )
+        );
+        fartherToken.mint(address(0), 100);
+
+        // Balance does not update.
+        assertEq(fartherToken.balanceOf(address(0)), 0);
+        assertEq(fartherToken.totalSupply(), initialSupply);
+    }
+    
+
     /// @dev Tests that the owner can successfully call `burn`.
     function test_burn_succeeds() external {
         // Mint 100 tokens to rando.
@@ -144,6 +159,59 @@ contract FartherToken_Test is Test {
         assertEq(fartherToken.totalSupply(), initialSupply + 100);
     }
 
+    function test_mintWhenMintCapExceeded_reverts() external {
+        address recipient = address(42069);
+
+        uint256 allowedInflation = ((fartherToken.totalSupply() * fartherToken.MINT_CAP()) / 100);
+
+        // Mint up to the cap - should succeed
+        fartherToken.mint(recipient, allowedInflation);
+
+        assertEq(fartherToken.balanceOf(recipient), allowedInflation);
+        assertEq(fartherToken.totalSupply(), initialSupply + allowedInflation);
+
+
+        uint256 unallowedInflation = ((fartherToken.totalSupply() * fartherToken.MINT_CAP()) / 100) + 1;
+
+        vm.warp(block.timestamp + fartherToken.MINIMUM_TIME_BETWEEN_MINTS());
+
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                FartherToken.MintCapExceeded.selector
+            )
+        );
+        fartherToken.mint(recipient, unallowedInflation);
+
+        // Balances have not updated.
+        assertEq(fartherToken.balanceOf(recipient), allowedInflation);
+        assertEq(fartherToken.totalSupply(), initialSupply + allowedInflation);
+    }
+
+    /// @dev Tests that no more minting can occur after `voidInflation` is called.
+    function test_voidInflation_succeeds() external {
+        // Mint 100 tokens.
+        fartherToken.mint(owner, 100);
+
+        fartherToken.voidInflation();
+
+        // Warp 100 years into the future
+        vm.warp(block.timestamp + fartherToken.MINIMUM_TIME_BETWEEN_MINTS() * 100);
+
+        // Minting is no longer allowed even if the minting date has passed.
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                FartherToken.MintingDateNotReached.selector
+            )
+        );
+
+        // Minting is no longer allowed.
+        fartherToken.mint(owner, 1);
+
+        // Balances have not updated.
+        assertEq(fartherToken.balanceOf(owner), initialSupply + 100);
+        assertEq(fartherToken.totalSupply(), initialSupply + 100);
+    }
+
     /// @dev Tests that owner can renounce ownership
     function test_renounceOwnership_succeeds() external {
         // Owner renounces ownership.
@@ -152,5 +220,51 @@ contract FartherToken_Test is Test {
 
         // Owner is now the zero address.
         assertEq(fartherToken.owner(), address(0));
+    }
+
+    function test_getVotes() external {
+        address account = address(42069);
+        uint256 tokens = 370730799;
+
+        fartherToken.mint(account, tokens);
+
+        // Self delegate
+        vm.prank(account);
+        fartherToken.delegate(account);
+
+        assertEq(fartherToken.balanceOf(account), tokens);
+        assertEq(fartherToken.getVotes(account), tokens);
+    }
+
+    function test_getPastVotes() external {
+        address account = address(42069);
+        uint256 tokens = 370730799;
+        uint256 blockNum = block.number;
+
+        fartherToken.transfer(account, tokens);
+
+        // Self delegate
+        vm.prank(account);
+        fartherToken.delegate(account);
+
+        // Warp 100 blocks into the future
+        vm.roll(blockNum + 100);
+
+        // Check that past votes are accurate
+        assertEq(fartherToken.getPastVotes(account, blockNum), tokens);
+    }
+
+    function test_delegate() external {
+        address account1 = address(42069);
+        address account2 = address(42070);
+        uint256 tokens = 370730799;
+
+        fartherToken.mint(account1, tokens);
+
+        vm.prank(account1);
+        fartherToken.delegate(account2);
+
+        assertEq(fartherToken.getVotes(account2), tokens);
+        assertEq(fartherToken.delegates(account1), account2);
     }
 }

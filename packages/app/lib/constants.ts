@@ -14,12 +14,16 @@ export const ROUTES = {
     path: "/evangelize",
   },
   liquidty: {
-    title: "Liqudity",
+    title: "Liquidity",
     path: "/liquidity",
   },
   tips: {
     title: "Tips",
     path: "/tips",
+  },
+  resources: {
+    title: "Resources",
+    path: "/resources",
   },
 };
 
@@ -41,4 +45,5 @@ export const pendingAllocation = {
   amount: "0",
   airdrop: null,
   index: null,
-} as const;
+  tweets: [],
+};

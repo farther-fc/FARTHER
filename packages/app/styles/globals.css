@@ -40,7 +40,7 @@
     --background: 224 71% 4%;
     --foreground: 213 31% 91%;
 
-    --muted: 223 47% 35%;
+    --muted: 223 17% 45%;
     --muted-foreground: 215.4 16.3% 56.9%;
 
     --accent: 216 34% 17%;
@@ -61,7 +61,7 @@
     --secondary: 222.2 47.4% 11.2%;
     --secondary-foreground: 210 40% 98%;
 
-    --destructive: 0 88% 31%;
+    --destructive: 0 78% 51%;
     --destructive-foreground: 210 40% 98%;
 
     --ring: 216 34% 17%;
@@ -71,14 +71,14 @@
 }
 
 h1 {
-  @apply mt-9 mb-4;
+  @apply mt-14 mb-6;
   font-size: 220%;
   line-height: 1.35;
   font-style: normal;
 }
 
 h2 {
-  @apply mt-8 mb-4;
+  @apply mt-10 mb-5;
   font-weight: normal;
   font-size: 180%;
 }
@@ -112,7 +112,7 @@ p {
 
 ol,
 ul {
-  @apply ml-5;
+  @apply ml-4;
 }
 
 ul {
@@ -125,6 +125,17 @@ ol {
 
 li {
   @apply mt-2;
+}
+
+ul > li {
+  @apply list-none;
+}
+
+ul > li:before {
+  content: "·    ";
+  font-size: 1.5em;
+  transform: translate(-0.7em, -0.3em);
+  position: absolute;
 }
 
 @layer base {
@@ -149,7 +160,7 @@ li {
   }
 
   a {
-    @apply dark:text-link dark:hover:text-link-hover transition-colors text-link-light hover:text-link-light-hover;
+    @apply dark:text-link dark:hover:text-link-hover transition-colors text-link-light hover:text-link-light-hover hover:underline;
   }
 
   hr {
@@ -173,6 +184,10 @@ li {
     content: "\2026"; /* ascii code for the ellipsis character */
     width: 0px;
     margin-right: 1.25em;
+  }
+
+  .toast-styles a {
+    @apply text-white underline hover:text-white;
   }
 
   @keyframes ellipsis {

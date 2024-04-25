@@ -1,7 +1,13 @@
 import {
   ANVIL_AIRDROP_ADDRESS,
-  tokenAllocations,
   evangelistAirdropConfig,
+  neynarLimiter,
+  isProduction,
+  DEV_USER_FID,
+  DEV_USER_ADDRESS,
+  GIGAMESH_FID,
+  GIGAMESH_ADDRESS,
+  NETWORK,
 } from "@farther/common";
 import { AllocationType, prisma } from "../prisma";
 import { getMerkleRoot } from "@farther/common";
@@ -12,13 +18,10 @@ import { ENVIRONMENT, CHAIN_ID } from "@farther/common";
 // update the config with the next airdrop's values, and restart the cron.
 async function prepareEvangelistDrop() {
   // Get all evangelists with pending rewards
-  const recipients = await prisma.user.findMany({
+  const dbRecipients = await prisma.user.findMany({
     where: {
-      address: {
-        not: null,
-      },
       allocations: {
-        every: {
+        some: {
           type: AllocationType.EVANGELIST,
           // No airdrop ID == no airdrop deployed yet
           airdropId: null,
@@ -27,26 +30,55 @@ async function prepareEvangelistDrop() {
     },
     select: {
       id: true,
+      fid: true,
       allocations: true,
-      address: true,
     },
   });
 
-  const allAllocations = recipients.map((r) => r.allocations).flat();
-  const allocationSum = allAllocations.reduce(
-    (acc, a) => acc + BigInt(a.amount),
-    BigInt(0),
-  );
+  for (const recipient of dbRecipients) {
+    if (recipient.allocations.length > 1) {
+      throw new Error(`User ${recipient.id} has multiple allocations`);
+    }
+  }
 
-  const airdropAllocation = allocationSum * BigInt(10 ** 18);
+  const recipients = dbRecipients.map(({ allocations, ...rest }) => ({
+    ...rest,
+    allocation: allocations[0],
+  }));
 
-  const amountPerRecipient = airdropAllocation / BigInt(recipients.length);
+  // Get their addresses from Neynar
+  const userData = await getUserData(recipients.map((r) => r.fid));
+
+  const combinedData = recipients.map((r) => ({
+    ...r,
+    address: userData.find((u) => u.fid === r.fid)?.address,
+  }));
+
+  const recipientsWithAddress = combinedData.filter((r) => r.address);
+  const recipientsWithoutAddress = combinedData.filter((r) => !r.address);
+
+  if (recipientsWithoutAddress.length > 0) {
+    await writeFile(
+      `airdrops/${ENVIRONMENT}/${AllocationType.EVANGELIST.toLowerCase()}-${evangelistAirdropConfig.NUMBER}-null-addresses.json`,
+      JSON.stringify(
+        recipientsWithoutAddress.map((r) => ({
+          fid: r.fid,
+          amount: r.allocation.amount.toString(),
+        })),
+        null,
+        2,
+      ),
+    );
+  }
+  const allocationSum = recipientsWithAddress
+    .map((r) => r.allocation)
+    .reduce((acc, a) => acc + BigInt(a.amount), BigInt(0));
 
   // Create a merkle tree with the above recipients
-  const rawLeafData = recipients.map((r, i) => ({
+  const rawLeafData = recipientsWithAddress.map((r, i) => ({
     index: i,
     address: r.address as `0x${string}`,
-    amount: amountPerRecipient.toString(), // Amount is not needed in the merkle proof
+    amount: r.allocation.amount.toString(), // Amount is not needed in the merkle proof
   }));
 
   const root = getMerkleRoot(rawLeafData);
@@ -54,9 +86,11 @@ async function prepareEvangelistDrop() {
   const airdropData = {
     number: evangelistAirdropConfig.NUMBER,
     chainId: CHAIN_ID,
-    amount: airdropAllocation.toString(),
+    amount: allocationSum.toString(),
     root,
     address: ENVIRONMENT === "development" ? ANVIL_AIRDROP_ADDRESS : undefined,
+    startTime: evangelistAirdropConfig.START_TIME,
+    endTime: evangelistAirdropConfig.END_TIME,
   };
 
   // Create Airdrop
@@ -74,21 +108,23 @@ async function prepareEvangelistDrop() {
       },
     }),
     prisma.allocation.createMany({
-      data: recipients.map((recipient, i) => ({
-        amount: amountPerRecipient.toString(),
+      data: recipientsWithAddress.map((r, i) => ({
+        amount: r.allocation.amount.toString(),
         index: i,
         airdropId: airdrop.id,
-        userId: recipient.id,
+        userId: r.id,
         type: AllocationType.EVANGELIST,
+        address: r.address.toLowerCase(),
       })),
     }),
   ]);
 
   await writeFile(
-    `airdrops/${CHAIN_ID}/evangelist-airdrop-${evangelistAirdropConfig.NUMBER}.json`,
+    `airdrops/${NETWORK}/${AllocationType.EVANGELIST.toLowerCase()}-${evangelistAirdropConfig.NUMBER}.json`,
     JSON.stringify(
       {
         root,
+        amount: allocationSum.toString(),
         rawLeafData,
       },
       null,
@@ -98,13 +134,41 @@ async function prepareEvangelistDrop() {
 
   console.log({
     root,
-    airdropAllocation,
-    amountPerRecipient,
+    amount: allocationSum,
+    recipients: recipientsWithAddress.length,
   });
 
   console.warn(
     `\n\nFOLLOW NEXT STEPS IN RUNBOOK!: \n https://www.notion.so/Airdrop-runbook-ad7d4c7116444d35ab76705eca2d6c98\n\n`,
   );
+}
+
+async function getUserData(fids: number[]) {
+  if (isProduction) {
+    const userData = await neynarLimiter.getUsersByFid(fids);
+    return userData.map((u) => ({
+      fid: u.fid,
+      address: u.verified_addresses.eth_addresses[0],
+    }));
+  }
+
+  console.log(fids);
+
+  return fids.map((fid) => {
+    if (fid === DEV_USER_FID) {
+      return {
+        fid,
+        address: DEV_USER_ADDRESS,
+      };
+    }
+    if (fid === GIGAMESH_FID) {
+      return {
+        fid,
+        address: GIGAMESH_ADDRESS,
+      };
+    }
+    throw new Error(`No address found for fid: ${fid}`);
+  });
 }
 
 prepareEvangelistDrop().catch(console.error);

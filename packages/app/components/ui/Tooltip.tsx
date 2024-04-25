@@ -32,7 +32,6 @@ export function Tooltip({
   content: React.ReactNode;
   children: React.ReactNode;
 }) {
-  console.log(children);
   return (
     <TooltipProvider delayDuration={0}>
       <TooltipRoot>

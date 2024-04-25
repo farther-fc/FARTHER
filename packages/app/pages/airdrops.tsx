@@ -1,14 +1,17 @@
 import { AirdropInfo } from "@components/AirdropInfo";
-import { FARTHER_CHANNEL_URL, ROUTES } from "@lib/constants";
+import { ROUTES } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
-import { formatDate, formatWad } from "@lib/utils";
+import { formatDate, formatWad, startOfNextMonth } from "@lib/utils";
 import Link from "next/link";
-import { powerUserAirdropConfig } from "@farther/common";
-import { ExternalLink } from "@components/ui/ExternalLink";
-import { InfoContainer } from "@components/InfoContainer";
+import { InfoCard } from "@components/InfoCard";
+import { FartherChannelLink } from "@components/nav/FartherChannelLink";
+import { Button } from "@components/ui/Button";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
+import { NoUserFoundCard } from "@components/NoUserFoundCard";
 
 export default function AirdropPage() {
-  const { account, user } = useUser();
+  const { account, user, userIsLoading } = useUser();
+  const { openConnectModal } = useConnectModal();
   const powerDrop = user?.allocations?.filter(
     (a) => a.type === "POWER_USER",
   )[0];
@@ -17,7 +20,7 @@ export default function AirdropPage() {
     <main className="content">
       <h1>Airdrops</h1>
       {powerDrop && !powerDrop.isClaimed && (
-        <InfoContainer>
+        <InfoCard className="text-center">
           <h3 className="mt-0">Congratulations 🎉</h3>
           {powerDrop.airdrop?.address ? (
             <p>
@@ -27,40 +30,36 @@ export default function AirdropPage() {
             </p>
           ) : (
             <p>
-              You are eligible for tokens in the next airdrop! <br />
+              You are eligible for $FARTHER tokens in the next airdrop! <br />
               Check the <Link href={ROUTES.rewards.path}>
                 rewards page
-              </Link>{" "}
-              after {formatDate(powerUserAirdropConfig.CLAIM_DATE)} to claim
-              your rewards.
+              </Link> on {formatDate(startOfNextMonth())} to claim your rewards.
             </p>
           )}
-        </InfoContainer>
+        </InfoCard>
       )}
       {account.isConnected &&
-        (powerDrop?.isClaimed ? (
-          <InfoContainer variant="muted">
-            You have already claimed your airdrop.
-          </InfoContainer>
+        (powerDrop && powerDrop?.isClaimed ? (
+          <InfoCard variant="muted" className="text-center">
+            You have already claimed your airdrop. ✨
+          </InfoCard>
+        ) : user && !powerDrop ? (
+          <InfoCard variant="muted">
+            You are not currently eligible for an airdrop. If you believe this
+            is an error, please reach out in the <FartherChannelLink />.
+          </InfoCard>
         ) : (
-          !powerDrop && (
-            <>
-              You are not currently eligible for an airdrop. If you believe this
-              is an error, please reach out in the{" "}
-              <ExternalLink href={FARTHER_CHANNEL_URL}>
-                Farther channel
-              </ExternalLink>
-            </>
-          )
+          !user && !userIsLoading && <NoUserFoundCard />
         ))}
       <AirdropInfo />
       {!account.isConnected && (
-        <InfoContainer variant="muted">
-          <p className={"mt-12"}>
-            If you think you are eligible, connect your wallet and visit the{" "}
-            <Link href={ROUTES.rewards.path}>rewards</Link> page.
-          </p>
-        </InfoContainer>
+        <InfoCard className="text-center">
+          If you think you are eligible for an airdrop,{" "}
+          <Button variant="link" onClick={openConnectModal}>
+            connect your wallet
+          </Button>{" "}
+          and visit the <Link href={ROUTES.rewards.path}>rewards</Link> page.
+        </InfoCard>
       )}
     </main>
   );

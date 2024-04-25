@@ -78,7 +78,6 @@ export function useLogError({
       }
 
       if (capture) {
-        console.log("sending error to sentry");
         Sentry.captureException(
           error instanceof Error ? error : new Error(JSON.stringify(error)),
           {

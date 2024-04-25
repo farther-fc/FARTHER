@@ -1,11 +1,15 @@
-import { allocationRatios } from "@farther/common/src/constants";
+import {
+  TOTAL_TOKEN_SUPPLY,
+  allocationRatios,
+  contractAddresses,
+} from "@farther/common/src/constants";
 import { ROUTES } from "@lib/constants";
 import Link from "next/link";
-import { useUser } from "@lib/context/UserContext";
 import Head from "next/head";
+import numeral from "numeral";
+import { ExternalLink } from "@components/ui/ExternalLink";
 
 export default function Home() {
-  const { account } = useUser();
   return (
     <>
       <Head>
@@ -15,9 +19,12 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="content">
-        <h2>Mission</h2>
+        <h1>Mission</h1>
         <p>
-          Farther's mission is to accelerate the global adoption of Farcaster
+          Farther's mission is to accelerate the global adoption of{" "}
+          <ExternalLink href="https://decrypt.co/215856/what-is-farcaster-ethereum-crypto-twitter-alternative">
+            Farcaster
+          </ExternalLink>{" "}
           and spread positive vibes.
         </p>
 
@@ -37,32 +44,63 @@ export default function Home() {
           </li>
         </ul>
         <p>
-          Farcaster makes all of the above possible in a way that is more
-          credibly neutral and scalable than other decentralized social media
-          networks.
+          Centralized social networks aren't capable of fulfilling those
+          requirements. Many new decentralized social protocols are striving for
+          these goals, but Farcaster stands out as having the greatest potential
+          to deliver them in a way that is both credibly neutral and scalable.
+        </p>
+        <p className="text-muted">
+          Visit the <Link href={ROUTES.resources.path}>resources page</Link> to
+          learn more about what makes Farcaster unique.
         </p>
 
         <h2>How</h2>
         <p>
-          $FARTHER is an Ethereum token and a foundation upon which incentive
-          mechanisms are built to encourage people to join Farcaster:
+          <ExternalLink
+            href={`https://basescan.org/token/${contractAddresses.FARTHER}`}
+          >
+            FARTHER
+          </ExternalLink>{" "}
+          is an Ethereum token for driving Farcaster user growth. It is being
+          used to incentivize active users and builders within the ecosystem in
+          the following ways:
         </p>
         <ul>
-          <li>Airdrops to power users spanning the next 2 years</li>
-          <li>Rewards for evangelizing on legacy social media platforms</li>
-          <li>Onchain liquidity rewards</li>
+          <li>
+            <Link href={ROUTES.airdrop.path}>Airdrops</Link> to Farcaster power
+            users spanning the next 3 years
+          </li>
+          <li>
+            {" "}
+            <Link href={ROUTES.evangelize.path}>Evangelist rewards</Link> for
+            expressing Farcaster love on legacy social media
+          </li>
+          <li>
+            <Link href={ROUTES.liquidty.path}>Onchain liquidity rewards</Link>
+          </li>
+          <li>
+            <Link href={ROUTES.tips.path}>Tip allocations</Link>
+          </li>
           <li>Partnerships</li>
           <li>
-            Grants for people building within the ecosystem:
+            Ecosystem grants:
             <ul>
               <li>Educational resources</li>
               <li>Hackathon sponsorships</li>
-              <li>Open source R&D</li>
+              <li>Micro apps</li>
             </ul>
           </li>
         </ul>
 
         <h2>Tokenomics</h2>
+        <p>
+          The initial supply of FARTHER is{" "}
+          {numeral(TOTAL_TOKEN_SUPPLY / 1_000_000_000).format("0,0")} billion
+          tokens, and there is no initial price. The community will decide what
+          its worth. Please read the{" "}
+          <Link href="/disclaimers">disclaimers</Link> before buying.
+        </p>
+        <p>It is allocated as follows:</p>
         <ul>
           <li>
             {allocationRatios.POWER_DROPS * 100}%{" "}
@@ -82,8 +120,24 @@ export default function Home() {
             <Link href={ROUTES.evangelize.path}>evangelist rewards</Link>
           </li>
           <li>{allocationRatios.ECOSYSTEM_FUND * 100}% ecosystem fund</li>
+          <li>
+            {allocationRatios.TIPS * 100}%{" "}
+            <Link href={ROUTES.tips.path}>tip allocations</Link>
+          </li>
           <li>{allocationRatios.DEV_FUND * 100}% developer fund</li>
         </ul>
+        <p>
+          In addition to the initial supply, the{" "}
+          <ExternalLink
+            href={`https://basescan.org/token/${contractAddresses.FARTHER}#code`}
+          >
+            Farther token contract
+          </ExternalLink>{" "}
+          is capable of optionally minting up to 2% of the current token supply
+          per year. This could potentially be used to fund future initiatives,
+          however there are currently no specific plans for it. It can be
+          permanently revoked if the Farther community decides.
+        </p>
       </main>
     </>
   );

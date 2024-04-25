@@ -41,6 +41,11 @@ contract FartherToken is
     uint256 public mintingAllowedAfter;
 
     /**
+     * @dev Emitted when inflation is voided
+     */
+    event InflationVoided();
+
+    /**
      * @dev The minting date has not been reached yet
      */
     error MintingDateNotReached();
@@ -89,7 +94,7 @@ contract FartherToken is
      * @param to The address of the target account
      * @param amount The number of tokens to be minted
      */
-    function mint(address to, uint96 amount) external onlyOwner {
+    function mint(address to, uint256 amount) external onlyOwner {
         if (block.timestamp < mintingAllowedAfter) {
             revert MintingDateNotReached();
         }
@@ -107,6 +112,17 @@ contract FartherToken is
         }
 
         _mint(to, amount);
+    }
+
+    /**
+     * @dev Void future token inflation
+     */
+    function voidInflation() external onlyOwner {
+
+        // Additional minting can resume after the heat death of the universe
+        mintingAllowedAfter = type(uint256).max;
+
+        emit InflationVoided();
     }
 
     /**

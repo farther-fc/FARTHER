@@ -1,108 +1,67 @@
-import { NETWORK } from "@farther/common";
+import { IS_INCENTIVE_PROGRAM_ACTIVE } from "@farther/common";
 import { LiquidityInfo } from "@components/LiquidityInfo";
-import { Button } from "@components/ui/Button";
-import { ExternalLink } from "@components/ui/ExternalLink";
 import Spinner from "@components/ui/Spinner";
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@components/ui/Table";
-import { formatWad } from "@lib/utils";
 import { useLiquidityPositions } from "hooks/useLiquidityPositions";
-import { InfoContainer } from "@components/InfoContainer";
+import { InfoCard } from "@components/InfoCard";
+import { useUser } from "@lib/context/UserContext";
+import { LiquidityTableRow } from "@components/LiquidityTableRow";
+import { formatWad } from "@lib/utils";
 
 export default function LiquidityPage() {
-  const {
-    positions,
-    positionsLoading,
-    handleStake,
-    handleUnstake,
-    stakePending,
-    unstakePending,
-    handleClaim,
-    claimPending,
-  } = useLiquidityPositions();
+  const { account } = useUser();
+  const { positions, positionsLoading, claimedRewards } =
+    useLiquidityPositions();
 
   return (
-    <main className="container">
+    <main className="content">
       <LiquidityInfo />
-      <div className="mt-20">
-        {positionsLoading ? (
-          <div className="flex justify-center">
-            <Spinner />
-          </div>
-        ) : !positions?.length ? (
-          <InfoContainer variant="muted" className="content text-center">
-            No liquidity positions found
-          </InfoContainer>
-        ) : (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Position ID</TableHead>
-                <TableHead className="text-right">Claimed</TableHead>
-                <TableHead className="text-right">Unclaimed</TableHead>
-                <TableHead className="text-right"></TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {positions?.map((position) => (
-                <TableRow key={position.id}>
-                  <TableCell className="font-bold">
-                    <ExternalLink
-                      href={`https://app.uniswap.org/pools/${position.tokenId}?chain=${NETWORK}`}
-                    >
-                      {position.tokenId}
-                    </ExternalLink>
-                  </TableCell>
-                  <TableCell className="text-right">
-                    {formatWad(
-                      position.account.rewards
-                        .reduce((acc, r) => acc + r.amount, BigInt(0))
-                        .toString(),
-                    )}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    {formatWad(position.reward.toString())}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    {/*
-                      "TODO: move all this into its own component so pending stage is isolated to each row"
-                  */}
-                    {position.isStaked && (
-                      <Button
-                        onClick={() => handleClaim(position.reward)}
-                        loadingText="Claiming"
-                        loading={claimPending}
-                        disabled={claimPending}
-                        className="mr-4"
-                      >
-                        Claim
-                      </Button>
-                    )}
-                    <Button
-                      onClick={() =>
-                        position.isStaked
-                          ? handleUnstake(position.tokenId)
-                          : handleStake(position.tokenId)
-                      }
-                      loadingText={position.isStaked ? "Unstaking" : "Staking"}
-                      loading={stakePending || unstakePending}
-                      disabled={stakePending || unstakePending}
-                    >
-                      {position.isStaked ? "Unstake" : "Stake"}
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        )}
-      </div>
+      {account.address && (
+        <div className="mt-10">
+          {!IS_INCENTIVE_PROGRAM_ACTIVE ? (
+            <InfoCard variant="muted" className="content text-center">
+              The liquidity incentive program is not yet active
+            </InfoCard>
+          ) : positionsLoading ? (
+            <div className="flex justify-center">
+              <Spinner />
+            </div>
+          ) : !positions?.length ? (
+            <InfoCard variant="muted" className="content text-center">
+              No liquidity positions found
+            </InfoCard>
+          ) : (
+            <>
+              <h2 className="flex items-end justify-between ">
+                <div className="!leading-tight">Positions</div>{" "}
+                <div className="!text-lg !leading-normal">
+                  Claimed: {formatWad(claimedRewards.toString())}
+                </div>
+              </h2>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="pl-0">Position ID</TableHead>
+                    <TableHead className="text-right">Rewards</TableHead>
+                    <TableHead className="text-right"></TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {positions?.map((position) => (
+                    <LiquidityTableRow key={position.id} position={position} />
+                  ))}
+                </TableBody>
+              </Table>
+            </>
+          )}
+        </div>
+      )}
     </main>
   );
 }

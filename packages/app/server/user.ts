@@ -10,71 +10,23 @@ export const getUser = publicProcedure
   .query(async (opts) => {
     const address = opts.input.address.toLowerCase();
 
+    let fid: number;
+
     try {
-      // Get user data from neynar
-      const response = await neynarClient.fetchBulkUsersByEthereumAddress([
-        opts.input.address,
-      ]);
+      const user = await getUserFromNeynar(address);
 
-      // Neynar returns weird data structure
-      const [user] = response[address] ? response[address] : [];
-
-      // In prod, if Neynar doesn't find a user, return null.
-      // But in staging/dev we use the test user (which we know isn't on Farcaster or in Neynar's db)
-      if (!user && isProduction) {
+      if (!user) {
         return null;
       }
 
-      const fid = user.fid ?? DEV_USER_FID;
+      fid = user.fid;
 
-      const dbUser = await prisma.user.findFirst({
-        where: {
-          fid,
-        },
-        select: {
-          allocations: {
-            select: {
-              id: true,
-              amount: true,
-              isClaimed: true,
-              index: true,
-              type: true,
-              airdrop: {
-                select: {
-                  id: true,
-                  address: true,
-                  number: true,
-                  startTime: true,
-                  endTime: true,
-                },
-              },
-            },
-          },
-        },
-      });
+      const dbUser = await getDbUserByFid(fid);
 
       if (!dbUser) {
         await prisma.user.create({
-          data: { address, fid },
+          data: { fid },
         });
-      }
-
-      if (!isProduction && address === DEV_USER_ADDRESS.toLowerCase()) {
-        const allocations = dbUser?.allocations.find(
-          (a) => a.type === AllocationType.POWER_USER,
-        )
-          ? dbUser?.allocations
-          : [...(dbUser?.allocations || []), pendingAllocation];
-
-        return {
-          fid: DEV_USER_FID,
-          username: "testuser",
-          displayName: "Test User",
-          pfpUrl:
-            "https://wrpcd.net/cdn-cgi/image/fit=contain,f=auto,w=168/https%3A%2F%2Fi.imgur.com%2F3hrPNK8.jpg",
-          profileBio: "Test bio",
-          allocations,
-        };
       }
 
       const allocations = dbUser?.allocations || [];
@@ -93,12 +45,63 @@ export const getUser = publicProcedure
         username: user.username,
         displayName: user.display_name,
         pfpUrl: user.pfp_url,
-        profileBio: user.profile.bio.text,
+        powerBadge: user.power_badge,
         allocations,
       };
-    } catch (error) {
-      // TODO: Log to Sentry
+    } catch (error: any) {
+      // TODO: Log to Sentry?
       console.log(error);
-      return null;
     }
   });
+
+function getDbUserByFid(fid: number) {
+  return prisma.user.findFirst({
+    where: {
+      fid,
+    },
+    select: {
+      allocations: {
+        select: {
+          id: true,
+          amount: true,
+          isClaimed: true,
+          index: true,
+          type: true,
+          tweets: true,
+          airdrop: {
+            select: {
+              id: true,
+              address: true,
+              number: true,
+              startTime: true,
+              endTime: true,
+            },
+          },
+        },
+      },
+    },
+  });
+}
+
+async function getUserFromNeynar(address: string) {
+  if (!isProduction && address === DEV_USER_ADDRESS.toLowerCase()) {
+    return {
+      fid: DEV_USER_FID,
+      username: "testuser",
+      display_name: "Test User",
+      pfp_url:
+        "https://wrpcd.net/cdn-cgi/image/fit=contain,f=auto,w=168/https%3A%2F%2Fi.imgur.com%2F3hrPNK8.jpg",
+      power_badge: false,
+    };
+  }
+
+  // Get user data from neynar
+  const response = await neynarClient.fetchBulkUsersByEthereumAddress([
+    address,
+  ]);
+
+  // Neynar returns weird data structure
+  const [user] = response[address] ? response[address] : [];
+
+  return user;
+}
