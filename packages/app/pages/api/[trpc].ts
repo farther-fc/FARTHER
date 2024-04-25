@@ -34,10 +34,13 @@ export default trpcNext.createNextApiHandler({
     });
     Sentry.captureException(error, {
       captureContext: {
-        path,
-        input,
-        ctx,
-        req,
+        tags: {
+          input: JSON.stringify(input),
+          path,
+          method: req.method,
+          url: req.url,
+          headers: req.headers.toString(),
+        },
       },
     });
   },
