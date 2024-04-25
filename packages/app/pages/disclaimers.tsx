@@ -13,9 +13,10 @@ function DisclaimersPage() {
           Merkle Manufactory
         </ExternalLink>
         . It is an independent experiment intended for fun and community
-        building. The Farther token has no intrinsic value. Nothing on this
-        website should be construed as financial advice.{" "}
+        building.
       </p>
+      <p>The Farther token has no intrinsic value.</p>
+      <p>Nothing on this website should be construed as financial advice. </p>
       <p>
         The{" "}
         <ExternalLink

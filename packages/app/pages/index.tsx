@@ -35,22 +35,22 @@ export default function Home() {
         <h2>Why</h2>
         <ul>
           <li>
-            Social relationships should be as direct and portable online as they
-            are in real life.
+            Social relationships should be as unmediated online as they are in
+            real life.
           </li>
           <li>
             Cultural norms should be as localizable and enforceable online as
             they are offline.
           </li>
           <li>
-            Our time and attention should not be a product sold to advertisers
-            without our consent.
+            Our attention should not be a product sold to advertisers without
+            our awareness or consent.
           </li>
         </ul>
         <p>
           Centralized social networks aren't capable of fulfilling those
           requirements. Many new decentralized social protocols are striving for
-          these goals, but Farcaster stands out as deliverying them in a way
+          the same goals, but Farcaster stands out as achieving them in a way
           that is both credibly neutral and scalable.
         </p>
         <p className="text-muted">
@@ -77,7 +77,7 @@ export default function Home() {
           <li>
             {" "}
             <Link href={ROUTES.evangelize.path}>Evangelist rewards</Link> for
-            expressing Farcaster love on legacy social media
+            expressing love of Farcaster on legacy social apps
           </li>
           <li>
             <Link href={ROUTES.liquidty.path}>Onchain liquidity rewards</Link>
