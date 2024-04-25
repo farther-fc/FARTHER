@@ -8,8 +8,12 @@ import Link from "next/link";
 import Head from "next/head";
 import numeral from "numeral";
 import { ExternalLink } from "@components/ui/ExternalLink";
+import { useModal } from "@lib/context/ModalContext";
+import { Button } from "@components/ui/Button";
 
 export default function Home() {
+  const { openModal } = useModal();
+
   return (
     <>
       <Head>
@@ -81,14 +85,32 @@ export default function Home() {
           <li>
             <Link href={ROUTES.tips.path}>Tip allocations</Link>
           </li>
-          <li>Partnerships</li>
           <li>
-            Ecosystem grants:
-            <ul>
-              <li>Educational resources</li>
-              <li>Hackathon sponsorships</li>
-              <li>Micro apps</li>
-            </ul>
+            <Button
+              variant="link"
+              onClick={() =>
+                openModal({
+                  headerText: "Ecosystem fund",
+                  body: (
+                    <>
+                      The ecosystem fund is an open-ended pool for funding any
+                      future initiative that is aligned with the Farcaster &
+                      Farther communities. It will initially be controlled by
+                      the founders, but may eventually be turned over to
+                      community governance. Some plans for funding include:
+                      <ul>
+                        <li>Partnerships with Farcaster apps</li>
+                        <li>Education resources</li>
+                        <li>Hackathon sponsorships</li>
+                        <li>Micro apps</li>
+                      </ul>
+                    </>
+                  ),
+                })
+              }
+            >
+              Partnerships & ecosystem fund
+            </Button>
           </li>
         </ul>
 
@@ -119,12 +141,59 @@ export default function Home() {
             {allocationRatios.EVANGELIST_REWARDS * 100}%{" "}
             <Link href={ROUTES.evangelize.path}>evangelist rewards</Link>
           </li>
-          <li>{allocationRatios.ECOSYSTEM_FUND * 100}% ecosystem fund</li>
+          <li>
+            {allocationRatios.ECOSYSTEM_FUND * 100}%{" "}
+            <Button
+              variant="link"
+              onClick={() =>
+                openModal({
+                  headerText: "Ecosystem fund",
+                  body: (
+                    <>
+                      The ecosystem fund is an open-ended pool for funding any
+                      future initiative that is aligned with the Farcaster &
+                      Farther communities. It will initially be controlled by
+                      the founders, but may eventually be turned over to
+                      community governance. Some plans for funding include:
+                      <ul>
+                        <li>Partnerships with Farcaster apps</li>
+                        <li>Education resources</li>
+                        <li>Hackathon sponsorships</li>
+                        <li>Micro apps</li>
+                      </ul>
+                    </>
+                  ),
+                })
+              }
+            >
+              ecosystem fund
+            </Button>
+          </li>
           <li>
             {allocationRatios.TIPS * 100}%{" "}
             <Link href={ROUTES.tips.path}>tip allocations</Link>
           </li>
-          <li>{allocationRatios.DEV_FUND * 100}% developer fund</li>
+          <li>
+            {allocationRatios.DEV_FUND * 100}%{" "}
+            <Button
+              variant="link"
+              onClick={() =>
+                openModal({
+                  headerText: "Founder Allocation",
+                  body: (
+                    <>
+                      {allocationRatios.DEV_FUND * 100}% of the FARTHER supply
+                      is reserved for the founding team. After launch, it will
+                      be put in a vesting contract that unlocks 25% after a year
+                      and continually unlocks the remaining 75% over two years.
+                    </>
+                  ),
+                })
+              }
+            >
+              founder/dev allocation
+            </Button>
+          </li>
         </ul>
         <p>
           In addition to the initial supply, the{" "}
