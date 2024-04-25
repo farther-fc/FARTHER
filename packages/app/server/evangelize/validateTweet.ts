@@ -112,25 +112,62 @@ export const validateTweet = publicProcedure
 
       followerCount = data.data.public_metrics.followers_count as number;
 
-      const allocation = getEvanglistAllocation({ followerCount });
+      const amount = getEvanglistAllocationAmount({ followerCount });
 
-      // Store allocation
-      await prisma.allocation.create({
-        data: {
+      // Look for existing pending allocation
+      const pendingAllocation = await prisma.allocation.findFirst({
+        where: {
+          userId: user.id,
           type: "EVANGELIST",
-          amount: allocation.toString(),
-          tweet: {
-            create: {
-              id: tweetId,
-            },
-          },
-          user: {
-            connect: {
-              fid,
-            },
-          },
+          airdropId: null,
         },
       });
+
+      if (pendingAllocation) {
+        // Create tweet
+        await prisma.$transaction(async (tx) => {
+          const tweet = await tx.tweet.create({
+            data: {
+              id: tweetId,
+              reward: amount.toString(),
+              allocationId: pendingAllocation.id,
+            },
+          });
+
+          await tx.allocation.update({
+            where: {
+              id: pendingAllocation.id,
+            },
+            data: {
+              amount: (BigInt(pendingAllocation.amount) + amount).toString(),
+              tweets: {
+                connect: {
+                  id: tweet.id,
+                },
+              },
+            },
+          });
+        });
+      } else {
+        // Store allocation
+        await prisma.allocation.create({
+          data: {
+            type: "EVANGELIST",
+            amount: amount.toString(),
+            tweets: {
+              create: {
+                id: tweetId,
+                reward: amount.toString(),
+              },
+            },
+            user: {
+              connect: {
+                fid,
+              },
+            },
+          },
+        });
+      }
     }
 
     return { isValid, reason };
@@ -162,7 +199,11 @@ function verifyTweetText({
   return { isValid: true };
 }
 
-function getEvanglistAllocation({ followerCount }: { followerCount: number }) {
+function getEvanglistAllocationAmount({
+  followerCount,
+}: {
+  followerCount: number;
+}) {
   const MINIMUM_FOLLOWER_COUNT = 100;
   const MAXIMUM_FOLLOWER_COUNT = 30_000_000;
 

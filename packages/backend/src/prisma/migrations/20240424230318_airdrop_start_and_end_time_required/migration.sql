@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Airdrop" ALTER COLUMN "endTime" DROP DEFAULT,
+ALTER COLUMN "startTime" DROP DEFAULT;

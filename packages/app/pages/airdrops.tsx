@@ -3,7 +3,6 @@ import { ROUTES } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import { formatDate, formatWad, startOfNextMonth } from "@lib/utils";
 import Link from "next/link";
-import { powerUserAirdropConfig } from "@farther/common";
 import { InfoCard } from "@components/InfoCard";
 import { FartherChannelLink } from "@components/nav/FartherChannelLink";
 import { Button } from "@components/ui/Button";

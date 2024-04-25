@@ -13,17 +13,9 @@ export const getUser = publicProcedure
     let fid: number;
 
     try {
-      // Get user data from neynar
-      const response = await neynarClient.fetchBulkUsersByEthereumAddress([
-        opts.input.address,
-      ]);
+      const user = await getUserFromNeynar(address);
 
-      // Neynar returns weird data structure
-      const [user] = response[address] ? response[address] : [];
-
-      // In prod, if Neynar doesn't find a user, return null.
-      // But in staging/dev we use the test user (which we know isn't on Farcaster or in Neynar's db)
-      if (!user && isProduction) {
+      if (!user) {
         return null;
       }
 
@@ -53,34 +45,10 @@ export const getUser = publicProcedure
         username: user.username,
         displayName: user.display_name,
         pfpUrl: user.pfp_url,
-        profileBio: user.profile.bio.text,
+        powerBadge: user.power_badge,
         allocations,
       };
     } catch (error: any) {
-      if (error.response.statusText === "Not Found") {
-        // Return test user if in dev/staging
-        if (!isProduction && address === DEV_USER_ADDRESS.toLowerCase()) {
-          const dbUser = await getDbUserByFid(DEV_USER_FID);
-
-          const allocations = dbUser?.allocations.find(
-            (a) => a.type === AllocationType.POWER_USER,
-          )
-            ? dbUser?.allocations
-            : [...(dbUser?.allocations || []), pendingAllocation];
-
-          return {
-            fid: DEV_USER_FID,
-            username: "testuser",
-            displayName: "Test User",
-            pfpUrl:
-              "https://wrpcd.net/cdn-cgi/image/fit=contain,f=auto,w=168/https%3A%2F%2Fi.imgur.com%2F3hrPNK8.jpg",
-            profileBio: "Test bio",
-            allocations,
-          };
-        }
-
-        return null;
-      }
       // TODO: Log to Sentry?
       console.log(error);
     }
@@ -99,6 +67,7 @@ function getDbUserByFid(fid: number) {
           isClaimed: true,
           index: true,
           type: true,
+          tweets: true,
           airdrop: {
             select: {
               id: true,
@@ -112,4 +81,27 @@ function getDbUserByFid(fid: number) {
       },
     },
   });
+}
+
+async function getUserFromNeynar(address: string) {
+  if (!isProduction && address === DEV_USER_ADDRESS.toLowerCase()) {
+    return {
+      fid: DEV_USER_FID,
+      username: "testuser",
+      display_name: "Test User",
+      pfp_url:
+        "https://wrpcd.net/cdn-cgi/image/fit=contain,f=auto,w=168/https%3A%2F%2Fi.imgur.com%2F3hrPNK8.jpg",
+      power_badge: false,
+    };
+  }
+
+  // Get user data from neynar
+  const response = await neynarClient.fetchBulkUsersByEthereumAddress([
+    address,
+  ]);
+
+  // Neynar returns weird data structure
+  const [user] = response[address] ? response[address] : [];
+
+  return user;
 }

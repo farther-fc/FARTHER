@@ -34,7 +34,7 @@ export function ProfileMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">
+        <Button variant="secondary">
           {user?.pfpUrl && isTablet && (
             <Avatar className="mr-2">
               <AvatarImage src={user.pfpUrl} />

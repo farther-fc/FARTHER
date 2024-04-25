@@ -1,9 +1,10 @@
 import { EvangelistRules } from "@components/EvangelistRules";
 import { Button } from "@components/ui/Button";
+import { ExternalLink } from "@components/ui/ExternalLink";
 import { Form, FormField, FormItem, FormMessage } from "@components/ui/Form";
 import { Input } from "@components/ui/Input";
 import { Label } from "@components/ui/Label";
-import { ROUTES } from "@lib/constants";
+import { POWER_BADGE_INFO_URL, ROUTES } from "@lib/constants";
 import { useModal } from "@lib/context/ModalContext";
 import { useUser } from "@lib/context/UserContext";
 import { trpcClient } from "@lib/trpcClient";
@@ -60,10 +61,23 @@ export function SubmitTweet() {
         toast({
           msg: (
             <>
-              Congrats! You have pending evangelist rewards. They will become
-              claimable on the{" "}
-              <Link href={ROUTES.rewards.path}>rewards page</Link> at the end of
-              the month.
+              {user.powerBadge ? (
+                <>
+                  Success! You have two months to earn a{" "}
+                  <ExternalLink href={POWER_BADGE_INFO_URL}>
+                    Warpcast power badge
+                  </ExternalLink>
+                  . Once you do, check the{" "}
+                  <Link href={ROUTES.rewards.path}>rewards page</Link> page.
+                </>
+              ) : (
+                <>
+                  Congrats! You have pending evangelist rewards. They will
+                  become claimable on the{" "}
+                  <Link href={ROUTES.rewards.path}>rewards page</Link> at the
+                  end of the month.
+                </>
+              )}
             </>
           ),
         });

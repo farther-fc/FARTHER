@@ -27,7 +27,7 @@ export function LiquidityInfo() {
           <ul>
             <li>
               If this is your first time providing liquidity in a decentralized
-              exchange, please know you are exposing yourself to the risk of{" "}
+              exchange, please consider the risks of{" "}
               <ExternalLink href="https://support.uniswap.org/hc/en-us/articles/20904453751693-What-is-Impermanent-Loss">
                 impermanent loss
               </ExternalLink>
@@ -72,10 +72,7 @@ export function LiquidityInfo() {
           Click <em>Stake</em> to initiate a transaction that locks your LP
           token. At this point, you will start accruing rewards.
         </li>
-        <li>
-          Unstake and claim your rewards at any time.
-          <em>Unstake</em>.
-        </li>
+        <li>Unstake to claim your rewards at any time.</li>
       </ol>
     </div>
   );

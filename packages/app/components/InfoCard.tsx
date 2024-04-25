@@ -13,7 +13,7 @@ export function InfoCard({
   return (
     <p
       className={cn(
-        `my-6 rounded-xl border p-8`,
+        `my-6 rounded-xl border p-4 md:p-8`,
         variant === "muted"
           ? "text-muted"
           : variant === "warning"

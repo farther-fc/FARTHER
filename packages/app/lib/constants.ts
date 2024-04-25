@@ -45,4 +45,5 @@ export const pendingAllocation = {
   amount: "0",
   airdrop: null,
   index: null,
+  tweets: [],
 };

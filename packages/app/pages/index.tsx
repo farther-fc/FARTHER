@@ -79,7 +79,7 @@ export default function Home() {
             <Link href={ROUTES.liquidty.path}>Onchain liquidity rewards</Link>
           </li>
           <li>
-            <Link href={ROUTES.liquidty.path}>Tip allocations</Link>
+            <Link href={ROUTES.tips.path}>Tip allocations</Link>
           </li>
           <li>Partnerships</li>
           <li>

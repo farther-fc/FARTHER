@@ -1,6 +1,8 @@
 import {
-  ANVIL_AIRDROP_ADDRESS,
+  DEV_USER_ADDRESS,
   DEV_USER_FID,
+  GIGAMESH_FID,
+  GIGAMESH_ADDRESS,
   WAD_SCALER,
   WARPCAST_API_BASE_URL,
   isProduction,
@@ -15,38 +17,20 @@ import { ENVIRONMENT, CHAIN_ID } from "@farther/common";
 import { allocateTokens } from "../utils/allocateTokens";
 
 async function preparePowerDrop() {
-  // 1. Get power users from Warpcast
-  const warpcastResponse = (await (
-    await fetch(`${WARPCAST_API_BASE_URL}power-badge-users`)
-  ).json()) as { result: { fids: number[] } };
-
-  const powerUserFids = warpcastResponse.result.fids;
-
-  // 2. Get user data from Neynar
-  const latestUserData = await neynarLimiter.getUsersByFid(
-    warpcastResponse.result.fids,
-  );
-
-  // 2. Filter the ones who have a power badge & verified address
-  const data = latestUserData
-    .filter((u) => !!u.power_badge && !!u.verified_addresses.eth_addresses[0])
-    .map((u) => ({
-      fid: u.fid,
-      address: u.verified_addresses.eth_addresses[0].toLowerCase(),
-    }));
+  const powerUsers = await getPowerUsers();
 
   // 3. Upsert users in db
   await prisma.$transaction([
     prisma.user.deleteMany({
       where: {
         fid: {
-          in: data.map((u) => u.fid),
+          in: powerUsers.map((u) => u.fid),
         },
       },
     }),
     prisma.user.createMany({
       // Only need fid
-      data: data.map((u) => ({ fid: u.fid })),
+      data: powerUsers.map((u) => ({ fid: u.fid })),
     }),
   ]);
 
@@ -54,7 +38,7 @@ async function preparePowerDrop() {
   const recipients = await prisma.user.findMany({
     where: {
       fid: {
-        in: powerUserFids,
+        in: powerUsers.map((u) => u.fid),
       },
       allocations: {
         // Each user only gets one power user airdrop
@@ -78,22 +62,14 @@ async function preparePowerDrop() {
   const basePerRecipientWad = halfOfTotalWad / BigInt(recipients.length);
 
   const followerCounts = recipients.map((u) => {
-    const followers = latestUserData.find(
+    const followers = powerUsers.find(
       (user) => user.fid === u.fid,
-    )?.follower_count;
+    )?.followerCount;
     return {
       fid: u.fid,
       followers,
     };
   });
-
-  // Add test user (pretending this user is on Farcaster)
-  if (!isProduction) {
-    followerCounts.push({
-      fid: DEV_USER_FID,
-      followers: 3993,
-    });
-  }
 
   const bonusAllocations = allocateTokens(
     followerCounts.map((u) => ({ fid: u.fid, followers: u.followers })),
@@ -101,24 +77,39 @@ async function preparePowerDrop() {
     Number(halfOfTotalWad / WAD_SCALER),
   );
 
+  if (bonusAllocations.length !== recipients.length) {
+    // Build array of the mismatched fids
+    const missingFidsInRecipients = recipients
+      .map((r) => r.fid)
+      .filter((fid) => !bonusAllocations.find((a) => a.fid === fid));
+
+    const missingFidsInBonusAllocations = bonusAllocations
+      .map((a) => a.fid)
+      .filter((fid) => !recipients.find((r) => r.fid === fid));
+
+    throw new Error(
+      `Mismatch between recipients and bonus allocations: ${[...missingFidsInRecipients, ...missingFidsInBonusAllocations]}`,
+    );
+  }
+
   const recipientsWithAllocations = recipients.map((r, i) => {
-    const address = latestUserData.find((u) => u.fid === r.fid)
-      ?.verified_addresses.eth_addresses[0];
+    const address = powerUsers.find((u) => u.fid === r.fid)?.address;
     return {
       ...r,
       amount:
         basePerRecipientWad +
         BigInt(bonusAllocations[i].allocation) * WAD_SCALER,
-      address: address ? address.toLowerCase() : undefined,
+      address,
     };
   });
 
   const recipientsWithoutAddress = recipientsWithAllocations.filter(
     (r) => !r.address,
   );
+
   if (recipientsWithoutAddress.length > 0) {
     await writeFile(
-      `airdrops/${ENVIRONMENT}/${AllocationType.POWER_USER}-${powerUserAirdropConfig.NUMBER}-null-addresses.json`,
+      `airdrops/${ENVIRONMENT}/${AllocationType.POWER_USER.toLowerCase()}-${powerUserAirdropConfig.NUMBER}-null-addresses.json`,
       JSON.stringify(
         recipientsWithoutAddress.map((r) => ({
           fid: r.fid,
@@ -155,6 +146,8 @@ async function preparePowerDrop() {
     amount: allocationSum.toString(),
     root,
     address: undefined,
+    startTime: powerUserAirdropConfig.START_TIME,
+    endTime: powerUserAirdropConfig.END_TIME,
   };
 
   // Upsert Airdrop
@@ -184,7 +177,7 @@ async function preparePowerDrop() {
   ]);
 
   await writeFile(
-    `airdrops/${ENVIRONMENT}/${AllocationType.POWER_USER}-${powerUserAirdropConfig.NUMBER}.json`,
+    `airdrops/${ENVIRONMENT}/${AllocationType.POWER_USER.toLowerCase()}-${powerUserAirdropConfig.NUMBER}.json`,
     JSON.stringify(
       {
         root,
@@ -200,8 +193,6 @@ async function preparePowerDrop() {
     .map((r) => Number(r.amount / WAD_SCALER))
     .sort((a, b) => a - b);
 
-  console.log(sortedAllocations);
-
   console.log({
     root,
     amount: allocationSum,
@@ -212,6 +203,44 @@ async function preparePowerDrop() {
   console.warn(
     `\n\nFOLLOW NEXT STEPS IN RUNBOOK!: \n https://www.notion.so/Airdrop-runbook-ad7d4c7116444d35ab76705eca2d6c98\n\n`,
   );
+}
+
+async function getPowerUsers() {
+  if (!isProduction) {
+    return [
+      {
+        fid: DEV_USER_FID,
+        address: DEV_USER_ADDRESS,
+        followerCount: 3993,
+      },
+      {
+        fid: GIGAMESH_FID,
+        address: GIGAMESH_ADDRESS,
+        followerCount: 65000,
+      },
+    ];
+  }
+
+  // 1. Get power users from Warpcast
+  const warpcastResponse = (await (
+    await fetch(`${WARPCAST_API_BASE_URL}power-badge-users`)
+  ).json()) as { result: { fids: number[] } };
+
+  const powerUserFids = warpcastResponse.result.fids;
+
+  // 2. Get user data from Neynar
+  const latestUserData = await neynarLimiter.getUsersByFid(powerUserFids);
+
+  // 2. Filter the ones who have a power badge & verified address
+  const data = latestUserData
+    .filter((u) => !!u.power_badge && !!u.verified_addresses.eth_addresses[0])
+    .map((u) => ({
+      fid: u.fid,
+      address: u.verified_addresses.eth_addresses[0].toLowerCase(),
+      followerCount: u.follower_count,
+    }));
+
+  return data;
 }
 
 preparePowerDrop().catch(console.error);

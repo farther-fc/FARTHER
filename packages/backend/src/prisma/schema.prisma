@@ -36,7 +36,7 @@ model Allocation {
   // the user's wallet connection, and don't store the recipient's address until an airdrop merkle root is calculated.
   address   String?
 
-  tweet Tweet?
+  tweets     Tweet[]
 
   @@unique([userId, airdropId])
 }
@@ -50,8 +50,11 @@ model Tweet {
   id           String     @id
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
-  allocationId String     @unique @db.Uuid
+  allocationId String     @db.Uuid
   allocation   Allocation @relation(fields: [allocationId], references: [id], onDelete: Cascade)
+
+  // Each tweet has its own reward, which gets summed to the allocation amount
+  reward        String
 }
 
 // Airdrop
@@ -68,8 +71,8 @@ model Airdrop {
   // Evanglist airdrops have a fixed supply. Any remaining supply is carried over to the next airdorp.
   supply String?
 
-  startTime DateTime @default(now())
-  endTime   DateTime @default(now())
+  startTime DateTime
+  endTime   DateTime
 
   allocations Allocation[]
 

@@ -9,6 +9,8 @@
     "env:staging": "dotenv -e ../../.env.staging -- ",
     "preparePowerDrop:staging": "pnpm env:staging ts-node src/scripts/preparePowerDrop.ts",
     "preparePowerDrop:dev": "pnpm env:dev ts-node src/scripts/preparePowerDrop.ts",
+    "prepareEvangelistDrop:staging": "pnpm env:staging ts-node src/scripts/prepareEvangelistDrop.ts",
+    "prepareEvangelistDrop:dev": "pnpm env:dev ts-node src/scripts/prepareEvangelistDrop.ts",
     "migrate:create": "pnpm env:dev prisma migrate dev",
     "migrate:staging": "pnpm env:staging prisma migrate deploy",
     "migrate:prod": "dotenv -e ../../.env.production prisma migrate deploy",
