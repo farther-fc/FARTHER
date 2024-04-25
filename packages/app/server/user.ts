@@ -4,6 +4,7 @@ import { apiSchemas } from "@lib/types/apiSchemas";
 import { isProduction, neynarClient } from "@farther/common";
 import { DEV_USER_ADDRESS, DEV_USER_FID } from "@farther/common";
 import { pendingAllocation } from "@lib/constants";
+import { TRPCError } from "@trpc/server";
 
 export const getUser = publicProcedure
   .input(apiSchemas.getUser.input)
@@ -13,6 +14,10 @@ export const getUser = publicProcedure
     let fid: number;
 
     try {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "test error from getUser",
+      });
       const user = await getUserFromNeynar(address);
 
       if (!user) {
@@ -52,8 +57,7 @@ export const getUser = publicProcedure
       if (error.response && error.response.statusText === "Not Found") {
         console.warn("User not found in Neynar", address);
       } else {
-        // TODO: Log to Sentry?
-        console.log(error);
+        throw error;
       }
     }
   });
