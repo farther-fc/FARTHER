@@ -14,7 +14,18 @@ if (!NEXT_PUBLIC_ENVIRONMENT) {
 Sentry.init({
   dsn: SENTRY_DSN,
   environment: NEXT_PUBLIC_ENVIRONMENT,
-  enabled: process.env.NODE_ENV !== "development",
+  enabled: NEXT_PUBLIC_ENVIRONMENT !== "development",
   ignoreErrors: [],
-  debug: true,
+
+  // Adjust this value in production, or use tracesSampler for greater control
+  tracesSampleRate: 1,
+
+  // Setting this option to true will print useful information to the console while you're setting up Sentry.
+  debug: false,
+
+  replaysOnErrorSampleRate: 1.0,
+
+  // This sets the sample rate to be 10%. You may want this to be 100% while
+  // in development and sample at a lower rate in production
+  replaysSessionSampleRate: 0.1,
 });

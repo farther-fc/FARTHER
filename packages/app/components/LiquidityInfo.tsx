@@ -72,7 +72,10 @@ export function LiquidityInfo() {
           Click <em>Stake</em> to initiate a transaction that locks your LP
           token. At this point, you will start accruing rewards.
         </li>
-        <li>Unstake to claim your rewards at any time.</li>
+        <li>
+          Claiming your rewards is a two-step process. You will first click{" "}
+          <em>Unstake</em>, followed by <em>Withdraw</em>.
+        </li>
       </ol>
     </div>
   );

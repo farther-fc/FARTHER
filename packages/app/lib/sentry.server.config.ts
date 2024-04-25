@@ -14,6 +14,5 @@ if (!NEXT_PUBLIC_ENVIRONMENT) {
 Sentry.init({
   dsn: SENTRY_DSN,
   environment: NEXT_PUBLIC_ENVIRONMENT,
-  // enabled: process.env.NEXT_PUBLIC_ENVIRONMENT !== "development",
-  enabled: true,
+  enabled: NEXT_PUBLIC_ENVIRONMENT !== "development",
 });

@@ -217,8 +217,6 @@ export function useLiquidityPositions() {
 
     const positions: Position[] = [];
 
-    // TODO: add polling
-
     (async () => {
       for (const position of positionsData.positions) {
         let unclaimedRewards = BigInt(0);
