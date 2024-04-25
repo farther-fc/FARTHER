@@ -61,13 +61,16 @@ export function useLiquidityPositions() {
     refetch: refetchPositions,
   } = useQuery({
     queryKey: [account.address],
-    queryFn: () =>
-      sdk.FartherPositions({
+    queryFn: () => {
+      if (!account.address) return null;
+      return sdk.FartherPositions({
         account: account.address as Address,
         poolId: contractAddresses.UNIV3_FARTHER_ETH_30BPS_POOL,
-      }),
+      });
+    },
     enabled: !!account.address,
   });
+
   const positionsLoading =
     _positionsLoading ||
     (positionsData?.positions.length && !positions?.length);
@@ -247,8 +250,9 @@ export function useLiquidityPositions() {
   }, [positionsData, account.address]);
 
   React.useEffect(() => {
+    if (!account.address) return;
     fetchClaimedRewards();
-  }, [fetchClaimedRewards]);
+  }, [fetchClaimedRewards, account.address]);
 
   /** Wipe positions when account is changed */
   React.useEffect(() => {

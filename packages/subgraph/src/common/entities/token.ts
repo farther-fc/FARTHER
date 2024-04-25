@@ -1,9 +1,7 @@
 import { Address, Bytes, ethereum } from "@graphprotocol/graph-ts";
 import { NetworkConfigs } from "../../../configurations/configure";
 import { ERC20 } from "../../../generated/Factory/ERC20";
-import {
-  Token,
-} from "../../../generated/schema";
+import { Token } from "../../../generated/schema";
 import {
   DEFAULT_DECIMALS,
   Network,
@@ -24,7 +22,6 @@ export function getOrCreateToken(
 
     if (!NetworkConfigs.getBrokenERC20Tokens().includes(address)) {
       const erc20Contract = ERC20.bind(Address.fromBytes(address));
-      // TODO: add overrides for name and symbol
       const nameCall = erc20Contract.try_name();
       if (!nameCall.reverted) name = nameCall.value;
       const symbolCall = erc20Contract.try_symbol();
@@ -36,7 +33,7 @@ export function getOrCreateToken(
     if (
       token.id ==
         Address.fromHexString(
-          "0x82af49447d8a07e3bd95bd0d56f35241523fbab1".toLowerCase()
+          "0x82af49447d8a07e3bd95bd0d56f35241523fbab1".toLowerCase(),
         ) &&
       NetworkConfigs.getNetwork() == Network.ARBITRUM_ONE
     ) {
@@ -69,7 +66,7 @@ export function getOrCreateToken(
 export function getOrCreateLPToken(
   tokenAddress: Bytes,
   token0: Token,
-  token1: Token
+  token1: Token,
 ): Token {
   let token = Token.load(tokenAddress);
   // fetch info if null
@@ -88,7 +85,7 @@ function fixTokenFields(token: Token): Token {
   if (
     token.id ==
       Address.fromHexString(
-        "0x82af49447d8a07e3bd95bd0d56f35241523fbab1".toLowerCase()
+        "0x82af49447d8a07e3bd95bd0d56f35241523fbab1".toLowerCase(),
       ) &&
     NetworkConfigs.getNetwork() == Network.ARBITRUM_ONE
   ) {
@@ -100,7 +97,7 @@ function fixTokenFields(token: Token): Token {
   if (
     token.id ==
       Address.fromHexString(
-        "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8".toLowerCase()
+        "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8".toLowerCase(),
       ) &&
     NetworkConfigs.getNetwork() == Network.ARBITRUM_ONE
   ) {
@@ -111,7 +108,7 @@ function fixTokenFields(token: Token): Token {
   if (
     token.id ==
       Address.fromHexString(
-        "0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9".toLowerCase()
+        "0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9".toLowerCase(),
       ) &&
     NetworkConfigs.getNetwork() == Network.ARBITRUM_ONE
   ) {

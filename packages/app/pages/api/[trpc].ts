@@ -26,7 +26,6 @@ export default trpcNext.createNextApiHandler({
     nodeHTTPJSONContentTypeHandler(),
   ],
   onError({ error, path, input, ctx, req }) {
-    // TODO: set up sentry
     console.error("ERROR", {
       error,
       path,

@@ -75,8 +75,6 @@ export const validateTweet = publicProcedure
       tweetText = data.data[0].text as string;
       tweetAuthorId = data.data[0].author_id as string;
     } catch (error) {
-      // TODO: sentry
-      console.error(error);
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
         message: `Unable to retrieve tweet. Please check the URL and try again.`,
