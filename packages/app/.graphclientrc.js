@@ -4,10 +4,10 @@ export default {
       name: "farther",
       handler: {
         graphql: {
-          endpoint: `https://api.studio.thegraph.com/query/70489/farther-base/version/latest`,
+          endpoint: `https://farther.squids.live/farther/graphql`,
         },
       },
     },
   ],
-  documents: ["./lib/subgraph/queries.ts"],
+  documents: ["./lib/gql-queries.ts"],
 };

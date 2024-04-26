@@ -10,7 +10,6 @@ import numeral from "numeral";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { useModal } from "@lib/context/ModalContext";
 import { Button } from "@components/ui/Button";
-import { Starloop } from "@components/Starloop";
 
 const EcosystemFundModal = () => (
   <>

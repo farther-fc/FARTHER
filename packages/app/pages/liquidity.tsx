@@ -19,6 +19,8 @@ export default function LiquidityPage() {
   const { positions, positionsLoading, claimedRewards } =
     useLiquidityPositions();
 
+  console.log(positions);
+
   return (
     <main className="content">
       <LiquidityInfo />

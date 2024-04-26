@@ -9,17 +9,10 @@ import { viemClient } from "@lib/walletConfig";
 import { useLogError } from "hooks/useLogError";
 import { getIncentiveKey } from "@lib/utils";
 import { useToast } from "hooks/useToast";
-import {
-  Position as RawPosition,
-  Account,
-  Pool,
-  getBuiltGraphSDK,
-} from "../.graphclient";
+import { FartherPositionsQuery, getBuiltGraphSDK } from "../.graphclient";
 import { useQuery } from "@tanstack/react-query";
 
-export type Position = Pick<RawPosition, "id" | "tokenId" | "isStaked"> & {
-  account: Pick<Account, "id">;
-  pool: Pick<Pool, "id">;
+export type Position = FartherPositionsQuery["positions"][number] & {
   unclaimedRewards: bigint;
 };
 
@@ -64,7 +57,7 @@ export function useLiquidityPositions() {
     queryFn: () => {
       if (!account.address) return null;
       return sdk.FartherPositions({
-        account: account.address as Address,
+        ownerId: account.address as Address,
         poolId: contractAddresses.UNIV3_FARTHER_ETH_30BPS_POOL,
       });
     },
@@ -237,7 +230,8 @@ export function useLiquidityPositions() {
                 endTime: BigInt(incentivePrograms[1].endTime),
                 refundee: incentivePrograms[1].refundee,
               },
-              position.tokenId,
+              // tokenId
+              BigInt(position.id),
             ],
           });
           // The above will throw an error if the position is not staked
