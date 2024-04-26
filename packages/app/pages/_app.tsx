@@ -29,7 +29,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
-      setPw(localStorage.get("pw"));
+      setPw(localStorage.getItem("pw") || "");
     }
   }, [setPw]);
 
