@@ -32,7 +32,7 @@ export const validateTweet = publicProcedure
       },
     });
 
-    // Get user's tweets from the past week
+    // Get user's tweets from the past three days
     const pastTweets = await prisma.tweet.findMany({
       where: {
         allocation: {
@@ -41,18 +41,15 @@ export const validateTweet = publicProcedure
           },
         },
         createdAt: {
-          gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+          gte: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
         },
       },
     });
 
-    // Sort by oldest
-    pastTweets.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
-
     if (pastTweets.length >= 1) {
       return {
         isValid: false,
-        reason: `You've already submitted a tweet in the past week. Please try a week after your latest submission. ❤️`,
+        reason: `Your evangelism is commendable! However, please wait to submit until three days after your latest submission. ❤️`,
       };
     }
 

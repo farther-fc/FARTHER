@@ -19,6 +19,8 @@ export default function LiquidityPage() {
   const { positions, positionsLoading, claimedRewards } =
     useLiquidityPositions();
 
+  console.log(positions);
+
   return (
     <main className="content">
       <LiquidityInfo />
@@ -40,8 +42,11 @@ export default function LiquidityPage() {
             <>
               <h2 className="flex items-end justify-between ">
                 <div className="!leading-tight">Positions</div>{" "}
-                <div className="text-link rounded-lg border px-4 py-2 !text-lg !leading-normal">
-                  Claimed: {formatWad(claimedRewards.toString())}
+                <div className="rounded-lg border px-4 py-1 !text-lg !leading-normal">
+                  Claimed:{" "}
+                  <span className="text-link">
+                    {formatWad(claimedRewards.toString())}
+                  </span>
                 </div>
               </h2>
               <Table>

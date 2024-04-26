@@ -6,7 +6,7 @@ function tips() {
   return (
     <ComingSoon>
       <>
-        <h2>Tips coming soon!</h2>
+        <h2 className="border-none pl-0">Tips coming soon!</h2>
         <br /> Watch the <FartherChannelLink /> for updates.
       </>
     </ComingSoon>

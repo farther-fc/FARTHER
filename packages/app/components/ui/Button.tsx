@@ -9,13 +9,13 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "border border-input hover:bg-accent hover:text-accent-foreground hover:bg-link-hover hover:bg-link-light-hover",
+          "border backdrop-blur-md text-link bg-white/5 border-input hover:bg-white/10",
         error:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         secondary:
-          "border border-input hover:bg-accent hover:text-accent-foreground",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "hover:underline !p-0 dark:text-link dark:hover:text-link-hover hover:text-link-light-hover transition-colors text-link-light font-normal !h-auto font-normal",
+          "backdrop-blur-md text-link border border-input hover:bg-accent hover:bg-white/5",
+        ghost: "backdrop-blur-md text-link hover:bg-white/5 ",
+        link: "hover:underline !p-0 dark:text-link dark:hover:text-link-hover transition-colors font-normal !h-auto font-normal",
       },
       size: {
         default: "h-10 py-2 px-4",

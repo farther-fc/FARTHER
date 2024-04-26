@@ -15,7 +15,7 @@ export function EvangelistRules() {
           {user?.fid ?? "<Farcaster ID>"}". Capitalization doesn't matter.
         </li>
         <li>If you delete the tweet, your points become invalid.</li>
-        <li>Rewards can only be requested once per user per week.</li>
+        <li>Rewards can only be requested once every three days.</li>
         <li>
           Any Farcaster user can earn points, but they don't become claimable as
           $FARTHER tokens unless the user has a{" "}

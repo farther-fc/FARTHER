@@ -13,9 +13,9 @@ export function LiquidityTableRow({ position }: { position: Position }) {
     <TableRow key={position.id}>
       <TableCell className="pl-0 font-bold">
         <ExternalLink
-          href={`https://app.uniswap.org/pools/${position.tokenId}?chain=${NETWORK}`}
+          href={`https://app.uniswap.org/pools/${position.id}?chain=${NETWORK}`}
         >
-          {position.tokenId}
+          {position.id}
         </ExternalLink>
       </TableCell>
       <TableCell className="text-right">
@@ -26,8 +26,8 @@ export function LiquidityTableRow({ position }: { position: Position }) {
           className="w-28"
           onClick={() =>
             position.isStaked
-              ? handleUnstake(position.tokenId)
-              : handleStake(position.tokenId)
+              ? handleUnstake(position.id)
+              : handleStake(position.id)
           }
           loadingText={position.isStaked ? "Unstaking" : "Staking"}
           loading={txPending}

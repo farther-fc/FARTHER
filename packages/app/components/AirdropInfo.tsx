@@ -1,4 +1,8 @@
-import { LAUNCH_DATE, allocationRatios } from "@farther/common";
+import {
+  LAUNCH_DATE,
+  allocationRatios,
+  startOfNextMonth,
+} from "@farther/common";
 import { formatDate } from "@lib/utils";
 import React from "react";
 import { ExternalLink } from "./ui/ExternalLink";
@@ -27,13 +31,7 @@ export function AirdropInfo() {
       </li>
       <li className="mt-3">
         The tokens are being distributed via monthly airdrops over three years
-        beginning on{" "}
-        {formatDate(LAUNCH_DATE, {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        })}
-        .
+        beginning on May 1, 2024.
       </li>
       <li>
         The allocation each user receives is determined by:{" "}

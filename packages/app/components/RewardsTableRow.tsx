@@ -176,7 +176,6 @@ export function RewardsTableRow({
           <Pending />
         ) : (
           <Button
-            variant="secondary"
             disabled={
               !airdropStartTimeExceeded ||
               !allocation.airdrop?.address ||

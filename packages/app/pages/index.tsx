@@ -10,6 +10,22 @@ import numeral from "numeral";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { useModal } from "@lib/context/ModalContext";
 import { Button } from "@components/ui/Button";
+import Image from "next/image";
+
+const EcosystemFundModal = () => (
+  <>
+    The ecosystem fund is an open-ended pool for funding any future initiative
+    that is aligned with the Farcaster & Farther communities. It will initially
+    be controlled by the founder, but may eventually be turned over to community
+    governance. Some plans for funding include:
+    <ul>
+      <li>Partnerships with Farcaster apps</li>
+      <li>Education resources</li>
+      <li>Hackathon sponsorships</li>
+      <li>Micro apps</li>
+    </ul>
+  </>
+);
 
 export default function Home() {
   const { openModal } = useModal();
@@ -23,6 +39,14 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="content">
+        <div className="w-scren flex h-[calc(100vh-64px)] items-center justify-center">
+          {/* <Image
+            alt="FARTHER✨"
+            src="/images/arches-landing-page-1400.png"
+            width={1400}
+            height={788}
+          /> */}
+        </div>
         <h1>Mission</h1>
         <p>
           Farther's mission is to accelerate the global adoption of{" "}
@@ -91,21 +115,7 @@ export default function Home() {
               onClick={() =>
                 openModal({
                   headerText: "Ecosystem fund",
-                  body: (
-                    <>
-                      The ecosystem fund is an open-ended pool for funding any
-                      future initiative that is aligned with the Farcaster &
-                      Farther communities. It will initially be controlled by
-                      the founders, but may eventually be turned over to
-                      community governance. Some plans for funding include:
-                      <ul>
-                        <li>Partnerships with Farcaster apps</li>
-                        <li>Education resources</li>
-                        <li>Hackathon sponsorships</li>
-                        <li>Micro apps</li>
-                      </ul>
-                    </>
-                  ),
+                  body: <EcosystemFundModal />,
                 })
               }
             >
@@ -148,21 +158,7 @@ export default function Home() {
               onClick={() =>
                 openModal({
                   headerText: "Ecosystem fund",
-                  body: (
-                    <>
-                      The ecosystem fund is an open-ended pool for funding any
-                      future initiative that is aligned with the Farcaster &
-                      Farther communities. It will initially be controlled by
-                      the founders, but may eventually be turned over to
-                      community governance. Some plans for funding include:
-                      <ul>
-                        <li>Partnerships with Farcaster apps</li>
-                        <li>Education resources</li>
-                        <li>Hackathon sponsorships</li>
-                        <li>Micro apps</li>
-                      </ul>
-                    </>
-                  ),
+                  body: <EcosystemFundModal />,
                 })
               }
             >
@@ -191,7 +187,7 @@ export default function Home() {
                 })
               }
             >
-              founder/dev allocation
+              founder allocation
             </Button>
           </li>
         </ul>

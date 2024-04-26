@@ -62,8 +62,7 @@ export default function EvangelizePage() {
         The current base reward is{" "}
         {numeral(BASE_TOKENS_PER_TWEET).format("0,0")} tokens per valid tweet.
         This amount may change based on the participation each month. An
-        additional bonus is applied based on your Twitter follower count. A tool
-        for calculating your exact reward is coming soon.
+        additional bonus is applied based on your Twitter follower count.
       </p>
       <h2>Steps</h2>
       <ol>
