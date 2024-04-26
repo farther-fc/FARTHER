@@ -20,6 +20,7 @@ import { wagmiConfig } from "@lib/walletConfig";
 import ComingSoon from "@components/ComingSoon";
 import { isProduction } from "@farther/common";
 import { Container } from "@components/ui/Container";
+import { StarLoop } from "@components/StarLoop";
 
 // Setup queryClient
 const queryClient = new QueryClient();
@@ -36,7 +37,6 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
-        {" "}
         <RainbowKitProvider>
           <UserProvider>
             <MediaQueryProvider>
@@ -45,9 +45,10 @@ const App = ({ Component, pageProps }: AppProps) => {
                 defaultTheme="system"
                 enableSystem
               >
+                <StarLoop />
                 {isProduction && pw !== "letmein" ? (
                   <ComingSoon>
-                    <h2>Coming Soon</h2>
+                    <h2 className="border-none pl-0">Coming Soon</h2>
                   </ComingSoon>
                 ) : (
                   <ModalProvider>

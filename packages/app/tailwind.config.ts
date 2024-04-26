@@ -59,10 +59,8 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
         link: {
-          DEFAULT: "#60a5fa",
-          hover: "#2563eb",
-          light: "#2563eb",
-          "light-hover": "#1e40af",
+          DEFAULT: "#fcd34d",
+          hover: "#fbbf24",
         },
       },
       borderRadius: {
