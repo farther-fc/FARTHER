@@ -6,7 +6,7 @@
     "dev": "next dev",
     "codegen": "pnpm graphclient build",
     "graph:dev": "dotenv -e ../../.env.staging graphclient serve-dev",
-    "build:web": "pnpm codegen && next build",
+    "build:web": "pnpm next build",
     "start": "pnpm codegen && next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",

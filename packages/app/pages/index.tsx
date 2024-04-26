@@ -10,6 +10,7 @@ import numeral from "numeral";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { useModal } from "@lib/context/ModalContext";
 import { Button } from "@components/ui/Button";
+import Image from "next/image";
 
 const EcosystemFundModal = () => (
   <>
@@ -39,7 +40,12 @@ export default function Home() {
       </Head>
       <main className="content">
         <div className="w-scren flex h-[calc(100vh-64px)] items-center justify-center">
-          FARTHER
+          {/* <Image
+            alt="FARTHER✨"
+            src="/images/arches-landing-page-1400.png"
+            width={1400}
+            height={788}
+          /> */}
         </div>
         <h1>Mission</h1>
         <p>
