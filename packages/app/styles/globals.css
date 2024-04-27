@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+#__next {
+  overflow: hidden;
+}
+
 @layer base {
   ::selection {
     @apply bg-amber-400 text-black;

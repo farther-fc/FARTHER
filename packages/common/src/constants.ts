@@ -11,7 +11,7 @@ export const GIGAMESH_FID = 4378;
 
 export const GIGAMESH_ADDRESS = "0x795050decc0322567c4f0098209d4edc5a69b9d0";
 
-export const TOTAL_TOKEN_SUPPLY = 50_000_000_000;
+export const TOTAL_TOKEN_SUPPLY = 1_000_000_000;
 export const allocationRatios = {
   POWER_DROPS: 0.25,
   LIQUIDITY_REWARDS: 0.15,
@@ -37,7 +37,7 @@ export const tokenAllocations = {
 };
 
 // Adjust this from month to month as needed
-export const BASE_TOKENS_PER_TWEET = 25_000;
+export const BASE_TOKENS_PER_TWEET = 1000;
 
 export const ONE_YEAR_IN_MS = 31_536_000_000;
 export const NEXT_AIRDROP_START_TIME = new Date("2024-05-01T00:00:00Z");
@@ -92,15 +92,6 @@ const baseContractAddresses = {
     UNIV3_FARTHER_ETH_30BPS_POOL: "0x".toLowerCase() as Address,
   },
 } as const;
-
-// Sepolia addresses
-//   FARTHER: "0x65fb1f9cb54ff76ebcb40b7f9aa4297b49c3cf1a" as Address,
-//   WETH: "0xfff9976782d46cc05630d1f6ebab18b2324d6b14" as Address,
-//   UNISWAP_V3_STAKER: "0x52a941cd52f48a1a7d73d7a07df1e23dd51a699e" as Address,
-//   NFT_POSITION_MANAGER:
-//     "0x1238536071e1c677a632429e3655c799b22cda52" as Address,
-//   UNIV3_FARTHER_ETH_30BPS_POOL:
-//     "0xee3a8dfc4b22a8c158381a68ed64954faee52ac4" as Address,
 
 export const contractAddresses = baseContractAddresses[ENVIRONMENT];
 

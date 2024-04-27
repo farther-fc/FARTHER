@@ -71,7 +71,7 @@ export default function Home() {
         <h2>Why</h2>
         <ul>
           <li>
-            Social relationships should be as unmediated online as they are in
+            Online social relationships should be as unmediated as they are in
             real life.
           </li>
           <li>
