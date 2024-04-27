@@ -12,6 +12,7 @@ export const GIGAMESH_FID = 4378;
 export const GIGAMESH_ADDRESS = "0x795050decc0322567c4f0098209d4edc5a69b9d0";
 
 export const TOTAL_TOKEN_SUPPLY = 1_000_000_000;
+
 export const allocationRatios = {
   POWER_DROPS: 0.25,
   LIQUIDITY_REWARDS: 0.15,
@@ -37,7 +38,7 @@ export const tokenAllocations = {
 };
 
 // Adjust this from month to month as needed
-export const BASE_TOKENS_PER_TWEET = 1000;
+export const BASE_TOKENS_PER_TWEET = TOTAL_TOKEN_SUPPLY / 400_000;
 
 export const ONE_YEAR_IN_MS = 31_536_000_000;
 export const NEXT_AIRDROP_START_TIME = new Date("2024-05-01T00:00:00Z");

@@ -12,6 +12,7 @@ import { trpcClient } from "@lib/trpcClient";
 import type { AppProps } from "next/app";
 import React from "react";
 import { UserProvider } from "@lib/context/UserContext";
+import { LiquidityProvider } from "@lib/context/LiquidityContext";
 import "@rainbow-me/rainbowkit/styles.css";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { WagmiProvider } from "wagmi";
@@ -59,30 +60,32 @@ const App = ({ Component, pageProps }: AppProps) => {
         <QueryClientProvider client={queryClient}>
           <RainbowKitProvider>
             <UserProvider>
-              <MediaQueryProvider>
-                <ThemeProvider
-                  attribute="class"
-                  defaultTheme="system"
-                  enableSystem
-                >
-                  <StarLoop />
-                  {isProduction && pw !== "letmein" ? (
-                    <ComingSoon>
-                      <h2 className="border-none pl-0">Coming Soon</h2>
-                    </ComingSoon>
-                  ) : (
-                    <ModalProvider>
-                      <Toaster />
-                      <SiteHeader />
-                      <GlobalModal />
-                      <Container variant="page">
-                        <Component {...pageProps} />
-                      </Container>
-                      <Footer />
-                    </ModalProvider>
-                  )}
-                </ThemeProvider>
-              </MediaQueryProvider>
+              <LiquidityProvider>
+                <MediaQueryProvider>
+                  <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                  >
+                    <StarLoop />
+                    {isProduction && pw !== "letmein" ? (
+                      <ComingSoon>
+                        <h2 className="border-none pl-0">Coming Soon</h2>
+                      </ComingSoon>
+                    ) : (
+                      <ModalProvider>
+                        <Toaster />
+                        <SiteHeader />
+                        <GlobalModal />
+                        <Container variant="page">
+                          <Component {...pageProps} />
+                        </Container>
+                        <Footer />
+                      </ModalProvider>
+                    )}
+                  </ThemeProvider>
+                </MediaQueryProvider>
+              </LiquidityProvider>
             </UserProvider>
           </RainbowKitProvider>
         </QueryClientProvider>

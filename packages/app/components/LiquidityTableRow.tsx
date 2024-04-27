@@ -2,12 +2,21 @@ import React from "react";
 import { TableCell, TableRow } from "@components/ui/Table";
 import { Button } from "@components/ui/Button";
 import { ExternalLink } from "@components/ui/ExternalLink";
-import { Position, useLiquidityPositions } from "hooks/useLiquidityPositions";
 import { formatWad } from "@lib/utils";
 import { NETWORK } from "@farther/common";
+import { Position } from "@lib/context/LiquidityContext";
+import { useLiquidityHandlers } from "hooks/useLiquidityHandlers";
 
 export function LiquidityTableRow({ position }: { position: Position }) {
-  const { handleStake, handleUnstake, txPending } = useLiquidityPositions();
+  const {
+    handleStake,
+    handleUnstake,
+    handleWithdraw,
+    txPending,
+    stakeSuccess,
+    unstakeSuccess,
+    withdrawSuccess,
+  } = useLiquidityHandlers();
 
   return (
     <TableRow key={position.id}>
@@ -23,17 +32,31 @@ export function LiquidityTableRow({ position }: { position: Position }) {
       </TableCell>
       <TableCell className="pr-0 text-right">
         <Button
-          className="w-28"
+          className="w-36"
           onClick={() =>
             position.isStaked
               ? handleUnstake(position.id)
-              : handleStake(position.id)
+              : position.isHeldByStaker
+                ? handleWithdraw(position.id)
+                : handleStake(position.id)
           }
-          loadingText={position.isStaked ? "Unstaking" : "Staking"}
+          loadingText={
+            position.isStaked
+              ? "Unstaking"
+              : position.isHeldByStaker
+                ? "Withdrawing"
+                : "Staking"
+          }
           loading={txPending}
           disabled={txPending}
         >
-          {position.isStaked ? "Unstake" : "Stake"}
+          {withdrawSuccess
+            ? "Stake"
+            : position.isStaked || stakeSuccess
+              ? "Unstake"
+              : position.isHeldByStaker || unstakeSuccess
+                ? "Withdraw"
+                : "Stake"}
         </Button>
       </TableCell>
     </TableRow>

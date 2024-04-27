@@ -9,7 +9,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "border backdrop-blur-md text-link bg-white/5 border-input hover:bg-white/10",
+          "border backdrop-blur-md text-link border-input hover:bg-white/5",
         error:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         secondary:

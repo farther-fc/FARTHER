@@ -1,0 +1,157 @@
+import { createContainer } from "@lib/context/unstated";
+import { UniswapV3StakerAbi } from "@farther/common";
+import { contractAddresses, incentivePrograms } from "@farther/common";
+import { useUser } from "@lib/context/UserContext";
+import { Address } from "viem";
+import React from "react";
+import { readContract } from "viem/actions";
+import { viemClient } from "@lib/walletConfig";
+import { useLogError } from "hooks/useLogError";
+import { FartherPositionsQuery, getBuiltGraphSDK } from "../../.graphclient";
+import { useQuery } from "@tanstack/react-query";
+import { usePathname } from "next/navigation";
+import { ROUTES } from "@lib/constants";
+
+export type Position = FartherPositionsQuery["positions"][number] & {
+  unclaimedRewards: bigint;
+};
+
+const POSITIONS_REFRESH_INTERVAL = 3000;
+
+const sdk = getBuiltGraphSDK();
+
+const LiquidityContext = createContainer(function () {
+  const [claimedRewards, setClaimedRewards] = React.useState<bigint>(BigInt(0));
+  const { account } = useUser();
+  const [positions, setPositions] = React.useState<Position[]>();
+  const logError = useLogError();
+  const timer = React.useRef<NodeJS.Timeout>();
+  const pathname = usePathname();
+
+  const {
+    data: positionsData,
+    error: positionsFetchError,
+    isLoading: _positionsLoading,
+    refetch: refetchPositions,
+  } = useQuery({
+    queryKey: [account.address],
+    queryFn: () => {
+      if (!account.address) return null;
+      return sdk.FartherPositions({
+        ownerId: account.address.toLowerCase() as Address,
+        poolId: contractAddresses.UNIV3_FARTHER_ETH_30BPS_POOL,
+      });
+    },
+    enabled: !!account.address,
+  });
+
+  const positionsLoading =
+    _positionsLoading ||
+    (positionsData?.positions.length && !positions?.length);
+
+  const refetchClaimedRewards = React.useCallback(() => {
+    readContract(viemClient, {
+      abi: UniswapV3StakerAbi,
+      address: contractAddresses.UNISWAP_V3_STAKER,
+      functionName: "rewards",
+      args: [contractAddresses.FARTHER, account.address as Address],
+    })
+      .then((rewards) => {
+        setClaimedRewards(rewards);
+      })
+      .catch((error) => {
+        logError({ error });
+      });
+  }, [account.address, logError]);
+
+  const refetchUnclaimedRewards = React.useCallback(async () => {
+    if (!positionsData?.positions.length || !account.address) return;
+
+    const positions: Position[] = [];
+
+    for (const position of positionsData.positions) {
+      let unclaimedRewards = BigInt(0);
+
+      try {
+        [unclaimedRewards] = await readContract(viemClient, {
+          abi: UniswapV3StakerAbi,
+          address: contractAddresses.UNISWAP_V3_STAKER,
+          functionName: "getRewardInfo",
+          args: [
+            {
+              rewardToken: contractAddresses.FARTHER,
+              pool: contractAddresses.UNIV3_FARTHER_ETH_30BPS_POOL,
+              startTime: BigInt(incentivePrograms[1].startTime),
+              endTime: BigInt(incentivePrograms[1].endTime),
+              refundee: incentivePrograms[1].refundee,
+            },
+            // tokenId
+            BigInt(position.id),
+          ],
+        });
+        // The above will throw an error if the position is not staked
+      } catch (error) {}
+
+      positions.push({ ...position, unclaimedRewards });
+    }
+    setPositions(positions);
+  }, [positionsData?.positions, account.address]);
+
+  React.useEffect(() => {
+    if (!positionsFetchError) return;
+
+    logError({
+      error: positionsFetchError,
+      showGenericToast: true,
+    });
+  }, [logError, positionsFetchError]);
+
+  React.useEffect(() => {
+    if (!account.address) return;
+    refetchClaimedRewards();
+  }, [refetchClaimedRewards, account.address]);
+
+  /** Wipe positions when account is changed */
+  React.useEffect(() => {
+    if (!account.address) return;
+    setPositions(undefined);
+  }, [account.address]);
+
+  React.useEffect(() => {
+    if (
+      !positionsData?.positions.length ||
+      (pathname !== ROUTES.liquidty.path && pathname !== ROUTES.rewards.path)
+    )
+      return;
+
+    timer.current = setInterval(() => {
+      refetchPositions();
+      refetchUnclaimedRewards();
+    }, POSITIONS_REFRESH_INTERVAL);
+
+    return () => clearInterval(timer.current);
+  }, [
+    positionsData?.positions.length,
+    refetchPositions,
+    refetchUnclaimedRewards,
+    pathname,
+  ]);
+
+  React.useEffect(() => {
+    if (!account.address) {
+      setPositions(undefined);
+      setClaimedRewards(BigInt(0));
+    }
+  }, [account]);
+
+  return {
+    positionsLoading,
+    positions,
+    claimedRewards,
+    refetchPositions,
+    refetchClaimedRewards,
+  };
+});
+
+export const LiquidityProvider = LiquidityContext.Provider;
+export const useLiquidity = LiquidityContext.useContainer;

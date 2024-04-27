@@ -14,17 +14,17 @@ import {
 } from "@components/ui/Table";
 import { AllocationType } from "@farther/backend";
 import { ROUTES } from "@lib/constants";
+import { useLiquidity } from "@lib/context/LiquidityContext";
 import { useUser } from "@lib/context/UserContext";
 import { formatWad, removeFalsyValues } from "@lib/utils";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import { useLiquidityPositions } from "hooks/useLiquidityPositions";
 import { useRouter } from "next/router";
 import React from "react";
 
 export default function RewardsPage() {
   const { account, user, userIsLoading } = useUser();
   const router = useRouter();
-  const { positions, claimedRewards } = useLiquidityPositions();
+  const { positions, claimedRewards } = useLiquidity();
 
   const powerDrop = user?.allocations?.find(
     (a) => a.type === AllocationType.POWER_USER,
@@ -53,7 +53,7 @@ export default function RewardsPage() {
         <Spinner variant="page" />
       ) : (
         <>
-          <p>Your Farther token rewards</p>
+          <p>All your Farther token rewards are summarized below</p>
           <div className="mt-8">
             {!account.isConnected ? (
               <InfoCard className="text-center">

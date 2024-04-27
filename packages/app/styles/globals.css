@@ -90,20 +90,20 @@ h6 {
 }
 
 h1 {
-  @apply mt-14 mb-6;
+  @apply mt-20 mb-8;
   font-size: 220%;
   line-height: 1.35;
   font-style: normal;
 }
 
 h2 {
-  @apply mt-10 mb-5;
+  @apply mt-14 mb-6;
   font-weight: normal;
   font-size: 180%;
 }
 
 h3 {
-  @apply mt-6 mb-4;
+  @apply mt-8 mb-4;
   font-weight: normal;
   font-size: 150%;
 }
