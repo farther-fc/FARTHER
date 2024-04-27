@@ -4,28 +4,39 @@ export const ROUTES = {
   rewards: {
     title: "Rewards",
     path: "/rewards",
+    type: "user",
   },
   airdrop: {
     title: "Airdrops",
     path: "/airdrops",
+    type: "user",
   },
   evangelize: {
     title: "Evangelize",
     path: "/evangelize",
+    type: "user",
   },
   liquidty: {
     title: "Liquidity",
     path: "/liquidity",
+    type: "user",
   },
   tips: {
     title: "Tips",
     path: "/tips",
+    type: "user",
+  },
+  tokenomics: {
+    title: "Tokenomics",
+    path: "/tokenomics",
+    type: "info",
   },
   resources: {
     title: "Resources",
     path: "/resources",
+    type: "info",
   },
-};
+} as const;
 
 export const FARTHER_CHANNEL_URL = "https://warpcast.com/~/channel/farther";
 

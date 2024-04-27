@@ -21,6 +21,7 @@ import ComingSoon from "@components/ComingSoon";
 import { isProduction } from "@farther/common";
 import { Container } from "@components/ui/Container";
 import { StarLoop } from "@components/StarLoop";
+import Head from "next/head";
 
 // Setup queryClient
 const queryClient = new QueryClient();
@@ -34,39 +35,59 @@ const App = ({ Component, pageProps }: AppProps) => {
     }
   }, [setPw]);
 
+  /**
+   * Forces dark mode
+   */
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+    const isLightMode = document
+      .getElementsByTagName("html")[0]
+      .classList.contains("light");
+
+    if (isLightMode) {
+      document.getElementsByTagName("html")[0].classList.remove("light");
+      document.getElementsByTagName("html")[0].classList.add("dark");
+    }
+  }, []);
+
   return (
-    <WagmiProvider config={wagmiConfig}>
-      <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider>
-          <UserProvider>
-            <MediaQueryProvider>
-              <ThemeProvider
-                attribute="class"
-                defaultTheme="system"
-                enableSystem
-              >
-                <StarLoop />
-                {isProduction && pw !== "letmein" ? (
-                  <ComingSoon>
-                    <h2 className="border-none pl-0">Coming Soon</h2>
-                  </ComingSoon>
-                ) : (
-                  <ModalProvider>
-                    <Toaster />
-                    <SiteHeader />
-                    <GlobalModal />
-                    <Container variant="page">
-                      <Component {...pageProps} />
-                    </Container>
-                    <Footer />
-                  </ModalProvider>
-                )}
-              </ThemeProvider>
-            </MediaQueryProvider>
-          </UserProvider>
-        </RainbowKitProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+    <>
+      <Head>
+        <meta name="color-scheme" content="dark only"></meta>
+      </Head>
+      <WagmiProvider config={wagmiConfig}>
+        <QueryClientProvider client={queryClient}>
+          <RainbowKitProvider>
+            <UserProvider>
+              <MediaQueryProvider>
+                <ThemeProvider
+                  attribute="class"
+                  defaultTheme="system"
+                  enableSystem
+                >
+                  <StarLoop />
+                  {isProduction && pw !== "letmein" ? (
+                    <ComingSoon>
+                      <h2 className="border-none pl-0">Coming Soon</h2>
+                    </ComingSoon>
+                  ) : (
+                    <ModalProvider>
+                      <Toaster />
+                      <SiteHeader />
+                      <GlobalModal />
+                      <Container variant="page">
+                        <Component {...pageProps} />
+                      </Container>
+                      <Footer />
+                    </ModalProvider>
+                  )}
+                </ThemeProvider>
+              </MediaQueryProvider>
+            </UserProvider>
+          </RainbowKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
+    </>
   );
 };
 

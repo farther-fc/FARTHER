@@ -64,6 +64,8 @@ export function useLiquidityPositions() {
     enabled: !!account.address,
   });
 
+  console.log({ positions });
+
   const positionsLoading =
     _positionsLoading ||
     (positionsData?.positions.length && !positions?.length);
