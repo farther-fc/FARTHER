@@ -1,32 +1,14 @@
-import {
-  TOTAL_TOKEN_SUPPLY,
-  allocationRatios,
-  contractAddresses,
-} from "@farther/common/src/constants";
+import { contractAddresses } from "@farther/common/src/constants";
 import { ROUTES } from "@lib/constants";
 import Link from "next/link";
 import Head from "next/head";
-import numeral from "numeral";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { useModal } from "@lib/context/ModalContext";
 import { useMediaQuery } from "@lib/context/MediaQueryContext";
 import { Button } from "@components/ui/Button";
 import Image from "next/image";
-
-const EcosystemFundModal = () => (
-  <>
-    The ecosystem fund is an open-ended pool for funding any future initiative
-    that is aligned with the Farcaster & Farther communities. It will initially
-    be controlled by the founder, but may eventually be turned over to community
-    governance. Some plans for funding include:
-    <ul>
-      <li>Partnerships with Farcaster apps</li>
-      <li>Education resources</li>
-      <li>Hackathon sponsorships</li>
-      <li>Micro apps</li>
-    </ul>
-  </>
-);
+import { EcosystemFundModal } from "@components/modals/EcosystemFundModal";
+import TokenomicsInfo from "@components/TokenomicsInfo";
 
 export default function Home() {
   const { openModal } = useModal();
@@ -60,7 +42,7 @@ export default function Home() {
         <p>
           Farther's mission is to accelerate the global adoption of{" "}
           <ExternalLink
-            className="text-farcaster font-bold"
+            className="font-bold"
             href="https://decrypt.co/215856/what-is-farcaster-ethereum-crypto-twitter-alternative"
           >
             Farcaster
@@ -137,84 +119,7 @@ export default function Home() {
         </ul>
 
         <h2>Tokenomics</h2>
-        <p>
-          The initial supply of FARTHER is{" "}
-          {numeral(TOTAL_TOKEN_SUPPLY / 1_000_000_000).format("0,0")} billion
-          tokens, and there is no initial price. The community will decide what
-          its worth. Please read the{" "}
-          <Link href="/disclaimers">disclaimers</Link> before buying.
-        </p>
-        <p>It is allocated as follows:</p>
-        <ul>
-          <li>
-            {allocationRatios.POWER_DROPS * 100}%{" "}
-            <Link href={ROUTES.airdrop.path}>airdrops to power users</Link>
-          </li>
-          <li>
-            {(allocationRatios.LIQUIDITY_REWARDS +
-              allocationRatios.LIQUIDITY_BACKSTOP) *
-              100}
-            %{" "}
-            <Link href={ROUTES.liquidty.path}>
-              liquidity pool & mining rewards
-            </Link>
-          </li>
-          <li>
-            {allocationRatios.EVANGELIST_REWARDS * 100}%{" "}
-            <Link href={ROUTES.evangelize.path}>evangelist rewards</Link>
-          </li>
-          <li>
-            {allocationRatios.ECOSYSTEM_FUND * 100}%{" "}
-            <Button
-              variant="link"
-              onClick={() =>
-                openModal({
-                  headerText: "Ecosystem fund",
-                  body: <EcosystemFundModal />,
-                })
-              }
-            >
-              ecosystem fund
-            </Button>
-          </li>
-          <li>
-            {allocationRatios.TIPS * 100}%{" "}
-            <Link href={ROUTES.tips.path}>tip allocations</Link>
-          </li>
-          <li>
-            {allocationRatios.DEV_FUND * 100}%{" "}
-            <Button
-              variant="link"
-              onClick={() =>
-                openModal({
-                  headerText: "Founder Allocation",
-                  body: (
-                    <>
-                      {allocationRatios.DEV_FUND * 100}% of the FARTHER supply
-                      is reserved for the founding team. After launch, it will
-                      be put in a vesting contract that unlocks 25% after a year
-                      and continually unlocks the remaining 75% over two years.
-                    </>
-                  ),
-                })
-              }
-            >
-              founder allocation
-            </Button>
-          </li>
-        </ul>
-        <p>
-          In addition to the initial supply, the{" "}
-          <ExternalLink
-            href={`https://basescan.org/token/${contractAddresses.FARTHER}#code`}
-          >
-            Farther token contract
-          </ExternalLink>{" "}
-          is capable of optionally minting up to 2% of the current token supply
-          per year. This could potentially be used to fund future initiatives,
-          however there are currently no specific plans for it. It can be
-          permanently revoked if the Farther community decides.
-        </p>
+        <TokenomicsInfo />
       </main>
     </>
   );

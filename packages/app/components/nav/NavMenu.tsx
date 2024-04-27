@@ -22,9 +22,23 @@ export function NavMenu() {
           <Menu />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="flex w-40 flex-col px-4 pt-4" align="end">
+      <DropdownMenuContent
+        className="flex w-40 flex-col px-4 pt-4 text-lg"
+        align="end"
+      >
         {Object.entries(ROUTES)
           .filter(([id]) => (!account.address ? id !== "rewards" : true))
+          .filter(([_, { type }]) => type === "user")
+          .map(([_id, route]) => (
+            <Link href={route.path} legacyBehavior key={route.path}>
+              <a onClick={closeMenu} className="mb-4 text-right">
+                {route.title}
+              </a>
+            </Link>
+          ))}
+        <hr className="mb-4 mt-0" />
+        {Object.entries(ROUTES)
+          .filter(([_, { type }]) => type === "info")
           .map(([_id, route]) => (
             <Link href={route.path} legacyBehavior key={route.path}>
               <a onClick={closeMenu} className="mb-4 text-right">
