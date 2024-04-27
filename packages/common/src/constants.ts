@@ -60,31 +60,36 @@ export const evangelistAirdropConfig = {
 
 const baseContractAddresses = {
   production: {
-    FARTHER: "0xTODO" as Address,
-    WETH: "0x4200000000000000000000000000000000000006" as Address,
-    UNISWAP_V3_STAKER: "0x42be4d6527829fefa1493e1fb9f3676d2425c3c1" as Address,
-    UNIV3_FACTORY: "0x33128a8fC17869897dcE68Ed026d694621f6FDfD" as Address,
+    FARTHER: "0xTODO".toLowerCase() as Address,
+    WETH: "0x4200000000000000000000000000000000000006".toLowerCase() as Address,
+    UNISWAP_V3_STAKER:
+      "0x42be4d6527829fefa1493e1fb9f3676d2425c3c1".toLowerCase() as Address,
+    UNIV3_FACTORY:
+      "0x33128a8fC17869897dcE68Ed026d694621f6FDfD".toLowerCase() as Address,
     NFT_POSITION_MANAGER:
-      "0x03a520b32c04bf3beef7beb72e919cf822ed34f1" as Address,
-    UNIV3_FARTHER_ETH_30BPS_POOL: "0x" as Address,
+      "0x03a520b32c04bf3beef7beb72e919cf822ed34f1".toLowerCase() as Address,
+    UNIV3_FARTHER_ETH_30BPS_POOL: "0x".toLowerCase() as Address,
   },
   staging: {
-    FARTHER: "0x65Fb1f9Cb54fF76eBCb40b7F9aa4297B49C3Cf1a" as Address,
-    WETH: "0x4200000000000000000000000000000000000006" as Address,
-    UNISWAP_V3_STAKER: "0x42be4d6527829fefa1493e1fb9f3676d2425c3c1" as Address,
-    UNIV3_FACTORY: "0x33128a8fC17869897dcE68Ed026d694621f6FDfD" as Address,
+    FARTHER:
+      "0x65Fb1f9Cb54fF76eBCb40b7F9aa4297B49C3Cf1a".toLowerCase() as Address,
+    WETH: "0x4200000000000000000000000000000000000006".toLowerCase() as Address,
+    UNISWAP_V3_STAKER:
+      "0x42be4d6527829fefa1493e1fb9f3676d2425c3c1".toLowerCase() as Address,
+    UNIV3_FACTORY:
+      "0x33128a8fC17869897dcE68Ed026d694621f6FDfD".toLowerCase() as Address,
     NFT_POSITION_MANAGER:
-      "0x03a520b32c04bf3beef7beb72e919cf822ed34f1" as Address,
+      "0x03a520b32c04bf3beef7beb72e919cf822ed34f1".toLowerCase() as Address,
     UNIV3_FARTHER_ETH_30BPS_POOL:
-      "0x0E59d9301fAc8D2d33Cd56212dFBE20B0d178C5d" as Address,
+      "0x0E59d9301fAc8D2d33Cd56212dFBE20B0d178C5d".toLowerCase() as Address,
   },
   development: {
-    FARTHER: "0x" as Address,
-    WETH: "0x" as Address,
-    UNIV3_FACTORY: "0x" as Address,
-    UNISWAP_V3_STAKER: "0x" as Address,
-    NFT_POSITION_MANAGER: "0x" as Address,
-    UNIV3_FARTHER_ETH_30BPS_POOL: "0x" as Address,
+    FARTHER: "0x".toLowerCase() as Address,
+    WETH: "0x".toLowerCase() as Address,
+    UNIV3_FACTORY: "0x".toLowerCase() as Address,
+    UNISWAP_V3_STAKER: "0x".toLowerCase() as Address,
+    NFT_POSITION_MANAGER: "0x".toLowerCase() as Address,
+    UNIV3_FARTHER_ETH_30BPS_POOL: "0x".toLowerCase() as Address,
   },
 } as const;
 

@@ -57,7 +57,7 @@ export function useLiquidityPositions() {
     queryFn: () => {
       if (!account.address) return null;
       return sdk.FartherPositions({
-        ownerId: account.address as Address,
+        ownerId: account.address.toLowerCase() as Address,
         poolId: contractAddresses.UNIV3_FARTHER_ETH_30BPS_POOL,
       });
     },

@@ -87,6 +87,9 @@ importers:
       '@sentry/nextjs':
         specifier: ^7.100.0
         version: 7.111.0(next@14.2.2)(react@18.2.0)(webpack@5.91.0)
+      '@tailwindcss/aspect-ratio':
+        specifier: ^0.4.2
+        version: 0.4.2(tailwindcss@3.4.3)
       '@tanstack/react-query':
         specifier: ^5.18.0
         version: 5.29.2(react@18.2.0)
@@ -9526,6 +9529,14 @@ packages:
     dependencies:
       defer-to-connect: 2.0.1
     dev: true
+
+  /@tailwindcss/aspect-ratio@0.4.2(tailwindcss@3.4.3):
+    resolution: {integrity: sha512-8QPrypskfBa7QIMuKHg2TA7BqES6vhBrDLOv8Unb6FcFyd3TjKbc6lcmb9UPQHxfl24sXoJ41ux/H7qQQvfaSQ==}
+    peerDependencies:
+      tailwindcss: '>=2.0.0 || >=3.0.0 || >=3.0.0-alpha.1'
+    dependencies:
+      tailwindcss: 3.4.3
+    dev: false
 
   /@tanstack/query-core@5.29.0:
     resolution: {integrity: sha512-WgPTRs58hm9CMzEr5jpISe8HXa3qKQ8CxewdYZeVnA54JrPY9B1CZiwsCoLpLkf0dGRZq+LcX5OiJb0bEsOFww==}

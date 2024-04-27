@@ -62,6 +62,10 @@ const config = {
           DEFAULT: "#fcd34d",
           hover: "#fbbf24",
         },
+        farcaster: {
+          DEFAULT: "#8a63d2",
+          hover: "#7c3aed",
+        },
       },
       borderRadius: {
         lg: `var(--radius)`,
@@ -89,7 +93,10 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@tailwindcss/aspect-ratio"),
+  ],
 };
 
 export default config;

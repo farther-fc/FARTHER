@@ -2,7 +2,7 @@ import { cn } from "@lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
-const containerVariants = cva("container prose", {
+const containerVariants = cva("container", {
   variants: {
     variant: {
       textBlock: "max-w-[800px] mx-auto",
