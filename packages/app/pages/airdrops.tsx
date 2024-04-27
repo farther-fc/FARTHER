@@ -22,7 +22,7 @@ export default function AirdropPage() {
       <h1>Airdrops</h1>
       {powerDrop && !powerDrop.isClaimed && (
         <InfoCard className="text-center">
-          <h3 className="mt-0">Congratulations 🎉</h3>
+          <h3 className="mt-0 border-none">Congratulations 🎉</h3>
           {powerDrop.airdrop?.address ? (
             <p>
               You have <strong>{formatWad(powerDrop.amount)} </strong>

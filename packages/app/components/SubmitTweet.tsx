@@ -54,7 +54,7 @@ export function SubmitTweet() {
       });
 
       if (!isValid) {
-        toast({ msg: reason, variant: "error" });
+        toast({ msg: reason, variant: "info" });
       } else {
         closeModal();
         refetchUser();

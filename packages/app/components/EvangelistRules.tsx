@@ -1,5 +1,8 @@
 import { ExternalLink } from "@components/ui/ExternalLink";
-import { POINTS_EXPIRATION_MONTHS } from "@farther/common";
+import {
+  EVANGELIST_FOLLOWER_MINIMUM,
+  POINTS_EXPIRATION_MONTHS,
+} from "@farther/common";
 import { POWER_BADGE_INFO_URL } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import React from "react";
@@ -10,6 +13,10 @@ export function EvangelistRules() {
   return (
     <div>
       <ul>
+        <li>
+          Evangelists must have at least {EVANGELIST_FOLLOWER_MINIMUM} followers
+          on Twitter to qualify.
+        </li>
         <li>
           The tweet must contain "Farcaster", and "FID
           {user?.fid ?? "<Farcaster ID>"}". Capitalization doesn't matter.

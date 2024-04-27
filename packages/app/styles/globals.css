@@ -1,10 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+/* 
 #__next {
   overflow: hidden;
-}
+} */
 
 @layer base {
   ::selection {
