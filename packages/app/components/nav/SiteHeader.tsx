@@ -28,7 +28,7 @@ export function SiteHeader() {
             <ProfileMenu />
           ) : (
             openConnectModal && (
-              <Button className="px-2" onClick={() => openConnectModal()}>
+              <Button className="px-4" onClick={() => openConnectModal()}>
                 Connect
               </Button>
             )

@@ -9,6 +9,7 @@ import Head from "next/head";
 import numeral from "numeral";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { useModal } from "@lib/context/ModalContext";
+import { useMediaQuery } from "@lib/context/MediaQueryContext";
 import { Button } from "@components/ui/Button";
 import Image from "next/image";
 
@@ -29,6 +30,7 @@ const EcosystemFundModal = () => (
 
 export default function Home() {
   const { openModal } = useModal();
+  const { isTabletSm, isTablet } = useMediaQuery();
 
   return (
     <>
@@ -38,19 +40,29 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <div
+        className={`${isTablet ? "h-[calc(100vh-64px)]" : isTabletSm ? "h-[calc(70vh-64px)]" : "h-[400px]"} items-center justify-center`}
+      >
+        <Image
+          alt="FARTHER✨"
+          src="/images/arches-transparent-2000.png"
+          width={2000}
+          height={1125}
+          className={
+            isTabletSm
+              ? `translate-y-20 scale-150`
+              : "translate-y-20 scale-[2.2]"
+          }
+        />
+      </div>
       <main className="content">
-        <div className="w-scren flex h-[calc(100vh-64px)] items-center justify-center">
-          {/* <Image
-            alt="FARTHER✨"
-            src="/images/arches-landing-page-1400.png"
-            width={1400}
-            height={788}
-          /> */}
-        </div>
         <h1>Mission</h1>
         <p>
           Farther's mission is to accelerate the global adoption of{" "}
-          <ExternalLink href="https://decrypt.co/215856/what-is-farcaster-ethereum-crypto-twitter-alternative">
+          <ExternalLink
+            className="text-farcaster font-bold"
+            href="https://decrypt.co/215856/what-is-farcaster-ethereum-crypto-twitter-alternative"
+          >
             Farcaster
           </ExternalLink>{" "}
           and spread positive vibes.
