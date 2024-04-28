@@ -21,7 +21,11 @@ const Container: React.FC<ContainerProps> = ({
   variant,
   ...props
 }) => {
-  const containerClasses = cn(containerVariants({ variant }), className);
+  const containerClasses = cn(
+    "overflow-hidden",
+    containerVariants({ variant }),
+    className,
+  );
 
   return (
     <section className={containerClasses} {...props}>

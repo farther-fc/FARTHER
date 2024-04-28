@@ -8,10 +8,10 @@ export function StarLoop() {
 
   return (
     <div
-      className={`${isLandingPage ? "absolute" : "fixed"} aspect-w-1 aspect-h-1 left-0 top-0 z-[-1] min-h-[1000px] w-screen overflow-hidden`}
+      className={`${isLandingPage ? "absolute" : "fixed"} aspect-w-1 aspect-h-1 left-0 top-0 z-[-1] min-h-[1000px] w-screen`}
     >
       <video
-        className="absolute left-1/2 z-[-1] size-full min-w-[1000px] -translate-x-1/2"
+        className="absolute size-full object-cover"
         autoPlay
         muted
         loop
