@@ -60,22 +60,17 @@ model Tweet {
 // Airdrop
 model Airdrop {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  number    Int      @unique
+
   // Airdrop creation time == snapshot time
   createdAt DateTime @default(now())
   chainId   Int
   address   String?
   root      String?
   amount    String
-
-  // Evanglist airdrops have a fixed supply. Any remaining supply is carried over to the next airdorp.
-  supply String?
-
   startTime DateTime
   endTime   DateTime
 
   allocations Allocation[]
 
-  @@unique([number, chainId])
   @@unique([address, chainId])
 }

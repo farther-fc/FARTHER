@@ -1,6 +1,5 @@
 import {
   ANVIL_AIRDROP_ADDRESS,
-  evangelistAirdropConfig,
   neynarLimiter,
   isProduction,
   DEV_USER_FID,
@@ -61,7 +60,7 @@ async function prepareEvangelistDrop() {
 
   if (recipientsWithoutAddress.length > 0) {
     await writeFile(
-      `airdrops/${ENVIRONMENT}/${AllocationType.EVANGELIST.toLowerCase()}-${evangelistAirdropConfig.NUMBER}-null-addresses.json`,
+      `airdrops/${ENVIRONMENT}/${AllocationType.EVANGELIST.toLowerCase()}-${NEXT_AIRDROP_START_TIME}-null-addresses.json`,
       JSON.stringify(
         recipientsWithoutAddress.map((r) => ({
           fid: r.fid,
@@ -85,21 +84,17 @@ async function prepareEvangelistDrop() {
 
   const root = getMerkleRoot(rawLeafData);
 
-  const airdropData = {
-    number: evangelistAirdropConfig.NUMBER,
-    chainId: CHAIN_ID,
-    amount: allocationSum.toString(),
-    root,
-    address: ENVIRONMENT === "development" ? ANVIL_AIRDROP_ADDRESS : undefined,
-    startTime: NEXT_AIRDROP_START_TIME,
-    endTime: NEXT_AIRDROP_END_TIME,
-  };
-
   // Create Airdrop
-  const airdrop = await prisma.airdrop.upsert({
-    where: { number: evangelistAirdropConfig.NUMBER, chainId: CHAIN_ID },
-    create: airdropData,
-    update: airdropData,
+  const airdrop = await prisma.airdrop.create({
+    data: {
+      chainId: CHAIN_ID,
+      amount: allocationSum.toString(),
+      root,
+      address:
+        ENVIRONMENT === "development" ? ANVIL_AIRDROP_ADDRESS : undefined,
+      startTime: NEXT_AIRDROP_START_TIME,
+      endTime: NEXT_AIRDROP_END_TIME,
+    },
   });
 
   // Add allocations to db
@@ -122,7 +117,7 @@ async function prepareEvangelistDrop() {
   ]);
 
   await writeFile(
-    `airdrops/${NETWORK}/${AllocationType.EVANGELIST.toLowerCase()}-${evangelistAirdropConfig.NUMBER}.json`,
+    `airdrops/${NETWORK}/${AllocationType.EVANGELIST.toLowerCase()}-${NEXT_AIRDROP_START_TIME}.json`,
     JSON.stringify(
       {
         root,

@@ -23,7 +23,7 @@ contract FartherToken is
     /**
      * @dev Total number of tokens in circulation
      */
-    uint256 public constant TOKEN_INITIAL_SUPPLY = 50_000_000_000;
+    uint256 public constant TOKEN_INITIAL_SUPPLY = 1_000_000_000;
 
     /**
      * @dev Minimum time between mints
