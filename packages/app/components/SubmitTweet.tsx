@@ -63,19 +63,19 @@ export function SubmitTweet() {
             <>
               {user.powerBadge ? (
                 <>
+                  Congrats! You have pending evangelist rewards. They will
+                  become claimable on the{" "}
+                  <Link href={ROUTES.rewards.path}>rewards page</Link> at the
+                  end of the month.
+                </>
+              ) : (
+                <>
                   Success! You have two months to earn a{" "}
                   <ExternalLink href={POWER_BADGE_INFO_URL}>
                     Warpcast power badge
                   </ExternalLink>
                   . Once you do, check the{" "}
                   <Link href={ROUTES.rewards.path}>rewards page</Link> page.
-                </>
-              ) : (
-                <>
-                  Congrats! You have pending evangelist rewards. They will
-                  become claimable on the{" "}
-                  <Link href={ROUTES.rewards.path}>rewards page</Link> at the
-                  end of the month.
                 </>
               )}
             </>

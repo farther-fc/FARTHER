@@ -1,16 +1,6 @@
 import { Address } from "viem";
 import { ENVIRONMENT } from "./env";
 
-export const DEV_DEPLOYER_ADDRESS =
-  "0x85ecbfcc3a8a9049e531cd0feeba3dedf5789e60";
-export const DEV_USER_ADDRESS = "0xc7c0a4b59de6bec1f9fdac7e760e1300fadd6db2";
-
-export const DEV_USER_FID = 999999999;
-
-export const GIGAMESH_FID = 4378;
-
-export const GIGAMESH_ADDRESS = "0x795050decc0322567c4f0098209d4edc5a69b9d0";
-
 export const TOTAL_TOKEN_SUPPLY = 1_000_000_000;
 
 export const allocationRatios = {
@@ -22,6 +12,18 @@ export const allocationRatios = {
   TIPS: 0.1,
   DEV_FUND: 0.05,
 } as const;
+
+export const DEV_DEPLOYER_ADDRESS =
+  "0x85ecbfcc3a8a9049e531cd0feeba3dedf5789e60";
+export const DEV_USER_ADDRESS = "0xc7c0a4b59de6bec1f9fdac7e760e1300fadd6db2";
+
+export const DEV_USER_FID = 999999999;
+
+export const GIGAMESH_FID = 4378;
+
+export const GIGAMESH_ADDRESS = "0x795050decc0322567c4f0098209d4edc5a69b9d0";
+
+export const DEV_USER_TWITTER_ID = "1355613340324618241";
 
 if (Object.values(allocationRatios).reduce((acc, val) => acc + val, 0) !== 1)
   throw new Error("Allocation ratios must sum to 1.0");
