@@ -15,7 +15,7 @@ const buttonVariants = cva(
         secondary:
           "backdrop-blur-md text-link border border-input hover:bg-accent hover:bg-white/5",
         ghost: "backdrop-blur-md text-link hover:bg-white/5 ",
-        link: "hover:underline !p-0 dark:text-link dark:hover:text-link-hover transition-colors font-normal !h-auto font-normal",
+        link: "hover:underline !p-0 transition-colors font-normal !h-auto font-normal text-link hover:text-link-hover",
       },
       size: {
         default: "h-10 py-2 px-4",

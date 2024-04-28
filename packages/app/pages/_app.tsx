@@ -36,21 +36,6 @@ const App = ({ Component, pageProps }: AppProps) => {
     }
   }, [setPw]);
 
-  /**
-   * Forces dark mode
-   */
-  React.useEffect(() => {
-    if (typeof window === "undefined") return;
-    const isLightMode = document
-      .getElementsByTagName("html")[0]
-      .classList.contains("light");
-
-    if (isLightMode) {
-      document.getElementsByTagName("html")[0].classList.remove("light");
-      document.getElementsByTagName("html")[0].classList.add("dark");
-    }
-  }, []);
-
   return (
     <>
       <Head>
@@ -67,7 +52,7 @@ const App = ({ Component, pageProps }: AppProps) => {
                     defaultTheme="system"
                     enableSystem
                   >
-                    <StarLoop />
+                    {/* <StarLoop /> */}
                     {isProduction && pw !== "letmein" ? (
                       <ComingSoon>
                         <h2 className="border-none pl-0">Coming Soon</h2>

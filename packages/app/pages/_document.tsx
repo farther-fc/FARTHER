@@ -1,11 +1,10 @@
 import { fontSans } from "@lib/fonts";
 import { cn } from "@lib/utils";
-import { useScrollPosition } from "hooks/useScrollPosition";
 import { Head, Html, Main, NextScript } from "next/document";
 
 export default function Document() {
   return (
-    <Html lang="en" className="dark">
+    <Html lang="en">
       <Head />
       <body
         className={cn(

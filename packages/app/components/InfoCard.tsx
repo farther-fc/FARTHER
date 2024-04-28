@@ -15,7 +15,7 @@ export function InfoCard({
       className={cn(
         `my-6 rounded-xl border p-4 md:p-8`,
         variant === "muted"
-          ? "text-muted"
+          ? "text-muted border-muted"
           : variant === "warning"
             ? "border-red-900"
             : "",
