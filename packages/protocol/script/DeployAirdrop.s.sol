@@ -9,14 +9,14 @@ import {Merkle} from "murky/Merkle.sol";
 contract DeployAirdrop is Script {
     address constant TOKEN = 0x5b69Edb2434b47978D608fD1CEa375A9Ed04Aa18;
 
-    uint constant AIRDROP_AMOUNT = 29999999999999999999999700;
+    uint constant AIRDROP_AMOUNT = 29999999999999999999996037;
 
     bytes32 constant ROOT =
-        0x222d1c9ea0682bf6b1ebc2e23225668671889b33d92ee3026297768d8ceea568;
+        0x551b173c460428f3d3df5dd69397e35b5c85c18b221d2bdf77d33db5b28a7f50;
 
     address OWNER = 0x85EcbFCc3a8a9049E531Cd0fEeBa3Dedf5789e60;
 
-    uint START_TIME = 1714343400;
+    uint START_TIME = 1714428000;
     uint DURATION = 365 days;
 
     function run() public {
