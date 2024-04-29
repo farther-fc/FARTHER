@@ -21,7 +21,7 @@ import { wagmiConfig } from "@lib/walletConfig";
 import ComingSoon from "@components/ComingSoon";
 import { isProduction } from "@farther/common";
 import { Container } from "@components/ui/Container";
-import { StarLoop } from "@components/StarLoop";
+import { StarField } from "@components/StarField";
 import Head from "next/head";
 
 // Setup queryClient
@@ -52,7 +52,6 @@ const App = ({ Component, pageProps }: AppProps) => {
                     defaultTheme="system"
                     enableSystem
                   >
-                    {/* <StarLoop /> */}
                     {isProduction && pw !== "letmein" ? (
                       <ComingSoon>
                         <h2 className="border-none pl-0">Coming Soon</h2>
@@ -62,9 +61,7 @@ const App = ({ Component, pageProps }: AppProps) => {
                         <Toaster />
                         <SiteHeader />
                         <GlobalModal />
-                        <Container variant="page">
-                          <Component {...pageProps} />
-                        </Container>
+                        <Component {...pageProps} />
                         <Footer />
                       </ModalProvider>
                     )}
