@@ -1,11 +1,11 @@
 // This roughly determines the bonus accounts with many followers will receive
-// relative to accounts with few followers.
-const FOLLOWER_COUNT_SCALER = 10;
-
 export function allocateTokens(
   users: { fid: number; followers: number }[],
   totalSupply: number,
 ): { fid: number; followers: number; allocation: number }[] {
+  // relative to accounts with few followers.
+  const FOLLOWER_COUNT_SCALER = 10;
+
   if (users.length === 0) {
     return [];
   }

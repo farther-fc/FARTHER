@@ -1,18 +1,17 @@
+import { EvangelistRules } from "@components/EvangelistRules";
+import { NoUserFoundCard } from "@components/NoUserFoundCard";
 import { SubmitTweet } from "@components/SubmitTweet";
 import { Button } from "@components/ui/Button";
-import numeral from "numeral";
+import { Container } from "@components/ui/Container";
+import { ExternalLink } from "@components/ui/ExternalLink";
+import { BASE_TOKENS_PER_TWEET } from "@farther/common";
 import { ROUTES } from "@lib/constants";
 import { useModal } from "@lib/context/ModalContext";
-import Link from "next/link";
-import React from "react";
-import { ExternalLink } from "@components/ui/ExternalLink";
 import { useUser } from "@lib/context/UserContext";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useToast } from "hooks/useToast";
-import { EvangelistRules } from "@components/EvangelistRules";
-import { BASE_TOKENS_PER_TWEET } from "@farther/common";
-import { NoUserFoundCard } from "@components/NoUserFoundCard";
-import { Container } from "@components/ui/Container";
+import Link from "next/link";
+import numeral from "numeral";
 
 export default function EvangelizePage() {
   const { openModal } = useModal();
@@ -63,8 +62,9 @@ export default function EvangelizePage() {
         <p>
           The current base reward is{" "}
           {numeral(BASE_TOKENS_PER_TWEET).format("0,0")} tokens per valid tweet.
-          This amount may change based on the participation each month. An
-          additional bonus is applied based on your Twitter follower count.
+          This amount is likely to change in future months based on
+          participation. An additional bonus is applied based on your Twitter
+          follower count.
         </p>
         <h2>Steps</h2>
         <ol>
