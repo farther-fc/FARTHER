@@ -4,13 +4,11 @@ import Link from "next/link";
 import Head from "next/head";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { useModal } from "@lib/context/ModalContext";
-import { useMediaQuery } from "@lib/context/MediaQueryContext";
 import { Button } from "@components/ui/Button";
-import Image from "next/image";
 import { EcosystemFundModal } from "@components/modals/EcosystemFundModal";
 import TokenomicsInfo from "@components/TokenomicsInfo";
-import { StarLoop } from "@components/StarLoop";
 import { Container } from "@components/ui/Container";
+import { StarLoop } from "@components/StarLoop";
 
 export default function Home() {
   const { openModal } = useModal();
@@ -69,14 +67,14 @@ export default function Home() {
           >
             FARTHER
           </ExternalLink>{" "}
-          is an Ethereum token for driving Farcaster user growth. It is being
-          used to incentivize active users and builders within the ecosystem in
-          the following ways:
+          is an Ethereum token to incentivize Farcaster user growth. It is being
+          rewarded to active users and builders within the ecosystem in the
+          following ways:
         </p>
         <ul>
           <li>
             <Link href={ROUTES.airdrop.path}>Airdrops</Link> to Farcaster power
-            users spanning the next 3 years
+            users spanning 3 years, beginning May 1, 2024.
           </li>
           <li>
             {" "}

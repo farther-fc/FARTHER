@@ -21,7 +21,6 @@ import { wagmiConfig } from "@lib/walletConfig";
 import ComingSoon from "@components/ComingSoon";
 import { isProduction } from "@farther/common";
 import { Container } from "@components/ui/Container";
-import { StarField } from "@components/StarField";
 import Head from "next/head";
 
 // Setup queryClient
