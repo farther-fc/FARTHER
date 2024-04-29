@@ -1,8 +1,10 @@
 import { useMediaQuery } from "@lib/context/MediaQueryContext";
 import Image from "next/image";
+import React from "react";
 
 export function StarLoop() {
   const { isLaptop } = useMediaQuery();
+  const [isLoaded, setIsLoaded] = React.useState(false);
 
   return (
     <>
@@ -16,11 +18,12 @@ export function StarLoop() {
           alt="Farther Arch logo"
         />
         <video
-          className="absolute size-full object-cover"
+          className={`absolute size-full object-cover ${isLoaded ? "opacity-100" : "opacity-0"} transition-opacity duration-1000`}
           autoPlay
           muted
           loop
           playsInline
+          onPlay={() => setIsLoaded(true)}
         >
           <source src={"/videos/landing-page-loop.mp4"} type="video/mp4" />
         </video>
