@@ -1,15 +1,16 @@
 import { AirdropInfo } from "@components/AirdropInfo";
-import { ROUTES } from "@lib/constants";
+import { InfoCard } from "@components/InfoCard";
+import { NoUserFoundCard } from "@components/NoUserFoundCard";
+import { Button } from "@components/ui/Button";
+import { Container } from "@components/ui/Container";
+import { ExternalLink } from "@components/ui/ExternalLink";
+import Spinner from "@components/ui/Spinner";
+import { startOfNextMonth } from "@farther/common";
+import { POWER_BADGE_INFO_URL, ROUTES } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import { formatDate, formatWad } from "@lib/utils";
-import Link from "next/link";
-import { InfoCard } from "@components/InfoCard";
-import { FartherChannelLink } from "@components/nav/FartherChannelLink";
-import { Button } from "@components/ui/Button";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import { NoUserFoundCard } from "@components/NoUserFoundCard";
-import { startOfNextMonth } from "@farther/common";
-import { Container } from "@components/ui/Container";
+import Link from "next/link";
 
 export default function AirdropPage() {
   const { account, user, userIsLoading } = useUser();
@@ -49,12 +50,28 @@ export default function AirdropPage() {
             </InfoCard>
           ) : user && !powerDrop ? (
             <InfoCard variant="muted">
-              You are not currently eligible for an airdrop. If you believe this
-              is an error, please reach out in the <FartherChannelLink />.
+              You are not currently eligible for an airdrop.{" "}
+              {!user.powerBadge ? (
+                <>
+                  This is likely because you don't have a{" "}
+                  <ExternalLink href={POWER_BADGE_INFO_URL}>
+                    Warpcast Power Badge
+                  </ExternalLink>
+                  . As soon as you earn it, you'll become eligible for an
+                  airdrop at the end of that month.
+                </>
+              ) : (
+                ""
+              )}
             </InfoCard>
           ) : (
             !user && !userIsLoading && <NoUserFoundCard />
           ))}
+        {account.isConnected && !user && userIsLoading && (
+          <InfoCard variant="muted" className="flex justify-center">
+            <Spinner />
+          </InfoCard>
+        )}
         <AirdropInfo />
         {!account.isConnected && (
           <InfoCard className="text-center">

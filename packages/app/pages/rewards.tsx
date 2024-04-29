@@ -20,7 +20,6 @@ import { useUser } from "@lib/context/UserContext";
 import { formatWad, removeFalsyValues } from "@lib/utils";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useRouter } from "next/router";
-import React from "react";
 
 export default function RewardsPage() {
   const { account, user, userIsLoading } = useUser();
@@ -55,18 +54,22 @@ export default function RewardsPage() {
           <Spinner variant="page" />
         ) : (
           <>
-            <p>All your Farther token rewards are summarized below</p>
-            <div className="mt-8">
-              {!account.isConnected ? (
-                <InfoCard className="text-center">
-                  Please{" "}
-                  <Button variant="link" onClick={openConnectModal}>
-                    connect your wallet
-                  </Button>{" "}
-                  to check if you have any rewards.
+            {!account.isConnected ? (
+              <InfoCard className="text-center">
+                Please{" "}
+                <Button variant="link" onClick={openConnectModal}>
+                  connect your wallet
+                </Button>{" "}
+                to check if you have any rewards.
+              </InfoCard>
+            ) : rows.length || claimedRewards > BigInt(0) ? (
+              <div className="mt-8">
+                <InfoCard variant="muted">
+                  Snapshots for airdrops can take place up to a week before the
+                  end of the month. If you don't become eligible for one before
+                  then, you can still become eligible for the next airdrop.
                 </InfoCard>
-              ) : rows.length || claimedRewards > BigInt(0) ? (
-                <Table>
+                <Table className="mt-12">
                   <TableHeader>
                     <TableRow>
                       <TableHead className="pl-0">Type</TableHead>
@@ -121,15 +124,15 @@ export default function RewardsPage() {
                     )}
                   </TableBody>
                 </Table>
-              ) : !user ? (
-                <NoUserFoundCard />
-              ) : (
-                <InfoCard variant="muted">
-                  No rewards found. If you believe this is an error, please
-                  reach out in the <FartherChannelLink />.
-                </InfoCard>
-              )}
-            </div>
+              </div>
+            ) : !user ? (
+              <NoUserFoundCard />
+            ) : (
+              <InfoCard variant="muted">
+                No rewards found. If you believe this is an error, please reach
+                out in the <FartherChannelLink />.
+              </InfoCard>
+            )}
           </>
         )}
       </main>

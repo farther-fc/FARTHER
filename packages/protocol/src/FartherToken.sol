@@ -33,7 +33,7 @@ contract FartherToken is
     /**
      * @dev Cap on the percentage of totalSupply that can be minted at each mint
      */
-    uint8 public constant MINT_CAP = 2;
+    uint8 public constant MINT_CAP = 3;
 
     /**
      * @dev The timestamp after which minting may occur

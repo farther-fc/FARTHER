@@ -1,24 +1,29 @@
 import { useMediaQuery } from "@lib/context/MediaQueryContext";
-import { useRouter } from "next/router";
+import Image from "next/image";
 import React from "react";
-// ${isDesktop ? "top-[-300px]" : isLaptop ? "top-[-200px]" : isTabletLandscape ? "top-[-100px]" : "top-0"}
+
 export function StarLoop() {
-  const router = useRouter();
-  const currentPath = router.pathname;
-  const isLandingPage = currentPath === "/";
-  const { isTablet, isDesktop, isLaptop } = useMediaQuery();
+  const { isTabletLandscape, isLaptop } = useMediaQuery();
+  const [isLoaded, setIsLoaded] = React.useState(false);
 
   return (
     <>
       <div
-        className={`absolute left-1/2 top-0 z-[-1] ${isLaptop ? "min-h-[1200px]" : "min-h-[1000px]"} w-screen max-w-[1500px] -translate-x-1/2`}
+        className={`absolute left-1/2 top-0 z-[-1] ${isLaptop ? "min-h-[1200px]" : isTabletLandscape ? "min-h-[1000px]" : "min-h-[900px]"} w-screen max-w-[1500px] -translate-x-1/2`}
       >
+        <Image
+          src="/images/landing-page-placeholder.png"
+          layout="fill"
+          objectFit="cover"
+          alt="Farther Arch logo"
+        />
         <video
-          className="absolute size-full object-cover"
+          className={`absolute size-full object-cover ${isLoaded ? "opacity-100" : "opacity-0"} transition-opacity duration-1000`}
           autoPlay
           muted
           loop
           playsInline
+          onPlay={() => setIsLoaded(true)}
         >
           <source src={"/videos/landing-page-loop.mp4"} type="video/mp4" />
         </video>

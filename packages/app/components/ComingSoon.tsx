@@ -1,11 +1,14 @@
 import React from "react";
 
-function ComingSoon({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex h-[calc(100vh-300px)] items-center justify-center text-center">
-      <div>{children}</div>
-    </div>
-  );
+function DisableScroll({ children }: { children: React.ReactNode }) {
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      // Disable scroll
+      document.body.style.overflow = "hidden";
+    }
+  }, []);
+
+  return <>{children}</>;
 }
 
-export default ComingSoon;
+export default DisableScroll;

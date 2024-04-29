@@ -40,7 +40,7 @@ export const tokenAllocations = {
 };
 
 // Adjust this from month to month as needed
-export const BASE_TOKENS_PER_TWEET = TOTAL_TOKEN_SUPPLY / 400_000;
+export const BASE_TOKENS_PER_TWEET = TOTAL_TOKEN_SUPPLY / 500_000;
 
 export const ONE_YEAR_IN_MS = 31_536_000_000;
 
@@ -134,4 +134,4 @@ export const NULL_ADDRESS =
 
 export const POINTS_EXPIRATION_MONTHS = 2;
 
-export const EVANGELIST_FOLLOWER_MINIMUM = 50;
+export const EVANGELIST_FOLLOWER_MINIMUM = 80;

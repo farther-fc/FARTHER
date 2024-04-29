@@ -1,7 +1,6 @@
 import { FartherChannelLink } from "@components/nav/FartherChannelLink";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
-import React from "react";
 
 const media = [
   {
@@ -36,23 +35,20 @@ function ResourcesPage() {
     <Container variant="page">
       <main className="content">
         <h1>Resources</h1>
-        <p>
-          One of the goals of Farther is to become a primary resource for
-          learning about Farcaster, particularly onboarding guides or general
-          information to help propsective users understand what it's all about.
-          Please reach out in the <FartherChannelLink /> if you have any
-          suggestions or have an idea for an educational resource that may be a
-          good candidate for grant funding.
+        <p className="text-muted">
+          This page is a work in progress. Please reach out in the{" "}
+          <FartherChannelLink /> if you have any suggestions or have an idea for
+          an educational resource that may be a good candidate for grant
+          funding.
         </p>
         <h2>Media</h2>
-        <ul className="ml-0 list-none">
-          {media.map((item) => (
-            <li key={item.url}>
-              <ExternalLink href={item.url}>{item.title}</ExternalLink> —{" "}
-              {item.author}
-            </li>
-          ))}
-        </ul>
+
+        {media.map((item) => (
+          <p key={item.url}>
+            <ExternalLink href={item.url}>{item.title}</ExternalLink> —{" "}
+            {item.author}
+          </p>
+        ))}
         <h2>Apps</h2>
         <p>
           <ExternalLink href="https://github.com/a16z/awesome-farcaster/blob/main/README.md">

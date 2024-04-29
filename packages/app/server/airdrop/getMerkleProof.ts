@@ -1,12 +1,12 @@
-import { prisma } from "@farther/backend";
+import { AllocationType, prisma } from "@farther/backend";
 import {
-  getMerkleProof as getProof,
   getMerkleRoot,
+  getMerkleProof as getProof,
   validateProof,
 } from "@farther/common";
-import { publicProcedure } from "server/trpc";
-import { TRPCError } from "@trpc/server";
 import { apiSchemas } from "@lib/types/apiSchemas";
+import { TRPCError } from "@trpc/server";
+import { publicProcedure } from "server/trpc";
 
 export const getMerkleProof = publicProcedure
   .input(apiSchemas.getMerkleProof.input)
@@ -27,6 +27,9 @@ export const getMerkleProof = publicProcedure
             some: {
               id,
             },
+            every: {
+              type: AllocationType.POWER_USER,
+            },
           },
         },
         select: {
@@ -42,6 +45,13 @@ export const getMerkleProof = publicProcedure
           root: true,
         },
       });
+
+      console.log();
+
+      const allocationsWithNullIndex = airdrop?.allocations.filter(
+        (a) => typeof a.index !== "number",
+      );
+      console.log({ allocationsWithNullIndex });
 
       if (!airdrop) {
         throw new TRPCError({
@@ -78,23 +88,10 @@ export const getMerkleProof = publicProcedure
         });
       }
 
-      // Get all users with allocations for this airdrop
-      const recipients = await prisma.user.findMany({
-        where: {
-          allocations: {
-            some: {
-              airdropId: airdrop.id,
-            },
-          },
-        },
-        select: {
-          allocations: true,
-          fid: true,
-        },
-      });
+      const recipients = airdrop.allocations;
 
       const allocationSum = recipients.reduce(
-        (acc, r) => acc + BigInt(r.allocations[0].amount),
+        (acc, r) => acc + BigInt(r.amount),
         BigInt(0),
       );
 
@@ -109,20 +106,16 @@ export const getMerkleProof = publicProcedure
 
       // Create a merkle tree with the above recipients
       const unhashedLeaves = recipients.map((r) => {
-        if (
-          typeof r.allocations[0].index !== "number" ||
-          !r.allocations[0].address ||
-          !r.allocations[0].amount
-        ) {
+        if (typeof r.index !== "number" || !r.address || !r.amount) {
           throw new TRPCError({
             code: "INTERNAL_SERVER_ERROR",
-            message: `Invalid recipient data. index: ${r.allocations[0].index}, address: ${r.allocations[0].address}, amount: ${r.allocations[0].amount}`,
+            message: `Invalid recipient data. index: ${r.index}, address: ${r.address}, amount: ${r.amount}`,
           });
         }
         return {
-          index: r.allocations[0].index,
-          address: r.allocations[0].address as `0x${string}`,
-          amount: r.allocations[0].amount,
+          index: r.index,
+          address: r.address as `0x${string}`,
+          amount: r.amount,
         };
       });
 

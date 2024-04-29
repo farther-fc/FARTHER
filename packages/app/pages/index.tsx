@@ -1,14 +1,14 @@
+import { StarLoop } from "@components/StarLoop";
+import TokenomicsInfo from "@components/TokenomicsInfo";
+import { EcosystemFundModal } from "@components/modals/EcosystemFundModal";
+import { Button } from "@components/ui/Button";
+import { Container } from "@components/ui/Container";
+import { ExternalLink } from "@components/ui/ExternalLink";
 import { contractAddresses } from "@farther/common/src/constants";
 import { ROUTES } from "@lib/constants";
-import Link from "next/link";
-import Head from "next/head";
-import { ExternalLink } from "@components/ui/ExternalLink";
 import { useModal } from "@lib/context/ModalContext";
-import { Button } from "@components/ui/Button";
-import { EcosystemFundModal } from "@components/modals/EcosystemFundModal";
-import TokenomicsInfo from "@components/TokenomicsInfo";
-import { Container } from "@components/ui/Container";
-import { StarLoop } from "@components/StarLoop";
+import Head from "next/head";
+import Link from "next/link";
 
 export default function Home() {
   const { openModal } = useModal();
@@ -51,11 +51,11 @@ export default function Home() {
         </ul>
         <p>
           Centralized social networks aren't capable of fulfilling those
-          requirements. Many new decentralized social protocols are striving for
-          the same goals, but Farcaster stands out as achieving them in a way
-          that is both credibly neutral and scalable.
+          requirements. Many new decentralized social protocols are attempting
+          to, but Farcaster stands out as having the greatest potential to do so
+          in a way that is both credibly neutral and scalable.
         </p>
-        <p className="text-muted">
+        <p className="text-muted mt-8">
           Visit the <Link href={ROUTES.resources.path}>resources page</Link> to
           learn more about what makes Farcaster unique.
         </p>

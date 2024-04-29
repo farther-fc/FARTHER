@@ -1,14 +1,12 @@
-import { publicProcedure } from "server/trpc";
-import { apiSchemas } from "@lib/types/apiSchemas";
-import { TRPCError } from "@trpc/server";
 import { prisma } from "@farther/backend";
 import {
-  BASE_TOKENS_PER_TWEET,
   DEV_USER_TWITTER_ID,
   EVANGELIST_FOLLOWER_MINIMUM,
-  WAD_SCALER,
 } from "@farther/common";
-import { scaleLog } from "d3-scale";
+import { apiSchemas } from "@lib/types/apiSchemas";
+import { TRPCError } from "@trpc/server";
+import { getEvanglistAllocation } from "server/evangelize/getEvangelistAllocation";
+import { publicProcedure } from "server/trpc";
 
 if (!process.env.TWITTER_BEARER_TOKEN) {
   throw new Error("TWITTER_BEARER_TOKEN not set");
@@ -124,7 +122,7 @@ export const validateTweet = publicProcedure
         };
       }
 
-      const amount = getEvanglistAllocationAmount({ followerCount });
+      const amount = getEvanglistAllocation({ followerCount });
 
       // Look for existing pending allocation
       const pendingAllocation = await prisma.allocation.findFirst({
@@ -209,20 +207,4 @@ function verifyTweetText({
     };
   }
   return { isValid: true };
-}
-
-function getEvanglistAllocationAmount({
-  followerCount,
-}: {
-  followerCount: number;
-}) {
-  const MINIMUM_FOLLOWER_COUNT = 100;
-  const MAXIMUM_FOLLOWER_COUNT = 30_000_000;
-
-  const scalingFn = scaleLog()
-    .domain([MINIMUM_FOLLOWER_COUNT, MAXIMUM_FOLLOWER_COUNT])
-    .range([BASE_TOKENS_PER_TWEET, BASE_TOKENS_PER_TWEET * 30])
-    .clamp(true);
-
-  return BigInt(BASE_TOKENS_PER_TWEET + scalingFn(followerCount)) * WAD_SCALER;
 }

@@ -1,16 +1,15 @@
-import React from "react";
+import { EcosystemFundModal } from "@components/modals/EcosystemFundModal";
+import { Button } from "@components/ui/Button";
+import { ExternalLink } from "@components/ui/ExternalLink";
 import {
   TOTAL_TOKEN_SUPPLY,
   allocationRatios,
   contractAddresses,
 } from "@farther/common/src/constants";
 import { ROUTES } from "@lib/constants";
+import { useModal } from "@lib/context/ModalContext";
 import Link from "next/link";
 import numeral from "numeral";
-import { ExternalLink } from "@components/ui/ExternalLink";
-import { Button } from "@components/ui/Button";
-import { EcosystemFundModal } from "@components/modals/EcosystemFundModal";
-import { useModal } from "@lib/context/ModalContext";
 
 function TokenomicsInfo() {
   const { openModal } = useModal();
@@ -90,7 +89,7 @@ function TokenomicsInfo() {
         >
           Farther token contract
         </ExternalLink>{" "}
-        is capable of optionally minting up to 2% of the current token supply
+        is capable of optionally minting up to 3% of the current token supply
         per year. This could potentially be used to fund future initiatives,
         however there are currently no specific plans for it. It can be
         permanently revoked if the Farther community decides.

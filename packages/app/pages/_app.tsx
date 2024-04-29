@@ -1,27 +1,26 @@
 require("dotenv").config();
-
-import "@styles/globals.css";
+import DisableScroll from "@components/ComingSoon";
+import { StarLoop } from "@components/StarLoop";
 import { GlobalModal } from "@components/modals/GlobalModal";
-import { SiteHeader } from "@components/nav/SiteHeader";
 import { Footer } from "@components/nav/Footer";
+import { SiteHeader } from "@components/nav/SiteHeader";
 import { Toaster } from "@components/ui/Toaster";
+import { isProduction } from "@farther/common";
+import { LiquidityProvider } from "@lib/context/LiquidityContext";
 import { MediaQueryProvider } from "@lib/context/MediaQueryContext";
 import { ModalProvider } from "@lib/context/ModalContext";
 import { ThemeProvider } from "@lib/context/ThemeProvider";
-import { trpcClient } from "@lib/trpcClient";
-import type { AppProps } from "next/app";
-import React from "react";
 import { UserProvider } from "@lib/context/UserContext";
-import { LiquidityProvider } from "@lib/context/LiquidityContext";
-import "@rainbow-me/rainbowkit/styles.css";
-import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { WagmiProvider } from "wagmi";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { trpcClient } from "@lib/trpcClient";
 import { wagmiConfig } from "@lib/walletConfig";
-import ComingSoon from "@components/ComingSoon";
-import { isProduction } from "@farther/common";
-import { Container } from "@components/ui/Container";
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import "@rainbow-me/rainbowkit/styles.css";
+import "@styles/globals.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import type { AppProps } from "next/app";
 import Head from "next/head";
+import React from "react";
+import { WagmiProvider } from "wagmi";
 
 // Setup queryClient
 const queryClient = new QueryClient();
@@ -52,9 +51,9 @@ const App = ({ Component, pageProps }: AppProps) => {
                     enableSystem
                   >
                     {isProduction && pw !== "letmein" ? (
-                      <ComingSoon>
-                        <h2 className="border-none pl-0">Coming Soon</h2>
-                      </ComingSoon>
+                      <DisableScroll>
+                        <StarLoop />
+                      </DisableScroll>
                     ) : (
                       <ModalProvider>
                         <Toaster />
