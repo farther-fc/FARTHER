@@ -1,4 +1,5 @@
 import { useMediaQuery } from "@lib/context/MediaQueryContext";
+import Image from "next/image";
 
 export function StarLoop() {
   const { isLaptop } = useMediaQuery();
@@ -6,8 +7,14 @@ export function StarLoop() {
   return (
     <>
       <div
-        className={`absolute left-1/2 top-0 z-[-1] ${isLaptop ? "min-h-[1200px]" : "min-h-[1000px]"} w-screen max-w-[1500px] -translate-x-1/2`}
+        className={`absolute left-1/2 top-0 z-[-1] ${isLaptop ? "min-h-[1200px]" : "min-h-[900px]"} w-screen max-w-[1500px] -translate-x-1/2`}
       >
+        <Image
+          src="/images/landing-page-placeholder.png"
+          layout="fill"
+          objectFit="cover"
+          alt="Farther Arch logo"
+        />
         <video
           className="absolute size-full object-cover"
           autoPlay
