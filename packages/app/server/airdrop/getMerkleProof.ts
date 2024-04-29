@@ -88,21 +88,7 @@ export const getMerkleProof = publicProcedure
         });
       }
 
-      // Get all users with allocations for this airdrop
       const recipients = airdrop.allocations;
-
-      // Find mismatched amounts
-      for (const recipient of recipients) {
-        const leaf = rawLeafData.find((l) => l.index === recipient.index);
-        if (!leaf) {
-          throw new Error(`Leaf not found for index ${recipient.index}`);
-        }
-        if (BigInt(leaf.amount) !== BigInt(recipient.amount)) {
-          throw new Error(
-            `Amount mismatch for address ${recipient.address}. Expected ${leaf.amount}, got ${recipient.amount}`,
-          );
-        }
-      }
 
       const allocationSum = recipients.reduce(
         (acc, r) => acc + BigInt(r.amount),
