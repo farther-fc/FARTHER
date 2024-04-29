@@ -1,10 +1,13 @@
-import { AllocationType, prisma } from "../../backend/src/prisma";
-import { publicProcedure } from "server/trpc";
-import { apiSchemas } from "@lib/types/apiSchemas";
-import { isProduction, neynarClient } from "@farther/common";
-import { DEV_USER_ADDRESS, DEV_USER_FID } from "@farther/common";
+import {
+  DEV_USER_ADDRESS,
+  DEV_USER_FID,
+  isProduction,
+  neynarClient,
+} from "@farther/common";
 import { pendingAllocation } from "@lib/constants";
-import { TRPCError } from "@trpc/server";
+import { apiSchemas } from "@lib/types/apiSchemas";
+import { publicProcedure } from "server/trpc";
+import { AllocationType, prisma } from "../../backend/src/prisma";
 
 export const getUser = publicProcedure
   .input(apiSchemas.getUser.input)
@@ -47,6 +50,7 @@ export const getUser = publicProcedure
         displayName: user.display_name,
         pfpUrl: user.pfp_url,
         powerBadge: user.power_badge,
+        verifiedAddress: user.verified_address,
         allocations,
       };
     } catch (error: any) {
@@ -95,6 +99,7 @@ async function getUserFromNeynar(address: string) {
       pfp_url:
         "https://wrpcd.net/cdn-cgi/image/fit=contain,f=auto,w=168/https%3A%2F%2Fi.imgur.com%2F3hrPNK8.jpg",
       power_badge: false,
+      verified_address: DEV_USER_ADDRESS,
     };
   }
 
@@ -106,5 +111,12 @@ async function getUserFromNeynar(address: string) {
   // Neynar returns weird data structure
   const [user] = response[address] ? response[address] : [];
 
-  return user;
+  return {
+    fid: user?.fid,
+    username: user?.username,
+    display_name: user?.display_name,
+    pfp_url: user?.pfp_url,
+    power_badge: user?.power_badge,
+    verified_address: user?.verified_addresses.eth_addresses[0],
+  };
 }

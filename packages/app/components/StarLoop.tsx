@@ -3,13 +3,13 @@ import Image from "next/image";
 import React from "react";
 
 export function StarLoop() {
-  const { isLaptop } = useMediaQuery();
+  const { isTabletLandscape, isLaptop } = useMediaQuery();
   const [isLoaded, setIsLoaded] = React.useState(false);
 
   return (
     <>
       <div
-        className={`absolute left-1/2 top-0 z-[-1] ${isLaptop ? "min-h-[1200px]" : "min-h-[900px]"} w-screen max-w-[1500px] -translate-x-1/2`}
+        className={`absolute left-1/2 top-0 z-[-1] ${isLaptop ? "min-h-[1200px]" : isTabletLandscape ? "min-h-[1000px]" : "min-h-[900px]"} w-screen max-w-[1500px] -translate-x-1/2`}
       >
         <Image
           src="/images/landing-page-placeholder.png"

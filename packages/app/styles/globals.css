@@ -15,7 +15,7 @@
     --background: 214, 85%, 43%;
     --foreground: 255 100% 100%;
 
-    --muted: 210 40% 70.1%;
+    --muted: 210 40% 75.1%;
     --muted-foreground: 215.4 16.3% 70%;
 
     --popover: 0 0% 100%;
@@ -337,12 +337,12 @@ h3,
 h4,
 h5,
 h6 {
-  @apply border-l border-link pl-6;
+  @apply border-l border-link pl-4;
 }
 
 h1 {
   @apply mt-20 mb-8;
-  font-size: 220%;
+  font-size: 250%;
   line-height: 1.35;
   font-style: normal;
 }
@@ -350,7 +350,7 @@ h1 {
 h2 {
   @apply mt-14 mb-6;
   font-weight: normal;
-  font-size: 180%;
+  font-size: 200%;
 }
 
 h3 {
