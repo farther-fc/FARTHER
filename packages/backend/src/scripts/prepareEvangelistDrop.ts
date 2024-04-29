@@ -1,23 +1,28 @@
 import {
   ANVIL_AIRDROP_ADDRESS,
-  neynarLimiter,
-  isProduction,
-  DEV_USER_FID,
+  CHAIN_ID,
   DEV_USER_ADDRESS,
-  GIGAMESH_FID,
+  DEV_USER_FID,
+  ENVIRONMENT,
   GIGAMESH_ADDRESS,
+  GIGAMESH_FID,
   NETWORK,
-  NEXT_AIRDROP_START_TIME,
   NEXT_AIRDROP_END_TIME,
+  NEXT_AIRDROP_START_TIME,
+  getAllocationId,
+  getMerkleRoot,
+  isProduction,
+  neynarLimiter,
 } from "@farther/common";
 import { AllocationType, prisma } from "../prisma";
-import { getMerkleRoot } from "@farther/common";
 import { writeFile } from "../utils/helpers";
-import { ENVIRONMENT, CHAIN_ID } from "@farther/common";
+import { airdropSanityCheck } from "./airdropSanityCheck";
 
 // After calling it, deploy the airdrop contract with the merkle root, manually add Airdrop.address & Airdrop.root in the DB,
 // update the config with the next airdrop's values, and restart the cron.
 async function prepareEvangelistDrop() {
+  await airdropSanityCheck();
+
   // Get all evangelists with pending rewards
   const dbRecipients = await prisma.user.findMany({
     where: {
@@ -31,7 +36,6 @@ async function prepareEvangelistDrop() {
     },
     select: {
       id: true,
-      fid: true,
       allocations: true,
     },
   });
@@ -48,11 +52,11 @@ async function prepareEvangelistDrop() {
   }));
 
   // Get their addresses from Neynar
-  const userData = await getUserData(recipients.map((r) => r.fid));
+  const userData = await getUserData(recipients.map((r) => r.id));
 
   const combinedData = recipients.map((r) => ({
     ...r,
-    address: userData.find((u) => u.fid === r.fid)?.address,
+    address: userData.find((u) => u.fid === r.id)?.address,
   }));
 
   const recipientsWithAddress = combinedData.filter((r) => r.address);
@@ -60,10 +64,10 @@ async function prepareEvangelistDrop() {
 
   if (recipientsWithoutAddress.length > 0) {
     await writeFile(
-      `airdrops/${ENVIRONMENT}/${AllocationType.EVANGELIST.toLowerCase()}-${NEXT_AIRDROP_START_TIME}-null-addresses.json`,
+      `airdrops/${ENVIRONMENT}/${AllocationType.EVANGELIST.toLowerCase()}-${NEXT_AIRDROP_START_TIME.toISOString()}-null-addresses.json`,
       JSON.stringify(
         recipientsWithoutAddress.map((r) => ({
-          fid: r.fid,
+          fid: r.id,
           amount: r.allocation.amount.toString(),
         })),
         null,
@@ -106,6 +110,12 @@ async function prepareEvangelistDrop() {
     }),
     prisma.allocation.createMany({
       data: recipientsWithAddress.map((r, i) => ({
+        id: getAllocationId({
+          type: AllocationType.EVANGELIST,
+          userId: r.id,
+          chainId: CHAIN_ID,
+          airdropStartTime: NEXT_AIRDROP_START_TIME.getTime(),
+        }),
         amount: r.allocation.amount.toString(),
         index: i,
         airdropId: airdrop.id,
@@ -117,7 +127,7 @@ async function prepareEvangelistDrop() {
   ]);
 
   await writeFile(
-    `airdrops/${NETWORK}/${AllocationType.EVANGELIST.toLowerCase()}-${NEXT_AIRDROP_START_TIME}.json`,
+    `airdrops/${NETWORK}/${AllocationType.EVANGELIST.toLowerCase()}-${NEXT_AIRDROP_START_TIME.toISOString()}.json`,
     JSON.stringify(
       {
         root,

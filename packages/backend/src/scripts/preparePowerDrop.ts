@@ -1,60 +1,73 @@
 import {
+  CHAIN_ID,
   DEV_USER_ADDRESS,
   DEV_USER_FID,
+  ENVIRONMENT,
+  NEXT_AIRDROP_END_TIME,
+  NEXT_AIRDROP_START_TIME,
+  POWER_USER_AIRDROP_RATIO,
   WAD_SCALER,
   WARPCAST_API_BASE_URL,
+  getAllocationId,
+  getMerkleRoot,
   isProduction,
   neynarLimiter,
   tokenAllocations,
-  NEXT_AIRDROP_START_TIME,
-  NEXT_AIRDROP_END_TIME,
-  POWER_USER_AIRDROP_RATIO,
 } from "@farther/common";
 import { AllocationType, prisma } from "../prisma";
-import { getMerkleRoot } from "@farther/common";
-import { writeFile } from "../utils/helpers";
-import { ENVIRONMENT, CHAIN_ID } from "@farther/common";
 import { allocateTokens } from "../utils/allocateTokens";
+import { writeFile } from "../utils/helpers";
+import { airdropSanityCheck } from "./airdropSanityCheck";
+
+const totalAllocation =
+  POWER_USER_AIRDROP_RATIO * tokenAllocations.powerUserAirdrops;
 
 async function preparePowerDrop() {
+  await airdropSanityCheck({
+    totalAllocation,
+    ratio: POWER_USER_AIRDROP_RATIO,
+  });
+
   const powerUsers = await getPowerUsers();
 
   // 3. Upsert users in db
   await prisma.$transaction([
     prisma.user.deleteMany({
       where: {
-        fid: {
+        id: {
           in: powerUsers.map((u) => u.fid),
         },
       },
     }),
     prisma.user.createMany({
       // Only need fid
-      data: powerUsers.map((u) => ({ fid: u.fid })),
+      data: powerUsers.map((u) => ({ id: u.fid })),
     }),
   ]);
 
   // 4. Get all powers users who have not received an airdrop allocation
   const recipients = await prisma.user.findMany({
     where: {
-      fid: {
-        in: powerUsers.map((u) => u.fid),
-      },
-      allocations: {
-        // Each user only gets one power user airdrop
-        none: {
-          type: AllocationType.POWER_USER,
+      AND: [
+        {
+          id: {
+            in: powerUsers.map((u) => u.fid),
+          },
         },
-      },
+        {
+          allocations: {
+            // Each user only gets one power user airdrop
+            none: {
+              type: AllocationType.POWER_USER,
+            },
+          },
+        },
+      ],
     },
     select: {
       id: true,
-      fid: true,
     },
   });
-
-  const totalAllocation =
-    POWER_USER_AIRDROP_RATIO * tokenAllocations.powerUserAirdrops;
 
   // One half == equally distributed. Other half == bonus based on follower count.
   const halfOfTotalWad = (BigInt(totalAllocation) * WAD_SCALER) / BigInt(2);
@@ -63,10 +76,10 @@ async function preparePowerDrop() {
 
   const followerCounts = recipients.map((u) => {
     const followers = powerUsers.find(
-      (user) => user.fid === u.fid,
+      (user) => user.fid === u.id,
     )?.followerCount;
     return {
-      fid: u.fid,
+      fid: u.id,
       followers,
     };
   });
@@ -80,12 +93,12 @@ async function preparePowerDrop() {
   if (bonusAllocations.length !== recipients.length) {
     // Build array of the mismatched fids
     const missingFidsInRecipients = recipients
-      .map((r) => r.fid)
+      .map((r) => r.id)
       .filter((fid) => !bonusAllocations.find((a) => a.fid === fid));
 
     const missingFidsInBonusAllocations = bonusAllocations
       .map((a) => a.fid)
-      .filter((fid) => !recipients.find((r) => r.fid === fid));
+      .filter((fid) => !recipients.find((r) => r.id === fid));
 
     throw new Error(
       `Mismatch between recipients and bonus allocations: ${[...missingFidsInRecipients, ...missingFidsInBonusAllocations]}`,
@@ -93,7 +106,7 @@ async function preparePowerDrop() {
   }
 
   const recipientsWithAllocations = recipients.map((r, i) => {
-    const address = powerUsers.find((u) => u.fid === r.fid)?.address;
+    const address = powerUsers.find((u) => u.fid === r.id)?.address;
     return {
       ...r,
       amount:
@@ -109,10 +122,10 @@ async function preparePowerDrop() {
 
   if (recipientsWithoutAddress.length > 0) {
     await writeFile(
-      `airdrops/${ENVIRONMENT}/${AllocationType.POWER_USER.toLowerCase()}-${NEXT_AIRDROP_START_TIME}-null-addresses.json`,
+      `airdrops/${ENVIRONMENT}/${AllocationType.POWER_USER.toLowerCase()}-${NEXT_AIRDROP_START_TIME.toISOString()}-null-addresses.json`,
       JSON.stringify(
         recipientsWithoutAddress.map((r) => ({
-          fid: r.fid,
+          fid: r.id,
           allocation: r.amount.toString(),
         })),
         null,
@@ -161,6 +174,12 @@ async function preparePowerDrop() {
     }),
     prisma.allocation.createMany({
       data: recipientsWithAddress.map((r, i) => ({
+        id: getAllocationId({
+          type: AllocationType.POWER_USER,
+          userId: r.id,
+          chainId: CHAIN_ID,
+          airdropStartTime: NEXT_AIRDROP_START_TIME.getTime(),
+        }),
         amount: r.amount.toString(),
         index: i,
         airdropId: airdrop.id,
@@ -172,7 +191,7 @@ async function preparePowerDrop() {
   ]);
 
   await writeFile(
-    `airdrops/${ENVIRONMENT}/${AllocationType.POWER_USER.toLowerCase()}-${NEXT_AIRDROP_START_TIME}.json`,
+    `airdrops/${ENVIRONMENT}/${AllocationType.POWER_USER.toLowerCase()}-${NEXT_AIRDROP_START_TIME.toISOString()}.json`,
     JSON.stringify(
       {
         root,

@@ -13,6 +13,30 @@ export const allocationRatios = {
   DEV_FUND: 0.05,
 } as const;
 
+if (Object.values(allocationRatios).reduce((acc, val) => acc + val, 0) !== 1)
+  throw new Error("Allocation ratios must sum to 1.0");
+
+export const tokenAllocations = {
+  powerUserAirdrops: TOTAL_TOKEN_SUPPLY * allocationRatios.POWER_DROPS,
+  liquidityRewards: TOTAL_TOKEN_SUPPLY * allocationRatios.LIQUIDITY_REWARDS,
+  lpBackstop: TOTAL_TOKEN_SUPPLY * allocationRatios.LIQUIDITY_BACKSTOP,
+  evangelistRewards: TOTAL_TOKEN_SUPPLY * allocationRatios.EVANGELIST_REWARDS,
+  ecosystemFund: TOTAL_TOKEN_SUPPLY * allocationRatios.ECOSYSTEM_FUND,
+  tips: TOTAL_TOKEN_SUPPLY * allocationRatios.TIPS,
+  devFund: TOTAL_TOKEN_SUPPLY * allocationRatios.DEV_FUND,
+};
+
+const allocationSum = Object.values(tokenAllocations).reduce(
+  (acc, val) => acc + val,
+  0,
+);
+
+if (allocationSum !== TOTAL_TOKEN_SUPPLY) {
+  throw new Error(
+    `Token allocations must sum to TOTAL_TOKEN_SUPPLY (${TOTAL_TOKEN_SUPPLY}). Got ${allocationSum} instead.`,
+  );
+}
+
 export const DEV_DEPLOYER_ADDRESS =
   "0x85ecbfcc3a8a9049e531cd0feeba3dedf5789e60";
 export const DEV_USER_ADDRESS = "0xc7c0a4b59de6bec1f9fdac7e760e1300fadd6db2";
@@ -25,19 +49,7 @@ export const GIGAMESH_ADDRESS = "0x795050decc0322567c4f0098209d4edc5a69b9d0";
 
 export const DEV_USER_TWITTER_ID = "1355613340324618241";
 
-if (Object.values(allocationRatios).reduce((acc, val) => acc + val, 0) !== 1)
-  throw new Error("Allocation ratios must sum to 1.0");
-
 export const LAUNCH_DATE = new Date("2024-05-01T00:00:00Z");
-
-export const tokenAllocations = {
-  powerUserAirdrops: TOTAL_TOKEN_SUPPLY * allocationRatios.POWER_DROPS,
-  liquidityRewards: TOTAL_TOKEN_SUPPLY * allocationRatios.LIQUIDITY_REWARDS,
-  lpBackstop: TOTAL_TOKEN_SUPPLY * allocationRatios.LIQUIDITY_BACKSTOP,
-  evangelistRewards: TOTAL_TOKEN_SUPPLY * allocationRatios.EVANGELIST_REWARDS,
-  ecosystemFund: TOTAL_TOKEN_SUPPLY * allocationRatios.ECOSYSTEM_FUND,
-  devFund: TOTAL_TOKEN_SUPPLY * allocationRatios.DEV_FUND,
-};
 
 // Adjust this from month to month as needed
 export const BASE_TOKENS_PER_TWEET = TOTAL_TOKEN_SUPPLY / 500_000;

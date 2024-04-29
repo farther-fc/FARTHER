@@ -29,7 +29,7 @@ export const getUser = publicProcedure
 
       if (!dbUser) {
         await prisma.user.create({
-          data: { fid },
+          data: { id: fid },
         });
       }
 
@@ -65,7 +65,7 @@ export const getUser = publicProcedure
 function getDbUserByFid(fid: number) {
   return prisma.user.findFirst({
     where: {
-      fid,
+      id: fid,
     },
     select: {
       allocations: {
