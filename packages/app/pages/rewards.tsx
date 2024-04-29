@@ -3,6 +3,7 @@ import { NoUserFoundCard } from "@components/NoUserFoundCard";
 import { RewardsTableRow } from "@components/RewardsTableRow";
 import { FartherChannelLink } from "@components/nav/FartherChannelLink";
 import { Button } from "@components/ui/Button";
+import { Container } from "@components/ui/Container";
 import Spinner from "@components/ui/Spinner";
 import {
   Table,
@@ -14,17 +15,17 @@ import {
 } from "@components/ui/Table";
 import { AllocationType } from "@farther/backend";
 import { ROUTES } from "@lib/constants";
+import { useLiquidity } from "@lib/context/LiquidityContext";
 import { useUser } from "@lib/context/UserContext";
 import { formatWad, removeFalsyValues } from "@lib/utils";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import { useLiquidityPositions } from "hooks/useLiquidityPositions";
 import { useRouter } from "next/router";
 import React from "react";
 
 export default function RewardsPage() {
   const { account, user, userIsLoading } = useUser();
   const router = useRouter();
-  const { positions, claimedRewards } = useLiquidityPositions();
+  const { positions, claimedRewards } = useLiquidity();
 
   const powerDrop = user?.allocations?.find(
     (a) => a.type === AllocationType.POWER_USER,
@@ -47,88 +48,91 @@ export default function RewardsPage() {
 
   const { openConnectModal } = useConnectModal();
   return (
-    <main className="content">
-      <h1>Rewards</h1>
-      {userIsLoading ? (
-        <Spinner variant="page" />
-      ) : (
-        <>
-          <p>Your Farther token rewards</p>
-          <div className="mt-8">
-            {!account.isConnected ? (
-              <InfoCard className="text-center">
-                Please{" "}
-                <Button variant="link" onClick={openConnectModal}>
-                  connect your wallet
-                </Button>{" "}
-                to check if you have any rewards.
-              </InfoCard>
-            ) : rows.length || claimedRewards > BigInt(0) ? (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="pl-0">Type</TableHead>
-                    <TableHead className="pr-1 text-right">Amount</TableHead>
-                    <TableHead className="text-right"></TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {rows.map((a) => (
-                    <RewardsTableRow key={a.id} allocation={a} />
-                  ))}
-                  {positions?.length && (
+    <Container variant="page">
+      <main className="content">
+        <h1>Rewards</h1>
+        {userIsLoading ? (
+          <Spinner variant="page" />
+        ) : (
+          <>
+            <p>All your Farther token rewards are summarized below</p>
+            <div className="mt-8">
+              {!account.isConnected ? (
+                <InfoCard className="text-center">
+                  Please{" "}
+                  <Button variant="link" onClick={openConnectModal}>
+                    connect your wallet
+                  </Button>{" "}
+                  to check if you have any rewards.
+                </InfoCard>
+              ) : rows.length || claimedRewards > BigInt(0) ? (
+                <Table>
+                  <TableHeader>
                     <TableRow>
-                      <TableCell className="pl-0 font-medium">
-                        Liquidity
-                      </TableCell>
-                      <TableCell className="pr-1 text-right">
-                        {formatWad(
-                          positions
-                            .reduce(
-                              (acc, pos) => acc + BigInt(pos.unclaimedRewards),
-                              BigInt(0),
-                            )
-                            .toString(),
-                        )}
-                      </TableCell>
-                      <TableCell className="pr-0 text-right">
-                        <Button
-                          className="w-[80px]"
-                          onClick={() => router.push(ROUTES.liquidty.path)}
-                        >
-                          Unstake
-                        </Button>
-                      </TableCell>
+                      <TableHead className="pl-0">Type</TableHead>
+                      <TableHead className="pr-1 text-right">Amount</TableHead>
+                      <TableHead className="text-right"></TableHead>
                     </TableRow>
-                  )}
-                  {claimedRewards > BigInt(0) && (
-                    <TableRow>
-                      <TableCell className="pl-0 font-medium">
-                        Liquidity
-                      </TableCell>
-                      <TableCell className="pr-1 text-right">
-                        {formatWad(claimedRewards.toString())}
-                      </TableCell>
-                      <TableCell className="pr-0 text-right">
-                        <Button className="w-[80px]" disabled={true}>
-                          Claimed
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            ) : !user ? (
-              <NoUserFoundCard />
-            ) : (
-              <InfoCard variant="muted">
-                No rewards found. If you believe this is an error, please reach
-                out in the <FartherChannelLink />.
-              </InfoCard>
-            )}
-          </div>
-        </>
-      )}
-    </main>
+                  </TableHeader>
+                  <TableBody>
+                    {rows.map((a) => (
+                      <RewardsTableRow key={a.id} allocation={a} />
+                    ))}
+                    {positions?.length && (
+                      <TableRow>
+                        <TableCell className="pl-0 font-medium">
+                          Liquidity
+                        </TableCell>
+                        <TableCell className="pr-1 text-right">
+                          {formatWad(
+                            positions
+                              .reduce(
+                                (acc, pos) =>
+                                  acc + BigInt(pos.unclaimedRewards),
+                                BigInt(0),
+                              )
+                              .toString(),
+                          )}
+                        </TableCell>
+                        <TableCell className="pr-0 text-right">
+                          <Button
+                            className="w-[80px]"
+                            onClick={() => router.push(ROUTES.liquidty.path)}
+                          >
+                            Unstake
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                    {claimedRewards > BigInt(0) && (
+                      <TableRow>
+                        <TableCell className="pl-0 font-medium">
+                          Liquidity
+                        </TableCell>
+                        <TableCell className="pr-1 text-right">
+                          {formatWad(claimedRewards.toString())}
+                        </TableCell>
+                        <TableCell className="pr-0 text-right">
+                          <Button className="w-[80px]" disabled={true}>
+                            Claimed
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              ) : !user ? (
+                <NoUserFoundCard />
+              ) : (
+                <InfoCard variant="muted">
+                  No rewards found. If you believe this is an error, please
+                  reach out in the <FartherChannelLink />.
+                </InfoCard>
+              )}
+            </div>
+          </>
+        )}
+      </main>
+    </Container>
   );
 }

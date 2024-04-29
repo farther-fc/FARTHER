@@ -76,7 +76,6 @@ function getDbUserByFid(fid: number) {
             select: {
               id: true,
               address: true,
-              number: true,
               startTime: true,
               endTime: true,
             },

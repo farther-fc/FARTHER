@@ -2,7 +2,12 @@ import { publicProcedure } from "server/trpc";
 import { apiSchemas } from "@lib/types/apiSchemas";
 import { TRPCError } from "@trpc/server";
 import { prisma } from "@farther/backend";
-import { BASE_TOKENS_PER_TWEET, WAD_SCALER } from "@farther/common";
+import {
+  BASE_TOKENS_PER_TWEET,
+  DEV_USER_TWITTER_ID,
+  EVANGELIST_FOLLOWER_MINIMUM,
+  WAD_SCALER,
+} from "@farther/common";
 import { scaleLog } from "d3-scale";
 
 if (!process.env.TWITTER_BEARER_TOKEN) {
@@ -103,9 +108,21 @@ export const validateTweet = publicProcedure
         twitterConfig,
       );
 
+      console.log({ tweetAuthorId });
+
       const data = await response.json();
 
       followerCount = data.data.public_metrics.followers_count as number;
+
+      if (
+        followerCount < EVANGELIST_FOLLOWER_MINIMUM &&
+        tweetAuthorId !== DEV_USER_TWITTER_ID
+      ) {
+        return {
+          isValid: false,
+          reason: `Sorry, your Twitter account must have at least ${EVANGELIST_FOLLOWER_MINIMUM} followers to qualify.`,
+        };
+      }
 
       const amount = getEvanglistAllocationAmount({ followerCount });
 

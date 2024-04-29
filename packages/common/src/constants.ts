@@ -1,6 +1,18 @@
 import { Address } from "viem";
 import { ENVIRONMENT } from "./env";
 
+export const TOTAL_TOKEN_SUPPLY = 1_000_000_000;
+
+export const allocationRatios = {
+  POWER_DROPS: 0.25,
+  LIQUIDITY_REWARDS: 0.15,
+  LIQUIDITY_BACKSTOP: 0.1,
+  EVANGELIST_REWARDS: 0.15,
+  ECOSYSTEM_FUND: 0.2,
+  TIPS: 0.1,
+  DEV_FUND: 0.05,
+} as const;
+
 export const DEV_DEPLOYER_ADDRESS =
   "0x85ecbfcc3a8a9049e531cd0feeba3dedf5789e60";
 export const DEV_USER_ADDRESS = "0xc7c0a4b59de6bec1f9fdac7e760e1300fadd6db2";
@@ -11,16 +23,7 @@ export const GIGAMESH_FID = 4378;
 
 export const GIGAMESH_ADDRESS = "0x795050decc0322567c4f0098209d4edc5a69b9d0";
 
-export const TOTAL_TOKEN_SUPPLY = 1_000_000_000;
-export const allocationRatios = {
-  POWER_DROPS: 0.25,
-  LIQUIDITY_REWARDS: 0.15,
-  LIQUIDITY_BACKSTOP: 0.1,
-  EVANGELIST_REWARDS: 0.15,
-  ECOSYSTEM_FUND: 0.2,
-  TIPS: 0.1,
-  DEV_FUND: 0.05,
-} as const;
+export const DEV_USER_TWITTER_ID = "1355613340324618241";
 
 if (Object.values(allocationRatios).reduce((acc, val) => acc + val, 0) !== 1)
   throw new Error("Allocation ratios must sum to 1.0");
@@ -37,26 +40,18 @@ export const tokenAllocations = {
 };
 
 // Adjust this from month to month as needed
-export const BASE_TOKENS_PER_TWEET = 1000;
+export const BASE_TOKENS_PER_TWEET = TOTAL_TOKEN_SUPPLY / 400_000;
 
 export const ONE_YEAR_IN_MS = 31_536_000_000;
+
+/**
+ * IMPORTANT: UPDATE THESE VALUES RIGHT AFTER A NEW AIRDROP IS DEPLOYED!
+ */
 export const NEXT_AIRDROP_START_TIME = new Date("2024-05-01T00:00:00Z");
 export const NEXT_AIRDROP_END_TIME = new Date(
   NEXT_AIRDROP_START_TIME.getTime() + ONE_YEAR_IN_MS,
 );
-
-// IMPORTANT: UPDATE THESE VALUES RIGHT AFTER A NEW AIRDROP IS DEPLOYED!
-export const powerUserAirdropConfig = {
-  NUMBER: 1,
-  // Airdrop 1: 12% of airdrop supply
-  // The rest is split evenly over 35 subsequent airdrops (3 years)
-  RATIO: 0.12,
-} as const;
-
-// IMPORTANT: UPDATE THESE VALUES RIGHT AFTER A NEW AIRDROP IS DEPLOYED!
-export const evangelistAirdropConfig = {
-  NUMBER: 1,
-} as const;
+export const POWER_USER_AIRDROP_RATIO = 0.12;
 
 const baseContractAddresses = {
   production: {
@@ -72,7 +67,7 @@ const baseContractAddresses = {
   },
   staging: {
     FARTHER:
-      "0x65Fb1f9Cb54fF76eBCb40b7F9aa4297B49C3Cf1a".toLowerCase() as Address,
+      "0x5b69Edb2434b47978D608fD1CEa375A9Ed04Aa18".toLowerCase() as Address,
     WETH: "0x4200000000000000000000000000000000000006".toLowerCase() as Address,
     UNISWAP_V3_STAKER:
       "0x42be4d6527829fefa1493e1fb9f3676d2425c3c1".toLowerCase() as Address,
@@ -138,3 +133,5 @@ export const NULL_ADDRESS =
   "0x0000000000000000000000000000000000000000" as Address;
 
 export const POINTS_EXPIRATION_MONTHS = 2;
+
+export const EVANGELIST_FOLLOWER_MINIMUM = 50;

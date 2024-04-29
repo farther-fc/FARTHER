@@ -20,8 +20,8 @@ function TokenomicsInfo() {
       <p>
         The initial supply of FARTHER is{" "}
         {numeral(TOTAL_TOKEN_SUPPLY / 1_000_000_000).format("0,0")} billion
-        tokens, and there is no initial price. The community will decide what
-        its worth. Please read the <Link href="/disclaimers">disclaimers</Link>{" "}
+        tokens, and there is no initial price. The community decides what its
+        worth. Please read the <Link href="/disclaimers">disclaimers</Link>{" "}
         before buying.
       </p>
       <p>It is allocated as follows:</p>

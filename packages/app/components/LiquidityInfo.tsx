@@ -18,7 +18,7 @@ export function LiquidityInfo() {
         Uniswap V3 ETH-FARTHER (0.03%) pool on Base after the first airdrop. It
         will last for six months. Additional rewards programs will follow.
       </p>
-      <h3>How to participate</h3>
+      <h2>How to participate</h2>
       <ol>
         <li>
           <p>

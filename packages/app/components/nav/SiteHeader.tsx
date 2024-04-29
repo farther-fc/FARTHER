@@ -3,7 +3,6 @@ import { NavMenu } from "@components/nav/NavMenu";
 import { useUser } from "@lib/context/UserContext";
 import { Button } from "@components/ui/Button";
 import { ProfileMenu } from "@components/nav/ProfileMenu";
-import { ThemeToggle } from "@components/ThemeToggle";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useScrollPosition } from "hooks/useScrollPosition";
 

@@ -59,8 +59,8 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
         link: {
-          DEFAULT: "#fcd34d",
-          hover: "#fbbf24",
+          DEFAULT: "hsl(var(--amber-300))",
+          hover: "hsl(var(--amber-200))",
         },
         farcaster: {
           DEFAULT: "#8a63d2",

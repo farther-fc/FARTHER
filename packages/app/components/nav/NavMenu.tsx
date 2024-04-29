@@ -4,7 +4,8 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@components/ui/DropdownMenu";
-import { ROUTES } from "@lib/constants";
+import { ExternalLink } from "@components/ui/ExternalLink";
+import { FARTHER_CHANNEL_URL, ROUTES } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import { Menu } from "lucide-react";
 import Link from "next/link";
@@ -46,6 +47,9 @@ export function NavMenu() {
               </a>
             </Link>
           ))}
+        <ExternalLink href={FARTHER_CHANNEL_URL} className="mb-4 text-right">
+          Community
+        </ExternalLink>
       </DropdownMenuContent>
     </DropdownMenu>
   );

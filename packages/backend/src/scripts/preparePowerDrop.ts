@@ -1,16 +1,14 @@
 import {
   DEV_USER_ADDRESS,
   DEV_USER_FID,
-  GIGAMESH_FID,
-  GIGAMESH_ADDRESS,
   WAD_SCALER,
   WARPCAST_API_BASE_URL,
   isProduction,
   neynarLimiter,
-  powerUserAirdropConfig,
   tokenAllocations,
   NEXT_AIRDROP_START_TIME,
   NEXT_AIRDROP_END_TIME,
+  POWER_USER_AIRDROP_RATIO,
 } from "@farther/common";
 import { AllocationType, prisma } from "../prisma";
 import { getMerkleRoot } from "@farther/common";
@@ -56,7 +54,7 @@ async function preparePowerDrop() {
   });
 
   const totalAllocation =
-    powerUserAirdropConfig.RATIO * tokenAllocations.powerUserAirdrops;
+    POWER_USER_AIRDROP_RATIO * tokenAllocations.powerUserAirdrops;
 
   // One half == equally distributed. Other half == bonus based on follower count.
   const halfOfTotalWad = (BigInt(totalAllocation) * WAD_SCALER) / BigInt(2);
@@ -111,7 +109,7 @@ async function preparePowerDrop() {
 
   if (recipientsWithoutAddress.length > 0) {
     await writeFile(
-      `airdrops/${ENVIRONMENT}/${AllocationType.POWER_USER.toLowerCase()}-${powerUserAirdropConfig.NUMBER}-null-addresses.json`,
+      `airdrops/${ENVIRONMENT}/${AllocationType.POWER_USER.toLowerCase()}-${NEXT_AIRDROP_START_TIME}-null-addresses.json`,
       JSON.stringify(
         recipientsWithoutAddress.map((r) => ({
           fid: r.fid,
@@ -142,21 +140,16 @@ async function preparePowerDrop() {
 
   const root = getMerkleRoot(rawLeafData);
 
-  const airdropData = {
-    number: powerUserAirdropConfig.NUMBER,
-    chainId: CHAIN_ID,
-    amount: allocationSum.toString(),
-    root,
-    address: undefined,
-    startTime: NEXT_AIRDROP_START_TIME,
-    endTime: NEXT_AIRDROP_END_TIME,
-  };
-
   // Upsert Airdrop
-  const airdrop = await prisma.airdrop.upsert({
-    where: { number: powerUserAirdropConfig.NUMBER, chainId: CHAIN_ID },
-    create: airdropData,
-    update: airdropData,
+  const airdrop = await prisma.airdrop.create({
+    data: {
+      chainId: CHAIN_ID,
+      amount: allocationSum.toString(),
+      root,
+      address: undefined,
+      startTime: NEXT_AIRDROP_START_TIME,
+      endTime: NEXT_AIRDROP_END_TIME,
+    },
   });
 
   // Add allocations to db
@@ -179,7 +172,7 @@ async function preparePowerDrop() {
   ]);
 
   await writeFile(
-    `airdrops/${ENVIRONMENT}/${AllocationType.POWER_USER.toLowerCase()}-${powerUserAirdropConfig.NUMBER}.json`,
+    `airdrops/${ENVIRONMENT}/${AllocationType.POWER_USER.toLowerCase()}-${NEXT_AIRDROP_START_TIME}.json`,
     JSON.stringify(
       {
         root,
@@ -208,21 +201,6 @@ async function preparePowerDrop() {
 }
 
 async function getPowerUsers() {
-  if (!isProduction) {
-    return [
-      {
-        fid: DEV_USER_FID,
-        address: DEV_USER_ADDRESS,
-        followerCount: 3993,
-      },
-      {
-        fid: GIGAMESH_FID,
-        address: GIGAMESH_ADDRESS,
-        followerCount: 65000,
-      },
-    ];
-  }
-
   // 1. Get power users from Warpcast
   const warpcastResponse = (await (
     await fetch(`${WARPCAST_API_BASE_URL}power-badge-users`)
@@ -242,6 +220,13 @@ async function getPowerUsers() {
       followerCount: u.follower_count,
     }));
 
+  if (!isProduction) {
+    data.push({
+      fid: DEV_USER_FID,
+      address: DEV_USER_ADDRESS,
+      followerCount: 3993,
+    });
+  }
   return data;
 }
 
