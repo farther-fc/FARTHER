@@ -16,9 +16,10 @@
     "db:reset": "dotenv -- pnpm --filter=backend db:reset"
   },
   "devDependencies": {
-    "@types/underscore": "^1.11.15",
     "@farther/typescript-config": "workspace:*",
     "@types/node": "^20.11.5",
+    "@types/underscore": "^1.11.15",
+    "eslint-plugin-unused-imports": "^3.1.0",
     "prettier": "^3.2.4",
     "turbo": "^1.11.3",
     "typescript": "^5.3.3"

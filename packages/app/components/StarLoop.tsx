@@ -1,12 +1,7 @@
 import { useMediaQuery } from "@lib/context/MediaQueryContext";
-import { useRouter } from "next/router";
-import React from "react";
-// ${isDesktop ? "top-[-300px]" : isLaptop ? "top-[-200px]" : isTabletLandscape ? "top-[-100px]" : "top-0"}
+
 export function StarLoop() {
-  const router = useRouter();
-  const currentPath = router.pathname;
-  const isLandingPage = currentPath === "/";
-  const { isTablet, isDesktop, isLaptop } = useMediaQuery();
+  const { isLaptop } = useMediaQuery();
 
   return (
     <>

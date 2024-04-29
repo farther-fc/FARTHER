@@ -3,13 +3,5 @@
     {
       "mode": "auto"
     }
-  ],
-  "commands.commands": [
-    {
-      "command": "terminals.runTerminals",
-      "color": "#00ff37",
-      "text": "Start Farther Local Dev",
-      "tooltip": "Start dev environment"
-    }
   ]
 }
