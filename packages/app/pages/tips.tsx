@@ -1,17 +1,15 @@
-import ComingSoon from "@components/ComingSoon";
 import { FartherChannelLink } from "@components/nav/FartherChannelLink";
 import { Container } from "@components/ui/Container";
-import React from "react";
 
 function tips() {
   return (
     <Container variant="page">
-      <ComingSoon>
-        <>
+      <div className="flex h-[calc(100vh-300px)] items-center justify-center text-center">
+        <div>
           <h2 className="border-none pl-0">Tips coming soon!</h2>
           <br /> Watch the <FartherChannelLink /> for updates.
-        </>
-      </ComingSoon>
+        </div>
+      </div>
     </Container>
   );
 }
