@@ -2,7 +2,6 @@ import { Button } from "@components/ui/Button";
 import { useModal } from "@lib/context/ModalContext";
 import { Content, Overlay, Portal, Root } from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
-import React from "react";
 
 export const GlobalModal = () => {
   const { modalContent, closeModal } = useModal();
@@ -14,7 +13,7 @@ export const GlobalModal = () => {
       <Portal>
         <Overlay className="z-modal-overlay fixed left-0 top-0 h-screen w-screen bg-slate-600/50 backdrop-blur-md backdrop-opacity-100" />
         <Content
-          className="z-modal-content bg-background fixed left-1/2 top-32 min-w-[100vw] max-w-[800px] -translate-x-1/2 overflow-x-hidden rounded-lg border p-4 sm:min-w-[600px] md:p-8"
+          className="z-modal-content bg-background fixed left-1/2 top-32 min-w-[92vw] max-w-[800px] -translate-x-1/2 overflow-x-hidden rounded-lg border p-4 sm:min-w-[600px] md:p-8"
           onOpenAutoFocus={(event: any) => event.preventDefault()}
         >
           <div className="space-between flex">
