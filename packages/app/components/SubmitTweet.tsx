@@ -64,7 +64,7 @@ export function SubmitTweet() {
                 <>
                   Congrats! Your tweet earned you {mutationResponse.totalReward}{" "}
                   FARTHER (including a bonus of {mutationResponse.bonusReward}).
-                  They will become claimable on the{" "}
+                  It will become claimable on the{" "}
                   <Link href={ROUTES.rewards.path}>rewards page</Link> at the
                   end of the month.
                 </>

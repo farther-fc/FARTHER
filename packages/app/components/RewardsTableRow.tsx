@@ -67,7 +67,10 @@ export function RewardsTableRow({
       id: allocation.id,
     },
     {
-      enabled: allocation.id !== PENDING_ALLOCATION_ID && !allocation.isClaimed,
+      enabled:
+        allocation.id !== PENDING_ALLOCATION_ID &&
+        !allocation.isClaimed &&
+        !!allocation.airdrop,
     },
   );
 
