@@ -1,13 +1,14 @@
 import {
   DEV_DEPLOYER_ADDRESS,
   ERC20__factory,
+  UNISWAP_REWARDS_PROGRAM_1_AMOUNT,
   UniswapV3StakerAbi,
   WAD_SCALER,
   contractAddresses,
 } from "@farther/common";
 import { Address, createWalletClient, http } from "viem";
-import { base } from "viem/chains";
 import { privateKeyToAccount } from "viem/accounts";
+import { base } from "viem/chains";
 
 if (!process.env.BASE_RPC_URL) {
   throw new Error("BASE_RPC_URL not found");
@@ -16,10 +17,17 @@ if (!process.env.DEPLOYER_PK) {
   throw new Error("DEPLOYER_PK not found");
 }
 
+/**
+ * NOTE: I had to do this on etherscan (because I don't want to get in the habit of transferring tokens to the deployer pk)
+ * Keeping this script as a way of printing out values in the future if needed.
+ */
+
 const SIX_MONTHS_IN_SECONDS = BigInt(30 * 6 * 24 * 60 * 60);
-const START_TIME = BigInt(Math.floor(Date.now() / 1000 + 60)); // 1 minute from now
+const START_TIME = BigInt(
+  Math.floor(new Date("2024-05-01T00:00:00Z").getTime() / 1000),
+);
 const END_TIME = START_TIME + SIX_MONTHS_IN_SECONDS;
-const AMOUNT = BigInt(2_500_000_000) * WAD_SCALER;
+const AMOUNT = BigInt(UNISWAP_REWARDS_PROGRAM_1_AMOUNT) * WAD_SCALER;
 
 const account = privateKeyToAccount(process.env.DEPLOYER_PK as `0x${string}`);
 

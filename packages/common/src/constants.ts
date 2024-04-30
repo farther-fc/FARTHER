@@ -26,6 +26,9 @@ export const tokenAllocations = {
   devFund: TOTAL_TOKEN_SUPPLY * allocationRatios.DEV_FUND,
 };
 
+export const UNISWAP_REWARDS_PROGRAM_1_AMOUNT =
+  tokenAllocations.liquidityRewards / 3; // 50 million
+
 const allocationSum = Object.values(tokenAllocations).reduce(
   (acc, val) => acc + val,
   0,
