@@ -44,10 +44,6 @@ export function SEO(seo: SeoData) {
 
       <meta property="og:image" content={DEFAULT_OG_IMAGE} />
       <meta property="og:image:width" content="1200" />
-
-      {/* TODO: Remove after confirming variable height is ok */}
-      {/* <meta property="og:image:height" content="630" /> */}
-
       <meta property="og:type" content="website" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content="@gigamesh" />
