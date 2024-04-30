@@ -141,7 +141,7 @@ export const allIncentivePrograms = {
   },
 } as const;
 
-export const IS_INCENTIVE_PROGRAM_ACTIVE = false;
+export const IS_INCENTIVE_PROGRAM_ACTIVE = true;
 
 export const incentivePrograms = allIncentivePrograms[ENVIRONMENT];
 
