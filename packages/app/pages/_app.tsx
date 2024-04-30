@@ -1,12 +1,9 @@
 require("dotenv").config();
-import DisableScroll from "@components/ComingSoon";
 import { SEO, SeoData } from "@components/SEO";
-import { StarLoop } from "@components/StarLoop";
 import { GlobalModal } from "@components/modals/GlobalModal";
 import { Footer } from "@components/nav/Footer";
 import { SiteHeader } from "@components/nav/SiteHeader";
 import { Toaster } from "@components/ui/Toaster";
-import { isProduction } from "@farther/common";
 import { LiquidityProvider } from "@lib/context/LiquidityContext";
 import { MediaQueryProvider } from "@lib/context/MediaQueryContext";
 import { ModalProvider } from "@lib/context/ModalContext";
@@ -54,19 +51,13 @@ const App = ({ Component, pageProps }: AppProps<{ seo: SeoData }>) => {
                     defaultTheme="system"
                     enableSystem
                   >
-                    {isProduction && pw !== "letmein" ? (
-                      <DisableScroll>
-                        <StarLoop />
-                      </DisableScroll>
-                    ) : (
-                      <ModalProvider>
-                        <Toaster />
-                        <SiteHeader />
-                        <GlobalModal />
-                        <Component {...pageProps} />
-                        <Footer />
-                      </ModalProvider>
-                    )}
+                    <ModalProvider>
+                      <Toaster />
+                      <SiteHeader />
+                      <GlobalModal />
+                      <Component {...pageProps} />
+                      <Footer />
+                    </ModalProvider>
                   </ThemeProvider>
                 </MediaQueryProvider>
               </LiquidityProvider>

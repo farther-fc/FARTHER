@@ -74,7 +74,6 @@ export default function Home() {
           Visit the <Link href={ROUTES.resources.path}>resources page</Link> to
           learn more about what makes Farcaster unique.
         </p>
-
         <h2>How</h2>
         <p>
           Farther aims to fund any creative media and tools devoted to growing
