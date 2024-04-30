@@ -140,10 +140,6 @@ type ToastFnProps = Omit<ToasterToast, "id">;
 function toast({ ...props }: ToastFnProps) {
   const id = genId();
 
-  if (props.variant === "error" && !props.title) {
-    props.title = "Error";
-  }
-
   const update = (props: ToasterToast) =>
     dispatch({
       type: "UPDATE_TOAST",

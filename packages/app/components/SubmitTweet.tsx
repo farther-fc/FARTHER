@@ -41,7 +41,6 @@ export function SubmitTweet() {
 
     if (typeof tweetId !== "string") {
       toast({
-        variant: "error",
         msg: "Invalid tweet URL. Please check it and try again.",
       });
       return;
@@ -54,7 +53,7 @@ export function SubmitTweet() {
       });
 
       if (!isValid) {
-        toast({ msg: reason, variant: "info" });
+        toast({ msg: reason });
       } else {
         closeModal();
         refetchUser();

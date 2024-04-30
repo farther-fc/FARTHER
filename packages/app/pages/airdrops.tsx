@@ -34,7 +34,7 @@ export default function AirdropPage() {
               </p>
             ) : (
               <p>
-                You are eligible for $FARTHER tokens in the next airdrop! <br />
+                You are eligible for FARTHER tokens in the next airdrop! <br />
                 Check the <Link href={ROUTES.rewards.path}>
                   rewards page
                 </Link>{" "}

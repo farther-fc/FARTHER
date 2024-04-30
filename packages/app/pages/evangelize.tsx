@@ -27,7 +27,7 @@ export default function EvangelizePage() {
             Please{" "}
             <Button
               variant="link"
-              className="text-white underline hover:text-white"
+              className="text-black underline hover:text-black"
               onClick={openConnectModal}
             >
               connect your wallet
