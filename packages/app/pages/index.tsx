@@ -44,7 +44,7 @@ export default function Home() {
         </p>
         <h2>What</h2>
         <p>
-          Farther was built around a vision of a tokenized gorilla marketing
+          Farther was built around a vision of a tokenized guerilla marketing
           community of Farcaster evangelists. Another way of thinking of it is
           an open incentive design canvas for any efforts in music, art, and
           tech that can boost Farcaster in the broader attention economy.
