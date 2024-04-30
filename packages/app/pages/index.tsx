@@ -37,10 +37,11 @@ export default function Home() {
           <ExternalLink href="https://open.spotify.com/artist/1Bo8Afb2Qbjs4x6kJHyjle?si=cfY9KTK5TM-tEIngAo4-xg">
             and musician
           </ExternalLink>{" "}
-          who journeyed into crypto (formerly at{" "}
-          <ExternalLink href="https://optimism.io/">Optimism</ExternalLink> and
-          cofounded <ExternalLink href="https://sound.xyz">Sound</ExternalLink>
-          ).
+          who journeyed{" "}
+          <ExternalLink href="https://gigamesh.mirror.xyz/0pkjLXlM3qaOwrQcsquaOXlcLo6IvfFvbUAGxLuVEAI">
+            into crypto in 2017
+          </ExternalLink>{" "}
+          and is trying to help build a better internet.
         </p>
         <h2>What</h2>
         <p>

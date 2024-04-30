@@ -40,6 +40,10 @@ if (allocationSum !== TOTAL_TOKEN_SUPPLY) {
   );
 }
 
+// Ledger #3
+export const FARTHER_OWNER_ADDRESS =
+  "0x97e3B75B2eebCC722B504851416e1410B32180a3";
+
 export const DEV_DEPLOYER_ADDRESS =
   "0x85ecbfcc3a8a9049e531cd0feeba3dedf5789e60";
 export const DEV_USER_ADDRESS = "0xc7c0a4b59de6bec1f9fdac7e760e1300fadd6db2";
@@ -115,10 +119,10 @@ export const allIncentivePrograms = {
   production: {
     1: {
       rewardToken: baseContractAddresses.production.FARTHER,
-      pool: "0xTODO",
-      startTime: 0,
-      endTime: 0,
-      refundee: "0xTODO",
+      pool: baseContractAddresses.production.UNIV3_FARTHER_ETH_30BPS_POOL,
+      startTime: 1714521600,
+      endTime: 1730073600,
+      refundee: FARTHER_OWNER_ADDRESS,
     },
   },
   staging: {
