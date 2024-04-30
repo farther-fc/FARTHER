@@ -4,7 +4,6 @@ import { EcosystemFundModal } from "@components/modals/EcosystemFundModal";
 import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
-import { contractAddresses } from "@farther/common/src/constants";
 import { ROUTES } from "@lib/constants";
 import { useModal } from "@lib/context/ModalContext";
 import Link from "next/link";
@@ -55,14 +54,9 @@ export default function Home() {
 
         <h2>How</h2>
         <p>
-          <ExternalLink
-            href={`https://basescan.org/token/${contractAddresses.FARTHER}`}
-          >
-            FARTHER
-          </ExternalLink>{" "}
-          is an Ethereum token to incentivize Farcaster user growth. It is being
-          rewarded to active users and builders within the ecosystem in the
-          following ways:
+          FARTHER is an Ethereum token deployed on Base that is meant to
+          incentivize Farcaster user growth. It is being rewarded to active
+          users and builders within the ecosystem in the following ways:
         </p>
         <ul>
           <li>
