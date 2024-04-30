@@ -10,7 +10,7 @@ export const getStaticProps = async (contextData) => {
 
   return {
     props: {
-      statusCode: contextData.res.statusCode,
+      statusCode: contextData ?? contextData.res ?? contextData.res.statusCode,
     },
   };
 };
