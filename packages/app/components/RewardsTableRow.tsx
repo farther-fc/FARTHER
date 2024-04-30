@@ -1,25 +1,29 @@
-import React from "react";
-import { TableCell, TableRow } from "@components/ui/Table";
-import { PENDING_ALLOCATION_ID, claimNames } from "@lib/constants";
-import { formatAirdropTime, formatWad } from "@lib/utils";
 import { Button } from "@components/ui/Button";
-import { useLogError } from "hooks/useLogError";
-import { GetUserOuput } from "@lib/types/apiTypes";
+import { TableCell, TableRow } from "@components/ui/Table";
+import { Tooltip } from "@components/ui/Tooltip";
+import { AllocationType } from "@farther/backend";
+import {
+  CHAIN_ID,
+  FartherAirdrop__factory,
+  TEMPORARY_EVANGELIST_DROP_START_TIME,
+  getStartOfNextMonthUTC,
+} from "@farther/common";
+import { PENDING_ALLOCATION_ID, claimNames } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import { trpcClient } from "@lib/trpcClient";
-import { Address } from "viem";
-import { FartherAirdrop__factory, startOfNextMonth } from "@farther/common";
-import {
-  useSwitchChain,
-  useWriteContract,
-  useWaitForTransactionReceipt,
-  useReadContract,
-} from "wagmi";
-import { CHAIN_ID } from "@farther/common";
+import { GetUserOuput } from "@lib/types/apiTypes";
+import { formatAirdropTime, formatWad } from "@lib/utils";
+import { useLogError } from "hooks/useLogError";
 import { useToast } from "hooks/useToast";
-import { Tooltip } from "@components/ui/Tooltip";
 import { Info } from "lucide-react";
-import { AllocationType } from "@farther/backend";
+import React from "react";
+import { Address } from "viem";
+import {
+  useReadContract,
+  useSwitchChain,
+  useWaitForTransactionReceipt,
+  useWriteContract,
+} from "wagmi";
 
 type ElementType<T> = T extends (infer U)[] ? U : T;
 
@@ -140,6 +144,14 @@ export function RewardsTableRow({
     : Number.POSITIVE_INFINITY;
   const airdropStartTimeExceeded = Date.now() > startTimeNum;
 
+  const buttonText = !allocation.airdrop?.address
+    ? `Available ${formatAirdropTime(allocation.type === "EVANGELIST" ? TEMPORARY_EVANGELIST_DROP_START_TIME : getStartOfNextMonthUTC())}`
+    : claimed || isSuccess
+      ? "Claimed"
+      : airdropStartTimeExceeded
+        ? "Claim"
+        : `Available ${formatAirdropTime(new Date(startTime as string))}`;
+
   return (
     <TableRow>
       <TableCell className="pl-0 font-medium">
@@ -187,13 +199,7 @@ export function RewardsTableRow({
             loadingText="Claiming"
             onClick={handleClaim}
           >
-            {!allocation.airdrop?.address
-              ? `Available ${formatAirdropTime(startOfNextMonth())}`
-              : claimed || isSuccess
-                ? "Claimed"
-                : airdropStartTimeExceeded
-                  ? "Claim"
-                  : `Available ${formatAirdropTime(new Date(startTime as string))}`}
+            {buttonText}
           </Button>
         )}
       </TableCell>

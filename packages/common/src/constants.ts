@@ -65,6 +65,10 @@ export const NEXT_AIRDROP_END_TIME = new Date(
 );
 export const POWER_USER_AIRDROP_RATIO = 0.15;
 
+export const TEMPORARY_EVANGELIST_DROP_START_TIME = new Date(
+  "2024-06-01T00:00:00Z",
+);
+
 const baseContractAddresses = {
   production: {
     FARTHER:

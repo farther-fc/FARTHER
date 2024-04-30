@@ -25,11 +25,7 @@ export default function EvangelizePage() {
         msg: (
           <>
             Please{" "}
-            <Button
-              variant="link"
-              className="text-black underline hover:text-black"
-              onClick={openConnectModal}
-            >
+            <Button variant="link" onClick={openConnectModal}>
               connect your wallet
             </Button>{" "}
             before submitting a tweet

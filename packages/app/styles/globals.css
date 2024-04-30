@@ -457,7 +457,7 @@ ul > li:before {
   }
 
   .toast-styles a {
-    @apply text-white underline hover:text-white;
+    @apply text-black underline hover:text-black;
   }
 
   @keyframes ellipsis {

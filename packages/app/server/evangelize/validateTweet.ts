@@ -1,14 +1,16 @@
 import { AllocationType, prisma } from "@farther/backend";
 import {
+  BASE_TOKENS_PER_TWEET,
   CHAIN_ID,
   DEV_USER_TWITTER_ID,
   EVANGELIST_FOLLOWER_MINIMUM,
   NEXT_AIRDROP_START_TIME,
+  WAD_SCALER,
   getAllocationId,
 } from "@farther/common";
 import { apiSchemas } from "@lib/types/apiSchemas";
 import { TRPCError } from "@trpc/server";
-import { getEvanglistAllocation } from "server/evangelize/getEvangelistAllocation";
+import { getEvanglistAllocationBonus } from "server/evangelize/getEvangelistAllocation";
 import { publicProcedure } from "server/trpc";
 
 if (!process.env.TWITTER_BEARER_TOKEN) {
@@ -56,11 +58,18 @@ export const validateTweet = publicProcedure
       return {
         isValid: false,
         reason: `Your evangelism is commendable! However, please wait to submit until three days after your latest submission. ❤️`,
+        totalReward: 0,
+        bonusReward: 0,
       };
     }
 
     if (existingTweet) {
-      return { isValid: false, reason: "That tweet was already submitted 😉" };
+      return {
+        isValid: false,
+        reason: "That tweet was already submitted 😉",
+        totalReward: 0,
+        bonusReward: 0,
+      };
     }
 
     try {
@@ -100,6 +109,8 @@ export const validateTweet = publicProcedure
 
     const { isValid, reason } = verifyTweetText({ tweetText, fid: user.id });
 
+    let totalReward = 0;
+    let bonusReward = 0;
     if (isValid) {
       let followerCount;
 
@@ -108,8 +119,6 @@ export const validateTweet = publicProcedure
         `https://api.twitter.com/2/users/${tweetAuthorId}?user.fields=public_metrics`,
         twitterConfig,
       );
-
-      console.log({ tweetAuthorId });
 
       const data = await response.json();
 
@@ -122,10 +131,14 @@ export const validateTweet = publicProcedure
         return {
           isValid: false,
           reason: `Sorry, your Twitter account must have at least ${EVANGELIST_FOLLOWER_MINIMUM} followers to qualify.`,
+          totalReward: 0,
+          bonusReward: 0,
         };
       }
 
-      const amount = getEvanglistAllocation({ followerCount });
+      bonusReward = getEvanglistAllocationBonus({ followerCount });
+      totalReward = BASE_TOKENS_PER_TWEET + bonusReward;
+      const totalRewardWad = BigInt(totalReward) * WAD_SCALER;
 
       // Look for existing pending allocation
       const pendingAllocation = await prisma.allocation.findFirst({
@@ -142,7 +155,7 @@ export const validateTweet = publicProcedure
           const tweet = await tx.tweet.create({
             data: {
               id: tweetId,
-              reward: amount.toString(),
+              reward: totalRewardWad.toString(),
               allocationId: pendingAllocation.id,
             },
           });
@@ -152,7 +165,9 @@ export const validateTweet = publicProcedure
               id: pendingAllocation.id,
             },
             data: {
-              amount: (BigInt(pendingAllocation.amount) + amount).toString(),
+              amount: (
+                BigInt(pendingAllocation.amount) + totalRewardWad
+              ).toString(),
               tweets: {
                 connect: {
                   id: tweet.id,
@@ -162,7 +177,7 @@ export const validateTweet = publicProcedure
           });
         });
       } else {
-        // Store allocation
+        // If no pending allcation, create allocation & tweet
         await prisma.allocation.create({
           data: {
             id: getAllocationId({
@@ -172,11 +187,11 @@ export const validateTweet = publicProcedure
               airdropStartTime: NEXT_AIRDROP_START_TIME.getTime(),
             }),
             type: "EVANGELIST",
-            amount: amount.toString(),
+            amount: totalRewardWad.toString(),
             tweets: {
               create: {
                 id: tweetId,
-                reward: amount.toString(),
+                reward: totalRewardWad.toString(),
               },
             },
             user: {
@@ -189,7 +204,7 @@ export const validateTweet = publicProcedure
       }
     }
 
-    return { isValid, reason };
+    return { isValid, reason, totalReward, bonusReward };
   });
 
 function verifyTweetText({
