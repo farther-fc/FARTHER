@@ -1,6 +1,6 @@
 import { Button } from "@components/ui/Button";
 import { TableCell, TableRow } from "@components/ui/Table";
-import { Tooltip } from "@components/ui/Tooltip";
+import { Popover } from "@components/ui/Popover";
 import { AllocationType } from "@farther/backend";
 import {
   CHAIN_ID,
@@ -132,6 +132,8 @@ export function RewardsTableRow({
     });
   }, [setAllocationClaimed, isSuccess, allocation.id, toast, refetchBalance]);
 
+  console.log(allocation);
+
   /**
    * Fallback in case something happens which prevents the db getting updated with the claim status
    */
@@ -162,7 +164,7 @@ export function RewardsTableRow({
       </TableCell>
       <TableCell className="pr-1 text-right ">
         {allocation.id === PENDING_ALLOCATION_ID ? (
-          <Tooltip
+          <Popover
             content={
               <div className="max-w-[300px] rounded-2xl p-4 text-left">
                 Your allocation will depend on how many other users earn a power
@@ -173,17 +175,35 @@ export function RewardsTableRow({
             <span className="border-input cursor-default rounded-md border p-3">
               TBD <Info className="inline w-3" />
             </span>
-          </Tooltip>
+          </Popover>
         ) : (
-          <>
-            {formatWad(allocation.amount)}{" "}
-            {allocation.tweets?.length ? (
+          <Popover
+            content={
+              <div className="max-w-[300px] rounded-2xl p-4 text-left">
+                Your base allocation is {formatWad(allocation.baseAmount)}, and
+                you received a follower count bonus of{" "}
+                {formatWad(
+                  (
+                    BigInt(allocation.amount) - BigInt(allocation.baseAmount)
+                  ).toString(),
+                )}
+                .
+              </div>
+            }
+          >
+            <span className="cursor-default rounded-md p-3">
               <>
-                ({allocation.tweets.length} tweet
-                {allocation.tweets.length > 1 ? "s" : ""})
-              </>
-            ) : null}
-          </>
+                {formatWad(allocation.amount)}{" "}
+                {allocation.tweets?.length ? (
+                  <>
+                    ({allocation.tweets.length} tweet
+                    {allocation.tweets.length > 1 ? "s" : ""})
+                  </>
+                ) : null}
+              </>{" "}
+              <Info className="inline w-3" />
+            </span>
+          </Popover>
         )}
       </TableCell>
       <TableCell className="pr-0 text-right">
@@ -212,7 +232,7 @@ export function RewardsTableRow({
 
 function Pending() {
   return (
-    <Tooltip
+    <Popover
       content={
         <div className="max-w-[300px] rounded-2xl p-4 text-left">
           Your rewards will remain pending until you earn a Warpcast Power
@@ -224,6 +244,6 @@ function Pending() {
       <span className="border-input cursor-default rounded-md border p-3 opacity-30">
         Pending <Info className="inline w-3" />
       </span>
-    </Tooltip>
+    </Popover>
   );
 }

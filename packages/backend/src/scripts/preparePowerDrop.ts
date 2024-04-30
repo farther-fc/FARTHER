@@ -181,6 +181,7 @@ async function preparePowerDrop() {
           airdropStartTime: NEXT_AIRDROP_START_TIME.getTime(),
         }),
         amount: r.amount.toString(),
+        baseAmount: basePerRecipientWad.toString(),
         index: i,
         airdropId: airdrop.id,
         userId: r.id,
