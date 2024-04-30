@@ -4,6 +4,7 @@ import { EcosystemFundModal } from "@components/modals/EcosystemFundModal";
 import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
+import { contractAddresses } from "@farther/common";
 import { ROUTES } from "@lib/constants";
 import { useModal } from "@lib/context/ModalContext";
 import Link from "next/link";
@@ -25,6 +26,28 @@ export default function Home() {
             Farcaster
           </ExternalLink>
           .
+        </p>
+        <h2>Who</h2>
+        <p>
+          Farther was created by{" "}
+          <ExternalLink href="https://warpcast.com/gigamesh">
+            GIGAMΞSH
+          </ExternalLink>
+          , a creative technologist{" "}
+          <ExternalLink href="https://open.spotify.com/artist/1Bo8Afb2Qbjs4x6kJHyjle?si=cfY9KTK5TM-tEIngAo4-xg">
+            and musician
+          </ExternalLink>{" "}
+          who journeyed into crypto (formerly at{" "}
+          <ExternalLink href="https://optimism.io/">Optimism</ExternalLink> and
+          cofounded <ExternalLink href="https://sound.xyz">Sound</ExternalLink>
+          ).
+        </p>
+        <h2>What</h2>
+        <p>
+          Farther was built around a vision of a tokenized gorilla marketing
+          community of Farcaster evangelists. Another way of thinking of it is
+          an open incentive design canvas for any efforts in music, art, and
+          tech that can boost Farcaster in the broader attention economy.
         </p>
         <h2>Why</h2>
         <ul>
@@ -51,12 +74,18 @@ export default function Home() {
           Visit the <Link href={ROUTES.resources.path}>resources page</Link> to
           learn more about what makes Farcaster unique.
         </p>
-
         <h2>How</h2>
         <p>
-          FARTHER is an Ethereum token deployed on Base that is meant to
-          incentivize Farcaster user growth. It is being rewarded to active
-          users and builders within the ecosystem in the following ways:
+          Farther aims to fund any creative media and tools devoted to growing
+          Farcaster. Several ideas are being explored, all of which will involve
+          the{" "}
+          <ExternalLink
+            href={`https://basescan.org/token/${contractAddresses.FARTHER}`}
+          >
+            FARTHER token, deployed on Base
+          </ExternalLink>
+          . To bootstrap these efforts, it is being rewarded to active users and
+          builders within the ecosystem in the following ways:
         </p>
         <ul>
           <li>
