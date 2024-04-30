@@ -95,9 +95,9 @@ export default function EvangelizePage() {
           </li>
           <li>
             Copy the tweet's URL and{" "}
-            <Button variant="link" onClick={handleSubmit}>
+            <Link href={`${ROUTES.evangelize.path}/submit-tweet`}>
               submit it here
-            </Button>
+            </Link>
             .
           </li>
           <li>
