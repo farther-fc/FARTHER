@@ -1,12 +1,6 @@
-import {
-  LAUNCH_DATE,
-  allocationRatios,
-  startOfNextMonth,
-} from "@farther/common";
-import { formatDate } from "@lib/utils";
-import React from "react";
-import { ExternalLink } from "./ui/ExternalLink";
+import { allocationRatios } from "@farther/common";
 import { POWER_BADGE_INFO_URL } from "@lib/constants";
+import { ExternalLink } from "./ui/ExternalLink";
 
 export function AirdropInfo() {
   return (
