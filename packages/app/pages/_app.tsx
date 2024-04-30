@@ -17,28 +17,20 @@ import "@styles/globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
-import React from "react";
 import { WagmiProvider } from "wagmi";
 
 // Setup queryClient
 const queryClient = new QueryClient();
 
 const App = ({ Component, pageProps }: AppProps<{ seo: SeoData }>) => {
-  const [pw, setPw] = React.useState<string>("");
   const router = useRouter();
-
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      setPw(localStorage.getItem("pw") || "");
-    }
-  }, [setPw]);
 
   return (
     <>
       <SEO
         asPath={router.asPath}
-        title={pageProps.seo.title}
-        description={pageProps.seo.description}
+        title={pageProps.seo ? pageProps.seo.title : ""}
+        description={pageProps.seo ? pageProps.seo.description : ""}
       />
       <WagmiProvider config={wagmiConfig}>
         <QueryClientProvider client={queryClient}>
