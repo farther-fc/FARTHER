@@ -18,7 +18,7 @@ export function StarLoop() {
           alt="Farther Arch logo"
         />
         <video
-          className={`absolute size-full object-cover ${isLoaded ? "opacity-100" : "opacity-0"} transition-opacity duration-1000`}
+          className={`absolute size-full object-cover ${isLoaded ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}
           autoPlay
           muted
           loop

@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-import { base, sepolia, anvil } from "viem/chains";
+import { anvil, base, sepolia } from "viem/chains";
 
 export const NODE_ENV = process.env.NODE_ENV || "development";
 
@@ -33,6 +33,8 @@ export const chainIds = {
   sepolia: sepolia.id,
   anvil: anvil.id,
 } as const;
+
+export type ChainId = (typeof chainIds)[typeof NETWORK];
 
 export const CHAIN_ID = chainIds[NETWORK];
 

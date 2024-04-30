@@ -1,7 +1,6 @@
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { contractAddresses } from "@farther/common";
-import React from "react";
 
 function DisclaimersPage() {
   return (
@@ -37,6 +36,16 @@ function DisclaimersPage() {
       </div>
     </Container>
   );
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      seo: {
+        title: "Disclaimers",
+      },
+    },
+  };
 }
 
 export default DisclaimersPage;

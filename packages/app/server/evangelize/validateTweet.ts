@@ -1,7 +1,10 @@
-import { prisma } from "@farther/backend";
+import { AllocationType, prisma } from "@farther/backend";
 import {
+  CHAIN_ID,
   DEV_USER_TWITTER_ID,
   EVANGELIST_FOLLOWER_MINIMUM,
+  NEXT_AIRDROP_START_TIME,
+  getAllocationId,
 } from "@farther/common";
 import { apiSchemas } from "@lib/types/apiSchemas";
 import { TRPCError } from "@trpc/server";
@@ -40,7 +43,7 @@ export const validateTweet = publicProcedure
       where: {
         allocation: {
           user: {
-            fid,
+            id: fid,
           },
         },
         createdAt: {
@@ -84,7 +87,7 @@ export const validateTweet = publicProcedure
     // Get user
     const user = await prisma.user.findFirst({
       where: {
-        fid,
+        id: fid,
       },
     });
 
@@ -95,7 +98,7 @@ export const validateTweet = publicProcedure
       });
     }
 
-    const { isValid, reason } = verifyTweetText({ tweetText, fid: user.fid });
+    const { isValid, reason } = verifyTweetText({ tweetText, fid: user.id });
 
     if (isValid) {
       let followerCount;
@@ -162,6 +165,12 @@ export const validateTweet = publicProcedure
         // Store allocation
         await prisma.allocation.create({
           data: {
+            id: getAllocationId({
+              type: AllocationType.EVANGELIST,
+              userId: user.id,
+              chainId: CHAIN_ID,
+              airdropStartTime: NEXT_AIRDROP_START_TIME.getTime(),
+            }),
             type: "EVANGELIST",
             amount: amount.toString(),
             tweets: {
@@ -172,7 +181,7 @@ export const validateTweet = publicProcedure
             },
             user: {
               connect: {
-                fid,
+                id: fid,
               },
             },
           },

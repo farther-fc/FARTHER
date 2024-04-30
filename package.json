@@ -5,6 +5,7 @@
     "build": "dotenv -- turbo build",
     "build:web": "dotenv -- turbo build:web",
     "dev": "dotenv -- turbo dev",
+    "dev:prod": "dotenv -e .env.production turbo dev",
     "dev:staging": "dotenv -e .env.staging turbo dev",
     "deploy:dev": "dotenv -- pnpm --filter=protocol deploy:dev",
     "lint": "turbo lint --log-prefix=none",

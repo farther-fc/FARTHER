@@ -1,41 +1,39 @@
 // @ts-nocheck
+import { gql } from "@graphql-mesh/utils";
+import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 import {
-  GraphQLResolveInfo,
-  SelectionSetNode,
   FieldNode,
+  GraphQLResolveInfo,
   GraphQLScalarType,
   GraphQLScalarTypeConfig,
+  SelectionSetNode,
 } from "graphql";
-import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
-import { gql } from "@graphql-mesh/utils";
 
+import MeshCache from "@graphql-mesh/cache-localforage";
 import type { GetMeshOptions } from "@graphql-mesh/runtime";
 import type { YamlConfig } from "@graphql-mesh/types";
-import { PubSub } from "@graphql-mesh/utils";
-import { DefaultLogger } from "@graphql-mesh/utils";
-import MeshCache from "@graphql-mesh/cache-localforage";
+import { DefaultLogger, PubSub } from "@graphql-mesh/utils";
 import { fetch as fetchFn } from "@whatwg-node/fetch";
 
-import { MeshResolvedSource } from "@graphql-mesh/runtime";
-import { MeshTransform, MeshPlugin } from "@graphql-mesh/types";
+import { path as pathModule } from "@graphql-mesh/cross-helpers";
 import GraphqlHandler from "@graphql-mesh/graphql";
+import { MeshHTTPHandler, createMeshHTTPHandler } from "@graphql-mesh/http";
 import BareMerger from "@graphql-mesh/merger-bare";
+import {
+  MeshContext as BaseMeshContext,
+  ExecuteMeshFn,
+  MeshInstance,
+  MeshResolvedSource,
+  SubscribeMeshFn,
+  getMesh,
+} from "@graphql-mesh/runtime";
+import { FsStoreStorageAdapter, MeshStore } from "@graphql-mesh/store";
+import { ImportFn, MeshPlugin, MeshTransform } from "@graphql-mesh/types";
 import { printWithCache } from "@graphql-mesh/utils";
 import { usePersistedOperations } from "@graphql-yoga/plugin-persisted-operations";
-import { createMeshHTTPHandler, MeshHTTPHandler } from "@graphql-mesh/http";
-import {
-  getMesh,
-  ExecuteMeshFn,
-  SubscribeMeshFn,
-  MeshContext as BaseMeshContext,
-  MeshInstance,
-} from "@graphql-mesh/runtime";
-import { MeshStore, FsStoreStorageAdapter } from "@graphql-mesh/store";
-import { path as pathModule } from "@graphql-mesh/cross-helpers";
-import { ImportFn } from "@graphql-mesh/types";
-import type { FartherTypes } from "./sources/farther/types";
 import * as importedModule$0 from "./../.graphclientrc.js";
 import * as importedModule$1 from "./sources/farther/introspectionSchema";
+import type { FartherTypes } from "./sources/farther/types";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -930,7 +928,9 @@ export async function getMeshOptions(): Promise<GetMeshOptions> {
   const additionalTypeDefs = [] as any[];
   const fartherHandler = new GraphqlHandler({
     name: "farther",
-    config: { endpoint: "https://farther.squids.live/farther/graphql" },
+    config: {
+      endpoint: "https://farther.squids.live/farther-staging/v/v1/graphql",
+    },
     baseDir,
     cache,
     pubsub,

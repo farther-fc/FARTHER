@@ -9,8 +9,8 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  fid       Int      @unique
+  // Using Farcaster FID as unique identifier
+  id        Int      @id
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -19,11 +19,12 @@ model User {
 
 // Airdrop allocation
 model Allocation {
-  id        String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  // Using hash of user ID, allocation type, chain ID, and airdrop start time as the unique identifier
+  id        String         @id
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
-  userId    String         @db.Uuid
-  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int            
+  user      User           @relation(fields: [userId], references: [id])
   airdropId String?        @db.Uuid
   airdrop   Airdrop?       @relation(fields: [airdropId], references: [id])
   isClaimed Boolean        @default(false)
@@ -47,11 +48,12 @@ enum AllocationType {
 }
 
 model Tweet {
+  // Using twitter tweet id as the unique identifier
   id           String     @id
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
-  allocationId String     @db.Uuid
-  allocation   Allocation @relation(fields: [allocationId], references: [id], onDelete: Cascade)
+  allocationId String     
+  allocation   Allocation @relation(fields: [allocationId], references: [id])
 
   // Each tweet has its own reward, which gets summed to the allocation amount
   reward        String

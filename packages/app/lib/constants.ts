@@ -58,3 +58,14 @@ export const pendingAllocation = {
   index: null,
   tweets: [],
 };
+
+export const ROOT_ENDPOINTS = {
+  production: "https://farther.social",
+  staging: "https://staging.farther.social",
+  development: "http://localhost:3000",
+} as const;
+
+export const ROOT_ENDPOINT =
+  ROOT_ENDPOINTS[
+    process.env.NEXT_PUBLIC_ENV as "production" | "staging" | "development"
+  ];

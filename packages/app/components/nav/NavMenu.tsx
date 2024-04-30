@@ -37,7 +37,7 @@ export function NavMenu() {
               </a>
             </Link>
           ))}
-        <hr className="mb-4 mt-0" />
+        <hr className="border-muted mb-4 mt-0" />
         {Object.entries(ROUTES)
           .filter(([_, { type }]) => type === "info")
           .map(([_id, route]) => (

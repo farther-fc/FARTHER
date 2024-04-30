@@ -69,7 +69,7 @@ export const getMerkleProof = publicProcedure
           },
         },
         select: {
-          fid: true,
+          id: true,
           allocations: true,
         },
       });

@@ -1,16 +1,19 @@
-import { createContainer } from "@lib/context/unstated";
-import { UniswapV3StakerAbi } from "@farther/common";
-import { contractAddresses, incentivePrograms } from "@farther/common";
-import { useUser } from "@lib/context/UserContext";
-import { Address } from "viem";
-import React from "react";
-import { readContract } from "viem/actions";
-import { viemClient } from "@lib/walletConfig";
-import { useLogError } from "hooks/useLogError";
-import { FartherPositionsQuery, getBuiltGraphSDK } from "../../.graphclient";
-import { useQuery } from "@tanstack/react-query";
-import { usePathname } from "next/navigation";
+import {
+  UniswapV3StakerAbi,
+  contractAddresses,
+  incentivePrograms,
+} from "@farther/common";
 import { ROUTES } from "@lib/constants";
+import { useUser } from "@lib/context/UserContext";
+import { createContainer } from "@lib/context/unstated";
+import { viemClient } from "@lib/walletConfig";
+import { useQuery } from "@tanstack/react-query";
+import { useLogError } from "hooks/useLogError";
+import { usePathname } from "next/navigation";
+import React from "react";
+import { Address } from "viem";
+import { readContract } from "viem/actions";
+import { FartherPositionsQuery, getBuiltGraphSDK } from "../../.graphclient";
 
 export type Position = FartherPositionsQuery["positions"][number] & {
   unclaimedRewards: bigint;
@@ -124,6 +127,7 @@ const LiquidityContext = createContainer(function () {
     )
       return;
 
+    console.log(pathname);
     timer.current = setInterval(() => {
       refetchPositions();
       refetchUnclaimedRewards();

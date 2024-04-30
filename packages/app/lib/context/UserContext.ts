@@ -40,7 +40,6 @@ export const UserContext = createContainer(function () {
       toast({
         title: "Wrong address",
         msg: `The wallet address you are connected to does not match the address your Farther rewards are airdropped to. Please connect to ${shortenHash(user.verifiedAddress as `0x${string} `)} instead (this is the first address in your verified address list on Warpcast)`,
-        variant: "error",
         duration: 60_000,
       });
     }

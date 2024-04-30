@@ -1,5 +1,6 @@
 require("dotenv").config();
 import DisableScroll from "@components/ComingSoon";
+import { SEO, SeoData } from "@components/SEO";
 import { StarLoop } from "@components/StarLoop";
 import { GlobalModal } from "@components/modals/GlobalModal";
 import { Footer } from "@components/nav/Footer";
@@ -18,15 +19,16 @@ import "@rainbow-me/rainbowkit/styles.css";
 import "@styles/globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { AppProps } from "next/app";
-import Head from "next/head";
+import { useRouter } from "next/router";
 import React from "react";
 import { WagmiProvider } from "wagmi";
 
 // Setup queryClient
 const queryClient = new QueryClient();
 
-const App = ({ Component, pageProps }: AppProps) => {
+const App = ({ Component, pageProps }: AppProps<{ seo: SeoData }>) => {
   const [pw, setPw] = React.useState<string>("");
+  const router = useRouter();
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
@@ -36,9 +38,11 @@ const App = ({ Component, pageProps }: AppProps) => {
 
   return (
     <>
-      <Head>
-        <meta name="color-scheme" content="dark only"></meta>
-      </Head>
+      <SEO
+        asPath={router.asPath}
+        title={pageProps.seo.title}
+        description={pageProps.seo.description}
+      />
       <WagmiProvider config={wagmiConfig}>
         <QueryClientProvider client={queryClient}>
           <RainbowKitProvider>

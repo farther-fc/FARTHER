@@ -1,4 +1,4 @@
-import { FartherChannelLink } from "@components/nav/FartherChannelLink";
+import { FartherAccountLink } from "@components/nav/FartherLinks";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
 
@@ -36,10 +36,10 @@ function ResourcesPage() {
       <main className="content">
         <h1>Resources</h1>
         <p className="text-muted">
-          This page is a work in progress. Please reach out in the{" "}
-          <FartherChannelLink /> if you have any suggestions or have an idea for
-          an educational resource that may be a good candidate for grant
-          funding.
+          This page is a work in progress. Please{" "}
+          <FartherAccountLink>reach out</FartherAccountLink> if you have any
+          suggestions or have an idea for an educational resource that may be a
+          good candidate for grant funding.
         </p>
         <h2>Media</h2>
 
@@ -59,6 +59,16 @@ function ResourcesPage() {
       </main>
     </Container>
   );
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      seo: {
+        title: "Resources",
+      },
+    },
+  };
 }
 
 export default ResourcesPage;

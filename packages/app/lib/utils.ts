@@ -46,7 +46,7 @@ export const formatAirdropTime = (date: Date) => {
     });
   }
 
-  if (diff > oneDay) {
+  if (diff > oneDay / 2) {
     return formatDate(date, {
       weekday: "short",
       minute: "2-digit",

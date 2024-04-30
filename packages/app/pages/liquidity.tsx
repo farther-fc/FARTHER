@@ -90,3 +90,13 @@ export default function LiquidityPage() {
     </Container>
   );
 }
+
+export function getStaticProps() {
+  return {
+    props: {
+      seo: {
+        title: "Liquidity",
+      },
+    },
+  };
+}

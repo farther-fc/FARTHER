@@ -5,7 +5,6 @@ import {
 } from "@farther/common";
 import { POWER_BADGE_INFO_URL } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
-import React from "react";
 
 export function EvangelistRules() {
   const { user } = useUser();
@@ -25,7 +24,7 @@ export function EvangelistRules() {
         <li>Rewards can only be requested once every three days.</li>
         <li>
           Any Farcaster user can earn points, but they don't become claimable as
-          $FARTHER tokens unless the user has a{" "}
+          FARTHER tokens unless the user has a{" "}
           <ExternalLink href={POWER_BADGE_INFO_URL}>
             Warpcast Power Badge
           </ExternalLink>

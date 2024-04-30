@@ -1,7 +1,7 @@
 import { InfoCard } from "@components/InfoCard";
 import { NoUserFoundCard } from "@components/NoUserFoundCard";
 import { RewardsTableRow } from "@components/RewardsTableRow";
-import { FartherChannelLink } from "@components/nav/FartherChannelLink";
+import { FartherAccountLink } from "@components/nav/FartherLinks";
 import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
 import Spinner from "@components/ui/Spinner";
@@ -64,11 +64,11 @@ export default function RewardsPage() {
               </InfoCard>
             ) : rows.length || claimedRewards > BigInt(0) ? (
               <div className="mt-8">
-                <InfoCard variant="muted">
-                  Snapshots for airdrops can take place up to a week before the
-                  end of the month. If you don't become eligible for one before
+                <p className="text-muted">
+                  Snapshots for airdrops take place up to a week before the end
+                  of the month. If you don't become eligible for one before
                   then, you can still become eligible for the next airdrop.
-                </InfoCard>
+                </p>
                 <Table className="mt-12">
                   <TableHeader>
                     <TableRow>
@@ -129,8 +129,8 @@ export default function RewardsPage() {
               <NoUserFoundCard />
             ) : (
               <InfoCard variant="muted">
-                No rewards found. If you believe this is an error, please reach
-                out in the <FartherChannelLink />.
+                No rewards found. If you believe this is an error, please reach{" "}
+                <FartherAccountLink>out for help</FartherAccountLink>.
               </InfoCard>
             )}
           </>
@@ -138,4 +138,14 @@ export default function RewardsPage() {
       </main>
     </Container>
   );
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      seo: {
+        title: "Rewards",
+      },
+    },
+  };
 }
