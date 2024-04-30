@@ -46,13 +46,6 @@ export const getMerkleProof = publicProcedure
         },
       });
 
-      console.log();
-
-      const allocationsWithNullIndex = airdrop?.allocations.filter(
-        (a) => typeof a.index !== "number",
-      );
-      console.log({ allocationsWithNullIndex });
-
       if (!airdrop) {
         throw new TRPCError({
           code: "NOT_FOUND",
