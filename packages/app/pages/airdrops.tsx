@@ -86,3 +86,13 @@ export default function AirdropPage() {
     </Container>
   );
 }
+
+export function getStaticProps() {
+  return {
+    props: {
+      seo: {
+        title: "Airdrops",
+      },
+    },
+  };
+}

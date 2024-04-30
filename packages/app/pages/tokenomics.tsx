@@ -1,6 +1,5 @@
 import TokenomicsInfo from "@components/TokenomicsInfo";
 import { Container } from "@components/ui/Container";
-import React from "react";
 
 function TokenomicsPage() {
   return (
@@ -11,6 +10,16 @@ function TokenomicsPage() {
       </main>
     </Container>
   );
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      seo: {
+        title: "Tokenomics",
+      },
+    },
+  };
 }
 
 export default TokenomicsPage;

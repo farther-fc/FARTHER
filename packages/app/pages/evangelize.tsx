@@ -114,3 +114,13 @@ export default function EvangelizePage() {
     </Container>
   );
 }
+
+export function getStaticProps() {
+  return {
+    props: {
+      seo: {
+        title: "Evangelize",
+      },
+    },
+  };
+}
