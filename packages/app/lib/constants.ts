@@ -49,16 +49,6 @@ export const claimNames = {
 
 export const PENDING_ALLOCATION_ID = "id-for-pending-allocation";
 
-export const pendingAllocation = {
-  type: AllocationType.POWER_USER,
-  id: PENDING_ALLOCATION_ID,
-  isClaimed: false,
-  amount: "0",
-  airdrop: null,
-  index: null,
-  tweets: [],
-};
-
 export const ROOT_ENDPOINTS = {
   production: "https://farther.social",
   staging: "https://staging.farther.social",

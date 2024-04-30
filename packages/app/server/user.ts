@@ -4,7 +4,7 @@ import {
   isProduction,
   neynarClient,
 } from "@farther/common";
-import { pendingAllocation } from "@lib/constants";
+import { PENDING_ALLOCATION_ID } from "@lib/constants";
 import { apiSchemas } from "@lib/types/apiSchemas";
 import { publicProcedure } from "server/trpc";
 import { AllocationType, prisma } from "../../backend/src/prisma";
@@ -35,13 +35,21 @@ export const getUser = publicProcedure
 
       const allocations = dbUser?.allocations || [];
 
-      // If user has a power badge, add the pending allocation for UX purposes
+      // If user has a power badge, add this dummy pending allocation for UX purposes
       // (doesn't get added for real until airdrop is created)
       if (
         user.power_badge &&
         !allocations.find((a) => a.type === AllocationType.POWER_USER)
       ) {
-        allocations.push(pendingAllocation);
+        allocations.push({
+          type: AllocationType.POWER_USER,
+          id: PENDING_ALLOCATION_ID,
+          isClaimed: false,
+          amount: "0",
+          airdrop: null,
+          index: null,
+          tweets: [],
+        });
       }
 
       return {
