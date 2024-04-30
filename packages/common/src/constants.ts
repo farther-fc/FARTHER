@@ -59,11 +59,11 @@ export const ONE_YEAR_IN_MS = 31_536_000_000;
 /**
  * IMPORTANT: UPDATE THESE VALUES RIGHT AFTER A NEW AIRDROP IS DEPLOYED!
  */
-export const NEXT_AIRDROP_START_TIME = new Date("2024-05-01T00:00:00Z");
+export const NEXT_AIRDROP_START_TIME = new Date("2024-06-01T00:00:00Z");
 export const NEXT_AIRDROP_END_TIME = new Date(
   NEXT_AIRDROP_START_TIME.getTime() + ONE_YEAR_IN_MS,
 );
-export const POWER_USER_AIRDROP_RATIO = 0.12;
+export const POWER_USER_AIRDROP_RATIO = 0.15;
 
 const baseContractAddresses = {
   production: {
