@@ -81,7 +81,7 @@ const baseContractAddresses = {
     NFT_POSITION_MANAGER:
       "0x03a520b32c04bf3beef7beb72e919cf822ed34f1".toLowerCase() as Address,
     UNIV3_FARTHER_ETH_30BPS_POOL:
-      "0x33128a8fc17869897dce68ed026d694621f6fdfd".toLowerCase() as Address,
+      "0x306e600e33A9c86B91EeA5A14c8C73F8de62AC84".toLowerCase() as Address,
   },
   staging: {
     FARTHER:
