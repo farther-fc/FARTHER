@@ -25,11 +25,7 @@ export default function EvangelizePage() {
         msg: (
           <>
             Please{" "}
-            <Button
-              variant="link"
-              className="text-black underline hover:text-black"
-              onClick={openConnectModal}
-            >
+            <Button variant="link" onClick={openConnectModal}>
               connect your wallet
             </Button>{" "}
             before submitting a tweet
@@ -95,9 +91,9 @@ export default function EvangelizePage() {
           </li>
           <li>
             Copy the tweet's URL and{" "}
-            <Button variant="link" onClick={handleSubmit}>
+            <Link href={`${ROUTES.evangelize.path}/submit-tweet`}>
               submit it here
-            </Button>
+            </Link>
             .
           </li>
           <li>

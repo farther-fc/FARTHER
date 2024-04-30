@@ -1,7 +1,7 @@
-import { BASE_TOKENS_PER_TWEET, WAD_SCALER } from "@farther/common";
+import { BASE_TOKENS_PER_TWEET } from "@farther/common";
 import { scaleLog } from "d3-scale";
 
-export function getEvanglistAllocation({
+export function getEvanglistAllocationBonus({
   followerCount,
 }: {
   followerCount: number;
@@ -14,5 +14,5 @@ export function getEvanglistAllocation({
     .range([BASE_TOKENS_PER_TWEET, BASE_TOKENS_PER_TWEET * 30])
     .clamp(true);
 
-  return BigInt(BASE_TOKENS_PER_TWEET + scalingFn(followerCount)) * WAD_SCALER;
+  return scalingFn(followerCount);
 }

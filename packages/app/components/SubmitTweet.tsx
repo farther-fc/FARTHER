@@ -25,7 +25,7 @@ type FormData = z.infer<typeof FormSchema>;
 export function SubmitTweet() {
   const { closeModal } = useModal();
   const { toast } = useToast();
-  const { user, refetchUser } = useUser();
+  const { user, refetchUser, account } = useUser();
   const logError = useLogError();
   const form = useForm<FormData>({
     defaultValues: {
@@ -47,13 +47,13 @@ export function SubmitTweet() {
     }
 
     try {
-      const { isValid, reason } = await validateTweetMutation.mutateAsync({
+      const mutationResponse = await validateTweetMutation.mutateAsync({
         tweetId,
         fid: user.fid,
       });
 
-      if (!isValid) {
-        toast({ msg: reason });
+      if (!mutationResponse.isValid) {
+        toast({ msg: mutationResponse.reason });
       } else {
         closeModal();
         refetchUser();
@@ -62,8 +62,9 @@ export function SubmitTweet() {
             <>
               {user.powerBadge ? (
                 <>
-                  Congrats! You have pending evangelist rewards. They will
-                  become claimable on the{" "}
+                  Congrats! Your tweet earned you {mutationResponse.totalReward}{" "}
+                  FARTHER (including a bonus of {mutationResponse.bonusReward}).
+                  They will become claimable on the{" "}
                   <Link href={ROUTES.rewards.path}>rewards page</Link> at the
                   end of the month.
                 </>
@@ -136,10 +137,14 @@ export function SubmitTweet() {
           >
             Submit
           </Button>
-          {!user && (
-            <FormMessage className="text-destructive">
-              No Farcaser user found associated with your address
-            </FormMessage>
+          {!account.address ? (
+            <FormMessage>Please connect your wallet to submit</FormMessage>
+          ) : (
+            !user && (
+              <FormMessage className="text-destructive">
+                No Farcaser user found associated with your address
+              </FormMessage>
+            )
           )}
         </form>
       </Form>

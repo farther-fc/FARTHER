@@ -5,7 +5,7 @@ import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import Spinner from "@components/ui/Spinner";
-import { startOfNextMonth } from "@farther/common";
+import { getStartOfNextMonthUTC } from "@farther/common";
 import { POWER_BADGE_INFO_URL, ROUTES } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import { formatDate, formatWad } from "@lib/utils";
@@ -38,7 +38,7 @@ export default function AirdropPage() {
                 Check the <Link href={ROUTES.rewards.path}>
                   rewards page
                 </Link>{" "}
-                on {formatDate(startOfNextMonth())} to claim your rewards.
+                on {formatDate(getStartOfNextMonthUTC())} to claim your rewards.
               </p>
             )}
           </InfoCard>
