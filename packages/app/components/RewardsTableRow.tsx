@@ -1,6 +1,6 @@
 import { Button } from "@components/ui/Button";
 import { TableCell, TableRow } from "@components/ui/Table";
-import { Tooltip } from "@components/ui/Tooltip";
+import { Popover } from "@components/ui/Popover";
 import { AllocationType } from "@farther/backend";
 import {
   CHAIN_ID,
@@ -164,7 +164,7 @@ export function RewardsTableRow({
       </TableCell>
       <TableCell className="pr-1 text-right ">
         {allocation.id === PENDING_ALLOCATION_ID ? (
-          <Tooltip
+          <Popover
             content={
               <div className="max-w-[300px] rounded-2xl p-4 text-left">
                 Your allocation will depend on how many other users earn a power
@@ -175,9 +175,9 @@ export function RewardsTableRow({
             <span className="border-input cursor-default rounded-md border p-3">
               TBD <Info className="inline w-3" />
             </span>
-          </Tooltip>
+          </Popover>
         ) : (
-          <Tooltip
+          <Popover
             content={
               <div className="max-w-[300px] rounded-2xl p-4 text-left">
                 Your base allocation is {formatWad(allocation.baseAmount)}, and
@@ -203,7 +203,7 @@ export function RewardsTableRow({
               </>{" "}
               <Info className="inline w-3" />
             </span>
-          </Tooltip>
+          </Popover>
         )}
       </TableCell>
       <TableCell className="pr-0 text-right">
@@ -232,7 +232,7 @@ export function RewardsTableRow({
 
 function Pending() {
   return (
-    <Tooltip
+    <Popover
       content={
         <div className="max-w-[300px] rounded-2xl p-4 text-left">
           Your rewards will remain pending until you earn a Warpcast Power
@@ -244,6 +244,6 @@ function Pending() {
       <span className="border-input cursor-default rounded-md border p-3 opacity-30">
         Pending <Info className="inline w-3" />
       </span>
-    </Tooltip>
+    </Popover>
   );
 }

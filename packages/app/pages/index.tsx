@@ -32,20 +32,12 @@ export default function Home() {
           Farther was created by{" "}
           <ExternalLink href="https://warpcast.com/gigamesh">
             GIGAMΞSH
-          </ExternalLink>
-          , a creative technologist{" "}
-          <ExternalLink href="https://open.spotify.com/artist/1Bo8Afb2Qbjs4x6kJHyjle?si=cfY9KTK5TM-tEIngAo4-xg">
-            and musician
           </ExternalLink>{" "}
-          who journeyed{" "}
-          <ExternalLink href="https://gigamesh.mirror.xyz/0pkjLXlM3qaOwrQcsquaOXlcLo6IvfFvbUAGxLuVEAI">
-            into crypto in 2017
-          </ExternalLink>{" "}
-          and is trying to help build a better internet.
+          a creative technologist trying to help build a better internet.
         </p>
         <h2>What</h2>
         <p>
-          Farther was built around a vision of a tokenized guerilla marketing
+          Farther is built around a vision of a tokenized guerilla marketing
           community of Farcaster evangelists. Another way of thinking of it is
           an open incentive design canvas for any efforts in music, art, and
           tech that can boost Farcaster in the broader attention economy.
