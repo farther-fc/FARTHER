@@ -168,6 +168,9 @@ export const validateTweet = publicProcedure
               amount: (
                 BigInt(pendingAllocation.amount) + totalRewardWad
               ).toString(),
+              baseAmount: (
+                BigInt(BASE_TOKENS_PER_TWEET) * WAD_SCALER
+              ).toString(),
               tweets: {
                 connect: {
                   id: tweet.id,
@@ -188,6 +191,7 @@ export const validateTweet = publicProcedure
             }),
             type: "EVANGELIST",
             amount: totalRewardWad.toString(),
+            baseAmount: (BigInt(BASE_TOKENS_PER_TWEET) * WAD_SCALER).toString(),
             tweets: {
               create: {
                 id: tweetId,

@@ -46,6 +46,7 @@ export const getUser = publicProcedure
           id: PENDING_ALLOCATION_ID,
           isClaimed: false,
           amount: "0",
+          baseAmount: "0",
           airdrop: null,
           index: null,
           tweets: [],
@@ -80,6 +81,7 @@ function getDbUserByFid(fid: number) {
         select: {
           id: true,
           amount: true,
+          baseAmount: true,
           isClaimed: true,
           index: true,
           type: true,

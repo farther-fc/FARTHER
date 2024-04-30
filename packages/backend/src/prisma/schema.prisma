@@ -33,6 +33,8 @@ model Allocation {
   // Index of the node in the merkle tree - can stay undefined until the merkle root is calculated
   index     Int?
 
+  baseAmount  String    @default("0")
+
   // Address of user receiving the allocation - the reason this doesn't live at the user level is we user Neynar &
   // the user's wallet connection, and don't store the recipient's address until an airdrop merkle root is calculated.
   address   String?

@@ -132,6 +132,8 @@ export function RewardsTableRow({
     });
   }, [setAllocationClaimed, isSuccess, allocation.id, toast, refetchBalance]);
 
+  console.log(allocation);
+
   /**
    * Fallback in case something happens which prevents the db getting updated with the claim status
    */
@@ -175,15 +177,33 @@ export function RewardsTableRow({
             </span>
           </Tooltip>
         ) : (
-          <>
-            {formatWad(allocation.amount)}{" "}
-            {allocation.tweets?.length ? (
+          <Tooltip
+            content={
+              <div className="max-w-[300px] rounded-2xl p-4 text-left">
+                Your base allocation is {formatWad(allocation.baseAmount)}, and
+                you received a follower count bonus of{" "}
+                {formatWad(
+                  (
+                    BigInt(allocation.amount) - BigInt(allocation.baseAmount)
+                  ).toString(),
+                )}
+                .
+              </div>
+            }
+          >
+            <span className="cursor-default rounded-md p-3">
               <>
-                ({allocation.tweets.length} tweet
-                {allocation.tweets.length > 1 ? "s" : ""})
-              </>
-            ) : null}
-          </>
+                {formatWad(allocation.amount)}{" "}
+                {allocation.tweets?.length ? (
+                  <>
+                    ({allocation.tweets.length} tweet
+                    {allocation.tweets.length > 1 ? "s" : ""})
+                  </>
+                ) : null}
+              </>{" "}
+              <Info className="inline w-3" />
+            </span>
+          </Tooltip>
         )}
       </TableCell>
       <TableCell className="pr-0 text-right">
