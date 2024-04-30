@@ -67,7 +67,8 @@ export const POWER_USER_AIRDROP_RATIO = 0.12;
 
 const baseContractAddresses = {
   production: {
-    FARTHER: "0xTODO".toLowerCase() as Address,
+    FARTHER:
+      "0x8ad5b9007556749DE59E088c88801a3Aaa87134B".toLowerCase() as Address,
     WETH: "0x4200000000000000000000000000000000000006".toLowerCase() as Address,
     UNISWAP_V3_STAKER:
       "0x42be4d6527829fefa1493e1fb9f3676d2425c3c1".toLowerCase() as Address,
