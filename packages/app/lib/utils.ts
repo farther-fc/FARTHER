@@ -100,15 +100,16 @@ export const getIncentiveKey = ({
 };
 
 export const isValidTweetUrl = (url: string) => {
+  // Added `(\?.*)?$` to allow optional query parameters
   const tweetValidatorRegex =
-    /^(https?:\/\/)?(www\.)?(twitter|x)\.com\/[a-zA-Z0-9_]{1,15}\/status\/[0-9]+$/;
+    /^(https?:\/\/)?(www\.)?(twitter|x)\.com\/[a-zA-Z0-9_]{1,15}\/status\/[0-9]+(\?.*)?$/;
 
   return tweetValidatorRegex.test(url);
 };
 
 export function extractTweetId(tweetUrl: string) {
   if (!isValidTweetUrl(tweetUrl)) {
-    return false;
+    return null;
   }
 
   const tweetIdRegex = /\/status\/(\d+)/;
