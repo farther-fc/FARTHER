@@ -1,6 +1,6 @@
 import { Button } from "@components/ui/Button";
-import { TableCell, TableRow } from "@components/ui/Table";
 import { Popover } from "@components/ui/Popover";
+import { TableCell, TableRow } from "@components/ui/Table";
 import { AllocationType } from "@farther/backend";
 import {
   CHAIN_ID,
@@ -76,7 +76,10 @@ export function RewardsTableRow({
 
   const handleClaim = async () => {
     if (!proof) {
-      logError({ error: "No proof found", showGenericToast: true });
+      logError({
+        error: `No proof found for ${account.address}`,
+        showGenericToast: true,
+      });
       return;
     }
 
