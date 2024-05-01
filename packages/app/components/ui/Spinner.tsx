@@ -1,9 +1,35 @@
-function Spinner({ variant }: { variant?: "page" }) {
+function Spinner({
+  variant,
+  size = "md",
+}: {
+  variant?: "page";
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
+}) {
+  let sizeClass = "size-8";
+  switch (size) {
+    case "xs":
+      sizeClass = "size-4";
+      break;
+    case "sm":
+      sizeClass = "size-8";
+      break;
+    case "md":
+      sizeClass = "size-12";
+      break;
+    case "lg":
+      sizeClass = "size-16";
+      break;
+    case "xl":
+      sizeClass = "size-24";
+
+      break;
+  }
+
   const spinner = (
     <div role="status">
       <svg
         aria-hidden="true"
-        className="fill-link size-8 animate-spin text-gray-200"
+        className={`fill-link ${sizeClass} animate-spin text-gray-200`}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

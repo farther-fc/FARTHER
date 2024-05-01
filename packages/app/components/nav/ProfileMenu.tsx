@@ -5,6 +5,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@components/ui/DropdownMenu";
+import Spinner from "@components/ui/Spinner";
 import { clickIds } from "@lib/constants";
 import { useMediaQuery } from "@lib/context/MediaQueryContext";
 import { useUser } from "@lib/context/UserContext";
@@ -15,7 +16,7 @@ import { useDisconnect } from "wagmi";
 export function ProfileMenu() {
   const { isTablet } = useMediaQuery();
   const { disconnect } = useDisconnect();
-  const { user, account, balance } = useUser();
+  const { user, account, balance, userIsLoading } = useUser();
 
   function closeMenu() {
     document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
@@ -35,10 +36,17 @@ export function ProfileMenu() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button sentryId={clickIds.openProfileMenu} variant="secondary">
-          {user?.pfpUrl && isTablet && (
-            <Avatar className="mr-2">
-              <AvatarImage src={user.pfpUrl} />
-            </Avatar>
+          {userIsLoading ? (
+            <div className="mr-2">
+              <Spinner size="xs" />
+            </div>
+          ) : (
+            user?.pfpUrl &&
+            isTablet && (
+              <Avatar className="mr-2">
+                <AvatarImage src={user.pfpUrl} />
+              </Avatar>
+            )
           )}
           {profileHandle}
         </Button>
