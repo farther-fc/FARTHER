@@ -50,6 +50,7 @@ export const getUser = publicProcedure
           airdrop: null,
           index: null,
           tweets: [],
+          address: "0x",
         });
       }
 
@@ -86,6 +87,7 @@ function getDbUserByFid(fid: number) {
           index: true,
           type: true,
           tweets: true,
+          address: true,
           airdrop: {
             select: {
               id: true,
