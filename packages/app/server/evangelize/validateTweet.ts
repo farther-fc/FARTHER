@@ -81,7 +81,9 @@ export const validateTweet = publicProcedure
       const data = await response.json();
 
       if (!data.data.length) {
-        throw new Error("No data returned from tweets api");
+        throw new Error(
+          `No data returned from tweets api. tweetId: ${tweetId}`,
+        );
       }
 
       tweetText = data.data[0].text as string;
@@ -89,7 +91,7 @@ export const validateTweet = publicProcedure
     } catch (error) {
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
-        message: `Unable to retrieve tweet. Please check the URL and try again.`,
+        message: `Unable to retrieve tweet for tweetId: ${tweetId}.`,
       });
     }
 
@@ -103,7 +105,7 @@ export const validateTweet = publicProcedure
     if (!user) {
       throw new TRPCError({
         code: "BAD_REQUEST",
-        message: `User not found`,
+        message: `User not found. fid: ${fid}`,
       });
     }
 
