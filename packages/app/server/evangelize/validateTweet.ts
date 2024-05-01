@@ -136,7 +136,10 @@ export const validateTweet = publicProcedure
         };
       }
 
-      bonusReward = getEvanglistAllocationBonus({ followerCount });
+      bonusReward = getEvanglistAllocationBonus({
+        followerCount,
+        baseTokensPerTweet: BASE_TOKENS_PER_TWEET,
+      });
       totalReward = BASE_TOKENS_PER_TWEET + bonusReward;
       const totalRewardWad = BigInt(totalReward) * WAD_SCALER;
 
