@@ -59,3 +59,23 @@ export const ROOT_ENDPOINT =
   ROOT_ENDPOINTS[
     process.env.NEXT_PUBLIC_ENV as "production" | "staging" | "development"
   ];
+
+export const clickIds = {
+  liqInfoConnect: "liquidity-info-connect-wallet",
+  liqTableRowStakeUnstake: "liquidity-table-row-stake-unstake",
+  rewardsTableRowStakeUnstake: "rewards-table-row-stake-unstake",
+  submitTweet: "submit-tweet",
+  ecosystemFundOpenModal: "ecosystem-fund-open-modal",
+  founderAllocationOpenModal: "founder-allocation-open-modal",
+  closeModal: "close-modal",
+  openHeaderNavMenu: "open-header-nav-menu",
+  openProfileMenu: "open-profile-menu",
+  disconnectWallet: "disconnect-wallet",
+  connectWallet: "connect-wallet",
+  airdropPageConnectWallet: "airdrop-page-connect-wallet",
+  liquidtyPageConnectWallet: "liquidity-page-connect-wallet",
+  rewardsPageConnectWallet: "rewards-page-connect-wallet",
+  rewardsPageUnstake: "rewards-page-unstake",
+  evangelizePageConnectWallet: "evangelize-page-connect-wallet",
+  rewardsPageClaimedRewards: "rewards-page-claimed-rewards",
+} as const;

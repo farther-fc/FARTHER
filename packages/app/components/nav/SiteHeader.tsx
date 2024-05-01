@@ -1,10 +1,11 @@
-import Link from "next/link";
 import { NavMenu } from "@components/nav/NavMenu";
-import { useUser } from "@lib/context/UserContext";
-import { Button } from "@components/ui/Button";
 import { ProfileMenu } from "@components/nav/ProfileMenu";
+import { Button } from "@components/ui/Button";
+import { clickIds } from "@lib/constants";
+import { useUser } from "@lib/context/UserContext";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useScrollPosition } from "hooks/useScrollPosition";
+import Link from "next/link";
 
 export function SiteHeader() {
   const { openConnectModal } = useConnectModal();
@@ -27,7 +28,11 @@ export function SiteHeader() {
             <ProfileMenu />
           ) : (
             openConnectModal && (
-              <Button className="px-4" onClick={() => openConnectModal()}>
+              <Button
+                id={clickIds.connectWallet}
+                className="px-4"
+                onClick={() => openConnectModal()}
+              >
                 Connect
               </Button>
             )

@@ -6,7 +6,7 @@ import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import Spinner from "@components/ui/Spinner";
 import { getStartOfNextMonthUTC } from "@farther/common";
-import { POWER_BADGE_INFO_URL, ROUTES } from "@lib/constants";
+import { POWER_BADGE_INFO_URL, ROUTES, clickIds } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import { formatDate, formatWad } from "@lib/utils";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
@@ -76,7 +76,11 @@ export default function AirdropPage() {
         {!account.isConnected && (
           <InfoCard className="text-center">
             If you think you are eligible for an airdrop,{" "}
-            <Button variant="link" onClick={openConnectModal}>
+            <Button
+              id={clickIds.airdropPageConnectWallet}
+              variant="link"
+              onClick={openConnectModal}
+            >
               connect your wallet
             </Button>{" "}
             and visit the <Link href={ROUTES.rewards.path}>rewards</Link> page.

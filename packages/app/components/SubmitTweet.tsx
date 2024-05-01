@@ -4,7 +4,7 @@ import { ExternalLink } from "@components/ui/ExternalLink";
 import { Form, FormField, FormItem, FormMessage } from "@components/ui/Form";
 import { Input } from "@components/ui/Input";
 import { Label } from "@components/ui/Label";
-import { POWER_BADGE_INFO_URL, ROUTES } from "@lib/constants";
+import { POWER_BADGE_INFO_URL, ROUTES, clickIds } from "@lib/constants";
 import { useModal } from "@lib/context/ModalContext";
 import { useUser } from "@lib/context/UserContext";
 import { trpcClient } from "@lib/trpcClient";
@@ -129,6 +129,7 @@ export function SubmitTweet() {
             )}
           />
           <Button
+            id={clickIds.submitTweet}
             loadingText="Validating"
             className="mt-4"
             type="submit"

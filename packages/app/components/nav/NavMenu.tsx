@@ -5,7 +5,7 @@ import {
   DropdownMenuTrigger,
 } from "@components/ui/DropdownMenu";
 import { ExternalLink } from "@components/ui/ExternalLink";
-import { FARTHER_CHANNEL_URL, ROUTES } from "@lib/constants";
+import { FARTHER_CHANNEL_URL, ROUTES, clickIds } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import { Menu } from "lucide-react";
 import Link from "next/link";
@@ -19,7 +19,11 @@ export function NavMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="px-2">
+        <Button
+          id={clickIds.openHeaderNavMenu}
+          variant="ghost"
+          className="px-2"
+        >
           <Menu />
         </Button>
       </DropdownMenuTrigger>

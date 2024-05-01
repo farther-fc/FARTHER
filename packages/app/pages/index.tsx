@@ -5,7 +5,7 @@ import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { contractAddresses } from "@farther/common";
-import { ROUTES } from "@lib/constants";
+import { ROUTES, clickIds } from "@lib/constants";
 import { useModal } from "@lib/context/ModalContext";
 import Link from "next/link";
 
@@ -98,6 +98,7 @@ export default function Home() {
           </li>
           <li>
             <Button
+              id={clickIds.ecosystemFundOpenModal}
               variant="link"
               onClick={() =>
                 openModal({
