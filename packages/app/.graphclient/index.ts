@@ -929,7 +929,7 @@ export async function getMeshOptions(): Promise<GetMeshOptions> {
   const fartherHandler = new GraphqlHandler({
     name: "farther",
     config: {
-      endpoint: "https://farther.squids.live/farther-staging/v/v1/graphql",
+      endpoint: "https://farther.squids.live/farther-production/v/v1/graphql",
     },
     baseDir,
     cache,

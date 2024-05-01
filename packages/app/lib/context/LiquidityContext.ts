@@ -50,7 +50,7 @@ const LiquidityContext = createContainer(function () {
 
   const positionsLoading =
     _positionsLoading ||
-    (positionsData?.positions.length && !positions?.length);
+    (!!positionsData?.positions.length && !positions?.length);
 
   const refetchClaimedRewards = React.useCallback(() => {
     readContract(viemClient, {
