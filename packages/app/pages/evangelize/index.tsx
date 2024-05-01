@@ -5,7 +5,7 @@ import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { BASE_TOKENS_PER_TWEET } from "@farther/common";
-import { ROUTES } from "@lib/constants";
+import { ROUTES, clickIds } from "@lib/constants";
 import { useModal } from "@lib/context/ModalContext";
 import { useUser } from "@lib/context/UserContext";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
@@ -25,7 +25,11 @@ export default function EvangelizePage() {
         msg: (
           <>
             Please{" "}
-            <Button variant="link" onClick={openConnectModal}>
+            <Button
+              id={clickIds.evangelizePageConnectWallet}
+              variant="link"
+              onClick={openConnectModal}
+            >
               connect your wallet
             </Button>{" "}
             before submitting a tweet
@@ -66,7 +70,11 @@ export default function EvangelizePage() {
         <ol>
           {!account.address && (
             <li>
-              <Button variant="link" onClick={openConnectModal}>
+              <Button
+                id={clickIds.evangelizePageConnectWallet}
+                variant="link"
+                onClick={openConnectModal}
+              >
                 Connect your wallet
               </Button>{" "}
             </li>

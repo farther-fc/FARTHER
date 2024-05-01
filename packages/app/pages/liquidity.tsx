@@ -13,6 +13,7 @@ import {
   TableRow,
 } from "@components/ui/Table";
 import { IS_INCENTIVE_PROGRAM_ACTIVE } from "@farther/common";
+import { clickIds } from "@lib/constants";
 import { useLiquidity } from "@lib/context/LiquidityContext";
 import { useUser } from "@lib/context/UserContext";
 import { formatWad } from "@lib/utils";
@@ -57,7 +58,11 @@ export default function LiquidityPage() {
                   <TableCell className="px-0" colSpan={3}>
                     {!account.address ? (
                       <InfoCard className="text-center">
-                        <Button variant="link" onClick={openConnectModal}>
+                        <Button
+                          id={clickIds.liquidtyPageConnectWallet}
+                          variant="link"
+                          onClick={openConnectModal}
+                        >
                           Connect your wallet
                         </Button>{" "}
                         to stake your liquidity for rewards.

@@ -14,7 +14,7 @@ import {
   TableRow,
 } from "@components/ui/Table";
 import { AllocationType } from "@farther/backend";
-import { ROUTES } from "@lib/constants";
+import { ROUTES, clickIds } from "@lib/constants";
 import { useLiquidity } from "@lib/context/LiquidityContext";
 import { useUser } from "@lib/context/UserContext";
 import { formatWad, removeFalsyValues } from "@lib/utils";
@@ -57,7 +57,11 @@ export default function RewardsPage() {
             {!account.isConnected ? (
               <InfoCard className="text-center">
                 Please{" "}
-                <Button variant="link" onClick={openConnectModal}>
+                <Button
+                  id={clickIds.rewardsPageConnectWallet}
+                  variant="link"
+                  onClick={openConnectModal}
+                >
                   connect your wallet
                 </Button>{" "}
                 to check if you have any rewards.
@@ -99,6 +103,7 @@ export default function RewardsPage() {
                         </TableCell>
                         <TableCell className="pr-0 text-right">
                           <Button
+                            id={clickIds.rewardsPageUnstake}
                             className="w-[80px]"
                             onClick={() => router.push(ROUTES.liquidty.path)}
                           >
@@ -116,7 +121,11 @@ export default function RewardsPage() {
                           {formatWad(claimedRewards.toString())}
                         </TableCell>
                         <TableCell className="pr-0 text-right">
-                          <Button className="w-[80px]" disabled={true}>
+                          <Button
+                            id={clickIds.rewardsPageClaimedRewards}
+                            className="w-[80px]"
+                            disabled={true}
+                          >
                             Claimed
                           </Button>
                         </TableCell>

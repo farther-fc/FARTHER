@@ -28,4 +28,13 @@ Sentry.init({
   // This sets the sample rate to be 10%. You may want this to be 100% while
   // in development and sample at a lower rate in production
   replaysSessionSampleRate: 0.1,
+  beforeBreadcrumb(breadcrumb, hint) {
+    if (breadcrumb.category?.startsWith("ui")) {
+      const target = hint?.event.target;
+      const customName = target.dataset.sentry;
+      const customMessage = `${target.tagName.toLowerCase()}[sentry="${customName}"]`;
+      breadcrumb.message = customName ? customMessage : breadcrumb.message;
+    }
+    return breadcrumb;
+  },
 });

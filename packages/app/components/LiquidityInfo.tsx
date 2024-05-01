@@ -1,9 +1,9 @@
 import { Button } from "@components/ui/Button";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { allocationRatios, contractAddresses } from "@farther/common";
+import { clickIds } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import React from "react";
 
 export function LiquidityInfo() {
   const { account } = useUser();
@@ -50,7 +50,11 @@ export function LiquidityInfo() {
         </li>
         {!account.address && (
           <li>
-            <Button variant="link" onClick={openConnectModal}>
+            <Button
+              id={clickIds.liqInfoConnect}
+              variant="link"
+              onClick={openConnectModal}
+            >
               Connect your wallet
             </Button>
           </li>

@@ -1,16 +1,16 @@
+import { Avatar } from "@components/ui/Avatar";
 import { Button } from "@components/ui/Button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@components/ui/DropdownMenu";
+import { clickIds } from "@lib/constants";
+import { useMediaQuery } from "@lib/context/MediaQueryContext";
 import { useUser } from "@lib/context/UserContext";
 import { formatWad, shortenHash } from "@lib/utils";
-import { Avatar } from "@components/ui/Avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { useDisconnect } from "wagmi";
-import { useMediaQuery } from "@lib/context/MediaQueryContext";
-import { useRouter } from "next/router";
 
 export function ProfileMenu() {
   const { isTablet } = useMediaQuery();
@@ -34,7 +34,7 @@ export function ProfileMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="secondary">
+        <Button id={clickIds.openProfileMenu} variant="secondary">
           {user?.pfpUrl && isTablet && (
             <Avatar className="mr-2">
               <AvatarImage src={user.pfpUrl} />
@@ -52,6 +52,7 @@ export function ProfileMenu() {
         </div>
         <hr className="my-1" />
         <Button
+          id={clickIds.disconnectWallet}
           variant="ghost"
           className="w-auto p-0"
           onClick={handleDisconnect}

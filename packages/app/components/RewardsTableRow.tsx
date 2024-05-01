@@ -8,7 +8,7 @@ import {
   TEMPORARY_EVANGELIST_DROP_START_TIME,
   getStartOfNextMonthUTC,
 } from "@farther/common";
-import { PENDING_ALLOCATION_ID, claimNames } from "@lib/constants";
+import { PENDING_ALLOCATION_ID, claimNames, clickIds } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import { trpcClient } from "@lib/trpcClient";
 import { GetUserOuput } from "@lib/types/apiTypes";
@@ -226,6 +226,7 @@ export function RewardsTableRow({
           <Pending />
         ) : (
           <Button
+            id={clickIds.rewardsTableRowStakeUnstake}
             disabled={
               !proof ||
               !airdropStartTimeExceeded ||

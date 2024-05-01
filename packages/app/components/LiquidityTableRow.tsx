@@ -1,10 +1,10 @@
-import React from "react";
-import { TableCell, TableRow } from "@components/ui/Table";
 import { Button } from "@components/ui/Button";
 import { ExternalLink } from "@components/ui/ExternalLink";
-import { formatWad } from "@lib/utils";
+import { TableCell, TableRow } from "@components/ui/Table";
 import { NETWORK } from "@farther/common";
+import { clickIds } from "@lib/constants";
 import { Position } from "@lib/context/LiquidityContext";
+import { formatWad } from "@lib/utils";
 import { useLiquidityHandlers } from "hooks/useLiquidityHandlers";
 
 export function LiquidityTableRow({ position }: { position: Position }) {
@@ -32,6 +32,7 @@ export function LiquidityTableRow({ position }: { position: Position }) {
       </TableCell>
       <TableCell className="pr-0 text-right">
         <Button
+          id={clickIds.liqTableRowStakeUnstake}
           className="w-36"
           onClick={() =>
             position.isStaked

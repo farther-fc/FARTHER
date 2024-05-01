@@ -1,4 +1,5 @@
 import { Button } from "@components/ui/Button";
+import { clickIds } from "@lib/constants";
 import { useModal } from "@lib/context/ModalContext";
 import { Content, Overlay, Portal, Root } from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
@@ -24,7 +25,12 @@ export const GlobalModal = () => {
                   : modalContent?.headerText}
               </h3>
             </div>
-            <Button onClick={close} size="icon" variant="ghost">
+            <Button
+              id={clickIds.closeModal}
+              onClick={close}
+              size="icon"
+              variant="ghost"
+            >
               <X />
             </Button>
           </div>

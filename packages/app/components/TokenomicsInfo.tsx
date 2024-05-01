@@ -6,7 +6,7 @@ import {
   allocationRatios,
   contractAddresses,
 } from "@farther/common/src/constants";
-import { ROUTES } from "@lib/constants";
+import { ROUTES, clickIds } from "@lib/constants";
 import { useModal } from "@lib/context/ModalContext";
 import Link from "next/link";
 import numeral from "numeral";
@@ -53,6 +53,7 @@ function TokenomicsInfo() {
         <li>
           {allocationRatios.ECOSYSTEM_FUND * 100}%{" "}
           <Button
+            id={clickIds.ecosystemFundOpenModal}
             variant="link"
             onClick={() =>
               openModal({
@@ -71,6 +72,7 @@ function TokenomicsInfo() {
         <li>
           {allocationRatios.DEV_FUND * 100}%{" "}
           <Button
+            id={clickIds.founderAllocationOpenModal}
             variant="link"
             onClick={() =>
               openModal({
