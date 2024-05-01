@@ -51,7 +51,7 @@ export function LiquidityInfo() {
         {!account.address && (
           <li>
             <Button
-              id={clickIds.liqInfoConnect}
+              sentryId={clickIds.liqInfoConnect}
               variant="link"
               onClick={openConnectModal}
             >

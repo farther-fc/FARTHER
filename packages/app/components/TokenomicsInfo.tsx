@@ -53,7 +53,7 @@ function TokenomicsInfo() {
         <li>
           {allocationRatios.ECOSYSTEM_FUND * 100}%{" "}
           <Button
-            id={clickIds.ecosystemFundOpenModal}
+            sentryId={clickIds.ecosystemFundOpenModal}
             variant="link"
             onClick={() =>
               openModal({
@@ -72,7 +72,7 @@ function TokenomicsInfo() {
         <li>
           {allocationRatios.DEV_FUND * 100}%{" "}
           <Button
-            id={clickIds.founderAllocationOpenModal}
+            sentryId={clickIds.founderAllocationOpenModal}
             variant="link"
             onClick={() =>
               openModal({

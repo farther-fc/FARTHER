@@ -20,7 +20,7 @@ export function NavMenu() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          id={clickIds.openHeaderNavMenu}
+          sentryId={clickIds.openHeaderNavMenu}
           variant="ghost"
           className="px-2"
         >

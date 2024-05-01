@@ -77,7 +77,7 @@ export default function AirdropPage() {
           <InfoCard className="text-center">
             If you think you are eligible for an airdrop,{" "}
             <Button
-              id={clickIds.airdropPageConnectWallet}
+              sentryId={clickIds.airdropPageConnectWallet}
               variant="link"
               onClick={openConnectModal}
             >

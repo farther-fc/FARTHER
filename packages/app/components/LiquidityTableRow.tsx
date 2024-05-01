@@ -28,11 +28,11 @@ export function LiquidityTableRow({ position }: { position: Position }) {
         </ExternalLink>
       </TableCell>
       <TableCell className="text-right">
-        {formatWad(position.unclaimedRewards.toString())}
+        {formatWad(position.unclaimedRewards.toString(), "0,0.00")}
       </TableCell>
       <TableCell className="pr-0 text-right">
         <Button
-          id={clickIds.liqTableRowStakeUnstake}
+          sentryId={clickIds.liqTableRowStakeUnstake}
           className="w-36"
           onClick={() =>
             position.isStaked

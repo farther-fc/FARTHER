@@ -59,7 +59,7 @@ export default function LiquidityPage() {
                     {!account.address ? (
                       <InfoCard className="text-center">
                         <Button
-                          id={clickIds.liquidtyPageConnectWallet}
+                          sentryId={clickIds.liquidtyPageConnectWallet}
                           variant="link"
                           onClick={openConnectModal}
                         >

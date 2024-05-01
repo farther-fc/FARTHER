@@ -34,7 +34,7 @@ export function ProfileMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button id={clickIds.openProfileMenu} variant="secondary">
+        <Button sentryId={clickIds.openProfileMenu} variant="secondary">
           {user?.pfpUrl && isTablet && (
             <Avatar className="mr-2">
               <AvatarImage src={user.pfpUrl} />
@@ -52,7 +52,7 @@ export function ProfileMenu() {
         </div>
         <hr className="my-1" />
         <Button
-          id={clickIds.disconnectWallet}
+          sentryId={clickIds.disconnectWallet}
           variant="ghost"
           className="w-auto p-0"
           onClick={handleDisconnect}

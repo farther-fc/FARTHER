@@ -26,7 +26,7 @@ export default function EvangelizePage() {
           <>
             Please{" "}
             <Button
-              id={clickIds.evangelizePageConnectWallet}
+              sentryId={clickIds.evangelizePageConnectWallet}
               variant="link"
               onClick={openConnectModal}
             >
@@ -71,7 +71,7 @@ export default function EvangelizePage() {
           {!account.address && (
             <li>
               <Button
-                id={clickIds.evangelizePageConnectWallet}
+                sentryId={clickIds.evangelizePageConnectWallet}
                 variant="link"
                 onClick={openConnectModal}
               >

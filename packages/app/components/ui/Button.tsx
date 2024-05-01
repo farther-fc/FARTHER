@@ -34,7 +34,7 @@ const buttonVariants = cva(
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
-  id: string;
+  sentryId: string;
   asChild?: boolean;
   loading?: boolean;
   loadingText?: string;
@@ -49,6 +49,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       asChild = false,
       loading,
       loadingText,
+      sentryId,
       children,
       ...props
     },
@@ -58,6 +59,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     return (
       <Comp
+        data-sentry={sentryId}
         className={cn(
           buttonVariants({ variant, size, className }),
           loading ? "loading-ellipsis" : "",

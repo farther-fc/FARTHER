@@ -26,7 +26,7 @@ export const GlobalModal = () => {
               </h3>
             </div>
             <Button
-              id={clickIds.closeModal}
+              sentryId={clickIds.closeModal}
               onClick={close}
               size="icon"
               variant="ghost"
