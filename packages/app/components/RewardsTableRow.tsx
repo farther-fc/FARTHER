@@ -77,7 +77,7 @@ export function RewardsTableRow({
   const handleClaim = async () => {
     if (!proof) {
       logError({
-        error: `No proof found for ${account.address}`,
+        error: `No proof found for ${account.address}, allocation ID: ${allocation.id}`,
         showGenericToast: true,
       });
       return;
