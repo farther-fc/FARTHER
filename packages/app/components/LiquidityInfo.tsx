@@ -1,6 +1,6 @@
 import { Button } from "@components/ui/Button";
 import { ExternalLink } from "@components/ui/ExternalLink";
-import { allocationRatios, contractAddresses } from "@farther/common";
+import { NETWORK, allocationRatios, contractAddresses } from "@farther/common";
 import { clickIds } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
@@ -62,7 +62,7 @@ export function LiquidityInfo() {
         <li>
           Add a liquidity position to the{" "}
           <ExternalLink
-            href={`https://app.uniswap.org/add/ETH/${contractAddresses.FARTHER}/3000`}
+            href={`https://app.uniswap.org/add/ETH/${contractAddresses.FARTHER}/3000?chain=${NETWORK}`}
           >
             pool on Uniswap
           </ExternalLink>
