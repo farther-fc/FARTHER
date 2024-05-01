@@ -34,6 +34,7 @@ export function RewardsTableRow({
     ElementType<NonNullable<GetUserOuput>["allocations"]>
   >;
 }) {
+  console.log({ CHAIN_ID });
   const { account, refetchBalance, user } = useUser();
   const addressMismatch =
     allocation.address &&
