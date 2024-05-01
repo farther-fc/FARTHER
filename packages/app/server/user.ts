@@ -121,7 +121,13 @@ async function getUserFromNeynar(address: string) {
   ]);
 
   // Neynar returns weird data structure
-  const [user] = response[address] ? response[address] : [];
+  const accounts = response[address] ? response[address] : [];
+
+  const user = accounts.find((a) => !!a.power_badge);
+
+  if (!user) {
+    return null;
+  }
 
   return {
     fid: user?.fid,
