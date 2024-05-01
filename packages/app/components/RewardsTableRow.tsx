@@ -52,32 +52,33 @@ export function RewardsTableRow({
   const {
     writeContract,
     data: claimTxHash,
-    isPending,
+    isPending: isClaimPending,
     error: contractError,
   } = useWriteContract();
   const { toast } = useToast();
   const { isSuccess } = useWaitForTransactionReceipt({
     hash: claimTxHash,
   });
-  const claimed = isSuccess || allocation.isClaimed;
-  const loading = isPending || (!!claimTxHash && !isSuccess);
-
-  const { data: proof } = trpcClient.getMerkleProof.useQuery(
-    {
-      id: allocation.id,
-    },
-    {
-      enabled:
-        allocation.id !== PENDING_ALLOCATION_ID &&
-        !allocation.isClaimed &&
-        !!allocation.airdrop,
-    },
-  );
+  const { data: proof, isLoading: isProofLoading } =
+    trpcClient.getMerkleProof.useQuery(
+      {
+        id: allocation.id,
+      },
+      {
+        enabled:
+          allocation.id !== PENDING_ALLOCATION_ID &&
+          !allocation.isClaimed &&
+          !!allocation.airdrop,
+      },
+    );
+  const hasClaimed = isSuccess || allocation.isClaimed;
+  const isLoading =
+    isProofLoading || isClaimPending || (!!claimTxHash && !isSuccess);
 
   const handleClaim = async () => {
     if (!proof) {
       logError({
-        error: `No proof found for ${account.address}, allocation ID: ${allocation.id}`,
+        error: `handleClaim clicked without proof! allocation ID: ${allocation.id}`,
         showGenericToast: true,
       });
       return;
@@ -120,6 +121,19 @@ export function RewardsTableRow({
   };
 
   React.useEffect(() => {
+    if (
+      allocation.airdrop?.address &&
+      !allocation.isClaimed &&
+      !proof &&
+      !isProofLoading
+    ) {
+      logError({
+        error: new Error(`No proof found for allocation id: ${allocation.id}`),
+      });
+    }
+  }, [logError, proof, isProofLoading, allocation]);
+
+  React.useEffect(() => {
     if (!contractError) return;
 
     logError({ error: contractError, showGenericToast: true });
@@ -134,8 +148,6 @@ export function RewardsTableRow({
       msg: "Claim complete. Enjoy your tokens!",
     });
   }, [setAllocationClaimed, isSuccess, allocation.id, toast, refetchBalance]);
-
-  console.log(allocation);
 
   /**
    * Fallback in case something happens which prevents the db getting updated with the claim status
@@ -154,7 +166,7 @@ export function RewardsTableRow({
 
   const buttonText = !allocation.airdrop?.address
     ? `Available ${formatAirdropTime(allocation.type === "EVANGELIST" ? TEMPORARY_EVANGELIST_DROP_START_TIME : getStartOfNextMonthUTC())}`
-    : claimed || isSuccess
+    : hasClaimed
       ? "Claimed"
       : airdropStartTimeExceeded
         ? "Claim"
@@ -215,13 +227,13 @@ export function RewardsTableRow({
         ) : (
           <Button
             disabled={
+              !proof ||
               !airdropStartTimeExceeded ||
               !allocation.airdrop?.address ||
-              allocation.isClaimed ||
-              isSuccess ||
-              loading
+              hasClaimed ||
+              isLoading
             }
-            loading={loading}
+            loading={isLoading}
             loadingText="Claiming"
             onClick={handleClaim}
           >
