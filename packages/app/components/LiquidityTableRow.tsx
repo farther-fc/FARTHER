@@ -32,7 +32,7 @@ export function LiquidityTableRow({ position }: { position: Position }) {
       </TableCell>
       <TableCell className="pr-0 text-right">
         <Button
-          id={clickIds.liqTableRowStakeUnstake}
+          sentryId={clickIds.liqTableRowStakeUnstake}
           className="w-36"
           onClick={() =>
             position.isStaked

@@ -58,7 +58,7 @@ export default function RewardsPage() {
               <InfoCard className="text-center">
                 Please{" "}
                 <Button
-                  id={clickIds.rewardsPageConnectWallet}
+                  sentryId={clickIds.rewardsPageConnectWallet}
                   variant="link"
                   onClick={openConnectModal}
                 >
@@ -103,7 +103,7 @@ export default function RewardsPage() {
                         </TableCell>
                         <TableCell className="pr-0 text-right">
                           <Button
-                            id={clickIds.rewardsPageUnstake}
+                            sentryId={clickIds.rewardsPageUnstake}
                             className="w-[80px]"
                             onClick={() => router.push(ROUTES.liquidty.path)}
                           >
@@ -122,7 +122,7 @@ export default function RewardsPage() {
                         </TableCell>
                         <TableCell className="pr-0 text-right">
                           <Button
-                            id={clickIds.rewardsPageClaimedRewards}
+                            sentryId={clickIds.rewardsPageClaimedRewards}
                             className="w-[80px]"
                             disabled={true}
                           >

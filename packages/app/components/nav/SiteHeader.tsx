@@ -29,7 +29,7 @@ export function SiteHeader() {
           ) : (
             openConnectModal && (
               <Button
-                id={clickIds.connectWallet}
+                sentryId={clickIds.connectWallet}
                 className="px-4"
                 onClick={() => openConnectModal()}
               >

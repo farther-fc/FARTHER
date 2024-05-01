@@ -238,14 +238,17 @@ export function RewardsTableRow({
             }
           >
             <div>
-              <Button id={clickIds.rewardsTableRowStakeUnstake} disabled={true}>
+              <Button
+                sentryId={clickIds.rewardsTableRowStakeUnstake}
+                disabled={true}
+              >
                 Wrong Account
               </Button>
             </div>
           </Popover>
         ) : (
           <Button
-            id={clickIds.rewardsTableRowStakeUnstake}
+            sentryId={clickIds.rewardsTableRowStakeUnstake}
             disabled={
               !proof ||
               !airdropStartTimeExceeded ||

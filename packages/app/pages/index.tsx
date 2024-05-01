@@ -98,7 +98,7 @@ export default function Home() {
           </li>
           <li>
             <Button
-              id={clickIds.ecosystemFundOpenModal}
+              sentryId={clickIds.ecosystemFundOpenModal}
               variant="link"
               onClick={() =>
                 openModal({

@@ -129,7 +129,7 @@ export function SubmitTweet() {
             )}
           />
           <Button
-            id={clickIds.submitTweet}
+            sentryId={clickIds.submitTweet}
             loadingText="Validating"
             className="mt-4"
             type="submit"
