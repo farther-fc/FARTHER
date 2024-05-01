@@ -123,7 +123,8 @@ async function getUserFromNeynar(address: string) {
   // Neynar returns weird data structure
   const accounts = response[address] ? response[address] : [];
 
-  const user = accounts.find((a) => !!a.power_badge);
+  const user =
+    accounts.length === 1 ? accounts[0] : accounts.find((a) => !!a.power_badge);
 
   if (!user) {
     return null;
