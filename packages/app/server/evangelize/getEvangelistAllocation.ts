@@ -14,5 +14,6 @@ export function getEvanglistAllocationBonus({
     .range([BASE_TOKENS_PER_TWEET, BASE_TOKENS_PER_TWEET * 30])
     .clamp(true);
 
-  return scalingFn(followerCount);
+  // TODO: It isn't ideal to round here. Figure out a better solution.
+  return Math.round(scalingFn(followerCount));
 }
