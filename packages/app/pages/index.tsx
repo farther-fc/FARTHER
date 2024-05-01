@@ -39,8 +39,8 @@ export default function Home() {
         <p>
           Farther is built around a vision of a tokenized guerilla marketing
           community of Farcaster evangelists. Another way of thinking of it is
-          an open incentive design canvas for any efforts in music, art, and
-          tech that can boost Farcaster in the broader attention economy.
+          an open incentive design canvas for creatively boosting Farcaster in
+          the broader attention economy.
         </p>
         <h2>Why</h2>
         <ul>
