@@ -39,7 +39,7 @@ export function SubmitTweet() {
 
     const tweetId = extractTweetId(data.tweetUrl);
 
-    if (typeof tweetId !== "string") {
+    if (!tweetId) {
       toast({
         msg: "Invalid tweet URL. Please check it and try again.",
       });
