@@ -35,6 +35,10 @@ export function RewardsTableRow({
   >;
 }) {
   const { account, refetchBalance, user } = useUser();
+  const addressMismatch =
+    allocation.address &&
+    account?.address &&
+    allocation.address.toLowerCase() !== account.address.toLowerCase();
   const logError = useLogError();
   const { mutate: setAllocationClaimed } =
     trpcClient.setAllocationClaimed.useMutation();
@@ -72,8 +76,7 @@ export function RewardsTableRow({
       },
     );
   const hasClaimed = isSuccess || allocation.isClaimed;
-  const isLoading =
-    isProofLoading || isClaimPending || (!!claimTxHash && !isSuccess);
+  const isTxPending = isClaimPending || (!!claimTxHash && !isSuccess);
 
   const handleClaim = async () => {
     if (!proof) {
@@ -224,6 +227,22 @@ export function RewardsTableRow({
       <TableCell className="pr-0 text-right">
         {allocation.type === AllocationType.EVANGELIST && !user?.powerBadge ? (
           <Pending />
+        ) : addressMismatch ? (
+          <Popover
+            content={
+              <div className="max-w-[300px] rounded-2xl p-4 text-left">
+                Your connected address does not match the address your rewards
+                are airdropped to. Please connect to {allocation.address}{" "}
+                instead.
+              </div>
+            }
+          >
+            <div>
+              <Button id={clickIds.rewardsTableRowStakeUnstake} disabled={true}>
+                Wrong Account
+              </Button>
+            </div>
+          </Popover>
         ) : (
           <Button
             id={clickIds.rewardsTableRowStakeUnstake}
@@ -232,9 +251,9 @@ export function RewardsTableRow({
               !airdropStartTimeExceeded ||
               !allocation.airdrop?.address ||
               hasClaimed ||
-              isLoading
+              isProofLoading
             }
-            loading={isLoading}
+            loading={isTxPending}
             loadingText="Claiming"
             onClick={handleClaim}
           >

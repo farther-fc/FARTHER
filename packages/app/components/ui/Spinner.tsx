@@ -1,5 +1,3 @@
-import React from "react";
-
 function Spinner({ variant }: { variant?: "page" }) {
   const spinner = (
     <div role="status">
