@@ -123,8 +123,18 @@ async function getUserFromNeynar(address: string) {
   // Neynar returns weird data structure
   const accounts = response[address] ? response[address] : [];
 
+  const powerBadgeAccounts = accounts.filter((a) => !!a.power_badge);
+
+  // TODO: enable user to select which account to use
   const user =
-    accounts.length === 1 ? accounts[0] : accounts.find((a) => !!a.power_badge);
+    // If only one, use that
+    accounts.length === 1
+      ? accounts[0]
+      : // If any power badge accounts, use the first one
+        powerBadgeAccounts.length
+        ? powerBadgeAccounts[0]
+        : // Otherwise, use the first account
+          accounts[0];
 
   if (!user) {
     return null;
