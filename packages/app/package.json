@@ -43,7 +43,6 @@
     "@trpc/server": "11.0.0-next-beta.228",
     "@wagmi/core": "^2.6.9",
     "abitype": "^1.0.2",
-    "alchemy-sdk": "^3.2.0",
     "class-variance-authority": "^0.4.0",
     "clsx": "^1.2.1",
     "cookie": "^0.6.0",
