@@ -9,6 +9,7 @@ import {
   getAllocationId,
 } from "@farther/common";
 import { apiSchemas } from "@lib/types/apiSchemas";
+import * as Sentry from "@sentry/nextjs";
 import { TRPCError } from "@trpc/server";
 import { getEvanglistAllocationBonus } from "server/evangelize/getEvangelistAllocation";
 import { publicProcedure } from "server/trpc";
@@ -89,10 +90,11 @@ export const validateTweet = publicProcedure
       tweetText = data.data[0].text as string;
       tweetAuthorId = data.data[0].author_id as string;
     } catch (error) {
-      throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-        message: `Unable to retrieve tweet for tweetId: ${tweetId}.`,
-      });
+      Sentry.captureException(error);
+      return {
+        isValid: false,
+        reason: `Experienced error while retrieving tweet. This may be an issue with Twitter's API. Please try again in a minute.`,
+      };
     }
 
     // Get user
@@ -124,7 +126,11 @@ export const validateTweet = publicProcedure
 
       const data = await response.json();
 
-      followerCount = data.data.public_metrics.followers_count as number;
+      followerCount =
+        (data &&
+          data.data &&
+          (data.data.public_metrics.followers_count as number)) ||
+        0;
 
       if (
         followerCount < EVANGELIST_FOLLOWER_MINIMUM &&
