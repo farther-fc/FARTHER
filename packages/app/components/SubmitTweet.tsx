@@ -143,7 +143,7 @@ export function SubmitTweet() {
           ) : (
             !user && (
               <FormMessage className="text-destructive">
-                No Farcaser user found associated with your address
+                No Farcaster user found associated with your address
               </FormMessage>
             )
           )}

@@ -94,6 +94,8 @@ export const validateTweet = publicProcedure
       return {
         isValid: false,
         reason: `Experienced error while retrieving tweet. This may be an issue with Twitter's API. Please try again in a minute.`,
+        totalReward: 0,
+        bonusReward: 0,
       };
     }
 
