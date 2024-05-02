@@ -20,7 +20,7 @@ export const wagmiConfig = getDefaultConfig({
 
 type ChainId = typeof base.id | typeof sepolia.id | typeof anvil.id;
 
-const publicChains = [sepolia, base, anvil] as const;
+const publicChains = [base, sepolia, anvil] as const;
 
 export const publicClientConfig = {
   [base.id]: {
