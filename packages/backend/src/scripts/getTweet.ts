@@ -1,4 +1,4 @@
-const TWEET_ID = "1786370975501554161";
+const TWEET_ID = "1785821659406225812";
 
 const twitterConfig = {
   headers: {
@@ -14,7 +14,9 @@ async function getTweet() {
 
   const data = await response.json();
 
-  console.log(data.data[0].note_tweet);
+  // For tweets longer than 280 chars, this contains the full text
+  const noteTweet = data.data[0].note_tweet;
+  const tweetText = noteTweet.text || (data.data[0].text as string);
 }
 
 getTweet();

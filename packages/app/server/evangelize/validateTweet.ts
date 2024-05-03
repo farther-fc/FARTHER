@@ -88,9 +88,9 @@ export const validateTweet = publicProcedure
       }
 
       // For tweets longer than 280 chars, this contains the full text
-      const noteTweet = data.data[0].note_tweet as string;
-      tweetAuthorId = noteTweet || (data.data[0].author_id as string);
-      tweetText = data.data[0].text as string;
+      const noteTweet = data.data[0].note_tweet;
+      tweetText = (noteTweet || {}).text || (data.data[0].text as string);
+      tweetAuthorId = data.data[0].author_id as string;
 
       console.log({ noteTweet });
     } catch (error) {
