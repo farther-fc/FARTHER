@@ -12,11 +12,15 @@ export function LiquidityTableRow({ position }: { position: Position }) {
     handleStake,
     handleUnstake,
     handleWithdraw,
-    txPending,
+    stakePending,
+    unstakePending,
+    withdrawPending,
     stakeSuccess,
     unstakeSuccess,
     withdrawSuccess,
   } = useLiquidityHandlers();
+
+  const txPending = stakePending || unstakePending || withdrawPending;
 
   return (
     <TableRow key={position.id}>

@@ -1,14 +1,17 @@
-import { useWriteContract } from "wagmi";
-import { NFTPositionMngrAbi, UniswapV3StakerAbi } from "@farther/common";
-import { contractAddresses, incentivePrograms } from "@farther/common";
-import { useUser } from "@lib/context/UserContext";
-import { Address } from "viem";
-import React from "react";
-import { useLogError } from "hooks/useLogError";
-import { getIncentiveKey } from "@lib/utils";
-import { useToast } from "hooks/useToast";
-import { FartherPositionsQuery } from "../.graphclient";
+import {
+  NFTPositionMngrAbi,
+  UniswapV3StakerAbi,
+  contractAddresses,
+  incentivePrograms,
+} from "@farther/common";
 import { useLiquidity } from "@lib/context/LiquidityContext";
+import { useUser } from "@lib/context/UserContext";
+import { getIncentiveKey } from "@lib/utils";
+import { useLogError } from "hooks/useLogError";
+import { useToast } from "hooks/useToast";
+import React from "react";
+import { useWriteContract } from "wagmi";
+import { FartherPositionsQuery } from "../.graphclient";
 
 export type Position = FartherPositionsQuery["positions"][number] & {
   unclaimedRewards: bigint;
@@ -18,7 +21,8 @@ export function useLiquidityHandlers() {
   const { account, refetchBalance } = useUser();
   const logError = useLogError();
   const { toast } = useToast();
-  const { refetchPositions, refetchClaimedRewards } = useLiquidity();
+  const { refetchPositions, refetchAccruedRewards, accruedRewards } =
+    useLiquidity();
 
   const {
     writeContractAsync: transferToStakerContract,
@@ -42,6 +46,15 @@ export function useLiquidityHandlers() {
     failureReason: withdrawFailureReason,
     isPending: withdrawPending,
     isSuccess: withdrawSuccess,
+    ...rest
+  } = useWriteContract();
+
+  const {
+    writeContractAsync: claim,
+    error: claimError,
+    failureReason: claimFailureReason,
+    isPending: claimPending,
+    isSuccess: claimSuccess,
   } = useWriteContract();
 
   const handleStake = async (tokenId: string) => {
@@ -107,20 +120,12 @@ export function useLiquidityHandlers() {
         ],
       });
 
-      await withdraw({
-        abi: UniswapV3StakerAbi,
-        address: contractAddresses.UNISWAP_V3_STAKER,
-        functionName: "withdrawToken",
-        args: [BigInt(tokenId), account.address as Address, "0x"],
-      });
-
       toast({
-        msg: "Your position is now unstaked and the rewards are in your wallet. Enjoy!",
+        msg: "Your position is now unstaked. Click withdraw to transfer it back to your wallet.",
       });
 
       await refetchPositions();
-      await refetchBalance();
-      refetchClaimedRewards();
+      await refetchAccruedRewards();
     } catch (error) {
       logError({ error });
     }
@@ -157,7 +162,10 @@ export function useLiquidityHandlers() {
       !stakeFailureReason &&
       !unstakeError &&
       !unstakeFailureReason &&
-      !withdrawFailureReason
+      !withdrawError &&
+      !withdrawFailureReason &&
+      !claimError &&
+      !claimFailureReason
     )
       return;
 
@@ -167,7 +175,9 @@ export function useLiquidityHandlers() {
       unstakeError ||
       unstakeFailureReason ||
       withdrawError ||
-      withdrawFailureReason;
+      withdrawFailureReason ||
+      claimError ||
+      claimFailureReason;
     logError({
       error,
       showGenericToast: true,
@@ -180,15 +190,48 @@ export function useLiquidityHandlers() {
     unstakeFailureReason,
     withdrawError,
     withdrawFailureReason,
+    claimError,
+    claimFailureReason,
   ]);
+
+  const handleClaimRewards = async () => {
+    if (!account.address) {
+      logError({ error: "No account address found", showGenericToast: true });
+      return;
+    }
+
+    console.log(accruedRewards);
+
+    try {
+      await claim({
+        abi: UniswapV3StakerAbi,
+        address: contractAddresses.UNISWAP_V3_STAKER,
+        functionName: "claimReward",
+        args: [contractAddresses.FARTHER, account.address, BigInt(0)],
+      });
+
+      toast({
+        msg: "Rewards claimed!",
+      });
+
+      await refetchAccruedRewards();
+    } catch (error) {
+      logError({ error });
+    }
+  };
 
   return {
     handleStake,
     handleUnstake,
     handleWithdraw,
-    txPending: stakePending || unstakePending || withdrawPending,
+    handleClaimRewards,
+    stakePending,
+    unstakePending,
+    withdrawPending,
+    claimPending,
     stakeSuccess,
     unstakeSuccess,
     withdrawSuccess,
+    claimSuccess,
   };
 }

@@ -24,7 +24,7 @@ const POSITIONS_REFRESH_INTERVAL = 3000;
 const sdk = getBuiltGraphSDK();
 
 const LiquidityContext = createContainer(function () {
-  const [claimedRewards, setClaimedRewards] = React.useState<bigint>(BigInt(0));
+  const [accruedRewards, setAccruedRewards] = React.useState<bigint>(BigInt(0));
   const { account } = useUser();
   const [positions, setPositions] = React.useState<Position[]>();
   const logError = useLogError();
@@ -52,7 +52,7 @@ const LiquidityContext = createContainer(function () {
     _positionsLoading ||
     (!!positionsData?.positions.length && !positions?.length);
 
-  const refetchClaimedRewards = React.useCallback(() => {
+  const refetchAccruedRewards = React.useCallback(() => {
     readContract(viemClient, {
       abi: UniswapV3StakerAbi,
       address: contractAddresses.UNISWAP_V3_STAKER,
@@ -60,7 +60,7 @@ const LiquidityContext = createContainer(function () {
       args: [contractAddresses.FARTHER, account.address as Address],
     })
       .then((rewards) => {
-        setClaimedRewards(rewards);
+        setAccruedRewards(rewards);
       })
       .catch((error) => {
         logError({ error });
@@ -111,8 +111,8 @@ const LiquidityContext = createContainer(function () {
 
   React.useEffect(() => {
     if (!account.address) return;
-    refetchClaimedRewards();
-  }, [refetchClaimedRewards, account.address]);
+    refetchAccruedRewards();
+  }, [refetchAccruedRewards, account.address]);
 
   /** Wipe positions when account is changed */
   React.useEffect(() => {
@@ -127,7 +127,6 @@ const LiquidityContext = createContainer(function () {
     )
       return;
 
-    console.log(pathname);
     timer.current = setInterval(() => {
       refetchPositions();
       refetchUnclaimedRewards();
@@ -144,16 +143,16 @@ const LiquidityContext = createContainer(function () {
   React.useEffect(() => {
     if (!account.address) {
       setPositions(undefined);
-      setClaimedRewards(BigInt(0));
+      setAccruedRewards(BigInt(0));
     }
   }, [account]);
 
   return {
     positionsLoading,
     positions,
-    claimedRewards,
+    accruedRewards,
     refetchPositions,
-    refetchClaimedRewards,
+    refetchAccruedRewards,
   };
 });
 

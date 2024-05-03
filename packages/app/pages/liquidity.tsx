@@ -18,11 +18,14 @@ import { useLiquidity } from "@lib/context/LiquidityContext";
 import { useUser } from "@lib/context/UserContext";
 import { formatWad } from "@lib/utils";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
+import { useLiquidityHandlers } from "hooks/useLiquidityHandlers";
 
 export default function LiquidityPage() {
   const { account } = useUser();
   const { openConnectModal } = useConnectModal();
-  const { positions, positionsLoading, claimedRewards } = useLiquidity();
+  const { claimPending, handleClaimRewards, claimSuccess } =
+    useLiquidityHandlers();
+  const { positions, positionsLoading, accruedRewards } = useLiquidity();
 
   return (
     <Container variant="page">
@@ -33,18 +36,33 @@ export default function LiquidityPage() {
             <div className="!leading-tight">Positions</div>{" "}
           </h2>
           <div className="flex justify-end">
-            <div className="rounded-lg border px-4 py-1 !leading-normal">
-              Claimed rewards:{" "}
-              <span className="text-link">
-                {formatWad(claimedRewards.toString())}
-              </span>
+            <div className="flex flex-col justify-end !leading-normal">
+              <div>
+                Claimable rewards:{" "}
+                <span className="text-link">
+                  {formatWad(accruedRewards.toString())}
+                </span>
+              </div>
+              <Button
+                className="ml-auto mt-2 w-36"
+                variant="secondary"
+                sentryId={clickIds.claimLiquidityRewards}
+                onClick={() => handleClaimRewards()}
+                disabled={
+                  claimSuccess || claimPending || accruedRewards === BigInt(0)
+                }
+                loading={claimPending}
+                loadingText="Claiming"
+              >
+                Claim
+              </Button>
             </div>
           </div>
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead className="pl-0">Position ID</TableHead>
-                <TableHead className="text-right">Rewards</TableHead>
+                <TableHead className="text-right">Pending Rewards</TableHead>
                 <TableHead className="text-right"></TableHead>
               </TableRow>
             </TableHeader>
