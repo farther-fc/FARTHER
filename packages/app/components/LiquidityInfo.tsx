@@ -1,3 +1,4 @@
+import { FartherAccountLink } from "@components/nav/FartherLinks";
 import { Button } from "@components/ui/Button";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { NETWORK, allocationRatios, contractAddresses } from "@farther/common";
@@ -87,6 +88,10 @@ export function LiquidityInfo() {
           <em>Claim</em>.
         </li>
       </ol>
+      <p>
+        Please <FartherAccountLink>reach out</FartherAccountLink> if you run
+        into any problems.
+      </p>
     </div>
   );
 }
