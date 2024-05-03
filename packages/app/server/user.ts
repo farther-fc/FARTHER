@@ -50,7 +50,7 @@ export const getUser = publicProcedure
           airdrop: null,
           index: null,
           tweets: [],
-          address: "0x",
+          address: "",
         });
       }
 
