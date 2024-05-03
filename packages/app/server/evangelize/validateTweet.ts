@@ -236,7 +236,8 @@ function verifyTweetText({
   fid: number;
 }) {
   const hasFarcaster = /farcaster/i.test(tweetText);
-  const hasFID = /FID\d+/i.test(tweetText);
+  const fidPattern = new RegExp(`FID${fid}`, "i");
+  const hasFID = fidPattern.test(tweetText);
 
   if (!hasFarcaster) {
     return {
