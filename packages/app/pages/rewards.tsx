@@ -24,7 +24,7 @@ import { useRouter } from "next/router";
 export default function RewardsPage() {
   const { account, user, userIsLoading } = useUser();
   const router = useRouter();
-  const { positions, accruedRewards } = useLiquidity();
+  const { positions, claimableRewards } = useLiquidity();
 
   const powerDrop = user?.allocations?.find(
     (a) => a.type === AllocationType.POWER_USER,
@@ -66,7 +66,7 @@ export default function RewardsPage() {
                 </Button>{" "}
                 to check if you have any rewards.
               </InfoCard>
-            ) : rows.length || accruedRewards > BigInt(0) ? (
+            ) : rows.length || claimableRewards > BigInt(0) ? (
               <div className="mt-8">
                 <p className="text-muted">
                   Snapshots for airdrops take place up to a week before the end
@@ -112,13 +112,13 @@ export default function RewardsPage() {
                         </TableCell>
                       </TableRow>
                     )}
-                    {accruedRewards > BigInt(0) && (
+                    {claimableRewards > BigInt(0) && (
                       <TableRow>
                         <TableCell className="pl-0 font-medium">
                           Liquidity
                         </TableCell>
                         <TableCell className="pr-1 text-right">
-                          {formatWad(accruedRewards.toString())}
+                          {formatWad(claimableRewards.toString())}
                         </TableCell>
                         <TableCell className="pr-0 text-right">
                           <Button

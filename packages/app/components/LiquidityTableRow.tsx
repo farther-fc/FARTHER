@@ -11,16 +11,12 @@ export function LiquidityTableRow({ position }: { position: Position }) {
   const {
     handleStake,
     handleUnstake,
-    handleWithdraw,
     stakePending,
     unstakePending,
-    withdrawPending,
     stakeSuccess,
-    unstakeSuccess,
-    withdrawSuccess,
   } = useLiquidityHandlers();
 
-  const txPending = stakePending || unstakePending || withdrawPending;
+  const txPending = stakePending || unstakePending;
 
   return (
     <TableRow key={position.id}>
@@ -32,7 +28,7 @@ export function LiquidityTableRow({ position }: { position: Position }) {
         </ExternalLink>
       </TableCell>
       <TableCell className="text-right">
-        {formatWad(position.unclaimedRewards.toString(), "0,0.00")}
+        {formatWad(position.unclaimedRewards.toString())}
       </TableCell>
       <TableCell className="pr-0 text-right">
         <Button
@@ -41,9 +37,7 @@ export function LiquidityTableRow({ position }: { position: Position }) {
           onClick={() =>
             position.isStaked
               ? handleUnstake(position.id)
-              : position.isHeldByStaker
-                ? handleWithdraw(position.id)
-                : handleStake(position.id)
+              : handleStake(position.id)
           }
           loadingText={
             position.isStaked
@@ -55,13 +49,7 @@ export function LiquidityTableRow({ position }: { position: Position }) {
           loading={txPending}
           disabled={txPending}
         >
-          {withdrawSuccess
-            ? "Stake"
-            : position.isStaked || stakeSuccess
-              ? "Unstake"
-              : position.isHeldByStaker || unstakeSuccess
-                ? "Withdraw"
-                : "Stake"}
+          {position.isStaked || stakeSuccess ? "Unstake" : "Stake"}
         </Button>
       </TableCell>
     </TableRow>

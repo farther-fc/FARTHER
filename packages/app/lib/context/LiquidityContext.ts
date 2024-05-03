@@ -13,6 +13,7 @@ import { usePathname } from "next/navigation";
 import React from "react";
 import { Address } from "viem";
 import { readContract } from "viem/actions";
+import { useReadContract } from "wagmi";
 import { FartherPositionsQuery, getBuiltGraphSDK } from "../../.graphclient";
 
 export type Position = FartherPositionsQuery["positions"][number] & {
@@ -24,12 +25,23 @@ const POSITIONS_REFRESH_INTERVAL = 3000;
 const sdk = getBuiltGraphSDK();
 
 const LiquidityContext = createContainer(function () {
-  const [accruedRewards, setAccruedRewards] = React.useState<bigint>(BigInt(0));
   const { account } = useUser();
   const [positions, setPositions] = React.useState<Position[]>();
   const logError = useLogError();
   const timer = React.useRef<NodeJS.Timeout>();
   const pathname = usePathname();
+
+  const {
+    data: claimableRewards,
+    error: claimableRewardsFetchError,
+    isLoading: claimableRewardsLoading,
+    refetch: refetchClaimableRewards,
+  } = useReadContract({
+    abi: UniswapV3StakerAbi,
+    address: contractAddresses.UNISWAP_V3_STAKER,
+    functionName: "rewards",
+    args: [contractAddresses.FARTHER, account.address as Address],
+  });
 
   const {
     data: positionsData,
@@ -51,21 +63,6 @@ const LiquidityContext = createContainer(function () {
   const positionsLoading =
     _positionsLoading ||
     (!!positionsData?.positions.length && !positions?.length);
-
-  const refetchAccruedRewards = React.useCallback(() => {
-    readContract(viemClient, {
-      abi: UniswapV3StakerAbi,
-      address: contractAddresses.UNISWAP_V3_STAKER,
-      functionName: "rewards",
-      args: [contractAddresses.FARTHER, account.address as Address],
-    })
-      .then((rewards) => {
-        setAccruedRewards(rewards);
-      })
-      .catch((error) => {
-        logError({ error });
-      });
-  }, [account.address, logError]);
 
   const refetchUnclaimedRewards = React.useCallback(async () => {
     if (!positionsData?.positions.length || !account.address) return;
@@ -101,18 +98,21 @@ const LiquidityContext = createContainer(function () {
   }, [positionsData?.positions, account.address]);
 
   React.useEffect(() => {
-    if (!positionsFetchError) return;
+    if (!positionsFetchError && !claimableRewardsFetchError) return;
+
+    const error = claimableRewardsFetchError || positionsFetchError;
 
     logError({
-      error: positionsFetchError,
-      showGenericToast: true,
+      error,
+      toastMsg:
+        "Failed to fetch liquidity positions and rewards data. This may be due to a temporary network error.",
     });
-  }, [logError, positionsFetchError]);
+  }, [logError, positionsFetchError, claimableRewardsFetchError]);
 
-  React.useEffect(() => {
-    if (!account.address) return;
-    refetchAccruedRewards();
-  }, [refetchAccruedRewards, account.address]);
+  // React.useEffect(() => {
+  //   if (!account.address) return;
+  //   refetchClaimableRewards();
+  // }, [refetchClaimableRewards, account.address]);
 
   /** Wipe positions when account is changed */
   React.useEffect(() => {
@@ -143,16 +143,16 @@ const LiquidityContext = createContainer(function () {
   React.useEffect(() => {
     if (!account.address) {
       setPositions(undefined);
-      setAccruedRewards(BigInt(0));
     }
   }, [account]);
 
   return {
     positionsLoading,
     positions,
-    accruedRewards,
+    claimableRewards: claimableRewards || BigInt(0),
     refetchPositions,
-    refetchAccruedRewards,
+    refetchClaimableRewards,
+    claimableRewardsLoading,
   };
 });
 

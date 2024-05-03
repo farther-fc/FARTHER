@@ -25,23 +25,30 @@ export default function LiquidityPage() {
   const { openConnectModal } = useConnectModal();
   const { claimPending, handleClaimRewards, claimSuccess } =
     useLiquidityHandlers();
-  const { positions, positionsLoading, accruedRewards } = useLiquidity();
+  const {
+    positions,
+    positionsLoading,
+    claimableRewards,
+    claimableRewardsLoading,
+  } = useLiquidity();
 
   return (
     <Container variant="page">
       <main className="content">
         <LiquidityInfo />
-        <div className="mt-10">
-          <h2 className="flex items-end justify-between ">
-            <div className="!leading-tight">Positions</div>{" "}
-          </h2>
-          <div className="flex justify-end">
+        <div className="mt-16">
+          <div className="mb-4 flex items-start justify-between">
+            <h2 className="my-0">Positions</h2>
             <div className="flex flex-col justify-end !leading-normal">
-              <div>
-                Claimable rewards:{" "}
-                <span className="text-link">
-                  {formatWad(accruedRewards.toString())}
-                </span>
+              <div className="flex flex-col justify-end text-right">
+                Claimable Rewards: <br />
+                {claimableRewardsLoading ? (
+                  <Spinner size="xs" />
+                ) : (
+                  <span className="text-link">
+                    {formatWad(claimableRewards.toString())}
+                  </span>
+                )}
               </div>
               <Button
                 className="ml-auto mt-2 w-36"
@@ -49,7 +56,7 @@ export default function LiquidityPage() {
                 sentryId={clickIds.claimLiquidityRewards}
                 onClick={() => handleClaimRewards()}
                 disabled={
-                  claimSuccess || claimPending || accruedRewards === BigInt(0)
+                  claimSuccess || claimPending || claimableRewards === BigInt(0)
                 }
                 loading={claimPending}
                 loadingText="Claiming"
@@ -58,6 +65,7 @@ export default function LiquidityPage() {
               </Button>
             </div>
           </div>
+
           <Table>
             <TableHeader>
               <TableRow>
