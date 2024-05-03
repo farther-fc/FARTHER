@@ -1,14 +1,18 @@
-import { useWriteContract } from "wagmi";
-import { NFTPositionMngrAbi, UniswapV3StakerAbi } from "@farther/common";
-import { contractAddresses, incentivePrograms } from "@farther/common";
-import { useUser } from "@lib/context/UserContext";
-import { Address } from "viem";
-import React from "react";
-import { useLogError } from "hooks/useLogError";
-import { getIncentiveKey } from "@lib/utils";
-import { useToast } from "hooks/useToast";
-import { FartherPositionsQuery } from "../.graphclient";
+import {
+  NFTPositionMngrAbi,
+  UniswapV3StakerAbi,
+  contractAddresses,
+  incentivePrograms,
+} from "@farther/common";
 import { useLiquidity } from "@lib/context/LiquidityContext";
+import { useUser } from "@lib/context/UserContext";
+import { getIncentiveKey } from "@lib/utils";
+import { useLogError } from "hooks/useLogError";
+import { useToast } from "hooks/useToast";
+import React from "react";
+import { encodeFunctionData } from "viem";
+import { useWriteContract } from "wagmi";
+import { FartherPositionsQuery } from "../.graphclient";
 
 export type Position = FartherPositionsQuery["positions"][number] & {
   unclaimedRewards: bigint;
@@ -18,7 +22,7 @@ export function useLiquidityHandlers() {
   const { account, refetchBalance } = useUser();
   const logError = useLogError();
   const { toast } = useToast();
-  const { refetchPositions, refetchClaimedRewards } = useLiquidity();
+  const { refetchPositions, refetchClaimableRewards } = useLiquidity();
 
   const {
     writeContractAsync: transferToStakerContract,
@@ -37,11 +41,11 @@ export function useLiquidityHandlers() {
   } = useWriteContract();
 
   const {
-    writeContractAsync: withdraw,
-    error: withdrawError,
-    failureReason: withdrawFailureReason,
-    isPending: withdrawPending,
-    isSuccess: withdrawSuccess,
+    writeContractAsync: claim,
+    error: claimError,
+    failureReason: claimFailureReason,
+    isPending: claimPending,
+    isSuccess: claimSuccess,
   } = useWriteContract();
 
   const handleStake = async (tokenId: string) => {
@@ -86,70 +90,80 @@ export function useLiquidityHandlers() {
       return;
     }
 
-    toast({
-      msg: "This is a two-step process. You will first approve a transaction to unstake your position. Then, an additional transaction is required to withdraw your liquidity token to your wallet.",
-    });
-
     try {
       await unstake({
         abi: UniswapV3StakerAbi,
         address: contractAddresses.UNISWAP_V3_STAKER,
-        functionName: "unstakeToken",
+        functionName: "multicall",
         args: [
-          {
-            rewardToken: incentivePrograms[1].rewardToken,
-            pool: incentivePrograms[1].pool,
-            startTime: BigInt(incentivePrograms[1].startTime),
-            endTime: BigInt(incentivePrograms[1].endTime),
-            refundee: incentivePrograms[1].refundee,
-          },
-          BigInt(tokenId),
+          [
+            encodeFunctionData({
+              abi: UniswapV3StakerAbi,
+              functionName: "unstakeToken",
+              args: [
+                {
+                  rewardToken: incentivePrograms[1].rewardToken,
+                  pool: incentivePrograms[1].pool,
+                  startTime: BigInt(incentivePrograms[1].startTime),
+                  endTime: BigInt(incentivePrograms[1].endTime),
+                  refundee: incentivePrograms[1].refundee,
+                },
+                BigInt(tokenId),
+              ],
+            }),
+            encodeFunctionData({
+              abi: UniswapV3StakerAbi,
+              functionName: "withdrawToken",
+              args: [BigInt(tokenId), account.address, "0x"],
+            }),
+          ],
         ],
       });
 
-      await withdraw({
-        abi: UniswapV3StakerAbi,
-        address: contractAddresses.UNISWAP_V3_STAKER,
-        functionName: "withdrawToken",
-        args: [BigInt(tokenId), account.address as Address, "0x"],
-      });
-
-      toast({
-        msg: "Your position is now unstaked and the rewards are in your wallet. Enjoy!",
-      });
-
-      await refetchPositions();
-      await refetchBalance();
-      refetchClaimedRewards();
+      setTimeout(() => {
+        refetchClaimableRewards();
+      }, 2000);
     } catch (error) {
       logError({ error });
     }
   };
 
-  const handleWithdraw = async (tokenId: string) => {
+  const handleClaimRewards = async () => {
     if (!account.address) {
       logError({ error: "No account address found", showGenericToast: true });
       return;
     }
 
     try {
-      await withdraw({
+      await claim({
         abi: UniswapV3StakerAbi,
         address: contractAddresses.UNISWAP_V3_STAKER,
-        functionName: "withdrawToken",
-        args: [BigInt(tokenId), account.address, "0x"],
+        functionName: "claimReward",
+        args: [contractAddresses.FARTHER, account.address, BigInt(0)],
       });
 
-      toast({
-        msg: "Your LP token has been withdrawn.",
-      });
-
-      await refetchPositions();
-      await refetchBalance();
+      setTimeout(() => {
+        refetchClaimableRewards();
+        refetchBalance();
+      }, 2000);
     } catch (error) {
       logError({ error });
     }
   };
+
+  React.useEffect(() => {
+    if (!unstakeSuccess) return;
+    toast({
+      msg: "Your position is now unstaked and your rewards can be claimed. Click 'Claim' to transfer them to your wallet.",
+    });
+  }, [unstakeSuccess, toast]);
+
+  React.useEffect(() => {
+    if (!claimSuccess) return;
+    toast({
+      msg: "Your rewards have been claimed and transferred to your wallet.",
+    });
+  }, [claimSuccess, toast]);
 
   React.useEffect(() => {
     if (
@@ -157,7 +171,8 @@ export function useLiquidityHandlers() {
       !stakeFailureReason &&
       !unstakeError &&
       !unstakeFailureReason &&
-      !withdrawFailureReason
+      !claimError &&
+      !claimFailureReason
     )
       return;
 
@@ -166,8 +181,8 @@ export function useLiquidityHandlers() {
       stakeFailureReason ||
       unstakeError ||
       unstakeFailureReason ||
-      withdrawError ||
-      withdrawFailureReason;
+      claimError ||
+      claimFailureReason;
     logError({
       error,
       showGenericToast: true,
@@ -178,17 +193,19 @@ export function useLiquidityHandlers() {
     stakeFailureReason,
     unstakeError,
     unstakeFailureReason,
-    withdrawError,
-    withdrawFailureReason,
+    claimError,
+    claimFailureReason,
   ]);
 
   return {
     handleStake,
     handleUnstake,
-    handleWithdraw,
-    txPending: stakePending || unstakePending || withdrawPending,
+    handleClaimRewards,
+    stakePending,
+    unstakePending,
+    claimPending,
     stakeSuccess,
     unstakeSuccess,
-    withdrawSuccess,
+    claimSuccess,
   };
 }

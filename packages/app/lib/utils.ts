@@ -62,7 +62,7 @@ export const formatAirdropTime = (date: Date) => {
   });
 };
 
-export const formatWad = (amount: string, formatSchema: string = "0,0") => {
+export const formatWad = (amount: string, formatSchema: string = "0,0.00") => {
   return numeral(formatEther(BigInt(amount))).format(formatSchema);
 };
 

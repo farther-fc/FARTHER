@@ -78,4 +78,5 @@ export const clickIds = {
   rewardsPageUnstake: "rewards-page-unstake",
   evangelizePageConnectWallet: "evangelize-page-connect-wallet",
   rewardsPageClaimedRewards: "rewards-page-claimed-rewards",
+  claimLiquidityRewards: "claim-liquidity-rewards",
 } as const;

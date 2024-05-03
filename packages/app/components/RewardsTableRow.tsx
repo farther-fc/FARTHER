@@ -190,8 +190,8 @@ export function RewardsTableRow({
               </div>
             }
           >
-            <span className="border-input cursor-default rounded-md border p-3">
-              TBD <Info className="inline w-3" />
+            <span className="text-muted border-muted inline-flex cursor-default items-center rounded-md border px-3 py-2">
+              TBD <Info className="inline w-4 pl-1" />
             </span>
           </Popover>
         ) : (
@@ -242,7 +242,7 @@ export function RewardsTableRow({
                 sentryId={clickIds.rewardsTableRowStakeUnstake}
                 disabled={true}
               >
-                Wrong Account
+                Wrong Account <Info className="inline w-4 pl-1" />
               </Button>
             </div>
           </Popover>
@@ -280,7 +280,7 @@ function Pending() {
       }
     >
       <span className="border-input cursor-default rounded-md border p-3 opacity-30">
-        Pending <Info className="inline w-3" />
+        Pending <Info className="inline w-4" />
       </span>
     </Popover>
   );

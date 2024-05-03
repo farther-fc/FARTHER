@@ -1,9 +1,11 @@
+import { FartherAccountLink } from "@components/nav/FartherLinks";
 import { Button } from "@components/ui/Button";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { NETWORK, allocationRatios, contractAddresses } from "@farther/common";
 import { clickIds } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
+import Link from "next/link";
 
 export function LiquidityInfo() {
   const { account } = useUser();
@@ -25,6 +27,10 @@ export function LiquidityInfo() {
             <strong>Please read before you begin:</strong>
           </p>
           <ul>
+            <li>
+              If you haven't yet, please read the{" "}
+              <Link href="/disclaimers">disclaimers</Link>
+            </li>
             <li>
               If this is your first time providing liquidity in a decentralized
               exchange, please consider the risks of{" "}
@@ -77,10 +83,15 @@ export function LiquidityInfo() {
           token. At this point, you will start accruing rewards.
         </li>
         <li>
-          Claiming your rewards is a two-step process. You will first click{" "}
-          <em>Unstake</em>, followed by <em>Withdraw</em>.
+          Claiming your rewards is a two-step process. First click{" "}
+          <em>Unstake</em>, which makes your rewards claimable. Then click{" "}
+          <em>Claim</em>.
         </li>
       </ol>
+      <p>
+        Please <FartherAccountLink>reach out</FartherAccountLink> if you run
+        into any problems.
+      </p>
     </div>
   );
 }
