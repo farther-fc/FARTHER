@@ -36,8 +36,8 @@ export function RewardsTableRow({
 }) {
   const { account, refetchBalance, user } = useUser();
   const addressMismatch =
-    allocation.address &&
-    account?.address &&
+    !!allocation.address &&
+    !!account?.address &&
     allocation.address.toLowerCase() !== account.address.toLowerCase();
   const logError = useLogError();
   const { mutate: setAllocationClaimed } =
