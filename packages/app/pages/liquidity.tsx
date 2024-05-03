@@ -40,7 +40,7 @@ export default function LiquidityPage() {
           <div className="mb-4 flex items-start justify-between">
             <h2 className="my-0">Positions</h2>
             <div className="flex flex-col justify-end !leading-normal">
-              <div className="flex flex-col justify-end text-right">
+              <div className="flex flex-col items-end justify-end text-right">
                 Claimable Rewards: <br />
                 {claimableRewardsLoading ? (
                   <Spinner size="xs" />
