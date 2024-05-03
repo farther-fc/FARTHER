@@ -1,10 +1,12 @@
-// import { getEvanglistAllocationBonus } from "./getEvangelistAllocation";
+import { getEvanglistAllocationBonus } from "./getEvangelistAllocation";
 
-// describe("getEvangelistAllocation", () => {
-//   // const allocation = getEvanglistAllocationBonus({
-//   //   followerCount: 100,
-//   //   baseTokensPerTweet: 1000,
-//   // });
+describe("getEvangelistAllocation", () => {
+  test("it should return the correct allocations", () => {
+    const allocation = getEvanglistAllocationBonus({
+      followerCount: 100,
+      baseTokensPerTweet: 1000,
+    });
 
-//   // console.log(allocation);
-// });
+    expect(allocation === 1000);
+  });
+});
