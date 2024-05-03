@@ -41,6 +41,9 @@ const LiquidityContext = createContainer(function () {
     address: contractAddresses.UNISWAP_V3_STAKER,
     functionName: "rewards",
     args: [contractAddresses.FARTHER, account.address as Address],
+    query: {
+      enabled: !!account.address,
+    },
   });
 
   const {
@@ -98,21 +101,24 @@ const LiquidityContext = createContainer(function () {
   }, [positionsData?.positions, account.address]);
 
   React.useEffect(() => {
-    if (!positionsFetchError && !claimableRewardsFetchError) return;
-
-    const error = claimableRewardsFetchError || positionsFetchError;
+    if (!positionsFetchError) return;
 
     logError({
-      error,
+      error: positionsFetchError,
       toastMsg:
-        "Failed to fetch liquidity positions and rewards data. This may be due to a temporary network error.",
+        "Failed to fetch liquidity positions. This may be due to a temporary network error.",
     });
-  }, [logError, positionsFetchError, claimableRewardsFetchError]);
+  }, [logError, positionsFetchError]);
 
-  // React.useEffect(() => {
-  //   if (!account.address) return;
-  //   refetchClaimableRewards();
-  // }, [refetchClaimableRewards, account.address]);
+  React.useEffect(() => {
+    if (!claimableRewardsFetchError) return;
+
+    logError({
+      error: claimableRewardsFetchError,
+      toastMsg:
+        "Failed to fetch claimable rewards. This may be due to a temporary network error.",
+    });
+  }, [logError, claimableRewardsFetchError]);
 
   /** Wipe positions when account is changed */
   React.useEffect(() => {
