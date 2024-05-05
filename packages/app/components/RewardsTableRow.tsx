@@ -279,7 +279,7 @@ function Pending() {
         </div>
       }
     >
-      <span className="border-input cursor-default rounded-md border p-3 opacity-30">
+      <span className="border-muted cursor-default rounded-md border p-3 opacity-30">
         Pending <Info className="inline w-4" />
       </span>
     </Popover>

@@ -1,4 +1,5 @@
-import { scaleLog } from "d3-scale";
+import { EVANGELIST_FOLLOWER_MINIMUM } from "@farther/common";
+import { scaleLog } from "d3";
 
 export function getEvanglistAllocationBonus({
   baseTokensPerTweet,
@@ -7,12 +8,11 @@ export function getEvanglistAllocationBonus({
   baseTokensPerTweet: number;
   followerCount: number;
 }) {
-  const MINIMUM_FOLLOWER_COUNT = 100;
-  const MAXIMUM_FOLLOWER_COUNT = 30_000_000;
+  const MAXIMUM_FOLLOWER_COUNT = 10_000_000;
 
   const scalingFn = scaleLog()
-    .domain([MINIMUM_FOLLOWER_COUNT, MAXIMUM_FOLLOWER_COUNT])
-    .range([baseTokensPerTweet, baseTokensPerTweet * 30])
+    .domain([EVANGELIST_FOLLOWER_MINIMUM, MAXIMUM_FOLLOWER_COUNT])
+    .range([0, baseTokensPerTweet * 20])
     .clamp(true);
 
   // TODO: It isn't ideal to round here. Figure out a better solution.

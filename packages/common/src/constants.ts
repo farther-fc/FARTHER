@@ -59,7 +59,9 @@ export const DEV_USER_TWITTER_ID = "1355613340324618241";
 export const LAUNCH_DATE = new Date("2024-05-01T00:00:00Z");
 
 // Adjust this from month to month as needed
-export const BASE_TOKENS_PER_TWEET = TOTAL_TOKEN_SUPPLY / 500_000;
+export const TWEET_BASE_TOKENS = 1000;
+
+export const TWEET_FARTHER_BONUS_SCALER = 1.2;
 
 export const ONE_YEAR_IN_MS = 31_536_000_000;
 
