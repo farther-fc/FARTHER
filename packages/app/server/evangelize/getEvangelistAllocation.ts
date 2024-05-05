@@ -12,7 +12,7 @@ export function getEvanglistAllocationBonus({
 
   const scalingFn = scaleLog()
     .domain([EVANGELIST_FOLLOWER_MINIMUM, MAXIMUM_FOLLOWER_COUNT])
-    .range([0, baseTokensPerTweet * 20])
+    .range([0, baseTokensPerTweet * 10])
     .clamp(true);
 
   // TODO: It isn't ideal to round here. Figure out a better solution.
