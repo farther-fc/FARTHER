@@ -8,7 +8,7 @@ const config: Config = {
   },
   moduleFileExtensions: ["ts", "js"],
   moduleNameMapper: {
-    "^d3-(.*)$": `<rootDir>/node_modules/d3-$1/dist/d3-$1`,
+    "^d3": `<rootDir>/node_modules/d3/dist/d3`,
     "^@components/(.*)$": "<rootDir>/components/$1",
     "^@lib/(.*)$": "<rootDir>/lib/$1",
     "^@styles/(.*)$": "<rootDir>/styles/$1",

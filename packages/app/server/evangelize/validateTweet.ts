@@ -1,10 +1,11 @@
 import { AllocationType, prisma } from "@farther/backend";
 import {
-  BASE_TOKENS_PER_TWEET,
   CHAIN_ID,
   DEV_USER_TWITTER_ID,
   EVANGELIST_FOLLOWER_MINIMUM,
   NEXT_AIRDROP_START_TIME,
+  TWEET_BASE_TOKENS,
+  TWEET_FARTHER_BONUS_SCALER,
   WAD_SCALER,
   getAllocationId,
 } from "@farther/common";
@@ -29,8 +30,14 @@ export const validateTweet = publicProcedure
   .mutation(async (opts) => {
     const { tweetId, fid } = opts.input;
 
-    // let isValid: boolean;
-    // let reason: string | undefined;
+    const response = {
+      isValid: false,
+      reason: "",
+      totalReward: 0,
+      bonusReward: 0,
+      hasFartherBonus: false,
+    };
+
     let tweetAuthorId: string;
     let tweetText: string;
 
@@ -56,21 +63,13 @@ export const validateTweet = publicProcedure
     });
 
     if (pastTweets.length >= 1) {
-      return {
-        isValid: false,
-        reason: `Your evangelism is commendable! However, please wait to submit until three days after your latest submission. ❤️`,
-        totalReward: 0,
-        bonusReward: 0,
-      };
+      response.reason = `Your evangelism is commendable! However, please wait to submit until three days after your latest submission. ❤️`;
+      return response;
     }
 
     if (existingTweet) {
-      return {
-        isValid: false,
-        reason: "That tweet was already submitted 😉",
-        totalReward: 0,
-        bonusReward: 0,
-      };
+      response.reason = "That tweet was already submitted 😉";
+      return response;
     }
 
     try {
@@ -91,16 +90,10 @@ export const validateTweet = publicProcedure
       const noteTweet = data.data[0].note_tweet;
       tweetText = (noteTweet || {}).text || (data.data[0].text as string);
       tweetAuthorId = data.data[0].author_id as string;
-
-      console.log({ noteTweet });
     } catch (error) {
       Sentry.captureException(error);
-      return {
-        isValid: false,
-        reason: `Experienced error while retrieving tweet. This may be an issue with Twitter's API. Please try again in a minute.`,
-        totalReward: 0,
-        bonusReward: 0,
-      };
+      response.reason = `Experienced error while retrieving tweet. This may be an issue with Twitter's API. Please try again in a minute.`;
+      return response;
     }
 
     // Get user
@@ -118,19 +111,20 @@ export const validateTweet = publicProcedure
     }
 
     const { isValid, reason } = verifyTweetText({ tweetText, fid: user.id });
+    response.isValid = isValid;
+    response.reason = reason || "";
+    response.hasFartherBonus = /\$FARTHER/i.test(tweetText);
 
-    let totalReward = 0;
-    let bonusReward = 0;
     if (isValid) {
       let followerCount;
 
       // Fetch user's follower count
-      const response = await fetch(
+      const twitterResponse = await fetch(
         `https://api.twitter.com/2/users/${tweetAuthorId}?user.fields=public_metrics`,
         twitterConfig,
       );
 
-      const data = await response.json();
+      const data = await twitterResponse.json();
 
       followerCount =
         (data &&
@@ -142,20 +136,24 @@ export const validateTweet = publicProcedure
         followerCount < EVANGELIST_FOLLOWER_MINIMUM &&
         tweetAuthorId !== DEV_USER_TWITTER_ID
       ) {
-        return {
-          isValid: false,
-          reason: `Sorry, your Twitter account must have at least ${EVANGELIST_FOLLOWER_MINIMUM} followers to qualify.`,
-          totalReward: 0,
-          bonusReward: 0,
-        };
+        response.reason = `Sorry, your Twitter account must have at least ${EVANGELIST_FOLLOWER_MINIMUM} followers to qualify.`;
+        return response;
       }
 
-      bonusReward = getEvanglistAllocationBonus({
+      response.bonusReward = getEvanglistAllocationBonus({
         followerCount,
-        baseTokensPerTweet: BASE_TOKENS_PER_TWEET,
+        baseTokensPerTweet: TWEET_BASE_TOKENS,
       });
-      totalReward = BASE_TOKENS_PER_TWEET + bonusReward;
-      const totalRewardWad = BigInt(totalReward) * WAD_SCALER;
+
+      response.totalReward = TWEET_BASE_TOKENS + response.bonusReward;
+
+      if (response.hasFartherBonus) {
+        response.totalReward =
+          response.totalReward * TWEET_FARTHER_BONUS_SCALER;
+        response.bonusReward = response.totalReward - TWEET_BASE_TOKENS;
+      }
+
+      const totalRewardWad = BigInt(response.totalReward) * WAD_SCALER;
 
       // Look for existing pending allocation
       const pendingAllocation = await prisma.allocation.findFirst({
@@ -185,9 +183,7 @@ export const validateTweet = publicProcedure
               amount: (
                 BigInt(pendingAllocation.amount) + totalRewardWad
               ).toString(),
-              baseAmount: (
-                BigInt(BASE_TOKENS_PER_TWEET) * WAD_SCALER
-              ).toString(),
+              baseAmount: (BigInt(TWEET_BASE_TOKENS) * WAD_SCALER).toString(),
               tweets: {
                 connect: {
                   id: tweet.id,
@@ -208,7 +204,7 @@ export const validateTweet = publicProcedure
             }),
             type: "EVANGELIST",
             amount: totalRewardWad.toString(),
-            baseAmount: (BigInt(BASE_TOKENS_PER_TWEET) * WAD_SCALER).toString(),
+            baseAmount: (BigInt(TWEET_BASE_TOKENS) * WAD_SCALER).toString(),
             tweets: {
               create: {
                 id: tweetId,
@@ -225,7 +221,8 @@ export const validateTweet = publicProcedure
       }
     }
 
-    return { isValid, reason, totalReward, bonusReward };
+    console.log(response);
+    return response;
   });
 
 function verifyTweetText({

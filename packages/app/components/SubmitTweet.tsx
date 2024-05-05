@@ -60,7 +60,7 @@ export function SubmitTweet() {
         toast({
           msg: (
             <>
-              {user.powerBadge ? (
+              {mutationResponse.bonusReward ? (
                 <>
                   Congrats! Your tweet earned you {mutationResponse.totalReward}{" "}
                   FARTHER (including a bonus of {mutationResponse.bonusReward}).
@@ -70,11 +70,12 @@ export function SubmitTweet() {
                 </>
               ) : (
                 <>
-                  Success! You have two months to earn a{" "}
+                  Success! You just earned {mutationResponse.totalReward}{" "}
+                  FARTHER points. You have two months to earn a{" "}
                   <ExternalLink href={POWER_BADGE_INFO_URL}>
                     Warpcast power badge
-                  </ExternalLink>
-                  . Once you do, check the{" "}
+                  </ExternalLink>{" "}
+                  for them to be claimable as tokens. Watch the{" "}
                   <Link href={ROUTES.rewards.path}>rewards page</Link> page.
                 </>
               )}

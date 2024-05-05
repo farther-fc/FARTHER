@@ -1,4 +1,4 @@
-import { BASE_TOKENS_PER_TWEET, WAD_SCALER } from "@farther/common";
+import { TWEET_BASE_TOKENS, WAD_SCALER } from "@farther/common";
 import { AllocationType, prisma } from "../prisma";
 
 async function setBasePowerAllocations() {
@@ -35,7 +35,7 @@ async function setBaseEvangelistAllocations() {
       type: AllocationType.EVANGELIST,
     },
     data: {
-      baseAmount: (BigInt(BASE_TOKENS_PER_TWEET) * WAD_SCALER).toString(),
+      baseAmount: (BigInt(TWEET_BASE_TOKENS) * WAD_SCALER).toString(),
     },
   });
 }

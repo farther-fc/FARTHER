@@ -37,10 +37,9 @@ export default function Home() {
         </p>
         <h2>What</h2>
         <p>
-          Farther is built around a vision of a tokenized guerilla marketing
-          community of Farcaster evangelists. Another way of thinking of it is
-          an open incentive design canvas for creatively boosting Farcaster in
-          the broader attention economy.
+          Farther is built around a vision of a guerilla marketing community of
+          Farcaster evangelists. Another way of thinking of it is an incentive
+          design canvas for boosting Farcaster in the broader attention economy.
         </p>
         <h2>Why</h2>
         <ul>

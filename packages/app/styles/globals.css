@@ -22,12 +22,11 @@
     --popover-foreground: 222.2 47.4% 11.2%;
 
     --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 47.4% 11.2%;
+    --card: 214, 85%, 60%;
+    --card-foreground: 255 100% 100%;
 
-    --primary: 48 96.6% 76.7%;
+    --primary: 210 40% 75.1%;
 
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -408,70 +407,73 @@ ul > li:before {
   position: absolute;
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  margin-left: 5px;
+}
 
-  *[disabled] {
-    @apply cursor-not-allowed;
-  }
+* {
+  @apply border-border;
+}
 
-  body {
-    @apply bg-background text-foreground underline-offset-2;
-    font-size: 16px;
-    font-feature-settings:
-      "rlig" 1,
-      "calt" 1;
-  }
+*[disabled] {
+  @apply cursor-not-allowed;
+}
 
-  label {
-    @apply text-xs;
-  }
+body {
+  @apply bg-background text-foreground underline-offset-2;
+  font-size: 16px;
+  font-feature-settings:
+    "rlig" 1,
+    "calt" 1;
+}
 
-  a {
-    @apply transition-colors hover:underline text-link hover:text-link-hover;
-  }
+label {
+  @apply text-xs;
+}
 
-  hr {
-    @apply my-12;
-  }
+a {
+  @apply transition-colors hover:underline text-link hover:text-link-hover;
+}
 
-  /* CUSTOM CLASSES */
-  .content {
-    @apply mx-auto;
-    max-width: 800px;
-  }
+hr {
+  @apply my-12;
+}
 
-  /* ANIMATIONS */
-  /** the following code is from https://codepen.io/thetallweeks/pen/yybGra **/
-  .loading-ellipsis:after {
-    overflow: hidden;
-    display: inline-block;
-    vertical-align: bottom;
-    -webkit-animation: ellipsis steps(4, end) 900ms infinite;
-    animation: ellipsis steps(4, end) 900ms infinite;
-    content: "\2026"; /* ascii code for the ellipsis character */
-    width: 0px;
-    margin-right: 1.25em;
-  }
+/* CUSTOM CLASSES */
+.content {
+  @apply mx-auto;
+  max-width: 800px;
+}
 
-  .toast-styles a {
-    @apply text-black underline hover:text-black;
-  }
+/* ANIMATIONS */
+/** the following code is from https://codepen.io/thetallweeks/pen/yybGra **/
+.loading-ellipsis:after {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+  -webkit-animation: ellipsis steps(4, end) 900ms infinite;
+  animation: ellipsis steps(4, end) 900ms infinite;
+  content: "\2026"; /* ascii code for the ellipsis character */
+  width: 0px;
+  margin-right: 1.25em;
+}
 
-  @keyframes ellipsis {
-    to {
-      width: 1.25em;
-      margin-right: 0;
-    }
-  }
+.toast-styles a {
+  @apply text-black underline hover:text-black;
+}
 
-  @-webkit-keyframes ellipsis {
-    to {
-      width: 1.25em;
-      margin-right: 0;
-    }
+@keyframes ellipsis {
+  to {
+    width: 1.25em;
+    margin-right: 0;
+  }
+}
+
+@-webkit-keyframes ellipsis {
+  to {
+    width: 1.25em;
+    margin-right: 0;
   }
 }
 
@@ -483,3 +485,17 @@ ul > li:before {
     hsl(var(--background)) 70%
   );
 }
+/* 
+.ruled-grid > * {
+  position: relative;
+}
+
+.ruled-grid > *::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: hsl(var(--border));
+} */

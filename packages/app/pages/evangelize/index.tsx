@@ -1,52 +1,22 @@
 import { EvangelistRules } from "@components/EvangelistRules";
 import { NoUserFoundCard } from "@components/NoUserFoundCard";
-import { SubmitTweet } from "@components/SubmitTweet";
+import { TweetRewardTable } from "@components/TweetRewardTable";
 import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
-import { BASE_TOKENS_PER_TWEET } from "@farther/common";
+import { TWEET_FARTHER_BONUS_SCALER } from "@farther/common";
 import { ROUTES, clickIds } from "@lib/constants";
-import { useModal } from "@lib/context/ModalContext";
 import { useUser } from "@lib/context/UserContext";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import { useToast } from "hooks/useToast";
 import Link from "next/link";
-import numeral from "numeral";
 
 export default function EvangelizePage() {
-  const { openModal } = useModal();
   const { account, user, userIsLoading } = useUser();
   const { openConnectModal } = useConnectModal();
-  const { toast } = useToast();
-
-  const handleSubmit = () => {
-    if (!account.address && !!openConnectModal) {
-      toast({
-        msg: (
-          <>
-            Please{" "}
-            <Button
-              sentryId={clickIds.evangelizePageConnectWallet}
-              variant="link"
-              onClick={openConnectModal}
-            >
-              connect your wallet
-            </Button>{" "}
-            before submitting a tweet
-          </>
-        ),
-      });
-    } else {
-      openModal({
-        header: "Submit Tweet",
-        body: <SubmitTweet />,
-      });
-    }
-  };
 
   const isNotOnFarcaster = account.address && !user && !userIsLoading;
 
-  const DEFAULT_TWEET_LINK = `https://twitter.com/intent/tweet?text=Farcaster%20is%20pushing%20social%20media%20farther%E2%9C%A8%0A%0AFID${user?.fid}`;
+  const DEFAULT_TWEET_LINK = `https://twitter.com/intent/tweet?text=Farcaster%20is%20pushing%20social%20media%20$farther%E2%9C%A8%0A%0AFID${user?.fid}`;
 
   return (
     <Container variant="page">
@@ -59,13 +29,10 @@ export default function EvangelizePage() {
           of followers of the evangelizing account. Currently only X (Twitter)
           is supported but more will follow.
         </p>
-        <p>
-          The current base reward is{" "}
-          {numeral(BASE_TOKENS_PER_TWEET).format("0,0")} tokens per valid tweet.
-          This amount is likely to change in future months based on
-          participation. An additional bonus is applied based on your Twitter
-          follower count.
-        </p>
+
+        <h2>Reward</h2>
+        <p>Use this table to calculate your expected reward.</p>
+        <TweetRewardTable />
         <h2>Steps</h2>
         <ol>
           {!account.address && (
@@ -89,11 +56,19 @@ export default function EvangelizePage() {
             )}{" "}
             that includes:{" "}
             <ul>
-              <li>"Farcaster"</li>
               <li>
-                "FID
-                {user?.fid ?? "<Farcaster ID>"}"{" "}
-                {user?.fid && "(This is your unique Farcaster ID)"}
+                <strong>"Farcaster"</strong>
+              </li>
+              <li>
+                <strong>
+                  "FID
+                  {user?.fid ?? "<Farcaster ID>"}"
+                </strong>{" "}
+                {user?.fid && "- This is your unique Farcaster ID"}
+              </li>
+              <li>
+                <strong>"$FARTHER✨"</strong> for{" "}
+                {TWEET_FARTHER_BONUS_SCALER * 100 - 100}% bonus
               </li>
             </ul>
           </li>
@@ -111,8 +86,7 @@ export default function EvangelizePage() {
             the month.
           </li>
         </ol>
-
-        <h2>Conditions</h2>
+        <h2 id="conditions">Conditions</h2>
         <EvangelistRules />
       </div>
     </Container>
