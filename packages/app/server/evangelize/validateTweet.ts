@@ -148,8 +148,9 @@ export const validateTweet = publicProcedure
       response.totalReward = TWEET_BASE_TOKENS + response.bonusReward;
 
       if (response.hasFartherBonus) {
-        response.totalReward =
-          response.totalReward * TWEET_FARTHER_BONUS_SCALER;
+        response.totalReward = Math.round(
+          response.totalReward * TWEET_FARTHER_BONUS_SCALER,
+        );
         response.bonusReward = response.totalReward - TWEET_BASE_TOKENS;
       }
 
