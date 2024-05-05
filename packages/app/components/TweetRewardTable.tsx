@@ -54,7 +54,7 @@ export function TweetRewardTable() {
           </div>
         </Cell>
         <Cell className="justify-end">{followerBonus}</Cell>
-        <Cell>$FARTHER✨ bonus*:</Cell>
+        <Cell>$FARTHER bonus*:</Cell>
         <Cell>
           <Checkbox
             className="ml-auto mt-[3px]"
@@ -77,7 +77,7 @@ export function TweetRewardTable() {
       <p className="text-right text-xs">
         The above values will be adjusted periodically based on participation.
       </p>
-      <p className="text-right text-xs">*Tweet includes "$FARTHER✨"</p>
+      <p className="text-right text-xs">*Tweet includes "$FARTHER"</p>
     </div>
   );
 }

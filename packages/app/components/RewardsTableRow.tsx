@@ -198,8 +198,8 @@ export function RewardsTableRow({
           <Popover
             content={
               <div className="max-w-[300px] rounded-2xl p-4 text-left">
-                Your base allocation is {formatWad(allocation.baseAmount)}, and
-                you received a follower count bonus of{" "}
+                Your base allocation is {formatWad(allocation.baseAmount)} and
+                you received a bonus of{" "}
                 {formatWad(
                   (
                     BigInt(allocation.amount) - BigInt(allocation.baseAmount)

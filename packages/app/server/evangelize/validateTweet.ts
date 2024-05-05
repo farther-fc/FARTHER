@@ -110,12 +110,11 @@ export const validateTweet = publicProcedure
       });
     }
 
-    const { isValid } = verifyTweetText({ tweetText, fid: user.id });
+    const { isValid, reason } = verifyTweetText({ tweetText, fid: user.id });
     response.isValid = isValid;
-    response.hasFartherBonus = /$FARTHER✨/i.test(tweetText);
+    response.reason = reason || "";
+    response.hasFartherBonus = /\$FARTHER/i.test(tweetText);
 
-    let totalReward = 0;
-    let bonusReward = 0;
     if (isValid) {
       let followerCount;
 
@@ -141,17 +140,20 @@ export const validateTweet = publicProcedure
         return response;
       }
 
-      bonusReward = getEvanglistAllocationBonus({
+      response.bonusReward = getEvanglistAllocationBonus({
         followerCount,
         baseTokensPerTweet: TWEET_BASE_TOKENS,
       });
-      totalReward = TWEET_BASE_TOKENS + bonusReward;
+
+      response.totalReward = TWEET_BASE_TOKENS + response.bonusReward;
 
       if (response.hasFartherBonus) {
-        totalReward = totalReward * TWEET_FARTHER_BONUS_SCALER;
+        response.totalReward =
+          response.totalReward * TWEET_FARTHER_BONUS_SCALER;
+        response.bonusReward = response.totalReward - TWEET_BASE_TOKENS;
       }
 
-      const totalRewardWad = BigInt(totalReward) * WAD_SCALER;
+      const totalRewardWad = BigInt(response.totalReward) * WAD_SCALER;
 
       // Look for existing pending allocation
       const pendingAllocation = await prisma.allocation.findFirst({
@@ -219,6 +221,7 @@ export const validateTweet = publicProcedure
       }
     }
 
+    console.log(response);
     return response;
   });
 
