@@ -67,7 +67,7 @@ export default function EvangelizePage() {
                 {user?.fid && "- This is your unique Farcaster ID"}
               </li>
               <li>
-                <strong>"$FARTHER✨"</strong> for{" "}
+                <strong>"$FARTHER"</strong> for{" "}
                 {TWEET_FARTHER_BONUS_SCALER * 100 - 100}% bonus
               </li>
             </ul>
