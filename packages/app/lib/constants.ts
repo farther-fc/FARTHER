@@ -40,6 +40,9 @@ export const ROUTES = {
 
 export const FARTHER_CHANNEL_URL = "https://warpcast.com/~/channel/farther";
 
+export const ASSETS_URL =
+  "https://www.dropbox.com/scl/fo/ekstm3uwi5fnzot62yzut/AGcz-W2MnCit4ZnBaPfK-90?rlkey=mqbvk5i4hou5u1likn1u3ebyr&st=h1kqaxku&dl=0";
+
 export const POWER_BADGE_INFO_URL = "https://warpcast.com/v/0x0bd49f9c";
 
 export const claimNames = {
