@@ -8,6 +8,12 @@
     "react-internal.js"
   ],
   "main": "src/index.ts",
+  "scripts": {
+    "env:dev": "dotenv -e ../../.env -- ",
+    "env:staging": "dotenv -e ../../.env.staging -- ",
+    "env:prod": "dotenv -e ../../.env.production -- ",
+    "liquidityTracker": "pnpm env:prod ts-node src/scripts/liquidityTracker.ts"
+  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.17.0",
     "@typescript-eslint/parser": "^6.17.0",
@@ -16,13 +22,14 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-turbo": "^1.11.3",
     "eslint-plugin-only-warn": "^1.1.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.5"
   },
   "dependencies": {
     "@neynar/nodejs-sdk": "^1.19.3",
     "bottleneck": "^2.19.5",
     "ethers": "^6.11.1",
     "merkletreejs": "^0.3.11",
-    "viem": "2.8.14"
+    "ts-node": "^10.9.2",
+    "viem": "2.9.32"
   }
 }

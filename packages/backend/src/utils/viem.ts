@@ -1,3 +1,5 @@
+// import { CHAIN_ID } from "@farther/common";
+import { CHAIN_ID } from "@farther/common";
 import {
   PublicClientConfig,
   createClient,
@@ -5,7 +7,6 @@ import {
   http,
 } from "viem";
 import { anvil, base, sepolia } from "viem/chains";
-import { CHAIN_ID } from "./env";
 
 type ChainId = typeof base.id | typeof sepolia.id | typeof anvil.id;
 
