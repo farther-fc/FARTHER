@@ -52,7 +52,7 @@ export default function EvangelizePage() {
                 <ExternalLink href={DEFAULT_TWEET_LINK}>
                   Post a tweet
                 </ExternalLink>
-                . You're welcome to include any Farcaster or Farther{" "}
+                . You're welcome to include any{" "}
                 <ExternalLink href={ASSETS_URL}>images and video</ExternalLink>.
               </>
             ) : (
