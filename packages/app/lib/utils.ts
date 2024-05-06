@@ -63,7 +63,11 @@ export const formatAirdropTime = (date: Date) => {
 };
 
 export const formatWad = (amount: string, formatSchema: string = "0,0.00") => {
-  return numeral(formatEther(BigInt(amount))).format(formatSchema);
+  const preppedAmount =
+    BigInt(amount) < BigInt(1000000) // Anything below this is effectively dust and leads to NaN
+      ? BigInt(0)
+      : BigInt(amount);
+  return numeral(formatEther(preppedAmount)).format(formatSchema);
 };
 
 export const getIncentiveKey = ({
