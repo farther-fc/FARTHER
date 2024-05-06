@@ -3,7 +3,7 @@ import Farcaster from "@components/svgs/Farcaster";
 import Uniswap from "@components/svgs/Uniswap";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { NETWORK, contractAddresses } from "@farther/common";
-import { FARTHER_CHANNEL_URL } from "@lib/constants";
+import { ASSETS_URL, FARTHER_CHANNEL_URL } from "@lib/constants";
 import Link from "next/link";
 
 export function Footer() {
@@ -11,7 +11,8 @@ export function Footer() {
     <>
       <footer className="text-muted mt-20 border-t text-sm">
         <div className="container my-12 flex justify-between">
-          <div>
+          <div className="space-x-6 md:space-x-12">
+            <ExternalLink href={ASSETS_URL}>Assets</ExternalLink>
             <Link href="/disclaimers">Disclaimers</Link>
           </div>
           <div className="grid grid-cols-3 gap-6">

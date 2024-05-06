@@ -5,7 +5,7 @@ import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { TWEET_FARTHER_BONUS_SCALER } from "@farther/common";
-import { ROUTES, clickIds } from "@lib/constants";
+import { ASSETS_URL, ROUTES, clickIds } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
@@ -48,29 +48,36 @@ export default function EvangelizePage() {
           )}
           <li>
             {user?.fid ? (
-              <ExternalLink href={DEFAULT_TWEET_LINK}>
-                Post a tweet
-              </ExternalLink>
+              <>
+                <ExternalLink href={DEFAULT_TWEET_LINK}>
+                  Post a tweet
+                </ExternalLink>
+                . You're welcome to include any Farcaster or Farther{" "}
+                <ExternalLink href={ASSETS_URL}>images and video</ExternalLink>.
+              </>
             ) : (
               "Post a tweet"
             )}{" "}
-            that includes:{" "}
-            <ul>
-              <li>
-                <strong>"Farcaster"</strong>
-              </li>
-              <li>
-                <strong>
-                  "FID
-                  {user?.fid ?? "<Farcaster ID>"}"
-                </strong>{" "}
-                {user?.fid && "- This is your unique Farcaster ID"}
-              </li>
-              <li>
-                <strong>"$FARTHER"</strong> for{" "}
-                {TWEET_FARTHER_BONUS_SCALER * 100 - 100}% bonus
-              </li>
-            </ul>
+            <p>
+              Make sure it includes:{" "}
+              <ul>
+                <li>
+                  <strong>"Farcaster"</strong>
+                </li>
+                <li>
+                  <strong>
+                    "FID
+                    {user?.fid ?? "<Farcaster ID>"}"
+                  </strong>{" "}
+                  {user?.fid && "- This is your unique Farcaster ID"}
+                </li>
+                <li>
+                  <strong>"$FARTHER"</strong> for{" "}
+                  {TWEET_FARTHER_BONUS_SCALER * 100 - 100}% bonus
+                </li>
+              </ul>
+            </p>
+            <p></p>
           </li>
           <li>
             Copy the tweet's URL and{" "}
