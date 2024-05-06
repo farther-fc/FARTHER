@@ -1,7 +1,12 @@
 import { Checkbox } from "@components/ui/Checkbox";
 import { Input } from "@components/ui/Input";
-import { TWEET_BASE_TOKENS, TWEET_FARTHER_BONUS_SCALER } from "@farther/common";
+import {
+  EVANGELIST_FOLLOWER_MINIMUM,
+  TWEET_BASE_TOKENS,
+  TWEET_FARTHER_BONUS_SCALER,
+} from "@farther/common";
 import { cn } from "@lib/utils";
+import { useToast } from "hooks/useToast";
 import numeral from "numeral";
 import React from "react";
 import { getEvanglistAllocationBonus } from "server/evangelize/getEvangelistAllocation";
@@ -19,7 +24,10 @@ const Cell = ({
 );
 
 export function TweetRewardTable() {
-  const [followerCount, setFollowerCount] = React.useState(80);
+  const [followerCount, setFollowerCount] = React.useState(
+    EVANGELIST_FOLLOWER_MINIMUM,
+  );
+  const { toast } = useToast();
   const [hasFartherBonus, setHasFartherBonus] = React.useState(true);
   const followerBonus = getEvanglistAllocationBonus({
     followerCount,
@@ -49,7 +57,15 @@ export function TweetRewardTable() {
               className="inline-block h-6 w-[95px] pr-0 text-right"
               type="number"
               value={followerCount}
-              onChange={(e) => setFollowerCount(Number(e.target.value))}
+              onChange={(e) => {
+                const newVal = Number(e.target.value);
+                if (newVal === EVANGELIST_FOLLOWER_MINIMUM) {
+                  toast({
+                    msg: `You must have at least ${EVANGELIST_FOLLOWER_MINIMUM} Twitter followers to earn rewards.`,
+                  });
+                }
+                setFollowerCount(newVal);
+              }}
             />{" "}
           </div>
         </Cell>

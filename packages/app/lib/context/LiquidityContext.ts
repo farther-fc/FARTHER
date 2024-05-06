@@ -1,4 +1,5 @@
 import {
+  NFTPositionMngrAbi,
   UniswapV3StakerAbi,
   contractAddresses,
   incentivePrograms,
@@ -6,10 +7,11 @@ import {
 import { ROUTES } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import { createContainer } from "@lib/context/unstated";
-import { viemClient } from "@lib/walletConfig";
+import { viemClient, viemPublicClient } from "@lib/walletConfig";
 import { useQuery } from "@tanstack/react-query";
 import { useLogError } from "hooks/useLogError";
 import { usePathname } from "next/navigation";
+import pMap from "p-map";
 import React from "react";
 import { Address } from "viem";
 import { readContract } from "viem/actions";
@@ -18,6 +20,7 @@ import { FartherPositionsQuery, getBuiltGraphSDK } from "../../.graphclient";
 
 export type Position = FartherPositionsQuery["positions"][number] & {
   unclaimedRewards: bigint;
+  liquidity: bigint;
 };
 
 const POSITIONS_REFRESH_INTERVAL = 3000;
@@ -69,36 +72,81 @@ const LiquidityContext = createContainer(function () {
 
   const refetchUnclaimedRewards = React.useCallback(async () => {
     if (!positionsData?.positions.length || !account.address) return;
+    try {
+      const unclaimedRewards = await pMap(
+        positionsData.positions,
+        async (p: (typeof positionsData.positions)[0]) => {
+          try {
+            const [unclaimedReward] = await readContract(viemClient, {
+              abi: UniswapV3StakerAbi,
+              address: contractAddresses.UNISWAP_V3_STAKER,
+              functionName: "getRewardInfo",
+              args: [
+                {
+                  rewardToken: contractAddresses.FARTHER,
+                  pool: contractAddresses.UNIV3_FARTHER_ETH_30BPS_POOL,
+                  startTime: BigInt(incentivePrograms[1].startTime),
+                  endTime: BigInt(incentivePrograms[1].endTime),
+                  refundee: incentivePrograms[1].refundee,
+                },
+                // tokenId
+                BigInt(p.id),
+              ],
+            });
+            return unclaimedReward;
+          } catch (e: any) {
+            if (e.message?.includes("stake does not exist")) {
+              return BigInt(0);
+            } else {
+              throw e;
+            }
+          }
+        },
+        { concurrency: 3 },
+      );
 
-    const positions: Position[] = [];
+      const liquidity = await pMap(
+        positionsData.positions,
+        async (p: (typeof positionsData.positions)[0]) => {
+          const info = await viemPublicClient.readContract({
+            abi: NFTPositionMngrAbi,
+            address: contractAddresses.NFT_POSITION_MANAGER,
+            functionName: "positions",
+            args: [
+              // tokenId
+              BigInt(p.id),
+            ],
+          });
+          return info[7];
+        },
+        { concurrency: 3 },
+      );
 
-    for (const position of positionsData.positions) {
-      let unclaimedRewards = BigInt(0);
-
-      try {
-        [unclaimedRewards] = await readContract(viemClient, {
-          abi: UniswapV3StakerAbi,
-          address: contractAddresses.UNISWAP_V3_STAKER,
-          functionName: "getRewardInfo",
-          args: [
-            {
-              rewardToken: contractAddresses.FARTHER,
-              pool: contractAddresses.UNIV3_FARTHER_ETH_30BPS_POOL,
-              startTime: BigInt(incentivePrograms[1].startTime),
-              endTime: BigInt(incentivePrograms[1].endTime),
-              refundee: incentivePrograms[1].refundee,
-            },
-            // tokenId
-            BigInt(position.id),
-          ],
-        });
-        // The above will throw an error if the position is not staked
-      } catch (error) {}
-
-      positions.push({ ...position, unclaimedRewards });
+      setPositions(
+        positionsData.positions
+          .map((p, i) => ({
+            ...p,
+            unclaimedRewards: unclaimedRewards[i],
+            liquidity: liquidity[i],
+          }))
+          .sort((a, b) => {
+            if (a.liquidity < b.liquidity) {
+              return 1;
+            } else if (a.liquidity > b.liquidity) {
+              return -1;
+            } else {
+              return 0;
+            }
+          }),
+      );
+    } catch (error) {
+      logError({
+        error,
+        toastMsg:
+          "Failed to fetch positions data. This may be due to a temporary network error.",
+      });
     }
-    setPositions(positions);
-  }, [positionsData?.positions, account.address]);
+  }, [positionsData, account.address, logError]);
 
   React.useEffect(() => {
     if (!positionsFetchError) return;
