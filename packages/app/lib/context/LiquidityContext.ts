@@ -3,11 +3,12 @@ import {
   UniswapV3StakerAbi,
   contractAddresses,
   incentivePrograms,
+  viemClient,
+  viemPublicClient,
 } from "@farther/common";
 import { ROUTES } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import { createContainer } from "@lib/context/unstated";
-import { viemClient, viemPublicClient } from "@lib/walletConfig";
 import { useQuery } from "@tanstack/react-query";
 import { useLogError } from "hooks/useLogError";
 import { usePathname } from "next/navigation";

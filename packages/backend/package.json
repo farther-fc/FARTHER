@@ -42,7 +42,7 @@
     "pg": "^8.11.3",
     "ts-jest": "^29.1.2",
     "underscore": "^1.13.6",
-    "viem": "2.8.14"
+    "viem": "2.9.32"
   },
   "devDependencies": {
     "@prisma/client": "^5.1.0",
@@ -55,7 +55,7 @@
     "prisma": "^5.8.1",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.5"
   },
   "jest": {
     "globals": {

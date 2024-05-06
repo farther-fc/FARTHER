@@ -9,16 +9,14 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
-export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
-  BigInt: { input: any; output: any; }
+  ID: string;
+  String: string;
+  Boolean: boolean;
+  Int: number;
+  Float: number;
+  BigInt: any;
 };
 
 export type Query = {
@@ -44,13 +42,13 @@ export type Query = {
 export type QuerypoolsArgs = {
   where?: InputMaybe<PoolWhereInput>;
   orderBy?: InputMaybe<Array<PoolOrderByInput>>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
 };
 
 
 export type QuerypoolByIdArgs = {
-  id: Scalars['String']['input'];
+  id: Scalars['String'];
 };
 
 
@@ -61,8 +59,8 @@ export type QuerypoolByUniqueInputArgs = {
 
 export type QuerypoolsConnectionArgs = {
   orderBy: Array<PoolOrderByInput>;
-  after?: InputMaybe<Scalars['String']['input']>;
-  first?: InputMaybe<Scalars['Int']['input']>;
+  after?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<PoolWhereInput>;
 };
 
@@ -70,13 +68,13 @@ export type QuerypoolsConnectionArgs = {
 export type QueryaccountsArgs = {
   where?: InputMaybe<AccountWhereInput>;
   orderBy?: InputMaybe<Array<AccountOrderByInput>>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
 };
 
 
 export type QueryaccountByIdArgs = {
-  id: Scalars['String']['input'];
+  id: Scalars['String'];
 };
 
 
@@ -87,8 +85,8 @@ export type QueryaccountByUniqueInputArgs = {
 
 export type QueryaccountsConnectionArgs = {
   orderBy: Array<AccountOrderByInput>;
-  after?: InputMaybe<Scalars['String']['input']>;
-  first?: InputMaybe<Scalars['Int']['input']>;
+  after?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<AccountWhereInput>;
 };
 
@@ -96,13 +94,13 @@ export type QueryaccountsConnectionArgs = {
 export type QuerypositionsArgs = {
   where?: InputMaybe<PositionWhereInput>;
   orderBy?: InputMaybe<Array<PositionOrderByInput>>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
 };
 
 
 export type QuerypositionByIdArgs = {
-  id: Scalars['String']['input'];
+  id: Scalars['String'];
 };
 
 
@@ -113,18 +111,18 @@ export type QuerypositionByUniqueInputArgs = {
 
 export type QuerypositionsConnectionArgs = {
   orderBy: Array<PositionOrderByInput>;
-  after?: InputMaybe<Scalars['String']['input']>;
-  first?: InputMaybe<Scalars['Int']['input']>;
+  after?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<PositionWhereInput>;
 };
 
 export type Pool = {
   /**  Smart contract address of the pool  */
-  id: Scalars['String']['output'];
+  id: Scalars['String'];
   /**  Creation timestamp  */
-  createdTimestamp: Scalars['BigInt']['output'];
+  createdTimestamp: Scalars['BigInt'];
   /**  Creation block number  */
-  createdBlock: Scalars['BigInt']['output'];
+  createdBlock: Scalars['BigInt'];
   /**  All positions in this market  */
   positions: Array<Position>;
 };
@@ -133,30 +131,30 @@ export type Pool = {
 export type PoolpositionsArgs = {
   where?: InputMaybe<PositionWhereInput>;
   orderBy?: InputMaybe<Array<PositionOrderByInput>>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
 };
 
 export type Position = {
   /** NonfungiblePositionManager tokenId */
-  id: Scalars['String']['output'];
+  id: Scalars['String'];
   /**  Creation timestamp  */
-  createdTimestamp: Scalars['BigInt']['output'];
+  createdTimestamp: Scalars['BigInt'];
   /**  Creation block number  */
-  createdBlock: Scalars['BigInt']['output'];
+  createdBlock: Scalars['BigInt'];
   /**  Account that owns this position (staker contract is ignored, so its always the account that held it most recently other than the staker) */
   owner: Account;
   /**  The liquidity pool in which this position was opened  */
   pool: Pool;
   /**  Whether this position is staked in a reward program */
-  isStaked?: Maybe<Scalars['Boolean']['output']>;
+  isStaked?: Maybe<Scalars['Boolean']>;
   /**  Whether this position is currently being held by the staker contract. This doesn't necessarily mean that the position is staked. */
-  isHeldByStaker?: Maybe<Scalars['Boolean']['output']>;
+  isHeldByStaker?: Maybe<Scalars['Boolean']>;
 };
 
 export type Account = {
   /**  { Account address }  */
-  id: Scalars['String']['output'];
+  id: Scalars['String'];
   /**  All positions that belong to this account  */
   positions: Array<Position>;
 };
@@ -165,78 +163,78 @@ export type Account = {
 export type AccountpositionsArgs = {
   where?: InputMaybe<PositionWhereInput>;
   orderBy?: InputMaybe<Array<PositionOrderByInput>>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
 };
 
 export type PositionWhereInput = {
-  id_isNull?: InputMaybe<Scalars['Boolean']['input']>;
-  id_eq?: InputMaybe<Scalars['String']['input']>;
-  id_not_eq?: InputMaybe<Scalars['String']['input']>;
-  id_gt?: InputMaybe<Scalars['String']['input']>;
-  id_gte?: InputMaybe<Scalars['String']['input']>;
-  id_lt?: InputMaybe<Scalars['String']['input']>;
-  id_lte?: InputMaybe<Scalars['String']['input']>;
-  id_in?: InputMaybe<Array<Scalars['String']['input']>>;
-  id_not_in?: InputMaybe<Array<Scalars['String']['input']>>;
-  id_contains?: InputMaybe<Scalars['String']['input']>;
-  id_not_contains?: InputMaybe<Scalars['String']['input']>;
-  id_containsInsensitive?: InputMaybe<Scalars['String']['input']>;
-  id_not_containsInsensitive?: InputMaybe<Scalars['String']['input']>;
-  id_startsWith?: InputMaybe<Scalars['String']['input']>;
-  id_not_startsWith?: InputMaybe<Scalars['String']['input']>;
-  id_endsWith?: InputMaybe<Scalars['String']['input']>;
-  id_not_endsWith?: InputMaybe<Scalars['String']['input']>;
-  createdTimestamp_isNull?: InputMaybe<Scalars['Boolean']['input']>;
-  createdTimestamp_eq?: InputMaybe<Scalars['BigInt']['input']>;
-  createdTimestamp_not_eq?: InputMaybe<Scalars['BigInt']['input']>;
-  createdTimestamp_gt?: InputMaybe<Scalars['BigInt']['input']>;
-  createdTimestamp_gte?: InputMaybe<Scalars['BigInt']['input']>;
-  createdTimestamp_lt?: InputMaybe<Scalars['BigInt']['input']>;
-  createdTimestamp_lte?: InputMaybe<Scalars['BigInt']['input']>;
-  createdTimestamp_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
-  createdTimestamp_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
-  createdBlock_isNull?: InputMaybe<Scalars['Boolean']['input']>;
-  createdBlock_eq?: InputMaybe<Scalars['BigInt']['input']>;
-  createdBlock_not_eq?: InputMaybe<Scalars['BigInt']['input']>;
-  createdBlock_gt?: InputMaybe<Scalars['BigInt']['input']>;
-  createdBlock_gte?: InputMaybe<Scalars['BigInt']['input']>;
-  createdBlock_lt?: InputMaybe<Scalars['BigInt']['input']>;
-  createdBlock_lte?: InputMaybe<Scalars['BigInt']['input']>;
-  createdBlock_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
-  createdBlock_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
-  owner_isNull?: InputMaybe<Scalars['Boolean']['input']>;
+  id_isNull?: InputMaybe<Scalars['Boolean']>;
+  id_eq?: InputMaybe<Scalars['String']>;
+  id_not_eq?: InputMaybe<Scalars['String']>;
+  id_gt?: InputMaybe<Scalars['String']>;
+  id_gte?: InputMaybe<Scalars['String']>;
+  id_lt?: InputMaybe<Scalars['String']>;
+  id_lte?: InputMaybe<Scalars['String']>;
+  id_in?: InputMaybe<Array<Scalars['String']>>;
+  id_not_in?: InputMaybe<Array<Scalars['String']>>;
+  id_contains?: InputMaybe<Scalars['String']>;
+  id_not_contains?: InputMaybe<Scalars['String']>;
+  id_containsInsensitive?: InputMaybe<Scalars['String']>;
+  id_not_containsInsensitive?: InputMaybe<Scalars['String']>;
+  id_startsWith?: InputMaybe<Scalars['String']>;
+  id_not_startsWith?: InputMaybe<Scalars['String']>;
+  id_endsWith?: InputMaybe<Scalars['String']>;
+  id_not_endsWith?: InputMaybe<Scalars['String']>;
+  createdTimestamp_isNull?: InputMaybe<Scalars['Boolean']>;
+  createdTimestamp_eq?: InputMaybe<Scalars['BigInt']>;
+  createdTimestamp_not_eq?: InputMaybe<Scalars['BigInt']>;
+  createdTimestamp_gt?: InputMaybe<Scalars['BigInt']>;
+  createdTimestamp_gte?: InputMaybe<Scalars['BigInt']>;
+  createdTimestamp_lt?: InputMaybe<Scalars['BigInt']>;
+  createdTimestamp_lte?: InputMaybe<Scalars['BigInt']>;
+  createdTimestamp_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  createdTimestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  createdBlock_isNull?: InputMaybe<Scalars['Boolean']>;
+  createdBlock_eq?: InputMaybe<Scalars['BigInt']>;
+  createdBlock_not_eq?: InputMaybe<Scalars['BigInt']>;
+  createdBlock_gt?: InputMaybe<Scalars['BigInt']>;
+  createdBlock_gte?: InputMaybe<Scalars['BigInt']>;
+  createdBlock_lt?: InputMaybe<Scalars['BigInt']>;
+  createdBlock_lte?: InputMaybe<Scalars['BigInt']>;
+  createdBlock_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  createdBlock_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  owner_isNull?: InputMaybe<Scalars['Boolean']>;
   owner?: InputMaybe<AccountWhereInput>;
-  pool_isNull?: InputMaybe<Scalars['Boolean']['input']>;
+  pool_isNull?: InputMaybe<Scalars['Boolean']>;
   pool?: InputMaybe<PoolWhereInput>;
-  isStaked_isNull?: InputMaybe<Scalars['Boolean']['input']>;
-  isStaked_eq?: InputMaybe<Scalars['Boolean']['input']>;
-  isStaked_not_eq?: InputMaybe<Scalars['Boolean']['input']>;
-  isHeldByStaker_isNull?: InputMaybe<Scalars['Boolean']['input']>;
-  isHeldByStaker_eq?: InputMaybe<Scalars['Boolean']['input']>;
-  isHeldByStaker_not_eq?: InputMaybe<Scalars['Boolean']['input']>;
+  isStaked_isNull?: InputMaybe<Scalars['Boolean']>;
+  isStaked_eq?: InputMaybe<Scalars['Boolean']>;
+  isStaked_not_eq?: InputMaybe<Scalars['Boolean']>;
+  isHeldByStaker_isNull?: InputMaybe<Scalars['Boolean']>;
+  isHeldByStaker_eq?: InputMaybe<Scalars['Boolean']>;
+  isHeldByStaker_not_eq?: InputMaybe<Scalars['Boolean']>;
   AND?: InputMaybe<Array<PositionWhereInput>>;
   OR?: InputMaybe<Array<PositionWhereInput>>;
 };
 
 export type AccountWhereInput = {
-  id_isNull?: InputMaybe<Scalars['Boolean']['input']>;
-  id_eq?: InputMaybe<Scalars['String']['input']>;
-  id_not_eq?: InputMaybe<Scalars['String']['input']>;
-  id_gt?: InputMaybe<Scalars['String']['input']>;
-  id_gte?: InputMaybe<Scalars['String']['input']>;
-  id_lt?: InputMaybe<Scalars['String']['input']>;
-  id_lte?: InputMaybe<Scalars['String']['input']>;
-  id_in?: InputMaybe<Array<Scalars['String']['input']>>;
-  id_not_in?: InputMaybe<Array<Scalars['String']['input']>>;
-  id_contains?: InputMaybe<Scalars['String']['input']>;
-  id_not_contains?: InputMaybe<Scalars['String']['input']>;
-  id_containsInsensitive?: InputMaybe<Scalars['String']['input']>;
-  id_not_containsInsensitive?: InputMaybe<Scalars['String']['input']>;
-  id_startsWith?: InputMaybe<Scalars['String']['input']>;
-  id_not_startsWith?: InputMaybe<Scalars['String']['input']>;
-  id_endsWith?: InputMaybe<Scalars['String']['input']>;
-  id_not_endsWith?: InputMaybe<Scalars['String']['input']>;
+  id_isNull?: InputMaybe<Scalars['Boolean']>;
+  id_eq?: InputMaybe<Scalars['String']>;
+  id_not_eq?: InputMaybe<Scalars['String']>;
+  id_gt?: InputMaybe<Scalars['String']>;
+  id_gte?: InputMaybe<Scalars['String']>;
+  id_lt?: InputMaybe<Scalars['String']>;
+  id_lte?: InputMaybe<Scalars['String']>;
+  id_in?: InputMaybe<Array<Scalars['String']>>;
+  id_not_in?: InputMaybe<Array<Scalars['String']>>;
+  id_contains?: InputMaybe<Scalars['String']>;
+  id_not_contains?: InputMaybe<Scalars['String']>;
+  id_containsInsensitive?: InputMaybe<Scalars['String']>;
+  id_not_containsInsensitive?: InputMaybe<Scalars['String']>;
+  id_startsWith?: InputMaybe<Scalars['String']>;
+  id_not_startsWith?: InputMaybe<Scalars['String']>;
+  id_endsWith?: InputMaybe<Scalars['String']>;
+  id_not_endsWith?: InputMaybe<Scalars['String']>;
   positions_every?: InputMaybe<PositionWhereInput>;
   positions_some?: InputMaybe<PositionWhereInput>;
   positions_none?: InputMaybe<PositionWhereInput>;
@@ -245,41 +243,41 @@ export type AccountWhereInput = {
 };
 
 export type PoolWhereInput = {
-  id_isNull?: InputMaybe<Scalars['Boolean']['input']>;
-  id_eq?: InputMaybe<Scalars['String']['input']>;
-  id_not_eq?: InputMaybe<Scalars['String']['input']>;
-  id_gt?: InputMaybe<Scalars['String']['input']>;
-  id_gte?: InputMaybe<Scalars['String']['input']>;
-  id_lt?: InputMaybe<Scalars['String']['input']>;
-  id_lte?: InputMaybe<Scalars['String']['input']>;
-  id_in?: InputMaybe<Array<Scalars['String']['input']>>;
-  id_not_in?: InputMaybe<Array<Scalars['String']['input']>>;
-  id_contains?: InputMaybe<Scalars['String']['input']>;
-  id_not_contains?: InputMaybe<Scalars['String']['input']>;
-  id_containsInsensitive?: InputMaybe<Scalars['String']['input']>;
-  id_not_containsInsensitive?: InputMaybe<Scalars['String']['input']>;
-  id_startsWith?: InputMaybe<Scalars['String']['input']>;
-  id_not_startsWith?: InputMaybe<Scalars['String']['input']>;
-  id_endsWith?: InputMaybe<Scalars['String']['input']>;
-  id_not_endsWith?: InputMaybe<Scalars['String']['input']>;
-  createdTimestamp_isNull?: InputMaybe<Scalars['Boolean']['input']>;
-  createdTimestamp_eq?: InputMaybe<Scalars['BigInt']['input']>;
-  createdTimestamp_not_eq?: InputMaybe<Scalars['BigInt']['input']>;
-  createdTimestamp_gt?: InputMaybe<Scalars['BigInt']['input']>;
-  createdTimestamp_gte?: InputMaybe<Scalars['BigInt']['input']>;
-  createdTimestamp_lt?: InputMaybe<Scalars['BigInt']['input']>;
-  createdTimestamp_lte?: InputMaybe<Scalars['BigInt']['input']>;
-  createdTimestamp_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
-  createdTimestamp_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
-  createdBlock_isNull?: InputMaybe<Scalars['Boolean']['input']>;
-  createdBlock_eq?: InputMaybe<Scalars['BigInt']['input']>;
-  createdBlock_not_eq?: InputMaybe<Scalars['BigInt']['input']>;
-  createdBlock_gt?: InputMaybe<Scalars['BigInt']['input']>;
-  createdBlock_gte?: InputMaybe<Scalars['BigInt']['input']>;
-  createdBlock_lt?: InputMaybe<Scalars['BigInt']['input']>;
-  createdBlock_lte?: InputMaybe<Scalars['BigInt']['input']>;
-  createdBlock_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
-  createdBlock_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  id_isNull?: InputMaybe<Scalars['Boolean']>;
+  id_eq?: InputMaybe<Scalars['String']>;
+  id_not_eq?: InputMaybe<Scalars['String']>;
+  id_gt?: InputMaybe<Scalars['String']>;
+  id_gte?: InputMaybe<Scalars['String']>;
+  id_lt?: InputMaybe<Scalars['String']>;
+  id_lte?: InputMaybe<Scalars['String']>;
+  id_in?: InputMaybe<Array<Scalars['String']>>;
+  id_not_in?: InputMaybe<Array<Scalars['String']>>;
+  id_contains?: InputMaybe<Scalars['String']>;
+  id_not_contains?: InputMaybe<Scalars['String']>;
+  id_containsInsensitive?: InputMaybe<Scalars['String']>;
+  id_not_containsInsensitive?: InputMaybe<Scalars['String']>;
+  id_startsWith?: InputMaybe<Scalars['String']>;
+  id_not_startsWith?: InputMaybe<Scalars['String']>;
+  id_endsWith?: InputMaybe<Scalars['String']>;
+  id_not_endsWith?: InputMaybe<Scalars['String']>;
+  createdTimestamp_isNull?: InputMaybe<Scalars['Boolean']>;
+  createdTimestamp_eq?: InputMaybe<Scalars['BigInt']>;
+  createdTimestamp_not_eq?: InputMaybe<Scalars['BigInt']>;
+  createdTimestamp_gt?: InputMaybe<Scalars['BigInt']>;
+  createdTimestamp_gte?: InputMaybe<Scalars['BigInt']>;
+  createdTimestamp_lt?: InputMaybe<Scalars['BigInt']>;
+  createdTimestamp_lte?: InputMaybe<Scalars['BigInt']>;
+  createdTimestamp_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  createdTimestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  createdBlock_isNull?: InputMaybe<Scalars['Boolean']>;
+  createdBlock_eq?: InputMaybe<Scalars['BigInt']>;
+  createdBlock_not_eq?: InputMaybe<Scalars['BigInt']>;
+  createdBlock_gt?: InputMaybe<Scalars['BigInt']>;
+  createdBlock_gte?: InputMaybe<Scalars['BigInt']>;
+  createdBlock_lt?: InputMaybe<Scalars['BigInt']>;
+  createdBlock_lte?: InputMaybe<Scalars['BigInt']>;
+  createdBlock_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  createdBlock_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   positions_every?: InputMaybe<PositionWhereInput>;
   positions_some?: InputMaybe<PositionWhereInput>;
   positions_none?: InputMaybe<PositionWhereInput>;
@@ -340,25 +338,25 @@ export type PoolOrderByInput =
   | 'createdBlock_DESC_NULLS_LAST';
 
 export type WhereIdInput = {
-  id: Scalars['String']['input'];
+  id: Scalars['String'];
 };
 
 export type PoolsConnection = {
   edges: Array<PoolEdge>;
   pageInfo: PageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars['Int'];
 };
 
 export type PoolEdge = {
   node: Pool;
-  cursor: Scalars['String']['output'];
+  cursor: Scalars['String'];
 };
 
 export type PageInfo = {
-  hasNextPage: Scalars['Boolean']['output'];
-  hasPreviousPage: Scalars['Boolean']['output'];
-  startCursor: Scalars['String']['output'];
-  endCursor: Scalars['String']['output'];
+  hasNextPage: Scalars['Boolean'];
+  hasPreviousPage: Scalars['Boolean'];
+  startCursor: Scalars['String'];
+  endCursor: Scalars['String'];
 };
 
 export type AccountOrderByInput =
@@ -370,28 +368,28 @@ export type AccountOrderByInput =
 export type AccountsConnection = {
   edges: Array<AccountEdge>;
   pageInfo: PageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars['Int'];
 };
 
 export type AccountEdge = {
   node: Account;
-  cursor: Scalars['String']['output'];
+  cursor: Scalars['String'];
 };
 
 export type PositionsConnection = {
   edges: Array<PositionEdge>;
   pageInfo: PageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars['Int'];
 };
 
 export type PositionEdge = {
   node: Position;
-  cursor: Scalars['String']['output'];
+  cursor: Scalars['String'];
 };
 
 export type SquidStatus = {
   /** The height of the processed part of the chain */
-  height?: Maybe<Scalars['Int']['output']>;
+  height?: Maybe<Scalars['Int']>;
 };
 
   export type QuerySdk = {

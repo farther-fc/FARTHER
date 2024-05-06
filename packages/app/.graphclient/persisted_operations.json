@@ -1,3 +1,0 @@
-{
-  "32e85aafcc00f09e16592796ba1d4ad8862fdfad1632215baa033b5aef254066": "query FartherPositions($ownerId: String!, $poolId: String!) {\n  positions(where: { owner: { id_eq: $ownerId }, pool: { id_eq: $poolId } }) {\n    id\n    isStaked\n    isHeldByStaker\n    owner {\n      id\n    }\n    pool {\n      id\n    }\n  }\n}"
-}
