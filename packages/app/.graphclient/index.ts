@@ -959,6 +959,7 @@ export async function getMeshOptions(): Promise<GetMeshOptions> {
       getPersistedOperation(key) {
         return documentHashMap[key];
       },
+      ...{},
     }),
   );
 
@@ -1001,8 +1002,28 @@ export function createBuiltMeshHTTPHandler<
 
 let meshInstance$: Promise<MeshInstance> | undefined;
 
+export const pollingInterval = null;
+
 export function getBuiltGraphClient(): Promise<MeshInstance> {
   if (meshInstance$ == null) {
+    if (pollingInterval) {
+      setInterval(() => {
+        getMeshOptions()
+          .then((meshOptions) => getMesh(meshOptions))
+          .then((newMesh) =>
+            meshInstance$.then((oldMesh) => {
+              oldMesh.destroy();
+              meshInstance$ = Promise.resolve(newMesh);
+            }),
+          )
+          .catch((err) => {
+            console.error(
+              "Mesh polling failed so the existing version will be used:",
+              err,
+            );
+          });
+      }, pollingInterval);
+    }
     meshInstance$ = getMeshOptions()
       .then((meshOptions) => getMesh(meshOptions))
       .then((mesh) => {
