@@ -47,10 +47,16 @@ export function LiquidityInfo() {
               . There is no public audit available, however it was developed by
               Uniswap. Use at your own risk.
             </li>
-
             <li>
               You only accrue Farther rewards while the price is within the
-              range of liquidity of your position.
+              range of liquidity of your position. If you notice rewards have
+              stopped accruing, it is likely because the price has moved outside
+              of your position's range. You can check by clicking the position
+              ID which will link you directly to the position on Uniswap.
+            </li>
+            <li>
+              Rewards are distributed using the same logic as Uniswap fees.
+              Narrower ranges earn more rewards.
             </li>
           </ul>
         </li>
