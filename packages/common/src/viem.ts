@@ -9,7 +9,7 @@ const publicChains = [base, sepolia, anvil] as const;
 export const clientConfig = {
   [base.id]: {
     chain: base,
-    transport: http(),
+    transport: http(process.env.BASE_RPC_URL),
   },
   [sepolia.id]: {
     chain: sepolia,

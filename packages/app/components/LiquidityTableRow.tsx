@@ -16,6 +16,7 @@ export function LiquidityTableRow({ position }: { position: Position }) {
     stakePending,
     unstakePending,
     stakeSuccess,
+    unstakeSuccess,
   } = useLiquidityHandlers();
 
   const txPending = stakePending || unstakePending;
@@ -68,7 +69,9 @@ export function LiquidityTableRow({ position }: { position: Position }) {
             loading={txPending}
             disabled={disabled}
           >
-            {position.isStaked || stakeSuccess ? "Unstake" : "Stake"}
+            {position.isStaked || (stakeSuccess && !unstakeSuccess)
+              ? "Unstake"
+              : "Stake"}
           </Button>
         )}
       </TableCell>
