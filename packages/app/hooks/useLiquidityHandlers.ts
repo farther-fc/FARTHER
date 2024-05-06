@@ -122,7 +122,7 @@ export function useLiquidityHandlers() {
 
       setTimeout(() => {
         refetchClaimableRewards();
-      }, 2000);
+      }, 3000);
     } catch (error) {
       logError({ error });
     }
@@ -145,7 +145,7 @@ export function useLiquidityHandlers() {
       setTimeout(() => {
         refetchClaimableRewards();
         refetchBalance();
-      }, 2000);
+      }, 3000);
     } catch (error) {
       logError({ error });
     }
