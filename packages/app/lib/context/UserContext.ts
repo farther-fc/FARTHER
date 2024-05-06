@@ -19,6 +19,8 @@ export const UserContext = createContainer(function () {
     },
   });
 
+  console.log({ balance });
+
   // If undefined, the user hasn't been fetched yet.
   // If null, the user isn't on Farcaster yet.
   const {
@@ -35,7 +37,7 @@ export const UserContext = createContainer(function () {
     userIsLoading: isLoading,
     account,
     refetchUser: refetch,
-    balance,
+    balance: balance || BigInt(0),
     refetchBalance,
   };
 });
