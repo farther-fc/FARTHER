@@ -10,7 +10,7 @@ import { getIncentiveKey } from "@lib/utils";
 import { useLogError } from "hooks/useLogError";
 import { useToast } from "hooks/useToast";
 import React from "react";
-import { encodeFunctionData } from "viem";
+import { ContractFunctionExecutionError, encodeFunctionData } from "viem";
 import { useWriteContract } from "wagmi";
 import { FartherPositionsQuery } from "../.graphclient";
 
@@ -124,6 +124,9 @@ export function useLiquidityHandlers() {
         refetchClaimableRewards();
       }, 3000);
     } catch (error) {
+      if (error instanceof ContractFunctionExecutionError) {
+        // We should be able to safely ignore this. Seems to happen intermittently when the function returns "0x" as expected
+      }
       logError({ error });
     }
   };
@@ -147,6 +150,9 @@ export function useLiquidityHandlers() {
         refetchBalance();
       }, 3000);
     } catch (error) {
+      if (error instanceof ContractFunctionExecutionError) {
+        // We should be able to safely ignore this. Seems to happen intermittently when the function returns "0x" as expected
+      }
       logError({ error });
     }
   };
