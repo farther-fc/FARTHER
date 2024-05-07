@@ -12,7 +12,8 @@
     "env:dev": "dotenv -e ../../.env -- ",
     "env:staging": "dotenv -e ../../.env.staging -- ",
     "env:prod": "dotenv -e ../../.env.production -- ",
-    "liquidityTracker": "pnpm env:prod ts-node src/scripts/liquidityTracker.ts"
+    "liquidityTracker": "pnpm env:prod ts-node src/scripts/liquidityTracker.ts",
+    "getAirdropData:prod": "pnpm env:prod ts-node src/scripts/getAirdropData.ts"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.17.0",
