@@ -1,0 +1,8 @@
+{
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  },
+  "compilerOptions": {
+    "esModuleInterop": true
+  }
+}
