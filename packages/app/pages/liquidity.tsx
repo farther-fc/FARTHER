@@ -37,32 +37,43 @@ export default function LiquidityPage() {
       <main className="content">
         <LiquidityInfo />
         <div className="mt-16">
-          <div className="mb-4 flex items-start justify-between">
-            <h2 className="my-0">Positions</h2>
-            <div className="flex flex-col justify-end !leading-normal">
+          <h2>Positions</h2>
+          <div className="mb-12 flex w-full justify-between">
+            <div>
+              Claimed Rewards
+              <br />
+              <span className="text-link">{formatWad("0")}</span>
+            </div>
+            <div className="flex space-x-14">
               <div className="flex flex-col items-end justify-end text-right">
-                Claimable Rewards: <br />
+                Claimable Rewards
                 {claimableRewardsLoading ? (
                   <Spinner size="xs" />
                 ) : (
-                  <span className="text-link">
+                  <div className="text-link">
                     {formatWad(claimableRewards.toString())}
-                  </span>
+                  </div>
                 )}
+                <Button
+                  className="ml-auto mt-4 w-36"
+                  variant="secondary"
+                  sentryId={clickIds.claimLiquidityRewards}
+                  onClick={() => handleClaimRewards()}
+                  disabled={
+                    claimSuccess ||
+                    claimPending ||
+                    claimableRewards === BigInt(0)
+                  }
+                  loading={claimPending}
+                  loadingText="Claiming"
+                >
+                  Claim
+                </Button>
               </div>
-              <Button
-                className="ml-auto mt-2 w-36"
-                variant="secondary"
-                sentryId={clickIds.claimLiquidityRewards}
-                onClick={() => handleClaimRewards()}
-                disabled={
-                  claimSuccess || claimPending || claimableRewards === BigInt(0)
-                }
-                loading={claimPending}
-                loadingText="Claiming"
-              >
-                Claim
-              </Button>
+              <div className="">
+                Bonus Rewards
+                <div className="text-link text-right">{formatWad("0")}</div>
+              </div>
             </div>
           </div>
 
