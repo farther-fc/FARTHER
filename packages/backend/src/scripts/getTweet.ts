@@ -1,4 +1,4 @@
-const TWEET_ID = "1785821659406225812";
+const TWEET_ID = "1787897650932822451";
 
 const twitterConfig = {
   headers: {
@@ -14,9 +14,32 @@ async function getTweet() {
 
   const data = await response.json();
 
+  if (!data.data || !data.data.length) {
+    throw new Error("No data returned from Twitter API");
+  }
+
   // For tweets longer than 280 chars, this contains the full text
   const noteTweet = data.data[0].note_tweet;
-  const tweetText = noteTweet.text || (data.data[0].text as string);
+  const tweetText =
+    (noteTweet && noteTweet.text) || (data.data[0].text as string);
+
+  const authorId = data.data[0].author_id as string;
+
+  // Fetch user's follower count
+  const twitterResponse = await fetch(
+    `https://api.twitter.com/2/users/${authorId}?user.fields=public_metrics`,
+    twitterConfig,
+  );
+
+  const json = await twitterResponse.json();
+
+  const followerCount =
+    (json &&
+      json.data &&
+      (json.data.public_metrics.followers_count as number)) ||
+    0;
+
+  console.log({ authorId, tweetText, followerCount });
 }
 
 getTweet();

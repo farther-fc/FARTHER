@@ -73,17 +73,19 @@ export const validateTweet = publicProcedure
     }
 
     try {
-      const response = await fetch(
+      const twitterResponse = await fetch(
         `https://api.twitter.com/2/tweets?ids=${tweetId}&tweet.fields=text,author_id,note_tweet`,
         twitterConfig,
       );
 
-      const data = await response.json();
+      const data = await twitterResponse.json();
 
       if (!data.data || !data.data.length) {
-        throw new Error(
-          `No data returned from tweets api. tweetId: ${tweetId}`,
+        response.reason = `Experienced error while retrieving tweet. This may be an issue with Twitter's API. Please try again in a minute.`;
+        Sentry.captureException(
+          new Error(`No data returned for tweet ${tweetId}`),
         );
+        return response;
       }
 
       // For tweets longer than 280 chars, this contains the full text
@@ -116,7 +118,7 @@ export const validateTweet = publicProcedure
     response.hasFartherBonus = /\$FARTHER/i.test(tweetText);
 
     if (isValid) {
-      let followerCount;
+      let followerCount = 0;
 
       // Fetch user's follower count
       const twitterResponse = await fetch(
@@ -173,6 +175,8 @@ export const validateTweet = publicProcedure
               id: tweetId,
               reward: totalRewardWad.toString(),
               allocationId: pendingAllocation.id,
+              authorId: tweetAuthorId,
+              followerCount,
             },
           });
 
@@ -210,6 +214,8 @@ export const validateTweet = publicProcedure
               create: {
                 id: tweetId,
                 reward: totalRewardWad.toString(),
+                authorId: tweetAuthorId,
+                followerCount,
               },
             },
             user: {
@@ -222,7 +228,6 @@ export const validateTweet = publicProcedure
       }
     }
 
-    console.log(response);
     return response;
   });
 

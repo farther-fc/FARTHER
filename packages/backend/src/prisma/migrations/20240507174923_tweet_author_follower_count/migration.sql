@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Tweet" ADD COLUMN     "authorId" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "followerCount" INTEGER NOT NULL DEFAULT 0;
