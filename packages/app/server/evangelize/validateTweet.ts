@@ -131,6 +131,7 @@ export const validateTweet = publicProcedure
       followerCount =
         (data &&
           data.data &&
+          data.data.public_metrics &&
           (data.data.public_metrics.followers_count as number)) ||
         0;
 
