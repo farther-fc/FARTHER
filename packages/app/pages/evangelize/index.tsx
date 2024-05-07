@@ -58,7 +58,7 @@ export default function EvangelizePage() {
             ) : (
               "Post a tweet"
             )}{" "}
-            <p>
+            <div>
               Make sure it includes:{" "}
               <ul>
                 <li>
@@ -76,7 +76,7 @@ export default function EvangelizePage() {
                   {TWEET_FARTHER_BONUS_SCALER * 100 - 100}% bonus
                 </li>
               </ul>
-            </p>
+            </div>
             <p></p>
           </li>
           <li>
