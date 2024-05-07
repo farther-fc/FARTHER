@@ -143,8 +143,6 @@ const LiquidityContext = createContainer(function () {
     } catch (error) {
       logError({
         error,
-        toastMsg:
-          "Failed to fetch positions data. This may be due to a temporary network error.",
       });
     }
   }, [positionsData, account.address, logError]);
