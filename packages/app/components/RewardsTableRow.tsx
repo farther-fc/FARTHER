@@ -274,7 +274,7 @@ function Pending() {
       content={
         <div className="max-w-[300px] rounded-2xl p-4 text-left">
           Your rewards will remain pending until you earn a Warpcast Power
-          Badge. If not earned within two months from your submission, the
+          Badge. If not earned within two months from your first submission, the
           rewards will expire.
         </div>
       }
