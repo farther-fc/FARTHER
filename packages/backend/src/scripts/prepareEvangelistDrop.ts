@@ -9,11 +9,11 @@ import {
   NETWORK,
   NEXT_AIRDROP_END_TIME,
   NEXT_AIRDROP_START_TIME,
-  getAllocationId,
   getMerkleRoot,
   isProduction,
   neynarLimiter,
 } from "@farther/common";
+import { v4 as uuidv4 } from "uuid";
 import { AllocationType, prisma } from "../prisma";
 import { writeFile } from "../utils/helpers";
 import { airdropSanityCheck } from "./airdropSanityCheck";
@@ -102,29 +102,16 @@ async function prepareEvangelistDrop() {
   });
 
   // Add allocations to db
-  await prisma.$transaction([
-    prisma.allocation.deleteMany({
-      where: {
-        airdropId: airdrop.id,
-      },
-    }),
-    prisma.allocation.createMany({
-      data: recipientsWithAddress.map((r, i) => ({
-        id: getAllocationId({
-          type: AllocationType.EVANGELIST,
-          userId: r.id,
-          chainId: CHAIN_ID,
-          airdropStartTime: NEXT_AIRDROP_START_TIME.getTime(),
-        }),
-        amount: r.allocation.amount.toString(),
-        index: i,
-        airdropId: airdrop.id,
-        userId: r.id,
-        type: AllocationType.EVANGELIST,
-        address: r.address.toLowerCase(),
-      })),
-    }),
-  ]);
+  await prisma.allocation.updateMany({
+    data: recipientsWithAddress.map((r, i) => ({
+      id: uuidv4(),
+      index: i,
+      airdropId: airdrop.id,
+      userId: r.id,
+      type: AllocationType.EVANGELIST,
+      address: r.address.toLowerCase(),
+    })),
+  });
 
   await writeFile(
     `airdrops/${NETWORK}/${AllocationType.EVANGELIST.toLowerCase()}-${NEXT_AIRDROP_START_TIME.toISOString()}.json`,

@@ -1,19 +1,17 @@
-import { AllocationType, prisma } from "@farther/backend";
+import { prisma } from "@farther/backend";
 import {
-  CHAIN_ID,
   DEV_USER_TWITTER_ID,
   EVANGELIST_FOLLOWER_MINIMUM,
-  NEXT_AIRDROP_START_TIME,
   TWEET_BASE_TOKENS,
   TWEET_FARTHER_BONUS_SCALER,
   WAD_SCALER,
-  getAllocationId,
 } from "@farther/common";
 import { apiSchemas } from "@lib/types/apiSchemas";
 import * as Sentry from "@sentry/nextjs";
 import { TRPCError } from "@trpc/server";
 import { getEvanglistAllocationBonus } from "server/evangelize/getEvangelistAllocation";
 import { publicProcedure } from "server/trpc";
+import { v4 as uuidv4 } from "uuid";
 
 if (!process.env.TWITTER_BEARER_TOKEN) {
   throw new Error("TWITTER_BEARER_TOKEN not set");
@@ -176,6 +174,7 @@ export const validateTweet = publicProcedure
               id: tweetId,
               reward: totalRewardWad.toString(),
               allocationId: pendingAllocation.id,
+              newAllocationId: pendingAllocation.newId,
               authorId: tweetAuthorId,
               followerCount,
             },
@@ -199,21 +198,19 @@ export const validateTweet = publicProcedure
           });
         });
       } else {
+        const id = uuidv4();
         // If no pending allcation, create allocation & tweet
         await prisma.allocation.create({
           data: {
-            id: getAllocationId({
-              type: AllocationType.EVANGELIST,
-              userId: user.id,
-              chainId: CHAIN_ID,
-              airdropStartTime: NEXT_AIRDROP_START_TIME.getTime(),
-            }),
+            id,
+            newId: id,
             type: "EVANGELIST",
             amount: totalRewardWad.toString(),
             baseAmount: (BigInt(TWEET_BASE_TOKENS) * WAD_SCALER).toString(),
             tweets: {
               create: {
                 id: tweetId,
+                newAllocationId: id,
                 reward: totalRewardWad.toString(),
                 authorId: tweetAuthorId,
                 followerCount,

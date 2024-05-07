@@ -8,12 +8,12 @@ import {
   POWER_USER_AIRDROP_RATIO,
   WAD_SCALER,
   WARPCAST_API_BASE_URL,
-  getAllocationId,
   getMerkleRoot,
   isProduction,
   neynarLimiter,
   tokenAllocations,
 } from "@farther/common";
+import { v4 as uuidv4 } from "uuid";
 import { AllocationType, prisma } from "../prisma";
 import { allocateTokens } from "../utils/allocateTokens";
 import { writeFile } from "../utils/helpers";
@@ -166,30 +166,18 @@ async function preparePowerDrop() {
   });
 
   // Add allocations to db
-  await prisma.$transaction([
-    prisma.allocation.deleteMany({
-      where: {
-        airdropId: airdrop.id,
-      },
-    }),
-    prisma.allocation.createMany({
-      data: recipientsWithAddress.map((r, i) => ({
-        id: getAllocationId({
-          type: AllocationType.POWER_USER,
-          userId: r.id,
-          chainId: CHAIN_ID,
-          airdropStartTime: NEXT_AIRDROP_START_TIME.getTime(),
-        }),
-        amount: r.amount.toString(),
-        baseAmount: basePerRecipientWad.toString(),
-        index: i,
-        airdropId: airdrop.id,
-        userId: r.id,
-        type: AllocationType.POWER_USER,
-        address: r.address.toLowerCase(),
-      })),
-    }),
-  ]);
+  prisma.allocation.createMany({
+    data: recipientsWithAddress.map((r, i) => ({
+      id: uuidv4(),
+      amount: r.amount.toString(),
+      baseAmount: basePerRecipientWad.toString(),
+      index: i,
+      airdropId: airdrop.id,
+      userId: r.id,
+      type: AllocationType.POWER_USER,
+      address: r.address.toLowerCase(),
+    })),
+  });
 
   await writeFile(
     `airdrops/${ENVIRONMENT}/${AllocationType.POWER_USER.toLowerCase()}-${NEXT_AIRDROP_START_TIME.toISOString()}.json`,
