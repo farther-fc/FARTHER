@@ -19,8 +19,6 @@ contract DeployVesting is Script {
             DURATION
         );
 
-        fartherVesting.transferOwnership(OWNER);
-
         vm.stopBroadcast();
     }
 }

@@ -73,7 +73,7 @@ contract FartherVesting_Test is Test {
         assertEq(fartherToken.balanceOf(beneficiary), cliffAmount);
     }
 
-    function test_postVesting() external {
+    function test_postCliff() external {
         uint256 testStart = block.timestamp;
         uint256 treasuryAmount = 10 ether;
         uint256 cliffAmount = (treasuryAmount * CLIFF) / 100;
@@ -109,8 +109,11 @@ contract FartherVesting_Test is Test {
 
         // Warp past the end of the vesting schedule
         vm.warp(testStart + cliffDuration + duration);
+
+        // Release remaining funds
         fartherVesting.release(address(fartherToken));
 
+        // Assert all has been released
         assertEq(fartherVesting.releasable(address(fartherToken)), 0);
         assertEq(
             fartherVesting.released(address(fartherToken)),

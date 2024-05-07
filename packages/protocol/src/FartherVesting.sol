@@ -8,8 +8,6 @@ import {Address} from "openzeppelin/utils/Address.sol";
 import {Context} from "openzeppelin/utils/Context.sol";
 import {Ownable} from "openzeppelin/access/Ownable.sol";
 
-import "forge-std/console.sol";
-
 /**
  * @dev Forked from OpenZeppelin (finance/VestingWallet.sol)
  * Adds a cliff to the vesting schedule.
@@ -150,14 +148,11 @@ contract FartherVesting is Context, Ownable {
         if (timestamp < start()) {
             return 0;
         } else if (timestamp >= end()) {
-            console.log("totalAllocation", totalAllocation);
             return totalAllocation;
         } else {
             uint256 cliffAmount = (totalAllocation * CLIFF_PERCENTAGE) / 100;
             uint256 remainingAmount = totalAllocation - cliffAmount;
 
-            console.log("cliffAmount", cliffAmount);
-            console.log("remainingAmount", remainingAmount);
             return
                 cliffAmount +
                 ((remainingAmount * (timestamp - start())) / duration());
