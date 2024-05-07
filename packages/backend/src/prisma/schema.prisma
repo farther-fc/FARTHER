@@ -21,6 +21,7 @@ model User {
 model Allocation {
   // Using hash of user ID, allocation type, chain ID, and airdrop start time as the unique identifier
   id        String         @id
+  newId     String         @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
   userId    Int
@@ -51,13 +52,14 @@ enum AllocationType {
 
 model Tweet {
   // Using twitter tweet id as the unique identifier
-  id            String     @id
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  allocationId  String
-  allocation    Allocation @relation(fields: [allocationId], references: [id])
-  authorId      String    @default("")
-  followerCount Int       @default(0)
+  id              String     @id
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  allocationId    String
+  newAllocationId String?    @db.Uuid
+  allocation      Allocation @relation(fields: [allocationId], references: [id])
+  authorId        String     @default("")
+  followerCount   Int        @default(0)
 
   // Each tweet has its own reward, which gets summed to the allocation amount
   reward String
