@@ -10,7 +10,7 @@ export default {
       name: "farther",
       handler: {
         graphql: {
-          endpoint: `https://farther.squids.live/farther-${ENVIRONMENT}/v/v1/graphql`,
+          endpoint: `https://farther.squids.live/farther-${ENVIRONMENT}/graphql`,
         },
       },
     },

@@ -7,7 +7,7 @@ if (ENVIRONMENT !== "production" && ENVIRONMENT !== "staging") {
 }
 
 const config: CodegenConfig = {
-  schema: `https://farther.squids.live/farther-${ENVIRONMENT}/v/v1/graphql`,
+  schema: `https://farther.squids.live/farther-${ENVIRONMENT}/graphql`,
   documents: ["src/**/*.tsx"],
   generates: {
     "./src/gql/": {
