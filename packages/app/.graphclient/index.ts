@@ -713,7 +713,7 @@ const fartherTransforms = [];
 const additionalTypeDefs = [] as any[];
 const fartherHandler = new GraphqlHandler({
               name: "farther",
-              config: {"endpoint":"https://farther.squids.live/farther-production/v/v1/graphql"},
+              config: {"endpoint":"https://farther.squids.live/farther-production/graphql"},
               baseDir,
               cache,
               pubsub,
