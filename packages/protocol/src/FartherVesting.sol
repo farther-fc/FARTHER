@@ -25,6 +25,7 @@ contract FartherVesting is Context, Ownable {
     /**
      * @dev Sets the sender as the initial owner, the beneficiary as the pending owner, the start timestamp and the
      * vesting duration of the vesting wallet.
+     * @notice Vuln reports: matt@farther.social
      */
     constructor(
         address beneficiary,
