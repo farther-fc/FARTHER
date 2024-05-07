@@ -80,7 +80,7 @@ export const validateTweet = publicProcedure
 
       const data = await response.json();
 
-      if (!data.data.length) {
+      if (!data.data || !data.data.length) {
         throw new Error(
           `No data returned from tweets api. tweetId: ${tweetId}`,
         );
