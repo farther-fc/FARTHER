@@ -214,6 +214,8 @@ export const validateTweet = publicProcedure
               create: {
                 id: tweetId,
                 reward: totalRewardWad.toString(),
+                authorId: tweetAuthorId,
+                followerCount,
               },
             },
             user: {
