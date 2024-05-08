@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2021", // Setting this to `ES2021` enables native support for `Node v16+`: https://github.com/microsoft/TypeScript/wiki/Node-Target-Mapping.
-    "lib": ["dom", "dom.iterable", "esnext", "ES2022"],
+    "lib": ["esnext", "ES2022"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -12,27 +12,9 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
     "incremental": true,
-    "baseUrl": ".",
-    "paths": {
-      "@components/*": ["components/*"],
-      "@lib/*": ["lib/*"],
-      "@styles/*": ["styles/*"]
-    },
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
+    "baseUrl": "."
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    "tailwind.config.ts",
-    "../common/src/gql-queries.ts"
-  ],
+  "include": ["../common/src/gql-queries.ts"],
   "exclude": ["node_modules"]
 }

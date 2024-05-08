@@ -1,7 +1,9 @@
 import {
+  FartherPositionsQuery,
   NFTPositionMngrAbi,
   UniswapV3StakerAbi,
   contractAddresses,
+  getBuiltGraphSDK,
   incentivePrograms,
   viemClient,
   viemPublicClient,
@@ -17,7 +19,6 @@ import React from "react";
 import { Address } from "viem";
 import { readContract } from "viem/actions";
 import { useReadContract } from "wagmi";
-import { FartherPositionsQuery, getBuiltGraphSDK } from "../../.graphclient";
 
 export type Position = FartherPositionsQuery["positions"][number] & {
   unclaimedRewards: bigint;

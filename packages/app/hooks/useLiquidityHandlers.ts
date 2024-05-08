@@ -1,4 +1,5 @@
 import {
+  FartherPositionsQuery,
   NFTPositionMngrAbi,
   UniswapV3StakerAbi,
   contractAddresses,
@@ -12,7 +13,6 @@ import { useToast } from "hooks/useToast";
 import React from "react";
 import { ContractFunctionExecutionError, encodeFunctionData } from "viem";
 import { useWriteContract } from "wagmi";
-import { FartherPositionsQuery } from "../.graphclient";
 
 export type Position = FartherPositionsQuery["positions"][number] & {
   unclaimedRewards: bigint;

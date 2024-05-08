@@ -4,9 +4,6 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "codegen:prod": "dotenv -e ../../.env.production pnpm graphclient build",
-    "codegen:staging": "dotenv -e ../../.env.staging pnpm graphclient build",
-    "graph:dev": "dotenv -e ../../.env.staging graphclient serve-dev",
     "build:web": "pnpm next build",
     "start": "pnpm codegen && next start",
     "lint": "next lint",

@@ -9,6 +9,8 @@
   ],
   "main": "src/index.ts",
   "scripts": {
+    "codegen:prod": "dotenv -e ../../.env.production pnpm graphclient build && mv .graphclient src/graphclient",
+    "codegen:staging": "dotenv -e ../../.env.staging pnpm graphclient build && mv .graphclient src/graphclient",
     "env:dev": "dotenv -e ../../.env -- ",
     "env:staging": "dotenv -e ../../.env.staging -- ",
     "env:prod": "dotenv -e ../../.env.production -- ",
@@ -16,6 +18,7 @@
     "getAirdropData:prod": "pnpm env:prod ts-node src/scripts/getAirdropData.ts"
   },
   "devDependencies": {
+    "@graphprotocol/client-cli": "3.0.0",
     "@typescript-eslint/eslint-plugin": "^6.17.0",
     "@typescript-eslint/parser": "^6.17.0",
     "@vercel/style-guide": "^5.1.0",
