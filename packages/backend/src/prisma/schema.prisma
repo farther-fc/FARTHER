@@ -21,7 +21,6 @@ model User {
 model Allocation {
   // Using hash of user ID, allocation type, chain ID, and airdrop start time as the unique identifier
   id        String         @id
-  newId     String         @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
   userId    Int
@@ -56,7 +55,6 @@ model Tweet {
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
   allocationId    String
-  newAllocationId String?    @db.Uuid
   allocation      Allocation @relation(fields: [allocationId], references: [id])
   authorId        String     @default("")
   followerCount   Int        @default(0)

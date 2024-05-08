@@ -174,7 +174,6 @@ export const validateTweet = publicProcedure
               id: tweetId,
               reward: totalRewardWad.toString(),
               allocationId: pendingAllocation.id,
-              newAllocationId: pendingAllocation.newId,
               authorId: tweetAuthorId,
               followerCount,
             },
@@ -203,14 +202,12 @@ export const validateTweet = publicProcedure
         await prisma.allocation.create({
           data: {
             id,
-            newId: id,
             type: "EVANGELIST",
             amount: totalRewardWad.toString(),
             baseAmount: (BigInt(TWEET_BASE_TOKENS) * WAD_SCALER).toString(),
             tweets: {
               create: {
                 id: tweetId,
-                newAllocationId: id,
                 reward: totalRewardWad.toString(),
                 authorId: tweetAuthorId,
                 followerCount,
