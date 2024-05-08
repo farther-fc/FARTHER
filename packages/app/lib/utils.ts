@@ -63,11 +63,11 @@ export const formatAirdropTime = (date: Date) => {
   });
 };
 
-export const formatWad = (amount: string, formatSchema: string = "0,0.00") => {
+export const formatWad = (amount: bigint, formatSchema: string = "0,0.00") => {
   const preppedAmount =
-    BigInt(amount) < BigInt(DUST_AMOUNT) // Anything below this is effectively dust and leads to NaN
+    amount < BigInt(DUST_AMOUNT) // Anything below this is effectively dust and leads to NaN
       ? BigInt(0)
-      : BigInt(amount);
+      : amount;
   return numeral(formatEther(preppedAmount)).format(formatSchema);
 };
 

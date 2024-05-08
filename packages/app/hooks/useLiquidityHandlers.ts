@@ -22,7 +22,7 @@ export function useLiquidityHandlers() {
   const { account, refetchBalance } = useUser();
   const logError = useLogError();
   const { toast } = useToast();
-  const { refetchPositions, refetchClaimableRewards } = useLiquidity();
+  const { refetchIndexerData, refetchClaimableRewards } = useLiquidity();
 
   const {
     writeContractAsync: transferToStakerContract,
@@ -78,7 +78,7 @@ export function useLiquidityHandlers() {
         msg: "Your position is now staked. You will accrue rewards while the price of Farther remains in your position's liquidity range.",
       });
 
-      await refetchPositions();
+      await refetchIndexerData();
     } catch (error) {
       logError({ error });
     }
@@ -148,6 +148,7 @@ export function useLiquidityHandlers() {
       setTimeout(() => {
         refetchClaimableRewards();
         refetchBalance();
+        refetchIndexerData();
       }, 3000);
     } catch (error) {
       if (error instanceof ContractFunctionExecutionError) {

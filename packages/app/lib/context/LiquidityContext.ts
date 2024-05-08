@@ -48,10 +48,10 @@ const LiquidityContext = createContainer(function () {
   });
 
   const {
-    data: positionsData,
+    data: indexerData,
     error: positionsFetchError,
     isLoading: _positionsLoading,
-    refetch: refetchPositions,
+    refetch: refetchIndexerData,
   } = useQuery({
     queryKey: [account.address],
     queryFn: () => {
@@ -64,16 +64,16 @@ const LiquidityContext = createContainer(function () {
     enabled: !!account.address,
   });
 
-  const positionsLoading =
+  const indexerDataLoading =
     _positionsLoading ||
-    (!!positionsData?.positions.length && !positions?.length);
+    (!!indexerData?.positions.length && !positions?.length);
 
   const fetchPositionLiqAndRewards = React.useCallback(async () => {
-    if (!positionsData?.positions.length || !account.address) return;
+    if (!indexerData?.positions.length || !account.address) return;
     try {
       const unclaimedRewards = await pMap(
-        positionsData.positions,
-        async (p: (typeof positionsData.positions)[0]) => {
+        indexerData.positions,
+        async (p: (typeof indexerData.positions)[0]) => {
           try {
             const [unclaimedReward] = await readContract(viemClient, {
               abi: UniswapV3StakerAbi,
@@ -104,8 +104,8 @@ const LiquidityContext = createContainer(function () {
       );
 
       const liquidity = await pMap(
-        positionsData.positions,
-        async (p: (typeof positionsData.positions)[0]) => {
+        indexerData.positions,
+        async (p: (typeof indexerData.positions)[0]) => {
           const info = await viemPublicClient.readContract({
             abi: NFTPositionMngrAbi,
             address: contractAddresses.NFT_POSITION_MANAGER,
@@ -120,7 +120,7 @@ const LiquidityContext = createContainer(function () {
         { concurrency: 3 },
       );
 
-      const sortedPositions = positionsData.positions
+      const sortedPositions = indexerData.positions
         .map((p, i) => ({
           ...p,
           unclaimedRewards: unclaimedRewards[i],
@@ -142,7 +142,7 @@ const LiquidityContext = createContainer(function () {
         error,
       });
     }
-  }, [positionsData, account.address, logError]);
+  }, [indexerData, account.address, logError]);
 
   React.useEffect(() => {
     if (!positionsFetchError) return;
@@ -166,19 +166,13 @@ const LiquidityContext = createContainer(function () {
 
   React.useEffect(() => {
     if (
-      !positionsData?.positions.length ||
+      !indexerData?.positions.length ||
       (pathname !== ROUTES.liquidty.path && pathname !== ROUTES.rewards.path)
     )
       return;
 
-    refetchPositions();
     fetchPositionLiqAndRewards();
-  }, [
-    positionsData?.positions.length,
-    refetchPositions,
-    fetchPositionLiqAndRewards,
-    pathname,
-  ]);
+  }, [indexerData?.positions.length, fetchPositionLiqAndRewards, pathname]);
 
   /** Wipe positions when account is changed */
   React.useEffect(() => {
@@ -187,10 +181,13 @@ const LiquidityContext = createContainer(function () {
   }, [account.address]);
 
   return {
-    positionsLoading,
+    rewardsClaimed:
+      (indexerData?.accountById?.rewardsClaimed as string | undefined) ||
+      BigInt(0),
+    indexerDataLoading,
     positions,
     claimableRewards: claimableRewards || BigInt(0),
-    refetchPositions,
+    refetchIndexerData,
     refetchClaimableRewards,
     claimableRewardsLoading,
   };

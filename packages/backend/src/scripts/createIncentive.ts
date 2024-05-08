@@ -49,10 +49,10 @@ async function createIncentive() {
     account,
   });
 
-  console.log({ approveHash });
+  console.info({ approveHash });
 
   // Wait 15 seconds
-  console.log("Waiting 15 seconds...");
+  console.info("Waiting 15 seconds...");
   await new Promise((resolve) => setTimeout(resolve, 15_000));
 
   const createIncentiveHash = await wallet.writeContract({
@@ -74,7 +74,7 @@ async function createIncentive() {
     account,
   });
 
-  console.log({ createIncentiveHash });
+  console.info({ createIncentiveHash });
 }
 
 createIncentive().catch(console.error);

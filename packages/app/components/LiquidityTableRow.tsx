@@ -81,17 +81,11 @@ export function LiquidityTableRow({ position }: { position: Position }) {
         </ExternalLink>
       </TableCell>
       <TableCell className="text-right">
-        {formatWad(unclaimedRewards.toString())}
+        {formatWad(unclaimedRewards)}
       </TableCell>
       <TableCell className="pr-0 text-right">
         {positionClosed ? (
-          <Popover
-            content={
-              <div className="max-w-[300px] rounded-2xl p-4 text-left">
-                This position currently has no liquidity.
-              </div>
-            }
-          >
+          <Popover content={<>This position currently has no liquidity.</>}>
             <div>
               <Button sentryId="" className="w-36" disabled={true}>
                 Closed <Info className="inline w-4 pl-1" />

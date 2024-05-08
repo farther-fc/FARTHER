@@ -17,8 +17,8 @@ export function LiquidityInfo() {
       <p>
         {allocationRatios.LIQUIDITY_REWARDS * 100}% of the total token supply is
         allocated to liquidity rewards. The first rewards program is for the
-        Uniswap V3 ETH-FARTHER (0.3%) pool on Base after the first airdrop. It
-        will last for six months. Additional rewards programs will follow.
+        Uniswap V3 ETH-FARTHER (0.3%) pool on Base after the first airdrop on
+        May 1, 2024. It will last for six months.
       </p>
       <h2>How to participate</h2>
       <ol>

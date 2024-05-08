@@ -39,7 +39,7 @@ async function getTweet() {
       (json.data.public_metrics.followers_count as number)) ||
     0;
 
-  console.log({ authorId, tweetText, followerCount });
+  console.info({ authorId, tweetText, followerCount });
 }
 
 getTweet();

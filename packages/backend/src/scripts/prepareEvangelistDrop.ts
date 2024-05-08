@@ -126,7 +126,7 @@ async function prepareEvangelistDrop() {
     ),
   );
 
-  console.log({
+  console.info({
     root,
     amount: allocationSum,
     recipients: recipientsWithAddress.length,
@@ -146,7 +146,7 @@ async function getUserData(fids: number[]) {
     }));
   }
 
-  console.log(fids);
+  console.info(fids);
 
   return fids.map((fid) => {
     if (fid === DEV_USER_FID) {

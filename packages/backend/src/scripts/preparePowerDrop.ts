@@ -196,7 +196,7 @@ async function preparePowerDrop() {
     .map((r) => Number(r.amount / WAD_SCALER))
     .sort((a, b) => a - b);
 
-  console.log({
+  console.info({
     root,
     amount: allocationSum,
     minUserAllocation: sortedAllocations[0],

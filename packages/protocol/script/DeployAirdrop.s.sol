@@ -23,12 +23,11 @@ contract DeployAirdrop is Script {
         vm.startBroadcast();
 
         // Check if code exists at token address
-        if(TOKEN.code.length == 0) {
-            console.log("Token contract does not exist at address");
+        if (TOKEN.code.length == 0) {
+            console.info("Token contract does not exist at address");
             vm.stopBroadcast();
             return;
         }
-
 
         FartherAirdrop airdrop = new FartherAirdrop(
             address(TOKEN),

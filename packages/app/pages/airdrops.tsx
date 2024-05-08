@@ -28,7 +28,7 @@ export default function AirdropPage() {
             <h3 className="mt-0 border-none">Congratulations 🎉</h3>
             {powerDrop.airdrop?.address ? (
               <p>
-                You have <strong>{formatWad(powerDrop.amount)} </strong>
+                You have <strong>{formatWad(BigInt(powerDrop.amount))} </strong>
                 tokens ready to claim on the{" "}
                 <Link href={ROUTES.rewards.path}>rewards page</Link>!
               </p>

@@ -1,6 +1,6 @@
+import axios from "axios";
 import * as functions from "firebase-functions";
 import { defineString } from "firebase-functions/params";
-import axios from "axios";
 
 const CRON_SECRET = defineString("CRON_SECRET");
 const ENV = defineString("NEXT_PUBLIC_ENVIRONMENT");
@@ -18,7 +18,7 @@ exports.updatePowerUsers = functions.pubsub
           `updatePowerUsers failed with status ${response.status}`,
         );
       }
-      console.log("updatePowerUsers success");
+      console.info("updatePowerUsers success");
     } catch (e: unknown) {
       if (e instanceof Error) {
         console.error(e);

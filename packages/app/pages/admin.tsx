@@ -47,13 +47,9 @@ function AdminPage() {
                 {evangelistAllocations?.filter((a) => a.hasPowerBadge).length}{" "}
                 with power badge)
               </p>
+              <p>Total allocated: {formatWad(evangelistTotalAllocated)} </p>
               <p>
-                Total allocated:{" "}
-                {formatWad(evangelistTotalAllocated.toString())}{" "}
-              </p>
-              <p>
-                Total for power users:{" "}
-                {formatWad(powerUserTotalAllocated.toString())}{" "}
+                Total for power users: {formatWad(powerUserTotalAllocated)}{" "}
               </p>
             </div>
           </>

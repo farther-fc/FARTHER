@@ -1,5 +1,4 @@
 import { InfoCard } from "@components/InfoCard";
-import { NoUserFoundCard } from "@components/NoUserFoundCard";
 import { RewardsTableRow } from "@components/RewardsTableRow";
 import { FartherAccountLink } from "@components/nav/FartherLinks";
 import { Button } from "@components/ui/Button";
@@ -92,13 +91,10 @@ export default function RewardsPage() {
                         </TableCell>
                         <TableCell className="pr-1 text-right">
                           {formatWad(
-                            positions
-                              .reduce(
-                                (acc, pos) =>
-                                  acc + BigInt(pos.unclaimedRewards),
-                                BigInt(0),
-                              )
-                              .toString(),
+                            positions.reduce(
+                              (acc, pos) => acc + BigInt(pos.unclaimedRewards),
+                              BigInt(0),
+                            ),
                           )}
                         </TableCell>
                         <TableCell className="pr-0 text-right">
@@ -118,7 +114,7 @@ export default function RewardsPage() {
                           Liquidity
                         </TableCell>
                         <TableCell className="pr-1 text-right">
-                          {formatWad(claimableRewards.toString())}
+                          {formatWad(claimableRewards)}
                         </TableCell>
                         <TableCell className="pr-0 text-right">
                           <Button
@@ -134,8 +130,6 @@ export default function RewardsPage() {
                   </TableBody>
                 </Table>
               </div>
-            ) : !user ? (
-              <NoUserFoundCard />
             ) : (
               <InfoCard variant="muted">
                 No rewards found. If you believe this is an error, please reach{" "}
