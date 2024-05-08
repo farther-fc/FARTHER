@@ -23,8 +23,8 @@ model Allocation {
   id        String         @id
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
-  userId    Int
-  user      User           @relation(fields: [userId], references: [id])
+  userId    Int?
+  user      User?          @relation(fields: [userId], references: [id])
   airdropId String?        @db.Uuid
   airdrop   Airdrop?       @relation(fields: [airdropId], references: [id])
   isClaimed Boolean        @default(false)

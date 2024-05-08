@@ -9,6 +9,7 @@ import {
 } from "@farther/common";
 import axios from "axios";
 import { formatEther, keccak256 } from "ethers";
+import { AllocationType, prisma } from "../prisma";
 
 type Account = {
   id: string;
@@ -20,7 +21,7 @@ const format = (n: string | bigint) => Number(formatEther(n)).toLocaleString();
 const totalIncentiveAllocation =
   BigInt(tokenAllocations.liquidityRewards / 3) * WAD_SCALER;
 
-async function prepareLPBonusDrop() {
+async function prepareLpBonusDrop() {
   // await airdropSanityCheck();
 
   // Get all liquidity providers who have claimed rewards
@@ -72,101 +73,33 @@ async function prepareLPBonusDrop() {
     diff: format(diff),
   });
 
-  // for (const recipient of dbRecipients) {
-  //   if (recipient.allocations.length > 1) {
-  //     throw new Error(`User ${recipient.id} has multiple allocations`);
-  //   }
-  // }
+  // Get all past liquidity reward allocations
+  const allocations = await prisma.allocation.findMany({
+    where: {
+      type: AllocationType.LIQUIDITY,
+    },
+    select: {
+      address: true,
+      amount: true,
+    },
+  });
 
-  // const recipients = dbRecipients.map(({ allocations, ...rest }) => ({
-  //   ...rest,
-  //   allocation: allocations[0],
-  // }));
+  // Group by address and sum amounts for each address
+  const pastAllocationTotals = allocations.reduce(
+    (acc, a) => ({
+      ...acc,
+      [a.address]: (acc[a.address] || BigInt(0)) + BigInt(a.amount),
+    }),
+    {},
+  );
 
-  // // Get their addresses from Neynar
-  // const userData = await getUserData(recipients.map((r) => r.id));
+  // Subtract past liquidity reward allocations from each account's claimed rewards
 
-  // const combinedData = recipients.map((r) => ({
-  //   ...r,
-  //   address: userData.find((u) => u.fid === r.id)?.address,
-  // }));
+  // Multiply each by two to get the LP bonus drop amount
 
-  // const recipientsWithAddress = combinedData.filter((r) => r.address);
-  // const recipientsWithoutAddress = combinedData.filter((r) => !r.address);
+  // Create airdrop
 
-  // if (recipientsWithoutAddress.length > 0) {
-  //   await writeFile(
-  //     `airdrops/${ENVIRONMENT}/${AllocationType.EVANGELIST.toLowerCase()}-${NEXT_AIRDROP_START_TIME.toISOString()}-null-addresses.json`,
-  //     JSON.stringify(
-  //       recipientsWithoutAddress.map((r) => ({
-  //         fid: r.id,
-  //         amount: r.allocation.amount.toString(),
-  //       })),
-  //       null,
-  //       2,
-  //     ),
-  //   );
-  // }
-  // const allocationSum = recipientsWithAddress
-  //   .map((r) => r.allocation)
-  //   .reduce((acc, a) => acc + BigInt(a.amount), BigInt(0));
-
-  // // Create a merkle tree with the above recipients
-  // const rawLeafData = recipientsWithAddress.map((r, i) => ({
-  //   index: i,
-  //   address: r.address as `0x${string}`,
-  //   amount: r.allocation.amount.toString(), // Amount is not needed in the merkle proof
-  // }));
-
-  // const root = getMerkleRoot(rawLeafData);
-
-  // // Create Airdrop
-  // const airdrop = await prisma.airdrop.create({
-  //   data: {
-  //     chainId: CHAIN_ID,
-  //     amount: allocationSum.toString(),
-  //     root,
-  //     address:
-  //       ENVIRONMENT === "development" ? ANVIL_AIRDROP_ADDRESS : undefined,
-  //     startTime: NEXT_AIRDROP_START_TIME,
-  //     endTime: NEXT_AIRDROP_END_TIME,
-  //   },
-  // });
-
-  // // Add allocations to db
-  // await prisma.allocation.updateMany({
-  //   data: recipientsWithAddress.map((r, i) => ({
-  //     id: uuidv4(),
-  //     index: i,
-  //     airdropId: airdrop.id,
-  //     userId: r.id,
-  //     type: AllocationType.EVANGELIST,
-  //     address: r.address.toLowerCase(),
-  //   })),
-  // });
-
-  // await writeFile(
-  //   `airdrops/${NETWORK}/${AllocationType.EVANGELIST.toLowerCase()}-${NEXT_AIRDROP_START_TIME.toISOString()}.json`,
-  //   JSON.stringify(
-  //     {
-  //       root,
-  //       amount: allocationSum.toString(),
-  //       rawLeafData,
-  //     },
-  //     null,
-  //     2,
-  //   ),
-  // );
-
-  // console.info({
-  //   root,
-  //   amount: allocationSum,
-  //   recipients: recipientsWithAddress.length,
-  // });
-
-  // console.warn(
-  //   `\n\nFOLLOW NEXT STEPS IN RUNBOOK!: \n https://www.notion.so/Airdrop-runbook-ad7d4c7116444d35ab76705eca2d6c98\n\n`,
-  // );
+  // Save allocations
 }
 
-prepareLPBonusDrop().catch(console.error);
+prepareLpBonusDrop().catch(console.error);

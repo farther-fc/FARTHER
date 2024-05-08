@@ -8,6 +8,8 @@ import {Address} from "openzeppelin/utils/Address.sol";
 import {Context} from "openzeppelin/utils/Context.sol";
 import {Ownable} from "openzeppelin/access/Ownable.sol";
 
+import "forge-std/console.sol";
+
 /**
  * @dev Forked from OpenZeppelin (finance/VestingWallet.sol)
  * Adds a cliff to the vesting schedule.
@@ -73,6 +75,7 @@ contract FartherVesting is Context, Ownable {
      * @dev Amount of token already released
      */
     function released(address token) public view virtual returns (uint256) {
+        console.log("released", _erc20Released[token]);
         return _erc20Released[token];
     }
 
@@ -88,6 +91,11 @@ contract FartherVesting is Context, Ownable {
      * IERC20 contract.
      */
     function releasable(address token) public view virtual returns (uint256) {
+        console.log(
+            "vestedAmount(token, uint64(block.timestamp))",
+            vestedAmount(token, uint64(block.timestamp))
+        );
+        console.log("released(token)", released(token));
         return vestedAmount(token, uint64(block.timestamp)) - released(token);
     }
 
@@ -151,9 +159,13 @@ contract FartherVesting is Context, Ownable {
         } else if (timestamp >= end()) {
             return totalAllocation;
         } else {
+            console.log("about to do math");
             uint256 cliffAmount = (totalAllocation * CLIFF_PERCENTAGE) / 100;
             uint256 remainingAmount = totalAllocation - cliffAmount;
 
+            console.log("totalAllocation", totalAllocation);
+            console.log("cliffAmount", cliffAmount);
+            console.log("remainingAmount", remainingAmount);
             return
                 cliffAmount +
                 ((remainingAmount * (timestamp - start())) / duration());
