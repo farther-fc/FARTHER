@@ -221,7 +221,11 @@ async function getPowerUsers() {
 
   // 2. Filter the ones who have a power badge & verified address
   const data = latestUserData
-    .filter((u) => !!u.power_badge && !!u.verified_addresses.eth_addresses[0])
+    .filter(
+      (u) =>
+        powerUserFids.includes(u.fid) &&
+        !!u.verified_addresses.eth_addresses[0],
+    )
     .map((u) => ({
       fid: u.fid,
       address: u.verified_addresses.eth_addresses[0].toLowerCase(),

@@ -1,11 +1,13 @@
 import {
   DEV_USER_ADDRESS,
   DEV_USER_FID,
+  WARPCAST_API_BASE_URL,
   isProduction,
   neynarClient,
 } from "@farther/common";
 import { PENDING_ALLOCATION_ID } from "@lib/constants";
 import { apiSchemas } from "@lib/types/apiSchemas";
+import _ from "lodash";
 import { publicProcedure } from "server/trpc";
 import { AllocationType, prisma } from "../../backend/src/prisma";
 
@@ -121,20 +123,20 @@ async function getUserFromNeynar(address: string) {
   ]);
 
   // Neynar returns weird data structure
-  const accounts = response[address] ? response[address] : [];
+  const rawUserData = response[address] ? response[address] : [];
 
-  const powerBadgeAccounts = accounts.filter((a) => !!a.power_badge);
+  const powerBadgeFids = await getPowerBadgeFids();
+  const accounts = rawUserData.map((a) => ({
+    ..._.cloneDeep(a),
+    // Need to override Neynar's data because they don't update power badge status frequently
+    power_badge: powerBadgeFids.includes(a.fid),
+  }));
 
-  // TODO: enable user to select which account to use
-  const user =
-    // If only one, use that
-    accounts.length === 1
-      ? accounts[0]
-      : // If any power badge accounts, use the first one
-        powerBadgeAccounts.length
-        ? powerBadgeAccounts[0]
-        : // Otherwise, use the first account
-          accounts[0];
+  // Sort power users to the top
+  accounts.sort((a, b) => (b.power_badge ? 1 : 0) - (a.power_badge ? 1 : 0));
+
+  // Take the first one
+  const user = accounts[0];
 
   if (!user) {
     return null;
@@ -148,4 +150,12 @@ async function getUserFromNeynar(address: string) {
     power_badge: user?.power_badge,
     verified_address: user?.verified_addresses.eth_addresses[0],
   };
+}
+
+async function getPowerBadgeFids() {
+  const warpcastResponse = (await (
+    await fetch(`${WARPCAST_API_BASE_URL}power-badge-users`)
+  ).json()) as { result: { fids: number[] } };
+
+  return warpcastResponse.result.fids;
 }
