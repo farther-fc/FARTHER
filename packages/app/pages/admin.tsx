@@ -13,6 +13,11 @@ function AdminPage() {
       BigInt(0),
     ) || BigInt(0);
 
+  const powerUserTotalAllocated =
+    evangelistAllocations
+      ?.filter((a) => a.hasPowerBadge)
+      .reduce((acc, cur) => acc + BigInt(cur.amount), BigInt(0)) || BigInt(0);
+
   const tweetCount = evangelistAllocations?.reduce(
     (acc, cur) => cur.tweets.length + acc,
     0,
@@ -45,6 +50,10 @@ function AdminPage() {
               <p>
                 Total allocated:{" "}
                 {formatWad(evangelistTotalAllocated.toString())}{" "}
+              </p>
+              <p>
+                Total for power users:{" "}
+                {formatWad(powerUserTotalAllocated.toString())}{" "}
               </p>
             </div>
           </>
