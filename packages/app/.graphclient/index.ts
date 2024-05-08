@@ -772,6 +772,12 @@ const merger = new(BareMerger as any)({
           return printWithCache(FartherPositionsDocument);
         },
         location: 'FartherPositionsDocument.graphql'
+      },{
+        document: LpRewardClaimersDocument,
+        get rawSDL() {
+          return printWithCache(LpRewardClaimersDocument);
+        },
+        location: 'LpRewardClaimersDocument.graphql'
       }
     ];
     },
@@ -818,6 +824,11 @@ export type FartherPositionsQueryVariables = Exact<{
 
 export type FartherPositionsQuery = { positions: Array<Pick<Position, 'id' | 'isStaked' | 'isHeldByStaker'>>, accountById?: Maybe<Pick<Account, 'id' | 'rewardsClaimed'>> };
 
+export type LPRewardClaimersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LPRewardClaimersQuery = { accounts: Array<Pick<Account, 'id' | 'rewardsClaimed'>> };
+
 
 export const FartherPositionsDocument = gql`
     query FartherPositions($ownerId: String!, $poolId: String!) {
@@ -832,6 +843,15 @@ export const FartherPositionsDocument = gql`
   }
 }
     ` as unknown as DocumentNode<FartherPositionsQuery, FartherPositionsQueryVariables>;
+export const LPRewardClaimersDocument = gql`
+    query LPRewardClaimers {
+  accounts(where: {rewardsClaimed_gt: 0}) {
+    id
+    rewardsClaimed
+  }
+}
+    ` as unknown as DocumentNode<LPRewardClaimersQuery, LPRewardClaimersQueryVariables>;
+
 
 
 export type Requester<C = {}, E = unknown> = <R, V>(doc: DocumentNode, vars?: V, options?: C) => Promise<R> | AsyncIterable<R>
@@ -839,6 +859,9 @@ export function getSdk<C, E>(requester: Requester<C, E>) {
   return {
     FartherPositions(variables: FartherPositionsQueryVariables, options?: C): Promise<FartherPositionsQuery> {
       return requester<FartherPositionsQuery, FartherPositionsQueryVariables>(FartherPositionsDocument, variables, options) as Promise<FartherPositionsQuery>;
+    },
+    LPRewardClaimers(variables?: LPRewardClaimersQueryVariables, options?: C): Promise<LPRewardClaimersQuery> {
+      return requester<LPRewardClaimersQuery, LPRewardClaimersQueryVariables>(LPRewardClaimersDocument, variables, options) as Promise<LPRewardClaimersQuery>;
     }
   };
 }

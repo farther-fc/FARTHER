@@ -9,8 +9,6 @@
   ],
   "main": "src/index.ts",
   "scripts": {
-    "codegen:prod": "dotenv -e ../../.env.production pnpm graphclient build && mv .graphclient src/graphclient",
-    "codegen:staging": "dotenv -e ../../.env.staging pnpm graphclient build && mv .graphclient src/graphclient",
     "env:dev": "dotenv -e ../../.env -- ",
     "env:staging": "dotenv -e ../../.env.staging -- ",
     "env:prod": "dotenv -e ../../.env.production -- ",
@@ -22,6 +20,7 @@
     "@typescript-eslint/eslint-plugin": "^6.17.0",
     "@typescript-eslint/parser": "^6.17.0",
     "@vercel/style-guide": "^5.1.0",
+    "graphql-tag": "^2.12.6",
     "eslint-config-next": "^14.1.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-turbo": "^1.11.3",

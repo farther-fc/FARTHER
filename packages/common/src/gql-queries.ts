@@ -13,3 +13,12 @@ export const FartherPositions = gql`
     }
   }
 `;
+
+export const LPRewardClaimers = gql`
+  query LPRewardClaimers {
+    accounts(where: { rewardsClaimed_gt: 0 }) {
+      id
+      rewardsClaimed
+    }
+  }
+`;

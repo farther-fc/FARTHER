@@ -1,9 +1,8 @@
+import { FartherPositionsQuery, getBuiltGraphSDK } from ".graphclient";
 import {
-  FartherPositionsQuery,
   NFTPositionMngrAbi,
   UniswapV3StakerAbi,
   contractAddresses,
-  getBuiltGraphSDK,
   incentivePrograms,
   viemClient,
   viemPublicClient,
