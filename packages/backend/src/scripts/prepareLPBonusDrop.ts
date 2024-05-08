@@ -1,20 +1,76 @@
-import { ENVIRONMENT, LPRewardClaimers } from "@farther/common";
+import {
+  ENVIRONMENT,
+  UniswapV3StakerAbi,
+  WAD_SCALER,
+  contractAddresses,
+  incentivePrograms,
+  tokenAllocations,
+  viemPublicClient,
+} from "@farther/common";
 import axios from "axios";
-import { airdropSanityCheck } from "./airdropSanityCheck";
+import { formatEther, keccak256 } from "ethers";
+
+type Account = {
+  id: string;
+  rewardsClaimed: string;
+};
+
+const format = (n: string | bigint) => Number(formatEther(n)).toLocaleString();
+
+const totalIncentiveAllocation =
+  BigInt(tokenAllocations.liquidityRewards / 3) * WAD_SCALER;
 
 async function prepareLPBonusDrop() {
-  await airdropSanityCheck();
+  // await airdropSanityCheck();
 
   // Get all liquidity providers who have claimed rewards
   const query = await axios({
     url: `https://farther.squids.live/farther-${ENVIRONMENT}/graphql`,
     method: "post",
     data: {
-      query: LPRewardClaimers,
+      query: `
+      query LPRewardClaimers {
+        accounts(where: { rewardsClaimed_gt: 0 }) {
+          id
+          rewardsClaimed
+        }
+      }
+    `,
     },
   });
 
-  console.log(query);
+  const accounts: Account[] = query.data.data.accounts;
+
+  for (const account of accounts) {
+    console.log(account.id, format(account.rewardsClaimed));
+  }
+
+  const totalRewards = accounts.reduce(
+    (acc, a) => acc + BigInt(a.rewardsClaimed),
+    BigInt(0),
+  );
+
+  const [totalRewardsUnclaimed] = await viemPublicClient.readContract({
+    abi: UniswapV3StakerAbi,
+    address: contractAddresses.UNISWAP_V3_STAKER,
+    functionName: "incentives",
+    args: [
+      keccak256(
+        incentivePrograms[1].incentiveKey as `0x${string}`,
+      ) as `0x${string}`,
+    ],
+  });
+
+  const totalClaimed = totalIncentiveAllocation - totalRewardsUnclaimed;
+  const diff = totalRewards - totalClaimed;
+
+  console.log({
+    totalIncentiveAllocation: format(totalIncentiveAllocation),
+    totalRewardsUnclaimed: format(totalRewardsUnclaimed),
+    totalClaimed: format(totalClaimed),
+    totalRewards: format(totalRewards),
+    diff: format(diff),
+  });
 
   // for (const recipient of dbRecipients) {
   //   if (recipient.allocations.length > 1) {

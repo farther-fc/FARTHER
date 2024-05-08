@@ -24,7 +24,7 @@ contract DeployAirdrop is Script {
 
         // Check if code exists at token address
         if (TOKEN.code.length == 0) {
-            console.info("Token contract does not exist at address");
+            console.log("Token contract does not exist at address");
             vm.stopBroadcast();
             return;
         }

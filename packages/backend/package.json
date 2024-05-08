@@ -9,7 +9,7 @@
     "env:staging": "dotenv -e ../../.env.staging -- ",
     "env:prod": "dotenv -e ../../.env.production -- ",
     "getTweet": "pnpm env:prod ts-node src/scripts/getTweet.ts",
-    "prepareLPBonusDrop:prod": "pnpm env:prod ts-node src/scripts/prepareLPBonusDrop.ts",
+    "prepareLPBonusDrop:prod": "pnpm env:prod ts-node -T src/scripts/prepareLPBonusDrop.ts",
     "preparePowerDrop:prod": "pnpm env:prod ts-node src/scripts/preparePowerDrop.ts",
     "preparePowerDrop:staging": "pnpm env:staging ts-node src/scripts/preparePowerDrop.ts",
     "preparePowerDrop:dev": "pnpm env:dev ts-node src/scripts/preparePowerDrop.ts",
@@ -45,8 +45,7 @@
     "pg": "^8.11.3",
     "ts-jest": "^29.1.2",
     "underscore": "^1.13.6",
-    "uuid": "^9.0.1",
-    "viem": "2.9.32"
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@prisma/client": "^5.1.0",

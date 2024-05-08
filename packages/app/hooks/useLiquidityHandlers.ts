@@ -6,7 +6,6 @@ import {
 } from "@farther/common";
 import { useLiquidity } from "@lib/context/LiquidityContext";
 import { useUser } from "@lib/context/UserContext";
-import { getIncentiveKey } from "@lib/utils";
 import { useLogError } from "hooks/useLogError";
 import { useToast } from "hooks/useToast";
 import React from "react";
@@ -63,14 +62,7 @@ export function useLiquidityHandlers() {
           account.address,
           contractAddresses.UNISWAP_V3_STAKER,
           BigInt(tokenId),
-          getIncentiveKey({
-            rewardToken: incentivePrograms[1].rewardToken,
-            pool: incentivePrograms[1].pool,
-            startTime: incentivePrograms[1].startTime,
-            endTime: incentivePrograms[1].endTime,
-            refundee: incentivePrograms[1].refundee,
-            hashed: false,
-          }),
+          incentivePrograms[1].incentiveKey,
         ],
       });
 
