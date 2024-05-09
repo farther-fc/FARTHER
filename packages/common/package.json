@@ -16,6 +16,7 @@
     "getAirdropData:prod": "pnpm env:prod ts-node src/scripts/getAirdropData.ts"
   },
   "devDependencies": {
+    "@graphprotocol/client-cli": "3.0.0",
     "@typescript-eslint/eslint-plugin": "^6.17.0",
     "@typescript-eslint/parser": "^6.17.0",
     "@vercel/style-guide": "^5.1.0",
@@ -23,6 +24,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-turbo": "^1.11.3",
     "eslint-plugin-only-warn": "^1.1.0",
+    "graphql-tag": "^2.12.6",
     "typescript": "^5.4.5"
   },
   "dependencies": {
@@ -31,6 +33,6 @@
     "ethers": "^6.11.1",
     "merkletreejs": "^0.3.11",
     "ts-node": "^10.9.2",
-    "viem": "2.9.32"
+    "viem": "2.10.2"
   }
 }

@@ -2,7 +2,7 @@ import { DUST_AMOUNT } from "@farther/common";
 import { clsx, type ClassValue } from "clsx";
 import numeral from "numeral";
 import { twMerge } from "tailwind-merge";
-import { Address, encodeAbiParameters, formatEther, keccak256 } from "viem";
+import { Address, formatEther } from "viem";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -63,45 +63,12 @@ export const formatAirdropTime = (date: Date) => {
   });
 };
 
-export const formatWad = (amount: string, formatSchema: string = "0,0.00") => {
+export const formatWad = (amount: bigint, formatSchema: string = "0,0.00") => {
   const preppedAmount =
-    BigInt(amount) < BigInt(DUST_AMOUNT) // Anything below this is effectively dust and leads to NaN
+    amount < BigInt(DUST_AMOUNT) // Anything below this is effectively dust and leads to NaN
       ? BigInt(0)
-      : BigInt(amount);
+      : amount;
   return numeral(formatEther(preppedAmount)).format(formatSchema);
-};
-
-export const getIncentiveKey = ({
-  rewardToken,
-  pool,
-  startTime,
-  endTime,
-  refundee,
-  hashed,
-}: {
-  rewardToken: Address;
-  pool: Address;
-  startTime: number;
-  endTime: number;
-  refundee: Address;
-  hashed: boolean;
-}) => {
-  const encodedData = encodeAbiParameters(
-    [
-      { type: "address", name: "rewardToken" },
-      { type: "address", name: "pool" },
-      { type: "uint256", name: "startTime" },
-      { type: "uint256", name: "endTime" },
-      { type: "address", name: "refundee" },
-    ],
-    [rewardToken, pool, BigInt(startTime), BigInt(endTime), refundee],
-  );
-
-  if (hashed) {
-    return keccak256(encodedData);
-  }
-
-  return encodedData;
 };
 
 export const isValidTweetUrl = (url: string) => {

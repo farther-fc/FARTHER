@@ -6,12 +6,19 @@ export const FartherPositions = gql`
       id
       isStaked
       isHeldByStaker
-      owner {
-        id
-      }
-      pool {
-        id
-      }
+    }
+    accountById(id: $ownerId) {
+      id
+      rewardsClaimed
+    }
+  }
+`;
+
+export const LPRewardClaimers = gql`
+  query LPRewardClaimers {
+    accounts(where: { rewardsClaimed_gt: 0 }) {
+      id
+      rewardsClaimed
     }
   }
 `;

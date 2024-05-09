@@ -3,7 +3,7 @@ import { Input } from "@components/ui/Input";
 import {
   EVANGELIST_FOLLOWER_MINIMUM,
   TWEET_BASE_TOKENS,
-  TWEET_FARTHER_BONUS_SCALER,
+  TWEET_FARTHER_BONUS_MULTIPLIER,
 } from "@farther/common";
 import { cn } from "@lib/utils";
 import { useToast } from "hooks/useToast";
@@ -37,7 +37,7 @@ export function TweetRewardTable() {
   let total = TWEET_BASE_TOKENS + followerBonus;
 
   if (hasFartherBonus) {
-    total = total * TWEET_FARTHER_BONUS_SCALER;
+    total = total * TWEET_FARTHER_BONUS_MULTIPLIER;
   }
 
   return (
@@ -83,7 +83,7 @@ export function TweetRewardTable() {
         <Cell
           className={`justify-end ${hasFartherBonus ? "text-white" : "text-muted"}`}
         >
-          x {TWEET_FARTHER_BONUS_SCALER}
+          x {TWEET_FARTHER_BONUS_MULTIPLIER}
         </Cell>
         <Cell className={cn("font-bold")}>TOTAL</Cell>
         <Cell className="col-span-2 justify-end text-right font-bold">

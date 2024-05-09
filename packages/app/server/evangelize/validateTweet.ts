@@ -3,7 +3,7 @@ import {
   DEV_USER_TWITTER_ID,
   EVANGELIST_FOLLOWER_MINIMUM,
   TWEET_BASE_TOKENS,
-  TWEET_FARTHER_BONUS_SCALER,
+  TWEET_FARTHER_BONUS_MULTIPLIER,
   WAD_SCALER,
 } from "@farther/common";
 import { apiSchemas } from "@lib/types/apiSchemas";
@@ -158,7 +158,7 @@ export const validateTweet = publicProcedure
 
     if (response.hasFartherBonus) {
       response.totalReward = Math.round(
-        response.totalReward * TWEET_FARTHER_BONUS_SCALER,
+        response.totalReward * TWEET_FARTHER_BONUS_MULTIPLIER,
       );
       response.bonusReward = response.totalReward - TWEET_BASE_TOKENS;
     }

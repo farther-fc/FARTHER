@@ -6,7 +6,6 @@ import {
 } from "@farther/common";
 import { useLiquidity } from "@lib/context/LiquidityContext";
 import { useUser } from "@lib/context/UserContext";
-import { getIncentiveKey } from "@lib/utils";
 import { useLogError } from "hooks/useLogError";
 import { useToast } from "hooks/useToast";
 import React from "react";
@@ -22,7 +21,7 @@ export function useLiquidityHandlers() {
   const { account, refetchBalance } = useUser();
   const logError = useLogError();
   const { toast } = useToast();
-  const { refetchPositions, refetchClaimableRewards } = useLiquidity();
+  const { refetchIndexerData, refetchClaimableRewards } = useLiquidity();
 
   const {
     writeContractAsync: transferToStakerContract,
@@ -63,14 +62,7 @@ export function useLiquidityHandlers() {
           account.address,
           contractAddresses.UNISWAP_V3_STAKER,
           BigInt(tokenId),
-          getIncentiveKey({
-            rewardToken: incentivePrograms[1].rewardToken,
-            pool: incentivePrograms[1].pool,
-            startTime: incentivePrograms[1].startTime,
-            endTime: incentivePrograms[1].endTime,
-            refundee: incentivePrograms[1].refundee,
-            hashed: false,
-          }),
+          incentivePrograms[1].incentiveKey,
         ],
       });
 
@@ -78,7 +70,7 @@ export function useLiquidityHandlers() {
         msg: "Your position is now staked. You will accrue rewards while the price of Farther remains in your position's liquidity range.",
       });
 
-      await refetchPositions();
+      await refetchIndexerData();
     } catch (error) {
       logError({ error });
     }
@@ -148,6 +140,7 @@ export function useLiquidityHandlers() {
       setTimeout(() => {
         refetchClaimableRewards();
         refetchBalance();
+        refetchIndexerData();
       }, 3000);
     } catch (error) {
       if (error instanceof ContractFunctionExecutionError) {

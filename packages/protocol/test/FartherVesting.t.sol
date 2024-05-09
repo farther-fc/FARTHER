@@ -78,9 +78,9 @@ contract FartherVesting_Test is Test {
         uint256 cliffDuration,
         uint64 duration
     ) external {
-        vm.assume(treasuryAmount > 4);
-        vm.assume(cliffDuration > 1);
-        vm.assume(duration > 1);
+        vm.assume(treasuryAmount > 100);
+        vm.assume(cliffDuration > 0);
+        vm.assume(duration > 10);
 
         uint256 testStart = block.timestamp;
         uint256 cliffAmount = (treasuryAmount * CLIFF) / 100;

@@ -184,10 +184,10 @@ export function RewardsTableRow({
         {allocation.id === PENDING_ALLOCATION_ID ? (
           <Popover
             content={
-              <div className="max-w-[300px] rounded-2xl p-4 text-left">
+              <>
                 Your allocation will depend on how many other users earn a power
                 badge during this cycle. Check back at the end of the month!
-              </div>
+              </>
             }
           >
             <div className="text-muted border-muted inline-flex cursor-default items-center rounded-md border px-3 py-2">
@@ -197,21 +197,20 @@ export function RewardsTableRow({
         ) : (
           <Popover
             content={
-              <div className="max-w-[300px] rounded-2xl p-4 text-left">
-                Your base allocation is {formatWad(allocation.baseAmount)} and
-                you received a bonus of{" "}
+              <>
+                Your base allocation is{" "}
+                {formatWad(BigInt(allocation.baseAmount))} and you received a
+                bonus of{" "}
                 {formatWad(
-                  (
-                    BigInt(allocation.amount) - BigInt(allocation.baseAmount)
-                  ).toString(),
+                  BigInt(allocation.amount) - BigInt(allocation.baseAmount),
                 )}
                 .
-              </div>
+              </>
             }
           >
             <span className="cursor-default rounded-md p-3">
               <>
-                {formatWad(allocation.amount)}{" "}
+                {formatWad(BigInt(allocation.amount))}{" "}
                 {allocation.tweets?.length ? (
                   <>
                     ({allocation.tweets.length} tweet
@@ -272,11 +271,11 @@ function Pending() {
   return (
     <Popover
       content={
-        <div className="max-w-[300px] rounded-2xl p-4 text-left">
+        <>
           Your rewards will remain pending until you earn a Warpcast Power
           Badge. If not earned within two months from your first submission, the
           rewards will expire.
-        </div>
+        </>
       }
     >
       <div className="border-muted inline-block cursor-default rounded-md border p-3 opacity-30">

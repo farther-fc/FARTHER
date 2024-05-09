@@ -35,38 +35,38 @@ function testDistributionFunction() {
   try {
     // Test 1
     let result = getDistributionAmount(1000, 5, 1);
-    console.log(`Test 1: Day 1 - Expected: 333.33, Got: ${result.toFixed(2)}`);
+    console.info(`Test 1: Day 1 - Expected: 333.33, Got: ${result.toFixed(2)}`);
 
     // Test 2
     result = getDistributionAmount(1000, 5, 3);
-    console.log(`Test 2: Day 3 - Expected: 166.67, Got: ${result.toFixed(2)}`);
+    console.info(`Test 2: Day 3 - Expected: 166.67, Got: ${result.toFixed(2)}`);
 
     // Test 3
     result = getDistributionAmount(1000, 5, 5);
-    console.log(`Test 3: Day 5 - Expected: 66.67, Got: ${result.toFixed(2)}`);
+    console.info(`Test 3: Day 5 - Expected: 66.67, Got: ${result.toFixed(2)}`);
 
     // Test 4 - Total amount is zero
     try {
       getDistributionAmount(0, 5, 3);
     } catch (error: any) {
-      console.log(`Test 4: Error as expected - ${error.message}`);
+      console.info(`Test 4: Error as expected - ${error.message}`);
     }
 
     // Test 5 - Negative current day
     try {
       getDistributionAmount(1000, 5, -1);
     } catch (error: any) {
-      console.log(`Test 5: Error as expected - ${error.message}`);
+      console.info(`Test 5: Error as expected - ${error.message}`);
     }
 
     // Test 6 - Current day greater than total days
     try {
       getDistributionAmount(1000, 5, 6);
     } catch (error: any) {
-      console.log(`Test 6: Error as expected - ${error.message}`);
+      console.info(`Test 6: Error as expected - ${error.message}`);
     }
 
-    console.log("All tests completed.");
+    console.info("All tests completed.");
   } catch (error: any) {
     console.error("An error occurred during testing:", error);
   }
@@ -82,7 +82,7 @@ function test2() {
 
     totalDistributed += amount;
   }
-  console.log({ totalDistributed });
+  console.info({ totalDistributed });
 }
 
 testDistributionFunction();
