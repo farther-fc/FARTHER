@@ -48,6 +48,7 @@ export const POWER_BADGE_INFO_URL = "https://warpcast.com/v/0x0bd49f9c";
 export const claimNames = {
   [AllocationType.POWER_USER]: "Power User",
   [AllocationType.EVANGELIST]: "Evangelist",
+  [AllocationType.LIQUIDITY]: "Liquidity Provider",
 };
 
 export const PENDING_ALLOCATION_ID = "id-for-pending-allocation";
