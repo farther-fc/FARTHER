@@ -24,16 +24,12 @@ export type Position = FartherPositionsQuery["positions"][number] & {
   liquidity: bigint;
 };
 
-const POSITIONS_REFRESH_INTERVAL = 5_000;
-
 const sdk = getBuiltGraphSDK();
 
 const LiquidityContext = createContainer(function () {
   const { account } = useUser();
-  const positionsRef = React.useRef<Position[]>();
-  const [positionsCount, setPositionsCount] = React.useState(0);
+  const [positions, setPositions] = React.useState<Position[]>();
   const logError = useLogError();
-  const timer = React.useRef<NodeJS.Timeout>();
   const pathname = usePathname();
 
   const {
@@ -68,15 +64,9 @@ const LiquidityContext = createContainer(function () {
     enabled: !!account.address,
   });
 
-  console.log({
-    _positionsLoading,
-    positionsDataLength: positionsData?.positions.length,
-    "positionsRef.current": positionsRef.current,
-  });
-
   const positionsLoading =
     _positionsLoading ||
-    (!!positionsData?.positions.length && !positionsRef.current?.length);
+    (!!positionsData?.positions.length && !positions?.length);
 
   const fetchPositionLiqAndRewards = React.useCallback(async () => {
     if (!positionsData?.positions.length || !account.address) return;
@@ -146,74 +136,13 @@ const LiquidityContext = createContainer(function () {
           }
         });
 
-      positionsRef.current = sortedPositions;
-      setPositionsCount(sortedPositions.length);
+      setPositions(sortedPositions);
     } catch (error) {
       logError({
         error,
       });
     }
   }, [positionsData, account.address, logError]);
-
-  const updatePositionRewards = React.useCallback(async () => {
-    if (!positionsRef.current?.length || !account.address) return;
-
-    const stakedPositions = positionsRef.current.filter((p) => p.isStaked);
-    const unstakedPositions = positionsRef.current.filter((p) => !p.isStaked);
-
-    if (!stakedPositions.length) {
-      clearInterval(timer.current);
-      return;
-    }
-
-    try {
-      const unclaimedRewards = await pMap(
-        stakedPositions,
-        async (p: (typeof positionsRef.current)[0]) => {
-          try {
-            const [unclaimedReward] = await readContract(viemClient, {
-              abi: UniswapV3StakerAbi,
-              address: contractAddresses.UNISWAP_V3_STAKER,
-              functionName: "getRewardInfo",
-              args: [
-                {
-                  rewardToken: contractAddresses.FARTHER,
-                  pool: contractAddresses.UNIV3_FARTHER_ETH_30BPS_POOL,
-                  startTime: BigInt(incentivePrograms[1].startTime),
-                  endTime: BigInt(incentivePrograms[1].endTime),
-                  refundee: incentivePrograms[1].refundee,
-                },
-                // tokenId
-                BigInt(p.id),
-              ],
-            });
-            return unclaimedReward;
-          } catch (e: any) {
-            if (e.message?.includes("stake does not exist")) {
-              return BigInt(0);
-            } else {
-              throw e;
-            }
-          }
-        },
-        { concurrency: 3 },
-      );
-
-      const newPositionsData = [
-        ...stakedPositions.map((p, i) => ({
-          ...p,
-          unclaimedRewards: unclaimedRewards[i],
-        })),
-        ...unstakedPositions,
-      ];
-      positionsRef.current = newPositionsData;
-      setPositionsCount(newPositionsData.length);
-    } catch (error) {
-      logError({
-        error,
-      });
-    }
-  }, [account.address, logError]);
 
   React.useEffect(() => {
     if (!positionsFetchError) return;
@@ -237,7 +166,6 @@ const LiquidityContext = createContainer(function () {
 
   React.useEffect(() => {
     if (
-      timer.current ||
       !positionsData?.positions.length ||
       (pathname !== ROUTES.liquidty.path && pathname !== ROUTES.rewards.path)
     )
@@ -245,16 +173,9 @@ const LiquidityContext = createContainer(function () {
 
     refetchPositions();
     fetchPositionLiqAndRewards();
-
-    timer.current = setInterval(() => {
-      updatePositionRewards();
-    }, POSITIONS_REFRESH_INTERVAL);
-
-    return () => clearInterval(timer.current);
   }, [
     positionsData?.positions.length,
     refetchPositions,
-    updatePositionRewards,
     fetchPositionLiqAndRewards,
     pathname,
   ]);
@@ -262,13 +183,12 @@ const LiquidityContext = createContainer(function () {
   /** Wipe positions when account is changed */
   React.useEffect(() => {
     if (!account.address) return;
-    positionsRef.current = undefined;
-    setPositionsCount(0);
+    setPositions(undefined);
   }, [account.address]);
 
   return {
     positionsLoading,
-    positions: positionsRef.current,
+    positions,
     claimableRewards: claimableRewards || BigInt(0),
     refetchPositions,
     refetchClaimableRewards,
