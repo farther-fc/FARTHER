@@ -24,15 +24,12 @@ export type Position = FartherPositionsQuery["positions"][number] & {
   liquidity: bigint;
 };
 
-const POSITIONS_REFRESH_INTERVAL = 3000;
-
 const sdk = getBuiltGraphSDK();
 
 const LiquidityContext = createContainer(function () {
   const { account } = useUser();
   const [positions, setPositions] = React.useState<Position[]>();
   const logError = useLogError();
-  const timer = React.useRef<NodeJS.Timeout>();
   const pathname = usePathname();
 
   const {
@@ -71,7 +68,7 @@ const LiquidityContext = createContainer(function () {
     _positionsLoading ||
     (!!positionsData?.positions.length && !positions?.length);
 
-  const refetchUnclaimedRewards = React.useCallback(async () => {
+  const fetchPositionLiqAndRewards = React.useCallback(async () => {
     if (!positionsData?.positions.length || !account.address) return;
     try {
       const unclaimedRewards = await pMap(
@@ -123,23 +120,23 @@ const LiquidityContext = createContainer(function () {
         { concurrency: 3 },
       );
 
-      setPositions(
-        positionsData.positions
-          .map((p, i) => ({
-            ...p,
-            unclaimedRewards: unclaimedRewards[i],
-            liquidity: liquidity[i],
-          }))
-          .sort((a, b) => {
-            if (a.liquidity < b.liquidity) {
-              return 1;
-            } else if (a.liquidity > b.liquidity) {
-              return -1;
-            } else {
-              return 0;
-            }
-          }),
-      );
+      const sortedPositions = positionsData.positions
+        .map((p, i) => ({
+          ...p,
+          unclaimedRewards: unclaimedRewards[i],
+          liquidity: liquidity[i],
+        }))
+        .sort((a, b) => {
+          if (a.liquidity < b.liquidity) {
+            return 1;
+          } else if (a.liquidity > b.liquidity) {
+            return -1;
+          } else {
+            return 0;
+          }
+        });
+
+      setPositions(sortedPositions);
     } catch (error) {
       logError({
         error,
@@ -167,12 +164,6 @@ const LiquidityContext = createContainer(function () {
     });
   }, [logError, claimableRewardsFetchError]);
 
-  /** Wipe positions when account is changed */
-  React.useEffect(() => {
-    if (!account.address) return;
-    setPositions(undefined);
-  }, [account.address]);
-
   React.useEffect(() => {
     if (
       !positionsData?.positions.length ||
@@ -180,24 +171,20 @@ const LiquidityContext = createContainer(function () {
     )
       return;
 
-    timer.current = setInterval(() => {
-      refetchPositions();
-      refetchUnclaimedRewards();
-    }, POSITIONS_REFRESH_INTERVAL);
-
-    return () => clearInterval(timer.current);
+    refetchPositions();
+    fetchPositionLiqAndRewards();
   }, [
     positionsData?.positions.length,
     refetchPositions,
-    refetchUnclaimedRewards,
+    fetchPositionLiqAndRewards,
     pathname,
   ]);
 
+  /** Wipe positions when account is changed */
   React.useEffect(() => {
-    if (!account.address) {
-      setPositions(undefined);
-    }
-  }, [account]);
+    if (!account.address) return;
+    setPositions(undefined);
+  }, [account.address]);
 
   return {
     positionsLoading,

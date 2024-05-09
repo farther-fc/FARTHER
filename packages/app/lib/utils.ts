@@ -1,3 +1,4 @@
+import { DUST_AMOUNT } from "@farther/common";
 import { clsx, type ClassValue } from "clsx";
 import numeral from "numeral";
 import { twMerge } from "tailwind-merge";
@@ -64,7 +65,7 @@ export const formatAirdropTime = (date: Date) => {
 
 export const formatWad = (amount: string, formatSchema: string = "0,0.00") => {
   const preppedAmount =
-    BigInt(amount) < BigInt(1000000) // Anything below this is effectively dust and leads to NaN
+    BigInt(amount) < BigInt(DUST_AMOUNT) // Anything below this is effectively dust and leads to NaN
       ? BigInt(0)
       : BigInt(amount);
   return numeral(formatEther(preppedAmount)).format(formatSchema);

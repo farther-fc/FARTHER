@@ -83,3 +83,5 @@ export const clickIds = {
   rewardsPageClaimedRewards: "rewards-page-claimed-rewards",
   claimLiquidityRewards: "claim-liquidity-rewards",
 } as const;
+
+export const POSITIONS_REFRESH_INTERVAL = 3000;
