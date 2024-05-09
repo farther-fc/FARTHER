@@ -82,6 +82,9 @@ export const clickIds = {
   evangelizePageConnectWallet: "evangelize-page-connect-wallet",
   rewardsPageClaimedRewards: "rewards-page-claimed-rewards",
   claimLiquidityRewards: "claim-liquidity-rewards",
+  liquidityInfoBonusRewards: "liquidity-info-bonus-rewards",
+  liquidityPendingBonus: "liquidity-pending-bonus",
+  liquidityClaimableBonus: "liquidity-claimable-bonus",
 } as const;
 
 export const POSITIONS_REFRESH_INTERVAL = 3000;

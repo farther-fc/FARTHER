@@ -13,17 +13,23 @@ import {
   TableHeader,
   TableRow,
 } from "@components/ui/Table";
-import { IS_INCENTIVE_PROGRAM_ACTIVE } from "@farther/common";
-import { clickIds } from "@lib/constants";
+import { AllocationType } from "@farther/backend";
+import {
+  IS_INCENTIVE_PROGRAM_ACTIVE,
+  LIQUIDITY_BONUS_MULTIPLIER,
+  getStartOfNextMonthUTC,
+} from "@farther/common";
+import { ROUTES, clickIds } from "@lib/constants";
 import { useLiquidity } from "@lib/context/LiquidityContext";
 import { useUser } from "@lib/context/UserContext";
-import { formatWad } from "@lib/utils";
+import { formatAirdropTime, formatWad } from "@lib/utils";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useLiquidityHandlers } from "hooks/useLiquidityHandlers";
 import { Info } from "lucide-react";
+import Link from "next/link";
 
 export default function LiquidityPage() {
-  const { account } = useUser();
+  const { account, user } = useUser();
   const { openConnectModal } = useConnectModal();
   const { claimPending, handleClaimRewards, claimSuccess } =
     useLiquidityHandlers();
@@ -35,6 +41,24 @@ export default function LiquidityPage() {
     rewardsClaimed,
   } = useLiquidity();
 
+  const liquidityBonusAllocations = user?.allocations.filter(
+    (a) => a.type === AllocationType.LIQUIDITY,
+  );
+
+  const claimedBonusAllocations =
+    user?.allocations.filter((a) => a.isClaimed) || [];
+
+  // This is the total amount of liqudity rewards that have received an airdropped bonus
+  // which has already been claimed
+  const claimedReferenceAmount = claimedBonusAllocations.reduce(
+    (acc, curr) => BigInt(curr.referenceAmount || "0") + acc,
+    BigInt(0),
+  );
+
+  const pendingBonusRewards =
+    (BigInt(rewardsClaimed) - claimedReferenceAmount) *
+    BigInt(LIQUIDITY_BONUS_MULTIPLIER);
+
   return (
     <Container variant="page">
       <main className="content">
@@ -42,7 +66,7 @@ export default function LiquidityPage() {
         <div className="mt-16">
           <div className="mb-4 flex flex-col items-start justify-between md:flex-row">
             <h2 className="mt-0">Positions</h2>
-            <div className="border-ghost mb-12 flex w-full justify-between rounded-xl border p-4 md:w-auto md:space-x-14">
+            <div className="border-ghost mb-12 flex w-full justify-between rounded-xl border p-4 md:w-auto md:space-x-8">
               <div className="">
                 <div className="mb-4 flex flex-col">
                   Claimable Rewards
@@ -77,9 +101,9 @@ export default function LiquidityPage() {
                       content={
                         <>
                           Bonus rewards are airdropped monthly. They're
-                          calculated by adding up all the claimed rewards since
-                          the last bonus rewards airdrop snapshot & multiplying
-                          by two.
+                          calculated by adding up all the claimed rewards during
+                          the month & multiplying by{" "}
+                          {LIQUIDITY_BONUS_MULTIPLIER}.
                         </>
                       }
                     >
@@ -93,26 +117,45 @@ export default function LiquidityPage() {
                     <Spinner className="mt-1" size="xs" />
                   ) : (
                     <div className="text-link">
-                      {formatWad(BigInt(rewardsClaimed) * BigInt(2))}
+                      {formatWad(pendingBonusRewards)}
                     </div>
                   )}
                 </div>
-                <Button
-                  className="ml-auto mt-2 w-40"
-                  variant="secondary"
-                  sentryId={clickIds.claimLiquidityRewards}
-                  onClick={() => handleClaimRewards()}
-                  disabled={
-                    claimSuccess ||
-                    claimPending ||
-                    claimableRewards === BigInt(0)
-                  }
-                  loading={claimPending}
-                  loadingText="Claiming"
-                >
-                  Claim
-                </Button>
+                {pendingBonusRewards > BigInt(0) && (
+                  <Button
+                    className="ml-auto mt-2 w-40"
+                    variant="secondary"
+                    sentryId={clickIds.liquidityPendingBonus}
+                    disabled={true}
+                  >
+                    Available {formatAirdropTime(getStartOfNextMonthUTC())}
+                  </Button>
+                )}
               </div>
+              {liquidityBonusAllocations?.length ? (
+                <div>
+                  <div className="mb-4 flex flex-col">
+                    <div className="flex justify-between">Claimable Bonus</div>
+                    <div className="text-link">
+                      {formatWad(
+                        liquidityBonusAllocations.reduce(
+                          (acc, curr) => BigInt(curr.amount) + acc,
+                          BigInt(0),
+                        ),
+                      )}
+                    </div>
+                  </div>
+                  <Link href={ROUTES.rewards.path}>
+                    <Button
+                      className="ml-auto mt-2 w-40"
+                      variant="secondary"
+                      sentryId={clickIds.liquidityClaimableBonus}
+                    >
+                      Claim
+                    </Button>
+                  </Link>
+                </div>
+              ) : null}
             </div>
           </div>
 

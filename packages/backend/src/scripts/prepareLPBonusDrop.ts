@@ -19,6 +19,7 @@ import { formatEther, keccak256 } from "ethers";
 import { v4 as uuidv4 } from "uuid";
 import { AllocationType, prisma } from "../prisma";
 import { writeFile } from "../utils/helpers";
+import { airdropSanityCheck } from "./airdropSanityCheck";
 
 type Account = {
   id: string;
@@ -27,11 +28,13 @@ type Account = {
 
 const format = (n: string | bigint) => Number(formatEther(n)).toLocaleString();
 
-const totalIncentiveAllocation =
-  BigInt(tokenAllocations.liquidityRewards / 3) * WAD_SCALER;
+const incentiveRewardsTotalAllocation =
+  BigInt(tokenAllocations.liquidityRewards) * WAD_SCALER;
+const currentIncentiveProgramTotal =
+  incentiveRewardsTotalAllocation / BigInt(3);
 
 async function prepareLpBonusDrop() {
-  // await airdropSanityCheck();
+  await airdropSanityCheck();
 
   // Get all liquidity providers who have claimed rewards
   const query = await axios({
@@ -55,12 +58,12 @@ async function prepareLpBonusDrop() {
     console.log(account.id, format(account.rewardsClaimed));
   }
 
-  const totalRewards = accounts.reduce(
+  const totalActuallyClaimed = accounts.reduce(
     (acc, a) => acc + BigInt(a.rewardsClaimed),
     BigInt(0),
   );
 
-  const [totalRewardsUnclaimed] = await viemPublicClient.readContract({
+  const [totalDrippedSoFar] = await viemPublicClient.readContract({
     abi: UniswapV3StakerAbi,
     address: contractAddresses.UNISWAP_V3_STAKER,
     functionName: "incentives",
@@ -71,15 +74,16 @@ async function prepareLpBonusDrop() {
     ],
   });
 
-  const totalClaimed = totalIncentiveAllocation - totalRewardsUnclaimed;
-  const diff = totalRewards - totalClaimed;
+  const totalRemaining = currentIncentiveProgramTotal - totalDrippedSoFar;
+  const difference = totalActuallyClaimed - totalRemaining;
 
-  console.log({
-    totalIncentiveAllocation: format(totalIncentiveAllocation),
-    totalRewardsUnclaimed: format(totalRewardsUnclaimed),
-    totalClaimed: format(totalClaimed),
-    totalRewards: format(totalRewards),
-    diff: format(diff),
+  console.info({
+    incentiveRewardsTotalAllocation: format(incentiveRewardsTotalAllocation),
+    currentIncentiveProgramTotal: format(currentIncentiveProgramTotal),
+    totalDrippedSoFar: format(totalDrippedSoFar),
+    totalRemaining: format(totalRemaining),
+    totalActuallyClaimed: format(totalActuallyClaimed),
+    difference: format(difference),
   });
 
   // Get all past liquidity reward allocations
@@ -89,6 +93,7 @@ async function prepareLpBonusDrop() {
     },
     select: {
       address: true,
+      // This is the amount that was used as the basis for calculating the bonus
       referenceAmount: true,
     },
   });
@@ -102,10 +107,13 @@ async function prepareLpBonusDrop() {
     {},
   );
 
+  console.info("pastTotals:", pastTotals);
+
   // Subtract past liquidity reward allocations from each account's claimed rewards
   const allocationData = accounts.map((a) => {
     const referenceAmount =
       BigInt(a.rewardsClaimed) - (pastTotals[a.id] || BigInt(0));
+
     // Multiply each by two to get the LP bonus drop amount
     const amount = referenceAmount * BigInt(LIQUIDITY_BONUS_MULTIPLIER);
     return {

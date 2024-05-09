@@ -1,14 +1,22 @@
+import { InfoCard } from "@components/InfoCard";
 import { FartherAccountLink } from "@components/nav/FartherLinks";
 import { Button } from "@components/ui/Button";
 import { ExternalLink } from "@components/ui/ExternalLink";
-import { NETWORK, allocationRatios, contractAddresses } from "@farther/common";
+import {
+  LIQUIDITY_BONUS_MULTIPLIER,
+  NETWORK,
+  allocationRatios,
+  contractAddresses,
+} from "@farther/common";
 import { clickIds } from "@lib/constants";
+import { useModal } from "@lib/context/ModalContext";
 import { useUser } from "@lib/context/UserContext";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
 
 export function LiquidityInfo() {
   const { account } = useUser();
+  const { openModal } = useModal();
   const { openConnectModal } = useConnectModal();
 
   return (
@@ -17,9 +25,26 @@ export function LiquidityInfo() {
       <p>
         {allocationRatios.LIQUIDITY_REWARDS * 100}% of the total token supply is
         allocated to liquidity rewards. The first rewards program is for the
-        Uniswap V3 ETH-FARTHER (0.3%) pool on Base after the first airdrop on
-        May 1, 2024. It will last for six months.
+        Uniswap V3 ETH-FARTHER (0.3%) pool on Base, which began May 1, 2024. It
+        lasts for six months.
       </p>
+      <InfoCard>
+        Liquidity providers who have a Warpcast power badge currently get a
+        <strong> {LIQUIDITY_BONUS_MULTIPLIER}x bonus </strong>for their claimed
+        rewards airdropped at the end of the month!{"  "}
+        <Button
+          sentryId={clickIds.liquidityInfoBonusRewards}
+          onClick={() =>
+            openModal({
+              headerText: "Liquidity bonus rewards",
+              body: <BonusRewardsModal />,
+            })
+          }
+          variant="link"
+        >
+          Learn more✨
+        </Button>
+      </InfoCard>
       <h2>How to participate</h2>
       <ol>
         <li>
@@ -91,13 +116,36 @@ export function LiquidityInfo() {
         <li>
           Claiming your rewards is a two-step process. First click{" "}
           <em>Unstake</em>, which makes your rewards claimable. Then click{" "}
-          <em>Claim</em>.
+          <em>Claim</em>.{" "}
         </li>
       </ol>
       <p>
-        Please <FartherAccountLink>reach out</FartherAccountLink> if you run
-        into any problems.
+        Please <FartherAccountLink>reach out</FartherAccountLink> if you have
+        any questions or problems.
       </p>
     </div>
   );
 }
+
+const BonusRewardsModal = () => {
+  return (
+    <div>
+      <p>
+        The primary liquidity incentive program is permissionless and onchain.
+        Anyone can participate.
+      </p>
+      <p>
+        However, in keeping with the mission of Farther to grow Farcaster and
+        reward its power users, any liquidity provider who <em>also</em> has a
+        Warpcast power badge by the time of the next airdrop snapshot will
+        receive a <strong>{LIQUIDITY_BONUS_MULTIPLIER}x bonus</strong> to their
+        claimed liquidity rewards during the current airdrop month.
+      </p>
+      <p>
+        The snapshot takes place during the last week of each month. Exact
+        timing is not guaranteed, and the bonus may be adjusted in future
+        months.
+      </p>
+    </div>
+  );
+};

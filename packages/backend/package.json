@@ -10,6 +10,7 @@
     "env:prod": "dotenv -e ../../.env.production -- ",
     "getTweet": "pnpm env:prod ts-node src/scripts/getTweet.ts",
     "prepareLpBonusDrop:prod": "pnpm env:prod ts-node -T src/scripts/prepareLpBonusDrop.ts",
+    "prepareLpBonusDrop:staging": "pnpm env:staging ts-node -T src/scripts/prepareLpBonusDrop.ts",
     "preparePowerDrop:prod": "pnpm env:prod ts-node src/scripts/preparePowerDrop.ts",
     "preparePowerDrop:staging": "pnpm env:staging ts-node src/scripts/preparePowerDrop.ts",
     "preparePowerDrop:dev": "pnpm env:dev ts-node src/scripts/preparePowerDrop.ts",
