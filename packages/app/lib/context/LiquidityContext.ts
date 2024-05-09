@@ -24,13 +24,14 @@ export type Position = FartherPositionsQuery["positions"][number] & {
   liquidity: bigint;
 };
 
-const POSITIONS_REFRESH_INTERVAL = 3000;
+const POSITIONS_REFRESH_INTERVAL = 5_000;
 
 const sdk = getBuiltGraphSDK();
 
 const LiquidityContext = createContainer(function () {
   const { account } = useUser();
-  const [positions, setPositions] = React.useState<Position[]>();
+  const positionsRef = React.useRef<Position[]>();
+  const [positionsCount, setPositionsCount] = React.useState(0);
   const logError = useLogError();
   const timer = React.useRef<NodeJS.Timeout>();
   const pathname = usePathname();
@@ -67,11 +68,17 @@ const LiquidityContext = createContainer(function () {
     enabled: !!account.address,
   });
 
+  console.log({
+    _positionsLoading,
+    positionsDataLength: positionsData?.positions.length,
+    "positionsRef.current": positionsRef.current,
+  });
+
   const positionsLoading =
     _positionsLoading ||
-    (!!positionsData?.positions.length && !positions?.length);
+    (!!positionsData?.positions.length && !positionsRef.current?.length);
 
-  const refetchUnclaimedRewards = React.useCallback(async () => {
+  const fetchPositionLiqAndRewards = React.useCallback(async () => {
     if (!positionsData?.positions.length || !account.address) return;
     try {
       const unclaimedRewards = await pMap(
@@ -123,29 +130,90 @@ const LiquidityContext = createContainer(function () {
         { concurrency: 3 },
       );
 
-      setPositions(
-        positionsData.positions
-          .map((p, i) => ({
-            ...p,
-            unclaimedRewards: unclaimedRewards[i],
-            liquidity: liquidity[i],
-          }))
-          .sort((a, b) => {
-            if (a.liquidity < b.liquidity) {
-              return 1;
-            } else if (a.liquidity > b.liquidity) {
-              return -1;
-            } else {
-              return 0;
-            }
-          }),
-      );
+      const sortedPositions = positionsData.positions
+        .map((p, i) => ({
+          ...p,
+          unclaimedRewards: unclaimedRewards[i],
+          liquidity: liquidity[i],
+        }))
+        .sort((a, b) => {
+          if (a.liquidity < b.liquidity) {
+            return 1;
+          } else if (a.liquidity > b.liquidity) {
+            return -1;
+          } else {
+            return 0;
+          }
+        });
+
+      positionsRef.current = sortedPositions;
+      setPositionsCount(sortedPositions.length);
     } catch (error) {
       logError({
         error,
       });
     }
   }, [positionsData, account.address, logError]);
+
+  const updatePositionRewards = React.useCallback(async () => {
+    if (!positionsRef.current?.length || !account.address) return;
+
+    const stakedPositions = positionsRef.current.filter((p) => p.isStaked);
+    const unstakedPositions = positionsRef.current.filter((p) => !p.isStaked);
+
+    if (!stakedPositions.length) {
+      clearInterval(timer.current);
+      return;
+    }
+
+    try {
+      const unclaimedRewards = await pMap(
+        stakedPositions,
+        async (p: (typeof positionsRef.current)[0]) => {
+          try {
+            const [unclaimedReward] = await readContract(viemClient, {
+              abi: UniswapV3StakerAbi,
+              address: contractAddresses.UNISWAP_V3_STAKER,
+              functionName: "getRewardInfo",
+              args: [
+                {
+                  rewardToken: contractAddresses.FARTHER,
+                  pool: contractAddresses.UNIV3_FARTHER_ETH_30BPS_POOL,
+                  startTime: BigInt(incentivePrograms[1].startTime),
+                  endTime: BigInt(incentivePrograms[1].endTime),
+                  refundee: incentivePrograms[1].refundee,
+                },
+                // tokenId
+                BigInt(p.id),
+              ],
+            });
+            return unclaimedReward;
+          } catch (e: any) {
+            if (e.message?.includes("stake does not exist")) {
+              return BigInt(0);
+            } else {
+              throw e;
+            }
+          }
+        },
+        { concurrency: 3 },
+      );
+
+      const newPositionsData = [
+        ...stakedPositions.map((p, i) => ({
+          ...p,
+          unclaimedRewards: unclaimedRewards[i],
+        })),
+        ...unstakedPositions,
+      ];
+      positionsRef.current = newPositionsData;
+      setPositionsCount(newPositionsData.length);
+    } catch (error) {
+      logError({
+        error,
+      });
+    }
+  }, [account.address, logError]);
 
   React.useEffect(() => {
     if (!positionsFetchError) return;
@@ -167,41 +235,40 @@ const LiquidityContext = createContainer(function () {
     });
   }, [logError, claimableRewardsFetchError]);
 
-  /** Wipe positions when account is changed */
-  React.useEffect(() => {
-    if (!account.address) return;
-    setPositions(undefined);
-  }, [account.address]);
-
   React.useEffect(() => {
     if (
+      timer.current ||
       !positionsData?.positions.length ||
       (pathname !== ROUTES.liquidty.path && pathname !== ROUTES.rewards.path)
     )
       return;
 
+    refetchPositions();
+    fetchPositionLiqAndRewards();
+
     timer.current = setInterval(() => {
-      refetchPositions();
-      refetchUnclaimedRewards();
+      updatePositionRewards();
     }, POSITIONS_REFRESH_INTERVAL);
 
     return () => clearInterval(timer.current);
   }, [
     positionsData?.positions.length,
     refetchPositions,
-    refetchUnclaimedRewards,
+    updatePositionRewards,
+    fetchPositionLiqAndRewards,
     pathname,
   ]);
 
+  /** Wipe positions when account is changed */
   React.useEffect(() => {
-    if (!account.address) {
-      setPositions(undefined);
-    }
-  }, [account]);
+    if (!account.address) return;
+    positionsRef.current = undefined;
+    setPositionsCount(0);
+  }, [account.address]);
 
   return {
     positionsLoading,
-    positions,
+    positions: positionsRef.current,
     claimableRewards: claimableRewards || BigInt(0),
     refetchPositions,
     refetchClaimableRewards,
