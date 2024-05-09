@@ -62,11 +62,13 @@ export const validateTweet = publicProcedure
 
     if (pastTweets.length >= 1) {
       response.reason = `Your evangelism is commendable! However, please wait to submit until three days after your latest submission. ❤️`;
+      response.isValid = false;
       return response;
     }
 
     if (existingTweet) {
       response.reason = "That tweet was already submitted 😉";
+      response.isValid = false;
       return response;
     }
 
@@ -79,10 +81,11 @@ export const validateTweet = publicProcedure
       const data = await twitterResponse.json();
 
       if (!data.data || !data.data.length) {
-        response.reason = `Experienced error while retrieving tweet. This may be an issue with Twitter's API. Please try again in a minute.`;
         Sentry.captureException(
           new Error(`No data returned for tweet ${tweetId}`),
         );
+        response.reason = `Experienced error while retrieving tweet. This may be an issue with Twitter's API. Please try again in a minute.`;
+        response.isValid = false;
         return response;
       }
 
@@ -93,6 +96,7 @@ export const validateTweet = publicProcedure
     } catch (error) {
       Sentry.captureException(error);
       response.reason = `Experienced error while retrieving tweet. This may be an issue with Twitter's API. Please try again in a minute.`;
+      response.isValid = false;
       return response;
     }
 
@@ -115,112 +119,115 @@ export const validateTweet = publicProcedure
     response.reason = reason || "";
     response.hasFartherBonus = /\$FARTHER/i.test(tweetText);
 
-    if (isValid) {
-      let followerCount = 0;
+    if (!isValid) {
+      return response;
+    }
 
-      // Fetch user's follower count
-      const twitterResponse = await fetch(
-        `https://api.twitter.com/2/users/${tweetAuthorId}?user.fields=public_metrics`,
-        twitterConfig,
+    let followerCount = 0;
+
+    // Fetch user's follower count
+    const twitterResponse = await fetch(
+      `https://api.twitter.com/2/users/${tweetAuthorId}?user.fields=public_metrics`,
+      twitterConfig,
+    );
+
+    const data = await twitterResponse.json();
+
+    followerCount =
+      (data &&
+        data.data &&
+        data.data.public_metrics &&
+        (data.data.public_metrics.followers_count as number)) ||
+      0;
+
+    if (
+      followerCount < EVANGELIST_FOLLOWER_MINIMUM &&
+      tweetAuthorId !== DEV_USER_TWITTER_ID
+    ) {
+      response.reason = `Sorry, your Twitter account must have at least ${EVANGELIST_FOLLOWER_MINIMUM} followers to qualify.`;
+      response.isValid = false;
+      return response;
+    }
+
+    response.bonusReward = getEvanglistAllocationBonus({
+      followerCount,
+      baseTokensPerTweet: TWEET_BASE_TOKENS,
+    });
+
+    response.totalReward = TWEET_BASE_TOKENS + response.bonusReward;
+
+    if (response.hasFartherBonus) {
+      response.totalReward = Math.round(
+        response.totalReward * TWEET_FARTHER_BONUS_SCALER,
       );
+      response.bonusReward = response.totalReward - TWEET_BASE_TOKENS;
+    }
 
-      const data = await twitterResponse.json();
+    const totalRewardWad = BigInt(response.totalReward) * WAD_SCALER;
 
-      followerCount =
-        (data &&
-          data.data &&
-          data.data.public_metrics &&
-          (data.data.public_metrics.followers_count as number)) ||
-        0;
+    // Look for existing pending allocation
+    const pendingAllocation = await prisma.allocation.findFirst({
+      where: {
+        userId: user.id,
+        type: "EVANGELIST",
+        airdropId: null,
+      },
+    });
 
-      if (
-        followerCount < EVANGELIST_FOLLOWER_MINIMUM &&
-        tweetAuthorId !== DEV_USER_TWITTER_ID
-      ) {
-        response.reason = `Sorry, your Twitter account must have at least ${EVANGELIST_FOLLOWER_MINIMUM} followers to qualify.`;
-        return response;
-      }
-
-      response.bonusReward = getEvanglistAllocationBonus({
-        followerCount,
-        baseTokensPerTweet: TWEET_BASE_TOKENS,
-      });
-
-      response.totalReward = TWEET_BASE_TOKENS + response.bonusReward;
-
-      if (response.hasFartherBonus) {
-        response.totalReward = Math.round(
-          response.totalReward * TWEET_FARTHER_BONUS_SCALER,
-        );
-        response.bonusReward = response.totalReward - TWEET_BASE_TOKENS;
-      }
-
-      const totalRewardWad = BigInt(response.totalReward) * WAD_SCALER;
-
-      // Look for existing pending allocation
-      const pendingAllocation = await prisma.allocation.findFirst({
-        where: {
-          userId: user.id,
-          type: "EVANGELIST",
-          airdropId: null,
-        },
-      });
-
-      if (pendingAllocation) {
-        // Create tweet
-        await prisma.$transaction(async (tx) => {
-          const tweet = await tx.tweet.create({
-            data: {
-              id: tweetId,
-              reward: totalRewardWad.toString(),
-              allocationId: pendingAllocation.id,
-              authorId: tweetAuthorId,
-              followerCount,
-            },
-          });
-
-          await tx.allocation.update({
-            where: {
-              id: pendingAllocation.id,
-            },
-            data: {
-              amount: (
-                BigInt(pendingAllocation.amount) + totalRewardWad
-              ).toString(),
-              baseAmount: (BigInt(TWEET_BASE_TOKENS) * WAD_SCALER).toString(),
-              tweets: {
-                connect: {
-                  id: tweet.id,
-                },
-              },
-            },
-          });
-        });
-      } else {
-        const id = uuidv4();
-        // If no pending allcation, create allocation & tweet
-        await prisma.allocation.create({
+    if (pendingAllocation) {
+      // Create tweet
+      await prisma.$transaction(async (tx) => {
+        const tweet = await tx.tweet.create({
           data: {
-            id,
-            type: "EVANGELIST",
-            amount: totalRewardWad.toString(),
+            id: tweetId,
+            reward: totalRewardWad.toString(),
+            allocationId: pendingAllocation.id,
+            authorId: tweetAuthorId,
+            followerCount,
+          },
+        });
+
+        await tx.allocation.update({
+          where: {
+            id: pendingAllocation.id,
+          },
+          data: {
+            amount: (
+              BigInt(pendingAllocation.amount) + totalRewardWad
+            ).toString(),
             baseAmount: (BigInt(TWEET_BASE_TOKENS) * WAD_SCALER).toString(),
             tweets: {
-              create: {
-                id: tweetId,
-                reward: totalRewardWad.toString(),
-                authorId: tweetAuthorId,
-                followerCount,
-              },
-            },
-            user: {
               connect: {
-                id: fid,
+                id: tweet.id,
               },
             },
           },
         });
-      }
+      });
+    } else {
+      const id = uuidv4();
+      // If no pending allcation, create allocation & tweet
+      await prisma.allocation.create({
+        data: {
+          id,
+          type: "EVANGELIST",
+          amount: totalRewardWad.toString(),
+          baseAmount: (BigInt(TWEET_BASE_TOKENS) * WAD_SCALER).toString(),
+          tweets: {
+            create: {
+              id: tweetId,
+              reward: totalRewardWad.toString(),
+              authorId: tweetAuthorId,
+              followerCount,
+            },
+          },
+          user: {
+            connect: {
+              id: fid,
+            },
+          },
+        },
+      });
     }
 
     return response;
