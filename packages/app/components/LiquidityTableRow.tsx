@@ -81,7 +81,7 @@ export function LiquidityTableRow({ position }: { position: Position }) {
         </ExternalLink>
       </TableCell>
       <TableCell className="text-right">
-        {formatWad(unclaimedRewards)}
+        {formatWad(unclaimedRewards, "0,0.000")}
       </TableCell>
       <TableCell className="pr-0 text-right">
         {positionClosed ? (

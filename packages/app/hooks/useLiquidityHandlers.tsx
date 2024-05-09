@@ -13,6 +13,8 @@ import { ContractFunctionExecutionError, encodeFunctionData } from "viem";
 import { useWriteContract } from "wagmi";
 import { FartherPositionsQuery } from "../.graphclient";
 
+const WAIT_TIME_UNTIL_REFETCH = 5000;
+
 export type Position = FartherPositionsQuery["positions"][number] & {
   unclaimedRewards: bigint;
 };
@@ -65,12 +67,6 @@ export function useLiquidityHandlers() {
           incentivePrograms[1].incentiveKey,
         ],
       });
-
-      toast({
-        msg: "Your position is now staked. You will accrue rewards while the price of Farther remains in your position's liquidity range.",
-      });
-
-      await refetchIndexerData();
     } catch (error) {
       logError({ error });
     }
@@ -111,10 +107,6 @@ export function useLiquidityHandlers() {
           ],
         ],
       });
-
-      setTimeout(() => {
-        refetchClaimableRewards();
-      }, 3000);
     } catch (error) {
       if (error instanceof ContractFunctionExecutionError) {
         // We should be able to safely ignore this. Seems to happen intermittently when the function returns "0x" as expected
@@ -136,12 +128,6 @@ export function useLiquidityHandlers() {
         functionName: "claimReward",
         args: [contractAddresses.FARTHER, account.address, BigInt(0)],
       });
-
-      setTimeout(() => {
-        refetchClaimableRewards();
-        refetchBalance();
-        refetchIndexerData();
-      }, 3000);
     } catch (error) {
       if (error instanceof ContractFunctionExecutionError) {
         // We should be able to safely ignore this. Seems to happen intermittently when the function returns "0x" as expected
@@ -151,18 +137,62 @@ export function useLiquidityHandlers() {
   };
 
   React.useEffect(() => {
+    if (!stakeSuccess) return;
+    toast({
+      msg: (
+        <>
+          Your position is now staked. You will accrue rewards while the price
+          of Farther remains in your position's liquidity range.{" "}
+          <p>Note: It may take a minute for the values to update.</p>
+        </>
+      ),
+    });
+
+    setTimeout(() => {
+      refetchIndexerData();
+    }, WAIT_TIME_UNTIL_REFETCH);
+  }, [stakeSuccess, refetchIndexerData, toast]);
+
+  React.useEffect(() => {
     if (!unstakeSuccess) return;
     toast({
-      msg: "Your position is now unstaked and your rewards can be claimed. Click 'Claim' to transfer them to your wallet.",
+      msg: (
+        <div>
+          Your position is now unstaked and your rewards can be claimed. Click
+          'Claim' to transfer them to your wallet.{" "}
+          <p>Note: It may take a minute for the values to update.</p>
+        </div>
+      ),
     });
-  }, [unstakeSuccess, toast]);
+    setTimeout(() => {
+      refetchClaimableRewards();
+      refetchIndexerData();
+    }, WAIT_TIME_UNTIL_REFETCH);
+  }, [unstakeSuccess, toast, refetchClaimableRewards, refetchIndexerData]);
 
   React.useEffect(() => {
     if (!claimSuccess) return;
     toast({
-      msg: "Your rewards have been claimed and transferred to your wallet.",
+      msg: (
+        <div>
+          Your rewards have been claimed and transferred to your wallet.{" "}
+          <p>Note: It may take a minute for the values to update.</p>
+        </div>
+      ),
     });
-  }, [claimSuccess, toast]);
+
+    setTimeout(() => {
+      refetchClaimableRewards();
+      refetchBalance();
+      refetchIndexerData();
+    }, WAIT_TIME_UNTIL_REFETCH);
+  }, [
+    claimSuccess,
+    toast,
+    refetchClaimableRewards,
+    refetchBalance,
+    refetchIndexerData,
+  ]);
 
   React.useEffect(() => {
     if (

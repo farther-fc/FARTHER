@@ -17,6 +17,7 @@ import {
 } from "@components/ui/Table";
 import { AllocationType } from "@farther/backend";
 import {
+  DUST_AMOUNT,
   IS_INCENTIVE_PROGRAM_ACTIVE,
   LIQUIDITY_BONUS_MULTIPLIER,
   getStartOfNextMonthUTC,
@@ -61,9 +62,15 @@ export default function LiquidityPage() {
     BigInt(0),
   );
 
-  const pendingBonusRewards =
+  const pendingBonusAmount =
     (BigInt(rewardsClaimed) - claimedReferenceAmount) *
     BigInt(LIQUIDITY_BONUS_MULTIPLIER);
+
+  const claimableBonusAmount =
+    unclaimedBonusAllocations?.reduce(
+      (acc, curr) => BigInt(curr.amount) + acc,
+      BigInt(0),
+    ) || BigInt(0);
 
   return (
     <Container variant="page">
@@ -90,7 +97,7 @@ export default function LiquidityPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <div className="mb-4 flex flex-col">
-                    Claimed Rewards{" "}
+                    Claimed{" "}
                     {indexerDataLoading ? (
                       <Spinner className="mt-1" size="xs" />
                     ) : (
@@ -102,11 +109,13 @@ export default function LiquidityPage() {
                 </div>
                 <div className="">
                   <div className="mb-4 flex flex-col justify-center">
-                    Claimable Rewards
+                    Claimable
                     {claimableRewardsLoading ? (
                       <Spinner className="mt-1" size="xs" />
                     ) : (
-                      <div className="text-link">
+                      <div
+                        className={`text-link ${claimableRewards > DUST_AMOUNT ? "font-bold" : "font-normal"}`}
+                      >
                         {formatWad(claimableRewards)}
                       </div>
                     )}
@@ -169,7 +178,7 @@ export default function LiquidityPage() {
                       <Spinner className="mt-1" size="xs" />
                     ) : (
                       <div className="text-link">
-                        {formatWad(pendingBonusRewards)}
+                        {formatWad(pendingBonusAmount)}
                       </div>
                     )}
                   </div>
@@ -180,7 +189,7 @@ export default function LiquidityPage() {
                     sentryId={clickIds.liquidityPendingBonus}
                     disabled={true}
                   >
-                    {pendingBonusRewards === BigInt(0) ? (
+                    {pendingBonusAmount === BigInt(0) ? (
                       "Pending"
                     ) : (
                       <>
@@ -192,13 +201,10 @@ export default function LiquidityPage() {
                 <div>
                   <div className="mb-4 flex flex-col">
                     <div className="flex justify-between">Claimable</div>
-                    <div className="text-link">
-                      {formatWad(
-                        unclaimedBonusAllocations?.reduce(
-                          (acc, curr) => BigInt(curr.amount) + acc,
-                          BigInt(0),
-                        ) || BigInt(0),
-                      )}
+                    <div
+                      className={`text-link ${claimableBonusAmount > DUST_AMOUNT ? "font-bold" : "font-normal"}`}
+                    >
+                      {formatWad(claimableBonusAmount)}
                     </div>
                   </div>
                   {/** Button link to rewards page */}
