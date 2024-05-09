@@ -7,22 +7,24 @@ export function InfoCard({
   children,
 }: {
   children: React.ReactNode;
-  variant?: "muted" | "warning";
+  variant?: "ghost" | "warning" | "attention";
   className?: string;
 }) {
   return (
-    <p
+    <div
       className={cn(
         `my-6 rounded-xl border p-4 md:p-8`,
-        variant === "muted"
-          ? "text-muted border-muted"
+        variant === "ghost"
+          ? "text-muted border-ghost"
           : variant === "warning"
             ? "border-red-900"
-            : "",
+            : variant === "attention"
+              ? "border-link border-2"
+              : "",
         className,
       )}
     >
       {children}
-    </p>
+    </div>
   );
 }

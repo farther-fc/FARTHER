@@ -45,11 +45,11 @@ export default function AirdropPage() {
         )}
         {account.isConnected &&
           (powerDrop && powerDrop?.isClaimed ? (
-            <InfoCard variant="muted" className="text-center">
+            <InfoCard variant="ghost" className="text-center">
               You have already claimed your airdrop. ✨
             </InfoCard>
           ) : user && !powerDrop ? (
-            <InfoCard variant="muted">
+            <InfoCard variant="ghost">
               You are not currently eligible for an airdrop.{" "}
               {!user.powerBadge ? (
                 <>
@@ -68,7 +68,7 @@ export default function AirdropPage() {
             !user && !userIsLoading && <NoUserFoundCard />
           ))}
         {account.isConnected && !user && userIsLoading && (
-          <InfoCard variant="muted" className="flex justify-center">
+          <InfoCard variant="ghost" className="flex justify-center">
             <Spinner />
           </InfoCard>
         )}

@@ -1,4 +1,5 @@
 import { InfoCard } from "@components/InfoCard";
+import { BonusRewardsModal } from "@components/modals/BonusRewardsModal";
 import { FartherAccountLink } from "@components/nav/FartherLinks";
 import { Button } from "@components/ui/Button";
 import { ExternalLink } from "@components/ui/ExternalLink";
@@ -28,7 +29,7 @@ export function LiquidityInfo() {
         Uniswap V3 ETH-FARTHER (0.3%) pool on Base, which began May 1, 2024. It
         lasts for six months.
       </p>
-      <InfoCard>
+      <InfoCard variant="attention">
         Liquidity providers who have a Warpcast power badge currently get a
         <strong> {LIQUIDITY_BONUS_MULTIPLIER}x bonus </strong>for their claimed
         rewards airdropped at the end of the month!{"  "}
@@ -126,26 +127,3 @@ export function LiquidityInfo() {
     </div>
   );
 }
-
-const BonusRewardsModal = () => {
-  return (
-    <div>
-      <p>
-        The primary liquidity incentive program is permissionless and onchain.
-        Anyone can participate.
-      </p>
-      <p>
-        However, in keeping with the mission of Farther to grow Farcaster and
-        reward its power users, any liquidity provider who <em>also</em> has a
-        Warpcast power badge by the time of the next airdrop snapshot will
-        receive a <strong>{LIQUIDITY_BONUS_MULTIPLIER}x bonus</strong> to their
-        claimed liquidity rewards during the current airdrop month.
-      </p>
-      <p>
-        The snapshot takes place during the last week of each month. Exact
-        timing is not guaranteed, and the bonus may be adjusted in future
-        months.
-      </p>
-    </div>
-  );
-};

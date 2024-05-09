@@ -131,7 +131,7 @@ export default function RewardsPage() {
                 </Table>
               </div>
             ) : (
-              <InfoCard variant="muted">
+              <InfoCard variant="ghost">
                 No rewards found. If you believe this is an error, please reach{" "}
                 <FartherAccountLink>out for help</FartherAccountLink>.
               </InfoCard>
