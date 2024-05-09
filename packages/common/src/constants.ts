@@ -169,7 +169,9 @@ export const POINTS_EXPIRATION_MONTHS = 2;
 // Adjust this from month to month as needed
 export const TWEET_BASE_TOKENS = 500;
 
-export const TWEET_FARTHER_BONUS_SCALER = 1.2;
+export const TWEET_FARTHER_BONUS_MULTIPLIER = 1.2;
+
+export const LIQUIDITY_BONUS_MULTIPLIER = 2;
 
 export const EVANGELIST_FOLLOWER_MINIMUM = 80;
 

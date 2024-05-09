@@ -1,15 +1,24 @@
 import {
+  ANVIL_AIRDROP_ADDRESS,
+  CHAIN_ID,
   ENVIRONMENT,
+  LIQUIDITY_BONUS_MULTIPLIER,
+  NETWORK,
+  NEXT_AIRDROP_END_TIME,
+  NEXT_AIRDROP_START_TIME,
   UniswapV3StakerAbi,
   WAD_SCALER,
   contractAddresses,
+  getMerkleRoot,
   incentivePrograms,
   tokenAllocations,
   viemPublicClient,
 } from "@farther/common";
 import axios from "axios";
 import { formatEther, keccak256 } from "ethers";
+import { v4 as uuidv4 } from "uuid";
 import { AllocationType, prisma } from "../prisma";
+import { writeFile } from "../utils/helpers";
 
 type Account = {
   id: string;
@@ -80,26 +89,85 @@ async function prepareLpBonusDrop() {
     },
     select: {
       address: true,
-      amount: true,
+      referenceAmount: true,
     },
   });
 
   // Group by address and sum amounts for each address
-  const pastAllocationTotals = allocations.reduce(
+  const pastTotals: Record<string, bigint> = allocations.reduce(
     (acc, a) => ({
       ...acc,
-      [a.address]: (acc[a.address] || BigInt(0)) + BigInt(a.amount),
+      [a.address]: (acc[a.address] || BigInt(0)) + BigInt(a.referenceAmount),
     }),
     {},
   );
 
   // Subtract past liquidity reward allocations from each account's claimed rewards
+  const allocationData = accounts.map((a) => {
+    const referenceAmount =
+      BigInt(a.rewardsClaimed) - (pastTotals[a.id] || BigInt(0));
+    // Multiply each by two to get the LP bonus drop amount
+    const amount = referenceAmount * BigInt(LIQUIDITY_BONUS_MULTIPLIER);
+    return {
+      address: a.id,
+      amount,
+      referenceAmount,
+    };
+  });
 
-  // Multiply each by two to get the LP bonus drop amount
+  // Create merkle tree
+  const allocationSum = allocationData.reduce(
+    (acc, a) => acc + BigInt(a.amount),
+    BigInt(0),
+  );
 
-  // Create airdrop
+  // Create a merkle tree with the above recipients
+  const rawLeafData = allocationData.map((r, i) => ({
+    index: i,
+    address: r.address as `0x${string}`,
+    amount: r.amount.toString(),
+  }));
+
+  const root = getMerkleRoot(rawLeafData);
+
+  // Create Airdrop
+  const airdrop = await prisma.airdrop.create({
+    data: {
+      chainId: CHAIN_ID,
+      amount: allocationSum.toString(),
+      root,
+      address:
+        ENVIRONMENT === "development" ? ANVIL_AIRDROP_ADDRESS : undefined,
+      startTime: NEXT_AIRDROP_START_TIME,
+      endTime: NEXT_AIRDROP_END_TIME,
+    },
+  });
 
   // Save allocations
+  await prisma.allocation.createMany({
+    data: allocationData.map((r, i) => ({
+      id: uuidv4(),
+      index: i,
+      airdropId: airdrop.id,
+      type: AllocationType.LIQUIDITY,
+      address: r.address.toLowerCase(),
+      amount: r.amount.toString(),
+      referenceAmount: r.referenceAmount.toString(),
+    })),
+  });
+
+  await writeFile(
+    `airdrops/${NETWORK}/${AllocationType.LIQUIDITY.toLowerCase()}-${NEXT_AIRDROP_START_TIME.toISOString()}.json`,
+    JSON.stringify(
+      {
+        root,
+        amount: allocationSum.toString(),
+        rawLeafData,
+      },
+      null,
+      2,
+    ),
+  );
 }
 
 prepareLpBonusDrop().catch(console.error);

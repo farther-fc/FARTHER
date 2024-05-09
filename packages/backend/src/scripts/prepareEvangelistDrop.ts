@@ -13,7 +13,6 @@ import {
   isProduction,
   neynarLimiter,
 } from "@farther/common";
-import { v4 as uuidv4 } from "uuid";
 import { AllocationType, prisma } from "../prisma";
 import { writeFile } from "../utils/helpers";
 import { airdropSanityCheck } from "./airdropSanityCheck";
@@ -75,6 +74,7 @@ async function prepareEvangelistDrop() {
       ),
     );
   }
+
   const allocationSum = recipientsWithAddress
     .map((r) => r.allocation)
     .reduce((acc, a) => acc + BigInt(a.amount), BigInt(0));
@@ -101,17 +101,25 @@ async function prepareEvangelistDrop() {
     },
   });
 
-  // Add allocations to db
-  await prisma.allocation.updateMany({
-    data: recipientsWithAddress.map((r, i) => ({
-      id: uuidv4(),
-      index: i,
-      airdropId: airdrop.id,
-      userId: r.id,
-      type: AllocationType.EVANGELIST,
-      address: r.address.toLowerCase(),
-    })),
-  });
+  // Update allocations with airdrop ID and index
+  // TODO: fix this and make sure to limit the recipients by power badge!
+  // await prisma.allocation.updateMany({
+  //   where: {
+  //     userId: {
+  //       in: recipientsWithAddress.map((r) => r.id),
+  //     },
+  //     type: AllocationType.EVANGELIST,
+  //     airdropId: null,
+  //   },
+  //   data: recipientsWithAddress.map((r, i) => ({
+  //     id: uuidv4(),
+  //     index: i,
+  //     airdropId: airdrop.id,
+  //     userId: r.id,
+  //     type: AllocationType.EVANGELIST,
+  //     address: r.address.toLowerCase(),
+  //   })),
+  // });
 
   await writeFile(
     `airdrops/${NETWORK}/${AllocationType.EVANGELIST.toLowerCase()}-${NEXT_AIRDROP_START_TIME.toISOString()}.json`,
@@ -145,8 +153,6 @@ async function getUserData(fids: number[]) {
       address: u.verified_addresses.eth_addresses[0],
     }));
   }
-
-  console.info(fids);
 
   return fids.map((fid) => {
     if (fid === DEV_USER_FID) {
