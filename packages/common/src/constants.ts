@@ -120,15 +120,23 @@ export const allIncentivePrograms = {
       startTime: 1714521600,
       endTime: 1730073600,
       refundee: FARTHER_OWNER_ADDRESS,
+      incentiveKey:
+        "0x0000000000000000000000008ad5b9007556749de59e088c88801a3aaa87134b000000000000000000000000306e600e33a9c86b91eea5a14c8c73f8de62ac84000000000000000000000000000000000000000000000000000000006631860000000000000000000000000000000000000000000000000000000000671ed40000000000000000000000000097e3b75b2eebcc722b504851416e1410b32180a3",
+      incentiveKeyHash:
+        "0xa58a83a037772128595cff86b9f106c4246c8f440949e51e69fd1b68f7eacc7c",
     },
   },
   staging: {
     1: {
       rewardToken: baseContractAddresses.staging.FARTHER,
       pool: baseContractAddresses.staging.UNIV3_FARTHER_ETH_30BPS_POOL,
-      startTime: 1713835426,
-      endTime: 1729387426,
+      startTime: 1715234158,
+      endTime: 1720503913,
       refundee: DEV_DEPLOYER_ADDRESS,
+      incentiveKey:
+        "0x0000000000000000000000005b69edb2434b47978d608fd1cea375a9ed04aa18000000000000000000000000c17ff8380c09685b2a671e8076c98e5f2ec5683200000000000000000000000000000000000000000000000000000000663c656e00000000000000000000000000000000000000000000000000000000668cce6900000000000000000000000085ecbfcc3a8a9049e531cd0feeba3dedf5789e60",
+      incentiveKeyHash:
+        "0xf7cb7b3e6de4da082e245807f0dc50127c112c83df6be8ccfbba5938f562e08c",
     },
   },
   development: {
@@ -138,6 +146,8 @@ export const allIncentivePrograms = {
       startTime: 0,
       endTime: 0,
       refundee: "0x",
+      incentiveKey: "0x",
+      incentiveKeyHash: "0x",
     },
   },
 } as const;
