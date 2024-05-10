@@ -1,4 +1,5 @@
 import { Address, encodeAbiParameters, keccak256 } from "viem";
+import { WARPCAST_API_BASE_URL } from "./constants";
 
 export function getStartOfNextMonthUTC() {
   // Get the current date in UTC
@@ -48,3 +49,16 @@ export const getIncentiveKey = ({
 
   return encodedData;
 };
+
+export async function getPowerBadgeFids() {
+  const warpcastResponse = (await (
+    await fetch(`${WARPCAST_API_BASE_URL}power-badge-users`)
+  ).json()) as { result: { fids: number[] } };
+
+  const powerBadgeFids = warpcastResponse.result.fids;
+
+  if (!powerBadgeFids.length) {
+    throw new Error("Warpcast didn't return any power badge FIDs.");
+  }
+  return powerBadgeFids;
+}

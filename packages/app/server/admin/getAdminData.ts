@@ -13,6 +13,7 @@ export const getAdminData = publicProcedure.query(async () => {
       address: true,
       isClaimed: true,
       userId: true,
+      isInvalidated: true,
       tweets: {
         select: {
           id: true,
@@ -41,9 +42,11 @@ export const getAdminData = publicProcedure.query(async () => {
 
   return {
     powerUserAllocations,
-    evangelistAllocations: evangelistAllocations.map((a) => ({
-      ...a,
-      hasPowerBadge: neynarData.find((u) => u.fid === a.userId)?.power_badge,
-    })),
+    evangelistAllocations: evangelistAllocations
+      .map((a) => ({
+        ...a,
+        hasPowerBadge: neynarData.find((u) => u.fid === a.userId)?.power_badge,
+      }))
+      .filter((a) => !a.isInvalidated),
   };
 });

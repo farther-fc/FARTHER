@@ -1,13 +1,14 @@
-import * as trpcNext from "@trpc/server/adapters/next";
 import * as Sentry from "@sentry/nextjs";
+import * as trpcNext from "@trpc/server/adapters/next";
 import { nodeHTTPFormDataContentTypeHandler } from "@trpc/server/adapters/node-http/content-type/form-data";
 import { nodeHTTPJSONContentTypeHandler } from "@trpc/server/adapters/node-http/content-type/json";
-import { createContext, router } from "server/trpc";
-import { getMerkleProof } from "server/airdrop/getMerkleProof";
 import { getAdminData } from "server/admin/getAdminData";
+import { invalidateStaleAllocations } from "server/admin/invalidateStaleAllocations";
+import { getMerkleProof } from "server/airdrop/getMerkleProof";
 import { setAllocationClaimed } from "server/airdrop/setAllocationClaimed";
-import { getUser } from "server/user";
 import { validateTweet } from "server/evangelize/validateTweet";
+import { createContext, router } from "server/trpc";
+import { getUser } from "server/user";
 
 export const appRouter = router({
   getMerkleProof,
@@ -15,6 +16,7 @@ export const appRouter = router({
   getUser,
   validateTweet,
   getAdminData,
+  invalidateStaleAllocations,
 });
 
 // export type definition of API

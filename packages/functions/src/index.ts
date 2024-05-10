@@ -5,19 +5,23 @@ import { defineString } from "firebase-functions/params";
 const CRON_SECRET = defineString("CRON_SECRET");
 const ENV = defineString("NEXT_PUBLIC_ENVIRONMENT");
 
-exports.updatePowerUsers = functions.pubsub
-  .schedule("0 * * * *")
+exports.invalidateStaleAllocations = functions.pubsub
+  .schedule("0 2 * * *")
   .onRun(async () => {
     try {
-      const response = await axios(`${getBaseUrl()}updatePowerUsers`, {
-        headers: { Authorization: `Bearer ${CRON_SECRET.value()}` },
-      });
+      const response = await axios(
+        `${getBaseUrl()}invalidateStaleAllocations`,
+        {
+          headers: { Authorization: `Bearer ${CRON_SECRET.value()}` },
+        },
+      );
 
       if (response.status !== 200) {
         throw new Error(
-          `updatePowerUsers failed with status ${response.status}`,
+          `invalidateStaleAllocations failed with status ${response.status}`,
         );
       }
+
       console.info("updatePowerUsers success");
     } catch (e: unknown) {
       if (e instanceof Error) {

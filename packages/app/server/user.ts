@@ -1,7 +1,7 @@
 import {
   DEV_USER_ADDRESS,
   DEV_USER_FID,
-  WARPCAST_API_BASE_URL,
+  getPowerBadgeFids,
   isProduction,
   neynarClient,
 } from "@farther/common";
@@ -82,6 +82,9 @@ function getDbUserByFid(fid: number) {
     },
     select: {
       allocations: {
+        where: {
+          isInvalidated: false,
+        },
         select: {
           id: true,
           amount: true,
@@ -152,12 +155,4 @@ async function getUserFromNeynar(address: string) {
     power_badge: user?.power_badge,
     verified_address: user?.verified_addresses.eth_addresses[0],
   };
-}
-
-async function getPowerBadgeFids() {
-  const warpcastResponse = (await (
-    await fetch(`${WARPCAST_API_BASE_URL}power-badge-users`)
-  ).json()) as { result: { fids: number[] } };
-
-  return warpcastResponse.result.fids;
 }

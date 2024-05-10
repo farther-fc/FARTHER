@@ -1,8 +1,8 @@
 // Look at all Transfer events from FARTHER_OWNER_ADDRESS to each pool
 
-import { FARTHER_OWNER_ADDRESS, contractAddresses } from "../constants";
-import { ERC20__factory } from "../typechain";
-import { viemPublicClient } from "../viem";
+import { FARTHER_OWNER_ADDRESS, contractAddresses } from "@farther/common";
+import { ERC20__factory } from "@farther/common/src/typechain";
+import { viemPublicClient } from "@farther/common/src/viem";
 
 const START_BLOCK = 13832035;
 const FARTHER_03PERCENT_POOL = "0x306e600e33A9c86B91EeA5A14c8C73F8de62AC84";
@@ -19,17 +19,6 @@ async function main() {
     args: {
       from: FARTHER_OWNER_ADDRESS,
       to: FARTHER_03PERCENT_POOL,
-    },
-    fromBlock: BigInt(START_BLOCK),
-  });
-
-  const transferFrom03PoolEvents = await viemPublicClient.getContractEvents({
-    abi: ERC20__factory.abi,
-    address: contractAddresses.FARTHER,
-    eventName: "Transfer",
-    args: {
-      from: contractAddresses.NFT_POSITION_MANAGER,
-      to: FARTHER_OWNER_ADDRESS,
     },
     fromBlock: BigInt(START_BLOCK),
   });
@@ -55,13 +44,32 @@ async function main() {
     return acc + cur.args.value;
   }, BigInt(0));
 
-  const transferOutTotal = transferFrom03PoolEvents.reduce((acc, cur) => {
+  const transferFromNftManagerEvents = await viemPublicClient.getContractEvents(
+    {
+      abi: ERC20__factory.abi,
+      address: contractAddresses.FARTHER,
+      eventName: "Transfer",
+      args: {
+        from: contractAddresses.NFT_POSITION_MANAGER,
+        to: FARTHER_OWNER_ADDRESS,
+      },
+      fromBlock: BigInt(START_BLOCK),
+    },
+  );
+
+  console.log({
+    transferTo03PoolEvents: transferTo03PoolEvents.length,
+    transferTo1PoolEvents: transferTo1PoolEvents.length,
+    transferFromNftManagerEvents: transferFromNftManagerEvents.length,
+  });
+
+  const transfersOutTotal = transferFromNftManagerEvents.reduce((acc, cur) => {
     if (!cur.args.value) throw Error("No value in transfer event");
     return acc + cur.args.value;
   }, BigInt(0));
 
   const cumulativeLiquidity =
-    transferTo03PoolTotal + transferTo1PoolTotal - transferOutTotal;
+    transferTo03PoolTotal + transferTo1PoolTotal - transfersOutTotal;
 
   console.info(cumulativeLiquidity / BigInt(10 ** 18));
 }

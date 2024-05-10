@@ -30,6 +30,7 @@ async function prepareEvangelistDrop() {
           type: AllocationType.EVANGELIST,
           // No airdrop ID == no airdrop deployed yet
           airdropId: null,
+          isInvalidated: false,
         },
       },
     },

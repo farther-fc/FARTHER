@@ -11,9 +11,7 @@
   "scripts": {
     "env:dev": "dotenv -e ../../.env -- ",
     "env:staging": "dotenv -e ../../.env.staging -- ",
-    "env:prod": "dotenv -e ../../.env.production -- ",
-    "liquidityTracker": "pnpm env:prod ts-node src/scripts/liquidityTracker.ts",
-    "getAirdropData:prod": "pnpm env:prod ts-node src/scripts/getAirdropData.ts"
+    "env:prod": "dotenv -e ../../.env.production -- "
   },
   "devDependencies": {
     "@graphprotocol/client-cli": "3.0.0",

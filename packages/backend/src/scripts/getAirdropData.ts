@@ -1,5 +1,5 @@
-import { AllocationType, prisma } from "../../../backend/src/prisma";
-import { WAD_SCALER } from "../env";
+import { WAD_SCALER } from "@farther/common";
+import { AllocationType, prisma } from "../prisma";
 
 async function getAirdropData() {
   const powerAllocations = await prisma.allocation.findMany({

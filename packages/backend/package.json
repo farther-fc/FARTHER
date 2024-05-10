@@ -17,6 +17,8 @@
     "preparePowerDrop:dev": "pnpm env:dev ts-node src/scripts/preparePowerDrop.ts",
     "prepareEvangelistDrop:staging": "pnpm env:staging ts-node src/scripts/prepareEvangelistDrop.ts",
     "prepareEvangelistDrop:dev": "pnpm env:dev ts-node src/scripts/prepareEvangelistDrop.ts",
+    "liquidityTracker:prod": "pnpm env:prod ts-node src/scripts/liquidityTracker.ts",
+    "getAirdropData:prod": "pnpm env:prod ts-node src/scripts/getAirdropData.ts",
     "migrate:create": "pnpm env:dev prisma migrate dev",
     "migrate:staging": "pnpm env:staging prisma migrate deploy",
     "migrate:prod": "dotenv -e ../../.env.production prisma migrate deploy",

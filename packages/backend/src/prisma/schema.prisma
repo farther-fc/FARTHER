@@ -30,8 +30,9 @@ model Allocation {
   isClaimed Boolean        @default(false)
   type      AllocationType
   amount    String
+
   // Index of the node in the merkle tree - can stay undefined until the merkle root is calculated
-  index     Int?
+  index Int?
 
   // This is used by power user & evangelist rewards. The base is assigned to each user 
   // and a bonus is applied based on follower count.
@@ -40,6 +41,8 @@ model Allocation {
   // This is used for liquidity rewards to keep track of how much the user claimed onchain. 
   // The amount they get allocated is a multiple of the reference amount.
   referenceAmount String?
+  
+  isInvalidated Boolean @default(false)
 
   // Address of user receiving the allocation - the reason this doesn't live at the user level is we user Neynar &
   // the user's wallet connection, and don't store the recipient's address until an airdrop merkle root is calculated.
@@ -58,13 +61,13 @@ enum AllocationType {
 
 model Tweet {
   // Using twitter tweet id as the unique identifier
-  id              String     @id
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
-  allocationId    String
-  allocation      Allocation @relation(fields: [allocationId], references: [id])
-  authorId        String     @default("")
-  followerCount   Int        @default(0)
+  id            String     @id
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  allocationId  String
+  allocation    Allocation @relation(fields: [allocationId], references: [id])
+  authorId      String     @default("")
+  followerCount Int        @default(0)
 
   // Each tweet has its own reward, which gets summed to the allocation amount
   reward String

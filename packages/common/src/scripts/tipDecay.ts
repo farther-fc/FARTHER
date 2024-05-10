@@ -1,5 +1,6 @@
 /**
- * Calculate the distribution amount for a specific day using a linear decrease formula.
+ * This distributes a given amount of tokens over a period of time, with the distribution amount
+ * linearly decreasing until the end date.
  *
  * @param totalAmount - The total amount of tokens to distribute over the entire period.
  * @param totalDays - The total number of days for distribution.

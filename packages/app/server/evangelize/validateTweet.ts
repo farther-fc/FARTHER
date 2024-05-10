@@ -171,6 +171,7 @@ export const validateTweet = publicProcedure
         userId: user.id,
         type: "EVANGELIST",
         airdropId: null,
+        isInvalidated: false,
       },
     });
 
