@@ -4,7 +4,7 @@ import { TweetRewardTable } from "@components/TweetRewardTable";
 import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
-import { TWEET_FARTHER_BONUS_SCALER } from "@farther/common";
+import { TWEET_FARTHER_BONUS_MULTIPLIER } from "@farther/common";
 import { ASSETS_URL, ROUTES, clickIds } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
@@ -73,7 +73,7 @@ export default function EvangelizePage() {
                 </li>
                 <li>
                   <strong>"$FARTHER"</strong> for{" "}
-                  {TWEET_FARTHER_BONUS_SCALER * 100 - 100}% bonus
+                  {TWEET_FARTHER_BONUS_MULTIPLIER * 100 - 100}% bonus
                 </li>
               </ul>
             </div>

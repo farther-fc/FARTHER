@@ -39,8 +39,6 @@ export const getAdminData = publicProcedure.query(async () => {
     },
   });
 
-  console.log("here", powerUserAllocations, evangelistAllocations, neynarData);
-
   return {
     powerUserAllocations,
     evangelistAllocations: evangelistAllocations.map((a) => ({

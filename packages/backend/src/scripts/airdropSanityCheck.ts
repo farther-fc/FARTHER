@@ -41,7 +41,7 @@ export async function airdropSanityCheck({
     response2.answer !== "y" ||
     response3.answer !== "y"
   ) {
-    console.log("Exiting script...");
+    console.info("Exiting script...");
     process.exit(1);
   }
 }

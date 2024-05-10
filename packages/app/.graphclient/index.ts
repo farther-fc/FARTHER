@@ -178,6 +178,8 @@ export type Position = {
 export type Account = {
   /**  { Account address }  */
   id: Scalars['String'];
+  /**  Total liquidity rewards claimed by this account */
+  rewardsClaimed?: Maybe<Scalars['BigInt']>;
   /**  All positions that belong to this account  */
   positions: Array<Position>;
 };
@@ -258,6 +260,15 @@ export type AccountWhereInput = {
   id_not_startsWith?: InputMaybe<Scalars['String']>;
   id_endsWith?: InputMaybe<Scalars['String']>;
   id_not_endsWith?: InputMaybe<Scalars['String']>;
+  rewardsClaimed_isNull?: InputMaybe<Scalars['Boolean']>;
+  rewardsClaimed_eq?: InputMaybe<Scalars['BigInt']>;
+  rewardsClaimed_not_eq?: InputMaybe<Scalars['BigInt']>;
+  rewardsClaimed_gt?: InputMaybe<Scalars['BigInt']>;
+  rewardsClaimed_gte?: InputMaybe<Scalars['BigInt']>;
+  rewardsClaimed_lt?: InputMaybe<Scalars['BigInt']>;
+  rewardsClaimed_lte?: InputMaybe<Scalars['BigInt']>;
+  rewardsClaimed_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  rewardsClaimed_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   positions_every?: InputMaybe<PositionWhereInput>;
   positions_some?: InputMaybe<PositionWhereInput>;
   positions_none?: InputMaybe<PositionWhereInput>;
@@ -325,6 +336,10 @@ export type PositionOrderByInput =
   | 'owner_id_DESC'
   | 'owner_id_ASC_NULLS_FIRST'
   | 'owner_id_DESC_NULLS_LAST'
+  | 'owner_rewardsClaimed_ASC'
+  | 'owner_rewardsClaimed_DESC'
+  | 'owner_rewardsClaimed_ASC_NULLS_FIRST'
+  | 'owner_rewardsClaimed_DESC_NULLS_LAST'
   | 'pool_id_ASC'
   | 'pool_id_DESC'
   | 'pool_id_ASC_NULLS_FIRST'
@@ -386,7 +401,11 @@ export type AccountOrderByInput =
   | 'id_ASC'
   | 'id_DESC'
   | 'id_ASC_NULLS_FIRST'
-  | 'id_DESC_NULLS_LAST';
+  | 'id_DESC_NULLS_LAST'
+  | 'rewardsClaimed_ASC'
+  | 'rewardsClaimed_DESC'
+  | 'rewardsClaimed_ASC_NULLS_FIRST'
+  | 'rewardsClaimed_DESC_NULLS_LAST';
 
 export type AccountsConnection = {
   edges: Array<AccountEdge>;
@@ -591,6 +610,7 @@ export type PositionResolvers<ContextType = MeshContext, ParentType extends Reso
 
 export type AccountResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['Account'] = ResolversParentTypes['Account']> = ResolversObject<{
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  rewardsClaimed?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
   positions?: Resolver<Array<ResolversTypes['Position']>, ParentType, ContextType, Partial<AccountpositionsArgs>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -713,7 +733,7 @@ const fartherTransforms = [];
 const additionalTypeDefs = [] as any[];
 const fartherHandler = new GraphqlHandler({
               name: "farther",
-              config: {"endpoint":"https://farther.squids.live/farther-production/graphql"},
+              config: {"endpoint":process.env.NEXT_PUBLIC_INDEXER_URL},
               baseDir,
               cache,
               pubsub,
@@ -752,6 +772,12 @@ const merger = new(BareMerger as any)({
           return printWithCache(FartherPositionsDocument);
         },
         location: 'FartherPositionsDocument.graphql'
+      },{
+        document: LpRewardClaimersDocument,
+        get rawSDL() {
+          return printWithCache(LpRewardClaimersDocument);
+        },
+        location: 'LpRewardClaimersDocument.graphql'
       }
     ];
     },
@@ -796,10 +822,12 @@ export type FartherPositionsQueryVariables = Exact<{
 }>;
 
 
-export type FartherPositionsQuery = { positions: Array<(
-    Pick<Position, 'id' | 'isStaked' | 'isHeldByStaker'>
-    & { owner: Pick<Account, 'id'>, pool: Pick<Pool, 'id'> }
-  )> };
+export type FartherPositionsQuery = { positions: Array<Pick<Position, 'id' | 'isStaked' | 'isHeldByStaker'>>, accountById?: Maybe<Pick<Account, 'id' | 'rewardsClaimed'>> };
+
+export type LPRewardClaimersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LPRewardClaimersQuery = { accounts: Array<Pick<Account, 'id' | 'rewardsClaimed'>> };
 
 
 export const FartherPositionsDocument = gql`
@@ -808,15 +836,22 @@ export const FartherPositionsDocument = gql`
     id
     isStaked
     isHeldByStaker
-    owner {
-      id
-    }
-    pool {
-      id
-    }
+  }
+  accountById(id: $ownerId) {
+    id
+    rewardsClaimed
   }
 }
     ` as unknown as DocumentNode<FartherPositionsQuery, FartherPositionsQueryVariables>;
+export const LPRewardClaimersDocument = gql`
+    query LPRewardClaimers {
+  accounts(where: {rewardsClaimed_gt: 0}) {
+    id
+    rewardsClaimed
+  }
+}
+    ` as unknown as DocumentNode<LPRewardClaimersQuery, LPRewardClaimersQueryVariables>;
+
 
 
 export type Requester<C = {}, E = unknown> = <R, V>(doc: DocumentNode, vars?: V, options?: C) => Promise<R> | AsyncIterable<R>
@@ -824,6 +859,9 @@ export function getSdk<C, E>(requester: Requester<C, E>) {
   return {
     FartherPositions(variables: FartherPositionsQueryVariables, options?: C): Promise<FartherPositionsQuery> {
       return requester<FartherPositionsQuery, FartherPositionsQueryVariables>(FartherPositionsDocument, variables, options) as Promise<FartherPositionsQuery>;
+    },
+    LPRewardClaimers(variables?: LPRewardClaimersQueryVariables, options?: C): Promise<LPRewardClaimersQuery> {
+      return requester<LPRewardClaimersQuery, LPRewardClaimersQueryVariables>(LPRewardClaimersDocument, variables, options) as Promise<LPRewardClaimersQuery>;
     }
   };
 }

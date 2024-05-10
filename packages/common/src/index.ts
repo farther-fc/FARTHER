@@ -1,6 +1,7 @@
 export * from "./abis";
 export * from "./constants";
 export * from "./env";
+export * from "./gql-queries";
 export * from "./merkle";
 export * from "./neynar";
 export * from "./typechain";

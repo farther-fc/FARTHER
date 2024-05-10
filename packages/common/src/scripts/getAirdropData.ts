@@ -15,7 +15,7 @@ async function getAirdropData() {
     .map((amount) => Number(BigInt(amount) / WAD_SCALER))
     .sort((a, b) => b - a);
 
-  console.log(amounts);
+  console.info(amounts);
 }
 
 getAirdropData().catch((e) => {
