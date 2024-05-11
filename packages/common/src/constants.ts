@@ -26,6 +26,15 @@ export const tokenAllocations = {
   devFund: TOTAL_TOKEN_SUPPLY * allocationRatios.DEV_FUND,
 };
 
+export const fundCategoryAddresses = {
+  powerDrops: "0xFdc7d762ceFF2a70D2BC92826c37cA1023E8889d",
+  liquidity: "0xdd1a2366960Fd1fE67174c18f47089e8911b81C4",
+  evangelist: "0x7352D041aFC0eD65D1821f70FD6F6D75C6149339",
+  ecosystem: "0x1FBeE539D20dcaF72f31a0f7b4B14F6C4643f369",
+  tips: "0xc17b4EE4E9F70dE7B57bD78D02B373fB400f4d18",
+  devFund: "0x68299eE09E29e9FA68Bf2670Cebdb6C93f4b7066",
+};
+
 export const UNISWAP_REWARDS_PROGRAM_1_AMOUNT =
   tokenAllocations.liquidityRewards / 3; // 50 million
 

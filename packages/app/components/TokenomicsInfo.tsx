@@ -5,9 +5,11 @@ import {
   TOTAL_TOKEN_SUPPLY,
   allocationRatios,
   contractAddresses,
+  fundCategoryAddresses,
 } from "@farther/common/src/constants";
 import { ROUTES, clickIds } from "@lib/constants";
 import { useModal } from "@lib/context/ModalContext";
+import { ExternalLink as ExternalLinkIcon } from "lucide-react";
 import Link from "next/link";
 import numeral from "numeral";
 
@@ -31,11 +33,19 @@ function TokenomicsInfo() {
         worth. Please read the <Link href="/disclaimers">disclaimers</Link>{" "}
         before buying.
       </p>
-      <p>It is allocated as follows:</p>
+      <p>
+        Allocations amount are listed below, with respective links to Gnosis
+        Safes where the pools are stored.
+      </p>
       <ul>
         <li>
           {allocationRatios.POWER_DROPS * 100}%{" "}
           <Link href={ROUTES.airdrop.path}>airdrops to power users</Link>
+          <ExternalLink
+            href={`https://basescan.org/address/${fundCategoryAddresses.powerDrops}`}
+          >
+            <ExternalLinkIcon className="ml-2 inline" size={16} />
+          </ExternalLink>
         </li>
         <li>
           {(allocationRatios.LIQUIDITY_REWARDS +
@@ -45,10 +55,20 @@ function TokenomicsInfo() {
           <Link href={ROUTES.liquidty.path}>
             liquidity pool & mining rewards
           </Link>
+          <ExternalLink
+            href={`https://basescan.org/address/${fundCategoryAddresses.liquidity}`}
+          >
+            <ExternalLinkIcon className="ml-2 inline" size={16} />
+          </ExternalLink>
         </li>
         <li>
           {allocationRatios.EVANGELIST_REWARDS * 100}%{" "}
           <Link href={ROUTES.evangelize.path}>evangelist rewards</Link>
+          <ExternalLink
+            href={`https://basescan.org/address/${fundCategoryAddresses.evangelist}`}
+          >
+            <ExternalLinkIcon className="ml-2 inline" size={16} />
+          </ExternalLink>
         </li>
         <li>
           {allocationRatios.ECOSYSTEM_FUND * 100}%{" "}
@@ -64,10 +84,20 @@ function TokenomicsInfo() {
           >
             ecosystem fund
           </Button>
+          <ExternalLink
+            href={`https://basescan.org/address/${fundCategoryAddresses.ecosystem}`}
+          >
+            <ExternalLinkIcon className="ml-2 inline" size={16} />
+          </ExternalLink>
         </li>
         <li>
           {allocationRatios.TIPS * 100}%{" "}
           <Link href={ROUTES.tips.path}>tip allocations</Link>
+          <ExternalLink
+            href={`https://basescan.org/address/${fundCategoryAddresses.tips}`}
+          >
+            <ExternalLinkIcon className="ml-2 inline" size={16} />
+          </ExternalLink>
         </li>
         <li>
           {allocationRatios.DEV_FUND * 100}%{" "}
@@ -90,6 +120,11 @@ function TokenomicsInfo() {
           >
             founder allocation
           </Button>
+          <ExternalLink
+            href={`https://basescan.org/address/${fundCategoryAddresses.devFund}`}
+          >
+            <ExternalLinkIcon className="ml-2 inline" size={16} />
+          </ExternalLink>
         </li>
       </ul>
       <p>
