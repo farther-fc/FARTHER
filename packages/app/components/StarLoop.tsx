@@ -25,7 +25,7 @@ export function StarLoop() {
           playsInline
           onPlay={() => setIsLoaded(true)}
         >
-          <source src={"/videos/landing-page-loop.mp4"} type="video/mp4" />
+          <source src={"/videos/star-loop.mp4"} type="video/mp4" />
         </video>
         {/* overlay */}
         <div className={`landing-page-star-fade absolute inset-0`} />

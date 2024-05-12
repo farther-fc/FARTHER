@@ -27,20 +27,6 @@ export default function Home() {
           </ExternalLink>
           .
         </p>
-        <h2>Who</h2>
-        <p>
-          Farther was created by{" "}
-          <ExternalLink href="https://warpcast.com/gigamesh">
-            GIGAMΞSH
-          </ExternalLink>{" "}
-          a creative technologist trying to help build a better internet.
-        </p>
-        <h2>What</h2>
-        <p>
-          Farther is built around a vision of a guerilla marketing community of
-          Farcaster evangelists. Another way of thinking of it is an incentive
-          design canvas for boosting Farcaster in the broader attention economy.
-        </p>
         <h2>Why</h2>
         <ul>
           <li>
