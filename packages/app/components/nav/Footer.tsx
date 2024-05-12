@@ -1,6 +1,6 @@
-import Etherscan from "@components/svgs/Etherscan";
-import Farcaster from "@components/svgs/Farcaster";
-import Uniswap from "@components/svgs/Uniswap";
+import Etherscan from "@components/icons/Etherscan";
+import Farcaster from "@components/icons/Farcaster";
+import Uniswap from "@components/icons/Uniswap";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { NETWORK, contractAddresses } from "@farther/common";
 import { ASSETS_URL, FARTHER_CHANNEL_URL } from "@lib/constants";

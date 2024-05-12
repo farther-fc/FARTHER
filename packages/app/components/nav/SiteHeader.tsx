@@ -1,3 +1,4 @@
+import { Farther } from "@components/icons/Farther";
 import { NavMenu } from "@components/nav/NavMenu";
 import { ProfileMenu } from "@components/nav/ProfileMenu";
 import { Button } from "@components/ui/Button";
@@ -21,7 +22,7 @@ export function SiteHeader() {
           href="/"
           className="flex items-center whitespace-pre hover:no-underline md:text-xl"
         >
-          F A R T H E R ✨
+          F A R T H E R <Farther className="w-[30px]" />
         </Link>
         <div className="flex space-x-2">
           {account.isConnected ? (
