@@ -57,7 +57,7 @@ async function main() {
     },
   );
 
-  console.log({
+  console.info({
     transferTo03PoolEvents: transferTo03PoolEvents.length,
     transferTo1PoolEvents: transferTo1PoolEvents.length,
     transferFromNftManagerEvents: transferFromNftManagerEvents.length,

@@ -1,8 +1,10 @@
 import { Button } from "@components/ui/Button";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { Popover } from "@components/ui/Popover";
+import Spinner from "@components/ui/Spinner";
 import { TableCell, TableRow } from "@components/ui/Table";
 import {
+  DUST_AMOUNT,
   NETWORK,
   UniswapV3StakerAbi,
   contractAddresses,
@@ -26,15 +28,17 @@ export function LiquidityTableRow({ position }: { position: Position }) {
     stakeSuccess,
     unstakeSuccess,
   } = useLiquidityHandlers();
-  const [unclaimedRewards, setUnclaimedRewards] = React.useState<bigint>(
-    BigInt(0),
-  );
+  const [pendingStakedLiqRewards, setPendingStakedLiqRewards] =
+    React.useState<bigint>(BigInt(0));
+  const [pendingStakedLiqRewardsLoading, setPendingStakedLiqRewardsLoading] =
+    React.useState(false);
 
   const txPending = stakePending || unstakePending;
   const positionClosed = position.liquidity === BigInt(0);
   const disabled = positionClosed || txPending;
 
-  const updatePositionRewards = async () => {
+  const updatePositionRewards = React.useCallback(async () => {
+    setPendingStakedLiqRewardsLoading(true);
     try {
       const [unclaimedReward] = await viemPublicClient.readContract({
         abi: UniswapV3StakerAbi,
@@ -52,7 +56,7 @@ export function LiquidityTableRow({ position }: { position: Position }) {
           BigInt(position.id),
         ],
       });
-      setUnclaimedRewards(unclaimedReward);
+      setPendingStakedLiqRewards(unclaimedReward);
     } catch (e: any) {
       if (e.message?.includes("stake does not exist")) {
         return BigInt(0);
@@ -60,16 +64,19 @@ export function LiquidityTableRow({ position }: { position: Position }) {
         throw e;
       }
     }
-  };
+    setPendingStakedLiqRewardsLoading(false);
+  }, [position.id]);
 
   React.useEffect(() => {
     if (!position.isStaked) return;
+    updatePositionRewards();
+
     timer.current = setInterval(() => {
       updatePositionRewards();
     }, POSITIONS_REFRESH_INTERVAL);
 
     return () => clearInterval(timer.current);
-  });
+  }, [position.isStaked, updatePositionRewards]);
 
   return (
     <TableRow key={position.id}>
@@ -80,8 +87,15 @@ export function LiquidityTableRow({ position }: { position: Position }) {
           {position.id}
         </ExternalLink>
       </TableCell>
-      <TableCell className="text-right">
-        {formatWad(unclaimedRewards, "0,0.000")}
+      <TableCell>
+        <div className="flex justify-end text-right">
+          {pendingStakedLiqRewardsLoading &&
+          pendingStakedLiqRewards <= DUST_AMOUNT ? (
+            <Spinner size="xs" />
+          ) : (
+            formatWad(pendingStakedLiqRewards, "0,0.000")
+          )}
+        </div>
       </TableCell>
       <TableCell className="pr-0 text-right">
         {positionClosed ? (

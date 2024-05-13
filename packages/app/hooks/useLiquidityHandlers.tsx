@@ -13,10 +13,11 @@ import { ContractFunctionExecutionError, encodeFunctionData } from "viem";
 import { useWriteContract } from "wagmi";
 import { FartherPositionsQuery } from "../.graphclient";
 
-const WAIT_TIME_UNTIL_REFETCH = 5000;
+const POLL_INTERVAL = 3000;
+const POLL_MAX_COUNT = 5;
 
 export type Position = FartherPositionsQuery["positions"][number] & {
-  unclaimedRewards: bigint;
+  pendingStakedLiqRewards: bigint;
 };
 
 export function useLiquidityHandlers() {
@@ -129,8 +130,9 @@ export function useLiquidityHandlers() {
         args: [contractAddresses.FARTHER, account.address, BigInt(0)],
       });
     } catch (error) {
+      // We should be able to safely ignore this. Seems to happen intermittently when the function returns "0x" as expected
       if (error instanceof ContractFunctionExecutionError) {
-        // We should be able to safely ignore this. Seems to happen intermittently when the function returns "0x" as expected
+        return;
       }
       logError({ error });
     }
@@ -148,9 +150,14 @@ export function useLiquidityHandlers() {
       ),
     });
 
-    setTimeout(() => {
+    let count = 0;
+    const intervalTimer = setInterval(() => {
       refetchIndexerData();
-    }, WAIT_TIME_UNTIL_REFETCH);
+      count++;
+      if (count > POLL_MAX_COUNT) {
+        clearInterval(intervalTimer);
+      }
+    }, POLL_INTERVAL);
   }, [stakeSuccess, refetchIndexerData, toast]);
 
   React.useEffect(() => {
@@ -164,10 +171,17 @@ export function useLiquidityHandlers() {
         </div>
       ),
     });
-    setTimeout(() => {
+
+    let count = 0;
+    const intervalTimer = setInterval(() => {
       refetchClaimableRewards();
       refetchIndexerData();
-    }, WAIT_TIME_UNTIL_REFETCH);
+
+      count++;
+      if (count > POLL_MAX_COUNT) {
+        clearInterval(intervalTimer);
+      }
+    }, POLL_INTERVAL);
   }, [unstakeSuccess, toast, refetchClaimableRewards, refetchIndexerData]);
 
   React.useEffect(() => {
@@ -181,11 +195,17 @@ export function useLiquidityHandlers() {
       ),
     });
 
-    setTimeout(() => {
-      refetchClaimableRewards();
+    let count = 0;
+    const intervalTimer = setInterval(() => {
       refetchBalance();
+      refetchClaimableRewards();
       refetchIndexerData();
-    }, WAIT_TIME_UNTIL_REFETCH);
+      count++;
+
+      if (count > POLL_MAX_COUNT) {
+        clearInterval(intervalTimer);
+      }
+    }, POLL_INTERVAL);
   }, [
     claimSuccess,
     toast,

@@ -1,5 +1,7 @@
 import { FartherPositionsQuery, getBuiltGraphSDK } from ".graphclient";
+import { AllocationType } from "@farther/backend";
 import {
+  LIQUIDITY_BONUS_MULTIPLIER,
   NFTPositionMngrAbi,
   UniswapV3StakerAbi,
   contractAddresses,
@@ -20,18 +22,17 @@ import { readContract } from "viem/actions";
 import { useReadContract } from "wagmi";
 
 export type Position = FartherPositionsQuery["positions"][number] & {
-  unclaimedRewards: bigint;
+  pendingStakedLiqRewards: bigint;
   liquidity: bigint;
 };
 
 const sdk = getBuiltGraphSDK();
 
 const LiquidityContext = createContainer(function () {
-  const { account } = useUser();
+  const { account, user } = useUser();
   const [positions, setPositions] = React.useState<Position[]>();
   const logError = useLogError();
   const pathname = usePathname();
-
   const {
     data: claimableRewards,
     error: claimableRewardsFetchError,
@@ -71,7 +72,7 @@ const LiquidityContext = createContainer(function () {
   const fetchPositionLiqAndRewards = React.useCallback(async () => {
     if (!indexerData?.positions.length || !account.address) return;
     try {
-      const unclaimedRewards = await pMap(
+      const pendingStakedLiqRewards = await pMap(
         indexerData.positions,
         async (p: (typeof indexerData.positions)[0]) => {
           try {
@@ -123,7 +124,7 @@ const LiquidityContext = createContainer(function () {
       const sortedPositions = indexerData.positions
         .map((p, i) => ({
           ...p,
-          unclaimedRewards: unclaimedRewards[i],
+          pendingStakedLiqRewards: pendingStakedLiqRewards[i],
           liquidity: liquidity[i],
         }))
         .sort((a, b) => {
@@ -180,16 +181,47 @@ const LiquidityContext = createContainer(function () {
     setPositions(undefined);
   }, [account.address]);
 
-  return {
-    rewardsClaimed:
-      (indexerData?.accountById?.rewardsClaimed as string | undefined) ||
+  const rewardsClaimed = indexerData?.accountById?.rewardsClaimed as
+    | string
+    | undefined;
+
+  const liquidityBonusAllocations =
+    user?.allocations.filter((a) => a.type === AllocationType.LIQUIDITY) || [];
+
+  const unclaimedBonusAllocations =
+    liquidityBonusAllocations.filter((a) => !a.isClaimed) || [];
+
+  const claimedBonusAllocations =
+    liquidityBonusAllocations.filter((a) => !!a.isClaimed) || [];
+
+  // This is the total amount of liqudity rewards that have received an airdropped bonus
+  // which has already been claimed
+  const claimedReferenceTotal = claimedBonusAllocations.reduce(
+    (acc, curr) => BigInt(curr.referenceAmount || "0") + acc,
+    BigInt(0),
+  );
+
+  const pendingBonusAmount =
+    (BigInt(rewardsClaimed || "0") - claimedReferenceTotal) *
+    BigInt(LIQUIDITY_BONUS_MULTIPLIER);
+
+  const claimableBonusAmount =
+    unclaimedBonusAllocations?.reduce(
+      (acc, curr) => BigInt(curr.amount) + acc,
       BigInt(0),
+    ) || BigInt(0);
+
+  return {
+    rewardsClaimed,
     indexerDataLoading,
     positions,
     claimableRewards: claimableRewards || BigInt(0),
     refetchIndexerData,
     refetchClaimableRewards,
     claimableRewardsLoading,
+    pendingBonusAmount,
+    claimableBonusAmount,
+    unclaimedBonusAllocations,
   };
 });
 

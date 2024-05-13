@@ -15,7 +15,6 @@ import {
   TableHeader,
   TableRow,
 } from "@components/ui/Table";
-import { AllocationType } from "@farther/backend";
 import {
   DUST_AMOUNT,
   IS_INCENTIVE_PROGRAM_ACTIVE,
@@ -44,33 +43,10 @@ export default function LiquidityPage() {
     claimableRewards,
     claimableRewardsLoading,
     rewardsClaimed,
+    pendingBonusAmount,
+    claimableBonusAmount,
+    unclaimedBonusAllocations,
   } = useLiquidity();
-
-  const liquidityBonusAllocations =
-    user?.allocations.filter((a) => a.type === AllocationType.LIQUIDITY) || [];
-
-  const unclaimedBonusAllocations =
-    liquidityBonusAllocations.filter((a) => !a.isClaimed) || [];
-
-  const claimedBonusAllocations =
-    liquidityBonusAllocations.filter((a) => !!a.isClaimed) || [];
-
-  // This is the total amount of liqudity rewards that have received an airdropped bonus
-  // which has already been claimed
-  const claimedReferenceAmount = claimedBonusAllocations.reduce(
-    (acc, curr) => BigInt(curr.referenceAmount || "0") + acc,
-    BigInt(0),
-  );
-
-  const pendingBonusAmount =
-    (BigInt(rewardsClaimed) - claimedReferenceAmount) *
-    BigInt(LIQUIDITY_BONUS_MULTIPLIER);
-
-  const claimableBonusAmount =
-    unclaimedBonusAllocations?.reduce(
-      (acc, curr) => BigInt(curr.amount) + acc,
-      BigInt(0),
-    ) || BigInt(0);
 
   return (
     <Container variant="page">
@@ -93,7 +69,6 @@ export default function LiquidityPage() {
                   <Info className="ml-2 inline w-4" />
                 </h3>
               </Popover>
-
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <div className="mb-4 flex flex-col">
@@ -102,7 +77,7 @@ export default function LiquidityPage() {
                       <Spinner className="mt-1" size="xs" />
                     ) : (
                       <div className="text-link">
-                        {formatWad(BigInt(rewardsClaimed))}
+                        {formatWad(BigInt(rewardsClaimed || "0"))}
                       </div>
                     )}
                   </div>

@@ -22,7 +22,7 @@ export function SiteHeader() {
           href="/"
           className="flex items-center whitespace-pre hover:no-underline md:text-xl"
         >
-          F A R T H E R <Farther className="w-[30px]" />
+          <Farther className="mr-1 w-[30px]" /> F A R T H E R
         </Link>
         <div className="flex space-x-2">
           {account.isConnected ? (

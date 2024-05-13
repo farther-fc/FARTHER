@@ -13,17 +13,21 @@ import {
   TableRow,
 } from "@components/ui/Table";
 import { AllocationType } from "@farther/backend";
+import { getStartOfNextMonthUTC } from "@farther/common";
 import { ROUTES, clickIds } from "@lib/constants";
 import { useLiquidity } from "@lib/context/LiquidityContext";
 import { useUser } from "@lib/context/UserContext";
-import { formatWad, removeFalsyValues } from "@lib/utils";
+import { formatAirdropTime, formatWad, removeFalsyValues } from "@lib/utils";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import { useRouter } from "next/router";
+import { useLiquidityHandlers } from "hooks/useLiquidityHandlers";
+import Link from "next/link";
 
 export default function RewardsPage() {
   const { account, user, userIsLoading } = useUser();
-  const router = useRouter();
-  const { positions, claimableRewards } = useLiquidity();
+  const { handleClaimRewards, claimSuccess, claimPending } =
+    useLiquidityHandlers();
+  const { claimableRewards, rewardsClaimed, pendingBonusAmount } =
+    useLiquidity();
 
   const powerDrop = user?.allocations?.find(
     (a) => a.type === AllocationType.POWER_USER,
@@ -45,6 +49,7 @@ export default function RewardsPage() {
   ]);
 
   const { openConnectModal } = useConnectModal();
+
   return (
     <Container variant="page">
       <main className="content">
@@ -65,7 +70,9 @@ export default function RewardsPage() {
                 </Button>{" "}
                 to check if you have any rewards.
               </InfoCard>
-            ) : rows.length || claimableRewards > BigInt(0) ? (
+            ) : rows.length ||
+              claimableRewards > BigInt(0) ||
+              typeof rewardsClaimed === "string" ? (
               <div className="mt-8">
                 <p className="text-muted">
                   Snapshots for airdrops take place up to a week before the end
@@ -84,26 +91,23 @@ export default function RewardsPage() {
                     {rows.map((a) => (
                       <RewardsTableRow key={a.id} allocation={a} />
                     ))}
-                    {positions?.length && (
+                    {rewardsClaimed && (
                       <TableRow>
                         <TableCell className="pl-0 font-medium">
-                          Liquidity
+                          <Link href={ROUTES.liquidty.path}>
+                            Onchain liquidity rewards
+                          </Link>
                         </TableCell>
                         <TableCell className="pr-1 text-right">
-                          {formatWad(
-                            positions.reduce(
-                              (acc, pos) => acc + BigInt(pos.unclaimedRewards),
-                              BigInt(0),
-                            ),
-                          )}
+                          {formatWad(BigInt(rewardsClaimed))}
                         </TableCell>
                         <TableCell className="pr-0 text-right">
                           <Button
-                            sentryId={clickIds.rewardsPageUnstake}
-                            className="w-[80px]"
-                            onClick={() => router.push(ROUTES.liquidty.path)}
+                            sentryId={clickIds.rewardsPageClaim}
+                            className="w-36"
+                            disabled={true}
                           >
-                            Unstake
+                            Claimed
                           </Button>
                         </TableCell>
                       </TableRow>
@@ -111,18 +115,50 @@ export default function RewardsPage() {
                     {claimableRewards > BigInt(0) && (
                       <TableRow>
                         <TableCell className="pl-0 font-medium">
-                          Liquidity
+                          <Link href={ROUTES.liquidty.path}>
+                            Onchain liquidity rewards
+                          </Link>
                         </TableCell>
                         <TableCell className="pr-1 text-right">
                           {formatWad(claimableRewards)}
                         </TableCell>
                         <TableCell className="pr-0 text-right">
                           <Button
+                            className="ml-auto mt-2 w-36"
+                            variant="secondary"
+                            sentryId={clickIds.claimLiquidityRewards}
+                            onClick={() => handleClaimRewards()}
+                            disabled={
+                              claimSuccess ||
+                              claimPending ||
+                              claimableRewards === BigInt(0)
+                            }
+                            loading={claimPending}
+                            loadingText="Claiming"
+                          >
+                            Claim
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                    {pendingBonusAmount > BigInt(0) && (
+                      <TableRow>
+                        <TableCell className="pl-0 font-medium">
+                          <Link href={ROUTES.liquidty.path}>
+                            Liquidity bonus rewards
+                          </Link>
+                        </TableCell>
+                        <TableCell className="pr-1 text-right">
+                          {formatWad(pendingBonusAmount)}
+                        </TableCell>
+                        <TableCell className="pr-0 text-right">
+                          <Button
                             sentryId={clickIds.rewardsPageClaimedRewards}
-                            className="w-[80px]"
+                            className="w-36"
                             disabled={true}
                           >
-                            Claimed
+                            Available{" "}
+                            {formatAirdropTime(getStartOfNextMonthUTC())}
                           </Button>
                         </TableCell>
                       </TableRow>
@@ -132,8 +168,8 @@ export default function RewardsPage() {
               </div>
             ) : (
               <InfoCard variant="ghost">
-                No rewards found. If you believe this is an error, please reach{" "}
-                <FartherAccountLink>out for help</FartherAccountLink>.
+                No rewards found. If you believe this is an error, please{" "}
+                <FartherAccountLink>reach out for help</FartherAccountLink>.
               </InfoCard>
             )}
           </>

@@ -8,7 +8,12 @@ import {
   TEMPORARY_EVANGELIST_DROP_START_TIME,
   getStartOfNextMonthUTC,
 } from "@farther/common";
-import { PENDING_ALLOCATION_ID, claimNames, clickIds } from "@lib/constants";
+import {
+  PENDING_ALLOCATION_ID,
+  allocationTypeLinks,
+  allocationTypeNames,
+  clickIds,
+} from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import { trpcClient } from "@lib/trpcClient";
 import { GetUserOuput } from "@lib/types/apiTypes";
@@ -16,6 +21,7 @@ import { formatAirdropTime, formatWad } from "@lib/utils";
 import { useLogError } from "hooks/useLogError";
 import { useToast } from "hooks/useToast";
 import { Info } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 import { Address } from "viem";
 import {
@@ -178,7 +184,9 @@ export function RewardsTableRow({
   return (
     <TableRow>
       <TableCell className="pl-0 font-medium">
-        {claimNames[allocation.type]}
+        <Link href={allocationTypeLinks[allocation.type]}>
+          {allocationTypeNames[allocation.type]}
+        </Link>
       </TableCell>
       <TableCell className="pr-1 text-right ">
         {allocation.id === PENDING_ALLOCATION_ID ? (
@@ -240,6 +248,7 @@ export function RewardsTableRow({
               <Button
                 sentryId={clickIds.rewardsTableRowStakeUnstake}
                 disabled={true}
+                className="w-36"
               >
                 Wrong Account <Info className="inline w-4 pl-1" />
               </Button>
@@ -258,6 +267,7 @@ export function RewardsTableRow({
             loading={isTxPending}
             loadingText="Claiming"
             onClick={handleClaim}
+            className="w-36"
           >
             {buttonText}
           </Button>

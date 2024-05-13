@@ -45,10 +45,16 @@ export const ASSETS_URL =
 
 export const POWER_BADGE_INFO_URL = "https://warpcast.com/v/0x0bd49f9c";
 
-export const claimNames = {
+export const allocationTypeNames = {
   [AllocationType.POWER_USER]: "Power User",
   [AllocationType.EVANGELIST]: "Evangelist",
   [AllocationType.LIQUIDITY]: "Liquidity Provider",
+};
+
+export const allocationTypeLinks = {
+  [AllocationType.POWER_USER]: ROUTES.airdrop.path,
+  [AllocationType.EVANGELIST]: ROUTES.evangelize.path,
+  [AllocationType.LIQUIDITY]: ROUTES.liquidty.path,
 };
 
 export const PENDING_ALLOCATION_ID = "id-for-pending-allocation";
@@ -79,7 +85,7 @@ export const clickIds = {
   airdropPageConnectWallet: "airdrop-page-connect-wallet",
   liquidtyPageConnectWallet: "liquidity-page-connect-wallet",
   rewardsPageConnectWallet: "rewards-page-connect-wallet",
-  rewardsPageUnstake: "rewards-page-unstake",
+  rewardsPageClaim: "rewards-page-claim",
   evangelizePageConnectWallet: "evangelize-page-connect-wallet",
   rewardsPageClaimedRewards: "rewards-page-claimed-rewards",
   claimLiquidityRewards: "claim-liquidity-rewards",

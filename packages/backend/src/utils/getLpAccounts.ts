@@ -42,7 +42,7 @@ export async function getLpAccounts() {
   const accounts: Account[] = query.data.data.accounts;
 
   for (const account of accounts) {
-    console.log(account.id, format(account.rewardsClaimed));
+    console.info(account.id, format(account.rewardsClaimed));
   }
 
   const totalActuallyClaimed = accounts.reduce(
