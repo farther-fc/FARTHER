@@ -7,6 +7,7 @@ import {
   NEXT_AIRDROP_END_TIME,
   NEXT_AIRDROP_START_TIME,
   getMerkleRoot,
+  getPowerBadgeFids,
 } from "@farther/common";
 import { v4 as uuidv4 } from "uuid";
 import { AllocationType, prisma } from "../prisma";
@@ -15,14 +16,22 @@ import { writeFile } from "../utils/helpers";
 import { airdropSanityCheck } from "./airdropSanityCheck";
 
 async function prepareLpBonusDrop() {
-  await airdropSanityCheck();
+  await airdropSanityCheck({
+    date: NEXT_AIRDROP_START_TIME,
+    network: NETWORK,
+    environment: ENVIRONMENT,
+  });
 
   const accounts = await getLpAccounts();
+  const powerFids = await getPowerBadgeFids();
 
   // Get all past liquidity reward allocations
   const allocations = await prisma.allocation.findMany({
     where: {
       type: AllocationType.LIQUIDITY,
+      userId: {
+        in: powerFids,
+      },
     },
     select: {
       address: true,
@@ -41,6 +50,7 @@ async function prepareLpBonusDrop() {
   );
 
   console.info("pastTotals:", pastTotals);
+  return;
 
   // Subtract past liquidity reward allocations from each account's claimed rewards
   const allocationData = accounts.map((a) => {

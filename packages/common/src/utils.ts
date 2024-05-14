@@ -1,5 +1,6 @@
 import { Address, encodeAbiParameters, keccak256 } from "viem";
-import { WARPCAST_API_BASE_URL } from "./constants";
+import { DEV_USER_FID, WARPCAST_API_BASE_URL } from "./constants";
+import { isProduction } from "./env";
 
 export function getStartOfNextMonthUTC() {
   // Get the current date in UTC
@@ -60,5 +61,10 @@ export async function getPowerBadgeFids() {
   if (!powerBadgeFids.length) {
     throw new Error("Warpcast didn't return any power badge FIDs.");
   }
+
+  if (!isProduction) {
+    powerBadgeFids.push(DEV_USER_FID);
+  }
+
   return powerBadgeFids;
 }

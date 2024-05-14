@@ -3,6 +3,7 @@ import {
   DEV_USER_ADDRESS,
   DEV_USER_FID,
   ENVIRONMENT,
+  NETWORK,
   NEXT_AIRDROP_END_TIME,
   NEXT_AIRDROP_START_TIME,
   POWER_USER_AIRDROP_RATIO,
@@ -26,6 +27,9 @@ async function preparePowerDrop() {
   await airdropSanityCheck({
     totalAllocation,
     ratio: POWER_USER_AIRDROP_RATIO,
+    date: NEXT_AIRDROP_START_TIME,
+    network: NETWORK,
+    environment: ENVIRONMENT,
   });
 
   const powerUsers = await getPowerUsers();

@@ -20,7 +20,11 @@ import { airdropSanityCheck } from "./airdropSanityCheck";
 // After calling it, deploy the airdrop contract with the merkle root, manually add Airdrop.address & Airdrop.root in the DB,
 // update the config with the next airdrop's values, and restart the cron.
 async function prepareEvangelistDrop() {
-  await airdropSanityCheck();
+  await airdropSanityCheck({
+    date: NEXT_AIRDROP_START_TIME,
+    network: NETWORK,
+    environment: ENVIRONMENT,
+  });
 
   // Get all evangelists with pending rewards
   const dbRecipients = await prisma.user.findMany({
