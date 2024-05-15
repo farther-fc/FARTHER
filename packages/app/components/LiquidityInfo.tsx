@@ -37,7 +37,7 @@ export function LiquidityInfo() {
           sentryId={clickIds.liquidityInfoBonusRewards}
           onClick={() =>
             openModal({
-              headerText: "Liquidity bonus rewards",
+              headerText: "Liquidity Bonus Rewards",
               body: <BonusRewardsModal />,
             })
           }

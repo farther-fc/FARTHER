@@ -25,14 +25,28 @@ import { POWER_BADGE_INFO_URL, ROUTES, clickIds } from "@lib/constants";
 import { useLiquidity } from "@lib/context/LiquidityContext";
 import { useModal } from "@lib/context/ModalContext";
 import { useUser } from "@lib/context/UserContext";
+import { GetUserOuput } from "@lib/types/apiTypes";
 import { formatAirdropTime, formatWad } from "@lib/utils";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useLiquidityHandlers } from "hooks/useLiquidityHandlers";
 import { Info } from "lucide-react";
 import Link from "next/link";
 
+// TODO: write test for this
+export function getEarliestStart(
+  allocations: NonNullable<GetUserOuput>["allocations"],
+) {
+  return allocations.reduce((acc, cur) => {
+    return new Date(
+      cur.airdrop?.startTime || Number.POSITIVE_INFINITY,
+    ).getTime() < acc
+      ? new Date(cur.airdrop?.startTime || Number.POSITIVE_INFINITY).getTime()
+      : acc;
+  }, Number.POSITIVE_INFINITY);
+}
+
 export default function LiquidityPage() {
-  const { account, user } = useUser();
+  const { account } = useUser();
   const { openModal } = useModal();
   const { openConnectModal } = useConnectModal();
   const { claimPending, handleClaimRewards, claimSuccess } =
@@ -44,9 +58,18 @@ export default function LiquidityPage() {
     claimableRewardsLoading,
     rewardsClaimed,
     pendingBonusAmount,
-    claimableBonusAmount,
     unclaimedBonusAllocations,
   } = useLiquidity();
+
+  const claimableBonusAmount =
+    unclaimedBonusAllocations?.reduce(
+      (acc, curr) => BigInt(curr.amount) + acc,
+      BigInt(0),
+    ) || BigInt(0);
+
+  const bonusAllocationsEarliestStartTime = getEarliestStart(
+    unclaimedBonusAllocations,
+  );
 
   return (
     <Container variant="page">
@@ -129,7 +152,7 @@ export default function LiquidityPage() {
                       sentryId={clickIds.liquidityInfoBonusRewards}
                       onClick={() =>
                         openModal({
-                          headerText: "Liquidity bonus rewards",
+                          headerText: "Liquidity Bonus",
                           body: <BonusRewardsModal />,
                         })
                       }
@@ -190,7 +213,9 @@ export default function LiquidityPage() {
                         variant="secondary"
                         sentryId={clickIds.liquidityClaimableBonus}
                       >
-                        Claim
+                        {bonusAllocationsEarliestStartTime < Date.now()
+                          ? "Claim"
+                          : `Available ${formatAirdropTime(new Date(bonusAllocationsEarliestStartTime))}`}
                       </Button>
                     </Link>
                   ) : (

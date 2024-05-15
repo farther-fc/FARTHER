@@ -12,7 +12,6 @@ import {
   TableHeader,
   TableRow,
 } from "@components/ui/Table";
-import { AllocationType } from "@farther/backend";
 import { getStartOfNextMonthUTC } from "@farther/common";
 import { ROUTES, clickIds } from "@lib/constants";
 import { useLiquidity } from "@lib/context/LiquidityContext";
@@ -29,24 +28,9 @@ export default function RewardsPage() {
   const { claimableRewards, rewardsClaimed, pendingBonusAmount } =
     useLiquidity();
 
-  const powerDrop = user?.allocations?.find(
-    (a) => a.type === AllocationType.POWER_USER,
+  const rows = removeFalsyValues(
+    user?.allocations.filter((a) => a.type === "POWER_USER") || [],
   );
-  const evangelistRows = user?.allocations?.filter(
-    (a) => a.type === AllocationType.EVANGELIST,
-  );
-  const evangelistPendingRow = (evangelistRows?.filter(
-    (a) => !a.airdrop?.address,
-  ) || [])[0];
-
-  const evangelistClaimedRows =
-    evangelistRows?.filter((a) => a.isClaimed) || [];
-
-  const rows = removeFalsyValues([
-    powerDrop,
-    evangelistPendingRow,
-    ...evangelistClaimedRows,
-  ]);
 
   const { openConnectModal } = useConnectModal();
 
@@ -82,7 +66,7 @@ export default function RewardsPage() {
                 <Table className="mt-12">
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="pl-0">Type</TableHead>
+                      <TableHead className="pl-0">Reward Type</TableHead>
                       <TableHead className="pr-1 text-right">Amount</TableHead>
                       <TableHead className="text-right"></TableHead>
                     </TableRow>
@@ -95,7 +79,7 @@ export default function RewardsPage() {
                       <TableRow>
                         <TableCell className="pl-0 font-medium">
                           <Link href={ROUTES.liquidty.path}>
-                            Onchain liquidity rewards
+                            Onchain Liquidity
                           </Link>
                         </TableCell>
                         <TableCell className="pr-1 text-right">
@@ -116,7 +100,7 @@ export default function RewardsPage() {
                       <TableRow>
                         <TableCell className="pl-0 font-medium">
                           <Link href={ROUTES.liquidty.path}>
-                            Onchain liquidity rewards
+                            Onchain Liquidity
                           </Link>
                         </TableCell>
                         <TableCell className="pr-1 text-right">
@@ -145,7 +129,7 @@ export default function RewardsPage() {
                       <TableRow>
                         <TableCell className="pl-0 font-medium">
                           <Link href={ROUTES.liquidty.path}>
-                            Liquidity bonus rewards
+                            Liquidity Bonus
                           </Link>
                         </TableCell>
                         <TableCell className="pr-1 text-right">

@@ -7,16 +7,16 @@ import {FartherToken} from "../src/FartherToken.sol";
 import {Merkle} from "murky/Merkle.sol";
 
 contract DeployAirdrop is Script {
-    address constant TOKEN = 0x8ad5b9007556749DE59E088c88801a3Aaa87134B;
+    address constant TOKEN = 0x5b69Edb2434b47978D608fD1CEa375A9Ed04Aa18;
 
-    uint constant AIRDROP_AMOUNT = 37499999999999999999995972;
+    uint constant AIRDROP_AMOUNT = 141531905325742517843285;
 
     bytes32 constant ROOT =
-        0x47da10edd2779677ac18ab536d799d040353a1939a9bfc39b1f849e3c9171699;
+        0xce9de4341755ff78622e1962d00e45f6647a909653f683bb18e638f55f969dfa;
 
-    address OWNER = 0x97e3B75B2eebCC722B504851416e1410B32180a3;
+    address OWNER = 0x85EcbFCc3a8a9049E531Cd0fEeBa3Dedf5789e60;
 
-    uint START_TIME = 1714521600;
+    uint START_TIME = 1715716589;
     uint DURATION = 365 days;
 
     function run() public {

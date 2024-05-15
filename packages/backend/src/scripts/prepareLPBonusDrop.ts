@@ -1,13 +1,16 @@
 import {
   ANVIL_AIRDROP_ADDRESS,
   CHAIN_ID,
+  DEV_USER_ADDRESS,
+  DEV_USER_FID,
   ENVIRONMENT,
   LIQUIDITY_BONUS_MULTIPLIER,
   NETWORK,
-  NEXT_AIRDROP_END_TIME,
-  NEXT_AIRDROP_START_TIME,
+  ONE_YEAR_IN_MS,
   getMerkleRoot,
   getPowerBadgeFids,
+  isProduction,
+  neynarLimiter,
 } from "@farther/common";
 import { v4 as uuidv4 } from "uuid";
 import { AllocationType, prisma } from "../prisma";
@@ -15,9 +18,15 @@ import { getLpAccounts } from "../utils/getLpAccounts";
 import { writeFile } from "../utils/helpers";
 import { airdropSanityCheck } from "./airdropSanityCheck";
 
+// const startTime = NEXT_AIRDROP_START_TIME;
+// const endTime = NEXT_AIRDROP_END_TIME;
+
+const startTime = new Date(1715716589000);
+const endTime = new Date(startTime.getTime() + ONE_YEAR_IN_MS);
+
 async function prepareLpBonusDrop() {
   await airdropSanityCheck({
-    date: NEXT_AIRDROP_START_TIME,
+    date: startTime,
     network: NETWORK,
     environment: ENVIRONMENT,
   });
@@ -35,6 +44,7 @@ async function prepareLpBonusDrop() {
     },
     select: {
       address: true,
+      userId: true,
       // This is the amount that was used as the basis for calculating the bonus
       referenceAmount: true,
     },
@@ -50,7 +60,12 @@ async function prepareLpBonusDrop() {
   );
 
   console.info("pastTotals:", pastTotals);
-  return;
+  console.info("accounts:", accounts);
+
+  // Get FID associated with each address
+  const addresses = accounts.map((a) => a.id);
+  console.log("addresses:", addresses);
+  const usersData = await getUserData(addresses);
 
   // Subtract past liquidity reward allocations from each account's claimed rewards
   const allocationData = accounts.map((a) => {
@@ -61,6 +76,13 @@ async function prepareLpBonusDrop() {
     const amount = referenceAmount * BigInt(LIQUIDITY_BONUS_MULTIPLIER);
     return {
       address: a.id,
+      fid: usersData.find((u) => {
+        const address = u.addresses.find(
+          (addr) => addr.toLowerCase() === a.id.toLowerCase(),
+        );
+        if (!address) throw new Error(`No address found for ${a.id}`);
+        return address;
+      })?.fid,
       amount,
       referenceAmount,
     };
@@ -89,8 +111,8 @@ async function prepareLpBonusDrop() {
       root,
       address:
         ENVIRONMENT === "development" ? ANVIL_AIRDROP_ADDRESS : undefined,
-      startTime: NEXT_AIRDROP_START_TIME,
-      endTime: NEXT_AIRDROP_END_TIME,
+      startTime,
+      endTime,
     },
   });
 
@@ -98,6 +120,7 @@ async function prepareLpBonusDrop() {
   await prisma.allocation.createMany({
     data: allocationData.map((r, i) => ({
       id: uuidv4(),
+      userId: r.fid,
       index: i,
       airdropId: airdrop.id,
       type: AllocationType.LIQUIDITY,
@@ -108,7 +131,7 @@ async function prepareLpBonusDrop() {
   });
 
   await writeFile(
-    `airdrops/${NETWORK}/${AllocationType.LIQUIDITY.toLowerCase()}-${NEXT_AIRDROP_START_TIME.toISOString()}.json`,
+    `airdrops/${NETWORK}/${AllocationType.LIQUIDITY.toLowerCase()}-${startTime.toISOString()}.json`,
     JSON.stringify(
       {
         root,
@@ -119,6 +142,33 @@ async function prepareLpBonusDrop() {
       2,
     ),
   );
+
+  console.info({
+    root,
+    amount: allocationSum,
+  });
+}
+
+async function getUserData(addresses: string[]) {
+  if (isProduction) {
+    const userData = await neynarLimiter.getUsersByAddress(addresses);
+    return userData.map((u) => {
+      return {
+        fid: u.fid,
+        addresses: u.verified_addresses.eth_addresses,
+      };
+    });
+  }
+
+  return addresses.map((a) => {
+    if (a === DEV_USER_ADDRESS) {
+      return {
+        fid: DEV_USER_FID,
+        addresses: [DEV_USER_ADDRESS],
+      };
+    }
+    throw new Error(`No address found for address: ${a}`);
+  });
 }
 
 prepareLpBonusDrop().catch(console.error);

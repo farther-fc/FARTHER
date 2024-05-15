@@ -186,7 +186,9 @@ const LiquidityContext = createContainer(function () {
     | undefined;
 
   const liquidityBonusAllocations =
-    user?.allocations.filter((a) => a.type === AllocationType.LIQUIDITY) || [];
+    user?.allocations.filter(
+      (a) => a.type === AllocationType.LIQUIDITY && !!a.airdrop,
+    ) || [];
 
   const unclaimedBonusAllocations =
     liquidityBonusAllocations.filter((a) => !a.isClaimed) || [];
@@ -205,12 +207,6 @@ const LiquidityContext = createContainer(function () {
     (BigInt(rewardsClaimed || "0") - claimedReferenceTotal) *
     BigInt(LIQUIDITY_BONUS_MULTIPLIER);
 
-  const claimableBonusAmount =
-    unclaimedBonusAllocations?.reduce(
-      (acc, curr) => BigInt(curr.amount) + acc,
-      BigInt(0),
-    ) || BigInt(0);
-
   return {
     rewardsClaimed,
     indexerDataLoading,
@@ -220,7 +216,6 @@ const LiquidityContext = createContainer(function () {
     refetchClaimableRewards,
     claimableRewardsLoading,
     pendingBonusAmount,
-    claimableBonusAmount,
     unclaimedBonusAllocations,
   };
 });

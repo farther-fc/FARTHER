@@ -84,6 +84,10 @@ export function RewardsTableRow({
   const hasClaimed = isSuccess || allocation.isClaimed;
   const isTxPending = isClaimPending || (!!claimTxHash && !isSuccess);
 
+  if (allocation.type === AllocationType.POWER_USER) {
+    console.log({ allocation, proof });
+  }
+
   const handleClaim = async () => {
     if (!proof) {
       logError({
@@ -173,6 +177,21 @@ export function RewardsTableRow({
     : Number.POSITIVE_INFINITY;
   const airdropStartTimeExceeded = Date.now() > startTimeNum;
 
+  // console.log({
+  //   proof,
+  //   airdropStartTimeExceeded,
+  //   allocation,
+  //   hasClaimed,
+  //   isProofLoading,
+  // });
+
+  const isDisabled =
+    !proof ||
+    !airdropStartTimeExceeded ||
+    !allocation.airdrop?.address ||
+    hasClaimed ||
+    isProofLoading;
+
   const buttonText = !allocation.airdrop?.address
     ? `Available ${formatAirdropTime(allocation.type === "EVANGELIST" ? TEMPORARY_EVANGELIST_DROP_START_TIME : getStartOfNextMonthUTC())}`
     : hasClaimed
@@ -180,6 +199,18 @@ export function RewardsTableRow({
       : airdropStartTimeExceeded
         ? "Claim"
         : `Available ${formatAirdropTime(new Date(startTime as string))}`;
+
+  const amountContent = (
+    <>
+      {formatWad(BigInt(allocation.amount))}{" "}
+      {allocation.tweets?.length ? (
+        <>
+          ({allocation.tweets.length} tweet
+          {allocation.tweets.length > 1 ? "s" : ""})
+        </>
+      ) : null}
+    </>
+  );
 
   return (
     <TableRow>
@@ -202,7 +233,7 @@ export function RewardsTableRow({
               TBD <Info className="inline w-4 pl-1" />
             </div>
           </Popover>
-        ) : (
+        ) : BigInt(allocation.baseAmount) > BigInt(0) ? (
           <Popover
             content={
               <>
@@ -217,18 +248,12 @@ export function RewardsTableRow({
             }
           >
             <span className="cursor-default rounded-md p-3">
-              <>
-                {formatWad(BigInt(allocation.amount))}{" "}
-                {allocation.tweets?.length ? (
-                  <>
-                    ({allocation.tweets.length} tweet
-                    {allocation.tweets.length > 1 ? "s" : ""})
-                  </>
-                ) : null}
-              </>{" "}
+              {amountContent}
               <Info className="inline w-3" />
             </span>
           </Popover>
+        ) : (
+          <span className="cursor-default rounded-md p-3">{amountContent}</span>
         )}
       </TableCell>
       <TableCell className="pr-0 text-right">
@@ -257,13 +282,7 @@ export function RewardsTableRow({
         ) : (
           <Button
             sentryId={clickIds.rewardsTableRowStakeUnstake}
-            disabled={
-              !proof ||
-              !airdropStartTimeExceeded ||
-              !allocation.airdrop?.address ||
-              hasClaimed ||
-              isProofLoading
-            }
+            disabled={isDisabled}
             loading={isTxPending}
             loadingText="Claiming"
             onClick={handleClaim}
