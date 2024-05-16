@@ -9,7 +9,7 @@ import {
   getStartOfNextMonthUTC,
 } from "@farther/common";
 import {
-  PENDING_ALLOCATION_ID,
+  PENDING_POWER_ALLOCATION_ID,
   allocationTypeLinks,
   allocationTypeNames,
   clickIds,
@@ -76,7 +76,7 @@ export function RewardsTableRow({
       },
       {
         enabled:
-          allocation.id !== PENDING_ALLOCATION_ID &&
+          allocation.id !== PENDING_POWER_ALLOCATION_ID &&
           !allocation.isClaimed &&
           !!allocation.airdrop,
       },
@@ -99,7 +99,7 @@ export function RewardsTableRow({
     }
 
     // Sanity check
-    if (!allocation.airdrop?.address || !allocation.index) {
+    if (!allocation.airdrop?.address || typeof allocation.index !== "number") {
       logError({
         error: new Error("Missing airdrop address or index"),
         showGenericToast: true,
@@ -173,13 +173,32 @@ export function RewardsTableRow({
     : Number.POSITIVE_INFINITY;
   const airdropStartTimeExceeded = Date.now() > startTimeNum;
 
+  const isDisabled =
+    !proof ||
+    !airdropStartTimeExceeded ||
+    !allocation.airdrop?.address ||
+    hasClaimed ||
+    isProofLoading;
+
   const buttonText = !allocation.airdrop?.address
-    ? `Available ${formatAirdropTime(allocation.type === "EVANGELIST" ? TEMPORARY_EVANGELIST_DROP_START_TIME : getStartOfNextMonthUTC())}`
+    ? `Avail. ${formatAirdropTime(allocation.type === "EVANGELIST" ? TEMPORARY_EVANGELIST_DROP_START_TIME : getStartOfNextMonthUTC())}`
     : hasClaimed
       ? "Claimed"
       : airdropStartTimeExceeded
         ? "Claim"
-        : `Available ${formatAirdropTime(new Date(startTime as string))}`;
+        : `Avail. ${formatAirdropTime(new Date(startTime as string))}`;
+
+  const amountContent = (
+    <>
+      {formatWad(BigInt(allocation.amount))}{" "}
+      {allocation.tweets?.length ? (
+        <>
+          ({allocation.tweets.length} tweet
+          {allocation.tweets.length > 1 ? "s" : ""})
+        </>
+      ) : null}
+    </>
+  );
 
   return (
     <TableRow>
@@ -189,7 +208,7 @@ export function RewardsTableRow({
         </Link>
       </TableCell>
       <TableCell className="pr-1 text-right ">
-        {allocation.id === PENDING_ALLOCATION_ID ? (
+        {allocation.id === PENDING_POWER_ALLOCATION_ID ? (
           <Popover
             content={
               <>
@@ -199,10 +218,10 @@ export function RewardsTableRow({
             }
           >
             <div className="text-muted border-muted inline-flex cursor-default items-center rounded-md border px-3 py-2">
-              TBD <Info className="inline w-4 pl-1" />
+              TBD <Info className="ml-1 w-4" />
             </div>
           </Popover>
-        ) : (
+        ) : BigInt(allocation.baseAmount) > BigInt(0) ? (
           <Popover
             content={
               <>
@@ -216,24 +235,20 @@ export function RewardsTableRow({
               </>
             }
           >
-            <span className="cursor-default rounded-md p-3">
-              <>
-                {formatWad(BigInt(allocation.amount))}{" "}
-                {allocation.tweets?.length ? (
-                  <>
-                    ({allocation.tweets.length} tweet
-                    {allocation.tweets.length > 1 ? "s" : ""})
-                  </>
-                ) : null}
-              </>{" "}
-              <Info className="inline w-3" />
-            </span>
+            <div className="flex items-center justify-end">
+              {amountContent}
+              <Info className="ml-1 w-3" />
+            </div>
           </Popover>
+        ) : allocation.type === AllocationType.LIQUIDITY ? (
+          <div>{amountContent}</div>
+        ) : (
+          <div>{amountContent}</div>
         )}
       </TableCell>
       <TableCell className="pr-0 text-right">
         {allocation.type === AllocationType.EVANGELIST && !user?.powerBadge ? (
-          <Pending />
+          <PendingEvangelistReward />
         ) : addressMismatch ? (
           <Popover
             content={
@@ -244,30 +259,24 @@ export function RewardsTableRow({
               </div>
             }
           >
-            <div>
+            <div className="flex items-center">
               <Button
                 sentryId={clickIds.rewardsTableRowStakeUnstake}
                 disabled={true}
-                className="w-36"
+                className="w-button"
               >
-                Wrong Account <Info className="inline w-4 pl-1" />
+                Wrong Account <Info className="ml-1 inline w-4" />
               </Button>
             </div>
           </Popover>
         ) : (
           <Button
             sentryId={clickIds.rewardsTableRowStakeUnstake}
-            disabled={
-              !proof ||
-              !airdropStartTimeExceeded ||
-              !allocation.airdrop?.address ||
-              hasClaimed ||
-              isProofLoading
-            }
+            disabled={isDisabled}
             loading={isTxPending}
             loadingText="Claiming"
             onClick={handleClaim}
-            className="w-36"
+            className="w-button"
           >
             {buttonText}
           </Button>
@@ -277,7 +286,7 @@ export function RewardsTableRow({
   );
 }
 
-function Pending() {
+function PendingEvangelistReward() {
   return (
     <Popover
       content={
@@ -288,8 +297,10 @@ function Pending() {
         </>
       }
     >
-      <div className="border-muted inline-block cursor-default rounded-md border p-3 opacity-30">
-        Pending <Info className="inline w-4" />
+      <div>
+        <Button sentryId="" disabled={true} className="w-button">
+          Pending <Info className="ml-1 w-3" />
+        </Button>
       </div>
     </Popover>
   );

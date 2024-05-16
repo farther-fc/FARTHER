@@ -1,10 +1,9 @@
 import { InfoCard } from "@components/InfoCard";
+import LiquidityBonusRewardsPopover from "@components/LiquidityBonusRewardsPopover";
 import { LiquidityInfo } from "@components/LiquidityInfo";
 import { LiquidityTableRow } from "@components/LiquidityTableRow";
-import { BonusRewardsModal } from "@components/modals/BonusRewardsModal";
 import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
-import { ExternalLink } from "@components/ui/ExternalLink";
 import { Popover } from "@components/ui/Popover";
 import Spinner from "@components/ui/Spinner";
 import {
@@ -18,13 +17,12 @@ import {
 import {
   DUST_AMOUNT,
   IS_INCENTIVE_PROGRAM_ACTIVE,
-  LIQUIDITY_BONUS_MULTIPLIER,
   getStartOfNextMonthUTC,
 } from "@farther/common";
-import { POWER_BADGE_INFO_URL, ROUTES, clickIds } from "@lib/constants";
+import { ROUTES, clickIds } from "@lib/constants";
 import { useLiquidity } from "@lib/context/LiquidityContext";
-import { useModal } from "@lib/context/ModalContext";
 import { useUser } from "@lib/context/UserContext";
+import { getEarliestStart } from "@lib/getEarliestStart";
 import { formatAirdropTime, formatWad } from "@lib/utils";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useLiquidityHandlers } from "hooks/useLiquidityHandlers";
@@ -32,8 +30,7 @@ import { Info } from "lucide-react";
 import Link from "next/link";
 
 export default function LiquidityPage() {
-  const { account, user } = useUser();
-  const { openModal } = useModal();
+  const { account } = useUser();
   const { openConnectModal } = useConnectModal();
   const { claimPending, handleClaimRewards, claimSuccess } =
     useLiquidityHandlers();
@@ -44,9 +41,18 @@ export default function LiquidityPage() {
     claimableRewardsLoading,
     rewardsClaimed,
     pendingBonusAmount,
-    claimableBonusAmount,
     unclaimedBonusAllocations,
   } = useLiquidity();
+
+  const claimableBonusAmount =
+    unclaimedBonusAllocations?.reduce(
+      (acc, curr) => BigInt(curr.amount) + acc,
+      BigInt(0),
+    ) || BigInt(0);
+
+  const bonusAllocationsEarliestStartTime = getEarliestStart(
+    unclaimedBonusAllocations,
+  );
 
   return (
     <Container variant="page">
@@ -114,32 +120,7 @@ export default function LiquidityPage() {
               </div>
             </div>
             <div className="border-ghost w-full rounded-xl border p-4 ">
-              <Popover
-                content={
-                  <>
-                    Bonus rewards are airdropped monthly to liquidity providers
-                    who have a{" "}
-                    <ExternalLink href={POWER_BADGE_INFO_URL}>
-                      Warpcast Power Badge
-                    </ExternalLink>
-                    . They're calculated by adding up all the claimed onchain
-                    rewards during the month & multiplying by{" "}
-                    {LIQUIDITY_BONUS_MULTIPLIER}.{" "}
-                    <Button
-                      sentryId={clickIds.liquidityInfoBonusRewards}
-                      onClick={() =>
-                        openModal({
-                          headerText: "Liquidity bonus rewards",
-                          body: <BonusRewardsModal />,
-                        })
-                      }
-                      variant="link"
-                    >
-                      Learn more✨
-                    </Button>
-                  </>
-                }
-              >
+              <Popover content={<LiquidityBonusRewardsPopover />}>
                 <h3 className="mt-0 border-none pl-0 text-center text-lg">
                   Bonus Rewards
                   <Info className="ml-2 inline w-4" />
@@ -157,7 +138,6 @@ export default function LiquidityPage() {
                       </div>
                     )}
                   </div>
-
                   <Button
                     className="ml-auto mt-2 w-full"
                     variant="secondary"
@@ -167,9 +147,7 @@ export default function LiquidityPage() {
                     {pendingBonusAmount === BigInt(0) ? (
                       "Pending"
                     ) : (
-                      <>
-                        Available {formatAirdropTime(getStartOfNextMonthUTC())}
-                      </>
+                      <>Avail. {formatAirdropTime(getStartOfNextMonthUTC())}</>
                     )}
                   </Button>
                 </div>
@@ -190,7 +168,9 @@ export default function LiquidityPage() {
                         variant="secondary"
                         sentryId={clickIds.liquidityClaimableBonus}
                       >
-                        Claim
+                        {bonusAllocationsEarliestStartTime < Date.now()
+                          ? "Claim"
+                          : `Avail. ${formatAirdropTime(new Date(bonusAllocationsEarliestStartTime))}`}
                       </Button>
                     </Link>
                   ) : (

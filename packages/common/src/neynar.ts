@@ -1,7 +1,7 @@
 import { NeynarAPIClient } from "@neynar/nodejs-sdk";
-import { chunk } from "underscore";
-import Bottleneck from "bottleneck";
 import { User } from "@neynar/nodejs-sdk/build/neynar-api/v2";
+import Bottleneck from "bottleneck";
+import { chunk } from "underscore";
 
 const NEXT_PUBLIC_NEYNAR_API_KEY = process.env.NEXT_PUBLIC_NEYNAR_API_KEY;
 
@@ -25,6 +25,19 @@ export const neynarLimiter = {
     const bulkUsersArray = await Promise.all(
       fidChunks.map((fids) =>
         neynarScheduler.schedule(() => neynarClient.fetchBulkUsers(fids)),
+      ),
+    );
+
+    return bulkUsersArray.map((data) => data.users).flat();
+  },
+  async getUsersByAddress(addresses: string[]) {
+    const addressChunks = chunk(addresses, NEYNAR_DATA_SIZE_LIMIT);
+
+    const bulkUsersArray = await Promise.all(
+      addressChunks.map((addresses) =>
+        neynarScheduler.schedule(() =>
+          neynarClient.fetchBulkUsersByEthereumAddress(addresses),
+        ),
       ),
     );
 

@@ -1,4 +1,3 @@
-import { ENVIRONMENT, NETWORK, NEXT_AIRDROP_START_TIME } from "@farther/common";
 import { prompt } from "enquirer";
 import numeral from "numeral";
 
@@ -7,25 +6,31 @@ type Response = {
 };
 
 export async function airdropSanityCheck({
+  date,
+  network,
+  environment,
   totalAllocation,
   ratio,
 }: {
+  date: Date;
+  network: "base" | "sepolia" | "anvil";
+  environment: "production" | "staging" | "development";
   totalAllocation?: number;
   ratio?: number;
-} = {}) {
+}) {
   const response1: Response = await prompt({
     type: "input",
     name: "answer",
-    message: `The airdrop will be prepared for ${NEXT_AIRDROP_START_TIME.toUTCString()}. Correct? (y/n)`,
+    message: `The airdrop will be prepared for ${date.toUTCString()}. Correct? (y/n)`,
   });
 
   const response2: Response = await prompt({
     type: "input",
     name: "answer",
-    message: `The airdrop will be deployed on ${NETWORK} and this is the ${ENVIRONMENT} environment. Correct? (y/n)`,
+    message: `The airdrop will be deployed on ${network} and this is the ${environment} environment. Correct? (y/n)`,
   });
 
-  let response3: Response = { answer: "n" };
+  let response3: Response = { answer: "y" };
   if (totalAllocation || ratio) {
     const response: Response = await prompt({
       type: "input",

@@ -72,6 +72,6 @@ export async function getLpAccounts() {
     totalActuallyClaimed: format(totalActuallyClaimed),
     difference: format(difference),
   });
-}
 
-getLpAccounts();
+  return accounts;
+}

@@ -8,9 +8,9 @@ contract DeployToken is Script {
     function run() public {
         vm.startBroadcast();
 
-        string memory NAME = "Farther";
-        string memory SYMBOL = "FARTHER";
-        address OWNER = 0x97e3B75B2eebCC722B504851416e1410B32180a3;
+        string memory NAME = "FartherStaging";
+        string memory SYMBOL = "FARTHER_STG";
+        address OWNER = 0xCa27037CeD432fadF54Dee9bC210DfD5ab2F13C8;
 
         FartherToken token = new FartherToken(
             NAME,

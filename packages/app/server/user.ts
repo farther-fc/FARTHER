@@ -5,7 +5,7 @@ import {
   isProduction,
   neynarClient,
 } from "@farther/common";
-import { PENDING_ALLOCATION_ID } from "@lib/constants";
+import { PENDING_POWER_ALLOCATION_ID } from "@lib/constants";
 import { apiSchemas } from "@lib/types/apiSchemas";
 import _ from "lodash";
 import { publicProcedure } from "server/trpc";
@@ -45,7 +45,7 @@ export const getUser = publicProcedure
       ) {
         allocations.push({
           type: AllocationType.POWER_USER,
-          id: PENDING_ALLOCATION_ID,
+          id: PENDING_POWER_ALLOCATION_ID,
           isClaimed: false,
           amount: "0",
           referenceAmount: "0",

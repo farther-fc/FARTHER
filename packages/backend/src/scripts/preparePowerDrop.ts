@@ -3,9 +3,12 @@ import {
   DEV_USER_ADDRESS,
   DEV_USER_FID,
   ENVIRONMENT,
+  NETWORK,
   NEXT_AIRDROP_END_TIME,
   NEXT_AIRDROP_START_TIME,
   POWER_USER_AIRDROP_RATIO,
+  POWER_USER_FIRST_AIRDROP_AMOUNT,
+  TOTAL_TOKEN_SUPPLY,
   WAD_SCALER,
   WARPCAST_API_BASE_URL,
   getMerkleRoot,
@@ -19,33 +22,45 @@ import { allocateTokens } from "../utils/allocateTokens";
 import { writeFile } from "../utils/helpers";
 import { airdropSanityCheck } from "./airdropSanityCheck";
 
+// const NEXT_AIRDROP_START_TIME = new Date(1715911135000);
+
 const totalAllocation =
   POWER_USER_AIRDROP_RATIO * tokenAllocations.powerUserAirdrops;
 
 async function preparePowerDrop() {
   await airdropSanityCheck({
     totalAllocation,
-    ratio: POWER_USER_AIRDROP_RATIO,
+    ratio: POWER_USER_FIRST_AIRDROP_AMOUNT / TOTAL_TOKEN_SUPPLY,
+    date: NEXT_AIRDROP_START_TIME,
+    network: NETWORK,
+    environment: ENVIRONMENT,
   });
 
   const powerUsers = await getPowerUsers();
 
-  // 3. Upsert users in db
-  await prisma.$transaction([
-    prisma.user.deleteMany({
-      where: {
-        id: {
-          in: powerUsers.map((u) => u.fid),
-        },
+  // Filter out power users who are already in DB
+  const existingPowerUsers = await prisma.user.findMany({
+    where: {
+      id: {
+        in: powerUsers.map((u) => u.fid),
       },
-    }),
-    prisma.user.createMany({
-      // Only need fid
-      data: powerUsers.map((u) => ({ id: u.fid })),
-    }),
-  ]);
+    },
+    select: {
+      id: true,
+    },
+  });
 
-  // 4. Get all powers users who have not received an airdrop allocation
+  const newPowerUsers = powerUsers.filter(
+    (u) => !existingPowerUsers.find((eu) => eu.id === u.fid),
+  );
+
+  // Upsert new power users in db
+  await prisma.user.createMany({
+    // Only need fid
+    data: newPowerUsers.map((u) => ({ id: u.fid })),
+  });
+
+  // Get all powers users who have not received an airdrop allocation
   const recipients = await prisma.user.findMany({
     where: {
       AND: [
@@ -153,7 +168,7 @@ async function preparePowerDrop() {
 
   const root = getMerkleRoot(rawLeafData);
 
-  // Upsert Airdrop
+  // Create Airdrop
   const airdrop = await prisma.airdrop.create({
     data: {
       chainId: CHAIN_ID,
@@ -166,7 +181,7 @@ async function preparePowerDrop() {
   });
 
   // Add allocations to db
-  prisma.allocation.createMany({
+  await prisma.allocation.createMany({
     data: recipientsWithAddress.map((r, i) => ({
       id: uuidv4(),
       amount: r.amount.toString(),

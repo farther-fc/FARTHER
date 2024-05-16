@@ -23,9 +23,7 @@ if (!process.env.DEPLOYER_PK) {
  */
 
 const SIX_MONTHS_IN_SECONDS = BigInt(30 * 6 * 24 * 60 * 60);
-const START_TIME = BigInt(
-  Math.floor(new Date("2024-05-01T00:00:00Z").getTime() / 1000),
-);
+const START_TIME = BigInt(Math.floor(new Date(1715835354000).getTime() / 1000));
 const END_TIME = START_TIME + SIX_MONTHS_IN_SECONDS;
 const AMOUNT = BigInt(UNISWAP_REWARDS_PROGRAM_1_AMOUNT) * WAD_SCALER;
 
@@ -44,7 +42,7 @@ async function createIncentive() {
     address: contractAddresses.FARTHER,
     abi: ERC20__factory.abi,
     functionName: "approve",
-    args: [contractAddresses.UNISWAP_V3_STAKER, AMOUNT],
+    args: [contractAddresses.UNISWAP_V3_STAKER, AMOUNT * BigInt(1000)],
     chain: base as any,
     account,
   });
@@ -52,8 +50,8 @@ async function createIncentive() {
   console.info({ approveHash });
 
   // Wait 15 seconds
-  console.info("Waiting 15 seconds...");
-  await new Promise((resolve) => setTimeout(resolve, 15_000));
+  console.info("Waiting 5 seconds...");
+  await new Promise((resolve) => setTimeout(resolve, 5_000));
 
   const createIncentiveHash = await wallet.writeContract({
     DEV_DEPLOYER_ADDRESS,

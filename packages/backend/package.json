@@ -49,7 +49,8 @@
     "pg": "^8.11.3",
     "ts-jest": "^29.1.2",
     "underscore": "^1.13.6",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "viem": "2.10.2"
   },
   "devDependencies": {
     "@prisma/client": "^5.1.0",
