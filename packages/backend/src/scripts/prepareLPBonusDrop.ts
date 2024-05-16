@@ -6,7 +6,8 @@ import {
   ENVIRONMENT,
   LIQUIDITY_BONUS_MULTIPLIER,
   NETWORK,
-  ONE_YEAR_IN_MS,
+  NEXT_AIRDROP_END_TIME,
+  NEXT_AIRDROP_START_TIME,
   getMerkleRoot,
   getPowerBadgeFids,
   isProduction,
@@ -18,11 +19,11 @@ import { getLpAccounts } from "../utils/getLpAccounts";
 import { writeFile } from "../utils/helpers";
 import { airdropSanityCheck } from "./airdropSanityCheck";
 
-// const startTime = NEXT_AIRDROP_START_TIME;
-// const endTime = NEXT_AIRDROP_END_TIME;
+const startTime = NEXT_AIRDROP_START_TIME;
+const endTime = NEXT_AIRDROP_END_TIME;
 
-const startTime = new Date(1715716589000);
-const endTime = new Date(startTime.getTime() + ONE_YEAR_IN_MS);
+// const startTime = new Date(1715841354000);
+// const endTime = new Date(startTime.getTime() + ONE_YEAR_IN_MS);
 
 async function prepareLpBonusDrop() {
   await airdropSanityCheck({
@@ -59,20 +60,21 @@ async function prepareLpBonusDrop() {
     {},
   );
 
-  console.info("pastTotals:", pastTotals);
-  console.info("accounts:", accounts);
+  // console.info("pastTotals:", pastTotals);
+  // console.info("accounts:", accounts);
 
   // Get FID associated with each address
   const addresses = accounts.map((a) => a.id);
-  console.log("addresses:", addresses);
   const usersData = await getUserData(addresses);
+
+  console.log("usersData:", usersData);
 
   // Subtract past liquidity reward allocations from each account's claimed rewards
   const allocationData = accounts.map((a) => {
     const referenceAmount =
       BigInt(a.rewardsClaimed) - (pastTotals[a.id] || BigInt(0));
 
-    // Multiply each by two to get the LP bonus drop amount
+    // Multiply each by the multiplier
     const amount = referenceAmount * BigInt(LIQUIDITY_BONUS_MULTIPLIER);
     return {
       address: a.id,
@@ -80,7 +82,7 @@ async function prepareLpBonusDrop() {
         const address = u.addresses.find(
           (addr) => addr.toLowerCase() === a.id.toLowerCase(),
         );
-        if (!address) throw new Error(`No address found for ${a.id}`);
+        if (!address) throw new Error(`No user for ${a.id}`);
         return address;
       })?.fid,
       amount,

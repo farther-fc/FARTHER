@@ -89,7 +89,7 @@ export default function RewardsPage() {
                         </TableCell>
                         <TableCell className="pr-0 text-right">
                           <Button
-                            className="ml-auto mt-2 w-36"
+                            className="w-button ml-auto mt-2"
                             variant="secondary"
                             sentryId={clickIds.claimLiquidityRewards}
                             onClick={() => handleClaimRewards()}
@@ -125,11 +125,10 @@ export default function RewardsPage() {
                         <TableCell className="pr-0 text-right">
                           <Button
                             sentryId={clickIds.rewardsPageClaimedRewards}
-                            className="w-36"
+                            className="w-button"
                             disabled={true}
                           >
-                            Available{" "}
-                            {formatAirdropTime(getStartOfNextMonthUTC())}
+                            Avail. {formatAirdropTime(getStartOfNextMonthUTC())}
                           </Button>
                         </TableCell>
                       </TableRow>
@@ -148,7 +147,7 @@ export default function RewardsPage() {
                         <TableCell className="pr-0 text-right">
                           <Button
                             sentryId={clickIds.rewardsPageClaim}
-                            className="w-36"
+                            className="w-button"
                             disabled={true}
                           >
                             Claimed

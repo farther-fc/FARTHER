@@ -98,8 +98,6 @@ export function RewardsTableRow({
       return;
     }
 
-    console.log(allocation);
-
     // Sanity check
     if (!allocation.airdrop?.address || typeof allocation.index !== "number") {
       logError({
@@ -183,12 +181,12 @@ export function RewardsTableRow({
     isProofLoading;
 
   const buttonText = !allocation.airdrop?.address
-    ? `Available ${formatAirdropTime(allocation.type === "EVANGELIST" ? TEMPORARY_EVANGELIST_DROP_START_TIME : getStartOfNextMonthUTC())}`
+    ? `Avail. ${formatAirdropTime(allocation.type === "EVANGELIST" ? TEMPORARY_EVANGELIST_DROP_START_TIME : getStartOfNextMonthUTC())}`
     : hasClaimed
       ? "Claimed"
       : airdropStartTimeExceeded
         ? "Claim"
-        : `Available ${formatAirdropTime(new Date(startTime as string))}`;
+        : `Avail. ${formatAirdropTime(new Date(startTime as string))}`;
 
   const amountContent = (
     <>
@@ -265,7 +263,7 @@ export function RewardsTableRow({
               <Button
                 sentryId={clickIds.rewardsTableRowStakeUnstake}
                 disabled={true}
-                className="w-36"
+                className="w-button"
               >
                 Wrong Account <Info className="ml-1 inline w-4" />
               </Button>
@@ -278,7 +276,7 @@ export function RewardsTableRow({
             loading={isTxPending}
             loadingText="Claiming"
             onClick={handleClaim}
-            className="w-36"
+            className="w-button"
           >
             {buttonText}
           </Button>
@@ -299,8 +297,10 @@ function PendingEvangelistReward() {
         </>
       }
     >
-      <div className="border-muted inline-flex cursor-default items-center rounded-md border p-3 opacity-30">
-        Pending <Info className="ml-1 w-4" />
+      <div>
+        <Button sentryId="" disabled={true} className="w-button">
+          Pending <Info className="ml-1 w-3" />
+        </Button>
       </div>
     </Popover>
   );

@@ -29,7 +29,11 @@ export const formatDate = (
 ) => {
   const language =
     typeof navigator !== "undefined" ? navigator.language : "en-US";
-  return new Intl.DateTimeFormat(language, options).format(new Date(date));
+  return new Intl.DateTimeFormat(language, options)
+    .format(new Date(date))
+    .replace(/ AM/, "am")
+    .replace(/ PM/, "pm")
+    .replace(/, /, " ");
 };
 
 export const formatAirdropTime = (date: Date) => {
@@ -50,14 +54,12 @@ export const formatAirdropTime = (date: Date) => {
   if (diff > oneDay / 2) {
     return formatDate(date, {
       weekday: "short",
-      minute: "2-digit",
       hour: "numeric",
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     });
   }
 
   return formatDate(date, {
-    minute: "2-digit",
     hour: "numeric",
     timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   });

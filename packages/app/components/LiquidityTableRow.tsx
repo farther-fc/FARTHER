@@ -101,7 +101,7 @@ export function LiquidityTableRow({ position }: { position: Position }) {
         {positionClosed ? (
           <Popover content={<>This position currently has no liquidity.</>}>
             <div>
-              <Button sentryId="" className="w-36" disabled={true}>
+              <Button sentryId="" className="w-button" disabled={true}>
                 Closed <Info className="inline w-4 pl-1" />
               </Button>
             </div>
@@ -109,7 +109,7 @@ export function LiquidityTableRow({ position }: { position: Position }) {
         ) : (
           <Button
             sentryId={clickIds.liqTableRowStakeUnstake}
-            className="w-36"
+            className="w-button"
             onClick={() =>
               position.isStaked
                 ? handleUnstake(position.id)

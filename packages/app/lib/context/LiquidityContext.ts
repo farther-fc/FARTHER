@@ -194,15 +194,15 @@ const LiquidityContext = createContainer(function () {
   const unclaimedBonusAllocations =
     airdroppedBonusAllocations.filter((a) => !a.isClaimed) || [];
 
-  const claimedAllocations =
-    airdroppedBonusAllocations.filter((a) => !!a.isClaimed) || [];
-
   // This is the total amount of liqudity rewards that have received an airdropped bonus
   const airdroppedReferenceTotal = airdroppedBonusAllocations.reduce(
     (acc, curr) => BigInt(curr.referenceAmount || "0") + acc,
     BigInt(0),
   );
 
+  // Pending reference amount is anything left over after subtracting the airdropped reference
+  // (onchain amount that has an associated airdropped bonus) from the total onchain rewards claimed.
+  // Multiply by multiplier to get the bonus.
   const pendingBonusAmount =
     (BigInt(rewardsClaimed || "0") - airdroppedReferenceTotal) *
     BigInt(LIQUIDITY_BONUS_MULTIPLIER);

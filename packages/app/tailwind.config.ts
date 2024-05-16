@@ -94,6 +94,9 @@ const config = {
         "modal-content": 101,
         toast: 110,
       },
+      width: {
+        button: "150px",
+      },
     },
   },
   plugins: [

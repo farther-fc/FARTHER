@@ -49,7 +49,7 @@ export const getMerkleProof = publicProcedure
             id: allocationId,
           },
           every: {
-            type: allocation?.type,
+            type: allocation.type,
           },
         },
       },
