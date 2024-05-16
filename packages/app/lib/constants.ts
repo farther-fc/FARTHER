@@ -48,7 +48,7 @@ export const POWER_BADGE_INFO_URL = "https://warpcast.com/v/0x0bd49f9c";
 export const allocationTypeNames = {
   [AllocationType.POWER_USER]: "Power User",
   [AllocationType.EVANGELIST]: "Evangelist",
-  [AllocationType.LIQUIDITY]: "Liquidity Bonus",
+  [AllocationType.LIQUIDITY]: "Liquidity (bonus rewards)",
 };
 
 export const allocationTypeLinks = {
@@ -57,7 +57,7 @@ export const allocationTypeLinks = {
   [AllocationType.LIQUIDITY]: ROUTES.liquidty.path,
 };
 
-export const PENDING_ALLOCATION_ID = "id-for-pending-allocation";
+export const PENDING_POWER_ALLOCATION_ID = "pending-power-drop-allocation";
 
 export const ROOT_ENDPOINTS = {
   production: "https://farther.social",

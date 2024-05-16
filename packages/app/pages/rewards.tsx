@@ -1,8 +1,10 @@
 import { InfoCard } from "@components/InfoCard";
+import LiquidityBonusRewardsPopover from "@components/LiquidityBonusRewardsPopover";
 import { RewardsTableRow } from "@components/RewardsTableRow";
 import { FartherAccountLink } from "@components/nav/FartherLinks";
 import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
+import { Popover } from "@components/ui/Popover";
 import Spinner from "@components/ui/Spinner";
 import {
   Table,
@@ -19,6 +21,7 @@ import { useUser } from "@lib/context/UserContext";
 import { formatAirdropTime, formatWad, removeFalsyValues } from "@lib/utils";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useLiquidityHandlers } from "hooks/useLiquidityHandlers";
+import { Info } from "lucide-react";
 import Link from "next/link";
 
 export default function RewardsPage() {
@@ -28,9 +31,7 @@ export default function RewardsPage() {
   const { claimableRewards, rewardsClaimed, pendingBonusAmount } =
     useLiquidity();
 
-  const rows = removeFalsyValues(
-    user?.allocations.filter((a) => a.type === "POWER_USER") || [],
-  );
+  const rows = removeFalsyValues(user?.allocations || []);
 
   const { openConnectModal } = useConnectModal();
 
@@ -75,32 +76,12 @@ export default function RewardsPage() {
                     {rows.map((a) => (
                       <RewardsTableRow key={a.id} allocation={a} />
                     ))}
-                    {rewardsClaimed && (
-                      <TableRow>
-                        <TableCell className="pl-0 font-medium">
-                          <Link href={ROUTES.liquidty.path}>
-                            Onchain Liquidity
-                          </Link>
-                        </TableCell>
-                        <TableCell className="pr-1 text-right">
-                          {formatWad(BigInt(rewardsClaimed))}
-                        </TableCell>
-                        <TableCell className="pr-0 text-right">
-                          <Button
-                            sentryId={clickIds.rewardsPageClaim}
-                            className="w-36"
-                            disabled={true}
-                          >
-                            Claimed
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    )}
+                    {/** CLAIMABLE ONCHAIN LIQUDITY REWARDS */}
                     {claimableRewards > BigInt(0) && (
                       <TableRow>
                         <TableCell className="pl-0 font-medium">
                           <Link href={ROUTES.liquidty.path}>
-                            Onchain Liquidity
+                            Liquidity (onchain rewards)
                           </Link>
                         </TableCell>
                         <TableCell className="pr-1 text-right">
@@ -125,15 +106,21 @@ export default function RewardsPage() {
                         </TableCell>
                       </TableRow>
                     )}
+                    {/** PENDING BONUS LIQUDITY REWARDS */}
                     {pendingBonusAmount > BigInt(0) && (
                       <TableRow>
                         <TableCell className="pl-0 font-medium">
                           <Link href={ROUTES.liquidty.path}>
-                            Liquidity Bonus
+                            Liquidity (bonus rewards)
                           </Link>
                         </TableCell>
                         <TableCell className="pr-1 text-right">
-                          {formatWad(pendingBonusAmount)}
+                          <Popover content={<LiquidityBonusRewardsPopover />}>
+                            <div className="flex items-center justify-end">
+                              {formatWad(pendingBonusAmount)}{" "}
+                              <Info className="ml-1 w-3" />
+                            </div>
+                          </Popover>
                         </TableCell>
                         <TableCell className="pr-0 text-right">
                           <Button
@@ -143,6 +130,28 @@ export default function RewardsPage() {
                           >
                             Available{" "}
                             {formatAirdropTime(getStartOfNextMonthUTC())}
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                    {/** CLAIMED ONCHAIN LIQUDITY REWARDS */}
+                    {rewardsClaimed && (
+                      <TableRow>
+                        <TableCell className="pl-0 font-medium">
+                          <Link href={ROUTES.liquidty.path}>
+                            Liquidity (onchain rewards)
+                          </Link>
+                        </TableCell>
+                        <TableCell className="pr-1 text-right">
+                          {formatWad(BigInt(rewardsClaimed))}
+                        </TableCell>
+                        <TableCell className="pr-0 text-right">
+                          <Button
+                            sentryId={clickIds.rewardsPageClaim}
+                            className="w-36"
+                            disabled={true}
+                          >
+                            Claimed
                           </Button>
                         </TableCell>
                       </TableRow>

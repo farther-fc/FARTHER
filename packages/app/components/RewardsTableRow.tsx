@@ -9,7 +9,7 @@ import {
   getStartOfNextMonthUTC,
 } from "@farther/common";
 import {
-  PENDING_ALLOCATION_ID,
+  PENDING_POWER_ALLOCATION_ID,
   allocationTypeLinks,
   allocationTypeNames,
   clickIds,
@@ -76,17 +76,13 @@ export function RewardsTableRow({
       },
       {
         enabled:
-          allocation.id !== PENDING_ALLOCATION_ID &&
+          allocation.id !== PENDING_POWER_ALLOCATION_ID &&
           !allocation.isClaimed &&
           !!allocation.airdrop,
       },
     );
   const hasClaimed = isSuccess || allocation.isClaimed;
   const isTxPending = isClaimPending || (!!claimTxHash && !isSuccess);
-
-  if (allocation.type === AllocationType.POWER_USER) {
-    console.log({ allocation, proof });
-  }
 
   const handleClaim = async () => {
     if (!proof) {
@@ -102,8 +98,10 @@ export function RewardsTableRow({
       return;
     }
 
+    console.log(allocation);
+
     // Sanity check
-    if (!allocation.airdrop?.address || !allocation.index) {
+    if (!allocation.airdrop?.address || typeof allocation.index !== "number") {
       logError({
         error: new Error("Missing airdrop address or index"),
         showGenericToast: true,
@@ -177,14 +175,6 @@ export function RewardsTableRow({
     : Number.POSITIVE_INFINITY;
   const airdropStartTimeExceeded = Date.now() > startTimeNum;
 
-  // console.log({
-  //   proof,
-  //   airdropStartTimeExceeded,
-  //   allocation,
-  //   hasClaimed,
-  //   isProofLoading,
-  // });
-
   const isDisabled =
     !proof ||
     !airdropStartTimeExceeded ||
@@ -220,7 +210,7 @@ export function RewardsTableRow({
         </Link>
       </TableCell>
       <TableCell className="pr-1 text-right ">
-        {allocation.id === PENDING_ALLOCATION_ID ? (
+        {allocation.id === PENDING_POWER_ALLOCATION_ID ? (
           <Popover
             content={
               <>
@@ -230,7 +220,7 @@ export function RewardsTableRow({
             }
           >
             <div className="text-muted border-muted inline-flex cursor-default items-center rounded-md border px-3 py-2">
-              TBD <Info className="inline w-4 pl-1" />
+              TBD <Info className="ml-1 w-4" />
             </div>
           </Popover>
         ) : BigInt(allocation.baseAmount) > BigInt(0) ? (
@@ -247,18 +237,20 @@ export function RewardsTableRow({
               </>
             }
           >
-            <span className="cursor-default rounded-md p-3">
+            <div className="flex items-center justify-end">
               {amountContent}
-              <Info className="inline w-3" />
-            </span>
+              <Info className="ml-1 w-3" />
+            </div>
           </Popover>
+        ) : allocation.type === AllocationType.LIQUIDITY ? (
+          <div>{amountContent}</div>
         ) : (
-          <span className="cursor-default rounded-md p-3">{amountContent}</span>
+          <div>{amountContent}</div>
         )}
       </TableCell>
       <TableCell className="pr-0 text-right">
         {allocation.type === AllocationType.EVANGELIST && !user?.powerBadge ? (
-          <Pending />
+          <PendingEvangelistReward />
         ) : addressMismatch ? (
           <Popover
             content={
@@ -269,13 +261,13 @@ export function RewardsTableRow({
               </div>
             }
           >
-            <div>
+            <div className="flex items-center">
               <Button
                 sentryId={clickIds.rewardsTableRowStakeUnstake}
                 disabled={true}
                 className="w-36"
               >
-                Wrong Account <Info className="inline w-4 pl-1" />
+                Wrong Account <Info className="ml-1 inline w-4" />
               </Button>
             </div>
           </Popover>
@@ -296,7 +288,7 @@ export function RewardsTableRow({
   );
 }
 
-function Pending() {
+function PendingEvangelistReward() {
   return (
     <Popover
       content={
@@ -307,8 +299,8 @@ function Pending() {
         </>
       }
     >
-      <div className="border-muted inline-block cursor-default rounded-md border p-3 opacity-30">
-        Pending <Info className="inline w-4" />
+      <div className="border-muted inline-flex cursor-default items-center rounded-md border p-3 opacity-30">
+        Pending <Info className="ml-1 w-4" />
       </div>
     </Popover>
   );

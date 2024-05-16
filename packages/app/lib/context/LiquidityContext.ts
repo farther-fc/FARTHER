@@ -186,25 +186,25 @@ const LiquidityContext = createContainer(function () {
     | undefined;
 
   const liquidityBonusAllocations =
-    user?.allocations.filter(
-      (a) => a.type === AllocationType.LIQUIDITY && !!a.airdrop,
-    ) || [];
+    user?.allocations.filter((a) => a.type === AllocationType.LIQUIDITY) || [];
+
+  const airdroppedBonusAllocations =
+    liquidityBonusAllocations.filter((a) => !!a.airdrop) || [];
 
   const unclaimedBonusAllocations =
-    liquidityBonusAllocations.filter((a) => !a.isClaimed) || [];
+    airdroppedBonusAllocations.filter((a) => !a.isClaimed) || [];
 
-  const claimedBonusAllocations =
-    liquidityBonusAllocations.filter((a) => !!a.isClaimed) || [];
+  const claimedAllocations =
+    airdroppedBonusAllocations.filter((a) => !!a.isClaimed) || [];
 
   // This is the total amount of liqudity rewards that have received an airdropped bonus
-  // which has already been claimed
-  const claimedReferenceTotal = claimedBonusAllocations.reduce(
+  const airdroppedReferenceTotal = airdroppedBonusAllocations.reduce(
     (acc, curr) => BigInt(curr.referenceAmount || "0") + acc,
     BigInt(0),
   );
 
   const pendingBonusAmount =
-    (BigInt(rewardsClaimed || "0") - claimedReferenceTotal) *
+    (BigInt(rewardsClaimed || "0") - airdroppedReferenceTotal) *
     BigInt(LIQUIDITY_BONUS_MULTIPLIER);
 
   return {

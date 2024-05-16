@@ -98,13 +98,17 @@ export function LiquidityInfo() {
           </li>
         )}
         <li>
-          Add a liquidity position to the{" "}
+          Add a liquidity position to the 0.3% fee{" "}
           <ExternalLink
             href={`https://app.uniswap.org/add/ETH/${contractAddresses.FARTHER}/3000?chain=${NETWORK}`}
           >
             pool on Uniswap
-          </ExternalLink>
-          .
+          </ExternalLink>{" "}
+          (
+          <strong>
+            It <em>must</em> be the 0.3% pool!
+          </strong>
+          ).
         </li>
         <li>
           Return to this page. After a moment, refresh the page and your
