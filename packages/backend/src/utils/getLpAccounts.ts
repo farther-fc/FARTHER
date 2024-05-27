@@ -8,14 +8,13 @@ import {
   viemPublicClient,
 } from "@farther/common";
 import axios from "axios";
-import { formatEther, keccak256 } from "ethers";
+import { keccak256 } from "ethers";
+import { formatNum } from "./helpers";
 
 type Account = {
   id: string;
   rewardsClaimed: string;
 };
-
-const format = (n: string | bigint) => Number(formatEther(n)).toLocaleString();
 
 const incentiveRewardsTotalAllocation =
   BigInt(tokenAllocations.liquidityRewards) * WAD_SCALER;
@@ -42,7 +41,7 @@ export async function getLpAccounts() {
   const accounts: Account[] = query.data.data.accounts;
 
   for (const account of accounts) {
-    console.info(account.id, format(account.rewardsClaimed));
+    console.info(account.id, formatNum(account.rewardsClaimed));
   }
 
   const totalActuallyClaimed = accounts.reduce(
@@ -65,12 +64,12 @@ export async function getLpAccounts() {
   const difference = totalActuallyClaimed - totalRemaining;
 
   console.info({
-    incentiveRewardsTotalAllocation: format(incentiveRewardsTotalAllocation),
-    currentIncentiveProgramTotal: format(currentIncentiveProgramTotal),
-    totalDrippedSoFar: format(totalDrippedSoFar),
-    totalRemaining: format(totalRemaining),
-    totalActuallyClaimed: format(totalActuallyClaimed),
-    difference: format(difference),
+    incentiveRewardsTotalAllocation: formatNum(incentiveRewardsTotalAllocation),
+    currentIncentiveProgramTotal: formatNum(currentIncentiveProgramTotal),
+    totalDrippedSoFar: formatNum(totalDrippedSoFar),
+    totalRemaining: formatNum(totalRemaining),
+    totalActuallyClaimed: formatNum(totalActuallyClaimed),
+    difference: formatNum(difference),
   });
 
   return accounts;

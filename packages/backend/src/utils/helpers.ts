@@ -1,3 +1,5 @@
+import { formatEther } from "viem";
+
 const fs = require("fs");
 
 export const writeFile = async (path: string, content: any) => {
@@ -6,3 +8,6 @@ export const writeFile = async (path: string, content: any) => {
   await fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path, content);
 };
+
+export const formatNum = (n: string | bigint) =>
+  Number(formatEther(BigInt(n))).toLocaleString();

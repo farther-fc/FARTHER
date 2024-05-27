@@ -5,7 +5,6 @@ import { AllocationType } from "@farther/backend";
 import {
   CHAIN_ID,
   FartherAirdrop__factory,
-  TEMPORARY_EVANGELIST_DROP_START_TIME,
   getStartOfNextMonthUTC,
 } from "@farther/common";
 import {
@@ -180,8 +179,22 @@ export function RewardsTableRow({
     hasClaimed ||
     isProofLoading;
 
+  console.log(
+    JSON.stringify(
+      {
+        id: allocation.id,
+        type: allocation.type,
+        address: allocation.airdrop?.address,
+        startTime,
+        airdropStartTimeExceeded,
+      },
+      null,
+      2,
+    ),
+  );
+
   const buttonText = !allocation.airdrop?.address
-    ? `Avail. ${formatAirdropTime(allocation.type === "EVANGELIST" ? TEMPORARY_EVANGELIST_DROP_START_TIME : getStartOfNextMonthUTC())}`
+    ? `Avail. ${formatAirdropTime(getStartOfNextMonthUTC())}`
     : hasClaimed
       ? "Claimed"
       : airdropStartTimeExceeded
@@ -259,7 +272,7 @@ export function RewardsTableRow({
               </div>
             }
           >
-            <div className="flex items-center">
+            <div className="flex items-center justify-end">
               <Button
                 sentryId={clickIds.rewardsTableRowStakeUnstake}
                 disabled={true}

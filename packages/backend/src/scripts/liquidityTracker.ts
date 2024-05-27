@@ -3,6 +3,7 @@
 import { FARTHER_OWNER_ADDRESS, contractAddresses } from "@farther/common";
 import { ERC20__factory } from "@farther/common/src/typechain";
 import { viemPublicClient } from "@farther/common/src/viem";
+import { formatNum } from "../utils/helpers";
 
 const START_BLOCK = 13832035;
 const FARTHER_03PERCENT_POOL = "0x306e600e33A9c86B91EeA5A14c8C73F8de62AC84";
@@ -71,7 +72,10 @@ async function main() {
   const cumulativeLiquidity =
     transferTo03PoolTotal + transferTo1PoolTotal - transfersOutTotal;
 
-  console.info(cumulativeLiquidity / BigInt(10 ** 18));
+  console.info(
+    "Cumulative liquidity: ",
+    formatNum(cumulativeLiquidity / BigInt(10 ** 18)),
+  );
 }
 
 main()
