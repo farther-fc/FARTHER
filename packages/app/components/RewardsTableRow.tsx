@@ -2,11 +2,7 @@ import { Button } from "@components/ui/Button";
 import { Popover } from "@components/ui/Popover";
 import { TableCell, TableRow } from "@components/ui/Table";
 import { AllocationType } from "@farther/backend";
-import {
-  CHAIN_ID,
-  FartherAirdrop__factory,
-  getStartOfNextMonthUTC,
-} from "@farther/common";
+import { CHAIN_ID, FartherAirdrop__factory } from "@farther/common";
 import {
   PENDING_POWER_ALLOCATION_ID,
   allocationTypeLinks,
@@ -179,22 +175,8 @@ export function RewardsTableRow({
     hasClaimed ||
     isProofLoading;
 
-  console.log(
-    JSON.stringify(
-      {
-        id: allocation.id,
-        type: allocation.type,
-        address: allocation.airdrop?.address,
-        startTime,
-        airdropStartTimeExceeded,
-      },
-      null,
-      2,
-    ),
-  );
-
   const buttonText = !allocation.airdrop?.address
-    ? `Avail. ${formatAirdropTime(getStartOfNextMonthUTC())}`
+    ? `Avail. ${formatAirdropTime()}`
     : hasClaimed
       ? "Claimed"
       : airdropStartTimeExceeded

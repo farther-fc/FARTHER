@@ -1,5 +1,6 @@
-import { DUST_AMOUNT } from "@farther/common";
+import { DUST_AMOUNT, getStartOfNextMonthUTC } from "@farther/common";
 import { clsx, type ClassValue } from "clsx";
+import dayjs from "dayjs";
 import numeral from "numeral";
 import { twMerge } from "tailwind-merge";
 import { Address, formatEther } from "viem";
@@ -20,23 +21,7 @@ export const shortenHash = (
   );
 };
 
-export const formatDate = (
-  date: Date,
-  options: Intl.DateTimeFormatOptions = {
-    month: "short",
-    day: "numeric",
-  },
-) => {
-  const language =
-    typeof navigator !== "undefined" ? navigator.language : "en-US";
-  return new Intl.DateTimeFormat(language, options)
-    .format(new Date(date))
-    .replace(/ AM/, "am")
-    .replace(/ PM/, "pm")
-    .replace(/, /, " ");
-};
-
-export const formatAirdropTime = (date: Date) => {
+export const formatAirdropTime = (date: Date = getStartOfNextMonthUTC()) => {
   const oneDay = 8.64e7;
   const fiveDays = oneDay * 5;
   // Calculate time until airdrop
@@ -44,25 +29,17 @@ export const formatAirdropTime = (date: Date) => {
   const diff = date.getTime() - now.getTime();
 
   if (diff > fiveDays) {
-    return formatDate(date, {
-      month: "short",
-      day: "numeric",
-      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    });
+    // ex: "Jun 1"
+    return dayjs(date).format("MMM D");
   }
 
   if (diff > oneDay / 2) {
-    return formatDate(date, {
-      weekday: "short",
-      hour: "numeric",
-      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    });
+    // ex: "Sun 3pm"
+    return dayjs(date).format("ddd ha");
   }
 
-  return formatDate(date, {
-    hour: "numeric",
-    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-  });
+  // ex: "1pm"
+  return dayjs(date).format("ha");
 };
 
 export const formatWad = (amount: bigint, formatSchema: string = "0,0.00") => {

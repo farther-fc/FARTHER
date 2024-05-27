@@ -14,11 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@components/ui/Table";
-import {
-  DUST_AMOUNT,
-  IS_INCENTIVE_PROGRAM_ACTIVE,
-  getStartOfNextMonthUTC,
-} from "@farther/common";
+import { DUST_AMOUNT, IS_INCENTIVE_PROGRAM_ACTIVE } from "@farther/common";
 import { ROUTES, clickIds } from "@lib/constants";
 import { useLiquidity } from "@lib/context/LiquidityContext";
 import { useUser } from "@lib/context/UserContext";
@@ -147,7 +143,7 @@ export default function LiquidityPage() {
                     {pendingBonusAmount === BigInt(0) ? (
                       "Pending"
                     ) : (
-                      <>Avail. {formatAirdropTime(getStartOfNextMonthUTC())}</>
+                      <>Avail. {formatAirdropTime()}</>
                     )}
                   </Button>
                 </div>

@@ -5,10 +5,9 @@ import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import Spinner from "@components/ui/Spinner";
-import { getStartOfNextMonthUTC } from "@farther/common";
 import { POWER_BADGE_INFO_URL, ROUTES, clickIds } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
-import { formatDate, formatWad } from "@lib/utils";
+import { formatAirdropTime, formatWad } from "@lib/utils";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
 
@@ -38,7 +37,7 @@ export default function AirdropPage() {
                 Check the <Link href={ROUTES.rewards.path}>
                   rewards page
                 </Link>{" "}
-                on {formatDate(getStartOfNextMonthUTC())} to claim your rewards.
+                on {formatAirdropTime()} to claim your rewards.
               </p>
             )}
           </InfoCard>

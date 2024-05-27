@@ -14,7 +14,6 @@ import {
   TableHeader,
   TableRow,
 } from "@components/ui/Table";
-import { getStartOfNextMonthUTC } from "@farther/common";
 import { ROUTES, clickIds } from "@lib/constants";
 import { useLiquidity } from "@lib/context/LiquidityContext";
 import { useUser } from "@lib/context/UserContext";
@@ -128,7 +127,7 @@ export default function RewardsPage() {
                             className="w-button"
                             disabled={true}
                           >
-                            Avail. {formatAirdropTime(getStartOfNextMonthUTC())}
+                            Avail. {formatAirdropTime()}
                           </Button>
                         </TableCell>
                       </TableRow>
