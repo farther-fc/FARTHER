@@ -9,7 +9,7 @@ import {
   viemClient,
   viemPublicClient,
 } from "@farther/common";
-import { ROUTES } from "@lib/constants";
+import { POSITIONS_REFRESH_INTERVAL, ROUTES } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import { createContainer } from "@lib/context/unstated";
 import { useQuery } from "@tanstack/react-query";
@@ -29,6 +29,7 @@ export type Position = FartherPositionsQuery["positions"][number] & {
 const sdk = getBuiltGraphSDK();
 
 const LiquidityContext = createContainer(function () {
+  const pollingTimer = React.useRef<NodeJS.Timeout>();
   const { account, user } = useUser();
   const [positions, setPositions] = React.useState<Position[]>();
   const logError = useLogError();
@@ -69,12 +70,11 @@ const LiquidityContext = createContainer(function () {
     _positionsLoading ||
     (!!indexerData?.positions.length && !positions?.length);
 
-  const fetchPositionLiqAndRewards = React.useCallback(async () => {
-    if (!indexerData?.positions.length || !account.address) return;
-    try {
-      const pendingStakedLiqRewards = await pMap(
-        indexerData.positions,
-        async (p: (typeof indexerData.positions)[0]) => {
+  const getPendingRewards = React.useCallback(
+    async (positions: FartherPositionsQuery["positions"]) => {
+      return await pMap(
+        positions,
+        async (p: (typeof positions)[0]) => {
           try {
             const [unclaimedReward] = await readContract(viemClient, {
               abi: UniswapV3StakerAbi,
@@ -102,6 +102,16 @@ const LiquidityContext = createContainer(function () {
           }
         },
         { concurrency: 3 },
+      );
+    },
+    [],
+  );
+
+  const fetchPositionLiqAndRewards = React.useCallback(async () => {
+    if (!indexerData?.positions.length || !account.address) return;
+    try {
+      const pendingStakedLiqRewards = await getPendingRewards(
+        indexerData.positions,
       );
 
       const liquidity = await pMap(
@@ -143,7 +153,31 @@ const LiquidityContext = createContainer(function () {
         error,
       });
     }
-  }, [indexerData, account.address, logError]);
+  }, [indexerData, account.address, logError, getPendingRewards]);
+
+  // Poll for pending rewards
+  React.useEffect(() => {
+    if (!positions?.some((p) => p.isStaked)) return;
+
+    pollingTimer.current = setTimeout(async () => {
+      const pendingRewards = await getPendingRewards(positions);
+
+      const updatedPositions = positions.map((p, i) => ({
+        ...p,
+        pendingStakedLiqRewards: pendingRewards[i],
+      }));
+
+      setPositions(updatedPositions);
+
+      return () => clearTimeout(pollingTimer.current);
+    }, POSITIONS_REFRESH_INTERVAL);
+  }, [positions, getPendingRewards]);
+
+  // Clear polling if connected address changes
+  React.useEffect(() => {
+    if (!account.address) return;
+    clearTimeout(pollingTimer.current);
+  }, [account.address]);
 
   React.useEffect(() => {
     if (!positionsFetchError) return;
@@ -185,6 +219,12 @@ const LiquidityContext = createContainer(function () {
     | string
     | undefined;
 
+  const pendingStakedLiqRewards =
+    positions?.reduce(
+      (total, p) => total + BigInt(p.pendingStakedLiqRewards),
+      BigInt(0),
+    ) || BigInt(0);
+
   const liquidityBonusAllocations =
     user?.allocations.filter((a) => a.type === AllocationType.LIQUIDITY) || [];
 
@@ -204,7 +244,9 @@ const LiquidityContext = createContainer(function () {
   // (onchain amount that has an associated airdropped bonus) from the total onchain rewards claimed.
   // Multiply by multiplier to get the bonus.
   const pendingBonusAmount =
-    (BigInt(rewardsClaimed || "0") - airdroppedReferenceTotal) *
+    (BigInt(rewardsClaimed || "0") +
+      pendingStakedLiqRewards -
+      airdroppedReferenceTotal) *
     BigInt(LIQUIDITY_BONUS_MULTIPLIER);
 
   return {

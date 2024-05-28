@@ -307,6 +307,9 @@ importers:
       axios:
         specifier: ^1.6.8
         version: 1.6.8
+      bluebird:
+        specifier: ^3.7.2
+        version: 3.7.2
       enquirer:
         specifier: ^2.4.1
         version: 2.4.1
@@ -335,6 +338,9 @@ importers:
         specifier: 2.10.2
         version: 2.10.2(typescript@5.4.5)(zod@3.22.5)
     devDependencies:
+      '@types/bluebird':
+        specifier: ^3.5.42
+        version: 3.5.42
       '@types/jest':
         specifier: ^29.5.12
         version: 29.5.12
@@ -10226,6 +10232,10 @@ packages:
     resolution: {integrity: sha512-WXCyOcRtH37HAUkpXhUduaxdm82b4GSlyTqajXviN4EfiuPgNYR109xMCKvpl6zPIpua0DGlMEDCq+g8EdoheQ==}
     dependencies:
       '@babel/types': 7.24.0
+
+  /@types/bluebird@3.5.42:
+    resolution: {integrity: sha512-Jhy+MWRlro6UjVi578V/4ZGNfeCOcNCp0YaFNIUGFKlImowqwb1O/22wDVk3FDGMLqxdpOV3qQHD5fPEH4hK6A==}
+    dev: true
 
   /@types/bn.js@4.11.6:
     resolution: {integrity: sha512-pqr857jrp2kPuO9uRjZ3PwnJTjoQy+fcdxvBTvHm6dkmEL9q+hDD/2j/0ELOBPtPnS8LjCX0gI9nbl8lVkadpg==}

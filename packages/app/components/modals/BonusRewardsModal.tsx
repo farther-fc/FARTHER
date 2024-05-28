@@ -12,7 +12,7 @@ export const BonusRewardsModal = () => {
         reward its power users, any liquidity provider who <em>also</em> has a
         Warpcast power badge by the time of the next airdrop snapshot will
         receive a <strong>{LIQUIDITY_BONUS_MULTIPLIER}x bonus</strong> to their
-        claimed liquidity rewards during the current airdrop month.
+        claimed & pending liquidity rewards during the current airdrop month.
       </p>
       <p>
         The snapshot takes place during the last week of each month. Exact

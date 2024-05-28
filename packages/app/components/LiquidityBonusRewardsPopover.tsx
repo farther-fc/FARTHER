@@ -13,8 +13,8 @@ function LiquidityBonusRewardsPopover() {
       <ExternalLink href={POWER_BADGE_INFO_URL}>
         Warpcast Power Badge
       </ExternalLink>
-      . They're calculated by adding up all the claimed onchain rewards during
-      the month & multiplying by {LIQUIDITY_BONUS_MULTIPLIER}.{" "}
+      . They're calculated by adding up all claimed & pending onchain rewards
+      during the month & multiplying by {LIQUIDITY_BONUS_MULTIPLIER}.{" "}
       <Button
         sentryId={clickIds.liquidityInfoBonusRewards}
         onClick={() =>

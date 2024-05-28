@@ -60,19 +60,18 @@ async function prepareLpBonusDrop() {
     {},
   );
 
-  // console.info("pastTotals:", pastTotals);
-  // console.info("accounts:", accounts);
-
   // Get FID associated with each address
-  const addresses = accounts.map((a) => a.id);
+  const addresses = Array.from(accounts).map(([id]) => id);
   const usersData = await getUserData(addresses);
 
   console.log("usersData:", usersData);
 
-  // Subtract past liquidity reward allocations from each account's claimed rewards
-  const allocationData = accounts.map((a) => {
+  // Subtract past liquidity reward allocations from each account's claimed & unclaimed rewards
+  const allocationData = Array.from(accounts).map(([_id, a]) => {
     const referenceAmount =
-      BigInt(a.rewardsClaimed) - (pastTotals[a.id] || BigInt(0));
+      BigInt(a.rewardsClaimed) +
+      BigInt(a.rewardsUnclaimed) -
+      (pastTotals[a.id] || BigInt(0));
 
     // Multiply each by the multiplier
     const amount = referenceAmount * BigInt(LIQUIDITY_BONUS_MULTIPLIER);
