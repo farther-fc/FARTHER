@@ -1,6 +1,7 @@
 import {
   DEV_DEPLOYER_ADDRESS,
   ERC20__factory,
+  NEXT_PUBLIC_BASE_RPC_URL,
   UNISWAP_REWARDS_PROGRAM_1_AMOUNT,
   UniswapV3StakerAbi,
   WAD_SCALER,
@@ -10,9 +11,6 @@ import { Address, createWalletClient, http } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { base } from "viem/chains";
 
-if (!process.env.BASE_RPC_URL) {
-  throw new Error("BASE_RPC_URL not found");
-}
 if (!process.env.DEPLOYER_PK) {
   throw new Error("DEPLOYER_PK not found");
 }
@@ -31,7 +29,7 @@ const account = privateKeyToAccount(process.env.DEPLOYER_PK as `0x${string}`);
 
 const wallet = createWalletClient({
   chain: base as any,
-  transport: http(process.env.BASE_RPC_URL),
+  transport: http(NEXT_PUBLIC_BASE_RPC_URL),
   account,
 });
 

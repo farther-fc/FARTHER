@@ -6,7 +6,7 @@ evm_version = "paris"
 
 [rpc_endpoints]
 sepolia = "${SEPOLIA_RPC_URL}"
-base = "${BASE_RPC_URL}"
+base = "${NEXT_PUBLIC_BASE_RPC_URL}"
 
 [etherscan]
 # sepolia = { key = "${ETHERSCAN_API_KEY}", chain = 11155111, url = "https://api-sepolia.etherscan.io/api"  }

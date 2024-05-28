@@ -101,3 +101,10 @@ model EcosystemPayment {
   address       String
   txHash        String
 }
+
+model TokenPrice {
+  id String @id // Token address
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  price String
+}

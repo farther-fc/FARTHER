@@ -5,7 +5,7 @@ import {
   http,
 } from "viem";
 import { anvil, base, sepolia } from "viem/chains";
-import { CHAIN_ID } from "./env";
+import { CHAIN_ID, NEXT_PUBLIC_BASE_RPC_URL } from "./env";
 
 type ChainId = typeof base.id | typeof sepolia.id | typeof anvil.id;
 
@@ -14,7 +14,7 @@ const publicChains = [base, sepolia, anvil] as const;
 export const clientConfig = {
   [base.id]: {
     chain: base as any,
-    transport: http(process.env.BASE_RPC_URL),
+    transport: http(NEXT_PUBLIC_BASE_RPC_URL),
   },
   [sepolia.id]: {
     chain: sepolia,

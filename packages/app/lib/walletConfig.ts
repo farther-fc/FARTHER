@@ -1,3 +1,4 @@
+import { NEXT_PUBLIC_BASE_RPC_URL } from "@farther/common";
 import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import {
@@ -29,7 +30,7 @@ export const wagmiConfig = createConfig({
     { appName: "Farther", projectId: WALLET_CONNECT_PROJECT_ID },
   ),
   transports: {
-    [base.id]: http(process.env.BASE_RPC_URL),
+    [base.id]: http(NEXT_PUBLIC_BASE_RPC_URL),
     [sepolia.id]: http(),
     [anvil.id]: http(),
   },

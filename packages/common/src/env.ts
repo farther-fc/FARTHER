@@ -32,6 +32,12 @@ export const NETWORK =
     );
   })();
 
+if (!process.env.NEXT_PUBLIC_BASE_RPC_URL) {
+  throw new Error("NEXT_PUBLIC_BASE_RPC_URL is not set");
+}
+
+export const NEXT_PUBLIC_BASE_RPC_URL = process.env.NEXT_PUBLIC_BASE_RPC_URL;
+
 export const chainIds = {
   base: base.id,
   sepolia: sepolia.id,

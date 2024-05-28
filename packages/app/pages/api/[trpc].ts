@@ -7,6 +7,7 @@ import { invalidateStaleAllocations } from "server/admin/invalidateStaleAllocati
 import { getMerkleProof } from "server/airdrop/getMerkleProof";
 import { setAllocationClaimed } from "server/airdrop/setAllocationClaimed";
 import { validateTweet } from "server/evangelize/validateTweet";
+import { getPrice } from "server/price";
 import { createContext, router } from "server/trpc";
 import { getUser } from "server/user";
 
@@ -17,6 +18,7 @@ export const appRouter = router({
   validateTweet,
   getAdminData,
   invalidateStaleAllocations,
+  getPrice,
 });
 
 // export type definition of API
