@@ -77,8 +77,12 @@ export default function RewardsPage() {
                 <Table className="mt-12">
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="pl-0">Reward Type</TableHead>
-                      <TableHead className="pl-0 text-right">Date</TableHead>
+                      <TableHead className="w-[80px] pl-0 md:w-auto">
+                        Category
+                      </TableHead>
+                      <TableHead className="w-[60px] pl-0 text-right md:w-auto">
+                        Date
+                      </TableHead>
                       <TableHead className="pr-1 text-right">Amount</TableHead>
                       <TableHead className="text-right"></TableHead>
                     </TableRow>
@@ -113,7 +117,7 @@ export default function RewardsPage() {
                         </TableCell>
                         <TableCell className="pr-0 text-right">
                           <Button
-                            className="w-button ml-auto mt-2"
+                            className="w-tableButton md:w-tableButtonWide ml-auto mt-2"
                             variant="secondary"
                             sentryId={clickIds.claimLiquidityRewards}
                             onClick={() => handleClaimRewards()}
@@ -157,7 +161,7 @@ export default function RewardsPage() {
                           {user?.powerBadge ? (
                             <Button
                               sentryId={clickIds.rewardsPageClaimedRewards}
-                              className="w-button"
+                              className="w-tableButton md:w-tableButtonWide"
                               disabled={true}
                             >
                               Avail. {bonusLiqDropDate}
@@ -183,7 +187,7 @@ export default function RewardsPage() {
                         <TableCell className="pr-0 text-right">
                           <Button
                             sentryId={clickIds.rewardsPageClaim}
-                            className="w-button"
+                            className="w-tableButton md:w-tableButtonWide"
                             disabled={true}
                           >
                             Claimed

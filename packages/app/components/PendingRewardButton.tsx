@@ -14,7 +14,11 @@ export function PendingRewardButton() {
       }
     >
       <div>
-        <Button sentryId="" disabled={true} className="w-button">
+        <Button
+          sentryId=""
+          disabled={true}
+          className="w-tableButton md:w-tableButtonWide"
+        >
           Pending <Info className="ml-1 w-3" />
         </Button>
       </div>

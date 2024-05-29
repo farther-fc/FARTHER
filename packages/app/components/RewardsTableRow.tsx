@@ -265,7 +265,7 @@ export function RewardsTableRow({
               <Button
                 sentryId={clickIds.rewardsTableRowStakeUnstake}
                 disabled={true}
-                className="w-button"
+                className="w-tableButton md:w-tableButtonWide"
               >
                 Wrong Account <Info className="ml-1 inline w-4" />
               </Button>
@@ -278,7 +278,7 @@ export function RewardsTableRow({
             loading={isTxPending}
             loadingText="Claiming"
             onClick={handleClaim}
-            className="w-button"
+            className="w-tableButton md:w-tableButtonWide"
           >
             {buttonText}
           </Button>
