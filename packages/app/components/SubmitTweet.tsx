@@ -16,7 +16,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-const PAUSED = true;
+const PAUSED = false;
 
 const FormSchema = z.object({
   tweetUrl: z.string(),

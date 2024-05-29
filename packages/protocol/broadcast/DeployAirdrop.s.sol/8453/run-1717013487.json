@@ -32,7 +32,9 @@
       "contractName": "FartherAirdrop",
       "contractAddress": "0x67abc0c6c8b8d5d59eb06bd1b03f1a0fa7383cbe",
       "function": "transferOwnership(address)",
-      "arguments": ["0x97e3B75B2eebCC722B504851416e1410B32180a3"],
+      "arguments": [
+        "0x97e3B75B2eebCC722B504851416e1410B32180a3"
+      ],
       "transaction": {
         "from": "0x0796e71052751eb1442d440565df9bd86a689a31",
         "to": "0x67abc0c6c8b8d5d59eb06bd1b03f1a0fa7383cbe",
