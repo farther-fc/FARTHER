@@ -7,8 +7,6 @@ import {
   NEXT_AIRDROP_END_TIME,
   NEXT_AIRDROP_START_TIME,
   POWER_USER_AIRDROP_RATIO,
-  POWER_USER_FIRST_AIRDROP_AMOUNT,
-  TOTAL_TOKEN_SUPPLY,
   WAD_SCALER,
   WARPCAST_API_BASE_URL,
   getMerkleRoot,
@@ -22,15 +20,13 @@ import { allocateTokens } from "../utils/allocateTokens";
 import { writeFile } from "../utils/helpers";
 import { airdropSanityCheck } from "./airdropSanityCheck";
 
-// const NEXT_AIRDROP_START_TIME = new Date(1715911135000);
-
 const totalAllocation =
   POWER_USER_AIRDROP_RATIO * tokenAllocations.powerUserAirdrops;
 
 async function preparePowerDrop() {
   await airdropSanityCheck({
     totalAllocation,
-    ratio: POWER_USER_FIRST_AIRDROP_AMOUNT / TOTAL_TOKEN_SUPPLY,
+    ratio: POWER_USER_AIRDROP_RATIO,
     date: NEXT_AIRDROP_START_TIME,
     network: NETWORK,
     environment: ENVIRONMENT,
@@ -168,59 +164,70 @@ async function preparePowerDrop() {
 
   const root = getMerkleRoot(rawLeafData);
 
-  // Create Airdrop
-  const airdrop = await prisma.airdrop.create({
-    data: {
-      chainId: CHAIN_ID,
-      amount: allocationSum.toString(),
-      root,
-      address: undefined,
-      startTime: NEXT_AIRDROP_START_TIME,
-      endTime: NEXT_AIRDROP_END_TIME,
-    },
-  });
-
-  // Add allocations to db
-  await prisma.allocation.createMany({
-    data: recipientsWithAddress.map((r, i) => ({
-      id: uuidv4(),
-      amount: r.amount.toString(),
-      baseAmount: basePerRecipientWad.toString(),
-      index: i,
-      airdropId: airdrop.id,
-      userId: r.id,
-      type: AllocationType.POWER_USER,
-      address: r.address.toLowerCase(),
-    })),
-  });
-
-  await writeFile(
-    `airdrops/${ENVIRONMENT}/${AllocationType.POWER_USER.toLowerCase()}-${NEXT_AIRDROP_START_TIME.toISOString()}.json`,
-    JSON.stringify(
-      {
-        root,
+  await prisma.$transaction(async (tx) => {
+    // Create Airdrop
+    const airdrop = await tx.airdrop.create({
+      data: {
+        chainId: CHAIN_ID,
         amount: allocationSum.toString(),
-        rawLeafData,
+        root,
+        address: undefined,
+        startTime: NEXT_AIRDROP_START_TIME,
+        endTime: NEXT_AIRDROP_END_TIME,
       },
-      null,
-      2,
-    ),
-  );
+    });
 
-  const sortedAllocations = recipientsWithAllocations
-    .map((r) => Number(r.amount / WAD_SCALER))
-    .sort((a, b) => a - b);
+    // Add allocations to db
+    await tx.allocation.createMany({
+      data: recipientsWithAddress.map((r, i) => ({
+        id: uuidv4(),
+        amount: r.amount.toString(),
+        baseAmount: basePerRecipientWad.toString(),
+        index: i,
+        airdropId: airdrop.id,
+        userId: r.id,
+        type: AllocationType.POWER_USER,
+        address: r.address.toLowerCase(),
+      })),
+    });
+
+    await writeFile(
+      `airdrops/${ENVIRONMENT}/${AllocationType.POWER_USER.toLowerCase()}-${NEXT_AIRDROP_START_TIME.toISOString()}.json`,
+      JSON.stringify(
+        {
+          root,
+          amount: allocationSum.toString(),
+          ...getMetaData(),
+          rawLeafData,
+        },
+        null,
+        2,
+      ),
+    );
+  });
 
   console.info({
     root,
     amount: allocationSum,
-    minUserAllocation: sortedAllocations[0],
-    maxUserAllocation: sortedAllocations[sortedAllocations.length - 1],
+    ...getMetaData(),
   });
 
   console.warn(
     `\n\nFOLLOW NEXT STEPS IN RUNBOOK!: \n https://www.notion.so/Airdrop-runbook-ad7d4c7116444d35ab76705eca2d6c98\n\n`,
   );
+
+  function getMetaData() {
+    const sortedAllocations = recipientsWithAllocations
+      .map((r) => Number(r.amount / WAD_SCALER))
+      .sort((a, b) => a - b);
+
+    return {
+      numberOfRecipients: recipientsWithAllocations.length,
+      minUserAllocation: sortedAllocations[0],
+      maxUserAllocation: sortedAllocations[sortedAllocations.length - 1],
+      startTime: Math.round(NEXT_AIRDROP_START_TIME.getTime() / 1000),
+    };
+  }
 }
 
 async function getPowerUsers() {

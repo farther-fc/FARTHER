@@ -41,7 +41,12 @@ export const neynarLimiter = {
       ),
     );
 
-    return bulkUsersArray.map((data) => data.users).flat();
+    return bulkUsersArray.reduce(
+      (acc, cur) => {
+        return { ...acc, ...cur };
+      },
+      {} as Record<string, User[]>,
+    );
   },
 };
 

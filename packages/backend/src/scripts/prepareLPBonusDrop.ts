@@ -16,14 +16,11 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import { AllocationType, prisma } from "../prisma";
 import { getLpAccounts } from "../utils/getLpAccounts";
-import { writeFile } from "../utils/helpers";
+import { formatNum, writeFile } from "../utils/helpers";
 import { airdropSanityCheck } from "./airdropSanityCheck";
 
 const startTime = NEXT_AIRDROP_START_TIME;
 const endTime = NEXT_AIRDROP_END_TIME;
-
-// const startTime = new Date(1715841354000);
-// const endTime = new Date(startTime.getTime() + ONE_YEAR_IN_MS);
 
 async function prepareLpBonusDrop() {
   await airdropSanityCheck({
@@ -32,131 +29,160 @@ async function prepareLpBonusDrop() {
     environment: ENVIRONMENT,
   });
 
-  const accounts = await getLpAccounts();
-  const powerFids = await getPowerBadgeFids();
+  try {
+    const accounts = await getLpAccounts();
 
-  // Get all past liquidity reward allocations
-  const allocations = await prisma.allocation.findMany({
-    where: {
-      type: AllocationType.LIQUIDITY,
-      userId: {
-        in: powerFids,
+    accounts.forEach((account) => {
+      console.info({
+        account: account.id,
+        rewardsClaimed: formatNum(account.rewardsClaimed),
+        rewardsUnclaimed: formatNum(account.rewardsUnclaimed),
+      });
+    });
+
+    const powerFids = await getPowerBadgeFids();
+
+    // Get all past liquidity reward allocations
+    const allocations = await prisma.allocation.findMany({
+      where: {
+        type: AllocationType.LIQUIDITY,
+        userId: {
+          in: powerFids,
+        },
       },
-    },
-    select: {
-      address: true,
-      userId: true,
-      // This is the amount that was used as the basis for calculating the bonus
-      referenceAmount: true,
-    },
-  });
+      select: {
+        address: true,
+        userId: true,
+        // This is the amount that was used as the basis for calculating the bonus
+        referenceAmount: true,
+      },
+    });
 
-  // Group by address and sum amounts for each address
-  const pastTotals: Record<string, bigint> = allocations.reduce(
-    (acc, a) => ({
-      ...acc,
-      [a.address]: (acc[a.address] || BigInt(0)) + BigInt(a.referenceAmount),
-    }),
-    {},
-  );
+    // Group by address and sum amounts for each address
+    const pastTotals: Record<string, bigint> = allocations.reduce(
+      (acc, a) => ({
+        ...acc,
+        [a.address]: (acc[a.address] || BigInt(0)) + BigInt(a.referenceAmount),
+      }),
+      {},
+    );
 
-  // Get FID associated with each address
-  const addresses = Array.from(accounts).map(([id]) => id);
-  const usersData = await getUserData(addresses);
+    // Get FID associated with each address
+    const addresses = Array.from(accounts).map(([id]) => id);
+    const usersData = await getUserData(addresses);
 
-  console.log("usersData:", usersData);
+    const allocationData = usersData.map((u) => {
+      const account = accounts.get(u.address);
 
-  // Subtract past liquidity reward allocations from each account's claimed & unclaimed rewards
-  const allocationData = Array.from(accounts).map(([_id, a]) => {
-    const referenceAmount =
-      BigInt(a.rewardsClaimed) +
-      BigInt(a.rewardsUnclaimed) -
-      (pastTotals[a.id] || BigInt(0));
-
-    // Multiply each by the multiplier
-    const amount = referenceAmount * BigInt(LIQUIDITY_BONUS_MULTIPLIER);
-    return {
-      address: a.id,
-      fid: usersData.find((u) => {
-        const address = u.addresses.find(
-          (addr) => addr.toLowerCase() === a.id.toLowerCase(),
+      if (!account) {
+        throw new Error(
+          `No account found for address: ${u.address}, fid: ${u.fid}`,
         );
-        if (!address) throw new Error(`No user for ${a.id}`);
-        return address;
-      })?.fid,
-      amount,
-      referenceAmount,
-    };
-  });
+      }
 
-  // Create merkle tree
-  const allocationSum = allocationData.reduce(
-    (acc, a) => acc + BigInt(a.amount),
-    BigInt(0),
-  );
+      // Subtract past liquidity reward allocations from each account's claimed & unclaimed rewards
+      const referenceAmount =
+        BigInt(account.rewardsClaimed) +
+        BigInt(account.rewardsUnclaimed) -
+        (pastTotals[account.id] || BigInt(0));
 
-  // Create a merkle tree with the above recipients
-  const rawLeafData = allocationData.map((r, i) => ({
-    index: i,
-    address: r.address as `0x${string}`,
-    amount: r.amount.toString(),
-  }));
+      // Multiply that amount by the bonus multiplier
+      const amount = referenceAmount * BigInt(LIQUIDITY_BONUS_MULTIPLIER);
+      return {
+        address: account.id,
+        fid: u.fid,
+        amount,
+        referenceAmount,
+      };
+    });
 
-  const root = getMerkleRoot(rawLeafData);
+    // Create merkle tree
+    const allocationSum = allocationData.reduce(
+      (acc, a) => acc + BigInt(a.amount),
+      BigInt(0),
+    );
 
-  // Create Airdrop
-  const airdrop = await prisma.airdrop.create({
-    data: {
-      chainId: CHAIN_ID,
-      amount: allocationSum.toString(),
-      root,
-      address:
-        ENVIRONMENT === "development" ? ANVIL_AIRDROP_ADDRESS : undefined,
-      startTime,
-      endTime,
-    },
-  });
-
-  // Save allocations
-  await prisma.allocation.createMany({
-    data: allocationData.map((r, i) => ({
-      id: uuidv4(),
-      userId: r.fid,
+    // Create a merkle tree with the above recipients
+    const rawLeafData = allocationData.map((r, i) => ({
       index: i,
-      airdropId: airdrop.id,
-      type: AllocationType.LIQUIDITY,
-      address: r.address.toLowerCase(),
+      address: r.address as `0x${string}`,
       amount: r.amount.toString(),
-      referenceAmount: r.referenceAmount.toString(),
-    })),
-  });
+    }));
 
-  await writeFile(
-    `airdrops/${NETWORK}/${AllocationType.LIQUIDITY.toLowerCase()}-${startTime.toISOString()}.json`,
-    JSON.stringify(
-      {
+    const root = getMerkleRoot(rawLeafData);
+
+    if (root === "0x") {
+      throw new Error("Merkle root is 0x");
+    }
+
+    await prisma.$transaction(async (tx) => {
+      // Create Airdrop
+      const airdrop = await tx.airdrop.create({
+        data: {
+          chainId: CHAIN_ID,
+          amount: allocationSum.toString(),
+          root,
+          address:
+            ENVIRONMENT === "development" ? ANVIL_AIRDROP_ADDRESS : undefined,
+          startTime,
+          endTime,
+        },
+      });
+
+      // Save allocations
+      await tx.allocation.createMany({
+        data: allocationData.map((r, i) => ({
+          id: uuidv4(),
+          userId: r.fid,
+          index: i,
+          airdropId: airdrop.id,
+          type: AllocationType.LIQUIDITY,
+          address: r.address.toLowerCase(),
+          amount: r.amount.toString(),
+          referenceAmount: r.referenceAmount.toString(),
+        })),
+      });
+
+      await writeFile(
+        `airdrops/${ENVIRONMENT}/${AllocationType.LIQUIDITY.toLowerCase()}-${startTime.toISOString()}.json`,
+        JSON.stringify(
+          {
+            root,
+            amount: allocationSum.toString(),
+            rawLeafData,
+          },
+          null,
+          2,
+        ),
+      );
+
+      console.info({
         root,
-        amount: allocationSum.toString(),
-        rawLeafData,
-      },
-      null,
-      2,
-    ),
-  );
-
-  console.info({
-    root,
-    amount: allocationSum,
-  });
+        amount: allocationSum,
+        recipients: allocationData.length,
+        startTime: Math.round(NEXT_AIRDROP_START_TIME.getTime() / 1000),
+      });
+    });
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 async function getUserData(addresses: string[]) {
   if (isProduction) {
     const userData = await neynarLimiter.getUsersByAddress(addresses);
-    return userData.map((u) => {
+
+    return Object.entries(userData).map(([address, users]) => {
+      // If multiple users, choose the first one with a power badge (same logic as in the frontend)
+      const user = Array.isArray(users)
+        ? users.sort(
+            (a, b) => (b.power_badge ? 1 : 0) - (a.power_badge ? 1 : 0),
+          )[0]
+        : users;
+
       return {
-        fid: u.fid,
-        addresses: u.verified_addresses.eth_addresses,
+        fid: user.fid,
+        address,
       };
     });
   }
@@ -165,7 +191,7 @@ async function getUserData(addresses: string[]) {
     if (a === DEV_USER_ADDRESS) {
       return {
         fid: DEV_USER_FID,
-        addresses: [DEV_USER_ADDRESS],
+        address: DEV_USER_ADDRESS,
       };
     }
     throw new Error(`No address found for address: ${a}`);

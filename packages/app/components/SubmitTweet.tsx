@@ -16,6 +16,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+const PAUSED = true;
+
 const FormSchema = z.object({
   tweetUrl: z.string(),
 });
@@ -134,12 +136,17 @@ export function SubmitTweet() {
             loadingText="Validating"
             className="mt-4"
             type="submit"
-            disabled={!user}
+            disabled={PAUSED || !user}
             loading={validateTweetMutation.isPending}
           >
             Submit
           </Button>
-          {!account.address ? (
+          {PAUSED ? (
+            <FormMessage>
+              Evangelist rewards are currently paused while this month's
+              airdrops are prepared. Please check back later.
+            </FormMessage>
+          ) : !account.address ? (
             <FormMessage>Please connect your wallet to submit</FormMessage>
           ) : (
             !user && (

@@ -23,11 +23,21 @@ function AdminPage() {
     0,
   );
 
+  const sortedPowerUserAllocations = powerUserAllocations?.sort((a, b) => {
+    if (BigInt(a.amount) < BigInt(b.amount)) {
+      return 1;
+    } else if (BigInt(a.amount) > BigInt(b.amount)) {
+      return -1;
+    } else {
+      return 0;
+    }
+  });
+
   return (
     <Container variant="page">
       <div className="content">
         <h1>Admin</h1>
-        {isLoading ? (
+        {isLoading || !sortedPowerUserAllocations ? (
           <p>Loading...</p>
         ) : (
           <>
@@ -37,6 +47,30 @@ function AdminPage() {
               <p>
                 Claimed:{" "}
                 {powerUserAllocations?.filter((a) => a.isClaimed).length}
+              </p>
+              <p>
+                Largest allocation:{" "}
+                {formatWad(BigInt(sortedPowerUserAllocations[0].amount))}
+              </p>
+              <p>
+                Smallest allocation:{" "}
+                {formatWad(
+                  BigInt(
+                    sortedPowerUserAllocations[
+                      sortedPowerUserAllocations.length - 1
+                    ].amount,
+                  ),
+                )}
+              </p>
+              <p>
+                Median allocation:{" "}
+                {formatWad(
+                  BigInt(
+                    sortedPowerUserAllocations[
+                      Math.floor(sortedPowerUserAllocations.length / 2)
+                    ].amount,
+                  ),
+                )}
               </p>
             </div>
             <div>

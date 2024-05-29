@@ -7,17 +7,25 @@ import {
 } from "@farther/common";
 import axios from "axios";
 import { Promise as Bluebird } from "bluebird";
-import { formatNum } from "./helpers";
 
-type Account = {
+type LiqProviderAccount = {
   id: string;
   rewardsClaimed: string;
   positions: {
     id: string;
+    isStaked: boolean;
   }[];
 };
 
-export async function getLpAccounts() {
+export type FormattedLiqProviderAccount = {
+  id: string;
+  rewardsClaimed: bigint;
+  rewardsUnclaimed: bigint;
+};
+
+export async function getLpAccounts(): Promise<
+  Map<string, FormattedLiqProviderAccount>
+> {
   // Get all liquidity providers who have claimed rewards
   const query = await axios({
     url: `https://farther.squids.live/farther-${ENVIRONMENT}/graphql`,
@@ -30,6 +38,7 @@ export async function getLpAccounts() {
           rewardsClaimed
           positions {
             id
+            isStaked
           }
         }
       }
@@ -37,7 +46,7 @@ export async function getLpAccounts() {
     },
   });
 
-  const accounts: Account[] = query.data.data.accounts;
+  const accounts: LiqProviderAccount[] = query.data.data.accounts;
 
   const formattedAccounts = new Map(
     accounts.map((account) => [
@@ -51,9 +60,8 @@ export async function getLpAccounts() {
   );
 
   for (const account of accounts) {
-    console.log(account);
     const unclaimedRewards = await Bluebird.map(
-      account.positions,
+      account.positions.filter((p) => p.isStaked),
       async (position) => {
         const [unclaimedPositionReward] = await viemPublicClient.readContract({
           abi: UniswapV3StakerAbi,
@@ -81,15 +89,5 @@ export async function getLpAccounts() {
       unclaimedRewards.reduce((total, r) => total + BigInt(r), BigInt(0));
   }
 
-  formattedAccounts.forEach((account) => {
-    console.info({
-      account: account.id,
-      rewardsClaimed: formatNum(account.rewardsClaimed),
-      rewardsUnclaimed: formatNum(account.rewardsUnclaimed),
-    });
-  });
-
   return formattedAccounts;
 }
-
-// getLpAccounts().then(console.info).catch(console.error);

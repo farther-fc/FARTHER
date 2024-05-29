@@ -76,13 +76,12 @@ export const NEXT_AIRDROP_START_TIME = new Date("2024-06-01T00:00:00Z");
 export const NEXT_AIRDROP_END_TIME = new Date(
   NEXT_AIRDROP_START_TIME.getTime() + ONE_YEAR_IN_MS,
 );
-export const POWER_USER_AIRDROP_RATIO = 0.15;
 
-export const POWER_USER_FIRST_AIRDROP_AMOUNT = 37_500_000;
-
-export const TEMPORARY_EVANGELIST_DROP_START_TIME = new Date(
-  "2024-06-01T00:00:00Z",
-);
+// This ratio was derived by attempting to make the maximum power user allocation
+// for the second airdrop match the first.
+// This allows for more growth later rather than evenly splitting the allocation between
+// every month over 3 years. Also creates more equitable distribution.
+export const POWER_USER_AIRDROP_RATIO = 0.01;
 
 const baseContractAddresses = {
   production: {

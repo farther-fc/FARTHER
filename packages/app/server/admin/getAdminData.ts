@@ -37,6 +37,8 @@ export const getAdminData = publicProcedure.query(async () => {
       address: true,
       isClaimed: true,
       userId: true,
+      baseAmount: true,
+      referenceAmount: true,
     },
   });
 
