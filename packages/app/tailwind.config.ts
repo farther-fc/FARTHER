@@ -95,7 +95,8 @@ const config = {
         toast: 110,
       },
       width: {
-        button: "150px",
+        tableButton: "100px",
+        tableButtonWide: "150px",
       },
     },
   },

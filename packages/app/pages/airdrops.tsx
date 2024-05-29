@@ -21,7 +21,7 @@ export default function AirdropPage() {
   return (
     <Container variant="page">
       <main className="content">
-        <h1>Airdrops</h1>
+        <h1>Powerdrops</h1>
         {powerDrop && !powerDrop.isClaimed && (
           <InfoCard className="text-center">
             <h3 className="mt-0 border-none">Congratulations 🎉</h3>
@@ -94,7 +94,7 @@ export function getStaticProps() {
   return {
     props: {
       seo: {
-        title: "Airdrops",
+        title: "Powerdrops",
       },
     },
   };

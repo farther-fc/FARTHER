@@ -2,7 +2,7 @@ import { Address, encodeAbiParameters, keccak256 } from "viem";
 import { DEV_USER_FID, WARPCAST_API_BASE_URL } from "./constants";
 import { isProduction } from "./env";
 
-export function getStartOfNextMonthUTC() {
+export function getStartOfMonthUTC(months: number = 1) {
   // Get the current date in UTC
   const currentDate = new Date();
 
@@ -11,11 +11,11 @@ export function getStartOfNextMonthUTC() {
   const currentMonth = currentDate.getUTCMonth();
 
   // Calculate the first day of the next month
-  const nextMonth = new Date(
-    Date.UTC(currentYear, currentMonth + 1, 1, 0, 0, 0, 0),
+  const date = new Date(
+    Date.UTC(currentYear, currentMonth + months, 1, 0, 0, 0, 0),
   );
 
-  return nextMonth;
+  return date;
 }
 
 export const getIncentiveKey = ({

@@ -17,7 +17,7 @@ export function AirdropInfo() {
         is required. This requirement may expand or change in the future.
       </li>
       <li className="mt-3">
-        Each Farcaster account is only eligible for one airdrop.
+        Each power user is only eligible for one airdrop.
       </li>
       <li>
         If you become eligible but lose your power badge before the airdrop, you

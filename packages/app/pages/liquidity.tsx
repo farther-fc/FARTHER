@@ -14,11 +14,14 @@ import {
   TableHeader,
   TableRow,
 } from "@components/ui/Table";
-import { DUST_AMOUNT, IS_INCENTIVE_PROGRAM_ACTIVE } from "@farther/common";
+import {
+  DUST_AMOUNT,
+  IS_INCENTIVE_PROGRAM_ACTIVE,
+  getStartOfMonthUTC,
+} from "@farther/common";
 import { ROUTES, clickIds } from "@lib/constants";
 import { useLiquidity } from "@lib/context/LiquidityContext";
 import { useUser } from "@lib/context/UserContext";
-import { getEarliestStart } from "@lib/getEarliestStart";
 import { formatAirdropTime, formatWad } from "@lib/utils";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useLiquidityHandlers } from "hooks/useLiquidityHandlers";
@@ -38,6 +41,8 @@ export default function LiquidityPage() {
     rewardsClaimed,
     pendingBonusAmount,
     unclaimedBonusAllocations,
+    unclaimedBonusStartTime,
+    hasCurrentCycleBeenAirdropped,
   } = useLiquidity();
 
   const claimableBonusAmount =
@@ -45,10 +50,6 @@ export default function LiquidityPage() {
       (acc, curr) => BigInt(curr.amount) + acc,
       BigInt(0),
     ) || BigInt(0);
-
-  const bonusAllocationsEarliestStartTime = getEarliestStart(
-    unclaimedBonusAllocations,
-  );
 
   return (
     <Container variant="page">
@@ -134,39 +135,38 @@ export default function LiquidityPage() {
                       </div>
                     )}
                   </div>
-                  <Button
-                    className="ml-auto mt-2 w-full"
-                    variant="secondary"
-                    sentryId={clickIds.liquidityPendingBonus}
-                    disabled={true}
-                  >
-                    {pendingBonusAmount === BigInt(0) ? (
-                      "Pending"
-                    ) : (
-                      <>Avail. {formatAirdropTime()}</>
-                    )}
-                  </Button>
+                  {pendingBonusAmount === BigInt(0) ? null : (
+                    <Button
+                      className="ml-auto mt-2 w-full"
+                      variant="secondary"
+                      sentryId={clickIds.liquidityPendingBonus}
+                      disabled={true}
+                    >
+                      Avail.{" "}
+                      {formatAirdropTime(
+                        getStartOfMonthUTC(
+                          hasCurrentCycleBeenAirdropped ? 2 : 1,
+                        ),
+                      )}
+                    </Button>
+                  )}
                 </div>
                 <div>
                   <div className="mb-4 flex flex-col">
-                    <div className="flex justify-between">Claimable</div>
-                    <div
-                      className={`text-link ${claimableBonusAmount > DUST_AMOUNT ? "font-bold" : "font-normal"}`}
-                    >
+                    <div className="flex justify-between">Allocated</div>
+                    <div className={`text-link`}>
                       {formatWad(claimableBonusAmount)}
                     </div>
                   </div>
                   {/** Button link to rewards page */}
-                  {unclaimedBonusAllocations.length ? (
+                  {unclaimedBonusStartTime < Date.now() ? (
                     <Link href={ROUTES.rewards.path}>
                       <Button
                         className="ml-auto mt-2 w-full"
                         variant="secondary"
                         sentryId={clickIds.liquidityClaimableBonus}
                       >
-                        {bonusAllocationsEarliestStartTime < Date.now()
-                          ? "Claim"
-                          : `Avail. ${formatAirdropTime(new Date(bonusAllocationsEarliestStartTime))}`}
+                        Claim
                       </Button>
                     </Link>
                   ) : (
@@ -176,7 +176,9 @@ export default function LiquidityPage() {
                       sentryId={clickIds.liquidityClaimableBonus}
                       disabled={true}
                     >
-                      Claim
+                      {unclaimedBonusStartTime < Date.now()
+                        ? "Claim"
+                        : `Avail. ${formatAirdropTime(new Date(unclaimedBonusStartTime))}`}
                     </Button>
                   )}
                 </div>

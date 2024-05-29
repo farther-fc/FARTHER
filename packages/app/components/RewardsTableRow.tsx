@@ -1,3 +1,4 @@
+import { PendingRewardButton } from "@components/PendingRewardButton";
 import { Button } from "@components/ui/Button";
 import { Popover } from "@components/ui/Popover";
 import { TableCell, TableRow } from "@components/ui/Table";
@@ -13,6 +14,7 @@ import { useUser } from "@lib/context/UserContext";
 import { trpcClient } from "@lib/trpcClient";
 import { GetUserOuput } from "@lib/types/apiTypes";
 import { formatAirdropTime, formatWad } from "@lib/utils";
+import dayjs from "dayjs";
 import { useLogError } from "hooks/useLogError";
 import { useToast } from "hooks/useToast";
 import { Info } from "lucide-react";
@@ -202,6 +204,11 @@ export function RewardsTableRow({
           {allocationTypeNames[allocation.type]}
         </Link>
       </TableCell>
+      <TableCell className="text-right">
+        {allocation.airdrop
+          ? dayjs(allocation.airdrop?.startTime).format("MMM D")
+          : null}
+      </TableCell>
       <TableCell className="pr-1 text-right ">
         {allocation.id === PENDING_POWER_ALLOCATION_ID ? (
           <Popover
@@ -243,7 +250,7 @@ export function RewardsTableRow({
       </TableCell>
       <TableCell className="pr-0 text-right">
         {allocation.type === AllocationType.EVANGELIST && !user?.powerBadge ? (
-          <PendingEvangelistReward />
+          <PendingRewardButton />
         ) : addressMismatch ? (
           <Popover
             content={
@@ -258,7 +265,7 @@ export function RewardsTableRow({
               <Button
                 sentryId={clickIds.rewardsTableRowStakeUnstake}
                 disabled={true}
-                className="w-button"
+                className="w-tableButton md:w-tableButtonWide"
               >
                 Wrong Account <Info className="ml-1 inline w-4" />
               </Button>
@@ -271,32 +278,12 @@ export function RewardsTableRow({
             loading={isTxPending}
             loadingText="Claiming"
             onClick={handleClaim}
-            className="w-button"
+            className="w-tableButton md:w-tableButtonWide"
           >
             {buttonText}
           </Button>
         )}
       </TableCell>
     </TableRow>
-  );
-}
-
-function PendingEvangelistReward() {
-  return (
-    <Popover
-      content={
-        <>
-          Your rewards will remain pending until you earn a Warpcast Power
-          Badge. If not earned within two months from your first submission, the
-          rewards will expire.
-        </>
-      }
-    >
-      <div>
-        <Button sentryId="" disabled={true} className="w-button">
-          Pending <Info className="ml-1 w-3" />
-        </Button>
-      </div>
-    </Popover>
   );
 }
