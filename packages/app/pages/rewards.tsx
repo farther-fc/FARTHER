@@ -1,5 +1,6 @@
 import { InfoCard } from "@components/InfoCard";
 import LiquidityBonusRewardsPopover from "@components/LiquidityBonusRewardsPopover";
+import { PendingRewardButton } from "@components/PendingRewardButton";
 import { RewardsTableRow } from "@components/RewardsTableRow";
 import { FartherAccountLink } from "@components/nav/FartherLinks";
 import { Button } from "@components/ui/Button";
@@ -14,6 +15,8 @@ import {
   TableHeader,
   TableRow,
 } from "@components/ui/Table";
+import { AllocationType } from "@farther/backend";
+import { getStartOfMonthUTC } from "@farther/common";
 import { ROUTES, clickIds } from "@lib/constants";
 import { useLiquidity } from "@lib/context/LiquidityContext";
 import { useUser } from "@lib/context/UserContext";
@@ -27,12 +30,20 @@ export default function RewardsPage() {
   const { account, user, userIsLoading } = useUser();
   const { handleClaimRewards, claimSuccess, claimPending } =
     useLiquidityHandlers();
-  const { claimableRewards, rewardsClaimed, pendingBonusAmount } =
-    useLiquidity();
+  const {
+    claimableRewards,
+    rewardsClaimed,
+    pendingBonusAmount,
+    hasCurrentCycleBeenAirdropped,
+  } = useLiquidity();
 
   const rows = removeFalsyValues(user?.allocations || []);
 
   const { openConnectModal } = useConnectModal();
+
+  const bonusLiqDropDate = formatAirdropTime(
+    getStartOfMonthUTC(hasCurrentCycleBeenAirdropped ? 2 : 1),
+  );
 
   return (
     <Container variant="page">
@@ -67,14 +78,27 @@ export default function RewardsPage() {
                   <TableHeader>
                     <TableRow>
                       <TableHead className="pl-0">Reward Type</TableHead>
+                      <TableHead className="pl-0 text-right">Date</TableHead>
                       <TableHead className="pr-1 text-right">Amount</TableHead>
                       <TableHead className="text-right"></TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {rows.map((a) => (
-                      <RewardsTableRow key={a.id} allocation={a} />
-                    ))}
+                    {rows
+                      .filter((a) => a.type === AllocationType.POWER_USER)
+                      .map((a) => (
+                        <RewardsTableRow key={a.id} allocation={a} />
+                      ))}
+                    {rows
+                      .filter((a) => a.type === AllocationType.EVANGELIST)
+                      .map((a) => (
+                        <RewardsTableRow key={a.id} allocation={a} />
+                      ))}
+                    {rows
+                      .filter((a) => a.type === AllocationType.LIQUIDITY)
+                      .map((a) => (
+                        <RewardsTableRow key={a.id} allocation={a} />
+                      ))}
                     {/** CLAIMABLE ONCHAIN LIQUDITY REWARDS */}
                     {claimableRewards > BigInt(0) && (
                       <TableRow>
@@ -83,6 +107,7 @@ export default function RewardsPage() {
                             Liquidity (onchain rewards)
                           </Link>
                         </TableCell>
+                        <TableCell></TableCell>
                         <TableCell className="pr-1 text-right">
                           {formatWad(claimableRewards)}
                         </TableCell>
@@ -110,8 +135,15 @@ export default function RewardsPage() {
                       <TableRow>
                         <TableCell className="pl-0 font-medium">
                           <Link href={ROUTES.liquidty.path}>
-                            Liquidity (bonus rewards)
+                            Liquidity (bonus)
                           </Link>
+                        </TableCell>
+                        <TableCell className="text-right">
+                          {formatAirdropTime(
+                            getStartOfMonthUTC(
+                              hasCurrentCycleBeenAirdropped ? 2 : 1,
+                            ),
+                          )}
                         </TableCell>
                         <TableCell className="pr-1 text-right">
                           <Popover content={<LiquidityBonusRewardsPopover />}>
@@ -122,13 +154,17 @@ export default function RewardsPage() {
                           </Popover>
                         </TableCell>
                         <TableCell className="pr-0 text-right">
-                          <Button
-                            sentryId={clickIds.rewardsPageClaimedRewards}
-                            className="w-button"
-                            disabled={true}
-                          >
-                            Avail. {formatAirdropTime()}
-                          </Button>
+                          {user?.powerBadge ? (
+                            <Button
+                              sentryId={clickIds.rewardsPageClaimedRewards}
+                              className="w-button"
+                              disabled={true}
+                            >
+                              Avail. {bonusLiqDropDate}
+                            </Button>
+                          ) : (
+                            <PendingRewardButton />
+                          )}
                         </TableCell>
                       </TableRow>
                     )}
@@ -137,9 +173,10 @@ export default function RewardsPage() {
                       <TableRow>
                         <TableCell className="pl-0 font-medium">
                           <Link href={ROUTES.liquidty.path}>
-                            Liquidity (onchain rewards)
+                            Liquidity (onchain)
                           </Link>
                         </TableCell>
+                        <TableCell></TableCell>
                         <TableCell className="pr-1 text-right">
                           {formatWad(BigInt(rewardsClaimed))}
                         </TableCell>

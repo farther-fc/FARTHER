@@ -1,0 +1,11 @@
+{
+  "root": "0xdbde7eb5057007592bafb26d41f6555957a969067f52bc6945be8a0fc3dfb700",
+  "amount": "448118963291220441472220",
+  "rawLeafData": [
+    {
+      "index": 0,
+      "address": "0x22cb6d209e3d5606ed180bd5ba544622429c47ec",
+      "amount": "448118963291220441472220"
+    }
+  ]
+}

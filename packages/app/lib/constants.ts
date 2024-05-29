@@ -7,7 +7,7 @@ export const ROUTES = {
     type: "user",
   },
   airdrop: {
-    title: "Airdrops",
+    title: "Powerdrops",
     path: "/airdrops",
     type: "user",
   },
@@ -46,9 +46,9 @@ export const ASSETS_URL =
 export const POWER_BADGE_INFO_URL = "https://warpcast.com/v/0x0bd49f9c";
 
 export const allocationTypeNames = {
-  [AllocationType.POWER_USER]: "Power User",
+  [AllocationType.POWER_USER]: "Powerdrop",
   [AllocationType.EVANGELIST]: "Evangelist",
-  [AllocationType.LIQUIDITY]: "Liquidity (bonus rewards)",
+  [AllocationType.LIQUIDITY]: "Liquidity (bonus)",
 };
 
 export const allocationTypeLinks = {

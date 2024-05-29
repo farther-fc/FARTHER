@@ -12,6 +12,7 @@ import {
 import { POSITIONS_REFRESH_INTERVAL, ROUTES } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import { createContainer } from "@lib/context/unstated";
+import { getEarliestStart } from "@lib/getEarliestStart";
 import { useQuery } from "@tanstack/react-query";
 import { useLogError } from "hooks/useLogError";
 import { usePathname } from "next/navigation";
@@ -249,6 +250,10 @@ const LiquidityContext = createContainer(function () {
       airdroppedReferenceTotal) *
     BigInt(LIQUIDITY_BONUS_MULTIPLIER);
 
+  const unclaimedBonusStartTime = getEarliestStart(unclaimedBonusAllocations);
+
+  const hasCurrentCycleBeenAirdropped = unclaimedBonusStartTime > Date.now();
+
   return {
     rewardsClaimed,
     indexerDataLoading,
@@ -259,6 +264,8 @@ const LiquidityContext = createContainer(function () {
     claimableRewardsLoading,
     pendingBonusAmount,
     unclaimedBonusAllocations,
+    unclaimedBonusStartTime,
+    hasCurrentCycleBeenAirdropped,
   };
 });
 
