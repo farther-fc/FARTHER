@@ -23,26 +23,15 @@ export type FormattedLiqProviderAccount = {
   rewardsUnclaimed: bigint;
 };
 
-export async function getLpAccounts(): Promise<
-  Map<string, FormattedLiqProviderAccount>
-> {
+export async function getLpAccounts(
+  addresses?: string[],
+): Promise<Map<string, FormattedLiqProviderAccount>> {
   // Get all liquidity providers who have claimed rewards
   const query = await axios({
     url: `https://farther.squids.live/farther-${ENVIRONMENT}/graphql`,
     method: "post",
     data: {
-      query: `
-      query LPRewardClaimers {
-        accounts(where: { rewardsClaimed_gt: 0 }) {
-          id
-          rewardsClaimed
-          positions {
-            id
-            isStaked
-          }
-        }
-      }
-    `,
+      query: addresses ? LiqProvidersByAddress(addresses) : AllLiqProviders,
     },
   });
 
@@ -53,7 +42,7 @@ export async function getLpAccounts(): Promise<
       account.id,
       {
         id: account.id,
-        rewardsClaimed: BigInt(account.rewardsClaimed),
+        rewardsClaimed: BigInt(account.rewardsClaimed || 0),
         rewardsUnclaimed: BigInt(0),
       },
     ]),
@@ -91,3 +80,42 @@ export async function getLpAccounts(): Promise<
 
   return formattedAccounts;
 }
+
+const LPRewardClaimers = `
+  query LPRewardClaimers {
+    accounts(where: { rewardsClaimed_gt: 0 }) {
+      id
+      rewardsClaimed
+      positions {
+        id
+        isStaked
+      }
+    }
+  }
+`;
+
+const AllLiqProviders = `
+  query AllLiqProviders {
+    accounts {
+      id
+      rewardsClaimed
+      positions {
+        id
+        isStaked
+      }
+    }
+  }
+`;
+
+const LiqProvidersByAddress = (addresses: string[]) => `
+  query AllLiqProviders {
+    accounts(where: { id_in: ${JSON.stringify(addresses)}}) {
+      id
+      rewardsClaimed
+      positions {
+        id
+        isStaked
+      }
+    }
+  }
+`;

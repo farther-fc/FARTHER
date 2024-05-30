@@ -1,0 +1,236 @@
+[
+  {
+    "address": "0xeb58973193e82bf1f9d2bd6a93d68b98f9faccd8",
+    "fid": 6631,
+    "amount": "13870212994021384890",
+    "referenceAmount": "2774042598804276978"
+  },
+  {
+    "address": "0x73726d9a79324888f7964d96171db1e0a7dc4266",
+    "fid": 409561,
+    "amount": "0",
+    "referenceAmount": "0"
+  },
+  {
+    "address": "0xa8d04cd4e1951291740ef977d56336fdc7f394c5",
+    "fid": 3741,
+    "amount": "0",
+    "referenceAmount": "0"
+  },
+  {
+    "address": "0x6d0b3a3f613a65c9f9ac6809730d18ff709eb1d3",
+    "fid": 383054,
+    "amount": "0",
+    "referenceAmount": "0"
+  },
+  {
+    "address": "0x605e05bf092ebd18e06d1b0f699df5b9dd85d452",
+    "fid": 193,
+    "amount": "4790697343784647425",
+    "referenceAmount": "958139468756929485"
+  },
+  {
+    "address": "0x0ca85b489a1276ef7042f1d032d0ef3831eaf4ca",
+    "fid": 245306,
+    "amount": "0",
+    "referenceAmount": "0"
+  },
+  {
+    "address": "0x8c8bfa1b4ba3b71838f2386aaeba8c5753963903",
+    "fid": 9816,
+    "amount": "4255109247554233667090",
+    "referenceAmount": "851021849510846733418"
+  },
+  {
+    "address": "0xa7c89995b915d7416ae3adfbc60f5aa9fd995e87",
+    "fid": 442334,
+    "amount": "10534760957332622915",
+    "referenceAmount": "2106952191466524583"
+  },
+  {
+    "address": "0x103ac82daf13da683f6251dc0c5008198fb2a402",
+    "fid": 18384,
+    "amount": "69583778141075620",
+    "referenceAmount": "13916755628215124"
+  },
+  {
+    "address": "0x1b9ad081e4a94fbb566486f3d86f97a1da1c94b0",
+    "fid": 2341,
+    "amount": "0",
+    "referenceAmount": "0"
+  },
+  {
+    "address": "0x487c6480c33f32435f99cfa4b1e09c0d4e4165f7",
+    "fid": 24128,
+    "amount": "11400344700052439778230",
+    "referenceAmount": "2280068940010487955646"
+  },
+  {
+    "address": "0x12789c79ad0499cd9b93ae56d402c4ce4840b270",
+    "fid": 272717,
+    "amount": "0",
+    "referenceAmount": "0"
+  },
+  {
+    "address": "0x1db6ad3344f1ae0a495b28b031b80cddd99f2fd0",
+    "fid": 7325,
+    "amount": "0",
+    "referenceAmount": "0"
+  },
+  {
+    "address": "0x94edf2efbc71123fadd9d8ae4ec471419be43376",
+    "fid": 370822,
+    "amount": "2962754821568991086810",
+    "referenceAmount": "592550964313798217362"
+  },
+  {
+    "address": "0x795050decc0322567c4f0098209d4edc5a69b9d0",
+    "fid": 4378,
+    "amount": "0",
+    "referenceAmount": "0"
+  },
+  {
+    "address": "0x403089b876128b97012aee31e3f91b4f6cfebede",
+    "fid": 423995,
+    "amount": "12534222630546317585",
+    "referenceAmount": "2506844526109263517"
+  },
+  {
+    "address": "0x915b472dfa70c8fe9d074a8c859089c44252d6b8",
+    "fid": 417416,
+    "amount": "24279010515952353230",
+    "referenceAmount": "4855802103190470646"
+  },
+  {
+    "address": "0x7e3a74ab669d4c5f411940e97d1c29db3d39e950",
+    "fid": 2946,
+    "amount": "0",
+    "referenceAmount": "0"
+  },
+  {
+    "address": "0xb5e2e5f376c61f40485bbc11d5dc56609c2c0db3",
+    "fid": 384546,
+    "amount": "0",
+    "referenceAmount": "0"
+  },
+  {
+    "address": "0xe9dadd9ded105d67e6cb7aadc48be0c2d45df652",
+    "fid": 253127,
+    "amount": "0",
+    "referenceAmount": "0"
+  },
+  {
+    "address": "0x4888c0030b743c17c89a8af875155cf75dcfd1e1",
+    "fid": 4253,
+    "amount": "0",
+    "referenceAmount": "0"
+  },
+  {
+    "address": "0x8cf7f8a2eb9cbf7a01dfb89f45951de4fb421d27",
+    "fid": 271878,
+    "amount": "14792901483749865055",
+    "referenceAmount": "2958580296749973011"
+  },
+  {
+    "address": "0x74fa01a5d0ef8039f1e14f4d4c8f90e8602e07b4",
+    "fid": 18586,
+    "amount": "30932003752531894295",
+    "referenceAmount": "6186400750506378859"
+  },
+  {
+    "address": "0x9fdfa6d223e4c81db51eec32a82e9524ea00467f",
+    "fid": 313583,
+    "amount": "0",
+    "referenceAmount": "0"
+  },
+  {
+    "address": "0x139a74950f91f7d023a14ef87bdf4c58a8ccd03e",
+    "fid": 310480,
+    "amount": "1359800793034590933095",
+    "referenceAmount": "271960158606918186619"
+  },
+  {
+    "address": "0x1cf41ad63f67f3e7f8a1db240d812f5392b9a9c4",
+    "fid": 283441,
+    "amount": "7581086715527515860",
+    "referenceAmount": "1516217343105503172"
+  },
+  {
+    "address": "0x91942026918fd219c6b62f739c4dab80dd6673b6",
+    "fid": 318447,
+    "amount": "0",
+    "referenceAmount": "0"
+  },
+  {
+    "address": "0x7827b0c8e315a23e407e54bb903ea9ca37039e55",
+    "fid": 19105,
+    "amount": "6036429577899489623660",
+    "referenceAmount": "1207285915579897924732"
+  },
+  {
+    "address": "0x1927678e5a888145edad4798988636f058809e32",
+    "fid": 375053,
+    "amount": "62527690455162868092130",
+    "referenceAmount": "12505538091032573618426"
+  },
+  {
+    "address": "0xb6079178b306d2454bad91756143b772ad1f1944",
+    "fid": 14932,
+    "amount": "0",
+    "referenceAmount": "0"
+  },
+  {
+    "address": "0x8c4a662711aedd22bca4a562987bbcc99a640604",
+    "fid": 8168,
+    "amount": "61278501866565652098275",
+    "referenceAmount": "12255700373313130419655"
+  },
+  {
+    "address": "0xb412f82383d0f9a97e3be04598ea79cd4af96d51",
+    "fid": 280660,
+    "amount": "3652430401484155870",
+    "referenceAmount": "730486080296831174"
+  },
+  {
+    "address": "0x767a3604750858fd489a50085d441d2d0d44984d",
+    "fid": 14340,
+    "amount": "6953636367000652171890",
+    "referenceAmount": "1390727273400130434378"
+  },
+  {
+    "address": "0x32a6f3de4d2610ec943b6c20ac3341b30dc18d23",
+    "fid": 4215,
+    "amount": "0",
+    "referenceAmount": "0"
+  },
+  {
+    "address": "0xf4844a06d4f995c4c03195afcb5aa59dcbb5b4fc",
+    "fid": 1430,
+    "amount": "0",
+    "referenceAmount": "0"
+  },
+  {
+    "address": "0xd958bbefb7513b083a74962e49f759745f36b008",
+    "fid": 11866,
+    "amount": "0",
+    "referenceAmount": "0"
+  },
+  {
+    "address": "0x6e45310b69908a7490ebdbb66601462c8da6e46a",
+    "fid": 278653,
+    "amount": "122081672896209788335310",
+    "referenceAmount": "24416334579241957667062"
+  },
+  {
+    "address": "0x3d7863e87afd6cc4bb584c3d07f5deeaa6d26802",
+    "fid": 5303,
+    "amount": "0",
+    "referenceAmount": "0"
+  },
+  {
+    "address": "0x53240b58cb5f68d555856e5e3e71599599da6fe6",
+    "fid": 13201,
+    "amount": "35150065442472336400",
+    "referenceAmount": "7030013088494467280"
+  }
+]

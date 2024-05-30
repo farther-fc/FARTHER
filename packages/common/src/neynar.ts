@@ -45,7 +45,7 @@ export const neynarLimiter = {
       (acc, cur) => {
         return { ...acc, ...cur };
       },
-      {} as Record<string, User[]>,
+      {} as Record<string, User | User[]>,
     );
   },
 };
