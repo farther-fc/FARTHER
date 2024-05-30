@@ -252,7 +252,9 @@ const LiquidityContext = createContainer(function () {
 
   const unclaimedBonusStartTime = getEarliestStart(unclaimedBonusAllocations);
 
-  const hasCurrentCycleBeenAirdropped = unclaimedBonusStartTime > Date.now();
+  const hasCurrentCycleBeenAirdropped = unclaimedBonusStartTime
+    ? unclaimedBonusStartTime > Date.now()
+    : false;
 
   return {
     rewardsClaimed,

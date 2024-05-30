@@ -31,15 +31,6 @@ async function prepareLpBonusDrop() {
 
   try {
     const accounts = await getLpAccounts();
-
-    accounts.forEach((account) => {
-      console.info({
-        account: account.id,
-        rewardsClaimed: formatNum(account.rewardsClaimed),
-        rewardsUnclaimed: formatNum(account.rewardsUnclaimed),
-      });
-    });
-
     const powerFids = await getPowerBadgeFids();
 
     // Get all past liquidity reward allocations
@@ -67,11 +58,12 @@ async function prepareLpBonusDrop() {
       {},
     );
 
-    // Get FID associated with each address
+    // Limit to users with power badges
     const addresses = Array.from(accounts).map(([id]) => id);
     const usersData = await getUserData(addresses);
+    const lpsWithPowerBadge = usersData.filter((u) => !!u.powerBadge);
 
-    const allocationData = usersData.map((u) => {
+    const allocationData = lpsWithPowerBadge.map((u) => {
       const account = accounts.get(u.address);
 
       if (!account) {
@@ -155,13 +147,30 @@ async function prepareLpBonusDrop() {
           2,
         ),
       );
+    });
 
-      console.info({
-        root,
-        amount: allocationSum,
-        recipients: allocationData.length,
-        startTime: Math.round(NEXT_AIRDROP_START_TIME.getTime() / 1000),
-      });
+    const sortedallocations = allocationData.sort((a, b) => {
+      if (BigInt(a.amount) < BigInt(b.amount)) {
+        return 1;
+      } else if (BigInt(a.amount) > BigInt(b.amount)) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+
+    // console.log(sortedallocations)
+
+    console.info({
+      root,
+      amount: allocationSum,
+      recipients: sortedallocations.length,
+      maxUserAllocation: formatNum(sortedallocations[0].amount),
+      biggestEarner: sortedallocations[0].address,
+      minUserAllocation: formatNum(
+        sortedallocations[sortedallocations.length - 1].amount,
+      ),
+      startTime: Math.round(NEXT_AIRDROP_START_TIME.getTime() / 1000),
     });
   } catch (e) {
     console.error(e);
@@ -182,6 +191,7 @@ async function getUserData(addresses: string[]) {
 
       return {
         fid: user.fid,
+        powerBadge: user.power_badge,
         address,
       };
     });
@@ -192,6 +202,7 @@ async function getUserData(addresses: string[]) {
       return {
         fid: DEV_USER_FID,
         address: DEV_USER_ADDRESS,
+        powerBadge: true,
       };
     }
     throw new Error(`No address found for address: ${a}`);
