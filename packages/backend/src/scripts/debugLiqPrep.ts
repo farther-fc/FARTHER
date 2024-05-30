@@ -1,5 +1,6 @@
-import { getLpAccounts } from "../utils/getLpAccounts";
-import { formatNum } from "../utils/helpers";
+import { LIQUIDITY_BONUS_MULTIPLIER, neynarLimiter } from "@farther/common";
+import { v4 as uuidv4 } from "uuid";
+import { AllocationType, prisma } from "../prisma";
 
 const rawLeafData = [
   {
@@ -186,19 +187,76 @@ const rawLeafData = [
 
 async function main() {
   const addresses = rawLeafData.map((leaf) => leaf.address);
-  const accounts = await getLpAccounts(addresses);
 
-  accounts.forEach((account, i) => {
-    const leaf = rawLeafData.find(
-      (leaf) => leaf.address.toLowerCase() === account.id.toLowerCase(),
-    );
+  const neynarData = await neynarLimiter.getUsersByAddress(addresses);
 
-    const diff =
-      (account.rewardsClaimed + account.rewardsUnclaimed) * BigInt(5) -
-      BigInt(leaf.amount);
+  const preppedLeafData = rawLeafData.map((leaf) => {
+    const users = neynarData[leaf.address];
+    const user = Array.isArray(users)
+      ? users.sort(
+          (a, b) => (b.power_badge ? 1 : 0) - (a.power_badge ? 1 : 0),
+        )[0]
+      : users;
 
-    console.log({ account, amount: leaf.amount, diff: formatNum(diff) });
+    if (!user) {
+      throw new Error(`User not found for address: ${leaf.address}`);
+    }
+    return {
+      userId: user.fid,
+      index: leaf.index,
+      amount: leaf.amount,
+      address: leaf.address,
+      referenceAmount: (
+        BigInt(leaf.amount) / BigInt(LIQUIDITY_BONUS_MULTIPLIER)
+      ).toString(),
+    };
   });
+
+  const allocations = await prisma.allocation.findMany({
+    where: {
+      type: AllocationType.LIQUIDITY,
+      address: {
+        in: addresses,
+      },
+      airdropId: {
+        not: null,
+      },
+    },
+  });
+
+  await prisma.$transaction(async (tx) => {
+    await tx.allocation.deleteMany({
+      where: {
+        id: {
+          in: allocations.map((a) => a.id),
+        },
+      },
+    });
+
+    for (const allocation of allocations) {
+      const leaf = preppedLeafData.find(
+        (l) => l.address === allocation.address,
+      );
+      if (!leaf) {
+        throw new Error(`Leaf not found for address: ${allocation.address}`);
+      }
+
+      await tx.allocation.create({
+        data: {
+          id: uuidv4(),
+          index: leaf.index,
+          amount: leaf.amount,
+          referenceAmount: leaf.referenceAmount,
+          type: AllocationType.LIQUIDITY,
+          address: leaf.address,
+          airdropId: "7d45fc2e-26fa-47be-9e34-0eeed4f6cddb",
+          userId: leaf.userId,
+        },
+      });
+    }
+  });
+
+  console.log("done");
 }
 
 main();
