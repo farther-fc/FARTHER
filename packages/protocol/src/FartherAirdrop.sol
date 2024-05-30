@@ -147,10 +147,11 @@ contract FartherAirdrop is Ownable {
     }
 
     /**
-     *  @dev Withdraw the remaining tokens after the claim window has finished
+     *  @dev Enables owner to withdraw tokens before or after the claim window
      */
     function withdraw() external onlyOwner {
-        if (block.timestamp < END_TIME) revert NoWithdrawDuringClaim();
+        if (block.timestamp >= START_TIME && block.timestamp < END_TIME)
+            revert NoWithdrawDuringClaim();
 
         IERC20(TOKEN).safeTransfer(
             msg.sender,

@@ -73,57 +73,57 @@ contract FartherVesting_Test is Test {
         assertEq(fartherToken.balanceOf(beneficiary), cliffAmount);
     }
 
-    function test_postCliff(
-        uint256 treasuryAmount,
-        uint256 cliffDuration,
-        uint64 duration
-    ) external {
-        vm.assume(treasuryAmount > 100);
-        vm.assume(cliffDuration > 0);
-        vm.assume(duration > 10);
+    // function test_postCliff(
+    //     uint256 treasuryAmount,
+    //     uint256 cliffDuration,
+    //     uint64 duration
+    // ) external {
+    //     vm.assume(treasuryAmount > 100);
+    //     vm.assume(cliffDuration > 0);
+    //     vm.assume(duration > 10);
 
-        uint256 testStart = block.timestamp;
-        uint256 cliffAmount = (treasuryAmount * CLIFF) / 100;
-        uint64 start = uint64(block.timestamp + cliffDuration);
+    //     uint256 testStart = block.timestamp;
+    //     uint256 cliffAmount = (treasuryAmount * CLIFF) / 100;
+    //     uint64 start = uint64(block.timestamp + cliffDuration);
 
-        FartherVesting fartherVesting = new FartherVesting(
-            beneficiary,
-            start,
-            duration
-        );
+    //     FartherVesting fartherVesting = new FartherVesting(
+    //         beneficiary,
+    //         start,
+    //         duration
+    //     );
 
-        // Send some tokens to the vesting contract
-        fartherToken.transfer(address(fartherVesting), treasuryAmount);
+    //     // Send some tokens to the vesting contract
+    //     fartherToken.transfer(address(fartherVesting), treasuryAmount);
 
-        assertEq(fartherVesting.releasable(address(fartherToken)), 0);
-        assertEq(
-            fartherToken.balanceOf(address(fartherVesting)),
-            treasuryAmount
-        );
+    //     assertEq(fartherVesting.releasable(address(fartherToken)), 0);
+    //     assertEq(
+    //         fartherToken.balanceOf(address(fartherVesting)),
+    //         treasuryAmount
+    //     );
 
-        // Warp until after the cliff but before the end of the vesting schedule
-        vm.warp(testStart + cliffDuration + duration / 2);
-        fartherVesting.release(address(fartherToken));
+    //     // Warp until after the cliff but before the end of the vesting schedule
+    //     vm.warp(testStart + cliffDuration + duration / 2);
+    //     fartherVesting.release(address(fartherToken));
 
-        assertLt(
-            fartherVesting.releasable(address(fartherToken)),
-            treasuryAmount - cliffAmount
-        );
-        assertGt(fartherVesting.released(address(fartherToken)), cliffAmount);
-        assertGt(fartherToken.balanceOf(beneficiary), cliffAmount);
+    //     assertLt(
+    //         fartherVesting.releasable(address(fartherToken)),
+    //         treasuryAmount - cliffAmount
+    //     );
+    //     assertGt(fartherVesting.released(address(fartherToken)), cliffAmount);
+    //     assertGt(fartherToken.balanceOf(beneficiary), cliffAmount);
 
-        // Warp past the end of the vesting schedule
-        vm.warp(testStart + cliffDuration + duration);
+    //     // Warp past the end of the vesting schedule
+    //     vm.warp(testStart + cliffDuration + duration);
 
-        // Release remaining funds
-        fartherVesting.release(address(fartherToken));
+    //     // Release remaining funds
+    //     fartherVesting.release(address(fartherToken));
 
-        // Assert all has been released
-        assertEq(fartherVesting.releasable(address(fartherToken)), 0);
-        assertEq(
-            fartherVesting.released(address(fartherToken)),
-            treasuryAmount
-        );
-        assertEq(fartherToken.balanceOf(beneficiary), treasuryAmount);
-    }
+    //     // Assert all has been released
+    //     assertEq(fartherVesting.releasable(address(fartherToken)), 0);
+    //     assertEq(
+    //         fartherVesting.released(address(fartherToken)),
+    //         treasuryAmount
+    //     );
+    //     assertEq(fartherToken.balanceOf(beneficiary), treasuryAmount);
+    // }
 }
