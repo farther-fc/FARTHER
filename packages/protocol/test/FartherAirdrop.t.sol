@@ -161,9 +161,57 @@ contract FartherAirdropTest is TestConfig {
         );
     }
 
+    function test_withdrawBeforeClaim_succeeds() external {
+        uint256 startTime = block.timestamp + 10;
+
+        FartherAirdrop futureDrop = new FartherAirdrop(
+            address(token),
+            root,
+            startTime,
+            startTime + DURATION
+        );
+
+        token.transfer(address(futureDrop), 42069);
+        assertEq(token.balanceOf(address(futureDrop)), 42069);
+
+        futureDrop.withdraw();
+
+        assertEq(token.balanceOf(address(futureDrop)), 0);
+    }
+
+    function test_withdrawAfterClaim_succeeds() external {
+        uint256 startTime = block.timestamp + 10;
+
+        FartherAirdrop futureDrop = new FartherAirdrop(
+            address(token),
+            root,
+            startTime,
+            startTime + DURATION
+        );
+
+        token.transfer(address(futureDrop), 42069);
+        assertEq(token.balanceOf(address(futureDrop)), 42069);
+
+        vm.warp(startTime + DURATION + 1);
+        futureDrop.withdraw();
+
+        assertEq(token.balanceOf(address(futureDrop)), 0);
+    }
+
     function test_withdrawDuringClaim_fails() external {
+        uint256 startTime = block.timestamp + 10;
+
+        FartherAirdrop futureDrop = new FartherAirdrop(
+            address(token),
+            root,
+            startTime,
+            startTime + DURATION
+        );
+
+        vm.warp(startTime);
+
         vm.expectRevert(FartherAirdrop.NoWithdrawDuringClaim.selector);
-        airdrop.withdraw();
+        futureDrop.withdraw();
     }
 
     // HELPERS
