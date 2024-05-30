@@ -229,8 +229,10 @@ const LiquidityContext = createContainer(function () {
   const liquidityBonusAllocations =
     user?.allocations.filter((a) => a.type === AllocationType.LIQUIDITY) || [];
 
-  const airdroppedBonusAllocations =
-    liquidityBonusAllocations.filter((a) => !!a.airdrop) || [];
+  // TODO: REMOVE THIS
+  const airdroppedBonusAllocations: typeof liquidityBonusAllocations = [];
+  // const airdroppedBonusAllocations =
+  //   liquidityBonusAllocations.filter((a) => !!a.airdrop) || [];
 
   const unclaimedBonusAllocations =
     airdroppedBonusAllocations.filter((a) => !a.isClaimed) || [];
