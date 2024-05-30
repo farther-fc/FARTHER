@@ -1,6 +1,6 @@
 import {
-  ANVIL_AIRDROP_ADDRESS,
-  CHAIN_ID,
+  // ANVIL_AIRDROP_ADDRESS,
+  // CHAIN_ID,
   DEV_USER_ADDRESS,
   DEV_USER_FID,
   ENVIRONMENT,
@@ -9,14 +9,13 @@ import {
   NEXT_AIRDROP_END_TIME,
   NEXT_AIRDROP_START_TIME,
   getMerkleRoot,
-  getPowerBadgeFids,
   isProduction,
   neynarLimiter,
 } from "@farther/common";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 import { AllocationType, prisma } from "../prisma";
 import { getLpAccounts } from "../utils/getLpAccounts";
-import { formatNum, writeFile } from "../utils/helpers";
+import { formatNum } from "../utils/helpers";
 import { airdropSanityCheck } from "./airdropSanityCheck";
 
 const startTime = NEXT_AIRDROP_START_TIME;
@@ -31,14 +30,17 @@ async function prepareLpBonusDrop() {
 
   try {
     const accounts = await getLpAccounts();
-    const powerFids = await getPowerBadgeFids();
+    const addresses = Array.from(accounts).map(([id]) => id);
 
-    // Get all past liquidity reward allocations
+    // Get all airdropped liquidity reward allocations
     const allocations = await prisma.allocation.findMany({
       where: {
         type: AllocationType.LIQUIDITY,
-        userId: {
-          in: powerFids,
+        address: {
+          in: addresses,
+        },
+        airdropId: {
+          not: null,
         },
       },
       select: {
@@ -59,12 +61,17 @@ async function prepareLpBonusDrop() {
     );
 
     // Limit to users with power badges
-    const addresses = Array.from(accounts).map(([id]) => id);
     const usersData = await getUserData(addresses);
     const lpsWithPowerBadge = usersData.filter((u) => !!u.powerBadge);
 
     const allocationData = lpsWithPowerBadge.map((u) => {
       const account = accounts.get(u.address);
+
+      if (u.address !== account?.id) {
+        throw new Error(
+          `Account address mismatch: ${u.address}, ${account?.id}`,
+        );
+      }
 
       if (!account) {
         throw new Error(
@@ -88,6 +95,13 @@ async function prepareLpBonusDrop() {
       };
     });
 
+    console.log(
+      allocationData.map((r, i) => ({
+        fid: r.fid,
+        address: r.address.toLowerCase(),
+      })),
+    );
+
     // Create merkle tree
     const allocationSum = allocationData.reduce(
       (acc, a) => acc + BigInt(a.amount),
@@ -107,47 +121,49 @@ async function prepareLpBonusDrop() {
       throw new Error("Merkle root is 0x");
     }
 
-    await prisma.$transaction(async (tx) => {
-      // Create Airdrop
-      const airdrop = await tx.airdrop.create({
-        data: {
-          chainId: CHAIN_ID,
-          amount: allocationSum.toString(),
-          root,
-          address:
-            ENVIRONMENT === "development" ? ANVIL_AIRDROP_ADDRESS : undefined,
-          startTime,
-          endTime,
-        },
-      });
+    // TODO: Prior to running this again, test it many times. Something still seems off.
 
-      // Save allocations
-      await tx.allocation.createMany({
-        data: allocationData.map((r, i) => ({
-          id: uuidv4(),
-          userId: r.fid,
-          index: i,
-          airdropId: airdrop.id,
-          type: AllocationType.LIQUIDITY,
-          address: r.address.toLowerCase(),
-          amount: r.amount.toString(),
-          referenceAmount: r.referenceAmount.toString(),
-        })),
-      });
+    // await prisma.$transaction(async (tx) => {
+    //   // Create Airdrop
+    //   const airdrop = await tx.airdrop.create({
+    //     data: {
+    //       chainId: CHAIN_ID,
+    //       amount: allocationSum.toString(),
+    //       root,
+    //       address:
+    //         ENVIRONMENT === "development" ? ANVIL_AIRDROP_ADDRESS : undefined,
+    //       startTime,
+    //       endTime,
+    //     },
+    //   });
 
-      await writeFile(
-        `airdrops/${ENVIRONMENT}/${AllocationType.LIQUIDITY.toLowerCase()}-${startTime.toISOString()}.json`,
-        JSON.stringify(
-          {
-            root,
-            amount: allocationSum.toString(),
-            rawLeafData,
-          },
-          null,
-          2,
-        ),
-      );
-    });
+    //   // Save allocations
+    //   await tx.allocation.createMany({
+    //     data: allocationData.map((r, i) => ({
+    //       id: uuidv4(),
+    //       userId: r.fid,
+    //       index: i,
+    //       airdropId: airdrop.id,
+    //       type: AllocationType.LIQUIDITY,
+    //       address: r.address.toLowerCase(),
+    //       amount: r.amount.toString(),
+    //       referenceAmount: r.referenceAmount.toString(),
+    //     })),
+    //   });
+
+    //   await writeFile(
+    //     `airdrops/${ENVIRONMENT}/${AllocationType.LIQUIDITY.toLowerCase()}-${startTime.toISOString()}.json`,
+    //     JSON.stringify(
+    //       {
+    //         root,
+    //         amount: allocationSum.toString(),
+    //         rawLeafData,
+    //       },
+    //       null,
+    //       2,
+    //     ),
+    //   );
+    // });
 
     const sortedallocations = allocationData.sort((a, b) => {
       if (BigInt(a.amount) < BigInt(b.amount)) {
@@ -159,7 +175,7 @@ async function prepareLpBonusDrop() {
       }
     });
 
-    // console.log(sortedallocations)
+    console.log(allocationData);
 
     console.info({
       root,

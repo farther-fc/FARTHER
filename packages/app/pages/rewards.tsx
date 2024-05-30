@@ -98,11 +98,11 @@ export default function RewardsPage() {
                       .map((a) => (
                         <RewardsTableRow key={a.id} allocation={a} />
                       ))}
-                    {/* {rows
+                    {rows
                       .filter((a) => a.type === AllocationType.LIQUIDITY)
                       .map((a) => (
                         <RewardsTableRow key={a.id} allocation={a} />
-                      ))} */}
+                      ))}
                     {/** CLAIMABLE ONCHAIN LIQUDITY REWARDS */}
                     {claimableRewards > BigInt(0) && (
                       <TableRow>
