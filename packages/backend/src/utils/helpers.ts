@@ -9,5 +9,7 @@ export const writeFile = async (path: string, content: any) => {
   fs.writeFileSync(path, content);
 };
 
-export const formatNum = (n: string | bigint) =>
-  Number(formatEther(BigInt(n))).toLocaleString();
+export const formatNum = (n: string | bigint) => {
+  console.log("formatEther()", formatEther(BigInt(n)));
+  return Number(formatEther(BigInt(n))).toLocaleString();
+};
