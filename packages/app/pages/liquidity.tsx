@@ -159,7 +159,8 @@ export default function LiquidityPage() {
                     </div>
                   </div>
                   {/** Button link to rewards page */}
-                  {unclaimedBonusStartTime < Date.now() ? (
+                  {unclaimedBonusStartTime &&
+                  unclaimedBonusStartTime < Date.now() ? (
                     <Link href={ROUTES.rewards.path}>
                       <Button
                         className="ml-auto mt-2 w-full"
@@ -176,9 +177,10 @@ export default function LiquidityPage() {
                       sentryId={clickIds.liquidityClaimableBonus}
                       disabled={true}
                     >
-                      {unclaimedBonusStartTime < Date.now()
+                      {!unclaimedBonusStartTime ||
+                      unclaimedBonusStartTime < Date.now()
                         ? "Claim"
-                        : `Avail. ${formatAirdropTime(new Date(unclaimedBonusStartTime))}`}
+                        : `Avail. ${formatAirdropTime(unclaimedBonusStartTime ? new Date(unclaimedBonusStartTime) : getStartOfMonthUTC())}`}
                     </Button>
                   )}
                 </div>

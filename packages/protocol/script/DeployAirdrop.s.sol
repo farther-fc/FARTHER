@@ -7,14 +7,14 @@ import {FartherToken} from "../src/FartherToken.sol";
 import {Merkle} from "murky/Merkle.sol";
 
 contract DeployAirdrop is Script {
-    address constant TOKEN = 0xf9A98fDC95A427fCfB1506A6E8A3143119417fBA;
+    address constant TOKEN = 0x8ad5b9007556749DE59E088c88801a3Aaa87134B;
 
-    uint constant AIRDROP_AMOUNT = 448118963291220441472220;
+    uint constant AIRDROP_AMOUNT = 5165788873365263509994855;
 
     bytes32 constant ROOT =
-        0xdbde7eb5057007592bafb26d41f6555957a969067f52bc6945be8a0fc3dfb700;
+        0x0bb2e481c419d034bdbd1369fb47000748570bc4da6c45351a75edb44f24c83b;
 
-    address OWNER = 0xCa27037CeD432fadF54Dee9bC210DfD5ab2F13C8;
+    address OWNER = 0x97e3B75B2eebCC722B504851416e1410B32180a3;
 
     uint START_TIME = 1717200000;
     uint DURATION = 365 days;
@@ -40,7 +40,7 @@ contract DeployAirdrop is Script {
         airdrop.transferOwnership(OWNER);
 
         // Transfer amount to airdrop
-        FartherToken(address(TOKEN)).transfer(address(airdrop), AIRDROP_AMOUNT);
+        // FartherToken(address(TOKEN)).transfer(address(airdrop), AIRDROP_AMOUNT);
 
         vm.stopBroadcast();
     }
