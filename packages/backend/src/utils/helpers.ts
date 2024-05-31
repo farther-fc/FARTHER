@@ -10,6 +10,5 @@ export const writeFile = async (path: string, content: any) => {
 };
 
 export const formatNum = (n: string | bigint) => {
-  console.log("formatEther()", formatEther(BigInt(n)));
   return Number(formatEther(BigInt(n))).toLocaleString();
 };
