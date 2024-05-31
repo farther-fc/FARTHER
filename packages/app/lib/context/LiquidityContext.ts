@@ -49,7 +49,6 @@ const LiquidityContext = createContainer(function () {
       enabled: !!account.address,
     },
   });
-
   const {
     data: indexerData,
     error: positionsFetchError,
@@ -235,8 +234,11 @@ const LiquidityContext = createContainer(function () {
   const unclaimedBonusAllocations =
     airdroppedBonusAllocations.filter((a) => !a.isClaimed) || [];
 
+  const claimedBonusAllocations =
+    airdroppedBonusAllocations.filter((a) => !!a.isClaimed) || [];
+
   // This is the total amount of liqudity rewards that have received an airdropped bonus
-  const airdroppedReferenceTotal = airdroppedBonusAllocations.reduce(
+  const airdroppedReferenceTotal = claimedBonusAllocations.reduce(
     (acc, curr) => BigInt(curr.referenceAmount || "0") + acc,
     BigInt(0),
   );
@@ -245,7 +247,8 @@ const LiquidityContext = createContainer(function () {
   // (onchain amount that has an associated airdropped bonus) from the total onchain rewards claimed.
   // Multiply by multiplier to get the bonus.
   const pendingBonusAmount =
-    (BigInt(rewardsClaimed || "0") +
+    ((claimableRewards || BigInt(0)) +
+      BigInt(rewardsClaimed || "0") +
       pendingStakedLiqRewards -
       airdroppedReferenceTotal) *
     BigInt(LIQUIDITY_BONUS_MULTIPLIER);
