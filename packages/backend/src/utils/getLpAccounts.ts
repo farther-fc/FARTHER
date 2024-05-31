@@ -7,6 +7,7 @@ import {
 } from "@farther/common";
 import axios from "axios";
 import { Promise as Bluebird } from "bluebird";
+import { Address } from "viem";
 
 type LiqProviderAccount = {
   id: string;
@@ -21,6 +22,7 @@ export type FormattedLiqProviderAccount = {
   id: string;
   rewardsClaimed: bigint;
   rewardsUnclaimed: bigint;
+  rewardsClaimable: bigint;
 };
 
 export async function getLpAccounts(
@@ -44,6 +46,7 @@ export async function getLpAccounts(
         id: account.id,
         rewardsClaimed: BigInt(account.rewardsClaimed || 0),
         rewardsUnclaimed: BigInt(0),
+        rewardsClaimable: BigInt(0),
       },
     ]),
   );
@@ -74,8 +77,16 @@ export async function getLpAccounts(
       { concurrency: 3 },
     );
 
+    const claimableRewards = await viemPublicClient.readContract({
+      abi: UniswapV3StakerAbi,
+      address: contractAddresses.UNISWAP_V3_STAKER,
+      functionName: "rewards",
+      args: [contractAddresses.FARTHER, account.id as Address],
+    });
+
     formattedAccounts.get(account.id).rewardsUnclaimed =
       unclaimedRewards.reduce((total, r) => total + BigInt(r), BigInt(0));
+    formattedAccounts.get(account.id).rewardsClaimable = claimableRewards;
   }
 
   return formattedAccounts;
