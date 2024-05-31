@@ -72,10 +72,12 @@ async function main() {
   const cumulativeLiquidity =
     transferTo03PoolTotal + transferTo1PoolTotal - transfersOutTotal;
 
-  console.info(
-    "Cumulative liquidity: ",
-    formatNum(cumulativeLiquidity / BigInt(10 ** 18)),
-  );
+  console.log({
+    transferTo03PoolTotal: formatNum(transferTo03PoolTotal),
+    transferTo1PoolTotal: formatNum(transferTo1PoolTotal),
+    transfersOutTotal: formatNum(transfersOutTotal),
+    cumulativeLiquidity: formatNum(cumulativeLiquidity),
+  });
 }
 
 main()
