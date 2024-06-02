@@ -1,5 +1,6 @@
 import { prisma } from "@farther/backend";
 import { contractAddresses } from "@farther/common";
+import { PRICE_REFRESH_TIME } from "@lib/constants";
 import { publicProcedure } from "server/trpc";
 
 if (!process.env.COINGECKO_API_KEY) {
@@ -8,16 +9,16 @@ if (!process.env.COINGECKO_API_KEY) {
 
 export const COINGECKO_API_KEY = process.env.COINGECKO_API_KEY;
 
-const REFRESH_TIME = 20 * 60 * 1000; // 20 minutes
-
-export const getPrice = publicProcedure.mutation(async (opts) => {
+export const getPrice = publicProcedure.query(async () => {
   // Get price from database
   const tokenPrice = await prisma.tokenPrice.findFirst({});
 
   // If stale, fetch from coingecko, store and return that price.
+  // Note: this path is also cached via responseMeta in trpcClient.ts to avoid
+  // unnecessary database hits.
   if (
     !tokenPrice ||
-    Date.now() - tokenPrice.updatedAt.getTime() > REFRESH_TIME
+    Date.now() - tokenPrice.updatedAt.getTime() > PRICE_REFRESH_TIME
   ) {
     const response = await fetch(
       `https://api.coingecko.com/api/v3/simple/price?ids=farther&vs_currencies=usd&x_cg_demo_api_key=${COINGECKO_API_KEY}`,

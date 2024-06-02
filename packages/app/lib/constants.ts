@@ -95,3 +95,5 @@ export const clickIds = {
 } as const;
 
 export const POSITIONS_REFRESH_INTERVAL = 3000;
+
+export const PRICE_REFRESH_TIME = 20 * 60 * 1000; // 20 minutes
