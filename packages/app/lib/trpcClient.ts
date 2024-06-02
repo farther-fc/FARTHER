@@ -1,3 +1,4 @@
+import { PRICE_REFRESH_TIME } from "@lib/constants";
 import {
   experimental_formDataLink,
   httpBatchLink,
@@ -45,5 +46,25 @@ export const trpcClient = createTRPCNext<AppRouter>({
   /**
    * @link https://trpc.io/docs/v11/ssr
    **/
-  ssr: false,
+  ssr: true,
+  responseMeta(opts) {
+    const { clientErrors } = opts;
+
+    if (clientErrors.length) {
+      // propagate http first error from API calls
+      return {
+        status: clientErrors[0].data?.httpStatus ?? 500,
+      };
+    }
+
+    if (opts.ctx.pathname.includes("getPrice")) {
+      return {
+        headers: {
+          "cache-control": `s-maxage=${PRICE_REFRESH_TIME}, stale-while-revalidate=${PRICE_REFRESH_TIME}`,
+        },
+      };
+    }
+
+    return {};
+  },
 });
