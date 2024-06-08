@@ -1,4 +1,4 @@
-import { ROOT_ENDPOINT } from "@lib/constants";
+import { ROOT_ENDPOINT } from "@farther/common";
 import Head from "next/head";
 import colors from "tailwindcss/colors";
 

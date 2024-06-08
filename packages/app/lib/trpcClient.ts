@@ -1,4 +1,4 @@
-import { PRICE_REFRESH_TIME } from "@lib/constants";
+import { PRICE_REFRESH_TIME } from "@farther/common";
 import {
   experimental_formDataLink,
   httpBatchLink,

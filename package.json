@@ -35,5 +35,10 @@
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "pnpm": {
+    "overrides": {
+      "graphql": "^16.8.1"
+    }
+  }
 }

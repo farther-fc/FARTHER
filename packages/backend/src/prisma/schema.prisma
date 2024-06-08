@@ -14,17 +14,22 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  allocations Allocation[]
+  allocations   Allocation[]
+  tipAllowances TipAllowance[]
+  tipsGiven     Tip[]          @relation(name: "tipper")
+  tipsReceived  Tip[]          @relation(name: "tippee")
+
+  // TEMPORARY. TODO: REMOVE
+  behavior Int? @default(0)
 }
 
 // Airdrop allocation
 model Allocation {
-  // Using hash of user ID, allocation type, chain ID, and airdrop start time as the unique identifier
   id        String         @id
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
   userId    Int
-  user      User          @relation(fields: [userId], references: [id])
+  user      User           @relation(fields: [userId], references: [id])
   airdropId String?        @db.Uuid
   airdrop   Airdrop?       @relation(fields: [airdropId], references: [id])
   isClaimed Boolean        @default(false)
@@ -41,7 +46,7 @@ model Allocation {
   // This is used for liquidity rewards to keep track of how much the user claimed onchain. 
   // The amount they get allocated is a multiple of the reference amount.
   referenceAmount String?
-  
+
   isInvalidated Boolean @default(false)
 
   // Address of user receiving the allocation - the reason this doesn't live at the user level is we user Neynar &
@@ -57,6 +62,7 @@ enum AllocationType {
   POWER_USER
   EVANGELIST
   LIQUIDITY
+  TIPS
 }
 
 model Tweet {
@@ -92,19 +98,63 @@ model Airdrop {
 }
 
 model EcosystemPayment {
-  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  amount        String
-  name          String
-  description   String
-  address       String
-  txHash        String
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  amount      String
+  name        String
+  description String
+  address     String
+  txHash      String
+}
+
+model Tip {
+  hash             String            @id // Cast hash
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  tipperId         Int
+  tipper           User              @relation(name: "tipper", fields: [tipperId], references: [id])
+  tippeeId         Int
+  tippee           User              @relation(name: "tippee", fields: [tippeeId], references: [id])
+  tipAllowanceId   String            @db.Uuid
+  tipAllowance     TipAllowance      @relation(fields: [tipAllowanceId], references: [id])
+  amount           Float
+  invalidTipReason InvalidTipReason?
+}
+
+enum InvalidTipReason {
+  BELOW_MINIMUM
+  INSUFFICIENT_ALLOWANCE
+  NULL_ALLOWANCE
+  INVALID_TIME
+  SELF_TIPPING
+}
+
+model TipMeta {
+  id             String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  tipMinimum     Float
+  totalAllowance Float
+  allowances     TipAllowance[]
+  carriedOver    Float
+  usdPrice       Float
+}
+
+model TipAllowance {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt DateTime @default(now())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  tipMetaId String?  @db.Uuid
+  tipMeta   TipMeta? @relation(fields: [tipMetaId], references: [id])
+  amount    Float
+  tips      Tip[]
 }
 
 model TokenPrice {
-  id String @id // Token address
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  price String
+  id          String   @id // Token address
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  usd         Float    @default(0)   
 }
