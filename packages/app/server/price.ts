@@ -3,11 +3,12 @@ import { contractAddresses } from "@farther/common";
 import { PRICE_REFRESH_TIME } from "@lib/constants";
 import { publicProcedure } from "server/trpc";
 
-if (!process.env.COINGECKO_API_KEY) {
-  throw new Error("COINGECKO_API_KEY is not set");
+if (!process.env.NEXT_PUBLIC_COINGECKO_API_KEY) {
+  throw new Error("NEXT_PUBLIC_COINGECKO_API_KEY is not set");
 }
 
-export const COINGECKO_API_KEY = process.env.COINGECKO_API_KEY;
+export const NEXT_PUBLIC_COINGECKO_API_KEY =
+  process.env.NEXT_PUBLIC_COINGECKO_API_KEY;
 
 export const getPrice = publicProcedure.query(async () => {
   // Get price from database
@@ -21,7 +22,7 @@ export const getPrice = publicProcedure.query(async () => {
     Date.now() - tokenPrice.updatedAt.getTime() > PRICE_REFRESH_TIME
   ) {
     const response = await fetch(
-      `https://api.coingecko.com/api/v3/simple/price?ids=farther&vs_currencies=usd&x_cg_demo_api_key=${COINGECKO_API_KEY}`,
+      `https://api.coingecko.com/api/v3/simple/price?ids=farther&vs_currencies=usd&x_cg_demo_api_key=${NEXT_PUBLIC_COINGECKO_API_KEY}`,
     );
 
     const data: { farther: { usd: number } } = await response.json();
