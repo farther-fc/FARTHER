@@ -1,6 +1,5 @@
 import { prisma } from "@farther/backend";
-import { contractAddresses } from "@farther/common";
-import { PRICE_REFRESH_TIME } from "@lib/constants";
+import { contractAddresses, PRICE_REFRESH_TIME } from "@farther/common";
 import { publicProcedure } from "server/trpc";
 
 if (!process.env.NEXT_PUBLIC_COINGECKO_API_KEY) {
@@ -31,21 +30,19 @@ export const getPrice = publicProcedure.query(async () => {
       throw new Error("Coingecko API Error: Farther price not found");
     }
 
-    const priceWad = BigInt(data.farther.usd * 10 ** 18).toString();
-
     await prisma.tokenPrice.upsert({
       where: { id: contractAddresses.FARTHER },
       create: {
         id: contractAddresses.FARTHER,
-        price: priceWad,
+        usd: data.farther.usd,
       },
       update: {
-        price: priceWad,
+        usd: data.farther.usd,
       },
     });
 
     return data.farther.usd;
   }
 
-  return Number(BigInt(tokenPrice.price).toString()) / 10 ** 18;
+  return tokenPrice.usd;
 });
