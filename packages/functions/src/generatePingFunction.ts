@@ -4,17 +4,15 @@ import { defineString } from "firebase-functions/params";
 const CRON_SECRET = defineString("CRON_SECRET");
 const ENV = defineString("NEXT_PUBLIC_ENVIRONMENT");
 
-export function generatePingFunction(functionName: string) {
+export function generatePingFunction(pathName: string) {
   const fn = async () => {
     try {
-      const response = await axios(`${getBaseUrl()}${functionName}`, {
+      const response = await axios(`${getBaseUrl()}${pathName}`, {
         headers: { Authorization: CRON_SECRET.value() },
       });
 
       if (response.status !== 200) {
-        throw new Error(
-          `${functionName} failed with status ${response.status}`,
-        );
+        throw new Error(`${pathName} failed with status ${response.status}`);
       }
     } catch (e: unknown) {
       if (e instanceof Error) {

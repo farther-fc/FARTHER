@@ -16,4 +16,4 @@ exports.distributeAllowances = functions
   .pubsub // Every day at 9pm UTC
   .schedule(ENV.value() === "production" ? "0 22 * * *" : "*/5 * * * *")
 
-  .onRun(generatePingFunction("distributeAllowances"));
+  .onRun(generatePingFunction("admin.distributeAllowances"));
