@@ -1,7 +1,6 @@
 import { HANDLE_TIP_REGEX } from "@farther/common";
 import { Cast } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { InvalidTipReason } from "@prisma/client";
-import Sentry from "@sentry/node";
 import { prisma } from "../prisma";
 
 export async function handleTip({
@@ -80,8 +79,6 @@ export async function handleTip({
       invalidTipReason,
       castHash: castData.hash,
     };
-
-    Sentry.captureMessage(`Invalid tip: ${JSON.stringify(tipData)}`);
 
     await storeTip({
       allowanceId: tipAllowance.id,
