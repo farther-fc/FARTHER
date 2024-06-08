@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE "Tip" (
+CREATE TABLE IF NOT EXISTS "Tip" (
     "hash" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE "Tip" (
 );
 
 -- CreateTable
-CREATE TABLE "TipAllowance" (
+CREATE TABLE IF NOT EXISTS "TipAllowance" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "userId" INTEGER NOT NULL,
@@ -23,10 +23,14 @@ CREATE TABLE "TipAllowance" (
 );
 
 -- AddForeignKey
+ALTER TABLE "Tip" DROP CONSTRAINT IF EXISTS "Tip_tipperId_fkey";
+
 ALTER TABLE "Tip" ADD CONSTRAINT "Tip_tipperId_fkey" FOREIGN KEY ("tipperId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Tip" DROP CONSTRAINT IF EXISTS "Tip_tippeeId_fkey";
 ALTER TABLE "Tip" ADD CONSTRAINT "Tip_tippeeId_fkey" FOREIGN KEY ("tippeeId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "TipAllowance" DROP CONSTRAINT IF EXISTS "TipAllowance_userId_fkey";
 ALTER TABLE "TipAllowance" ADD CONSTRAINT "TipAllowance_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

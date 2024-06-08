@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE "TokenPrice" (
+CREATE TABLE IF NOT EXISTS "TokenPrice" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
