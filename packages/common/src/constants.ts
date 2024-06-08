@@ -206,7 +206,7 @@ export const INITIAL_ELIGIBLE_TIPPERS =
 
 export const ADDITIONAL_TIPPERS_INCREMENT = 5;
 
-export const REQUIRED_DOLLAR_VALUE_PER_TIPPER = 30;
+export const REQUIRED_DOLLAR_VALUE_PER_TIPPER = 20;
 
 export const ROOT_ENDPOINTS = {
   production: "https://farther.social",
