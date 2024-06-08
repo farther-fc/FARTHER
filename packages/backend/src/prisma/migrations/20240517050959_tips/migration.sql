@@ -6,8 +6,6 @@ CREATE TABLE IF NOT EXISTS "Tip" (
     "tipperId" INTEGER NOT NULL,
     "tippeeId" INTEGER NOT NULL,
     "amount" TEXT NOT NULL,
-    "isValidTip" BOOLEAN NOT NULL,
-    "isValidTipper" BOOLEAN NOT NULL,
 
     CONSTRAINT "Tip_pkey" PRIMARY KEY ("hash")
 );

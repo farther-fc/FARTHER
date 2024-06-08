@@ -6,5 +6,4 @@
 
 */
 -- AlterTable
-ALTER TABLE "TipMeta" DROP COLUMN "dailyTotal",
-ADD COLUMN     "totalAllowance" TEXT NOT NULL;
+ALTER TABLE "TipMeta" ADD COLUMN IF NOT EXISTS "totalAllowance" TEXT NOT NULL;

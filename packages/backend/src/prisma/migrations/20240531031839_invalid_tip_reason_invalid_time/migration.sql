@@ -1,2 +1,2 @@
 -- AlterEnum
-ALTER TYPE "InvalidTipReason" ADD VALUE 'INVALID_TIME';
+ALTER TYPE "InvalidTipReason" ADD VALUE IF NOT EXISTS 'INVALID_TIME';

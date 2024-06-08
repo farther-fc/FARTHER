@@ -5,4 +5,4 @@
 
 */
 -- AlterTable
-ALTER TABLE "TipMeta" ADD COLUMN     "tipMinimum" TEXT NOT NULL;
+ALTER TABLE "TipMeta" ADD COLUMN IF NOT EXISTS "tipMinimum" TEXT NOT NULL;

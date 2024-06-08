@@ -6,10 +6,11 @@
 
 */
 -- AlterTable
-ALTER TABLE "Tip" ADD COLUMN     "tipAllowanceId" UUID NOT NULL;
+ALTER TABLE "Tip" ADD COLUMN IF NOT EXISTS "tipAllowanceId" UUID NOT NULL;
 
 -- AlterTable
 ALTER TABLE "TipAllowance" DROP COLUMN "spent";
 
 -- AddForeignKey
+ALTER TABLE "Tip" DROP CONSTRAINT IF EXISTS "Tip_tipAllowanceId_fkey";
 ALTER TABLE "Tip" ADD CONSTRAINT "Tip_tipAllowanceId_fkey" FOREIGN KEY ("tipAllowanceId") REFERENCES "TipAllowance"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -1,2 +1,2 @@
 -- AlterEnum
-ALTER TYPE "InvalidTipReason" ADD VALUE 'SELF_TIPPING';
+ALTER TYPE "InvalidTipReason" ADD VALUE IF NOT EXISTS 'SELF_TIPPING';
