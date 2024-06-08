@@ -18,9 +18,6 @@ model User {
   tipAllowances TipAllowance[]
   tipsGiven     Tip[]          @relation(name: "tipper")
   tipsReceived  Tip[]          @relation(name: "tippee")
-
-  // TEMPORARY. TODO: REMOVE
-  behavior Int? @default(0)
 }
 
 // Airdrop allocation

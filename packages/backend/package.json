@@ -43,6 +43,8 @@
     "@neondatabase/serverless": "^0.7.2",
     "@neynar/nodejs-sdk": "^1.19.3",
     "@prisma/client": "^5.1.0",
+    "@sentry/node": "^8.8.0",
+    "@sentry/profiling-node": "^8.8.0",
     "ajv": "^8.13.0",
     "axios": "^1.6.8",
     "bluebird": "^3.7.2",

@@ -2,6 +2,7 @@ import { ENVIRONMENT } from "@farther/common";
 import { Cast } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { InvalidTipReason } from "@prisma/client";
 import { prisma } from "../prisma";
+import Sentry from "@sentry/node";
 
 const regex =
   ENVIRONMENT === "production"
@@ -53,7 +54,6 @@ export async function handleTip({
   });
 
   if (!tipMeta) {
-    // TODO: Capture sentry error
     throw new Error("No tip meta found");
   }
 
@@ -77,7 +77,16 @@ export async function handleTip({
         ? InvalidTipReason.INVALID_TIME
         : InvalidTipReason.BELOW_MINIMUM;
 
-    // TODO: Capture sentry error?
+    const tipData = {
+      allowanceId: tipAllowance.id,
+      tipperFid: tipper.fid,
+      tippeeFid: tippee.fid,
+      tipAmount,
+      invalidTipReason,
+      castHash: castData.hash,
+    };
+
+    Sentry.captureMessage(`Invalid tip: ${JSON.stringify(tipData)}`);
 
     await storeTip({
       allowanceId: tipAllowance.id,
@@ -88,14 +97,6 @@ export async function handleTip({
       castHash: castData.hash,
     });
 
-    // TODO: Remove
-    console.log({
-      invalidTipReason,
-      tipper: tipper.fid,
-      allowance: tipAllowance?.amount,
-      tipAmount,
-      tipMinimum,
-    });
     return;
   }
 

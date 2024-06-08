@@ -57,8 +57,6 @@ export async function getEligibleTippers({
       prisma.user.create({
         data: {
           id: user.fid,
-          // TODO: REMOVE
-          behavior: (i + currentDay) % behaviors.length,
         },
         include: tipperInclude(previousDistributionTime),
       }),
