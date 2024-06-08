@@ -23,7 +23,6 @@ export function generatePingFunction(functionName: string) {
     }
   };
 
-  fn.name = functionName;
   return fn;
 }
 
