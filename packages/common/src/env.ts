@@ -14,7 +14,7 @@ const ENVIRONMENT =
   (["production", "development", "staging"] as const).find((v) => v === ENV) ||
   (() => {
     throw Error(
-      `Invalid ENV value: ${ENV}, expected: 'production' | 'staging' | 'development`,
+      `Invalid ENV value: ${ENV}, expected: 'production' | 'staging' | 'development'`,
     );
   })();
 

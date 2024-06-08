@@ -1,5 +1,4 @@
 import { fetchQuery, init } from "@airstack/node";
-import { writeFileSync } from "fs";
 import { ENVIRONMENT, NEXT_PUBLIC_AIRSTACK_API_KEY } from "../env";
 import { neynarLimiter } from "../neynar";
 import { dummyHolders } from "./dummyHolders";
@@ -150,9 +149,3 @@ const airstackQuery = (cursor?: string) => `query TokenBalances {
     }
   }
 }`;
-
-getHolders()
-  .then((data) => {
-    writeFileSync("holders.json", JSON.stringify(data, null, 2));
-  })
-  .catch(console.error);
