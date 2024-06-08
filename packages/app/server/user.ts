@@ -11,7 +11,7 @@ import _ from "lodash";
 import { publicProcedure } from "server/trpc";
 import { AllocationType, prisma } from "../../backend/src/prisma";
 
-export const getUser = publicProcedure
+export const getUserByAddress = publicProcedure
   .input(apiSchemas.getUser.input)
   .query(async (opts) => {
     const address = opts.input.address.toLowerCase();

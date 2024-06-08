@@ -6,7 +6,7 @@ import {
   splitLink,
 } from "@trpc/client";
 import { createTRPCNext } from "@trpc/next";
-import { AppRouter } from "pages/api/[trpc]";
+import { AppRouter } from "pages/api/v1/[trpc]";
 
 function getBaseUrl() {
   if (typeof window !== "undefined")
