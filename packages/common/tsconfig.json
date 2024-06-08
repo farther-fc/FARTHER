@@ -23,6 +23,5 @@
       "module": "commonjs"
     }
   },
-  "include": ["../app/lib/gql-queries.ts"],
   "exclude": ["node_modules"]
 }

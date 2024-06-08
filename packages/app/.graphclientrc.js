@@ -9,5 +9,5 @@ export default {
       },
     },
   ],
-  documents: ["../common/src/gql-queries.ts"],
+  documents: ["lib/gql-queries.ts"],
 };
