@@ -66,8 +66,6 @@ const LiquidityContext = createContainer(function () {
     enabled: !!account.address,
   });
 
-  console.log("positionsFetchError", positionsFetchError);
-
   const indexerDataLoading =
     _positionsLoading ||
     (!!indexerData?.positions.length && !positions?.length);
