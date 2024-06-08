@@ -147,7 +147,7 @@ async function getEligibleHolders({
   // enough to make it interesting for the next increment of tippers, return
   // the current tipper count. Otherwise, return the current tipper count plus the increment.
   if (
-    currentDay === 0 ||
+    currentDay === 1 ||
     price.usd *
       tokensPerTipperRequirement *
       (latestTipperCount + ADDITIONAL_TIPPERS_INCREMENT) >

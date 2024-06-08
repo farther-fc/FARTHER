@@ -6,5 +6,6 @@ import { generatePingFunction } from "./generatePingFunction";
 //   .onRun(generatePingFunction("invalidateStaleAllocations"));
 
 exports.distributeAllowances = functions.pubsub
-  .schedule("0 0 * * *")
+  // Every day at 9pm UTC
+  .schedule("0 22 * * *")
   .onRun(generatePingFunction("distributeAllowances"));

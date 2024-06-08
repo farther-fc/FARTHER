@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { ENVIRONMENT, WAD_SCALER, isProduction } from "./env";
+import { ENVIRONMENT, WAD_SCALER } from "./env";
 
 export const TOTAL_TOKEN_SUPPLY = 1_000_000_000;
 
@@ -200,7 +200,9 @@ export const TIP_USD_MINIMUM = 0.5;
 export const PRICE_REFRESH_TIME = 20 * 60 * 1000; // 20 minutes
 
 export const INITIAL_ELIGIBLE_TIPPERS =
-  isProduction || Boolean(process.env.PROD_AGENT_MODELING) ? 100 : 10;
+  ENVIRONMENT !== "development" || Boolean(process.env.PROD_AGENT_MODELING)
+    ? 100
+    : 10;
 
 export const ADDITIONAL_TIPPERS_INCREMENT = 5;
 
