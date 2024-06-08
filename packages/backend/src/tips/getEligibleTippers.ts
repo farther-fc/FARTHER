@@ -6,7 +6,6 @@ import {
 } from "@farther/common";
 import { prisma } from "../prisma";
 import { getPrice } from "../utils/getPrice";
-import { behaviors } from "./agentModeling/config";
 
 export async function getEligibleTippers({
   currentDay,

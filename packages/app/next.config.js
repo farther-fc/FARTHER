@@ -41,12 +41,6 @@ const nextConfig = {
       },
     ];
   },
-  serverComponentsExternalPackages: [
-    "@sentry/profiling-node",
-    // Not sure if these are needed but code complete suggested them
-    "@farther/backend",
-    "@farther/common",
-  ],
 };
 
 module.exports = nextConfig;

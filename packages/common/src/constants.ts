@@ -216,3 +216,8 @@ export const ROOT_ENDPOINT =
   ROOT_ENDPOINTS[
     process.env.NEXT_PUBLIC_ENV as "production" | "staging" | "development"
   ];
+
+export const HANDLE_TIP_REGEX =
+  ENVIRONMENT === "production"
+    ? /\d+(\.\d+)?\s*(\$(f|F)(a|A)(r|R)(t|T)(h|H)(e|E)(r|R)|((f|F)(a|A)(r|R)(t|T)(h|H)(e|E)(r|R))|✨)/
+    : /\d+(\.\d+)?\s*(\$(f|F)(t|T)(e|E)(s|S)(t|T)|(f|F)(t|T)(e|E)(s|S)(t|T))/;

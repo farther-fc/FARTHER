@@ -1,13 +1,8 @@
-import { ENVIRONMENT } from "@farther/common";
+import { HANDLE_TIP_REGEX } from "@farther/common";
 import { Cast } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { InvalidTipReason } from "@prisma/client";
-import { prisma } from "../prisma";
 import Sentry from "@sentry/node";
-
-const regex =
-  ENVIRONMENT === "production"
-    ? /\d+(\.\d+)?\s*(\$(f|F)(a|A)(r|R)(t|T)(h|H)(e|E)(r|R)|((f|F)(a|A)(r|R)(t|T)(h|H)(e|E)(r|R))|✨)/
-    : /\d+(\.\d+)?\s*(\$(f|F)(t|T)(e|E)(s|S)(t|T)|(f|F)(t|T)(e|E)(s|S)(t|T))/;
+import { prisma } from "../prisma";
 
 export async function handleTip({
   castData,
@@ -16,7 +11,7 @@ export async function handleTip({
   castData: Cast;
   createdAtMs: number;
 }) {
-  const matchingText = castData.text.match(regex);
+  const matchingText = castData.text.match(HANDLE_TIP_REGEX);
 
   if (!matchingText) {
     console.warn("No matching text found in cast", castData.hash);

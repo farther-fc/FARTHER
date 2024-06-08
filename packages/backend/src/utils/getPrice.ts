@@ -4,7 +4,6 @@ import {
   PRICE_REFRESH_TIME,
   contractAddresses,
 } from "@farther/common";
-import Sentry from "@sentry/node";
 import { prisma } from "../prisma";
 
 export async function getPrice(day?: number) {
@@ -65,17 +64,3 @@ export async function getPrice(day?: number) {
     usd: tokenPrice.usd,
   };
 }
-
-Sentry.startSpan(
-  {
-    op: "test",
-    name: "My First Test Span",
-  },
-  () => {
-    try {
-      throw Error("This is a test error");
-    } catch (e) {
-      Sentry.captureException(e);
-    }
-  },
-);
