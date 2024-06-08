@@ -33,7 +33,7 @@ export const appRouter = router({
     meta: getTipsMeta,
   }),
   token: router({
-    price: getPrice,
+    getPrice,
   }),
 });
 
