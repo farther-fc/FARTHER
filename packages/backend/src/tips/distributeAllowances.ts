@@ -30,7 +30,7 @@ export async function distributeAllowances() {
     },
   });
 
-  const currentDay = tipsMetas.length;
+  const currentDay = tipsMetas.length + 1;
 
   const previousMeta = tipsMetas[0];
 
