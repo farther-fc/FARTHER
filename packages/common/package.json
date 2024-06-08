@@ -36,5 +36,8 @@
     "merkletreejs": "^0.3.11",
     "ts-node": "^10.9.2",
     "viem": "2.10.2"
+  },
+  "resolutions": {
+    "graphql": "16.8.1"
   }
 }

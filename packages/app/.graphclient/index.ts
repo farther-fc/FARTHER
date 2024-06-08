@@ -169,6 +169,12 @@ export type Position = {
   owner: Account;
   /**  The liquidity pool in which this position was opened  */
   pool: Pool;
+  /**  The amount of liquidity tokens in this position  */
+  liquidity: Scalars['BigInt'];
+  /**  The amount of token0 in this position  */
+  amount0: Scalars['BigInt'];
+  /**  The amount of token1 in this position  */
+  amount1: Scalars['BigInt'];
   /**  Whether this position is staked in a reward program */
   isStaked?: Maybe<Scalars['Boolean']>;
   /**  Whether this position is currently being held by the staker contract. This doesn't necessarily mean that the position is staked. */
@@ -232,6 +238,33 @@ export type PositionWhereInput = {
   owner?: InputMaybe<AccountWhereInput>;
   pool_isNull?: InputMaybe<Scalars['Boolean']>;
   pool?: InputMaybe<PoolWhereInput>;
+  liquidity_isNull?: InputMaybe<Scalars['Boolean']>;
+  liquidity_eq?: InputMaybe<Scalars['BigInt']>;
+  liquidity_not_eq?: InputMaybe<Scalars['BigInt']>;
+  liquidity_gt?: InputMaybe<Scalars['BigInt']>;
+  liquidity_gte?: InputMaybe<Scalars['BigInt']>;
+  liquidity_lt?: InputMaybe<Scalars['BigInt']>;
+  liquidity_lte?: InputMaybe<Scalars['BigInt']>;
+  liquidity_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  liquidity_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  amount0_isNull?: InputMaybe<Scalars['Boolean']>;
+  amount0_eq?: InputMaybe<Scalars['BigInt']>;
+  amount0_not_eq?: InputMaybe<Scalars['BigInt']>;
+  amount0_gt?: InputMaybe<Scalars['BigInt']>;
+  amount0_gte?: InputMaybe<Scalars['BigInt']>;
+  amount0_lt?: InputMaybe<Scalars['BigInt']>;
+  amount0_lte?: InputMaybe<Scalars['BigInt']>;
+  amount0_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  amount0_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  amount1_isNull?: InputMaybe<Scalars['Boolean']>;
+  amount1_eq?: InputMaybe<Scalars['BigInt']>;
+  amount1_not_eq?: InputMaybe<Scalars['BigInt']>;
+  amount1_gt?: InputMaybe<Scalars['BigInt']>;
+  amount1_gte?: InputMaybe<Scalars['BigInt']>;
+  amount1_lt?: InputMaybe<Scalars['BigInt']>;
+  amount1_lte?: InputMaybe<Scalars['BigInt']>;
+  amount1_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  amount1_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   isStaked_isNull?: InputMaybe<Scalars['Boolean']>;
   isStaked_eq?: InputMaybe<Scalars['Boolean']>;
   isStaked_not_eq?: InputMaybe<Scalars['Boolean']>;
@@ -323,56 +356,100 @@ export type PositionOrderByInput =
   | 'id_ASC'
   | 'id_DESC'
   | 'id_ASC_NULLS_FIRST'
+  | 'id_ASC_NULLS_LAST'
+  | 'id_DESC_NULLS_FIRST'
   | 'id_DESC_NULLS_LAST'
   | 'createdTimestamp_ASC'
   | 'createdTimestamp_DESC'
   | 'createdTimestamp_ASC_NULLS_FIRST'
+  | 'createdTimestamp_ASC_NULLS_LAST'
+  | 'createdTimestamp_DESC_NULLS_FIRST'
   | 'createdTimestamp_DESC_NULLS_LAST'
   | 'createdBlock_ASC'
   | 'createdBlock_DESC'
   | 'createdBlock_ASC_NULLS_FIRST'
+  | 'createdBlock_ASC_NULLS_LAST'
+  | 'createdBlock_DESC_NULLS_FIRST'
   | 'createdBlock_DESC_NULLS_LAST'
   | 'owner_id_ASC'
   | 'owner_id_DESC'
   | 'owner_id_ASC_NULLS_FIRST'
+  | 'owner_id_ASC_NULLS_LAST'
+  | 'owner_id_DESC_NULLS_FIRST'
   | 'owner_id_DESC_NULLS_LAST'
   | 'owner_rewardsClaimed_ASC'
   | 'owner_rewardsClaimed_DESC'
   | 'owner_rewardsClaimed_ASC_NULLS_FIRST'
+  | 'owner_rewardsClaimed_ASC_NULLS_LAST'
+  | 'owner_rewardsClaimed_DESC_NULLS_FIRST'
   | 'owner_rewardsClaimed_DESC_NULLS_LAST'
   | 'pool_id_ASC'
   | 'pool_id_DESC'
   | 'pool_id_ASC_NULLS_FIRST'
+  | 'pool_id_ASC_NULLS_LAST'
+  | 'pool_id_DESC_NULLS_FIRST'
   | 'pool_id_DESC_NULLS_LAST'
   | 'pool_createdTimestamp_ASC'
   | 'pool_createdTimestamp_DESC'
   | 'pool_createdTimestamp_ASC_NULLS_FIRST'
+  | 'pool_createdTimestamp_ASC_NULLS_LAST'
+  | 'pool_createdTimestamp_DESC_NULLS_FIRST'
   | 'pool_createdTimestamp_DESC_NULLS_LAST'
   | 'pool_createdBlock_ASC'
   | 'pool_createdBlock_DESC'
   | 'pool_createdBlock_ASC_NULLS_FIRST'
+  | 'pool_createdBlock_ASC_NULLS_LAST'
+  | 'pool_createdBlock_DESC_NULLS_FIRST'
   | 'pool_createdBlock_DESC_NULLS_LAST'
+  | 'liquidity_ASC'
+  | 'liquidity_DESC'
+  | 'liquidity_ASC_NULLS_FIRST'
+  | 'liquidity_ASC_NULLS_LAST'
+  | 'liquidity_DESC_NULLS_FIRST'
+  | 'liquidity_DESC_NULLS_LAST'
+  | 'amount0_ASC'
+  | 'amount0_DESC'
+  | 'amount0_ASC_NULLS_FIRST'
+  | 'amount0_ASC_NULLS_LAST'
+  | 'amount0_DESC_NULLS_FIRST'
+  | 'amount0_DESC_NULLS_LAST'
+  | 'amount1_ASC'
+  | 'amount1_DESC'
+  | 'amount1_ASC_NULLS_FIRST'
+  | 'amount1_ASC_NULLS_LAST'
+  | 'amount1_DESC_NULLS_FIRST'
+  | 'amount1_DESC_NULLS_LAST'
   | 'isStaked_ASC'
   | 'isStaked_DESC'
   | 'isStaked_ASC_NULLS_FIRST'
+  | 'isStaked_ASC_NULLS_LAST'
+  | 'isStaked_DESC_NULLS_FIRST'
   | 'isStaked_DESC_NULLS_LAST'
   | 'isHeldByStaker_ASC'
   | 'isHeldByStaker_DESC'
   | 'isHeldByStaker_ASC_NULLS_FIRST'
+  | 'isHeldByStaker_ASC_NULLS_LAST'
+  | 'isHeldByStaker_DESC_NULLS_FIRST'
   | 'isHeldByStaker_DESC_NULLS_LAST';
 
 export type PoolOrderByInput =
   | 'id_ASC'
   | 'id_DESC'
   | 'id_ASC_NULLS_FIRST'
+  | 'id_ASC_NULLS_LAST'
+  | 'id_DESC_NULLS_FIRST'
   | 'id_DESC_NULLS_LAST'
   | 'createdTimestamp_ASC'
   | 'createdTimestamp_DESC'
   | 'createdTimestamp_ASC_NULLS_FIRST'
+  | 'createdTimestamp_ASC_NULLS_LAST'
+  | 'createdTimestamp_DESC_NULLS_FIRST'
   | 'createdTimestamp_DESC_NULLS_LAST'
   | 'createdBlock_ASC'
   | 'createdBlock_DESC'
   | 'createdBlock_ASC_NULLS_FIRST'
+  | 'createdBlock_ASC_NULLS_LAST'
+  | 'createdBlock_DESC_NULLS_FIRST'
   | 'createdBlock_DESC_NULLS_LAST';
 
 export type WhereIdInput = {
@@ -401,10 +478,14 @@ export type AccountOrderByInput =
   | 'id_ASC'
   | 'id_DESC'
   | 'id_ASC_NULLS_FIRST'
+  | 'id_ASC_NULLS_LAST'
+  | 'id_DESC_NULLS_FIRST'
   | 'id_DESC_NULLS_LAST'
   | 'rewardsClaimed_ASC'
   | 'rewardsClaimed_DESC'
   | 'rewardsClaimed_ASC_NULLS_FIRST'
+  | 'rewardsClaimed_ASC_NULLS_LAST'
+  | 'rewardsClaimed_DESC_NULLS_FIRST'
   | 'rewardsClaimed_DESC_NULLS_LAST';
 
 export type AccountsConnection = {
@@ -603,6 +684,9 @@ export type PositionResolvers<ContextType = MeshContext, ParentType extends Reso
   createdBlock?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   owner?: Resolver<ResolversTypes['Account'], ParentType, ContextType>;
   pool?: Resolver<ResolversTypes['Pool'], ParentType, ContextType>;
+  liquidity?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  amount0?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  amount1?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   isStaked?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   isHeldByStaker?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
