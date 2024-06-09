@@ -1,39 +1,19 @@
-import axios from "axios";
 import * as functions from "firebase-functions";
 import { defineString } from "firebase-functions/params";
+import { generateCronJob } from "./generateCronJob";
 
-const CRON_SECRET = defineString("CRON_SECRET");
 const ENV = defineString("NEXT_PUBLIC_ENVIRONMENT");
 
-exports.invalidateStaleAllocations = functions.pubsub
-  .schedule("0 2 * * *")
-  .onRun(async () => {
-    try {
-      const response = await axios(
-        `${getBaseUrl()}invalidateStaleAllocations`,
-        {
-          headers: { Authorization: `Bearer ${CRON_SECRET.value()}` },
-        },
-      );
+// exports.invalidateStaleAllocations = functions.pubsub
+//   .schedule("0 2 * * *")
+//   .onRun(generateCronJob("invalidateStaleAllocations"));
 
-      if (response.status !== 200) {
-        throw new Error(
-          `invalidateStaleAllocations failed with status ${response.status}`,
-        );
-      }
+exports.distributeAllowances = functions
+  .runWith({
+    // 9 minutes (max)
+    timeoutSeconds: 540,
+  })
+  .pubsub // Every day at 9pm UTC
+  .schedule(ENV.value() === "production" ? "0 22 * * *" : "*/5 * * * *")
 
-      console.info("updatePowerUsers success");
-    } catch (e: unknown) {
-      if (e instanceof Error) {
-        console.error(e);
-      }
-    }
-  });
-
-function getBaseUrl() {
-  return ENV.value() === "production"
-    ? "https://farther.social/api/"
-    : ENV.value() === "staging"
-      ? "https://staging.farther.social/api/"
-      : "http://localhost:3000/api/";
-}
+  .onRun(generateCronJob("admin.distributeAllowances"));

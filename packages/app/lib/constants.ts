@@ -49,26 +49,18 @@ export const allocationTypeNames = {
   [AllocationType.POWER_USER]: "Powerdrop",
   [AllocationType.EVANGELIST]: "Evangelist",
   [AllocationType.LIQUIDITY]: "Liquidity (bonus)",
+  [AllocationType.TIPS]: "Tips",
 };
 
 export const allocationTypeLinks = {
   [AllocationType.POWER_USER]: ROUTES.airdrop.path,
   [AllocationType.EVANGELIST]: ROUTES.evangelize.path,
   [AllocationType.LIQUIDITY]: ROUTES.liquidty.path,
+  [AllocationType.TIPS]: ROUTES.tips.path,
 };
 
 export const PENDING_POWER_ALLOCATION_ID = "pending-power-drop-allocation";
-
-export const ROOT_ENDPOINTS = {
-  production: "https://farther.social",
-  staging: "https://staging.farther.social",
-  development: "http://localhost:3000",
-} as const;
-
-export const ROOT_ENDPOINT =
-  ROOT_ENDPOINTS[
-    process.env.NEXT_PUBLIC_ENV as "production" | "staging" | "development"
-  ];
+export const PENDING_TIPS_ALLOCATION_ID = "pending-tips-allocation";
 
 export const clickIds = {
   liqInfoConnect: "liquidity-info-connect-wallet",
@@ -92,8 +84,7 @@ export const clickIds = {
   liquidityInfoBonusRewards: "liquidity-info-bonus-rewards",
   liquidityPendingBonus: "liquidity-pending-bonus",
   liquidityClaimableBonus: "liquidity-claimable-bonus",
+  tipsUserInfoConnectWallet: "tips-user-info-connect-wallet",
 } as const;
 
 export const POSITIONS_REFRESH_INTERVAL = 3000;
-
-export const PRICE_REFRESH_TIME = 20 * 60 * 1000; // 20 minutes

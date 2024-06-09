@@ -3,7 +3,7 @@ import { trpcClient } from "@lib/trpcClient";
 import { formatWad } from "@lib/utils";
 
 function AdminPage() {
-  const { data, isLoading } = trpcClient.getAdminData.useQuery();
+  const { data, isLoading } = trpcClient.admin.getAdminData.useQuery();
 
   const { powerUserAllocations, evangelistAllocations } = data || {};
 

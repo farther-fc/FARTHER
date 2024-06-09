@@ -32,7 +32,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "tailwind.config.ts",
-    "../common/src/gql-queries.ts",
+    "lib/gql-queries.ts",
     "lib/replaceEndpoint.js"
   ],
   "exclude": ["node_modules"]

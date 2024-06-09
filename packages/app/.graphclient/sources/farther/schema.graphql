@@ -44,6 +44,12 @@ type Position {
   owner: Account!
   """ The liquidity pool in which this position was opened """
   pool: Pool!
+  """ The amount of liquidity tokens in this position """
+  liquidity: BigInt!
+  """ The amount of token0 in this position """
+  amount0: BigInt!
+  """ The amount of token1 in this position """
+  amount1: BigInt!
   """ Whether this position is staked in a reward program"""
   isStaked: Boolean
   """ Whether this position is currently being held by the staker contract. This doesn't necessarily mean that the position is staked.
@@ -100,6 +106,33 @@ input PositionWhereInput {
   owner: AccountWhereInput
   pool_isNull: Boolean
   pool: PoolWhereInput
+  liquidity_isNull: Boolean
+  liquidity_eq: BigInt
+  liquidity_not_eq: BigInt
+  liquidity_gt: BigInt
+  liquidity_gte: BigInt
+  liquidity_lt: BigInt
+  liquidity_lte: BigInt
+  liquidity_in: [BigInt!]
+  liquidity_not_in: [BigInt!]
+  amount0_isNull: Boolean
+  amount0_eq: BigInt
+  amount0_not_eq: BigInt
+  amount0_gt: BigInt
+  amount0_gte: BigInt
+  amount0_lt: BigInt
+  amount0_lte: BigInt
+  amount0_in: [BigInt!]
+  amount0_not_in: [BigInt!]
+  amount1_isNull: Boolean
+  amount1_eq: BigInt
+  amount1_not_eq: BigInt
+  amount1_gt: BigInt
+  amount1_gte: BigInt
+  amount1_lt: BigInt
+  amount1_lte: BigInt
+  amount1_in: [BigInt!]
+  amount1_not_in: [BigInt!]
   isStaked_isNull: Boolean
   isStaked_eq: Boolean
   isStaked_not_eq: Boolean
@@ -191,42 +224,80 @@ enum PositionOrderByInput {
   id_ASC
   id_DESC
   id_ASC_NULLS_FIRST
+  id_ASC_NULLS_LAST
+  id_DESC_NULLS_FIRST
   id_DESC_NULLS_LAST
   createdTimestamp_ASC
   createdTimestamp_DESC
   createdTimestamp_ASC_NULLS_FIRST
+  createdTimestamp_ASC_NULLS_LAST
+  createdTimestamp_DESC_NULLS_FIRST
   createdTimestamp_DESC_NULLS_LAST
   createdBlock_ASC
   createdBlock_DESC
   createdBlock_ASC_NULLS_FIRST
+  createdBlock_ASC_NULLS_LAST
+  createdBlock_DESC_NULLS_FIRST
   createdBlock_DESC_NULLS_LAST
   owner_id_ASC
   owner_id_DESC
   owner_id_ASC_NULLS_FIRST
+  owner_id_ASC_NULLS_LAST
+  owner_id_DESC_NULLS_FIRST
   owner_id_DESC_NULLS_LAST
   owner_rewardsClaimed_ASC
   owner_rewardsClaimed_DESC
   owner_rewardsClaimed_ASC_NULLS_FIRST
+  owner_rewardsClaimed_ASC_NULLS_LAST
+  owner_rewardsClaimed_DESC_NULLS_FIRST
   owner_rewardsClaimed_DESC_NULLS_LAST
   pool_id_ASC
   pool_id_DESC
   pool_id_ASC_NULLS_FIRST
+  pool_id_ASC_NULLS_LAST
+  pool_id_DESC_NULLS_FIRST
   pool_id_DESC_NULLS_LAST
   pool_createdTimestamp_ASC
   pool_createdTimestamp_DESC
   pool_createdTimestamp_ASC_NULLS_FIRST
+  pool_createdTimestamp_ASC_NULLS_LAST
+  pool_createdTimestamp_DESC_NULLS_FIRST
   pool_createdTimestamp_DESC_NULLS_LAST
   pool_createdBlock_ASC
   pool_createdBlock_DESC
   pool_createdBlock_ASC_NULLS_FIRST
+  pool_createdBlock_ASC_NULLS_LAST
+  pool_createdBlock_DESC_NULLS_FIRST
   pool_createdBlock_DESC_NULLS_LAST
+  liquidity_ASC
+  liquidity_DESC
+  liquidity_ASC_NULLS_FIRST
+  liquidity_ASC_NULLS_LAST
+  liquidity_DESC_NULLS_FIRST
+  liquidity_DESC_NULLS_LAST
+  amount0_ASC
+  amount0_DESC
+  amount0_ASC_NULLS_FIRST
+  amount0_ASC_NULLS_LAST
+  amount0_DESC_NULLS_FIRST
+  amount0_DESC_NULLS_LAST
+  amount1_ASC
+  amount1_DESC
+  amount1_ASC_NULLS_FIRST
+  amount1_ASC_NULLS_LAST
+  amount1_DESC_NULLS_FIRST
+  amount1_DESC_NULLS_LAST
   isStaked_ASC
   isStaked_DESC
   isStaked_ASC_NULLS_FIRST
+  isStaked_ASC_NULLS_LAST
+  isStaked_DESC_NULLS_FIRST
   isStaked_DESC_NULLS_LAST
   isHeldByStaker_ASC
   isHeldByStaker_DESC
   isHeldByStaker_ASC_NULLS_FIRST
+  isHeldByStaker_ASC_NULLS_LAST
+  isHeldByStaker_DESC_NULLS_FIRST
   isHeldByStaker_DESC_NULLS_LAST
 }
 
@@ -234,14 +305,20 @@ enum PoolOrderByInput {
   id_ASC
   id_DESC
   id_ASC_NULLS_FIRST
+  id_ASC_NULLS_LAST
+  id_DESC_NULLS_FIRST
   id_DESC_NULLS_LAST
   createdTimestamp_ASC
   createdTimestamp_DESC
   createdTimestamp_ASC_NULLS_FIRST
+  createdTimestamp_ASC_NULLS_LAST
+  createdTimestamp_DESC_NULLS_FIRST
   createdTimestamp_DESC_NULLS_LAST
   createdBlock_ASC
   createdBlock_DESC
   createdBlock_ASC_NULLS_FIRST
+  createdBlock_ASC_NULLS_LAST
+  createdBlock_DESC_NULLS_FIRST
   createdBlock_DESC_NULLS_LAST
 }
 
@@ -271,10 +348,14 @@ enum AccountOrderByInput {
   id_ASC
   id_DESC
   id_ASC_NULLS_FIRST
+  id_ASC_NULLS_LAST
+  id_DESC_NULLS_FIRST
   id_DESC_NULLS_LAST
   rewardsClaimed_ASC
   rewardsClaimed_DESC
   rewardsClaimed_ASC_NULLS_FIRST
+  rewardsClaimed_ASC_NULLS_LAST
+  rewardsClaimed_DESC_NULLS_FIRST
   rewardsClaimed_DESC_NULLS_LAST
 }
 

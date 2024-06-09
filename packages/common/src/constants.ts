@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { ENVIRONMENT } from "./env";
+import { ENVIRONMENT, WAD_SCALER } from "./env";
 
 export const TOTAL_TOKEN_SUPPLY = 1_000_000_000;
 
@@ -83,7 +83,7 @@ export const NEXT_AIRDROP_END_TIME = new Date(
 // every month over 3 years. Also creates more equitable distribution.
 export const POWER_USER_AIRDROP_RATIO = 0.01;
 
-const baseContractAddresses = {
+export const baseContractAddresses = {
   production: {
     FARTHER:
       "0x8ad5b9007556749DE59E088c88801a3Aaa87134B".toLowerCase() as Address,
@@ -187,6 +187,39 @@ export const EVANGELIST_FOLLOWER_MINIMUM = 80;
 
 export const EVANGELIST_FOLLOWER_BONUS_MULTIPLE = 10;
 
+export const TIPS_DURATION_DAYS = 180;
+
 export const DUST_AMOUNT = 1000000;
 
 export const START_BLOCK = ENVIRONMENT === "staging" ? 13817650 : 13832035;
+
+export const TIPPER_BALANCE_MIN_WAD = BigInt(10_000) * WAD_SCALER;
+
+export const TIP_USD_MINIMUM = 0.5;
+
+export const PRICE_REFRESH_TIME = 20 * 60 * 1000; // 20 minutes
+
+export const INITIAL_ELIGIBLE_TIPPERS =
+  ENVIRONMENT !== "development" || Boolean(process.env.PROD_AGENT_MODELING)
+    ? 100
+    : 10;
+
+export const ADDITIONAL_TIPPERS_INCREMENT = 5;
+
+export const REQUIRED_DOLLAR_VALUE_PER_TIPPER = 20;
+
+export const ROOT_ENDPOINTS = {
+  production: "https://farther.social",
+  staging: "https://staging.farther.social",
+  development: "http://localhost:3000",
+} as const;
+
+export const ROOT_ENDPOINT =
+  ROOT_ENDPOINTS[
+    process.env.NEXT_PUBLIC_ENV as "production" | "staging" | "development"
+  ];
+
+export const HANDLE_TIP_REGEX =
+  ENVIRONMENT === "production"
+    ? /\d+(\.\d+)?\s*(\$(f|F)(a|A)(r|R)(t|T)(h|H)(e|E)(r|R)|((f|F)(a|A)(r|R)(t|T)(h|H)(e|E)(r|R))|✨)/
+    : /\d+(\.\d+)?\s*(\$(f|F)(t|T)(e|E)(s|S)(t|T)|(f|F)(t|T)(e|E)(s|S)(t|T))/;

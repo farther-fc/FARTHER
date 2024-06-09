@@ -23,7 +23,7 @@ export const UserContext = createContainer(function () {
     data: user,
     isLoading,
     refetch,
-  } = trpcClient.getUser.useQuery(
+  } = trpcClient.user.getByAddress.useQuery(
     { address: account.address as Address },
     { enabled: !!account.address },
   );
