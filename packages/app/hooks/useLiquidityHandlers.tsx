@@ -1,3 +1,4 @@
+import { FartherPositionsQuery } from ".graphclient";
 import {
   NFTPositionMngrAbi,
   UniswapV3StakerAbi,
@@ -11,7 +12,6 @@ import { useToast } from "hooks/useToast";
 import React from "react";
 import { ContractFunctionExecutionError, encodeFunctionData } from "viem";
 import { useWriteContract } from "wagmi";
-import { FartherPositionsQuery } from "../.graphclient";
 
 const POLL_INTERVAL = 3000;
 const POLL_MAX_COUNT = 5;

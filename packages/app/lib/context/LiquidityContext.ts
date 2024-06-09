@@ -202,7 +202,7 @@ const LiquidityContext = createContainer(function () {
   React.useEffect(() => {
     if (
       !indexerData?.positions.length ||
-      (pathname !== ROUTES.liquidty.path && pathname !== ROUTES.rewards.path)
+      (pathname !== ROUTES.liquidty.path && pathname !== ROUTES.profile.path)
     )
       return;
 

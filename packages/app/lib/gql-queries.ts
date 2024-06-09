@@ -6,6 +6,7 @@ export const FartherPositions = gql`
       id
       isStaked
       isHeldByStaker
+      liquidity
     }
     accountById(id: $ownerId) {
       id

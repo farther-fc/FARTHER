@@ -32,7 +32,17 @@ export function NavMenu() {
         align="end"
       >
         {Object.entries(ROUTES)
-          .filter(([id]) => (!account.address ? id !== "rewards" : true))
+          .filter(([id]) => !!account.address && id === "profile")
+          .map(([_id, route]) => (
+            <Link href={route.path} legacyBehavior key={route.path}>
+              <a onClick={closeMenu} className="mb-4 text-right">
+                {route.title}
+              </a>
+            </Link>
+          ))}
+        {account.address && <hr className="mb-4 mt-0" />}
+        {Object.entries(ROUTES)
+          .filter(([id]) => id !== "profile")
           .filter(([_, { type }]) => type === "user")
           .map(([_id, route]) => (
             <Link href={route.path} legacyBehavior key={route.path}>
@@ -41,7 +51,7 @@ export function NavMenu() {
               </a>
             </Link>
           ))}
-        <hr className="border-muted mb-4 mt-0" />
+        <hr className="mb-4 mt-0" />
         {Object.entries(ROUTES)
           .filter(([_, { type }]) => type === "info")
           .map(([_id, route]) => (

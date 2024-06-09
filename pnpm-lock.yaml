@@ -60,6 +60,9 @@ importers:
       '@hookform/resolvers':
         specifier: ^3.3.4
         version: 3.3.4(react-hook-form@7.51.3)
+      '@neynar/nodejs-sdk':
+        specifier: ^1.19.3
+        version: 1.19.3(typescript@5.4.5)(zod@3.22.5)
       '@radix-ui/react-avatar':
         specifier: ^1.0.4
         version: 1.0.4(@types/react-dom@18.2.25)(@types/react@18.2.79)(react-dom@18.2.0)(react@18.2.0)
@@ -303,7 +306,7 @@ importers:
         version: 0.7.2
       '@neynar/nodejs-sdk':
         specifier: ^1.19.3
-        version: 1.19.3(typescript@5.4.5)
+        version: 1.19.3(typescript@5.4.5)(zod@3.22.5)
       '@prisma/client':
         specifier: ^5.1.0
         version: 5.12.1(prisma@5.12.1)
@@ -394,7 +397,7 @@ importers:
         version: 0.0.7
       '@neynar/nodejs-sdk':
         specifier: ^1.19.3
-        version: 1.19.3(typescript@5.4.5)
+        version: 1.19.3(typescript@5.4.5)(zod@3.22.5)
       bottleneck:
         specifier: ^2.19.5
         version: 2.19.5
@@ -6976,7 +6979,7 @@ packages:
     dev: false
     optional: true
 
-  /@neynar/nodejs-sdk@1.19.3(typescript@5.4.5):
+  /@neynar/nodejs-sdk@1.19.3(typescript@5.4.5)(zod@3.22.5):
     resolution: {integrity: sha512-NXxzurWjxx5gw3cWdxY2txXI93XGOFfo+hMnwudywXApaOPWLCXshkwPlViWOGZMH5qtuYMPNLOj+P4oZf1VNw==}
     dependencies:
       '@openapitools/openapi-generator-cli': 2.13.2
@@ -20552,7 +20555,7 @@ packages:
       pretty-format: 29.7.0
       slash: 3.0.0
       strip-json-comments: 3.1.1
-      ts-node: 10.9.2(@types/node@20.12.7)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@17.0.45)(typescript@5.4.5)
     transitivePeerDependencies:
       - babel-plugin-macros
       - supports-color

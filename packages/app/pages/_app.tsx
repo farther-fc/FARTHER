@@ -8,6 +8,7 @@ import { LiquidityProvider } from "@lib/context/LiquidityContext";
 import { MediaQueryProvider } from "@lib/context/MediaQueryContext";
 import { ModalProvider } from "@lib/context/ModalContext";
 import { ThemeProvider } from "@lib/context/ThemeProvider";
+import { TokenInfoProvider } from "@lib/context/TokenContext";
 import { UserProvider } from "@lib/context/UserContext";
 import { trpcClient } from "@lib/trpcClient";
 import { wagmiConfig } from "@lib/walletConfig";
@@ -35,25 +36,27 @@ const App = ({ Component, pageProps }: AppProps<{ seo: SeoData }>) => {
       <WagmiProvider config={wagmiConfig}>
         <QueryClientProvider client={queryClient}>
           <RainbowKitProvider>
-            <UserProvider>
-              <LiquidityProvider>
-                <MediaQueryProvider>
-                  <ThemeProvider
-                    attribute="class"
-                    defaultTheme="system"
-                    enableSystem
-                  >
-                    <ModalProvider>
-                      <Toaster />
-                      <SiteHeader />
-                      <GlobalModal />
-                      <Component {...pageProps} />
-                      <Footer />
-                    </ModalProvider>
-                  </ThemeProvider>
-                </MediaQueryProvider>
-              </LiquidityProvider>
-            </UserProvider>
+            <TokenInfoProvider>
+              <UserProvider>
+                <LiquidityProvider>
+                  <MediaQueryProvider>
+                    <ThemeProvider
+                      attribute="class"
+                      defaultTheme="system"
+                      enableSystem
+                    >
+                      <ModalProvider>
+                        <Toaster />
+                        <SiteHeader />
+                        <GlobalModal />
+                        <Component {...pageProps} />
+                        <Footer />
+                      </ModalProvider>
+                    </ThemeProvider>
+                  </MediaQueryProvider>
+                </LiquidityProvider>
+              </UserProvider>
+            </TokenInfoProvider>
           </RainbowKitProvider>
         </QueryClientProvider>
       </WagmiProvider>

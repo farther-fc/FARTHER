@@ -6,7 +6,7 @@
     "env:prod": "dotenv -e ../../.env.production -- ",
     "env:staging": "dotenv -e ../../.env.staging -- ",
     "dev": "next dev",
-    "codegen": "pnpm env:prod graphclient build && node lib/replaceEndpoint.js",
+    "codegen": "pnpm env:prod graphclient build && ts-node lib/codegenPostScript.ts",
     "graph:dev": "dotenv -e ../../.env.staging graphclient serve-dev",
     "build:web": "pnpm next build",
     "start": "pnpm codegen && next start",
@@ -16,7 +16,7 @@
     "typecheck": "tsc --noEmit",
     "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
     "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
-    "test": "dotenv -e ../../.env jest"
+    "test": "cd ../backend && pnpm db:reset && cd ../app && dotenv -e ../../.env jest"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.507.0",
@@ -25,6 +25,7 @@
     "@farther/common": "*",
     "@graphprotocol/client-cli": "3.0.0",
     "@hookform/resolvers": "^3.3.4",
+    "@neynar/nodejs-sdk": "^1.19.3",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.5",

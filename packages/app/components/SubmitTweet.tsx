@@ -66,8 +66,8 @@ export function SubmitTweet() {
                 <>
                   Congrats! Your tweet earned you {mutationResponse.totalReward}{" "}
                   FARTHER (including a bonus of {mutationResponse.bonusReward}).
-                  It will become claimable on the{" "}
-                  <Link href={ROUTES.rewards.path}>rewards page</Link> at the
+                  It will become claimable on your{" "}
+                  <Link href={ROUTES.profile.path}>profile page</Link> at the
                   end of the month.
                 </>
               ) : (
@@ -77,8 +77,8 @@ export function SubmitTweet() {
                   <ExternalLink href={POWER_BADGE_INFO_URL}>
                     Warpcast power badge
                   </ExternalLink>{" "}
-                  for them to be claimable as tokens. Watch the{" "}
-                  <Link href={ROUTES.rewards.path}>rewards page</Link> page.
+                  for them to be claimable as tokens. Watch your{" "}
+                  <Link href={ROUTES.profile.path}>profile page</Link> page.
                 </>
               )}
             </>

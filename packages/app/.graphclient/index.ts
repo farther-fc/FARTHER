@@ -906,7 +906,7 @@ export type FartherPositionsQueryVariables = Exact<{
 }>;
 
 
-export type FartherPositionsQuery = { positions: Array<Pick<Position, 'id' | 'isStaked' | 'isHeldByStaker'>>, accountById?: Maybe<Pick<Account, 'id' | 'rewardsClaimed'>> };
+export type FartherPositionsQuery = { positions: Array<Pick<Position, 'id' | 'isStaked' | 'isHeldByStaker' | 'liquidity'>>, accountById?: Maybe<Pick<Account, 'id' | 'rewardsClaimed'>> };
 
 export type LPRewardClaimersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -920,6 +920,7 @@ export const FartherPositionsDocument = gql`
     id
     isStaked
     isHeldByStaker
+    liquidity
   }
   accountById(id: $ownerId) {
     id

@@ -6,6 +6,7 @@ import { AllocationType } from "@farther/backend";
 import { CHAIN_ID, FartherAirdrop__factory } from "@farther/common";
 import {
   PENDING_POWER_ALLOCATION_ID,
+  PENDING_TIPS_ALLOCATION_ID,
   allocationTypeLinks,
   allocationTypeNames,
   clickIds,
@@ -73,7 +74,9 @@ export function RewardsTableRow({
       },
       {
         enabled:
-          allocation.id !== PENDING_POWER_ALLOCATION_ID &&
+          [PENDING_POWER_ALLOCATION_ID, PENDING_TIPS_ALLOCATION_ID].includes(
+            allocation.id,
+          ) &&
           !allocation.isClaimed &&
           !!allocation.airdrop,
       },

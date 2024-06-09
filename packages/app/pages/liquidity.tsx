@@ -4,6 +4,7 @@ import { LiquidityInfo } from "@components/LiquidityInfo";
 import { LiquidityTableRow } from "@components/LiquidityTableRow";
 import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
+import { DataBox } from "@components/ui/DataBox";
 import { Popover } from "@components/ui/Popover";
 import Spinner from "@components/ui/Spinner";
 import {
@@ -58,7 +59,7 @@ export default function LiquidityPage() {
         <div className="mt-16">
           <h2 className="mt-0">Positions</h2>
           <div className="mb-12 grid grid-cols-1 items-start justify-between gap-8 md:grid-cols-2 md:flex-row">
-            <div className="border-ghost w-full justify-between rounded-xl border p-4">
+            <DataBox>
               <Popover
                 content={
                   <>
@@ -115,8 +116,8 @@ export default function LiquidityPage() {
                   </Button>
                 </div>
               </div>
-            </div>
-            <div className="border-ghost w-full rounded-xl border p-4 ">
+            </DataBox>
+            <DataBox>
               <Popover content={<LiquidityBonusRewardsPopover />}>
                 <h3 className="mt-0 border-none pl-0 text-center text-lg">
                   Bonus Rewards
@@ -158,10 +159,10 @@ export default function LiquidityPage() {
                       {formatWad(claimableBonusAmount)}
                     </div>
                   </div>
-                  {/** Button link to rewards page */}
+                  {/** Button link to profile page */}
                   {unclaimedBonusStartTime &&
                   unclaimedBonusStartTime < Date.now() ? (
-                    <Link href={ROUTES.rewards.path}>
+                    <Link href={ROUTES.profile.path}>
                       <Button
                         className="ml-auto mt-2 w-full"
                         variant="secondary"
@@ -185,7 +186,7 @@ export default function LiquidityPage() {
                   )}
                 </div>
               </div>
-            </div>
+            </DataBox>
           </div>
 
           <Table>

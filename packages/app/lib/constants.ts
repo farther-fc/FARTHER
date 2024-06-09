@@ -1,9 +1,9 @@
 import { AllocationType } from "@farther/backend";
 
 export const ROUTES = {
-  rewards: {
-    title: "Rewards",
-    path: "/rewards",
+  profile: {
+    title: "Profile",
+    path: "/user/profile",
     type: "user",
   },
   airdrop: {

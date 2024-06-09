@@ -28,10 +28,10 @@ function Spinner({
   }
 
   const spinner = (
-    <div role="status" className={className}>
+    <span role="status" className={className}>
       <svg
         aria-hidden="true"
-        className={`fill-link ${sizeClass} animate-spin text-gray-200`}
+        className={`fill-link inline ${sizeClass} animate-spin text-gray-200`}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -46,7 +46,7 @@ function Spinner({
         />
       </svg>
       <span className="sr-only">Loading...</span>
-    </div>
+    </span>
   );
 
   if (variant === "page") {

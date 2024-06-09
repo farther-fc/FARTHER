@@ -52,14 +52,14 @@ describe("getEarliestStart", () => {
     expect(result).toBe(new Date("2024-05-19T12:00:00Z").getTime());
   });
 
-  it("should return Infinity for an empty array", () => {
+  it("should return null for an empty array", () => {
     const allocations: Allocation[] = [];
 
     const result = getEarliestStart(allocations as any);
-    expect(result).toBe(Number.POSITIVE_INFINITY);
+    expect(result).toBe(null);
   });
 
-  it("should return Infinity if all startTimes are undefined or absent", () => {
+  it("should return null if all startTimes are undefined or absent", () => {
     const allocations: Allocation[] = [
       { airdrop: { startTime: undefined } },
       {},
@@ -67,6 +67,6 @@ describe("getEarliestStart", () => {
     ];
 
     const result = getEarliestStart(allocations as any);
-    expect(result).toBe(Number.POSITIVE_INFINITY);
+    expect(result).toBe(null);
   });
 });

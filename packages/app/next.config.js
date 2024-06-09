@@ -41,6 +41,16 @@ const nextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      // Basic redirect
+      {
+        source: "/rewards",
+        destination: "/user/profile",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

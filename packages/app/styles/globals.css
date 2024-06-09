@@ -334,10 +334,7 @@
 
 h1,
 h2,
-h3,
-h4,
-h5,
-h6 {
+h3 {
   @apply border-l border-link pl-4;
 }
 
@@ -439,7 +436,7 @@ a {
 }
 
 hr {
-  @apply my-12;
+  @apply my-12 border-ghost;
 }
 
 /* CUSTOM CLASSES */

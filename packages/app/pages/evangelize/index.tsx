@@ -88,8 +88,8 @@ export default function EvangelizePage() {
           </li>
           <li>
             If you meet all the conditions below, your reward points will become
-            redeemable as Farther tokens on the{" "}
-            <Link href={ROUTES.rewards.path}>rewards page</Link> at the end of
+            redeemable as Farther tokens on your{" "}
+            <Link href={ROUTES.profile.path}>profile page</Link> at the end of
             the month.
           </li>
         </ol>

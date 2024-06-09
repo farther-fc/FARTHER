@@ -8,12 +8,14 @@ import {
 import Spinner from "@components/ui/Spinner";
 import { clickIds } from "@lib/constants";
 import { useMediaQuery } from "@lib/context/MediaQueryContext";
+import { useTokenInfo } from "@lib/context/TokenContext";
 import { useUser } from "@lib/context/UserContext";
 import { formatWad, shortenHash } from "@lib/utils";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { useDisconnect } from "wagmi";
 
 export function ProfileMenu() {
+  const { fartherUsdPrice, priceLoading } = useTokenInfo();
   const { isTablet } = useMediaQuery();
   const { disconnect } = useDisconnect();
   const { user, account, balance, userIsLoading } = useUser();
@@ -53,7 +55,14 @@ export function ProfileMenu() {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="flex min-w-[150px] flex-col" align="end">
         <div className="flex flex-col p-2 text-center">
-          <span className="mb-2 mt-0 text-xs">FARTHER balance:</span>
+          <span className="mb-2 mt-0 text-xs">FARTHER price:</span>
+          <span className="text-sm">
+            $
+            {priceLoading ? <Spinner size="xs" /> : fartherUsdPrice?.toFixed(5)}{" "}
+          </span>
+        </div>
+        <div className="flex flex-col p-2 text-center">
+          <span className="mb-2 mt-0 text-xs">Your balance:</span>
           <span className="text-sm">{formatWad(balance || BigInt(0))} </span>
         </div>
         <hr className="my-1" />

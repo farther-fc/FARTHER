@@ -28,14 +28,14 @@ export default function AirdropPage() {
             {powerDrop.airdrop?.address ? (
               <p>
                 You have <strong>{formatWad(BigInt(powerDrop.amount))} </strong>
-                tokens ready to claim on the{" "}
-                <Link href={ROUTES.rewards.path}>rewards page</Link>!
+                tokens ready to claim on your{" "}
+                <Link href={ROUTES.profile.path}>profile page</Link>!
               </p>
             ) : (
               <p>
                 You are eligible for FARTHER tokens in the next airdrop! <br />
-                Check the <Link href={ROUTES.rewards.path}>
-                  rewards page
+                Check your <Link href={ROUTES.profile.path}>
+                  profile page
                 </Link>{" "}
                 on {formatAirdropTime()} to claim your rewards.
               </p>
@@ -82,7 +82,7 @@ export default function AirdropPage() {
             >
               connect your wallet
             </Button>{" "}
-            and visit the <Link href={ROUTES.rewards.path}>rewards</Link> page.
+            and visit the <Link href={ROUTES.profile.path}>rewards</Link> page.
           </InfoCard>
         )}
       </main>

@@ -5,14 +5,17 @@ import {
   isProduction,
   neynarClient,
 } from "@farther/common";
-import { PENDING_POWER_ALLOCATION_ID } from "@lib/constants";
+import {
+  PENDING_POWER_ALLOCATION_ID,
+  PENDING_TIPS_ALLOCATION_ID,
+} from "@lib/constants";
 import { apiSchemas } from "@lib/types/apiSchemas";
 import _ from "lodash";
 import { publicProcedure } from "server/trpc";
 import { AllocationType, prisma } from "../../backend/src/prisma";
 
 export const getUserByAddress = publicProcedure
-  .input(apiSchemas.getUser.input)
+  .input(apiSchemas.getUserByAddress.input)
   .query(async (opts) => {
     const address = opts.input.address.toLowerCase();
 
@@ -28,6 +31,11 @@ export const getUserByAddress = publicProcedure
       fid = user.fid;
 
       const dbUser = await getDbUserByFid(fid);
+
+      const tipsReceived = dbUser?.tipsReceived.reduce(
+        (acc, t) => acc + t.amount,
+        0,
+      );
 
       if (!dbUser) {
         await prisma.user.create({
@@ -57,6 +65,21 @@ export const getUserByAddress = publicProcedure
         });
       }
 
+      if (tipsReceived) {
+        allocations.push({
+          type: AllocationType.TIPS,
+          id: PENDING_TIPS_ALLOCATION_ID,
+          isClaimed: false,
+          amount: BigInt(tipsReceived * 10 ** 18).toString(),
+          referenceAmount: "0",
+          baseAmount: "0",
+          airdrop: null,
+          index: null,
+          tweets: [],
+          address: "",
+        });
+      }
+
       return {
         fid: user.fid,
         username: user.username,
@@ -65,6 +88,8 @@ export const getUserByAddress = publicProcedure
         powerBadge: user.power_badge,
         verifiedAddress: user.verified_address,
         allocations,
+        tipsReceived,
+        allowance: dbUser?.tipAllowances[0]?.amount || 0,
       };
     } catch (error: any) {
       if (error.response && error.response.statusText === "Not Found") {
@@ -81,6 +106,13 @@ function getDbUserByFid(fid: number) {
       id: fid,
     },
     select: {
+      tipAllowances: {
+        orderBy: {
+          createdAt: "desc",
+        },
+        take: 1,
+      },
+      tipsReceived: true,
       allocations: {
         where: {
           isInvalidated: false,
@@ -108,6 +140,12 @@ function getDbUserByFid(fid: number) {
     },
   });
 }
+
+export const getUserByFid = publicProcedure
+  .input(apiSchemas.getUserByFid.input)
+  .query(async (fid) => {
+    // TODO
+  });
 
 async function getUserFromNeynar(address: string) {
   if (!isProduction && address === DEV_USER_ADDRESS.toLowerCase()) {
