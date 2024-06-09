@@ -74,7 +74,7 @@ export function RewardsTableRow({
       },
       {
         enabled:
-          [PENDING_POWER_ALLOCATION_ID, PENDING_TIPS_ALLOCATION_ID].includes(
+          ![PENDING_POWER_ALLOCATION_ID, PENDING_TIPS_ALLOCATION_ID].includes(
             allocation.id,
           ) &&
           !allocation.isClaimed &&

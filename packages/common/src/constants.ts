@@ -124,6 +124,7 @@ export const contractAddresses = baseContractAddresses[ENVIRONMENT];
 
 export const allIncentivePrograms = {
   production: {
+    // https://basescan.org/tx/0xcd69a6bca3b220b1b076b2247f3ef0d6dbc8e789b4876515d7c27de6f5b045ae
     1: {
       rewardToken: baseContractAddresses.production.FARTHER,
       pool: baseContractAddresses.production.UNIV3_FARTHER_ETH_30BPS_POOL,
