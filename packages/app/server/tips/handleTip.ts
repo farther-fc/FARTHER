@@ -6,15 +6,16 @@ export const handleTip = publicProcedure.mutation(async (opts) => {
   const body = opts.ctx.req.body;
   const bodyString = JSON.stringify(body);
 
+  console.log("headers", JSON.stringify(opts.ctx.req.headers));
+  console.log("rawHeaders", JSON.stringify(opts.ctx.req.rawHeaders));
+
   const { isValid, sig } = isSignatureValid({
     rawHeaders: opts.ctx.req.rawHeaders,
     bodyString,
   });
 
   if (!isValid) {
-    throw new Error(
-      `Invalid webhook signature: ${sig}. bodyString: ${bodyString}`,
-    );
+    throw new Error(`Invalid webhook signature: ${sig}.`);
   }
 
   const castData = body.data;
