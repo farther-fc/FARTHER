@@ -7,7 +7,7 @@ import { TipsUserInfo } from "@components/tips/TipsUserInfo";
 import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
 import { Popover } from "@components/ui/Popover";
-import Spinner from "@components/ui/Spinner";
+import { Skeleton } from "@components/ui/Skeleton";
 import {
   Table,
   TableBody,
@@ -63,7 +63,7 @@ export default function ProfilePage() {
             Rewards <span className="font-thin">(Airdrops)</span>
           </h2>
           {userIsLoading ? (
-            <Spinner variant="page" />
+            <Skeleton className="h-[200px]" />
           ) : (
             <>
               {!account.isConnected ? (

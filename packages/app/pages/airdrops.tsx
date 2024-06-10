@@ -4,7 +4,7 @@ import { NoUserFoundCard } from "@components/NoUserFoundCard";
 import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
-import Spinner from "@components/ui/Spinner";
+import { Skeleton } from "@components/ui/Skeleton";
 import { POWER_BADGE_INFO_URL, ROUTES, clickIds } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import { formatAirdropTime, formatWad } from "@lib/utils";
@@ -67,9 +67,7 @@ export default function AirdropPage() {
             !user && !userIsLoading && <NoUserFoundCard />
           ))}
         {account.isConnected && !user && userIsLoading && (
-          <InfoCard variant="ghost" className="flex justify-center">
-            <Spinner />
-          </InfoCard>
+          <Skeleton className="h-[120px]" />
         )}
         <AirdropInfo />
         {!account.isConnected && (

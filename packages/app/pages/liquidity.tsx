@@ -5,6 +5,7 @@ import { LiquidityTableRow } from "@components/LiquidityTableRow";
 import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
 import { Popover } from "@components/ui/Popover";
+import { Skeleton } from "@components/ui/Skeleton";
 import Spinner from "@components/ui/Spinner";
 import {
   Table,
@@ -220,9 +221,7 @@ export default function LiquidityPage() {
                         The liquidity incentive program is not yet active
                       </InfoCard>
                     ) : indexerDataLoading ? (
-                      <InfoCard className="flex justify-center">
-                        <Spinner />
-                      </InfoCard>
+                      <Skeleton className="h-[200px]" />
                     ) : (
                       !positions?.length && (
                         <InfoCard

@@ -2,6 +2,7 @@ import { TipsUserInfo } from "@components/tips/TipsUserInfo";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { Popover } from "@components/ui/Popover";
+import { Skeleton } from "@components/ui/Skeleton";
 import Spinner from "@components/ui/Spinner";
 import {
   INITIAL_ELIGIBLE_TIPPERS,
@@ -26,8 +27,8 @@ function TipsPage() {
             {dayjs(new Date(createdAt)).format("MMM D, YYYY h:mm A")}
           </h4>
         )}
-        <div className="mb-10 grid grid-cols-[120px_1fr] gap-2">
-          {!tipsMetaLoading && createdAt ? (
+        {!tipsMetaLoading && createdAt ? (
+          <div className="mb-10 grid grid-cols-[120px_1fr] gap-2">
             <>
               <span className="text-muted">Tip minimum:</span>
               <span className="flex items-center">
@@ -52,10 +53,10 @@ function TipsPage() {
                 </Popover>
               </span>
             </>
-          ) : (
-            <Spinner />
-          )}
-        </div>
+          </div>
+        ) : (
+          <Skeleton className="max-w-[300px]" />
+        )}
         <TipsUserInfo />
         <h3 className="mt-12">How to tip</h3>
         <p>
