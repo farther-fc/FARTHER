@@ -4,16 +4,18 @@ import { handleTip as handleTipUtil } from "./utils/handleTip";
 
 export const handleTip = publicProcedure.mutation(async (opts) => {
   const body = opts.ctx.req.body;
+  const bodyString = JSON.stringify(body);
 
-  // TODO: fix isSignatureValid
-  // const isValid = isSignatureValid({
-  //   rawHeaders: opts.ctx.req.rawHeaders,
-  //   bodyString: JSON.stringify(body),
-  // });
+  const { isValid, sig } = isSignatureValid({
+    rawHeaders: opts.ctx.req.rawHeaders,
+    bodyString,
+  });
 
-  // if (!isValid) {
-  //   throw new Error("Invalid webhook signature");
-  // }
+  if (!isValid) {
+    throw new Error(
+      `Invalid webhook signature: ${sig}. bodyString: ${bodyString}`,
+    );
+  }
 
   const castData = body.data;
   const createdAtMs = body.created_at * 1000;
@@ -35,6 +37,7 @@ function isSignatureValid({
   const sig = sigKey !== -1 ? rawHeaders[sigKey + 1] : null;
 
   const webhookSecret = process.env.NEYNAR_WEBHOOK_SECRET;
+
   if (!webhookSecret) {
     throw new Error(
       "Make sure you set NEYNAR_WEBHOOK_SECRET in your .env file",
@@ -46,5 +49,5 @@ function isSignatureValid({
 
   const generatedSignature = hmac.digest("hex");
 
-  return generatedSignature === sig;
+  return { isValid: generatedSignature === sig, sig };
 }

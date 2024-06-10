@@ -5,7 +5,6 @@ import {
 } from "@farther/common/src/env";
 import { neynarLimiter } from "@farther/common/src/neynar";
 import { dummyHolders } from "@farther/common/src/onchain/dummyHolders";
-import { writeFileSync } from "fs";
 import { getAllLiqProviderBalances } from "../liquidity/getAllLiqProviderBalances";
 
 init(NEXT_PUBLIC_AIRSTACK_API_KEY);
@@ -167,9 +166,3 @@ const airstackQuery = (cursor?: string) => `query TokenBalances {
     }
   }
 }`;
-
-getHolders({ includeLPs: true })
-  .then((data) => {
-    writeFileSync("holders.json", JSON.stringify(data, null, 2));
-  })
-  .catch(console.error);
