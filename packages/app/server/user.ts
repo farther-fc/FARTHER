@@ -89,7 +89,7 @@ export const getUserByAddress = publicProcedure
         verifiedAddress: user.verified_address,
         allocations,
         tipsReceived,
-        allowance: dbUser?.tipAllowances[0]?.amount || 0,
+        tipAllowance: dbUser?.tipAllowances[0],
       };
     } catch (error: any) {
       if (error.response && error.response.statusText === "Not Found") {
@@ -111,6 +111,9 @@ function getDbUserByFid(fid: number) {
           createdAt: "desc",
         },
         take: 1,
+        include: {
+          tips: true,
+        },
       },
       tipsReceived: true,
       allocations: {

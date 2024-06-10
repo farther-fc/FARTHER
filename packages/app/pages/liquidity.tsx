@@ -4,7 +4,6 @@ import { LiquidityInfo } from "@components/LiquidityInfo";
 import { LiquidityTableRow } from "@components/LiquidityTableRow";
 import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
-import { DataBox } from "@components/ui/DataBox";
 import { Popover } from "@components/ui/Popover";
 import Spinner from "@components/ui/Spinner";
 import {
@@ -59,7 +58,7 @@ export default function LiquidityPage() {
         <div className="mt-16">
           <h2 className="mt-0">Positions</h2>
           <div className="mb-12 grid grid-cols-1 items-start justify-between gap-8 md:grid-cols-2 md:flex-row">
-            <DataBox>
+            <InfoCard>
               <Popover
                 content={
                   <>
@@ -116,8 +115,8 @@ export default function LiquidityPage() {
                   </Button>
                 </div>
               </div>
-            </DataBox>
-            <DataBox>
+            </InfoCard>
+            <InfoCard>
               <Popover content={<LiquidityBonusRewardsPopover />}>
                 <h3 className="mt-0 border-none pl-0 text-center text-lg">
                   Bonus Rewards
@@ -186,7 +185,7 @@ export default function LiquidityPage() {
                   )}
                 </div>
               </div>
-            </DataBox>
+            </InfoCard>
           </div>
 
           <Table>

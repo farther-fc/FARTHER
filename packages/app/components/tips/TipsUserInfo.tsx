@@ -1,7 +1,5 @@
 import { InfoCard } from "@components/InfoCard";
 import { Button } from "@components/ui/Button";
-import { DataBox } from "@components/ui/DataBox";
-import { LabelValue } from "@components/ui/LabelValue";
 import Spinner from "@components/ui/Spinner";
 import { clickIds } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
@@ -11,23 +9,39 @@ export function TipsUserInfo() {
   const { user, userIsLoading } = useUser();
   const { openConnectModal } = useConnectModal();
 
+  const allowance = user?.tipAllowance?.amount || 0;
+  const spent =
+    user?.tipAllowance?.tips.reduce((acc, t) => t.amount + acc, 0) || 0;
+  const remaining = allowance - spent;
+
   return userIsLoading ? (
     <div className="flex justify-center">
       <Spinner />
     </div>
   ) : user ? (
-    <DataBox>
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-        <LabelValue
-          label="Your allowance"
-          value={user?.allowance.toLocaleString()}
-        />
-        <LabelValue
-          label="Tips received"
-          value={`${user?.tipsReceived?.toLocaleString()} FARTHER`}
-        />
-      </div>
-    </DataBox>
+    <>
+      <h4 className="text-ghost text-sm">Your stats</h4>
+      <InfoCard className="mt-2">
+        <div className="flex flex-col md:flex-row md:justify-between">
+          <div className="grid grid-cols-[100px_1fr] gap-2">
+            <span className="text-muted text-lg font-bold">Allowance</span>
+            <span className="text-lg font-bold">
+              {user?.tipAllowance?.amount.toLocaleString() || 0} ✨
+            </span>
+            <span className="text-muted">Spent</span>
+            <span>{spent.toLocaleString()} ✨</span>
+            <span className="text-muted">Remaining</span>
+            <span>{remaining.toLocaleString()} ✨</span>
+          </div>
+          <div className="mt-2 grid grid-cols-[100px_1fr] gap-2 md:mt-0">
+            <span className="text-muted text-lg font-bold">Received</span>
+            <span className="text-lg font-bold">
+              {user?.tipsReceived?.toLocaleString()} ✨
+            </span>
+          </div>
+        </div>
+      </InfoCard>
+    </>
   ) : (
     <InfoCard className="text-center" variant="ghost">
       <Button

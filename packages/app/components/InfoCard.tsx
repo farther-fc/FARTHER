@@ -13,9 +13,9 @@ export function InfoCard({
   return (
     <div
       className={cn(
-        `my-6 rounded-xl border p-4 md:p-8`,
+        `border-ghost my-6 rounded-xl border p-4 md:p-8`,
         variant === "ghost"
-          ? "text-muted border-ghost"
+          ? "text-muted"
           : variant === "warning"
             ? "border-red-900"
             : variant === "attention"

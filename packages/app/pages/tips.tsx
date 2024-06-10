@@ -1,32 +1,37 @@
+import { TipsUserInfo } from "@components/tips/TipsUserInfo";
 import { Container } from "@components/ui/Container";
+import { ExternalLink } from "@components/ui/ExternalLink";
+import { Popover } from "@components/ui/Popover";
 import Spinner from "@components/ui/Spinner";
-import { INITIAL_ELIGIBLE_TIPPERS, TIP_USD_MINIMUM } from "@farther/common";
+import {
+  INITIAL_ELIGIBLE_TIPPERS,
+  TIP_USD_MINIMUM,
+  contractAddresses,
+} from "@farther/common";
+import dayjs from "dayjs";
 import { useTipsMeta } from "hooks/useTipsMeta";
+import { Info } from "lucide-react";
 
 function TipsPage() {
-  const { tipsMetaLoading, tipMinimum } = useTipsMeta();
+  const { createdAt, tipsMetaLoading, tipMinimum, eligibleTippers } =
+    useTipsMeta();
 
   return (
     <Container variant="page">
       <main className="content">
         <h1>Farther Tips</h1>
-        {/* <p className="mb-8 font-bold">
-          Farther token holders can now tip fellow Farcaster users!
-        </p> */}
-        <p className="mb-8 font-bold">
-          Farther token holders can soon tip fellow Farcaster users! Check here
-          after 10am PST on June 10 to see if you received an allowance.
-        </p>
-        {/* <div className="mb-6 grid grid-cols-[120px_1fr] gap-2">
+        <span className="text-ghost text-sm">Cycle start time</span>
+        {!tipsMetaLoading && createdAt && (
+          <h4 className="mt-2">
+            {dayjs(new Date(createdAt)).format("MMM D, YYYY h:mm A")}
+          </h4>
+        )}
+        <div className="mb-10 grid grid-cols-[120px_1fr] gap-2">
           {!tipsMetaLoading && createdAt ? (
             <>
-              <span className="text-muted">Cycle started:</span>
-              <span className="flex items-center">
-                {dayjs(new Date(createdAt)).format("MMM D, YYYY h:mm A")}
-              </span>
               <span className="text-muted">Tip minimum:</span>
               <span className="flex items-center">
-                {tipMinimum} FARTHER{" "}
+                {tipMinimum} ✨{" "}
                 <Popover
                   content={`The tip minimum changes daily based on the current equivalent of $${TIP_USD_MINIMUM.toFixed(2)}`}
                 >
@@ -50,9 +55,9 @@ function TipsPage() {
           ) : (
             <Spinner />
           )}
-        </div> */}
-        {/* <TipsUserInfo /> */}
-        <h3>How to tip</h3>
+        </div>
+        <TipsUserInfo />
+        <h3 className="mt-12">How to tip</h3>
         <p>
           Send tips by including text like this in replies to casts
           (capitalization and spaces are ignored):

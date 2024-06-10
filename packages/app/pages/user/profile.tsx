@@ -3,6 +3,7 @@ import LiquidityBonusRewardsPopover from "@components/LiquidityBonusRewardsPopov
 import { PendingRewardButton } from "@components/PendingRewardButton";
 import { RewardsTableRow } from "@components/RewardsTableRow";
 import { FartherAccountLink } from "@components/nav/FartherLinks";
+import { TipsUserInfo } from "@components/tips/TipsUserInfo";
 import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
 import { Popover } from "@components/ui/Popover";
@@ -51,15 +52,11 @@ export default function ProfilePage() {
         <h1>Profile</h1>
         <div className="border-ghost mt-12 rounded-xl">
           <h2 className="mt-0 border-none pl-0">Tips</h2>
-          {/* <p className="text-muted mb-4">
+          <p className="text-muted mb-4">
             Visit the <Link href={ROUTES.tips.path}>tips page</Link> to learn
             how tipping works.
           </p>
-          <TipsUserInfo /> */}
-          <InfoCard className="text-center" variant="ghost">
-            Check the <Link href={ROUTES.tips.path}>tips page</Link> after 10am
-            on June 10 to see if you received an allowance!
-          </InfoCard>
+          <TipsUserInfo />
         </div>
         <div className="border-ghost my-20 rounded-xl">
           <h2 className="mt-0 border-none pl-0">

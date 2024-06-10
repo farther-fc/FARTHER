@@ -8,9 +8,9 @@ export function LabelValue({
   variant?: "chill";
 }) {
   return (
-    <div className="flex items-center">
+    <div className="flex ">
       <div className="text-muted mr-2">{label}:</div>
-      <div className={`text-lg ${variant === "chill" ? "" : "font-bold"}`}>
+      <div className={`text-lg ${variant === "chill" ? "" : "font-normal"}`}>
         {value}
       </div>
     </div>
