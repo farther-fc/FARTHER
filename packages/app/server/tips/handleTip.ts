@@ -12,9 +12,7 @@ export const handleTip = publicProcedure.mutation(async (opts) => {
   });
 
   if (!isValid) {
-    throw new Error(
-      `Invalid webhook signature: ${sig}. headers: ${JSON.stringify(opts.ctx.req.headers)}, rawHeaders: ${JSON.stringify(opts.ctx.req.rawHeaders)}`,
-    );
+    throw new Error(`Invalid webhook signature: ${sig}.`);
   }
 
   const castData = body.data;
@@ -33,7 +31,7 @@ function isSignatureValid({
   rawHeaders: string[];
   bodyString: string;
 }) {
-  const sigKey = rawHeaders.indexOf("X-Neynar-Signature");
+  const sigKey = rawHeaders.indexOf("x-neynar-signature");
   const sig = sigKey !== -1 ? rawHeaders[sigKey + 1] : null;
 
   const webhookSecret = process.env.NEXT_PUBLIC_NEYNAR_WEBHOOK_SECRET;
