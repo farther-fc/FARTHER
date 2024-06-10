@@ -20,6 +20,7 @@
     "test": "cd ../backend && pnpm db:reset && cd ../app && dotenv -e ../../.env jest"
   },
   "dependencies": {
+    "@airstack/node": "^0.0.7",
     "@aws-sdk/client-s3": "^3.507.0",
     "@aws-sdk/s3-presigned-post": "^3.507.0",
     "@farther/backend": "*",

@@ -174,6 +174,7 @@ export async function distributeAllowances() {
       userId: tipper.id,
       tipMetaId: tipMeta.id,
       amount,
+      userBalance: tipper.totalBalance,
     };
   });
 

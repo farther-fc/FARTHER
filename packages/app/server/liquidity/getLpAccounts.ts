@@ -100,19 +100,6 @@ export async function getLpAccounts(
   return formattedAccounts;
 }
 
-const LPRewardClaimers = `
-  query LPRewardClaimers {
-    accounts(where: { rewardsClaimed_gt: 0 }) {
-      id
-      rewardsClaimed
-      positions {
-        id
-        isStaked
-      }
-    }
-  }
-`;
-
 const AllLiqProviders = `
   query AllLiqProviders {
     accounts {

@@ -17,6 +17,7 @@ describe("getUniqueTipees", () => {
         data: {
           amount: 100000,
           userId: TIPPER_ID,
+          userBalance: "42069",
         },
       });
 

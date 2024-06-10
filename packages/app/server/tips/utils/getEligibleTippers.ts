@@ -3,8 +3,8 @@ import {
   ADDITIONAL_TIPPERS_INCREMENT,
   INITIAL_ELIGIBLE_TIPPERS,
   REQUIRED_DOLLAR_VALUE_PER_TIPPER,
-  getHolders,
 } from "@farther/common";
+import { getHolders } from "server/token/getHolders";
 import { getPrice } from "../../token/getPrice";
 
 export async function getEligibleTippers({
@@ -62,7 +62,17 @@ export async function getEligibleTippers({
     ),
   );
 
-  return [...existingHolders, ...newHolders];
+  return [...existingHolders, ...newHolders].map((holder) => {
+    const foundHolder = eligibleHolders.find((eh) => eh.fid === holder.id);
+    // This is mainly to silence typescript
+    if (!foundHolder) {
+      throw new Error(`Holder ${holder.id} not found in eligibleHolders`);
+    }
+    return {
+      ...holder,
+      totalBalance: foundHolder.totalBalance.toString(),
+    };
+  });
 }
 
 export async function getExistingTippers() {

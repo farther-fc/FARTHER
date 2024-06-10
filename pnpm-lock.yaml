@@ -42,6 +42,9 @@ importers:
 
   packages/app:
     dependencies:
+      '@airstack/node':
+        specifier: ^0.0.7
+        version: 0.0.7
       '@aws-sdk/client-s3':
         specifier: ^3.507.0
         version: 3.556.0
@@ -401,9 +404,6 @@ importers:
 
   packages/common:
     dependencies:
-      '@airstack/node':
-        specifier: ^0.0.7
-        version: 0.0.7
       '@neynar/nodejs-sdk':
         specifier: ^1.19.3
         version: 1.19.3(typescript@5.4.5)(zod@3.22.5)

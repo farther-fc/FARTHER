@@ -29,7 +29,6 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "@airstack/node": "^0.0.7",
     "@neynar/nodejs-sdk": "^1.19.3",
     "bottleneck": "^2.19.5",
     "ethers": "^6.11.1",

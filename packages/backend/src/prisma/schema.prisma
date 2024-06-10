@@ -139,14 +139,17 @@ model TipMeta {
 }
 
 model TipAllowance {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt DateTime @default(now())
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id])
-  tipMetaId String?  @db.Uuid
-  tipMeta   TipMeta? @relation(fields: [tipMetaId], references: [id])
-  amount    Float
-  tips      Tip[]
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt   DateTime @default(now())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+  tipMetaId   String?  @db.Uuid
+  tipMeta     TipMeta? @relation(fields: [tipMetaId], references: [id])
+  amount      Float
+  tips        Tip[]
+
+  // Combined balance for all their addresses at the time of the snapshot
+  userBalance String
 }
 
 model TokenPrice {

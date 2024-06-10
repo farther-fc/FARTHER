@@ -1,7 +1,12 @@
 import { fetchQuery, init } from "@airstack/node";
-import { ENVIRONMENT, NEXT_PUBLIC_AIRSTACK_API_KEY } from "../env";
-import { neynarLimiter } from "../neynar";
-import { dummyHolders } from "./dummyHolders";
+import {
+  ENVIRONMENT,
+  NEXT_PUBLIC_AIRSTACK_API_KEY,
+} from "@farther/common/src/env";
+import { neynarLimiter } from "@farther/common/src/neynar";
+import { dummyHolders } from "@farther/common/src/onchain/dummyHolders";
+import { writeFileSync } from "fs";
+import { getAllLiqProviderBalances } from "../liquidity/getAllLiqProviderBalances";
 
 init(NEXT_PUBLIC_AIRSTACK_API_KEY);
 
@@ -48,13 +53,21 @@ export async function getHolders({
   }
 
   if (includeLPs) {
-    /**
-     * TODO: Integrate liquidity positions data
-     * 1. Fetch accounts that have positions IDs with positive liquidity
-     * 2. Use position IDs to call nfpmContract.positions(id)
-     * 3. Use tokensOwed
-     * 4. Add to balances
-     */
+    const lpHolderBalances = await getAllLiqProviderBalances();
+
+    // Merge LP holders with the rest
+    for (const lpHolderBalance of lpHolderBalances) {
+      const existingHolder = balances.find(
+        (h) =>
+          h.address.toLowerCase() === lpHolderBalance.address.toLowerCase(),
+      );
+
+      if (existingHolder) {
+        existingHolder.balance += lpHolderBalance.balance;
+      } else {
+        balances.push(lpHolderBalance);
+      }
+    }
   }
 
   const holders = await attachFids(balances);
@@ -77,6 +90,7 @@ async function attachFids(
 
   const holders: {
     fid: number;
+    totalBalance: string;
     balances: { address: string; balance: number }[];
   }[] = [];
 
@@ -104,12 +118,16 @@ async function attachFids(
     const existingHolder = holders.find((r) => r.fid === user.fid);
 
     if (existingHolder) {
+      existingHolder.totalBalance = (
+        BigInt(existingHolder.totalBalance) + BigInt(balance)
+      ).toString();
       existingHolder.balances.push({ address, balance });
       continue;
     }
 
     holders.push({
       fid: user.fid,
+      totalBalance: BigInt(balance).toString(),
       balances: [{ address, balance }],
     });
   }
@@ -149,3 +167,9 @@ const airstackQuery = (cursor?: string) => `query TokenBalances {
     }
   }
 }`;
+
+getHolders({ includeLPs: true })
+  .then((data) => {
+    writeFileSync("holders.json", JSON.stringify(data, null, 2));
+  })
+  .catch(console.error);

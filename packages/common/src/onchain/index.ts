@@ -1,1 +1,1 @@
-export * from "./getHolders";
+export * from "./getLiqTokenAmounts";
