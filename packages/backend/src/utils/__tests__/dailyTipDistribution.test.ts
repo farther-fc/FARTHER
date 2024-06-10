@@ -1,4 +1,4 @@
-import { dailyTipDistribution } from "../dailyTipDistribution";
+import { dailyTipDistribution } from "../../../../app/server/tips/utils/dailyTipDistribution";
 
 const FUDGE_FACTOR_DECIMALS = 5;
 

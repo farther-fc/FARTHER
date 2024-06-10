@@ -1,11 +1,11 @@
 import "../../scripts/assertLocalhost";
 
+import { prisma } from "@farther/backend";
 import { TIPS_DURATION_DAYS } from "@farther/common";
-import { prisma } from "../../prisma";
-import { distributeAllowances } from "../distributeAllowances";
-import { dummyCast } from "../dummyCast";
-import { handleTip } from "../handleTip";
+import { distributeAllowances } from "../utils/distributeAllowances";
+import { handleTip } from "../utils/handleTip";
 import { FIDS_TO_WATCH, behaviors } from "./config";
+import { dummyCast } from "./dummyCast";
 
 const USER_SELECTION = {
   id: true,
@@ -39,7 +39,7 @@ async function tipsAgentModeling() {
     /**
      * Send tips
      */
-    const { tipMinimum } = await prisma.tipMeta.findFirst({
+    const tipMeta = await prisma.tipMeta.findFirst({
       orderBy: {
         createdAt: "desc",
       },
@@ -47,6 +47,12 @@ async function tipsAgentModeling() {
         tipMinimum: true,
       },
     });
+
+    if (!tipMeta) {
+      throw new Error("No tipMeta found");
+    }
+
+    const { tipMinimum } = tipMeta;
 
     for (const tipper of tippers) {
       const behavior = behaviors[tipper.behavior];

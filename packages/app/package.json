@@ -16,6 +16,7 @@
     "typecheck": "tsc --noEmit",
     "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
     "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
+    "tipsAgentModeling": "pnpm env:dev ts-node server/tips/agentModeling",
     "test": "cd ../backend && pnpm db:reset && cd ../app && dotenv -e ../../.env jest"
   },
   "dependencies": {
@@ -47,6 +48,8 @@
     "@trpc/server": "11.0.0-next-beta.228",
     "@wagmi/core": "^2.6.9",
     "abitype": "^1.0.2",
+    "axios": "^1.6.8",
+    "bluebird": "^3.7.2",
     "class-variance-authority": "^0.4.0",
     "clsx": "^1.2.1",
     "cookie": "^0.6.0",
@@ -81,6 +84,7 @@
     "@graphql-codegen/cli": "^5.0.2",
     "@graphql-codegen/client-preset": "^4.2.5",
     "@parcel/watcher": "^2.4.1",
+    "@types/bluebird": "^3.5.42",
     "@types/cookie": "^0.6.0",
     "@types/d3": "^7.4.3",
     "@types/jest": "^29.5.12",

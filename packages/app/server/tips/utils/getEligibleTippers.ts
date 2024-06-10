@@ -1,11 +1,11 @@
+import { prisma } from "@farther/backend";
 import {
   ADDITIONAL_TIPPERS_INCREMENT,
   INITIAL_ELIGIBLE_TIPPERS,
   REQUIRED_DOLLAR_VALUE_PER_TIPPER,
   getHolders,
 } from "@farther/common";
-import { prisma } from "../prisma";
-import { getPrice } from "../utils/getPrice";
+import { getPrice } from "../../token/getPrice";
 
 export async function getEligibleTippers({
   currentDay,

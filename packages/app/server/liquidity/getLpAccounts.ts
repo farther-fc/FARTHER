@@ -84,9 +84,17 @@ export async function getLpAccounts(
       args: [contractAddresses.FARTHER, account.id as Address],
     });
 
-    formattedAccounts.get(account.id).rewardsUnclaimed =
-      unclaimedRewards.reduce((total, r) => total + BigInt(r), BigInt(0));
-    formattedAccounts.get(account.id).rewardsClaimable = claimableRewards;
+    const formattedAccount = formattedAccounts.get(account.id);
+
+    if (!formattedAccount) {
+      throw new Error(`Account ${account.id} not found in formattedAccounts`);
+    }
+
+    formattedAccount.rewardsUnclaimed = unclaimedRewards.reduce(
+      (total, r) => total + BigInt(r),
+      BigInt(0),
+    );
+    formattedAccount.rewardsClaimable = claimableRewards;
   }
 
   return formattedAccounts;

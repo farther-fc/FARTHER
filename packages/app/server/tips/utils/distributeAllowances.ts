@@ -1,9 +1,11 @@
-import { ENVIRONMENT, getTipMinimum } from "@farther/common";
+import { prisma } from "@farther/backend";
+import { ENVIRONMENT } from "@farther/common";
 import { scaleLinear } from "d3";
-import { prisma } from "../prisma";
-import { dailyTipDistribution } from "../utils/dailyTipDistribution";
-import { getPrice } from "../utils/getPrice";
-import { FIDS_TO_WATCH } from "./agentModeling/config";
+import { DistributeAllowancesError } from "server/errors";
+import { getTipMinimum } from "server/tips/utils/getTipMinimum";
+import { getPrice } from "server/token/getPrice";
+import { FIDS_TO_WATCH } from "../agentModeling/config";
+import { dailyTipDistribution } from "./dailyTipDistribution";
 import { getEligibleTippers, getExistingTippers } from "./getEligibleTippers";
 
 const STATIC_ADJUSTMENT_FACTOR = 0.002;
@@ -58,7 +60,8 @@ export async function distributeAllowances() {
 
   const tipMinimum = Math.round(await getTipMinimum(currentDay));
 
-  const priceData = await getPrice(currentDay);
+  const { usd } = await getPrice(currentDay);
+  const fartherUsdPrice = usd;
 
   const newTippers = eligibleTippers.filter((t) => !t.tipAllowances[0]);
 
@@ -85,14 +88,14 @@ export async function distributeAllowances() {
     tipMinimum,
   );
 
-  console.info(`Current price: $${priceData.usd}`);
+  console.info(`Current price: $${fartherUsdPrice}`);
 
   const tipMeta = await prisma.tipMeta.create({
     data: {
       tipMinimum,
       totalAllowance: availableTotalAllowance,
       carriedOver: prevUnusedAllowance,
-      usdPrice: priceData.usd,
+      usdPrice: fartherUsdPrice,
     },
   });
 
@@ -153,7 +156,9 @@ export async function distributeAllowances() {
   const combinedTipMinimums = tipMinimum * eligibleTippers.length;
 
   if (combinedTipMinimums > availableTotalAllowance) {
-    throw new Error(`Combined tip minimums exceeds total daily allowance`);
+    throw new DistributeAllowancesError({
+      message: `Combined tip minimums exceeds total daily allowance`,
+    });
   }
 
   // Subtract tip min from total daily allowance (since min is automatically given to everyone)

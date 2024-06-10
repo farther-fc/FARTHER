@@ -7,7 +7,7 @@ import {
   viemPublicClient,
 } from "@farther/common";
 import { keccak256 } from "ethers";
-import { getLpAccounts } from "../utils/getLpAccounts";
+import { getLpAccounts } from "../../../app/server/liquidity/getLpAccounts";
 import { formatNum } from "../utils/helpers";
 
 const incentiveRewardsTotalAllocation =

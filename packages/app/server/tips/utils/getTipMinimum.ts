@@ -1,6 +1,5 @@
-import { ENVIRONMENT } from "@farther/common";
-import { TIP_USD_MINIMUM } from "@farther/common/src/constants";
-import { getPrice } from "../utils/getPrice";
+import { ENVIRONMENT, TIP_USD_MINIMUM } from "@farther/common";
+import { getPrice } from "../../token/getPrice";
 
 export async function getTipMinimumDev(day?: number) {
   if (typeof day !== "number") {

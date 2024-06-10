@@ -10,7 +10,9 @@ export const getStaticProps = async (contextData) => {
 
   return {
     props: {
-      statusCode: contextData ?? contextData.res ?? contextData.res.statusCode,
+      statusCode: JSON.stringify(
+        contextData ?? contextData.res ?? contextData.res.statusCode,
+      ),
     },
   };
 };

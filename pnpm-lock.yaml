@@ -126,6 +126,12 @@ importers:
       abitype:
         specifier: ^1.0.2
         version: 1.0.2(typescript@5.4.5)(zod@3.22.5)
+      axios:
+        specifier: ^1.6.8
+        version: 1.6.8
+      bluebird:
+        specifier: ^3.7.2
+        version: 3.7.2
       class-variance-authority:
         specifier: ^0.4.0
         version: 0.4.0(typescript@5.4.5)
@@ -223,6 +229,9 @@ importers:
       '@parcel/watcher':
         specifier: ^2.4.1
         version: 2.4.1
+      '@types/bluebird':
+        specifier: ^3.5.42
+        version: 3.5.42
       '@types/cookie':
         specifier: ^0.6.0
         version: 0.6.0

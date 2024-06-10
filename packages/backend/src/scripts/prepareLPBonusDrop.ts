@@ -13,8 +13,8 @@ import {
   neynarLimiter,
 } from "@farther/common";
 // import { v4 as uuidv4 } from "uuid";
+import { getLpAccounts } from "../../../app/server/liquidity/getLpAccounts";
 import { AllocationType, prisma } from "../prisma";
-import { getLpAccounts } from "../utils/getLpAccounts";
 import { formatNum } from "../utils/helpers";
 import { airdropSanityCheck } from "./airdropSanityCheck";
 

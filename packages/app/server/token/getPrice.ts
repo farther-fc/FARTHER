@@ -1,10 +1,10 @@
+import { prisma } from "@farther/backend";
 import {
   ENVIRONMENT,
   NEXT_PUBLIC_COINGECKO_API_KEY,
   PRICE_REFRESH_TIME,
   contractAddresses,
 } from "@farther/common";
-import { prisma } from "../prisma";
 
 export async function getPrice(day?: number) {
   if (

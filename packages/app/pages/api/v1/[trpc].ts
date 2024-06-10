@@ -10,8 +10,8 @@ import { setAllocationClaimed } from "server/airdrop/setAllocationClaimed";
 import { validateTweet } from "server/evangelize/validateTweet";
 import { getPrice } from "server/getPrice";
 import { distributeAllowances } from "server/tips/distributeAllowances";
-import { getTipsMeta } from "server/tips/getTipsMeta";
 import { handleTip } from "server/tips/handleTip";
+import { getTipsMeta } from "server/tips/utils/getTipsMeta";
 import { createContext, router } from "server/trpc";
 import { getUserByAddress } from "server/user";
 

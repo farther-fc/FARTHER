@@ -1,7 +1,7 @@
+import { prisma } from "@farther/backend";
 import { HANDLE_TIP_REGEX } from "@farther/common";
 import { Cast } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { InvalidTipReason } from "@prisma/client";
-import { prisma } from "../prisma";
 
 export async function handleTip({
   castData,
@@ -80,14 +80,7 @@ export async function handleTip({
       castHash: castData.hash,
     };
 
-    await storeTip({
-      allowanceId: tipAllowance.id,
-      tipperFid: tipper.fid,
-      tippeeFid: tippee.fid,
-      tipAmount,
-      invalidTipReason,
-      castHash: castData.hash,
-    });
+    await storeTip(tipData);
 
     return;
   }
