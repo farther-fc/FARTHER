@@ -36,11 +36,11 @@ function isSignatureValid({
   const sigKey = rawHeaders.indexOf("X-Neynar-Signature");
   const sig = sigKey !== -1 ? rawHeaders[sigKey + 1] : null;
 
-  const webhookSecret = process.env.NEYNAR_WEBHOOK_SECRET;
+  const webhookSecret = process.env.NEXT_PUBLIC_NEYNAR_WEBHOOK_SECRET;
 
   if (!webhookSecret) {
     throw new Error(
-      "Make sure you set NEYNAR_WEBHOOK_SECRET in your .env file",
+      "Make sure you set NEXT_PUBLIC_NEYNAR_WEBHOOK_SECRET in your .env file",
     );
   }
 
