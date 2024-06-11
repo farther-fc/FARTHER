@@ -180,7 +180,7 @@ export default function ProfilePage() {
                           <TableCell className="pr-0 text-right">
                             {user?.powerBadge ? (
                               <Button
-                                sentryId={clickIds.rewardsPageClaimedRewards}
+                                sentryId={clickIds.profilePageClaimedRewards}
                                 className="w-tableButton md:w-tableButtonWide"
                                 disabled={true}
                               >
@@ -206,7 +206,7 @@ export default function ProfilePage() {
                           </TableCell>
                           <TableCell className="pr-0 text-right">
                             <Button
-                              sentryId={clickIds.rewardsPageClaim}
+                              sentryId={clickIds.profilePageClaim}
                               className="w-tableButton md:w-tableButtonWide"
                               disabled={true}
                             >

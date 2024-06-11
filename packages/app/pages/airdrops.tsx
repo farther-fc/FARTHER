@@ -80,7 +80,7 @@ export default function AirdropPage() {
             >
               connect your wallet
             </Button>{" "}
-            and visit the <Link href={ROUTES.profile.path}>rewards</Link> page.
+            and visit the <Link href={ROUTES.profile.path}>profile</Link> page.
           </InfoCard>
         )}
       </main>

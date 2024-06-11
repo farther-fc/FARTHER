@@ -190,7 +190,7 @@ export const EVANGELIST_FOLLOWER_BONUS_MULTIPLE = 10;
 
 export const TIPS_DURATION_DAYS = 180;
 
-export const DUST_AMOUNT = 1000000;
+export const DUST_AMOUNT = 100000000;
 
 export const START_BLOCK = ENVIRONMENT === "staging" ? 13817650 : 13832035;
 

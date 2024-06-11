@@ -13,8 +13,7 @@ export async function handleTip({
   const matchingText = castData.text.match(HANDLE_TIP_REGEX);
 
   if (!matchingText) {
-    console.warn("No matching text found in cast", castData.hash);
-    return;
+    throw new Error(`No matching text found in cast: ${castData.hash}`);
   }
 
   let invalidTipReason: undefined | InvalidTipReason = undefined;
