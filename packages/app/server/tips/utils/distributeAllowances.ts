@@ -1,6 +1,5 @@
 import { prisma } from "@farther/backend";
 import { ENVIRONMENT } from "@farther/common";
-import * as Sentry from "@sentry/nextjs";
 import { scaleLinear } from "d3";
 import { DistributeAllowancesError } from "server/errors";
 import { getTipMinimum } from "server/tips/utils/getTipMinimum";
@@ -18,10 +17,6 @@ const RECOVERY_THRESHOLD = 10;
 const MAX_RECOVERY_ADJUSTMENT_FACTOR = 25;
 
 export async function distributeAllowances() {
-  Sentry.captureException("Distribute allowances called!!");
-
-  return;
-
   const tipsMetas = await prisma.tipMeta.findMany({
     orderBy: {
       createdAt: "desc",

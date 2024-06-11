@@ -13,7 +13,11 @@ exports.distributeAllowances = functions
     // 9 minutes (max)
     timeoutSeconds: 540,
   })
-  .pubsub // Every day at 9pm UTC
-  .schedule(ENV.value() === "production" ? "* * * * *" : "*/5 * * * *")
+  .pubsub // Every day at 6pm UTC
+  .schedule(
+    ENV.equals("production").thenElse(true, false)
+      ? "0 18 * * *"
+      : "*/5 * * * *",
+  )
 
   .onRun(generateCronJob("admin.distributeAllowances"));
