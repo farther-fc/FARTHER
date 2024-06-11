@@ -21,11 +21,13 @@ function TipsPage() {
     <Container variant="page">
       <main className="content">
         <h1>Farther Tips</h1>
-        <span className="text-ghost text-sm">Cycle start time</span>
         {!tipsMetaLoading && createdAt && (
-          <h4 className="mt-2">
-            {dayjs(new Date(createdAt)).format("MMM D, YYYY h:mm A")}
-          </h4>
+          <>
+            <span className="text-ghost text-sm">CYCLE START TIME</span>
+            <h4 className="mt-2">
+              {dayjs(new Date(createdAt)).format("MMM D, YYYY h:mm A")}
+            </h4>
+          </>
         )}
         {!tipsMetaLoading && createdAt ? (
           <div className="mb-10 grid grid-cols-[120px_1fr] gap-2">

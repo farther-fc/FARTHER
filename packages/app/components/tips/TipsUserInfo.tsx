@@ -4,42 +4,90 @@ import { Skeleton } from "@components/ui/Skeleton";
 import { clickIds } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
+import dayjs from "dayjs";
+import { useTipsMeta } from "hooks/useTipsMeta";
 
 export function TipsUserInfo() {
+  const { createdAt } = useTipsMeta();
   const { user, userIsLoading } = useUser();
   const { openConnectModal } = useConnectModal();
 
   const allowance = user?.tipAllowance?.amount || 0;
-  const spent =
+  const spentAllowance =
     user?.tipAllowance?.tips.reduce((acc, t) => t.amount + acc, 0) || 0;
-  const remaining = allowance - spent;
+  const remainingAllowance = allowance - spentAllowance;
 
   return (
     <>
-      <h4 className="text-ghost text-sm">Your stats</h4>
       {userIsLoading ? (
-        <Skeleton className="h-[140px]" />
+        <>
+          <Skeleton className="mt-8 h-[140px]" />
+          <Skeleton className="mt-8 h-[140px]" />
+        </>
       ) : user ? (
-        <InfoCard className="mt-2">
-          <div className="flex flex-col md:flex-row md:justify-between">
-            <div className="grid grid-cols-[100px_1fr] gap-2">
-              <span className="text-muted text-lg font-bold">Allowance</span>
-              <span className="text-lg font-bold">
-                {user?.tipAllowance?.amount.toLocaleString() || 0} ✨
-              </span>
-              <span className="text-muted">Spent</span>
-              <span>{spent.toLocaleString()} ✨</span>
-              <span className="text-muted">Remaining</span>
-              <span>{remaining.toLocaleString()} ✨</span>
+        <>
+          <h4 className="text-ghost mt-8 text-sm uppercase">
+            {createdAt ? dayjs(new Date(createdAt)).format("MMM D") : ""}
+            &nbsp;Cycle
+          </h4>
+          <InfoCard className="mt-0 w-full">
+            <div className="flex flex-col justify-between md:flex-row">
+              <div className="grid grid-cols-[100px_200px] gap-2">
+                <span className="text-muted font-bold md:text-lg">
+                  Allowance
+                </span>
+                <span className="font-bold md:text-lg">
+                  {user?.tipAllowance?.amount.toLocaleString() || 0} ✨
+                </span>
+                <span className="text-muted">Given</span>
+                <span>
+                  {spentAllowance.toLocaleString()} ✨{" "}
+                  <span className="text-ghost">
+                    ({user?.tipAllowance?.tips.length} tips)
+                  </span>
+                </span>
+                <span className="text-muted">Remaining</span>
+                <span>{remainingAllowance.toLocaleString()} ✨</span>
+              </div>
+              <div className="mt-6 grid grid-cols-[100px_200px] gap-2 md:mt-0">
+                <span className="text-muted font-bold md:text-lg">
+                  Received
+                </span>
+                <span className="font-bold md:text-lg">
+                  {user.latestTipsReceived?.amount.toLocaleString()} ✨{" "}
+                  <span className="text-ghost">
+                    ({user.latestTipsReceived.number} tips)
+                  </span>
+                </span>
+              </div>
             </div>
-            <div className="mt-2 grid grid-cols-[100px_1fr] gap-2 md:mt-0">
-              <span className="text-muted text-lg font-bold">Received</span>
-              <span className="text-lg font-bold">
-                {user?.latestTipsReceived?.toLocaleString()} ✨
-              </span>
+          </InfoCard>
+          <h4 className="text-ghost mt-8 text-sm">TOTALS</h4>
+          <InfoCard className="mt-0 w-full">
+            <div className="flex flex-col justify-between md:flex-row">
+              <div className="grid grid-cols-[100px_200px] gap-2">
+                <span className="text-muted font-bold md:text-lg">Given</span>
+                <span className="font-bold md:text-lg">
+                  {user.totalTipsGiven.amount.toLocaleString()} ✨{" "}
+                  <span className="text-ghost">
+                    ({user.totalTipsGiven.number} tips)
+                  </span>
+                </span>
+              </div>
+              <div className="grid grid-cols-[100px_200px] gap-2">
+                <span className="text-muted font-bold md:text-lg">
+                  Received
+                </span>
+                <span className="font-bold md:text-lg">
+                  {user.totalTipsReceived.amount.toLocaleString()} ✨{" "}
+                  <span className="text-ghost">
+                    ({user.totalTipsReceived.number} tips)
+                  </span>
+                </span>
+              </div>
             </div>
-          </div>
-        </InfoCard>
+          </InfoCard>
+        </>
       ) : (
         <InfoCard className="text-center" variant="ghost">
           <Button

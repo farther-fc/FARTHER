@@ -58,7 +58,7 @@ export default function ProfilePage() {
           </p>
           <TipsUserInfo />
         </div>
-        <div className="border-ghost my-20 rounded-xl">
+        <div className="border-ghost mt-12 rounded-xl">
           <h2 className="mt-0 border-none pl-0">
             Rewards <span className="font-thin">(Airdrops)</span>
           </h2>

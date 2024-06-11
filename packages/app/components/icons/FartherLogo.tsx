@@ -1,6 +1,6 @@
 import { cn } from "@lib/utils";
 
-export function Farther({ className }: { className?: string }) {
+export function FartherLogo({ className }: { className?: string }) {
   return (
     <svg
       id="Layer_1"

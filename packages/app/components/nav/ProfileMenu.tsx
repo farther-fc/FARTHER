@@ -7,7 +7,6 @@ import {
 } from "@components/ui/DropdownMenu";
 import Spinner from "@components/ui/Spinner";
 import { clickIds } from "@lib/constants";
-import { useMediaQuery } from "@lib/context/MediaQueryContext";
 import { useTokenInfo } from "@lib/context/TokenContext";
 import { useUser } from "@lib/context/UserContext";
 import { formatWad, shortenHash } from "@lib/utils";
@@ -16,7 +15,6 @@ import { useDisconnect } from "wagmi";
 
 export function ProfileMenu() {
   const { fartherUsdPrice, priceLoading } = useTokenInfo();
-  const { isTablet } = useMediaQuery();
   const { disconnect } = useDisconnect();
   const { user, account, balance, userIsLoading } = useUser();
 
@@ -37,20 +35,23 @@ export function ProfileMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button sentryId={clickIds.openProfileMenu} variant="secondary">
+        <Button
+          className="max-w-[200px]"
+          sentryId={clickIds.openProfileMenu}
+          variant="secondary"
+        >
           {userIsLoading ? (
             <div className="mr-2">
               <Spinner size="xs" />
             </div>
           ) : (
-            user?.pfpUrl &&
-            isTablet && (
+            user?.pfpUrl && (
               <Avatar className="mr-2">
                 <AvatarImage src={user.pfpUrl} />
               </Avatar>
             )
           )}
-          {profileHandle}
+          <span className="truncate">{profileHandle}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="flex min-w-[150px] flex-col" align="end">

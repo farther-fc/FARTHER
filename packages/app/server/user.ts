@@ -38,10 +38,8 @@ export const getUser = publicProcedure
         });
       }
 
-      const totalTipsReceived = dbUser?.tipsReceived.reduce(
-        (acc, t) => acc + t.amount,
-        0,
-      );
+      const totalTipsReceived =
+        dbUser?.tipsReceived.reduce((acc, t) => acc + t.amount, 0) || 0;
 
       const latestTipMeta = await prisma.tipMeta.findFirst({
         orderBy: {
@@ -52,14 +50,10 @@ export const getUser = publicProcedure
 
       const latestTipsReceived =
         latestTipMeta && dbUser
-          ? dbUser?.tipsReceived
-              .filter((t) => t.createdAt > latestTipMeta.createdAt)
-              .reduce((acc, t) => t.amount + acc, 0)
-          : 0;
-
-      // console.log("totalTipsReceived", totalTipsReceived);
-      // console.log("latestTipMeta", latestTipMeta);
-      // console.log("latestTipsReceived", latestTipsReceived);
+          ? dbUser?.tipsReceived.filter(
+              (t) => t.createdAt > latestTipMeta.createdAt,
+            )
+          : [];
 
       const allocations = dbUser?.allocations || [];
 
@@ -106,8 +100,18 @@ export const getUser = publicProcedure
         powerBadge: user.power_badge,
         verifiedAddress: user.verified_address,
         allocations,
-        totalTipsReceived,
-        latestTipsReceived,
+        totalTipsReceived: {
+          number: dbUser?.tipsReceived.length || 0,
+          amount: totalTipsReceived,
+        },
+        totalTipsGiven: {
+          number: dbUser?.tipsGiven.length || 0,
+          amount: dbUser?.tipsGiven.reduce((acc, t) => acc + t.amount, 0) || 0,
+        },
+        latestTipsReceived: {
+          number: latestTipsReceived.length,
+          amount: latestTipsReceived.reduce((acc, t) => acc + t.amount, 0) || 0,
+        },
         tipAllowance: dbUser?.tipAllowances[0],
       };
     } catch (error: any) {
@@ -134,7 +138,7 @@ export const publicGetUserByFid = publicProcedure
 
     const latestTipAllowance = user?.tipAllowances[0];
 
-    const tipAmountSpent =
+    const tipsGivenAmount =
       latestTipAllowance?.tips.reduce((acc, t) => acc + t.amount, 0) || 0;
 
     return {
@@ -144,7 +148,7 @@ export const publicGetUserByFid = publicProcedure
             createdAt: latestTipAllowance.createdAt,
             amount: latestTipAllowance.amount,
             tipsGiven: latestTipAllowance.tips.length,
-            tipsGivenAmount: tipAmountSpent,
+            tipsGivenAmount,
           }
         : null,
     };
@@ -217,6 +221,7 @@ function getDbUserByFid(fid: number) {
           tips: true,
         },
       },
+      tipsGiven: true,
       tipsReceived: true,
       allocations: {
         where: {
