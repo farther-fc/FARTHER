@@ -16,7 +16,7 @@ export default function EvangelizePage() {
 
   const isNotOnFarcaster = account.address && !user && !userIsLoading;
 
-  const DEFAULT_TWEET_LINK = `https://twitter.com/intent/tweet?text=Farcaster%20is%20pushing%20social%20media%20$farther%E2%9C%A8%0A%0AFID${user?.fid}`;
+  const DEFAULT_TWEET_LINK = `https://twitter.com/intent/tweet?text=Farcaster%20is%20pushing%20social%20media%20$farther%E2%9C%A8%0A%0AFID${user?.fid}%0A@farther_social`;
 
   return (
     <Container variant="page">
