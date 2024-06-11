@@ -14,8 +14,8 @@ import _ from "lodash";
 import { publicProcedure } from "server/trpc";
 import { AllocationType, prisma } from "../../backend/src/prisma";
 
-export const getUserByAddress = publicProcedure
-  .input(apiSchemas.getUserByAddress.input)
+export const getUser = publicProcedure
+  .input(apiSchemas.getUser.input)
   .query(async (opts) => {
     const address = opts.input.address.toLowerCase();
 
@@ -32,16 +32,34 @@ export const getUserByAddress = publicProcedure
 
       const dbUser = await getDbUserByFid(fid);
 
-      const tipsReceived = dbUser?.tipsReceived.reduce(
-        (acc, t) => acc + t.amount,
-        0,
-      );
-
       if (!dbUser) {
         await prisma.user.create({
           data: { id: fid },
         });
       }
+
+      const totalTipsReceived = dbUser?.tipsReceived.reduce(
+        (acc, t) => acc + t.amount,
+        0,
+      );
+
+      const latestTipMeta = await prisma.tipMeta.findFirst({
+        orderBy: {
+          createdAt: "desc",
+        },
+        take: 1,
+      });
+
+      const latestTipsReceived =
+        latestTipMeta && dbUser
+          ? dbUser?.tipsReceived
+              .filter((t) => t.createdAt > latestTipMeta.createdAt)
+              .reduce((acc, t) => t.amount + acc, 0)
+          : 0;
+
+      // console.log("totalTipsReceived", totalTipsReceived);
+      // console.log("latestTipMeta", latestTipMeta);
+      // console.log("latestTipsReceived", latestTipsReceived);
 
       const allocations = dbUser?.allocations || [];
 
@@ -65,12 +83,12 @@ export const getUserByAddress = publicProcedure
         });
       }
 
-      if (tipsReceived) {
+      if (totalTipsReceived) {
         allocations.push({
           type: AllocationType.TIPS,
           id: PENDING_TIPS_ALLOCATION_ID,
           isClaimed: false,
-          amount: BigInt(tipsReceived * 10 ** 18).toString(),
+          amount: BigInt(totalTipsReceived * 10 ** 18).toString(),
           referenceAmount: "0",
           baseAmount: "0",
           airdrop: null,
@@ -88,7 +106,8 @@ export const getUserByAddress = publicProcedure
         powerBadge: user.power_badge,
         verifiedAddress: user.verified_address,
         allocations,
-        tipsReceived,
+        totalTipsReceived,
+        latestTipsReceived,
         tipAllowance: dbUser?.tipAllowances[0],
       };
     } catch (error: any) {
@@ -100,55 +119,40 @@ export const getUserByAddress = publicProcedure
     }
   });
 
-function getDbUserByFid(fid: number) {
-  return prisma.user.findFirst({
-    where: {
-      id: fid,
-    },
-    select: {
-      tipAllowances: {
-        orderBy: {
-          createdAt: "desc",
-        },
-        take: 1,
-        include: {
-          tips: true,
-        },
-      },
-      tipsReceived: true,
-      allocations: {
-        where: {
-          isInvalidated: false,
-        },
-        select: {
-          id: true,
-          amount: true,
-          baseAmount: true,
-          referenceAmount: true,
-          isClaimed: true,
-          index: true,
-          type: true,
-          tweets: true,
-          address: true,
-          airdrop: {
-            select: {
-              id: true,
-              address: true,
-              startTime: true,
-              endTime: true,
-            },
-          },
-        },
-      },
-    },
-  });
-}
-
-export const getUserByFid = publicProcedure
-  .input(apiSchemas.getUserByFid.input)
+export const publicGetUserByAddress = publicProcedure
+  .input(apiSchemas.publicGetUserByAddress.input)
   .query(async (fid) => {
     // TODO
   });
+
+export const publicGetUserByFid = publicProcedure
+  .input(apiSchemas.publicGetUserByFid.input)
+  .query(async (opts) => {
+    const fid = opts.input;
+
+    const user = await getDbUserByFid(fid);
+
+    const latestTipAllowance = user?.tipAllowances[0];
+
+    const tipAmountSpent =
+      latestTipAllowance?.tips.reduce((acc, t) => acc + t.amount, 0) || 0;
+
+    return {
+      fid,
+      latestTipAllowance: latestTipAllowance
+        ? {
+            createdAt: latestTipAllowance.createdAt,
+            amount: latestTipAllowance.amount,
+            tipsGiven: latestTipAllowance.tips.length,
+            tipsGivenAmount: tipAmountSpent,
+          }
+        : null,
+    };
+  });
+
+/********************************
+ *          HELPERS
+ ********************************/
 
 async function getUserFromNeynar(address: string) {
   if (!isProduction && address === DEV_USER_ADDRESS.toLowerCase()) {
@@ -196,4 +200,48 @@ async function getUserFromNeynar(address: string) {
     power_badge: user?.power_badge,
     verified_address: user?.verified_addresses.eth_addresses[0],
   };
+}
+
+function getDbUserByFid(fid: number) {
+  return prisma.user.findFirst({
+    where: {
+      id: fid,
+    },
+    select: {
+      tipAllowances: {
+        orderBy: {
+          createdAt: "desc",
+        },
+        take: 1,
+        include: {
+          tips: true,
+        },
+      },
+      tipsReceived: true,
+      allocations: {
+        where: {
+          isInvalidated: false,
+        },
+        select: {
+          id: true,
+          amount: true,
+          baseAmount: true,
+          referenceAmount: true,
+          isClaimed: true,
+          index: true,
+          type: true,
+          tweets: true,
+          address: true,
+          airdrop: {
+            select: {
+              id: true,
+              address: true,
+              startTime: true,
+              endTime: true,
+            },
+          },
+        },
+      },
+    },
+  });
 }

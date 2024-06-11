@@ -1,4 +1,5 @@
 import { Container } from "@components/ui/Container";
+import { LabelValue } from "@components/ui/LabelValue";
 import { trpcClient } from "@lib/trpcClient";
 import { formatWad } from "@lib/utils";
 
@@ -88,6 +89,9 @@ function AdminPage() {
             </div>
           </>
         )}
+        <h2>Tips</h2>
+        <LabelValue label="Total tips" value={data?.tipCount} />
+        <LabelValue label="Total amount" value={data?.tipTotal} />
       </div>
     </Container>
   );

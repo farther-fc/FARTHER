@@ -35,7 +35,7 @@ export function TipsUserInfo() {
             <div className="mt-2 grid grid-cols-[100px_1fr] gap-2 md:mt-0">
               <span className="text-muted text-lg font-bold">Received</span>
               <span className="text-lg font-bold">
-                {user?.tipsReceived?.toLocaleString()} ✨
+                {user?.latestTipsReceived?.toLocaleString()} ✨
               </span>
             </div>
           </div>

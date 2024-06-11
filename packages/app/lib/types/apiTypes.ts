@@ -5,6 +5,6 @@ import { AppRouter } from "pages/api/v1/[trpc]";
 // type RouterInput = inferRouterInputs<AppRouter>;
 export type RouterOutput = inferRouterOutputs<AppRouter>;
 
-export type GetUserOuput = RouterOutput["user"]["getByAddress"];
+export type GetUserOuput = RouterOutput["getUser"];
 
 export type Alloocation = NonNullable<GetUserOuput>["allocations"][number];

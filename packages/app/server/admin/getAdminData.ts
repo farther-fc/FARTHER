@@ -42,6 +42,11 @@ export const getAdminData = publicProcedure.query(async () => {
     },
   });
 
+  const tips = await prisma.tip.findMany({});
+
+  const tipCount = tips.length;
+  const tipTotal = tips.reduce((total, tip) => total + tip.amount, 0);
+
   return {
     powerUserAllocations,
     evangelistAllocations: evangelistAllocations
@@ -50,5 +55,7 @@ export const getAdminData = publicProcedure.query(async () => {
         hasPowerBadge: neynarData.find((u) => u.fid === a.userId)?.power_badge,
       }))
       .filter((a) => !a.isInvalidated),
+    tipCount,
+    tipTotal,
   };
 });

@@ -18,17 +18,20 @@ export const apiSchemas = {
       allocationId: z.string(),
     }),
   },
-  getUserByAddress: {
+  getUser: {
     input: z.object({
       address: z.string().refine(addressValidation, {
         message: "Invalid address",
       }),
     }),
   },
-  getUserByFid: {
-    input: z.object({
-      fid: z.coerce.number().int().gte(0).lte(100_000_000_000),
+  publicGetUserByAddress: {
+    input: z.string().refine(addressValidation, {
+      message: "Invalid address",
     }),
+  },
+  publicGetUserByFid: {
+    input: z.coerce.number().int().gte(0).lte(100_000_000_000),
   },
   validateTweet: {
     input: z.object({

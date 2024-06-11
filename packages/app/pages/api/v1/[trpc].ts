@@ -8,18 +8,23 @@ import { invalidateStaleAllocations } from "server/admin/invalidateStaleAllocati
 import { getMerkleProof } from "server/airdrop/getMerkleProof";
 import { setAllocationClaimed } from "server/airdrop/setAllocationClaimed";
 import { validateTweet } from "server/evangelize/validateTweet";
-import { getPrice } from "server/getPrice";
+import { publicGetPrice } from "server/getPrice";
 import { distributeAllowances } from "server/tips/distributeAllowances";
 import { handleTip } from "server/tips/handleTip";
-import { getTipsMeta } from "server/tips/utils/getTipsMeta";
+import { publicGetTipsMeta } from "server/tips/utils/getTipsMeta";
 import { createContext, router } from "server/trpc";
-import { getUserByAddress } from "server/user";
+import {
+  getUser,
+  publicGetUserByAddress,
+  publicGetUserByFid,
+} from "server/user";
 
 export const appRouter = router({
   getMerkleProof,
   setAllocationClaimed,
   validateTweet,
   handleTip,
+  getUser,
   admin: router({
     distributeAllowances,
     getAdminData,
@@ -27,13 +32,14 @@ export const appRouter = router({
   }),
   // PUBLIC
   user: router({
-    getByAddress: getUserByAddress,
+    byAddress: publicGetUserByAddress,
+    byFid: publicGetUserByFid,
   }),
   tips: router({
-    meta: getTipsMeta,
+    meta: publicGetTipsMeta,
   }),
   token: router({
-    getPrice,
+    price: publicGetPrice,
   }),
 });
 

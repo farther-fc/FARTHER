@@ -90,15 +90,6 @@ export async function distributeAllowances() {
 
   console.info(`Current price: $${fartherUsdPrice}`);
 
-  const tipMeta = await prisma.tipMeta.create({
-    data: {
-      tipMinimum,
-      totalAllowance: availableTotalAllowance,
-      carriedOver: prevUnusedAllowance,
-      usdPrice: fartherUsdPrice,
-    },
-  });
-
   let totalWeight = 0;
 
   const previousTipMin = previousMeta ? previousMeta.tipMinimum : 0;
@@ -164,21 +155,32 @@ export async function distributeAllowances() {
   // Subtract tip min from total daily allowance (since min is automatically given to everyone)
   const allowanceRemainder = availableTotalAllowance - combinedTipMinimums;
 
-  // Distribute
-  const newAllowances = eligibleTippers.map((tipper, i) => {
-    // Round to nearest integer
-    const amount =
-      tipMinimum + (currentWeights[i] / totalWeight) * allowanceRemainder;
+  await prisma.$transaction(async (tx) => {
+    const tipMeta = await tx.tipMeta.create({
+      data: {
+        tipMinimum,
+        totalAllowance: availableTotalAllowance,
+        carriedOver: prevUnusedAllowance,
+        usdPrice: fartherUsdPrice,
+      },
+    });
 
-    return {
-      userId: tipper.id,
-      tipMetaId: tipMeta.id,
-      amount,
-      userBalance: tipper.totalBalance,
-    };
-  });
+    // Distribute
+    const newAllowances = eligibleTippers.map((tipper, i) => {
+      // Round to nearest integer
+      const amount =
+        tipMinimum + (currentWeights[i] / totalWeight) * allowanceRemainder;
 
-  await prisma.tipAllowance.createMany({
-    data: newAllowances,
+      return {
+        userId: tipper.id,
+        tipMetaId: tipMeta.id,
+        amount,
+        userBalance: tipper.totalBalance,
+      };
+    });
+
+    await tx.tipAllowance.createMany({
+      data: newAllowances,
+    });
   });
 }

@@ -13,10 +13,10 @@ exports.distributeAllowances = functions
     // 9 minutes (max)
     timeoutSeconds: 540,
   })
-  .pubsub // Every day at 6pm UTC
-  .schedule(
+  .pubsub.schedule(
     ENV.equals("production").thenElse(true, false)
-      ? "0 18 * * *"
+      ? // This uses PST timezone!
+        "0 11 * * *"
       : "*/5 * * * *",
   )
 
