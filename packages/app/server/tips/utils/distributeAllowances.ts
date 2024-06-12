@@ -53,10 +53,7 @@ export async function distributeAllowances() {
 
   const availableTotalAllowance = defaultTotal + prevUnusedAllowance;
 
-  const eligibleTippers = await getEligibleTippers({
-    availableTokens: availableTotalAllowance,
-    currentDay,
-  });
+  const eligibleTippers = await getEligibleTippers();
 
   const tipMinimum = Math.round(await getTipMinimum(currentDay));
 

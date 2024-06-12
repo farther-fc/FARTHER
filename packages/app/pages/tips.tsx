@@ -1,13 +1,11 @@
 import { TipsUserInfo } from "@components/tips/TipsUserInfo";
 import { Container } from "@components/ui/Container";
-import { ExternalLink } from "@components/ui/ExternalLink";
 import { Popover } from "@components/ui/Popover";
 import { Skeleton } from "@components/ui/Skeleton";
 import Spinner from "@components/ui/Spinner";
 import {
-  INITIAL_ELIGIBLE_TIPPERS,
+  TIPPER_REQUIRED_FARTHER_BALANCE,
   TIP_USD_MINIMUM,
-  contractAddresses,
 } from "@farther/common";
 import dayjs from "dayjs";
 import { useTipsMeta } from "hooks/useTipsMeta";
@@ -43,13 +41,9 @@ function TipsPage() {
               </span>
               <span className="text-muted">Eligible tippers:</span>
               <span className="flex items-center">
-                <ExternalLink
-                  href={`https://basescan.org/token/${contractAddresses.FARTHER}#balances`}
-                >
-                  Top {eligibleTippers} holders
-                </ExternalLink>
+                {eligibleTippers}
                 <Popover
-                  content={`This number increases over time based on the token's current price to ensure the allowance for each tipper remains valuable enough to make tipping worthwhile.`}
+                  content={`You must currently have a total balance of ${TIPPER_REQUIRED_FARTHER_BALANCE.toLocaleString()} FARTHER to receive a tip allowance. This number will adjust over time. If you are providing liquidity in the Uniswap 0.3% pool, that will be included.`}
                 >
                   <Info className="text-muted ml-2 size-3" />
                 </Popover>
@@ -97,12 +91,12 @@ function TipsPage() {
         <div className="mt-12">
           <h3>Eligibility</h3>
           <p>
-            To become eligible for an allowance, tippers must be holding Farther
-            tokens in a wallet they've verified on Warpcast. At launch, the top{" "}
-            {INITIAL_ELIGIBLE_TIPPERS} holders received an allowance. This
-            threshold will adjust to include more holders over time, based on
-            the token's current price. This ensures the allowance for each
-            tipper remains valuable enough to make tipping worthwhile.{" "}
+            To become eligible for an allowance, tippers must currently be
+            holding {TIPPER_REQUIRED_FARTHER_BALANCE.toLocaleString()} Farther
+            tokens in a wallet they've verified on Warpcast. This threshold will
+            adjust to include more holders over time, based on the token's
+            current price. This ensures the allowance for each tipper remains
+            valuable enough to make tipping worthwhile.{" "}
           </p>
           <p>
             After a token holder starts receiving allowances, their daily

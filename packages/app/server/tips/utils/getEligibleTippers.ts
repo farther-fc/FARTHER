@@ -1,19 +1,8 @@
 import { prisma } from "@farther/backend";
-import {
-  ADDITIONAL_TIPPERS_INCREMENT,
-  INITIAL_ELIGIBLE_TIPPERS,
-  REQUIRED_DOLLAR_VALUE_PER_TIPPER,
-} from "@farther/common";
+import { TIPPER_REQUIRED_FARTHER_BALANCE, WAD_SCALER } from "@farther/common";
 import { getHolders } from "server/token/getHolders";
-import { getPrice } from "../../token/getPrice";
 
-export async function getEligibleTippers({
-  currentDay,
-  availableTokens,
-}: {
-  currentDay: number;
-  availableTokens: number;
-}) {
+export async function getEligibleTippers() {
   const prevTipMeta = await prisma.tipMeta.findFirst({
     orderBy: {
       createdAt: "desc",
@@ -28,13 +17,13 @@ export async function getEligibleTippers({
     ? prevTipMeta.createdAt
     : new Date(0);
 
-  const eligibleHolders = await getEligibleHolders({
-    latestTipperCount: prevTipMeta
-      ? prevTipMeta.allowances.length
-      : INITIAL_ELIGIBLE_TIPPERS,
-    availableTokens,
-    currentDay,
-  });
+  const allHolders = await getHolders({ includeLPs: true });
+
+  const eligibleHolders = allHolders.filter(
+    (holder) =>
+      BigInt(holder.totalBalance) >
+      BigInt(TIPPER_REQUIRED_FARTHER_BALANCE) * WAD_SCALER,
+  );
 
   const existingHolders = await prisma.user.findMany({
     where: {
@@ -118,52 +107,4 @@ function tipperInclude(previousDistributionTime: Date) {
       },
     },
   } as const;
-}
-
-/**
- *
- * Ensures that the number of eligible tippers is only incremented if the USD
- * value of the available tokens is enough to give each tipper enough to make it interesting.
- */
-async function getEligibleHolders({
-  latestTipperCount,
-  availableTokens,
-  currentDay,
-}: {
-  latestTipperCount: number;
-  availableTokens: number;
-  currentDay: number;
-}) {
-  const holders = await getHolders({ includeLPs: true });
-  const price = await getPrice(currentDay);
-  const usdValueOfTokens = availableTokens * price.usd;
-  const tokensPerTipperRequirement =
-    REQUIRED_DOLLAR_VALUE_PER_TIPPER / price.usd;
-
-  console.info(`availableTokens: ${availableTokens.toLocaleString()}`);
-  console.info(
-    `Tokens per tipper requirement: ${tokensPerTipperRequirement.toLocaleString()}`,
-  );
-  console.info(`USD value of tokens: ${usdValueOfTokens.toLocaleString()}`);
-  console.info(
-    `Required USD value to add more tippers: ${(
-      tokensPerTipperRequirement *
-      price.usd *
-      (latestTipperCount + ADDITIONAL_TIPPERS_INCREMENT)
-    ).toLocaleString()}`,
-  );
-
-  // If it's the first day or the USD value of the available tokens isn't
-  // enough to make it interesting for the next increment of tippers, return
-  // the current tipper count. Otherwise, return the current tipper count plus the increment.
-  if (
-    currentDay === 1 ||
-    price.usd *
-      tokensPerTipperRequirement *
-      (latestTipperCount + ADDITIONAL_TIPPERS_INCREMENT) >
-      usdValueOfTokens
-  ) {
-    return holders.slice(0, latestTipperCount);
-  }
-  return holders.slice(0, latestTipperCount + ADDITIONAL_TIPPERS_INCREMENT);
 }

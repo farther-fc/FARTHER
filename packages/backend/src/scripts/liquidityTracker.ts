@@ -1,12 +1,15 @@
 // Look at all Transfer events from FARTHER_OWNER_ADDRESS to each pool
 
-import { FARTHER_OWNER_ADDRESS, contractAddresses } from "@farther/common";
+import {
+  FARTHER_OWNER_ADDRESS,
+  baseContractAddresses,
+  contractAddresses,
+} from "@farther/common";
 import { ERC20__factory } from "@farther/common/src/typechain";
 import { viemPublicClient } from "@farther/common/src/viem";
 import { formatNum } from "../utils/helpers";
 
 const START_BLOCK = 13832035;
-const FARTHER_03PERCENT_POOL = "0x306e600e33A9c86B91EeA5A14c8C73F8de62AC84";
 const FARTHER_1PERCENT_POOL = "0xeB00349d28B2B3F7fc7d0182d1433fe5B4cB3425";
 
 // Subtract all transfer events from the pools back to FARTHER_OWNER_ADDRESS
@@ -19,7 +22,7 @@ async function main() {
     eventName: "Transfer",
     args: {
       from: FARTHER_OWNER_ADDRESS,
-      to: FARTHER_03PERCENT_POOL,
+      to: baseContractAddresses.production.UNIV3_FARTHER_ETH_30BPS_POOL,
     },
     fromBlock: BigInt(START_BLOCK),
   });

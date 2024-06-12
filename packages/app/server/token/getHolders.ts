@@ -166,3 +166,14 @@ const airstackQuery = (cursor?: string) => `query TokenBalances {
     }
   }
 }`;
+
+// getHolders()
+//   .then((holders) => {
+//     const filteredHolders = holders.filter(
+//       (h) =>
+//         BigInt(h.totalBalance) >=
+//         BigInt(TIPPER_REQUIRED_FARTHER_BALANCE) * WAD_SCALER,
+//     );
+//     console.log(filteredHolders[filteredHolders.length - 1]);
+//   })
+//   .catch(console.error);

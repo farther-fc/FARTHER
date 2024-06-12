@@ -90,8 +90,22 @@ function AdminPage() {
           </>
         )}
         <h2>Tips</h2>
-        <LabelValue label="Total tips" value={data?.tipCount} />
-        <LabelValue label="Total amount" value={data?.tipTotal} />
+        <LabelValue
+          label="Total tips"
+          value={data?.tipCount.toLocaleString()}
+        />
+        <LabelValue
+          label="Total amount"
+          value={data?.tipTotal.toLocaleString()}
+        />
+        <LabelValue
+          label="Invalid tips"
+          value={data?.invalidTipCount.toLocaleString()}
+        />
+        <LabelValue
+          label="Tipper lowest balance"
+          value={data?.currentTipperLowestBalance.toLocaleString()}
+        />
       </div>
     </Container>
   );

@@ -44,8 +44,27 @@ export const getAdminData = publicProcedure.query(async () => {
 
   const tips = await prisma.tip.findMany({});
 
-  const tipCount = tips.length;
+  const validTips = tips.filter((t) => !t.invalidTipReason);
   const tipTotal = tips.reduce((total, tip) => total + tip.amount, 0);
+  const invalidTipCount = tips.length - validTips.length;
+
+  const tipMeta = await prisma.tipMeta.findFirst({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  const latestAllowances = tipMeta
+    ? await prisma.tipAllowance.findMany({
+        where: {
+          tipMetaId: tipMeta.id,
+        },
+      })
+    : [];
+
+  const tipperWithLowestBalance = latestAllowances.reduce((acc, allowance) =>
+    BigInt(acc.userBalance) < BigInt(allowance.userBalance) ? acc : allowance,
+  );
 
   return {
     powerUserAllocations,
@@ -55,7 +74,11 @@ export const getAdminData = publicProcedure.query(async () => {
         hasPowerBadge: neynarData.find((u) => u.fid === a.userId)?.power_badge,
       }))
       .filter((a) => !a.isInvalidated),
-    tipCount,
+    tipCount: validTips.length,
+    invalidTipCount,
     tipTotal,
+    currentTipperLowestBalance: Number(
+      BigInt(tipperWithLowestBalance.userBalance) / BigInt(10 ** 18),
+    ),
   };
 });

@@ -1,6 +1,6 @@
 import { getLiqTokenAmounts } from "@farther/common";
 import { NFTPositionMngrAbi, UniswapV3PoolAbi } from "@farther/common/src/abis";
-import { contractAddresses } from "@farther/common/src/constants";
+import { baseContractAddresses } from "@farther/common/src/constants";
 import { viemPublicClient } from "@farther/common/src/viem";
 
 type ResponseData = {
@@ -60,7 +60,7 @@ export async function getAllLiqProviderBalances() {
 
   const [sqrtPriceX96]: [bigint] = (await viemPublicClient.readContract({
     abi: UniswapV3PoolAbi,
-    address: contractAddresses.UNIV3_FARTHER_ETH_30BPS_POOL,
+    address: baseContractAddresses.production.UNIV3_FARTHER_ETH_30BPS_POOL,
     functionName: "slot0",
   })) as any;
 
@@ -70,7 +70,7 @@ export async function getAllLiqProviderBalances() {
       const [, , , , , tickLower, tickUpper] =
         await viemPublicClient.readContract({
           abi: NFTPositionMngrAbi,
-          address: contractAddresses.NFT_POSITION_MANAGER,
+          address: baseContractAddresses.production.NFT_POSITION_MANAGER,
           functionName: "positions",
           args: [BigInt(id)],
         });
