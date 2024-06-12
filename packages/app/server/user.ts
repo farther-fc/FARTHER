@@ -218,11 +218,23 @@ function getDbUserByFid(fid: number) {
         },
         take: 1,
         include: {
-          tips: true,
+          tips: {
+            where: {
+              invalidTipReason: null,
+            },
+          },
         },
       },
-      tipsGiven: true,
-      tipsReceived: true,
+      tipsGiven: {
+        where: {
+          invalidTipReason: null,
+        },
+      },
+      tipsReceived: {
+        where: {
+          invalidTipReason: null,
+        },
+      },
       allocations: {
         where: {
           isInvalidated: false,

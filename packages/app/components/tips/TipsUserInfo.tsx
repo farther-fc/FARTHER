@@ -74,7 +74,7 @@ export function TipsUserInfo() {
                   </span>
                 </span>
               </div>
-              <div className="grid grid-cols-[100px_200px] gap-2">
+              <div className="mt-2 grid grid-cols-[100px_200px] gap-2 md:mt-0">
                 <span className="text-muted font-bold md:text-lg">
                   Received
                 </span>
