@@ -21,7 +21,7 @@ export async function getEligibleTippers() {
 
   const eligibleHolders = allHolders.filter(
     (holder) =>
-      BigInt(holder.totalBalance) >
+      BigInt(holder.totalBalance) >=
       BigInt(TIPPER_REQUIRED_FARTHER_BALANCE) * WAD_SCALER,
   );
 

@@ -1,4 +1,11 @@
-import { FartherToken__factory, contractAddresses } from "@farther/common";
+import {
+  DEV_DEPLOYER_ADDRESS,
+  DEV_USER_ADDRESS,
+  FARTHER_OWNER_ADDRESS,
+  FartherToken__factory,
+  GIGAMESH_ADDRESS,
+  contractAddresses,
+} from "@farther/common";
 import { createContainer } from "@lib/context/unstated";
 import { trpcClient } from "@lib/trpcClient";
 import { Address } from "viem";
@@ -30,7 +37,17 @@ export const UserContext = createContainer(function () {
     },
   );
 
+  const isAdmin =
+    account.address &&
+    [
+      FARTHER_OWNER_ADDRESS.toLowerCase(),
+      DEV_USER_ADDRESS.toLowerCase(),
+      GIGAMESH_ADDRESS.toLowerCase(),
+      DEV_DEPLOYER_ADDRESS.toLowerCase(),
+    ].includes(account.address.toLowerCase());
+
   return {
+    isAdmin,
     user,
     userIsLoading: isLoading,
     account,

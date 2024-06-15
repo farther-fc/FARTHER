@@ -1,10 +1,27 @@
 import { Container } from "@components/ui/Container";
 import { LabelValue } from "@components/ui/LabelValue";
+import { useUser } from "@lib/context/UserContext";
 import { trpcClient } from "@lib/trpcClient";
 import { formatWad } from "@lib/utils";
+import { useRouter } from "next/router";
+import React from "react";
 
 function AdminPage() {
-  const { data, isLoading } = trpcClient.admin.getAdminData.useQuery();
+  const { isAdmin, account } = useUser();
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (account.address && !isAdmin) {
+      router.push("/404");
+    }
+  }, [account.address, isAdmin, router]);
+
+  const { data, isLoading } = trpcClient.admin.getAdminData.useQuery(
+    undefined,
+    {
+      enabled: account.address && isAdmin,
+    },
+  );
 
   const { powerUserAllocations, evangelistAllocations } = data || {};
 
@@ -34,7 +51,7 @@ function AdminPage() {
     }
   });
 
-  return (
+  return account.address && isAdmin ? (
     <Container variant="page">
       <div className="content">
         <h1>Admin</h1>
@@ -108,7 +125,7 @@ function AdminPage() {
         />
       </div>
     </Container>
-  );
+  ) : null;
 }
 
 export default AdminPage;

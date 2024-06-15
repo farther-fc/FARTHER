@@ -13,11 +13,7 @@ import { distributeAllowances } from "server/tips/distributeAllowances";
 import { handleTip } from "server/tips/handleTip";
 import { publicGetTipsMeta } from "server/tips/utils/getTipsMeta";
 import { createContext, router } from "server/trpc";
-import {
-  getUser,
-  publicGetUserByAddress,
-  publicGetUserByFid,
-} from "server/user";
+import { getUser } from "server/user";
 
 export const appRouter = router({
   getMerkleProof,
@@ -31,10 +27,10 @@ export const appRouter = router({
     invalidateStaleAllocations,
   }),
   // PUBLIC
-  user: router({
-    byAddress: publicGetUserByAddress,
-    byFid: publicGetUserByFid,
-  }),
+  // user: router({
+  //   byAddress: publicGetUserByAddress,
+  //   byFid: publicGetUserByFid,
+  // }),
   tips: router({
     meta: publicGetTipsMeta,
   }),

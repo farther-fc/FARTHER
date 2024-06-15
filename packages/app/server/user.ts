@@ -10,6 +10,7 @@ import {
   PENDING_TIPS_ALLOCATION_ID,
 } from "@lib/constants";
 import { apiSchemas } from "@lib/types/apiSchemas";
+import * as Sentry from "@sentry/nextjs";
 import _ from "lodash";
 import { publicProcedure } from "server/trpc";
 import { AllocationType, prisma } from "../../backend/src/prisma";
@@ -30,7 +31,21 @@ export const getUser = publicProcedure
 
       fid = user.fid;
 
-      const dbUser = await getDbUserByFid(fid);
+      const latestTipMeta = await prisma.tipMeta.findFirst({
+        orderBy: {
+          createdAt: "desc",
+        },
+        take: 1,
+      });
+
+      if (!latestTipMeta) {
+        Sentry.captureException("latestTipMeta not found in getUser");
+      }
+
+      const dbUser = await getDbUserByFid({
+        fid,
+        latestAllowanceDate: latestTipMeta?.createdAt || new Date(),
+      });
 
       if (!dbUser) {
         await prisma.user.create({
@@ -40,13 +55,6 @@ export const getUser = publicProcedure
 
       const totalTipsReceived =
         dbUser?.tipsReceived.reduce((acc, t) => acc + t.amount, 0) || 0;
-
-      const latestTipMeta = await prisma.tipMeta.findFirst({
-        orderBy: {
-          createdAt: "desc",
-        },
-        take: 1,
-      });
 
       const latestTipsReceived =
         latestTipMeta && dbUser
@@ -134,24 +142,24 @@ export const publicGetUserByFid = publicProcedure
   .query(async (opts) => {
     const fid = opts.input;
 
-    const user = await getDbUserByFid(fid);
+    // const user = await getDbUserByFid({fid});
 
-    const latestTipAllowance = user?.tipAllowances[0];
+    // const latestTipAllowance = user?.tipAllowances[0];
 
-    const tipsGivenAmount =
-      latestTipAllowance?.tips.reduce((acc, t) => acc + t.amount, 0) || 0;
+    // const tipsGivenAmount =
+    //   latestTipAllowance?.tips.reduce((acc, t) => acc + t.amount, 0) || 0;
 
-    return {
-      fid,
-      latestTipAllowance: latestTipAllowance
-        ? {
-            createdAt: latestTipAllowance.createdAt,
-            amount: latestTipAllowance.amount,
-            tipsGiven: latestTipAllowance.tips.length,
-            tipsGivenAmount,
-          }
-        : null,
-    };
+    // return {
+    //   fid,
+    //   latestTipAllowance: latestTipAllowance
+    //     ? {
+    //         createdAt: latestTipAllowance.createdAt,
+    //         amount: latestTipAllowance.amount,
+    //         tipsGiven: latestTipAllowance.tips.length,
+    //         tipsGivenAmount,
+    //       }
+    //     : null,
+    // };
   });
 
 /********************************
@@ -206,17 +214,24 @@ async function getUserFromNeynar(address: string) {
   };
 }
 
-function getDbUserByFid(fid: number) {
+function getDbUserByFid({
+  fid,
+  latestAllowanceDate,
+}: {
+  fid: number;
+  latestAllowanceDate: Date;
+}) {
   return prisma.user.findFirst({
     where: {
       id: fid,
     },
     select: {
       tipAllowances: {
-        orderBy: {
-          createdAt: "desc",
+        where: {
+          createdAt: {
+            gte: latestAllowanceDate,
+          },
         },
-        take: 1,
         include: {
           tips: {
             where: {
