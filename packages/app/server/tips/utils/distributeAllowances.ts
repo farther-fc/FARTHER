@@ -164,9 +164,9 @@ export async function distributeAllowances() {
 
     // Distribute
     const newAllowances = eligibleTippers.map((tipper, i) => {
-      // Round to nearest integer
-      const amount =
-        tipMinimum + (currentWeights[i] / totalWeight) * allowanceRemainder;
+      const amount = Math.floor(
+        tipMinimum + (currentWeights[i] / totalWeight) * allowanceRemainder,
+      );
 
       return {
         userId: tipper.id,

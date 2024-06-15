@@ -37,13 +37,13 @@ export function TipsUserInfo() {
                   Allowance
                 </span>
                 <span className="font-bold md:text-lg">
-                  {user?.tipAllowance?.amount.toLocaleString() || 0} ✨
+                  {allowance.toLocaleString()} ✨
                 </span>
                 <span className="text-muted">Given</span>
                 <span>
                   {spentAllowance.toLocaleString()} ✨{" "}
                   <span className="text-ghost">
-                    ({user?.tipAllowance?.tips.length} tips)
+                    ({user.tipAllowance?.tips.length} tips)
                   </span>
                 </span>
                 <span className="text-muted">Remaining</span>
@@ -54,7 +54,7 @@ export function TipsUserInfo() {
                   Received
                 </span>
                 <span className="font-bold md:text-lg">
-                  {user.latestTipsReceived?.amount.toLocaleString()} ✨{" "}
+                  {user.latestTipsReceived.amount.toLocaleString()} ✨{" "}
                   <span className="text-ghost">
                     ({user.latestTipsReceived.number} tips)
                   </span>

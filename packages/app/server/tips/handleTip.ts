@@ -1,3 +1,4 @@
+import { ENVIRONMENT } from "@farther/common";
 import { createHmac } from "crypto";
 import { publicProcedure } from "server/trpc";
 import { handleTip as handleTipUtil } from "./utils/handleTip";
@@ -31,6 +32,10 @@ function isSignatureValid({
   rawHeaders: string[];
   bodyString: string;
 }) {
+  if (ENVIRONMENT === "development") {
+    return { isValid: true, sig: null };
+  }
+
   const sigKey = rawHeaders.indexOf("x-neynar-signature");
   const sig = sigKey !== -1 ? rawHeaders[sigKey + 1] : null;
 

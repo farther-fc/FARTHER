@@ -29,16 +29,6 @@ export async function handleTip({
 
   const tipAmount = parseFloat(matchingText[0]);
 
-  // Get latest tip allowance
-  const tipAllowance = await prisma.tipAllowance.findFirst({
-    where: {
-      userId: tipper.fid,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
-
   const tipMeta = await prisma.tipMeta.findFirst({
     orderBy: {
       createdAt: "desc",
@@ -49,6 +39,19 @@ export async function handleTip({
   if (!tipMeta) {
     throw new Error("No tip meta found");
   }
+
+  // Get latest tip allowance
+  const tipAllowance = await prisma.tipAllowance.findFirst({
+    where: {
+      userId: tipper.fid,
+      createdAt: {
+        gte: tipMeta.createdAt,
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
 
   const tipMinimum = tipMeta.tipMinimum;
 
@@ -88,6 +91,7 @@ export async function handleTip({
   const tipsSinceAllowance = await prisma.tip.findMany({
     where: {
       tipperId: tipper.fid,
+      invalidTipReason: null,
       createdAt: {
         gte: tipAllowance.createdAt,
       },
