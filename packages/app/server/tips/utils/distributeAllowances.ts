@@ -3,6 +3,7 @@ import { ENVIRONMENT } from "@farther/common";
 import { scaleLinear } from "d3";
 import { DistributeAllowancesError } from "server/errors";
 import { getTipMinimum } from "server/tips/utils/getTipMinimum";
+import { getUniqueTippees } from "server/tips/utils/getUniqueTippees";
 import { getPrice } from "server/token/getPrice";
 import { FIDS_TO_WATCH } from "../agentModeling/config";
 import { dailyTipDistribution } from "./dailyTipDistribution";
@@ -115,8 +116,9 @@ export async function distributeAllowances() {
         : 1;
     } else {
       const prevAllowance = tipper.tipAllowances[0].amount;
-      const uniqueTippees = new Set(tipper.tipsGiven.map((t) => t.tippeeId))
-        .size;
+
+      const uniqueTippees = getUniqueTippees(tipper.tipsGiven);
+
       const prevAllowanceMinusTipMinimum = prevAllowance - previousTipMin;
       const recoveryAdjustment = getRecoveryAdjustment(prevAllowance);
 

@@ -1,6 +1,6 @@
 import { prisma } from "@farther/backend";
 import { TIPPER_REQUIRED_FARTHER_BALANCE, WAD_SCALER } from "@farther/common";
-import { getHolders } from "server/token/getHolders";
+import { getHolders } from "../../token/getHolders";
 
 export async function getEligibleTippers() {
   const prevTipMeta = await prisma.tipMeta.findFirst({
@@ -87,7 +87,7 @@ export async function getExistingTippers() {
   });
 }
 
-function tipperInclude(previousDistributionTime: Date) {
+export function tipperInclude(previousDistributionTime: Date) {
   return {
     tipAllowances: {
       include: {
@@ -104,6 +104,19 @@ function tipperInclude(previousDistributionTime: Date) {
           gte: previousDistributionTime,
         },
         invalidTipReason: null,
+      },
+      include: {
+        tippee: {
+          select: {
+            tipAllowances: {
+              where: {
+                createdAt: {
+                  gte: previousDistributionTime,
+                },
+              },
+            },
+          },
+        },
       },
     },
   } as const;
