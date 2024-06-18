@@ -1,10 +1,11 @@
 import { fetchQuery, init } from "@airstack/node";
+import { TIPPER_REQUIRED_FARTHER_BALANCE, intToBigInt } from "@farther/common";
 import {
-  ENVIRONMENT,
   NEXT_PUBLIC_AIRSTACK_API_KEY,
+  WAD_SCALER,
 } from "@farther/common/src/env";
 import { neynarLimiter } from "@farther/common/src/neynar";
-import { dummyHolders } from "@farther/common/src/onchain/dummyHolders";
+import { writeFileSync } from "fs";
 import { getAllLiqProviderBalances } from "../liquidity/getAllLiqProviderBalances";
 
 init(NEXT_PUBLIC_AIRSTACK_API_KEY);
@@ -16,9 +17,9 @@ init(NEXT_PUBLIC_AIRSTACK_API_KEY);
 export async function getHolders({
   includeLPs,
 }: { includeLPs?: boolean } = {}) {
-  if (ENVIRONMENT === "development") {
-    return dummyHolders;
-  }
+  // if (ENVIRONMENT === "development") {
+  //   return dummyHolders;
+  // }
 
   const balances: { address: string; balance: number }[] = [];
 
@@ -97,6 +98,7 @@ async function attachFids(
 
   for (const addressBalance of addressBalances) {
     const { address, balance } = addressBalance;
+
     const users = neynarResponse[address];
 
     if (!users) {
@@ -116,9 +118,11 @@ async function attachFids(
 
     const existingHolder = holders.find((r) => r.fid === user.fid);
 
+    const bigIntBalance = intToBigInt(balance);
+
     if (existingHolder) {
       existingHolder.totalBalance = (
-        BigInt(existingHolder.totalBalance) + BigInt(balance)
+        BigInt(existingHolder.totalBalance) + bigIntBalance
       ).toString();
       existingHolder.balances.push({ address, balance });
       continue;
@@ -126,7 +130,7 @@ async function attachFids(
 
     holders.push({
       fid: user.fid,
-      totalBalance: BigInt(balance).toString(),
+      totalBalance: bigIntBalance.toString(),
       balances: [{ address, balance }],
     });
   }
@@ -167,13 +171,13 @@ const airstackQuery = (cursor?: string) => `query TokenBalances {
   }
 }`;
 
-// getHolders()
-//   .then((holders) => {
-//     const filteredHolders = holders.filter(
-//       (h) =>
-//         BigInt(h.totalBalance) >=
-//         BigInt(TIPPER_REQUIRED_FARTHER_BALANCE) * WAD_SCALER,
-//     );
-//     console.log(filteredHolders[filteredHolders.length - 1]);
-//   })
-//   .catch(console.error);
+getHolders()
+  .then((holders) => {
+    const filteredHolders = holders.filter(
+      (h) =>
+        BigInt(h.totalBalance) >=
+        BigInt(TIPPER_REQUIRED_FARTHER_BALANCE) * WAD_SCALER,
+    );
+    writeFileSync("holders.json", JSON.stringify(filteredHolders, null, 2));
+  })
+  .catch(console.error);

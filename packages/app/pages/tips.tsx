@@ -1,5 +1,6 @@
 import { TipsUserInfo } from "@components/tips/TipsUserInfo";
 import { Container } from "@components/ui/Container";
+import { ExternalLink } from "@components/ui/ExternalLink";
 import { Popover } from "@components/ui/Popover";
 import { Skeleton } from "@components/ui/Skeleton";
 import Spinner from "@components/ui/Spinner";
@@ -81,11 +82,20 @@ function TipsPage() {
         </p>
         <h4>Additional rules</h4>
         <ul>
-          <li>Self-tips will be rejected</li>
-          <li>Bot farms will be banned</li>
-          <li>Frequently tipping below the minimum will be penalized</li>
+          <li>Self-tips are rejected</li>
           <li>
-            Accounts that tip frequently without an allowance will be banned
+            Any account tipping below the minimum more than 3 times per day on a
+            consistent basis is assumed to be intentionally fake tipping. A
+            warning will be issued, then a ban.
+          </li>
+          <li>
+            Accounts that tip frequently without an allowance will also be
+            warned and banned if it continues.
+          </li>
+          <li>
+            High-volume tip trading will result in a warning and ban if it
+            continues. High volume is defined as 5 or more tip trades per day on
+            a consistent basis.
           </li>
         </ul>
         <div className="mt-12">
@@ -106,6 +116,13 @@ function TipsPage() {
             their allowance by consistently spending all of it every day.
           </p>
         </div>
+        <p className="mt-6">
+          If you're interested in more details, check out the{" "}
+          <ExternalLink href="https://spice-nova-190.notion.site/Farther-Tips-Deep-Dive-6f955b57ca5847229187ba22bf9b7eef">
+            Farther Tips Deep Dive
+          </ExternalLink>
+          .
+        </p>
       </main>
     </Container>
   );

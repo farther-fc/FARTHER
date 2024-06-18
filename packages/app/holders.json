@@ -1,0 +1,1744 @@
+[
+  {
+    "fid": 3741,
+    "totalBalance": "2939508692323646770000000",
+    "balances": [
+      {
+        "address": "0xa8d04cd4e1951291740ef977d56336fdc7f394c5",
+        "balance": 2.88414145414588e+24
+      },
+      {
+        "address": "0xda1bcb25559206b7a38c02b211baed535ddf10a4",
+        "balance": 5.536723817776677e+22
+      }
+    ]
+  },
+  {
+    "fid": 364017,
+    "totalBalance": "1184461321585538100000000",
+    "balances": [
+      {
+        "address": "0x3966e5b5535f3aa6c58c99c27a78f1dce3227988",
+        "balance": 1.1844613215855381e+24
+      }
+    ]
+  },
+  {
+    "fid": 283056,
+    "totalBalance": "1041420041583565500000000",
+    "balances": [
+      {
+        "address": "0x61b04d2b5cb1f1f8505e7b4e1cb3d9e8a0b15bae",
+        "balance": 1.0414200415835655e+24
+      }
+    ]
+  },
+  {
+    "fid": 420229,
+    "totalBalance": "500049981536939040000000",
+    "balances": [
+      {
+        "address": "0x543504622a0b392911621c2a874e3d8f687cdf67",
+        "balance": 5.0004998153693904e+23
+      }
+    ]
+  },
+  {
+    "fid": 4865,
+    "totalBalance": "500000812936431550000000",
+    "balances": [
+      {
+        "address": "0xcf88fa6ee6d111b04be9b06ef6fad6bd6691b88c",
+        "balance": 5.0000081293643155e+23
+      }
+    ]
+  },
+  {
+    "fid": 3263,
+    "totalBalance": "374098549741736900000000",
+    "balances": [
+      {
+        "address": "0x47bbf62c4326eff3353022e7dd1d9caa5bc97841",
+        "balance": 3.740985497417369e+23
+      }
+    ]
+  },
+  {
+    "fid": 296315,
+    "totalBalance": "328398191428148500000000",
+    "balances": [
+      {
+        "address": "0x29ffebd73dd219b601ba99888bb5d16d58eef222",
+        "balance": 3.283981914281485e+23
+      }
+    ]
+  },
+  {
+    "fid": 307568,
+    "totalBalance": "310436849661755840000000",
+    "balances": [
+      {
+        "address": "0xeb6803a087881a0b016e47e18480f5025f62b4c8",
+        "balance": 3.1043684966175584e+23
+      }
+    ]
+  },
+  {
+    "fid": 17356,
+    "totalBalance": "262001795339590660000000",
+    "balances": [
+      {
+        "address": "0xc4f67dea55e19155774dd2c9611738677a687d9a",
+        "balance": 2.6200179533959066e+23
+      }
+    ]
+  },
+  {
+    "fid": 377,
+    "totalBalance": "256984693821110540000000",
+    "balances": [
+      {
+        "address": "0x950615b7fdffb113ba53801ea6129ae7e372558e",
+        "balance": 2.5698469382111054e+23
+      }
+    ]
+  },
+  {
+    "fid": 247143,
+    "totalBalance": "250789792238062160000000",
+    "balances": [
+      {
+        "address": "0x508dd44ff3404e618d430d4562c3773b073a5ccc",
+        "balance": 2.5078979223806216e+23
+      }
+    ]
+  },
+  {
+    "fid": 280660,
+    "totalBalance": "250000000000000000000000",
+    "balances": [
+      {
+        "address": "0xb412f82383d0f9a97e3be04598ea79cd4af96d51",
+        "balance": 2.5e+23
+      }
+    ]
+  },
+  {
+    "fid": 8890,
+    "totalBalance": "241193660382921960000000",
+    "balances": [
+      {
+        "address": "0x1c37ee5b8ba8f018637e7f3f816db2e4add1f56e",
+        "balance": 2.4119366038292196e+23
+      }
+    ]
+  },
+  {
+    "fid": 285998,
+    "totalBalance": "237316615630070620000000",
+    "balances": [
+      {
+        "address": "0xbfdfe0b764bff626ecb1f746242e0ef4f230f8e1",
+        "balance": 2.3731661563007062e+23
+      }
+    ]
+  },
+  {
+    "fid": 365492,
+    "totalBalance": "232364914888153070000000",
+    "balances": [
+      {
+        "address": "0x470a712e7d5ab5f6e06714871bec5468b35863c7",
+        "balance": 2.3236491488815307e+23
+      }
+    ]
+  },
+  {
+    "fid": 396484,
+    "totalBalance": "230191620759911950000000",
+    "balances": [
+      {
+        "address": "0x2c3560a3829d1fc74013fda53294469814dde0dc",
+        "balance": 2.3019162075991195e+23
+      }
+    ]
+  },
+  {
+    "fid": 420359,
+    "totalBalance": "224533039568245860000000",
+    "balances": [
+      {
+        "address": "0xc3d65cf365c6398be4e9812bcd6f67fe5df4b718",
+        "balance": 2.2453303956824586e+23
+      }
+    ]
+  },
+  {
+    "fid": 344019,
+    "totalBalance": "221563901215064220000000",
+    "balances": [
+      {
+        "address": "0xdb1da02237579b1fbbb0a8d71d12585730264d50",
+        "balance": 2.2156390121506422e+23
+      }
+    ]
+  },
+  {
+    "fid": 393348,
+    "totalBalance": "218609171197508940000000",
+    "balances": [
+      {
+        "address": "0x4e4e2198d1fc0069d35cfb5921994638653dc377",
+        "balance": 2.1860917119750894e+23
+      }
+    ]
+  },
+  {
+    "fid": 4253,
+    "totalBalance": "218243270908803240000000",
+    "balances": [
+      {
+        "address": "0x4888c0030b743c17c89a8af875155cf75dcfd1e1",
+        "balance": 2.1824327090880324e+23
+      }
+    ]
+  },
+  {
+    "fid": 17360,
+    "totalBalance": "214350520854942170000000",
+    "balances": [
+      {
+        "address": "0xd984b81f72fb0c8a061d6a4019c6c5201ad9ceec",
+        "balance": 2.1435052085494217e+23
+      }
+    ]
+  },
+  {
+    "fid": 350139,
+    "totalBalance": "212321893253698630000000",
+    "balances": [
+      {
+        "address": "0x9dd7604f02f9ba324f7cea8f08e8a1945165be9f",
+        "balance": 2.1232189325369863e+23
+      }
+    ]
+  },
+  {
+    "fid": 345093,
+    "totalBalance": "206198747817843620000000",
+    "balances": [
+      {
+        "address": "0x8d19ac93ee6cfc696e20776778bab7bb4b435982",
+        "balance": 2.0619874781784362e+23
+      }
+    ]
+  },
+  {
+    "fid": 500256,
+    "totalBalance": "205585104401120280000000",
+    "balances": [
+      {
+        "address": "0x0faeb89c3342dd5d248c1663b757f71a4d43c6a7",
+        "balance": 2.0558510440112028e+23
+      }
+    ]
+  },
+  {
+    "fid": 382384,
+    "totalBalance": "205477351897251220000000",
+    "balances": [
+      {
+        "address": "0x82342b547e15521ec2b166f2f549df1ade5e8b95",
+        "balance": 2.0547735189725122e+23
+      }
+    ]
+  },
+  {
+    "fid": 353956,
+    "totalBalance": "200032738455718600000000",
+    "balances": [
+      {
+        "address": "0x6c584a08058918bf14f9e5292e92d866b437d5fc",
+        "balance": 2.000327384557186e+23
+      }
+    ]
+  },
+  {
+    "fid": 597941,
+    "totalBalance": "200000000000000000000000",
+    "balances": [
+      {
+        "address": "0x324143e84ad529960e28b63eb0de213ddd7b3d95",
+        "balance": 2e+23
+      }
+    ]
+  },
+  {
+    "fid": 423036,
+    "totalBalance": "183507138384481740000000",
+    "balances": [
+      {
+        "address": "0x02d52dc45881d1f6b08d1ab9c196287624e5ffc9",
+        "balance": 1.8350713838448174e+23
+      }
+    ]
+  },
+  {
+    "fid": 418296,
+    "totalBalance": "180000000000000000000000",
+    "balances": [
+      {
+        "address": "0x6538bc9183bd6637e67b28ddb049a768e4ad3ab8",
+        "balance": 1.8e+23
+      }
+    ]
+  },
+  {
+    "fid": 501210,
+    "totalBalance": "178849493353396850000000",
+    "balances": [
+      {
+        "address": "0x523c95b1a42427a222452b5cdfad48a608779996",
+        "balance": 1.7884949335339685e+23
+      }
+    ]
+  },
+  {
+    "fid": 214447,
+    "totalBalance": "177642870266493100000000",
+    "balances": [
+      {
+        "address": "0x4bf88042de0220647acb314af3c5f310aec3bcc0",
+        "balance": 1.776428702664931e+23
+      }
+    ]
+  },
+  {
+    "fid": 308536,
+    "totalBalance": "175000000000000000000000",
+    "balances": [
+      {
+        "address": "0x8a80e1299ee31908fc8f19b5bc409a2e46a0b93b",
+        "balance": 1.75e+23
+      }
+    ]
+  },
+  {
+    "fid": 421000,
+    "totalBalance": "170000231003332940000000",
+    "balances": [
+      {
+        "address": "0xa08d1837f14d1644b5bd2b714377c89d3268cf40",
+        "balance": 1.7000023100333294e+23
+      }
+    ]
+  },
+  {
+    "fid": 410943,
+    "totalBalance": "160723606267931550000000",
+    "balances": [
+      {
+        "address": "0xdcfd02a2ddbc739c34f79da59c0fa99ea7297887",
+        "balance": 1.6072360626793155e+23
+      }
+    ]
+  },
+  {
+    "fid": 334811,
+    "totalBalance": "160000000000000000000000",
+    "balances": [
+      {
+        "address": "0xcf3b35077e9e8a64654b2c0b67cdef5ce2ae34f0",
+        "balance": 1.6e+23
+      }
+    ]
+  },
+  {
+    "fid": 390273,
+    "totalBalance": "159098793790892250000000",
+    "balances": [
+      {
+        "address": "0x810f921c076067e095dc8c3ecb62d5a0b7f25fb3",
+        "balance": 1.5909879379089225e+23
+      }
+    ]
+  },
+  {
+    "fid": 398825,
+    "totalBalance": "158116241863734650000000",
+    "balances": [
+      {
+        "address": "0x6d89cca6469ccd5af68d1c0b5bf7117ae989f356",
+        "balance": 1.5811624186373465e+23
+      }
+    ]
+  },
+  {
+    "fid": 246871,
+    "totalBalance": "156332844009763040000000",
+    "balances": [
+      {
+        "address": "0x5e46a8ecd4f4f0737ad7b7d243e767861885ed06",
+        "balance": 1.5633284400976304e+23
+      }
+    ]
+  },
+  {
+    "fid": 234616,
+    "totalBalance": "156275528586235260000000",
+    "balances": [
+      {
+        "address": "0x19d8da2674e8a025154153297ea3ab918debf96d",
+        "balance": 1.5627552858623526e+23
+      }
+    ]
+  },
+  {
+    "fid": 347364,
+    "totalBalance": "151492068262053400000000",
+    "balances": [
+      {
+        "address": "0x422347ff0b827a43ca4637a48a04b42f469278f4",
+        "balance": 1.514920682620534e+23
+      }
+    ]
+  },
+  {
+    "fid": 462351,
+    "totalBalance": "150921166138757860000000",
+    "balances": [
+      {
+        "address": "0xc7886654b8877356787fb630c8e50414b49e853a",
+        "balance": 1.5092116613875786e+23
+      }
+    ]
+  },
+  {
+    "fid": 264538,
+    "totalBalance": "150602396492385050000000",
+    "balances": [
+      {
+        "address": "0xc750a405983a615c09e52541e3fef805a91f8d15",
+        "balance": 1.5060239649238505e+23
+      }
+    ]
+  },
+  {
+    "fid": 633693,
+    "totalBalance": "147064812469079980000000",
+    "balances": [
+      {
+        "address": "0x08955f36d742547dd02dfa76c0b1bfafde00178e",
+        "balance": 1.4706481246907998e+23
+      }
+    ]
+  },
+  {
+    "fid": 859,
+    "totalBalance": "146945599357792090000000",
+    "balances": [
+      {
+        "address": "0x67f3961d25922673a74f70f7f1a39485e84d9d8e",
+        "balance": 1.4694559935779209e+23
+      }
+    ]
+  },
+  {
+    "fid": 211635,
+    "totalBalance": "145025506517422420000000",
+    "balances": [
+      {
+        "address": "0xb17b3e7910af9d232cb683c083ef73c34521fc8a",
+        "balance": 1.4502550651742242e+23
+      }
+    ]
+  },
+  {
+    "fid": 417418,
+    "totalBalance": "143000000000000000000000",
+    "balances": [
+      {
+        "address": "0xe0fc323e27383142c7b5aa6ff643e7fdad28b093",
+        "balance": 1.43e+23
+      }
+    ]
+  },
+  {
+    "fid": 283144,
+    "totalBalance": "142892974874277000000000",
+    "balances": [
+      {
+        "address": "0xe06383ece7b8bbb6c3f65a95fc2b6450e9077a6c",
+        "balance": 1.42892974874277e+23
+      }
+    ]
+  },
+  {
+    "fid": 644667,
+    "totalBalance": "140601116906060400000000",
+    "balances": [
+      {
+        "address": "0x5dae13017b8f6c29736b4efd4bc4bea7d1057b84",
+        "balance": 1.406011169060604e+23
+      }
+    ]
+  },
+  {
+    "fid": 380660,
+    "totalBalance": "139762681866098700000000",
+    "balances": [
+      {
+        "address": "0xef5c67e6dbb6fd6cfb9c93adbc5801bcfc10c494",
+        "balance": 1.397626818660987e+23
+      }
+    ]
+  },
+  {
+    "fid": 263574,
+    "totalBalance": "138221409613658000000000",
+    "balances": [
+      {
+        "address": "0x5b3cec6a5e219674d4485be572cd3faae338bfc6",
+        "balance": 1.38221409613658e+23
+      }
+    ]
+  },
+  {
+    "fid": 192539,
+    "totalBalance": "137947994322871600000000",
+    "balances": [
+      {
+        "address": "0x90f64e01ffae16490aefe03c8ed7dab6c66198c3",
+        "balance": 1.379479943228716e+23
+      }
+    ]
+  },
+  {
+    "fid": 401174,
+    "totalBalance": "137462926601644300000000",
+    "balances": [
+      {
+        "address": "0xf29b870b073a7114f33bd2bac6739c0057207dc0",
+        "balance": 1.374629266016443e+23
+      }
+    ]
+  },
+  {
+    "fid": 398824,
+    "totalBalance": "136517268921613500000000",
+    "balances": [
+      {
+        "address": "0x453a437a3a8825f2bf5b41b5090956e3a73dd670",
+        "balance": 1.365172689216135e+23
+      }
+    ]
+  },
+  {
+    "fid": 297799,
+    "totalBalance": "130839692102226070000000",
+    "balances": [
+      {
+        "address": "0xa2e9ec27b948d85b11f7935728cb68e11d73d8fd",
+        "balance": 1.3083969210222607e+23
+      }
+    ]
+  },
+  {
+    "fid": 1407,
+    "totalBalance": "126476264014229760000000",
+    "balances": [
+      {
+        "address": "0xafca747b067c40ae0dda3f170ae971a2cbf4d05c",
+        "balance": 1.2647626401422976e+23
+      }
+    ]
+  },
+  {
+    "fid": 14553,
+    "totalBalance": "125750076574599750000000",
+    "balances": [
+      {
+        "address": "0x407425cb78339f5cf3930e2cb26153dd7fd1f739",
+        "balance": 1.2575007657459975e+23
+      }
+    ]
+  },
+  {
+    "fid": 3372,
+    "totalBalance": "125015472278036470000000",
+    "balances": [
+      {
+        "address": "0xa88fe6fa01fcc112bb2164c6e37d63395b923e5f",
+        "balance": 1.2501547227803647e+23
+      }
+    ]
+  },
+  {
+    "fid": 270138,
+    "totalBalance": "124836717686031490000000",
+    "balances": [
+      {
+        "address": "0xe330262ce3b9ae1e58c60d6c60f68d9f3c3776ba",
+        "balance": 1.2483671768603149e+23
+      }
+    ]
+  },
+  {
+    "fid": 323070,
+    "totalBalance": "124303039840637460000000",
+    "balances": [
+      {
+        "address": "0x300db63d96b5b5061560e4f1ba7a04277ba14917",
+        "balance": 1.2430303984063746e+23
+      }
+    ]
+  },
+  {
+    "fid": 322662,
+    "totalBalance": "123123553134726940000000",
+    "balances": [
+      {
+        "address": "0x0045cb2b22bc2615a09a90bda866ff272c893906",
+        "balance": 1.2312355313472694e+23
+      }
+    ]
+  },
+  {
+    "fid": 478311,
+    "totalBalance": "121592401930071180000000",
+    "balances": [
+      {
+        "address": "0xdb81f550a3cff9a28f51ed3c92fa7f44b72082a5",
+        "balance": 1.2159240193007118e+23
+      }
+    ]
+  },
+  {
+    "fid": 13201,
+    "totalBalance": "120000000000185720000000",
+    "balances": [
+      {
+        "address": "0x53240b58cb5f68d555856e5e3e71599599da6fe6",
+        "balance": 1.2000000000018572e+23
+      }
+    ]
+  },
+  {
+    "fid": 3642,
+    "totalBalance": "119938499250701710000000",
+    "balances": [
+      {
+        "address": "0x5d802e2fe48392c104ce0401c7eca8a4456f1f16",
+        "balance": 1.1993849925070171e+23
+      }
+    ]
+  },
+  {
+    "fid": 407704,
+    "totalBalance": "119044442767092530000000",
+    "balances": [
+      {
+        "address": "0x04f344269a9e349f9b9c123570bb78ed28a73e61",
+        "balance": 1.1904444276709253e+23
+      }
+    ]
+  },
+  {
+    "fid": 343324,
+    "totalBalance": "118465238177766770000000",
+    "balances": [
+      {
+        "address": "0x1b17a2656e43c16398a4a407fc38691c61f2db79",
+        "balance": 1.1846523817776677e+23
+      }
+    ]
+  },
+  {
+    "fid": 373242,
+    "totalBalance": "117539628025795950000000",
+    "balances": [
+      {
+        "address": "0x317970b030bd686f855ac72b4d96ec6bc0116a3a",
+        "balance": 1.1753962802579595e+23
+      }
+    ]
+  },
+  {
+    "fid": 302229,
+    "totalBalance": "117047723617389550000000",
+    "balances": [
+      {
+        "address": "0x102ec91ad54c1d006e8c46233e55bd4b6693947e",
+        "balance": 1.1704772361738955e+23
+      }
+    ]
+  },
+  {
+    "fid": 12626,
+    "totalBalance": "115415589152423970000000",
+    "balances": [
+      {
+        "address": "0xae412a9b9ad78c93a0253c86e617bf193bbccacd",
+        "balance": 1.1541558915242397e+23
+      }
+    ]
+  },
+  {
+    "fid": 330083,
+    "totalBalance": "115144298358479220000000",
+    "balances": [
+      {
+        "address": "0xa218e658f1f863147caa781610170f6b5f48de21",
+        "balance": 1.1514429835847922e+23
+      }
+    ]
+  },
+  {
+    "fid": 272116,
+    "totalBalance": "115068764126942950000000",
+    "balances": [
+      {
+        "address": "0xcdb53d17f1b829030b4fe0e3e106c2d4db33ac2a",
+        "balance": 1.1506876412694295e+23
+      }
+    ]
+  },
+  {
+    "fid": 589007,
+    "totalBalance": "113419755892051260000000",
+    "balances": [
+      {
+        "address": "0x3c91058a0a63428620f1b37bc6566416ac618269",
+        "balance": 1.1341975589205126e+23
+      }
+    ]
+  },
+  {
+    "fid": 351103,
+    "totalBalance": "113121501389986730000000",
+    "balances": [
+      {
+        "address": "0xf3f58aaa1ec274de12a3d64a27bc571a6dd3535c",
+        "balance": 1.1312150138998673e+23
+      }
+    ]
+  },
+  {
+    "fid": 388808,
+    "totalBalance": "112042461044579110000000",
+    "balances": [
+      {
+        "address": "0x63f257b7578931b055e15bc2b3e9b2420aff1295",
+        "balance": 1.1204246104457911e+23
+      }
+    ]
+  },
+  {
+    "fid": 377111,
+    "totalBalance": "112022897771107390000000",
+    "balances": [
+      {
+        "address": "0x5ea71d048a4b2676f01b561e87d37d255a774add",
+        "balance": 1.1202289777110739e+23
+      }
+    ]
+  },
+  {
+    "fid": 235795,
+    "totalBalance": "112016131385172440000000",
+    "balances": [
+      {
+        "address": "0x4e73c5717f6d48d06e3b811c6bd37cd2df82f862",
+        "balance": 1.1201613138517244e+23
+      }
+    ]
+  },
+  {
+    "fid": 400821,
+    "totalBalance": "111975940029459934000000",
+    "balances": [
+      {
+        "address": "0x403daa08725aeddd41e26156f9bcebca806b800e",
+        "balance": 1.0337970185169316e+23
+      },
+      {
+        "address": "0xc43e98042c74d1785280ad792ab4d97d56aca07e",
+        "balance": 8.596238177766774e+21
+      }
+    ]
+  },
+  {
+    "fid": 191832,
+    "totalBalance": "110978618994985410000000",
+    "balances": [
+      {
+        "address": "0x98b2e9bb3fea78b6f2bbb2e289dd11012be79c54",
+        "balance": 1.1097861899498541e+23
+      }
+    ]
+  },
+  {
+    "fid": 9138,
+    "totalBalance": "110418071436639830000000",
+    "balances": [
+      {
+        "address": "0xc8763b39629e7043267f1e89c24381a82c5bc7ce",
+        "balance": 1.1041807143663983e+23
+      }
+    ]
+  },
+  {
+    "fid": 462883,
+    "totalBalance": "110000000000000000000000",
+    "balances": [
+      {
+        "address": "0xfb27a5900ed3926b350ac2f0e08b22c10ff8ff0d",
+        "balance": 1.1e+23
+      }
+    ]
+  },
+  {
+    "fid": 442770,
+    "totalBalance": "110000000000000000000000",
+    "balances": [
+      {
+        "address": "0x8e19969e14cb17bc4fe528073cb3b1683cd74740",
+        "balance": 1.1e+23
+      }
+    ]
+  },
+  {
+    "fid": 553958,
+    "totalBalance": "110000000000000000000000",
+    "balances": [
+      {
+        "address": "0x13360af89a758fdd1e3d3dfbd4aa397cb482ffec",
+        "balance": 1.1e+23
+      }
+    ]
+  },
+  {
+    "fid": 437666,
+    "totalBalance": "110000000000000000000000",
+    "balances": [
+      {
+        "address": "0x0ae3513b16ee8730f733fe440925f96beee997b2",
+        "balance": 1.1e+23
+      }
+    ]
+  },
+  {
+    "fid": 4642,
+    "totalBalance": "109301329878430470000000",
+    "balances": [
+      {
+        "address": "0x648abda15186b1e4587722009497c8e3c9242c6b",
+        "balance": 1.0930132987843047e+23
+      }
+    ]
+  },
+  {
+    "fid": 8405,
+    "totalBalance": "108755238177766774000000",
+    "balances": [
+      {
+        "address": "0x07e522bd635710e752343387b006bb7047663d77",
+        "balance": 1e+23
+      },
+      {
+        "address": "0xe0cdfbeaa6964cd87055832cb4ee928450189f31",
+        "balance": 8.755238177766774e+21
+      }
+    ]
+  },
+  {
+    "fid": 279506,
+    "totalBalance": "107822607306448300000000",
+    "balances": [
+      {
+        "address": "0x09c5d970b0c02ccd580add5647b4429ee799164f",
+        "balance": 1.078226073064483e+23
+      }
+    ]
+  },
+  {
+    "fid": 415872,
+    "totalBalance": "107521533493973270000000",
+    "balances": [
+      {
+        "address": "0x5945ae0412583ee89e69761da2589a643fb363b1",
+        "balance": 1.0752153349397327e+23
+      }
+    ]
+  },
+  {
+    "fid": 402682,
+    "totalBalance": "106666742932655120000000",
+    "balances": [
+      {
+        "address": "0x2d2cadf39f7c1856fb15b8cb2d5a39808b2cbd89",
+        "balance": 1.0666674293265512e+23
+      }
+    ]
+  },
+  {
+    "fid": 362962,
+    "totalBalance": "106229501329876300000000",
+    "balances": [
+      {
+        "address": "0xc505797987ae5760460df458f92f06798f6d2f90",
+        "balance": 1.062295013298763e+23
+      }
+    ]
+  },
+  {
+    "fid": 15789,
+    "totalBalance": "106187795467189620000000",
+    "balances": [
+      {
+        "address": "0xabff4e288c3a4bd1d622ac7d6e199e25fb0c561f",
+        "balance": 1.0618779546718962e+23
+      }
+    ]
+  },
+  {
+    "fid": 195394,
+    "totalBalance": "105972645061897000000000",
+    "balances": [
+      {
+        "address": "0x1709b27fe330411a8e23a2cfa71d64c75c04044b",
+        "balance": 1.05972645061897e+23
+      }
+    ]
+  },
+  {
+    "fid": 484256,
+    "totalBalance": "105871297949108030000000",
+    "balances": [
+      {
+        "address": "0x0670303c741a704de90c4264ad6d775116a88a1b",
+        "balance": 1.0587129794910803e+23
+      }
+    ]
+  },
+  {
+    "fid": 445359,
+    "totalBalance": "105674689177766780000000",
+    "balances": [
+      {
+        "address": "0x0b5fa155785fcb3ded40e6e138bededc9df1cfe9",
+        "balance": 1.0567468917776678e+23
+      }
+    ]
+  },
+  {
+    "fid": 304818,
+    "totalBalance": "105623057134548550000000",
+    "balances": [
+      {
+        "address": "0x1c3512e08c1b18bfd41311a06b0977a3f8259140",
+        "balance": 1.0562305713454855e+23
+      }
+    ]
+  },
+  {
+    "fid": 431085,
+    "totalBalance": "105574728340216750000000",
+    "balances": [
+      {
+        "address": "0xee8edcc4b3b4f6f7cfcfb5712d3a421a8e93bbf3",
+        "balance": 1.0557472834021675e+23
+      }
+    ]
+  },
+  {
+    "fid": 265298,
+    "totalBalance": "105287847971693280000000",
+    "balances": [
+      {
+        "address": "0x41ce1392b4d0d1d9651f76e3675189060f8856fe",
+        "balance": 1.0528784797169328e+23
+      }
+    ]
+  },
+  {
+    "fid": 279980,
+    "totalBalance": "105102498253639720000000",
+    "balances": [
+      {
+        "address": "0x6f50f30e148b0aec9a10706b2784fc596136384c",
+        "balance": 1.0510249825363972e+23
+      }
+    ]
+  },
+  {
+    "fid": 378422,
+    "totalBalance": "105000000000000000000000",
+    "balances": [
+      {
+        "address": "0x589a4d21780b2ecf0cfd9bc5faa9b5fca88d7a54",
+        "balance": 1.05e+23
+      }
+    ]
+  },
+  {
+    "fid": 419871,
+    "totalBalance": "105000000000000000000000",
+    "balances": [
+      {
+        "address": "0x7a71f6b57ed7548fe52311272458351289ab27f2",
+        "balance": 1.05e+23
+      }
+    ]
+  },
+  {
+    "fid": 211535,
+    "totalBalance": "104937118345875390000000",
+    "balances": [
+      {
+        "address": "0x7b92ecc28fc91f1875263a8b1bfc707bbbb3bfd9",
+        "balance": 1.0493711834587539e+23
+      }
+    ]
+  },
+  {
+    "fid": 278239,
+    "totalBalance": "104900238177766780000000",
+    "balances": [
+      {
+        "address": "0xb30c415a850477bb86e16410cd30865470ef9165",
+        "balance": 1.0490023817776678e+23
+      }
+    ]
+  },
+  {
+    "fid": 407598,
+    "totalBalance": "103705043313658290000000",
+    "balances": [
+      {
+        "address": "0xfbfbc475813e561810929a8008621aa28043ca61",
+        "balance": 1.0370504331365829e+23
+      }
+    ]
+  },
+  {
+    "fid": 15776,
+    "totalBalance": "103644238177766780000000",
+    "balances": [
+      {
+        "address": "0xc793ee64e6ac6239c527fd041a78a8fcaa245e4f",
+        "balance": 1.0364423817776678e+23
+      }
+    ]
+  },
+  {
+    "fid": 348569,
+    "totalBalance": "103465562572852100000000",
+    "balances": [
+      {
+        "address": "0xacbf5b79db3f441b3e1f0784f419ade0027ed899",
+        "balance": 1.034655625728521e+23
+      }
+    ]
+  },
+  {
+    "fid": 350698,
+    "totalBalance": "102745582463482280000000",
+    "balances": [
+      {
+        "address": "0xbace13d5884e08ed18334b98a902cc3118b036c6",
+        "balance": 1.0274558246348228e+23
+      }
+    ]
+  },
+  {
+    "fid": 389066,
+    "totalBalance": "102712992411722270000000",
+    "balances": [
+      {
+        "address": "0x3d29c1482c224c0fe4b058a3d930a9264dd0a22e",
+        "balance": 1.0271299241172227e+23
+      }
+    ]
+  },
+  {
+    "fid": 590111,
+    "totalBalance": "102389672350195330000000",
+    "balances": [
+      {
+        "address": "0x5cf92efdeb3964c7d5474e2fba28e72b00463a38",
+        "balance": 1.0238967235019533e+23
+      }
+    ]
+  },
+  {
+    "fid": 416361,
+    "totalBalance": "102318280066813470000000",
+    "balances": [
+      {
+        "address": "0x065baf5897ff3d7a020195fa9ce58568defbc9ce",
+        "balance": 1.0231828006681347e+23
+      }
+    ]
+  },
+  {
+    "fid": 353603,
+    "totalBalance": "102251336850552600000000",
+    "balances": [
+      {
+        "address": "0x49e384d87a66fa6b43eb1ca211f6bdbca8264cc3",
+        "balance": 1.022513368505526e+23
+      }
+    ]
+  },
+  {
+    "fid": 278653,
+    "totalBalance": "102074107683648520000000",
+    "balances": [
+      {
+        "address": "0x6e45310b69908a7490ebdbb66601462c8da6e46a",
+        "balance": 1.0207410768364852e+23
+      }
+    ]
+  },
+  {
+    "fid": 401137,
+    "totalBalance": "101991938754993480000000",
+    "balances": [
+      {
+        "address": "0x5bd1e9bea6128076370bbeb9292a103f1c277533",
+        "balance": 1.0199193875499348e+23
+      }
+    ]
+  },
+  {
+    "fid": 4549,
+    "totalBalance": "101806238177766780000000",
+    "balances": [
+      {
+        "address": "0x59ebff2be1e53691e819b953fe215d61135dd05f",
+        "balance": 1.0180623817776678e+23
+      }
+    ]
+  },
+  {
+    "fid": 235799,
+    "totalBalance": "101656470732839220000000",
+    "balances": [
+      {
+        "address": "0xf946c8ab406e7989c7c7e24b857097b16edc5bd8",
+        "balance": 1.0165647073283922e+23
+      }
+    ]
+  },
+  {
+    "fid": 341438,
+    "totalBalance": "101527814406234660000000",
+    "balances": [
+      {
+        "address": "0xe0bb3bfb8750b45fdaf8df7976c296722af370a7",
+        "balance": 1.0152781440623466e+23
+      }
+    ]
+  },
+  {
+    "fid": 408838,
+    "totalBalance": "101431887770379100000000",
+    "balances": [
+      {
+        "address": "0x33d5fa63725fb6b739c96f7e0a62f4f58808f97f",
+        "balance": 1.014318877703791e+23
+      }
+    ]
+  },
+  {
+    "fid": 502822,
+    "totalBalance": "101417748042598190000000",
+    "balances": [
+      {
+        "address": "0xc606aade250e4845e2634baf2c79d0ff3cc3025c",
+        "balance": 1.0141774804259819e+23
+      }
+    ]
+  },
+  {
+    "fid": 224525,
+    "totalBalance": "101347998525936150000000",
+    "balances": [
+      {
+        "address": "0x7a79944ac7e770cfd13ec024a4b31b8c5efee60d",
+        "balance": 1.0134799852593615e+23
+      }
+    ]
+  },
+  {
+    "fid": 388361,
+    "totalBalance": "101337117503683860000000",
+    "balances": [
+      {
+        "address": "0x2c9550f20ec955f06b5caf6fba7ca3be00b7d987",
+        "balance": 1.0133711750368386e+23
+      }
+    ]
+  },
+  {
+    "fid": 570843,
+    "totalBalance": "101242577708534810000000",
+    "balances": [
+      {
+        "address": "0xb120172b46a3dad06d0f815c4ff9d1bb414fee07",
+        "balance": 1.0124257770853481e+23
+      }
+    ]
+  },
+  {
+    "fid": 249332,
+    "totalBalance": "101201607042421870000000",
+    "balances": [
+      {
+        "address": "0x58c7f158b78e896c94c0c9787c8703612e6c496f",
+        "balance": 1.0120160704242187e+23
+      }
+    ]
+  },
+  {
+    "fid": 466111,
+    "totalBalance": "101075039840637450000000",
+    "balances": [
+      {
+        "address": "0xf631eae9033f881a35091f221ac20ee0c6b05310",
+        "balance": 1.0107503984063745e+23
+      }
+    ]
+  },
+  {
+    "fid": 672303,
+    "totalBalance": "101000000000000000000000",
+    "balances": [
+      {
+        "address": "0xa3f5738249ed02c6b3c5d543111b518c31573236",
+        "balance": 1.01e+23
+      }
+    ]
+  },
+  {
+    "fid": 343971,
+    "totalBalance": "101000000000000000000000",
+    "balances": [
+      {
+        "address": "0x8b67305dcd897d380498bf38c9a1992bfafab763",
+        "balance": 1.01e+23
+      }
+    ]
+  },
+  {
+    "fid": 250664,
+    "totalBalance": "101000000000000000000000",
+    "balances": [
+      {
+        "address": "0x70796e8deea0cb8a962917a22c3883f0f595664b",
+        "balance": 1.01e+23
+      }
+    ]
+  },
+  {
+    "fid": 340986,
+    "totalBalance": "100990904844433430000000",
+    "balances": [
+      {
+        "address": "0x897fed9144674e36e49a73c5d4b714183ff5a70e",
+        "balance": 1.0099090484443343e+23
+      }
+    ]
+  },
+  {
+    "fid": 301144,
+    "totalBalance": "100985224089327380000000",
+    "balances": [
+      {
+        "address": "0xbdf82513b977e1bd329d20dac10dbd1a9d86fd4c",
+        "balance": 1.0098522408932738e+23
+      }
+    ]
+  },
+  {
+    "fid": 269405,
+    "totalBalance": "100871361706220720000000",
+    "balances": [
+      {
+        "address": "0x77039399801f462b4ed13444a266b16355c471bf",
+        "balance": 1.0087136170622072e+23
+      }
+    ]
+  },
+  {
+    "fid": 513389,
+    "totalBalance": "100747039840637450000000",
+    "balances": [
+      {
+        "address": "0x6337986bfbce85f742bd1fd5ad9770b8973fe522",
+        "balance": 1.0074703984063745e+23
+      }
+    ]
+  },
+  {
+    "fid": 420601,
+    "totalBalance": "100717862006715300000000",
+    "balances": [
+      {
+        "address": "0x2bf21aea22748cafa8139743bbb2f556d3fdbae0",
+        "balance": 1.007178620067153e+23
+      }
+    ]
+  },
+  {
+    "fid": 192631,
+    "totalBalance": "100695606253639400000000",
+    "balances": [
+      {
+        "address": "0x2b5606fb05188e248373a028ae70a896ed0747a1",
+        "balance": 1.006956062536394e+23
+      }
+    ]
+  },
+  {
+    "fid": 249958,
+    "totalBalance": "100560075382900570000000",
+    "balances": [
+      {
+        "address": "0x495b2fd72a3562b22e8f93d1e7e673273cd7c5f2",
+        "balance": 1.0056007538290057e+23
+      }
+    ]
+  },
+  {
+    "fid": 406171,
+    "totalBalance": "100557193079212340000000",
+    "balances": [
+      {
+        "address": "0x09129f15c61d63c80f3aabcacdea8be078cabe81",
+        "balance": 1.0055719307921234e+23
+      }
+    ]
+  },
+  {
+    "fid": 409573,
+    "totalBalance": "100501289987637270000000",
+    "balances": [
+      {
+        "address": "0x199554ccb0c7e11a8c5275a41f3e61a92c235846",
+        "balance": 1.0050128998763727e+23
+      }
+    ]
+  },
+  {
+    "fid": 276506,
+    "totalBalance": "100500000000000000000000",
+    "balances": [
+      {
+        "address": "0xad3908c6da93adaae576d2fe95001f21396de69c",
+        "balance": 1.005e+23
+      }
+    ]
+  },
+  {
+    "fid": 405729,
+    "totalBalance": "100499885293780580000000",
+    "balances": [
+      {
+        "address": "0x20573df984658e59255fd9f607823a2bc1a3b65b",
+        "balance": 1.0049988529378058e+23
+      }
+    ]
+  },
+  {
+    "fid": 385793,
+    "totalBalance": "100492713949805800000000",
+    "balances": [
+      {
+        "address": "0x8b815e9aba030d13623310c12f2acb93f4e17270",
+        "balance": 1.004927139498058e+23
+      }
+    ]
+  },
+  {
+    "fid": 443863,
+    "totalBalance": "100489211080689930000000",
+    "balances": [
+      {
+        "address": "0xd956fe0b4e5a0f6edf0c91699c5245c961f86371",
+        "balance": 1.0048921108068993e+23
+      }
+    ]
+  },
+  {
+    "fid": 306610,
+    "totalBalance": "100488049664533700000000",
+    "balances": [
+      {
+        "address": "0x9b5546050984fe69ae9cfa57538c83282a3cbce2",
+        "balance": 1.004880496645337e+23
+      }
+    ]
+  },
+  {
+    "fid": 627302,
+    "totalBalance": "100370675218799030000000",
+    "balances": [
+      {
+        "address": "0x4ce0045c67a3ff085be9a9778e00754d0865abcf",
+        "balance": 1.0037067521879903e+23
+      }
+    ]
+  },
+  {
+    "fid": 434983,
+    "totalBalance": "100334000000000000000000",
+    "balances": [
+      {
+        "address": "0x95a1f7b0a97d9e785ba91a228d4bb75467c11291",
+        "balance": 1.00334e+23
+      }
+    ]
+  },
+  {
+    "fid": 326040,
+    "totalBalance": "100283157231792100000000",
+    "balances": [
+      {
+        "address": "0x5243c3faf2fc7909082c857634ad2e61143add49",
+        "balance": 1.002831572317921e+23
+      }
+    ]
+  },
+  {
+    "fid": 391793,
+    "totalBalance": "100264698032786830000000",
+    "balances": [
+      {
+        "address": "0x7450ebbe6dc4946e0da5425ec4712b7523ce04b6",
+        "balance": 1.0026469803278683e+23
+      }
+    ]
+  },
+  {
+    "fid": 365209,
+    "totalBalance": "100243238177766770000000",
+    "balances": [
+      {
+        "address": "0x58ebbdb72cd8bcc07dc5f11ef91f8f67b4e9d054",
+        "balance": 1.0024323817776677e+23
+      }
+    ]
+  },
+  {
+    "fid": 332502,
+    "totalBalance": "100231270903321160000000",
+    "balances": [
+      {
+        "address": "0x8f88644b17433f82cdf2b2e49518038ea694d104",
+        "balance": 1.0023127090332116e+23
+      }
+    ]
+  },
+  {
+    "fid": 15821,
+    "totalBalance": "100176238177766770000000",
+    "balances": [
+      {
+        "address": "0x4c2d965fabf61006cba206e4bb2148b664a66adb",
+        "balance": 1.0017623817776677e+23
+      }
+    ]
+  },
+  {
+    "fid": 352787,
+    "totalBalance": "100128238177766770000000",
+    "balances": [
+      {
+        "address": "0xd04fff37bfefd4b2439322620262a25cc17d0b91",
+        "balance": 1.0012823817776677e+23
+      }
+    ]
+  },
+  {
+    "fid": 373025,
+    "totalBalance": "100126186378549270000000",
+    "balances": [
+      {
+        "address": "0xbc03f695a1f2a03669fca05ee1e7d2ed702f1b28",
+        "balance": 1.0012618637854927e+23
+      }
+    ]
+  },
+  {
+    "fid": 202360,
+    "totalBalance": "100115996152764710000000",
+    "balances": [
+      {
+        "address": "0x1584a79d0a076d980f2defc932d460a77941f673",
+        "balance": 1.0011599615276471e+23
+      }
+    ]
+  },
+  {
+    "fid": 423311,
+    "totalBalance": "100115701934905010000000",
+    "balances": [
+      {
+        "address": "0x2f6c18f621f33dc42209d8cfe4a81ec77bef9466",
+        "balance": 1.0011570193490501e+23
+      }
+    ]
+  },
+  {
+    "fid": 500690,
+    "totalBalance": "100100000000000000000000",
+    "balances": [
+      {
+        "address": "0xb4bdc42b4c37034aefe2cf45a6291edf6fec463e",
+        "balance": 1.001e+23
+      }
+    ]
+  },
+  {
+    "fid": 483322,
+    "totalBalance": "100100000000000000000000",
+    "balances": [
+      {
+        "address": "0x5840c81d7dc225837e895e0a8ca86db59138c167",
+        "balance": 1.001e+23
+      }
+    ]
+  },
+  {
+    "fid": 263309,
+    "totalBalance": "100100000000000000000000",
+    "balances": [
+      {
+        "address": "0x7bf433b1be8f8f35c3a6c19f7921691815d37ff9",
+        "balance": 1.001e+23
+      }
+    ]
+  },
+  {
+    "fid": 500500,
+    "totalBalance": "100088047161808260000000",
+    "balances": [
+      {
+        "address": "0xc73ee6e9bef9ebfad3146c0616087b139247402c",
+        "balance": 1.0008804716180826e+23
+      }
+    ]
+  },
+  {
+    "fid": 389059,
+    "totalBalance": "100059676191548200000000",
+    "balances": [
+      {
+        "address": "0x4cca3f44208bee3c363868471956af0c1e2fff05",
+        "balance": 1.000596761915482e+23
+      }
+    ]
+  },
+  {
+    "fid": 485965,
+    "totalBalance": "100047257890510800000000",
+    "balances": [
+      {
+        "address": "0x58a599f71f4ee4d22fdb546aa3a50e55b94e8e99",
+        "balance": 1.000472578905108e+23
+      }
+    ]
+  },
+  {
+    "fid": 281290,
+    "totalBalance": "100030891771623070000000",
+    "balances": [
+      {
+        "address": "0xc66f19554a41547e8c608427c36cdc1548dd8feb",
+        "balance": 1.0003089177162307e+23
+      }
+    ]
+  },
+  {
+    "fid": 504678,
+    "totalBalance": "100029511074673000000000",
+    "balances": [
+      {
+        "address": "0x1e75550c4a00262fb278a2b9f3c03ec3632a2254",
+        "balance": 1.00029511074673e+23
+      }
+    ]
+  },
+  {
+    "fid": 360623,
+    "totalBalance": "100015278197183410000000",
+    "balances": [
+      {
+        "address": "0x1a3e2847d38cb68bb407a7e6a73a918a58fdcf3a",
+        "balance": 1.0001527819718341e+23
+      }
+    ]
+  },
+  {
+    "fid": 309242,
+    "totalBalance": "100007238177766770000000",
+    "balances": [
+      {
+        "address": "0x9a064a0ef88393662de416a59fa4cbe9f4900fc8",
+        "balance": 1.0000723817776677e+23
+      }
+    ]
+  },
+  {
+    "fid": 507270,
+    "totalBalance": "100006965370938200000000",
+    "balances": [
+      {
+        "address": "0x53c1d2371f59e289c758eaa08aef5948f87177ad",
+        "balance": 1.000069653709382e+23
+      }
+    ]
+  },
+  {
+    "fid": 358833,
+    "totalBalance": "100005000000000000000000",
+    "balances": [
+      {
+        "address": "0x9fd5f6ac3e7f278d727d4cd20bbdcaa6321027eb",
+        "balance": 1.00005e+23
+      }
+    ]
+  },
+  {
+    "fid": 462755,
+    "totalBalance": "100003976436883140000000",
+    "balances": [
+      {
+        "address": "0x5048bf41ea4612f6c68b7d1337570f6193b4ba6e",
+        "balance": 1.0000397643688314e+23
+      }
+    ]
+  },
+  {
+    "fid": 194604,
+    "totalBalance": "100001877140302590000000",
+    "balances": [
+      {
+        "address": "0x8534a1cb741d8a3ae3e1269758f9378766aba99d",
+        "balance": 1.0000187714030259e+23
+      }
+    ]
+  },
+  {
+    "fid": 381536,
+    "totalBalance": "100001000000000000000000",
+    "balances": [
+      {
+        "address": "0x2f9f68831269999e95240e6dbe79e69a198a8ad3",
+        "balance": 1.00001e+23
+      }
+    ]
+  },
+  {
+    "fid": 501832,
+    "totalBalance": "100001000000000000000000",
+    "balances": [
+      {
+        "address": "0x657dfae4cade54b666202ff6955af1d1daf944e9",
+        "balance": 1.00001e+23
+      }
+    ]
+  },
+  {
+    "fid": 414401,
+    "totalBalance": "100001000000000000000000",
+    "balances": [
+      {
+        "address": "0x804bd9fbfd8a759c5fd8e02bc1af5cf9302cee95",
+        "balance": 1.00001e+23
+      }
+    ]
+  },
+  {
+    "fid": 401441,
+    "totalBalance": "100001000000000000000000",
+    "balances": [
+      {
+        "address": "0xf40a1a549bf702b74e70f9e0329db5ccc6839d42",
+        "balance": 1.00001e+23
+      }
+    ]
+  },
+  {
+    "fid": 488178,
+    "totalBalance": "100001000000000000000000",
+    "balances": [
+      {
+        "address": "0x58f1eb47c0885606e708564c52f4eeed54d24f02",
+        "balance": 1.00001e+23
+      }
+    ]
+  },
+  {
+    "fid": 338845,
+    "totalBalance": "100001000000000000000000",
+    "balances": [
+      {
+        "address": "0xdb4548a7e462a9187c2d73be0dea09b82f93b8bf",
+        "balance": 1.00001e+23
+      }
+    ]
+  },
+  {
+    "fid": 391861,
+    "totalBalance": "100000647554967420000000",
+    "balances": [
+      {
+        "address": "0xe1af1126762f05da147c239340b532fa155562e4",
+        "balance": 1.0000064755496742e+23
+      }
+    ]
+  },
+  {
+    "fid": 7418,
+    "totalBalance": "100000059942814020000000",
+    "balances": [
+      {
+        "address": "0x8f791f061d7f36dc07de081ad88f87d71be1585e",
+        "balance": 1.0000005994281402e+23
+      }
+    ]
+  },
+  {
+    "fid": 445210,
+    "totalBalance": "100000000000000000000000",
+    "balances": [
+      {
+        "address": "0xb4b812b6b62822ef0e910b38b7f0761217d53d38",
+        "balance": 1e+23
+      }
+    ]
+  },
+  {
+    "fid": 272717,
+    "totalBalance": "100000000000000000000000",
+    "balances": [
+      {
+        "address": "0x12789c79ad0499cd9b93ae56d402c4ce4840b270",
+        "balance": 1e+23
+      }
+    ]
+  },
+  {
+    "fid": 360262,
+    "totalBalance": "100000000000000000000000",
+    "balances": [
+      {
+        "address": "0x207412225ed2b71f06d339179f888de4ad1a7dbe",
+        "balance": 1e+23
+      }
+    ]
+  }
+]
