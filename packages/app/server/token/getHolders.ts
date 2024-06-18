@@ -1,11 +1,11 @@
 import { fetchQuery, init } from "@airstack/node";
-import { TIPPER_REQUIRED_FARTHER_BALANCE, intToBigInt } from "@farther/common";
+import { intToBigInt } from "@farther/common";
 import {
+  ENVIRONMENT,
   NEXT_PUBLIC_AIRSTACK_API_KEY,
-  WAD_SCALER,
 } from "@farther/common/src/env";
 import { neynarLimiter } from "@farther/common/src/neynar";
-import { writeFileSync } from "fs";
+import { dummyHolders } from "@farther/common/src/onchain/dummyHolders";
 import { getAllLiqProviderBalances } from "../liquidity/getAllLiqProviderBalances";
 
 init(NEXT_PUBLIC_AIRSTACK_API_KEY);
@@ -17,9 +17,9 @@ init(NEXT_PUBLIC_AIRSTACK_API_KEY);
 export async function getHolders({
   includeLPs,
 }: { includeLPs?: boolean } = {}) {
-  // if (ENVIRONMENT === "development") {
-  //   return dummyHolders;
-  // }
+  if (ENVIRONMENT === "development") {
+    return dummyHolders;
+  }
 
   const balances: { address: string; balance: number }[] = [];
 
@@ -171,13 +171,13 @@ const airstackQuery = (cursor?: string) => `query TokenBalances {
   }
 }`;
 
-getHolders()
-  .then((holders) => {
-    const filteredHolders = holders.filter(
-      (h) =>
-        BigInt(h.totalBalance) >=
-        BigInt(TIPPER_REQUIRED_FARTHER_BALANCE) * WAD_SCALER,
-    );
-    writeFileSync("holders.json", JSON.stringify(filteredHolders, null, 2));
-  })
-  .catch(console.error);
+// getHolders()
+//   .then((holders) => {
+//     const filteredHolders = holders.filter(
+//       (h) =>
+//         BigInt(h.totalBalance) >=
+//         BigInt(TIPPER_REQUIRED_FARTHER_BALANCE) * WAD_SCALER,
+//     );
+//     writeFileSync("holders.json", JSON.stringify(filteredHolders, null, 2));
+//   })
+//   .catch(console.error);
