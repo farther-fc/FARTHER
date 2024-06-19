@@ -87,4 +87,4 @@ export const clickIds = {
   tipsUserInfoConnectWallet: "tips-user-info-connect-wallet",
 } as const;
 
-export const POSITIONS_REFRESH_INTERVAL = 3000;
+export const POSITIONS_REFRESH_INTERVAL = 10_000;
