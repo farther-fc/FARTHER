@@ -12,6 +12,7 @@ export function EvangelistRules() {
   return (
     <div>
       <ul>
+        <li>Only one submission per user.</li>
         <li>
           Evangelists must have at least {EVANGELIST_FOLLOWER_MINIMUM} followers
           on Twitter to qualify.

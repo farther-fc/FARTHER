@@ -46,28 +46,35 @@ export const validateTweet = publicProcedure
       },
     });
 
-    // Get user's tweets from the past three days
-    const pastTweets = await prisma.tweet.findMany({
-      where: {
-        allocation: {
-          user: {
-            id: fid,
-          },
-        },
-        createdAt: {
-          gte: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
-        },
-      },
-    });
-
-    if (pastTweets.length >= 1) {
-      response.reason = `Your evangelism is commendable! However, please wait to submit until three days after your latest submission. ❤️`;
+    if (existingTweet) {
+      response.reason = "That tweet was already submitted 😉";
       response.isValid = false;
       return response;
     }
 
-    if (existingTweet) {
-      response.reason = "That tweet was already submitted 😉";
+    // Get user
+    const user = await prisma.user.findFirst({
+      where: {
+        id: fid,
+      },
+      include: {
+        allocations: {
+          where: {
+            type: "EVANGELIST",
+          },
+        },
+      },
+    });
+
+    if (!user) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: `User not found. fid: ${fid}`,
+      });
+    }
+
+    if (user.allocations.length > 0) {
+      response.reason = `Only one tweet submission per user is currently allowed.`;
       response.isValid = false;
       return response;
     }
@@ -98,20 +105,6 @@ export const validateTweet = publicProcedure
       response.reason = `Experienced error while retrieving tweet. This may be an issue with Twitter's API. Please try again in a minute.`;
       response.isValid = false;
       return response;
-    }
-
-    // Get user
-    const user = await prisma.user.findFirst({
-      where: {
-        id: fid,
-      },
-    });
-
-    if (!user) {
-      throw new TRPCError({
-        code: "BAD_REQUEST",
-        message: `User not found. fid: ${fid}`,
-      });
     }
 
     const { isValid, reason } = verifyTweetText({ tweetText, fid: user.id });

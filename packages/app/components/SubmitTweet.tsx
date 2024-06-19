@@ -27,7 +27,7 @@ type FormData = z.infer<typeof FormSchema>;
 export function SubmitTweet() {
   const { closeModal } = useModal();
   const { toast } = useToast();
-  const { user, refetchUser, account } = useUser();
+  const { user, userIsLoading, refetchUser, account } = useUser();
   const logError = useLogError();
   const form = useForm<FormData>({
     defaultValues: {
@@ -149,7 +149,8 @@ export function SubmitTweet() {
           ) : !account.address ? (
             <FormMessage>Please connect your wallet to submit</FormMessage>
           ) : (
-            !user && (
+            !user &&
+            !userIsLoading && (
               <FormMessage className="text-destructive">
                 No Farcaster user found associated with your address
               </FormMessage>

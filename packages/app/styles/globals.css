@@ -8,7 +8,7 @@
 
 @layer base {
   ::selection {
-    @apply bg-white text-sky-700;
+    @apply bg-amber-200 text-sky-700;
   }
 
   :root {

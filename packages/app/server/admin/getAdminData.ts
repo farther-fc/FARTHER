@@ -18,6 +18,7 @@ export const getAdminData = publicProcedure.query(async () => {
         select: {
           id: true,
           reward: true,
+          followerCount: true,
         },
       },
     },
@@ -45,7 +46,7 @@ export const getAdminData = publicProcedure.query(async () => {
   const tips = await prisma.tip.findMany({});
 
   const validTips = tips.filter((t) => !t.invalidTipReason);
-  const tipTotal = tips.reduce((total, tip) => total + tip.amount, 0);
+  const tipTotal = validTips.reduce((total, tip) => total + tip.amount, 0);
   const invalidTipCount = tips.length - validTips.length;
 
   const tipMeta = await prisma.tipMeta.findFirst({
