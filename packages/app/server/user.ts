@@ -11,8 +11,10 @@ import {
 } from "@lib/constants";
 import { apiSchemas } from "@lib/types/apiSchemas";
 import * as Sentry from "@sentry/nextjs";
+import { TRPCError } from "@trpc/server";
 import _ from "lodash";
 import { publicProcedure } from "server/trpc";
+import { isAddress } from "viem";
 import { AllocationType, prisma } from "../../backend/src/prisma";
 
 export const getUser = publicProcedure
@@ -42,9 +44,9 @@ export const getUser = publicProcedure
         Sentry.captureException("latestTipMeta not found in getUser");
       }
 
-      const dbUser = await getDbUserByFid({
+      const dbUser = await getPrivateUser({
         fid,
-        latestAllowanceDate: latestTipMeta?.createdAt || new Date(),
+        latestAllowanceDate: latestTipMeta?.createdAt,
       });
 
       if (!dbUser) {
@@ -133,33 +135,49 @@ export const getUser = publicProcedure
 
 export const publicGetUserByAddress = publicProcedure
   .input(apiSchemas.publicGetUserByAddress.input)
-  .query(async (fid) => {
-    // TODO
+  .query(async (opts) => {
+    const address = opts.input.address.toLowerCase();
+
+    if (!isAddress(address)) {
+      throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid address" });
+    }
+
+    const neynarUserData = await getUserFromNeynar(address);
+
+    if (!neynarUserData) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "No user data returned from Neynar",
+      });
+    }
+
+    const user = await getPublicUser({ fid: neynarUserData.fid });
+
+    if (!user) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "User not found in database",
+      });
+    }
+
+    return prepPublicUser(user);
   });
 
 export const publicGetUserByFid = publicProcedure
   .input(apiSchemas.publicGetUserByFid.input)
   .query(async (opts) => {
-    const fid = opts.input;
+    const fid = opts.input.fid;
 
-    // const user = await getDbUserByFid({fid});
+    const user = await getPublicUser({ fid });
 
-    // const latestTipAllowance = user?.tipAllowances[0];
+    if (!user) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "User not found in database",
+      });
+    }
 
-    // const tipsGivenAmount =
-    //   latestTipAllowance?.tips.reduce((acc, t) => acc + t.amount, 0) || 0;
-
-    // return {
-    //   fid,
-    //   latestTipAllowance: latestTipAllowance
-    //     ? {
-    //         createdAt: latestTipAllowance.createdAt,
-    //         amount: latestTipAllowance.amount,
-    //         tipsGiven: latestTipAllowance.tips.length,
-    //         tipsGivenAmount,
-    //       }
-    //     : null,
-    // };
+    return prepPublicUser(user);
   });
 
 /********************************
@@ -214,18 +232,20 @@ async function getUserFromNeynar(address: string) {
   };
 }
 
-function getDbUserByFid({
+// DB call for non-public API data
+async function getPrivateUser({
   fid,
-  latestAllowanceDate,
+  latestAllowanceDate = new Date(),
 }: {
   fid: number;
-  latestAllowanceDate: Date;
+  latestAllowanceDate?: Date;
 }) {
-  return prisma.user.findFirst({
+  return await prisma.user.findFirst({
     where: {
       id: fid,
     },
     select: {
+      id: true,
       tipAllowances: {
         where: {
           createdAt: {
@@ -276,4 +296,88 @@ function getDbUserByFid({
       },
     },
   });
+}
+
+// DB call for public API data
+async function getPublicUser({ fid }: { fid: number }) {
+  const latestTipMeta = await prisma.tipMeta.findFirst({
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 1,
+  });
+
+  const latestAllowanceDate = latestTipMeta?.createdAt || new Date();
+
+  return await prisma.user.findFirst({
+    where: {
+      id: fid,
+    },
+    select: {
+      id: true,
+      tipAllowances: {
+        where: {
+          createdAt: {
+            gte: latestAllowanceDate,
+          },
+        },
+        include: {
+          tips: {
+            where: {
+              invalidTipReason: null,
+            },
+          },
+        },
+      },
+      tipsGiven: {
+        where: {
+          invalidTipReason: null,
+        },
+      },
+      tipsReceived: {
+        where: {
+          invalidTipReason: null,
+        },
+      },
+      allocations: {
+        where: {
+          isInvalidated: false,
+        },
+        select: {
+          id: true,
+          amount: true,
+          isClaimed: true,
+          index: true,
+          type: true,
+          address: true,
+          airdrop: {
+            select: {
+              id: true,
+              address: true,
+              startTime: true,
+              endTime: true,
+            },
+          },
+        },
+      },
+    },
+  });
+}
+
+function prepPublicUser(
+  user: NonNullable<Awaited<ReturnType<typeof getPublicUser>>>,
+) {
+  return {
+    fid: user.id,
+    tipsTotals: {
+      numberGiven: user.tipsGiven.length,
+      amountGiven: user.tipsGiven.reduce((acc, t) => acc + t.amount, 0),
+      numberReceived: user.tipsReceived.length,
+      amountReceived: user.tipsReceived.reduce((acc, t) => acc + t.amount, 0),
+    },
+    currentTipAllowance: user.tipAllowances[0]
+      ? user.tipAllowances[0].amount
+      : 0,
+    allocations: user.allocations,
+  };
 }

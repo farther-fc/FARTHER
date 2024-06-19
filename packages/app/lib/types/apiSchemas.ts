@@ -26,12 +26,23 @@ export const apiSchemas = {
     }),
   },
   publicGetUserByAddress: {
-    input: z.string().refine(addressValidation, {
-      message: "Invalid address",
+    input: z.object({
+      address: z.string().refine(addressValidation, {
+        message: "Invalid address",
+      }),
     }),
   },
   publicGetUserByFid: {
-    input: z.coerce.number().int().gte(0).lte(100_000_000_000),
+    input: z.object({
+      fid: z.coerce.number().int().gte(0).lte(100_000_000_000),
+    }),
+  },
+  publicGetTipsMeta: {
+    input: z
+      .object({
+        date: z.string().datetime(),
+      })
+      .optional(),
   },
   validateTweet: {
     input: z.object({

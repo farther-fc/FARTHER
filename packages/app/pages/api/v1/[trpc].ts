@@ -13,7 +13,11 @@ import { distributeAllowances } from "server/tips/distributeAllowances";
 import { handleTip } from "server/tips/handleTip";
 import { publicGetTipsMeta } from "server/tips/utils/getTipsMeta";
 import { createContext, router } from "server/trpc";
-import { getUser } from "server/user";
+import {
+  getUser,
+  publicGetUserByAddress,
+  publicGetUserByFid,
+} from "server/user";
 
 export const appRouter = router({
   getMerkleProof,
@@ -26,11 +30,19 @@ export const appRouter = router({
     getAdminData,
     invalidateStaleAllocations,
   }),
-  // PUBLIC
-  // user: router({
-  //   byAddress: publicGetUserByAddress,
-  //   byFid: publicGetUserByFid,
-  // }),
+  public: router({
+    user: router({
+      byAddress: publicGetUserByAddress,
+      byFid: publicGetUserByFid,
+    }),
+    tips: router({
+      meta: publicGetTipsMeta,
+    }),
+    token: router({
+      price: publicGetPrice,
+    }),
+  }),
+  // TODO: remove this after notifying compez.eth
   tips: router({
     meta: publicGetTipsMeta,
   }),
