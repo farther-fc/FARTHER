@@ -72,7 +72,8 @@ const LiquidityContext = createContainer(function () {
 
   const getPendingRewards = React.useCallback(
     async (positions: FartherPositionsQuery["positions"]) => {
-      return await pMap(
+      const pendingRewards = {} as Record<string, bigint>;
+      await pMap(
         positions,
         async (p: (typeof positions)[0]) => {
           try {
@@ -92,10 +93,10 @@ const LiquidityContext = createContainer(function () {
                 BigInt(p.id),
               ],
             });
-            return unclaimedReward;
+            pendingRewards[p.id] = unclaimedReward;
           } catch (e: any) {
             if (e.message?.includes("stake does not exist")) {
-              return BigInt(0);
+              pendingRewards[p.id] = BigInt(0);
             } else {
               throw e;
             }
@@ -103,6 +104,8 @@ const LiquidityContext = createContainer(function () {
         },
         { concurrency: 3 },
       );
+
+      return pendingRewards;
     },
     [],
   );
@@ -111,7 +114,7 @@ const LiquidityContext = createContainer(function () {
     if (!indexerData?.positions.length || !account.address) return;
     try {
       const pendingStakedLiqRewards = await getPendingRewards(
-        indexerData.positions,
+        indexerData.positions.filter((p) => p.isStaked),
       );
 
       const liquidity = await pMap(
@@ -134,7 +137,7 @@ const LiquidityContext = createContainer(function () {
       const sortedPositions = indexerData.positions
         .map((p, i) => ({
           ...p,
-          pendingStakedLiqRewards: pendingStakedLiqRewards[i],
+          pendingStakedLiqRewards: pendingStakedLiqRewards[p.id] || BigInt(0),
           liquidity: liquidity[i],
         }))
         .sort((a, b) => {
@@ -164,7 +167,7 @@ const LiquidityContext = createContainer(function () {
 
       const updatedPositions = positions.map((p, i) => ({
         ...p,
-        pendingStakedLiqRewards: pendingRewards[i],
+        pendingStakedLiqRewards: pendingRewards[p.id] || BigInt(0),
       }));
 
       setPositions(updatedPositions);
