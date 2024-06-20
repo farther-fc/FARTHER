@@ -79,4 +79,14 @@ function ApiDocsPage() {
   );
 }
 
+export function getStaticProps() {
+  return {
+    props: {
+      seo: {
+        title: "API Docs",
+      },
+    },
+  };
+}
+
 export default ApiDocsPage;
