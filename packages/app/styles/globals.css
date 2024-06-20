@@ -375,7 +375,7 @@ h6 {
 }
 
 p {
-  @apply mt-4;
+  @apply my-4;
 }
 
 ol,
@@ -437,6 +437,10 @@ a {
 
 hr {
   @apply my-12 border-ghost;
+}
+
+code {
+  @apply bg-slate-800 block text-slate-200 rounded p-3 overflow-auto;
 }
 
 /* CUSTOM CLASSES */

@@ -6,25 +6,25 @@ export const ROUTES = {
     path: "/user/profile",
     type: "user",
   },
-  airdrop: {
-    title: "Powerdrops",
-    path: "/airdrops",
-    type: "user",
-  },
-  evangelize: {
-    title: "Evangelize",
-    path: "/evangelize",
-    type: "user",
+  tips: {
+    title: "Tips",
+    path: "/tips",
+    type: "feature",
   },
   liquidty: {
     title: "Liquidity",
     path: "/liquidity",
-    type: "user",
+    type: "feature",
   },
-  tips: {
-    title: "Tips",
-    path: "/tips",
-    type: "user",
+  airdrop: {
+    title: "Powerdrops",
+    path: "/airdrops",
+    type: "feature",
+  },
+  evangelize: {
+    title: "Evangelize",
+    path: "/evangelize",
+    type: "feature",
   },
   tokenomics: {
     title: "Tokenomics",
@@ -35,6 +35,11 @@ export const ROUTES = {
     title: "Resources",
     path: "/resources",
     type: "info",
+  },
+  apiDocs: {
+    title: "API Docs",
+    path: "/dev/api",
+    type: "dev",
   },
 } as const;
 

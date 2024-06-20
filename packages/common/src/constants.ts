@@ -53,6 +53,8 @@ if (allocationSum !== TOTAL_TOKEN_SUPPLY) {
 export const FARTHER_OWNER_ADDRESS =
   "0x97e3B75B2eebCC722B504851416e1410B32180a3";
 
+export const FARTHER_OWNER_FID = 429188;
+
 export const DEV_DEPLOYER_ADDRESS =
   "0xca27037ced432fadf54dee9bc210dfd5ab2f13c8";
 export const DEV_USER_ADDRESS = "0x22cb6d209e3d5606ed180bd5ba544622429c47ec";
@@ -213,10 +215,7 @@ export const ROOT_ENDPOINTS = {
   development: "http://localhost:3000",
 } as const;
 
-export const ROOT_ENDPOINT =
-  ROOT_ENDPOINTS[
-    process.env.NEXT_PUBLIC_ENV as "production" | "staging" | "development"
-  ];
+export const ROOT_ENDPOINT = ROOT_ENDPOINTS[ENVIRONMENT];
 
 export const HANDLE_TIP_REGEX =
   ENVIRONMENT === "production"
