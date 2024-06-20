@@ -10,12 +10,13 @@ import {
   PENDING_TIPS_ALLOCATION_ID,
 } from "@lib/constants";
 import { apiSchemas } from "@lib/types/apiSchemas";
+import { User as NeynarUser } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import * as Sentry from "@sentry/nextjs";
 import { TRPCError } from "@trpc/server";
 import _ from "lodash";
 import { publicProcedure } from "server/trpc";
 import { isAddress } from "viem";
-import { AllocationType, prisma } from "../../backend/src/prisma";
+import { AllocationType, TipMeta, prisma } from "../../backend/src/prisma";
 
 export const getUser = publicProcedure
   .input(apiSchemas.getUser.input)
@@ -25,7 +26,7 @@ export const getUser = publicProcedure
     let fid: number;
 
     try {
-      const user = await getUserFromNeynar(address);
+      const user = await getUserFromNeynar({ address });
 
       if (!user) {
         return null;
@@ -70,7 +71,7 @@ export const getUser = publicProcedure
       // If user has a power badge, add this dummy pending allocation for UX purposes
       // (doesn't get added for real until airdrop is created)
       if (
-        user.power_badge &&
+        user.powerBadge &&
         !allocations.find((a) => a.type === AllocationType.POWER_USER)
       ) {
         allocations.push({
@@ -105,10 +106,10 @@ export const getUser = publicProcedure
       return {
         fid: user.fid,
         username: user.username,
-        displayName: user.display_name,
-        pfpUrl: user.pfp_url,
-        powerBadge: user.power_badge,
-        verifiedAddress: user.verified_address,
+        displayName: user.displayName,
+        pfpUrl: user.pfpUrl,
+        powerBadge: user.powerBadge,
+        verifiedAddress: user.verifiedAddresses[0],
         allocations,
         totalTipsReceived: {
           number: dbUser?.tipsReceived.length || 0,
@@ -142,7 +143,7 @@ export const publicGetUserByAddress = publicProcedure
       throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid address" });
     }
 
-    const neynarUserData = await getUserFromNeynar(address);
+    const neynarUserData = await getUserFromNeynar({ address });
 
     if (!neynarUserData) {
       throw new TRPCError({
@@ -151,16 +152,26 @@ export const publicGetUserByAddress = publicProcedure
       });
     }
 
-    const user = await getPublicUser({ fid: neynarUserData.fid });
+    const currentTipMeta = await prisma.tipMeta.findFirst({
+      orderBy: {
+        createdAt: "desc",
+      },
+      take: 1,
+    });
 
-    if (!user) {
+    const dbUser = await getPublicUser({
+      fid: neynarUserData.fid,
+      currentTipMeta,
+    });
+
+    if (!dbUser) {
       throw new TRPCError({
         code: "NOT_FOUND",
         message: "User not found in database",
       });
     }
 
-    return prepPublicUser(user);
+    return prepPublicUser({ dbUser, neynarUserData, currentTipMeta });
   });
 
 export const publicGetUserByFid = publicProcedure
@@ -168,56 +179,96 @@ export const publicGetUserByFid = publicProcedure
   .query(async (opts) => {
     const fid = opts.input.fid;
 
-    const user = await getPublicUser({ fid });
+    const currentTipMeta = await prisma.tipMeta.findFirst({
+      orderBy: {
+        createdAt: "desc",
+      },
+      take: 1,
+    });
 
-    if (!user) {
+    const dbUser = await getPublicUser({ fid, currentTipMeta });
+
+    if (!dbUser) {
       throw new TRPCError({
         code: "NOT_FOUND",
         message: "User not found in database",
       });
     }
 
-    return prepPublicUser(user);
+    const neynarUserData = await getUserFromNeynar({
+      fid,
+    });
+
+    return prepPublicUser({ dbUser, neynarUserData, currentTipMeta });
   });
 
 /********************************
  *          HELPERS
  ********************************/
 
-async function getUserFromNeynar(address: string) {
+async function getUserFromNeynar({
+  address,
+  fid,
+}: {
+  address?: string;
+  fid?: number;
+}) {
+  if (!fid && !address) {
+    throw new Error("Must provide either address or fid");
+  }
+
   if (!isProduction && address === DEV_USER_ADDRESS.toLowerCase()) {
     return {
       fid: DEV_USER_FID,
       username: "testuser",
-      display_name: "Test User",
-      pfp_url:
+      displayName: "Test User",
+      pfpUrl:
         "https://wrpcd.net/cdn-cgi/image/fit=contain,f=auto,w=168/https%3A%2F%2Fi.imgur.com%2F3hrPNK8.jpg",
-      power_badge: false,
-      verified_address: DEV_USER_ADDRESS,
+      powerBadge: false,
+      verifiedAddresses: [DEV_USER_ADDRESS],
     };
   }
 
-  // Get user data from neynar
-  const response = await neynarClient.fetchBulkUsersByEthereumAddress([
-    address,
-  ]);
+  let user: NeynarUser | null = null;
 
-  // Neynar returns weird data structure
-  const rawUserData = response[address] ? response[address] : [];
+  if (address) {
+    // Get user data from neynar
+    const response = await neynarClient.fetchBulkUsersByEthereumAddress([
+      address,
+    ]);
 
-  const powerBadgeFids = await getPowerBadgeFids();
-  const accounts = rawUserData.map((a) => ({
-    ..._.cloneDeep(a),
-    // Need to override Neynar's data because they don't update power badge status frequently
-    power_badge: powerBadgeFids.includes(a.fid),
-  }));
+    // Neynar returns weird data structure
+    const rawUserData = response[address] ? response[address] : [];
 
-  // Sort power users to the top
-  accounts.sort((a, b) => (b.power_badge ? 1 : 0) - (a.power_badge ? 1 : 0));
+    const powerBadgeFids = await getPowerBadgeFids();
+    const accounts = rawUserData.map((a) => ({
+      ..._.cloneDeep(a),
+      // Need to override Neynar's data because they don't update power badge status frequently
+      power_badge: powerBadgeFids.includes(a.fid),
+    }));
 
-  // Take the first one
-  const user = accounts[0];
+    // Sort power users to the top
+    accounts.sort((a, b) => (b.power_badge ? 1 : 0) - (a.power_badge ? 1 : 0));
 
+    // Take the first one
+    user = accounts[0];
+  } else if (fid) {
+    // Get user data from neynar
+    const { users: rawUserData } = await neynarClient.fetchBulkUsers([fid]);
+
+    const powerBadgeFids = await getPowerBadgeFids();
+    const accounts = rawUserData.map((a) => ({
+      ..._.cloneDeep(a),
+      // Need to override Neynar's data because they don't update power badge status frequently
+      power_badge: powerBadgeFids.includes(a.fid),
+    }));
+
+    // Sort power users to the top
+    accounts.sort((a, b) => (b.power_badge ? 1 : 0) - (a.power_badge ? 1 : 0));
+
+    // Take the first one
+    user = accounts[0];
+  }
   if (!user) {
     return null;
   }
@@ -225,10 +276,10 @@ async function getUserFromNeynar(address: string) {
   return {
     fid: user?.fid,
     username: user?.username,
-    display_name: user?.display_name,
-    pfp_url: user?.pfp_url,
-    power_badge: user?.power_badge,
-    verified_address: user?.verified_addresses.eth_addresses[0],
+    displayName: user?.display_name,
+    pfpUrl: user?.pfp_url,
+    powerBadge: user?.power_badge,
+    verifiedAddresses: user?.verified_addresses.eth_addresses,
   };
 }
 
@@ -299,15 +350,14 @@ async function getPrivateUser({
 }
 
 // DB call for public API data
-async function getPublicUser({ fid }: { fid: number }) {
-  const latestTipMeta = await prisma.tipMeta.findFirst({
-    orderBy: {
-      createdAt: "desc",
-    },
-    take: 1,
-  });
-
-  const latestAllowanceDate = latestTipMeta?.createdAt || new Date();
+async function getPublicUser({
+  fid,
+  currentTipMeta,
+}: {
+  fid: number;
+  currentTipMeta: TipMeta | null;
+}) {
+  const currentTipCycleStart = currentTipMeta?.createdAt || new Date();
 
   return await prisma.user.findFirst({
     where: {
@@ -318,7 +368,7 @@ async function getPublicUser({ fid }: { fid: number }) {
       tipAllowances: {
         where: {
           createdAt: {
-            gte: latestAllowanceDate,
+            gte: currentTipCycleStart,
           },
         },
         include: {
@@ -364,20 +414,51 @@ async function getPublicUser({ fid }: { fid: number }) {
   });
 }
 
-function prepPublicUser(
-  user: NonNullable<Awaited<ReturnType<typeof getPublicUser>>>,
-) {
+function prepPublicUser({
+  dbUser,
+  neynarUserData,
+  currentTipMeta,
+}: {
+  dbUser: NonNullable<Awaited<ReturnType<typeof getPublicUser>>>;
+  neynarUserData: Awaited<ReturnType<typeof getUserFromNeynar>>;
+  currentTipMeta: TipMeta | null;
+}) {
+  const latestTipsReceived =
+    currentTipMeta && dbUser
+      ? dbUser?.tipsReceived.filter(
+          (t) => t.createdAt > currentTipMeta.createdAt,
+        )
+      : [];
+
+  const givenAmount = dbUser.tipAllowances[0].tips.reduce(
+    (acc, t) => acc + t.amount,
+    0,
+  );
+  const receivedAmount = latestTipsReceived.reduce(
+    (acc, t) => acc + t.amount,
+    0,
+  );
+  const remainingAllowance = dbUser.tipAllowances[0].amount - givenAmount;
+
   return {
-    fid: user.id,
+    ...neynarUserData,
+    currentTipMeta,
     tipsTotals: {
-      numberGiven: user.tipsGiven.length,
-      amountGiven: user.tipsGiven.reduce((acc, t) => acc + t.amount, 0),
-      numberReceived: user.tipsReceived.length,
-      amountReceived: user.tipsReceived.reduce((acc, t) => acc + t.amount, 0),
+      givenCount: dbUser.tipsGiven.length,
+      givenAmount: dbUser.tipsGiven.reduce((acc, t) => acc + t.amount, 0),
+      receivedCount: dbUser.tipsReceived.length,
+      receivedAmount: dbUser.tipsReceived.reduce((acc, t) => acc + t.amount, 0),
     },
-    currentTipAllowance: user.tipAllowances[0]
-      ? user.tipAllowances[0].amount
-      : 0,
-    allocations: user.allocations,
+    allocations: dbUser.allocations,
+    currentTipAllowance: {
+      createdAt: dbUser.tipAllowances[0].createdAt,
+      allowance: dbUser.tipAllowances[0].amount,
+      userBalance: dbUser.tipAllowances[0].userBalance,
+      givenCount: dbUser.tipAllowances[0].tips.length,
+      givenAmount,
+      remainingAllowance,
+      receivedCount: latestTipsReceived.length,
+      receivedAmount,
+    },
   };
 }

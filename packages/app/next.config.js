@@ -1,3 +1,7 @@
+if (!process.env.SENTRY_AUTH_TOKEN) {
+  throw new Error("SENTRY_AUTH_TOKEN is required");
+}
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -60,15 +64,15 @@ module.exports = nextConfig;
 const { withSentryConfig } = require("@sentry/nextjs");
 
 module.exports = withSentryConfig(
-  module.exports,
+  nextConfig,
   {
     // For all available options, see:
     // https://github.com/getsentry/sentry-webpack-plugin#options
 
     // Suppresses source map uploading logs during build
     silent: true,
-    org: "farther",
-    project: "farther-app",
+    org: "farther-sentry",
+    project: "webapp",
   },
   {
     // For all available options, see:
@@ -94,5 +98,7 @@ module.exports = withSentryConfig(
     // https://docs.sentry.io/product/crons/
     // https://vercel.com/docs/cron-jobs
     automaticVercelMonitors: true,
+
+    authToken: process.env.SENTRY_AUTH_TOKEN,
   },
 );

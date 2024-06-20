@@ -1,4 +1,5 @@
 import { InfoCard } from "@components/InfoCard";
+import { NoUserFoundCard } from "@components/NoUserFoundCard";
 import { Button } from "@components/ui/Button";
 import { Skeleton } from "@components/ui/Skeleton";
 import { clickIds } from "@lib/constants";
@@ -9,7 +10,7 @@ import { useTipsMeta } from "hooks/useTipsMeta";
 
 export function TipsUserInfo() {
   const { createdAt } = useTipsMeta();
-  const { user, userIsLoading } = useUser();
+  const { account, user, userIsLoading } = useUser();
   const { openConnectModal } = useConnectModal();
 
   const allowance = user?.tipAllowance?.amount || 0;
@@ -88,7 +89,7 @@ export function TipsUserInfo() {
             </div>
           </InfoCard>
         </>
-      ) : (
+      ) : !account.address ? (
         <InfoCard className="text-center" variant="ghost">
           <Button
             sentryId={clickIds.tipsUserInfoConnectWallet}
@@ -99,6 +100,8 @@ export function TipsUserInfo() {
           </Button>
           &nbsp; to see your tips info.
         </InfoCard>
+      ) : (
+        <NoUserFoundCard />
       )}
     </>
   );
