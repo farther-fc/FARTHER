@@ -1,4 +1,3 @@
-import { PRICE_REFRESH_TIME } from "@farther/common";
 import * as Sentry from "@sentry/nextjs";
 import * as trpcNext from "@trpc/server/adapters/next";
 import { nodeHTTPFormDataContentTypeHandler } from "@trpc/server/adapters/node-http/content-type/form-data";
@@ -11,7 +10,7 @@ import { validateTweet } from "server/evangelize/validateTweet";
 import { publicGetPrice } from "server/getPrice";
 import { distributeAllowances } from "server/tips/distributeAllowances";
 import { handleTip } from "server/tips/handleTip";
-import { publicGetTipsMeta } from "server/tips/utils/getTipsMeta";
+import { publicGetTipsMeta } from "server/tips/utils/publicGetTipsMeta";
 import { createContext, router } from "server/trpc";
 import {
   getUser,
@@ -78,22 +77,5 @@ export default trpcNext.createNextApiHandler({
         },
       },
     });
-  },
-  responseMeta(opts) {
-    const { ctx, paths, errors, type } = opts;
-    // assuming you have all your public routes with the keyword `public` in them
-    const allPublic = paths && paths.every((path) => path.includes("public"));
-    // checking that no procedures errored
-    const allOk = errors.length === 0;
-    // checking we're doing a query request d
-    const isQuery = type === "query";
-    if (ctx?.res && allPublic && allOk && isQuery) {
-      return {
-        headers: {
-          "cache-control": `s-maxage=${PRICE_REFRESH_TIME}, stale-while-revalidate=1`,
-        },
-      };
-    }
-    return {};
   },
 });

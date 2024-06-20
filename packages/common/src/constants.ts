@@ -196,8 +196,6 @@ export const START_BLOCK = ENVIRONMENT === "staging" ? 13817650 : 13832035;
 
 export const TIP_USD_MINIMUM = 0.5;
 
-export const PRICE_REFRESH_TIME = 20 * 60 * 1000; // 20 minutes
-
 export const INITIAL_ELIGIBLE_TIPPERS =
   ENVIRONMENT !== "development" || Boolean(process.env.PROD_AGENT_MODELING)
     ? 100
@@ -224,3 +222,11 @@ export const HANDLE_TIP_REGEX =
   ENVIRONMENT === "production"
     ? /\d+(\.\d+)?\s*(\$(f|F)(a|A)(r|R)(t|T)(h|H)(e|E)(r|R)|((f|F)(a|A)(r|R)(t|T)(h|H)(e|E)(r|R))|✨)/
     : /\d+(\.\d+)?\s*(\$(f|F)(t|T)(e|E)(s|S)(t|T)|(f|F)(t|T)(e|E)(s|S)(t|T))/;
+
+export const cacheTimes = {
+  PUBLIC_USER: 600,
+  PUBLIC_PRICE: 1200,
+  PUBLIC_TIP_META: 3600,
+} as const;
+
+export const TIP_META_RESET_HOUR = 19;

@@ -1,6 +1,7 @@
 import {
   DEV_USER_ADDRESS,
   DEV_USER_FID,
+  cacheTimes,
   fetchUserByAddress,
   fetchUserByFid,
   getPowerBadgeFids,
@@ -138,6 +139,11 @@ export const getUser = publicProcedure
 export const publicGetUserByAddress = publicProcedure
   .input(apiSchemas.publicGetUserByAddress.input)
   .query(async (opts) => {
+    opts.ctx.res.setHeader(
+      "cache-control",
+      `s-maxage=${cacheTimes.PUBLIC_USER}, stale-while-revalidate=1`,
+    );
+
     const address = opts.input.address.toLowerCase();
 
     if (!isAddress(address)) {
@@ -178,6 +184,11 @@ export const publicGetUserByAddress = publicProcedure
 export const publicGetUserByFid = publicProcedure
   .input(apiSchemas.publicGetUserByFid.input)
   .query(async (opts) => {
+    opts.ctx.res.setHeader(
+      "cache-control",
+      `s-maxage=${cacheTimes.PUBLIC_USER}, stale-while-revalidate=1`,
+    );
+
     const fid = opts.input.fid;
 
     const currentTipMeta = await prisma.tipMeta.findFirst({
@@ -358,7 +369,7 @@ async function getPublicUser({
 }) {
   const currentTipCycleStart = currentTipMeta?.createdAt || new Date();
 
-  return await prisma.user.findFirst({
+  const user = await prisma.user.findFirst({
     where: {
       id: fid,
     },
@@ -411,6 +422,15 @@ async function getPublicUser({
       },
     },
   });
+
+  if (!user) {
+    throw new TRPCError({
+      code: "NOT_FOUND",
+      message: "User not found in database",
+    });
+  }
+
+  return user;
 }
 
 function prepPublicUser({
@@ -418,7 +438,7 @@ function prepPublicUser({
   neynarUserData,
   currentTipMeta,
 }: {
-  dbUser: NonNullable<Awaited<ReturnType<typeof getPublicUser>>>;
+  dbUser: Awaited<ReturnType<typeof getPublicUser>>;
   neynarUserData: Awaited<ReturnType<typeof getUserFromNeynar>>;
   currentTipMeta: TipMeta | null;
 }) {
@@ -429,35 +449,47 @@ function prepPublicUser({
         )
       : [];
 
-  const givenAmount = dbUser.tipAllowances[0].tips.reduce(
-    (acc, t) => acc + t.amount,
-    0,
-  );
+  const latestTipAllowance = dbUser.tipAllowances[0];
+
+  const givenAmount = latestTipAllowance
+    ? latestTipAllowance.tips.reduce((acc, t) => acc + t.amount, 0)
+    : undefined;
+
   const receivedAmount = latestTipsReceived.reduce(
     (acc, t) => acc + t.amount,
     0,
   );
-  const remainingAllowance = dbUser.tipAllowances[0].amount - givenAmount;
+  const remainingAllowance =
+    latestTipAllowance && givenAmount
+      ? latestTipAllowance.amount - givenAmount
+      : undefined;
 
   return {
     ...neynarUserData,
-    currentTipMeta,
-    tipsTotals: {
-      givenCount: dbUser.tipsGiven.length,
-      givenAmount: dbUser.tipsGiven.reduce((acc, t) => acc + t.amount, 0),
-      receivedCount: dbUser.tipsReceived.length,
-      receivedAmount: dbUser.tipsReceived.reduce((acc, t) => acc + t.amount, 0),
+    tips: {
+      totals: {
+        givenCount: dbUser.tipsGiven.length,
+        givenAmount: dbUser.tipsGiven.reduce((acc, t) => acc + t.amount, 0),
+        receivedCount: dbUser.tipsReceived.length,
+        receivedAmount: dbUser.tipsReceived.reduce(
+          (acc, t) => acc + t.amount,
+          0,
+        ),
+      },
+      currentCycle: latestTipAllowance
+        ? {
+            startTime: latestTipAllowance.createdAt,
+            allowance: latestTipAllowance.amount,
+            userBalance: latestTipAllowance.userBalance,
+            givenCount: latestTipAllowance.tips.length,
+            givenAmount,
+            remainingAllowance,
+            receivedCount: latestTipsReceived.length,
+            receivedAmount,
+            tipMinimum: currentTipMeta?.tipMinimum,
+          }
+        : null,
     },
     allocations: dbUser.allocations,
-    currentTipAllowance: {
-      createdAt: dbUser.tipAllowances[0].createdAt,
-      allowance: dbUser.tipAllowances[0].amount,
-      userBalance: dbUser.tipAllowances[0].userBalance,
-      givenCount: dbUser.tipAllowances[0].tips.length,
-      givenAmount,
-      remainingAllowance,
-      receivedCount: latestTipsReceived.length,
-      receivedAmount,
-    },
   };
 }

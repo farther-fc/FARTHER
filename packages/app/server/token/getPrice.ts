@@ -2,9 +2,10 @@ import { prisma } from "@farther/backend";
 import {
   ENVIRONMENT,
   NEXT_PUBLIC_COINGECKO_API_KEY,
-  PRICE_REFRESH_TIME,
   contractAddresses,
 } from "@farther/common";
+
+const PRICE_REFRESH_TIME_MS = 1_200_000; // 20 minutes
 
 export async function getPrice(day?: number) {
   if (
@@ -25,8 +26,10 @@ export async function getPrice(day?: number) {
   // unnecessary database hits.
   if (
     !tokenPrice ||
-    Date.now() - tokenPrice.updatedAt.getTime() > PRICE_REFRESH_TIME
+    Date.now() - tokenPrice.updatedAt.getTime() > PRICE_REFRESH_TIME_MS
   ) {
+    console.info("fetching price from coingecko");
+
     const response = await fetch(
       `https://api.coingecko.com/api/v3/simple/price?ids=farther&vs_currencies=usd&x_cg_demo_api_key=${NEXT_PUBLIC_COINGECKO_API_KEY}`,
     );
