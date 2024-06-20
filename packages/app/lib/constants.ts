@@ -38,7 +38,7 @@ export const ROUTES = {
   },
   apiDocs: {
     title: "API Docs",
-    path: "/dev/api",
+    path: "/docs/api",
     type: "dev",
   },
 } as const;
