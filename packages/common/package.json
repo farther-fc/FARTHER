@@ -33,6 +33,7 @@
     "bottleneck": "^2.19.5",
     "ethers": "^6.11.1",
     "merkletreejs": "^0.3.11",
+    "node-cache": "^5.1.2",
     "ts-node": "^10.9.2",
     "viem": "2.10.2"
   }

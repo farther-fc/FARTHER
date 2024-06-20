@@ -168,9 +168,6 @@ importers:
       next-themes:
         specifier: ^0.2.1
         version: 0.2.1(next@14.2.3)(react-dom@18.2.0)(react@18.2.0)
-      node-cache:
-        specifier: ^5.1.2
-        version: 5.1.2
       node-fetch:
         specifier: ^3.3.2
         version: 3.3.2
@@ -419,6 +416,9 @@ importers:
       merkletreejs:
         specifier: ^0.3.11
         version: 0.3.11
+      node-cache:
+        specifier: ^5.1.2
+        version: 5.1.2
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@20.14.2)(typescript@5.4.5)

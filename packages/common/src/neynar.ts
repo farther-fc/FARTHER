@@ -1,7 +1,10 @@
 import { NeynarAPIClient } from "@neynar/nodejs-sdk";
 import { User } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import Bottleneck from "bottleneck";
+import NodeCache from "node-cache";
 import { chunk } from "underscore";
+
+const cache = new NodeCache({ stdTTL: 60 * 60 });
 
 const NEXT_PUBLIC_NEYNAR_API_KEY = process.env.NEXT_PUBLIC_NEYNAR_API_KEY;
 
@@ -11,7 +14,7 @@ if (!NEXT_PUBLIC_NEYNAR_API_KEY) {
 
 const NEYNAR_DATA_SIZE_LIMIT = 100;
 
-export const neynarClient = new NeynarAPIClient(NEXT_PUBLIC_NEYNAR_API_KEY);
+const neynarClient = new NeynarAPIClient(NEXT_PUBLIC_NEYNAR_API_KEY);
 
 const neynarScheduler = new Bottleneck({
   minTime: 200,
@@ -49,5 +52,43 @@ export const neynarLimiter = {
     );
   },
 };
+
+export async function fetchUserByAddress(address: string) {
+  const key = `address:${address}`;
+
+  const cachedUser = cache.get(key);
+
+  if (cachedUser) {
+    return cachedUser as Awaited<
+      ReturnType<typeof neynarClient.fetchBulkUsersByEthereumAddress>
+    >;
+  }
+
+  const userResponse = await neynarClient.fetchBulkUsersByEthereumAddress([
+    address,
+  ]);
+
+  cache.set(key, userResponse);
+
+  return userResponse;
+}
+
+export async function fetchUserByFid(fid: number) {
+  const key = `fid:${fid}`;
+
+  const cachedUser = cache.get(key);
+
+  if (cachedUser) {
+    return cachedUser as Awaited<
+      ReturnType<typeof neynarClient.fetchBulkUsers>
+    >;
+  }
+
+  const userResponse = await neynarClient.fetchBulkUsers([fid]);
+
+  cache.set(key, userResponse);
+
+  return userResponse;
+}
 
 export type NeynarUser = User;

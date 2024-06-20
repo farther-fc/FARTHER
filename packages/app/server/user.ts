@@ -1,9 +1,10 @@
 import {
   DEV_USER_ADDRESS,
   DEV_USER_FID,
+  fetchUserByAddress,
+  fetchUserByFid,
   getPowerBadgeFids,
   isProduction,
-  neynarClient,
 } from "@farther/common";
 import {
   PENDING_POWER_ALLOCATION_ID,
@@ -233,9 +234,7 @@ async function getUserFromNeynar({
 
   if (address) {
     // Get user data from neynar
-    const response = await neynarClient.fetchBulkUsersByEthereumAddress([
-      address,
-    ]);
+    const response = await fetchUserByAddress(address);
 
     // Neynar returns weird data structure
     const rawUserData = response[address] ? response[address] : [];
@@ -254,7 +253,7 @@ async function getUserFromNeynar({
     user = accounts[0];
   } else if (fid) {
     // Get user data from neynar
-    const { users: rawUserData } = await neynarClient.fetchBulkUsers([fid]);
+    const { users: rawUserData } = await fetchUserByFid(fid);
 
     const powerBadgeFids = await getPowerBadgeFids();
     const accounts = rawUserData.map((a) => ({
