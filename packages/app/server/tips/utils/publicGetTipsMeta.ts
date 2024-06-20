@@ -11,16 +11,14 @@ export const publicGetTipsMeta = publicProcedure
     const utcMinutes = date.getUTCMinutes();
 
     // Reset cache every day at reset hour
-    const cacheDuration =
+    const shouldResetCache =
       utcHours === TIP_META_RESET_HOUR &&
-      // 15 minute window to reset cache
-      utcMinutes < 15
-        ? 0
-        : cacheTimes.PUBLIC_TIP_META;
+      // 30 minute window to reset cache
+      utcMinutes < 30;
 
     opts.ctx.res.setHeader(
       "cache-control",
-      `s-maxage=${cacheDuration}, stale-while-revalidate=1`,
+      `s-maxage=${shouldResetCache ? 0 : cacheTimes.PUBLIC_TIP_META}, stale-while-revalidate=${shouldResetCache ? 0 : 1}`,
     );
 
     const orderBy = {

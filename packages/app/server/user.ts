@@ -462,7 +462,7 @@ function prepPublicUser({
   const remainingAllowance =
     latestTipAllowance && givenAmount
       ? latestTipAllowance.amount - givenAmount
-      : undefined;
+      : 0;
 
   return {
     ...neynarUserData,
