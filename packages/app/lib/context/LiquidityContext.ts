@@ -163,9 +163,11 @@ const LiquidityContext = createContainer(function () {
     if (!positions?.some((p) => p.isStaked)) return;
 
     pollingTimer.current = setTimeout(async () => {
-      const pendingRewards = await getPendingRewards(positions);
+      const pendingRewards = await getPendingRewards(
+        positions.filter((p) => p.isStaked),
+      );
 
-      const updatedPositions = positions.map((p, i) => ({
+      const updatedPositions = positions.map((p) => ({
         ...p,
         pendingStakedLiqRewards: pendingRewards[p.id] || BigInt(0),
       }));
