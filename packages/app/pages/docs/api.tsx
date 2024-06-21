@@ -19,12 +19,7 @@ function ApiDocsPage() {
         <h1>API Docs</h1>
         <p>Query parameters must be stringified and URI encoded. Ex:</p>
         <code>
-          <pre>
-            {`const stringifiedParams = JSON.stringify({ address: "0x1234..." })`}
-            <br />
-            <br />
-            {`const uriEncodedParams = encodeURIComponent(stringifiedParams)`}
-          </pre>
+          <pre>{`const input = encodeURIComponent(JSON.stringify({ address: "0x1234..." }))`}</pre>
         </code>
         <div>
           <hr className="mb-0 mt-10" />
@@ -32,23 +27,33 @@ function ApiDocsPage() {
           <p className="flex justify-between">
             <span>Get user by address</span>
             <ExampleQuery
-              href={`${ROOT_ENDPOINT}/api/v1/public.user.byFid?input=${encodeURIComponent(JSON.stringify({ fid: FARTHER_OWNER_FID }))}`}
+              href={`${ROOT_ENDPOINT}/api/v1/public.user.byFid?input=${encodeURIComponent(JSON.stringify({ address: FARTHER_OWNER_ADDRESS }))}`}
             />
           </p>
           <code>
+            <pre>{`const params = { address: "0x1234..." } `}</pre>
+          </code>
+          <code className="mt-2">
             <pre>
-              {"GET /api/v1/public.user.byAddress?input=<uriEncodedParams>"}
+              {
+                "GET /api/v1/public.user.byAddress?input=<uriEncodedStringifiedParams>"
+              }
             </pre>
           </code>
-          <p className="flex justify-between">
+          <p className="mt-6 flex justify-between">
             <span>Get user by FID</span>
             <ExampleQuery
-              href={`${ROOT_ENDPOINT}/api/v1/public.user.byAddress?input=${encodeURIComponent(JSON.stringify({ address: FARTHER_OWNER_ADDRESS }))}`}
+              href={`${ROOT_ENDPOINT}/api/v1/public.user.byAddress?input=${encodeURIComponent(JSON.stringify({ fid: FARTHER_OWNER_FID }))}`}
             />
           </p>
           <code>
+            <pre>{`const params = { fid: 1234 }`}</pre>
+          </code>
+          <code className="mt-2">
             <pre>
-              {"GET /api/v1/public.user.byFid?input=<uriEncodedParams>"}
+              {
+                "GET /api/v1/public.user.byFid?input=<uriEncodedStringifiedParams>"
+              }
             </pre>
           </code>
         </div>
@@ -61,6 +66,22 @@ function ApiDocsPage() {
           </p>
           <code>
             <pre>{"GET /api/v1/public.tips.meta"}</pre>
+          </code>
+          <p className="mt-6 flex justify-between">
+            <span>Get tip cycle metadata since a given date</span>
+            <ExampleQuery
+              href={`${ROOT_ENDPOINT}/api/v1/public.tips.meta?input=%7B"date":"2024-06-01T19:31:14.333Z"%7D`}
+            />
+          </p>
+          <code>
+            <pre>{`const params = { date: "2024-06-01T19:31:14.333Z" }`}</pre>
+          </code>
+          <code className="mt-2">
+            <pre>
+              {
+                "GET /api/v1/public.tips.meta?input=<uriEncodedStringifiedParams>"
+              }
+            </pre>
           </code>
         </div>
         <div>
