@@ -8,6 +8,8 @@ import { useConnectModal } from "@rainbow-me/rainbowkit";
 import dayjs from "dayjs";
 import { useTipsMeta } from "hooks/useTipsMeta";
 
+export const dynamic = "force-dynamic";
+
 export function TipsUserInfo() {
   const { createdAt } = useTipsMeta();
   const { account, user, userIsLoading } = useUser();
