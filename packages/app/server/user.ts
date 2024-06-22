@@ -453,16 +453,17 @@ function prepPublicUser({
 
   const givenAmount = latestTipAllowance
     ? latestTipAllowance.tips.reduce((acc, t) => acc + t.amount, 0)
-    : undefined;
+    : null;
 
   const receivedAmount = latestTipsReceived.reduce(
     (acc, t) => acc + t.amount,
     0,
   );
+
   const remainingAllowance =
     latestTipAllowance && givenAmount
       ? latestTipAllowance.amount - givenAmount
-      : 0;
+      : null;
 
   return {
     ...neynarUserData,
@@ -476,19 +477,17 @@ function prepPublicUser({
           0,
         ),
       },
-      currentCycle: latestTipAllowance
-        ? {
-            startTime: latestTipAllowance.createdAt,
-            allowance: latestTipAllowance.amount,
-            userBalance: latestTipAllowance.userBalance,
-            givenCount: latestTipAllowance.tips.length,
-            givenAmount,
-            remainingAllowance,
-            receivedCount: latestTipsReceived.length,
-            receivedAmount,
-            tipMinimum: currentTipMeta?.tipMinimum,
-          }
-        : null,
+      currentCycle: {
+        startTime: currentTipMeta ? currentTipMeta.createdAt : null,
+        allowance: latestTipAllowance ? latestTipAllowance.amount : null,
+        userBalance: latestTipAllowance ? latestTipAllowance.userBalance : null,
+        givenCount: latestTipAllowance ? latestTipAllowance.tips.length : null,
+        givenAmount,
+        remainingAllowance,
+        receivedCount: latestTipsReceived.length,
+        receivedAmount,
+        tipMinimum: currentTipMeta?.tipMinimum,
+      },
     },
     allocations: dbUser.allocations,
   };

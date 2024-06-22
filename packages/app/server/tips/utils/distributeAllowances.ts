@@ -18,7 +18,6 @@ const RECOVERY_THRESHOLD = 10;
 const MAX_RECOVERY_ADJUSTMENT_FACTOR = 25;
 
 export async function distributeAllowances() {
-  return;
   const tipsMetas = await prisma.tipMeta.findMany({
     orderBy: {
       createdAt: "desc",
