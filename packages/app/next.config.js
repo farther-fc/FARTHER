@@ -100,5 +100,17 @@ module.exports = withSentryConfig(
     automaticVercelMonitors: true,
 
     authToken: process.env.SENTRY_AUTH_TOKEN,
+
+    headers: () => {
+      return ["/tips", "/user/profile"].map((source) => ({
+        source,
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-store",
+          },
+        ],
+      }));
+    },
   },
 );

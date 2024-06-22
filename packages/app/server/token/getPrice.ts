@@ -22,8 +22,6 @@ export async function getPrice(day?: number) {
   const tokenPrice = await prisma.tokenPrice.findFirst({});
 
   // If stale, fetch from coingecko, store and return that price.
-  // Note: this path is also cached via responseMeta in trpcClient.ts to avoid
-  // unnecessary database hits.
   if (
     !tokenPrice ||
     Date.now() - tokenPrice.updatedAt.getTime() > PRICE_REFRESH_TIME_MS
