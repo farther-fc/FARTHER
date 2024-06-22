@@ -1,6 +1,6 @@
 import {
   experimental_formDataLink,
-  httpBatchLink,
+  httpLink,
   loggerLink,
   splitLink,
 } from "@trpc/client";
@@ -35,7 +35,7 @@ export const trpcClient = createTRPCNext<AppRouter>({
           true: experimental_formDataLink({
             url,
           }),
-          false: httpBatchLink({
+          false: httpLink({
             url,
           }),
         }),
