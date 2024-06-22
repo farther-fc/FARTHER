@@ -80,4 +80,7 @@ export default trpcNext.createNextApiHandler({
       },
     });
   },
+  responseMeta() {
+    return {};
+  },
 });
