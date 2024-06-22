@@ -12,6 +12,8 @@ import dayjs from "dayjs";
 import { useTipsMeta } from "hooks/useTipsMeta";
 import { Info } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 function TipsPage() {
   const { createdAt, tipsMetaLoading, tipMinimum, eligibleTippers } =
     useTipsMeta();
