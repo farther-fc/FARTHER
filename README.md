@@ -1,12 +1,12 @@
 # Farther
 
-Welcome to the [farther.social](farther.social) public repo! Farther is a token community on a mission to accelerate the global adoption of [Farcaster](https://farcaster.xyz/).
+Farther is a token community on a mission to accelerate the global adoption of [Farcaster](https://farcaster.xyz/).
 
-Here you can find the code for the Farther website, backend, and smart contracts.
+Here you can find the code for the [Farther website](farther.social), backend, and smart contracts.
 
 ## Token
 
-The FARTHER token is a utility token that is used to incentivize and reward community members for contributing to the Farther & Farcaster ecosystems.
+The FARTHER token is used to incentivize and reward community members for contributing to the Farther & Farcaster ecosystems.
 
 Learn about the tokenomics here: [farther.social/tokenomics](https://farther.social/tokenomics)
 
