@@ -1,21 +1,28 @@
 import { prisma } from "@farther/backend";
-import {
-  ENVIRONMENT,
-  NEXT_PUBLIC_COINGECKO_API_KEY,
-  contractAddresses,
-} from "@farther/common";
+import { ENVIRONMENT, contractAddresses } from "@farther/common";
+
+if (
+  ENVIRONMENT !== "development" &&
+  !process.env.NEXT_PUBLIC_COINGECKO_API_KEY
+) {
+  throw new Error(
+    "NEXT_PUBLIC_COINGECKO_API_KEY must be set for staing & prod",
+  );
+}
+
+const NEXT_PUBLIC_COINGECKO_API_KEY = process.env.NEXT_PUBLIC_COINGECKO_API_KEY;
+
+const AGENT_MODELING = process.env.AGENT_MODELING;
 
 const PRICE_REFRESH_TIME_MS = 1_200_000; // 20 minutes
 
 export async function getPrice(day?: number) {
-  if (
-    ENVIRONMENT === "development" &&
-    !Boolean(process.env.PROD_AGENT_MODELING)
-  ) {
-    if (typeof day !== "number") {
-      throw new Error("Day is required in development environment");
+  if (ENVIRONMENT === "development" || AGENT_MODELING) {
+    if (AGENT_MODELING && typeof day !== "number") {
+      throw new Error("Day is required when agent modeling");
     }
-    return { usd: 0.003 * 1.05 ** day };
+
+    return { usd: 0.003 * 1.05 ** (day || 1) };
   }
 
   // Get price from database

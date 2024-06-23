@@ -229,7 +229,7 @@ async function getUserFromNeynar({
     throw new Error("Must provide either address or fid");
   }
 
-  if (!isProduction && address === DEV_USER_ADDRESS.toLowerCase()) {
+  if (!isProduction) {
     return {
       fid: DEV_USER_FID,
       username: "testuser",

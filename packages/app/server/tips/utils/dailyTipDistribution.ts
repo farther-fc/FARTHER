@@ -6,8 +6,7 @@ import {
 
 export function dailyTipDistribution({
   totalDays = TIPS_DURATION_DAYS,
-  totalAmount = ENVIRONMENT === "development" &&
-  !Boolean(process.env.PROD_AGENT_MODELING)
+  totalAmount = ENVIRONMENT === "development" && !process.env.AGENT_MODELING
     ? 10_000_000
     : tokenAllocations.tips,
   currentDay,

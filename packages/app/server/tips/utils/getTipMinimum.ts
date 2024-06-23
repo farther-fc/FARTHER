@@ -13,10 +13,7 @@ export async function getTipMinimumDev(day?: number) {
 }
 
 export async function getTipMinimum(day?: number) {
-  if (
-    ENVIRONMENT === "development" &&
-    !Boolean(process.env.PROD_AGENT_MODELING)
-  ) {
+  if (ENVIRONMENT === "development" && !process.env.AGENT_MODELING) {
     return await getTipMinimumDev(day);
   }
 

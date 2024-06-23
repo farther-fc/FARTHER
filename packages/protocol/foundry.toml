@@ -9,7 +9,6 @@ sepolia = "${SEPOLIA_RPC_URL}"
 base = "${NEXT_PUBLIC_BASE_RPC_URL}"
 
 [etherscan]
-# sepolia = { key = "${ETHERSCAN_API_KEY}", chain = 11155111, url = "https://api-sepolia.etherscan.io/api"  }
 base = { key = "${BASESCAN_API_KEY}", chain = 8453, url = "https://api.basescan.org/api"  }
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options

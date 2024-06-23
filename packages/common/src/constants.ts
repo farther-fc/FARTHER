@@ -199,9 +199,7 @@ export const START_BLOCK = ENVIRONMENT === "staging" ? 13817650 : 13832035;
 export const TIP_USD_MINIMUM = 0.5;
 
 export const INITIAL_ELIGIBLE_TIPPERS =
-  ENVIRONMENT !== "development" || Boolean(process.env.PROD_AGENT_MODELING)
-    ? 100
-    : 10;
+  ENVIRONMENT !== "development" || process.env.AGENT_MODELING ? 100 : 10;
 
 export const TIPPER_REQUIRED_FARTHER_BALANCE = 100_000;
 

@@ -36,20 +36,6 @@ if (!process.env.NEXT_PUBLIC_BASE_RPC_URL) {
   throw new Error("NEXT_PUBLIC_BASE_RPC_URL is not set");
 }
 
-if (!process.env.NEXT_PUBLIC_AIRSTACK_API_KEY) {
-  throw new Error("NEXT_PUBLIC_AIRSTACK_API_KEY is not set");
-}
-
-export const NEXT_PUBLIC_AIRSTACK_API_KEY =
-  process.env.NEXT_PUBLIC_AIRSTACK_API_KEY;
-
-if (!process.env.NEXT_PUBLIC_COINGECKO_API_KEY) {
-  throw new Error("NEXT_PUBLIC_COINGECKO_API_KEY is not set");
-}
-
-export const NEXT_PUBLIC_COINGECKO_API_KEY =
-  process.env.NEXT_PUBLIC_COINGECKO_API_KEY;
-
 export const NEXT_PUBLIC_BASE_RPC_URL = process.env.NEXT_PUBLIC_BASE_RPC_URL;
 
 export const chainIds = {

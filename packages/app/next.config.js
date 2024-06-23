@@ -1,5 +1,8 @@
-if (!process.env.SENTRY_AUTH_TOKEN) {
-  throw new Error("SENTRY_AUTH_TOKEN is required");
+if (
+  process.env.NEXT_PUBLIC_ENVIRONMENT !== "development" &&
+  !process.env.SENTRY_AUTH_TOKEN
+) {
+  throw new Error("SENTRY_AUTH_TOKEN is required for staging & prod");
 }
 
 /** @type {import('next').NextConfig} */

@@ -16,6 +16,7 @@ import { getEarliestStart } from "@lib/getEarliestStart";
 import { useQuery } from "@tanstack/react-query";
 import { useLogError } from "hooks/useLogError";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/router";
 import pMap from "p-map";
 import React from "react";
 import { Address } from "viem";
@@ -29,7 +30,11 @@ export type Position = FartherPositionsQuery["positions"][number] & {
 
 const sdk = getBuiltGraphSDK();
 
+const PATHS: string[] = [ROUTES.liquidty.path, ROUTES.profile.path];
+
 const LiquidityContext = createContainer(function () {
+  const router = useRouter();
+  const isValidPath = PATHS.includes(router.pathname);
   const pollingTimer = React.useRef<NodeJS.Timeout>();
   const { account, user } = useUser();
   const [positions, setPositions] = React.useState<Position[]>();
@@ -46,7 +51,7 @@ const LiquidityContext = createContainer(function () {
     functionName: "rewards",
     args: [contractAddresses.FARTHER, account.address as Address],
     query: {
-      enabled: !!account.address,
+      enabled: isValidPath && !!account.address,
     },
   });
   const {
@@ -63,7 +68,7 @@ const LiquidityContext = createContainer(function () {
         poolId: contractAddresses.UNIV3_FARTHER_ETH_30BPS_POOL,
       });
     },
-    enabled: !!account.address,
+    enabled: isValidPath && !!account.address,
   });
 
   const indexerDataLoading =

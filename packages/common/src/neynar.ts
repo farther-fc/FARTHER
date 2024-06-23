@@ -3,23 +3,38 @@ import { User } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import Bottleneck from "bottleneck";
 import NodeCache from "node-cache";
 import { chunk } from "underscore";
+import { ENVIRONMENT } from "./env";
 
 const cache = new NodeCache({ stdTTL: 60 * 60 });
 
-const NEXT_PUBLIC_NEYNAR_API_KEY = process.env.NEXT_PUBLIC_NEYNAR_API_KEY;
-
-if (!NEXT_PUBLIC_NEYNAR_API_KEY) {
-  throw new Error("NEXT_PUBLIC_NEYNAR_API_KEY is not set");
-}
-
 const NEYNAR_DATA_SIZE_LIMIT = 100;
 
-const neynarClient = new NeynarAPIClient(NEXT_PUBLIC_NEYNAR_API_KEY);
+const NEXT_PUBLIC_NEYNAR_API_KEY = process.env.NEXT_PUBLIC_NEYNAR_API_KEY || "";
 
 const neynarScheduler = new Bottleneck({
   minTime: 200,
   maxConcurrent: 3,
 });
+
+let neynarClient: NeynarAPIClient;
+
+try {
+  if (ENVIRONMENT !== "development" && !NEXT_PUBLIC_NEYNAR_API_KEY) {
+    throw new Error(
+      "NEXT_PUBLIC_NEYNAR_API_KEY must be set for non-development environments",
+    );
+  }
+
+  neynarClient = new NeynarAPIClient(NEXT_PUBLIC_NEYNAR_API_KEY);
+} catch (e: any) {
+  if (
+    !e.message.includes(
+      "Attempt to use an authenticated API method without first providing an api key",
+    )
+  ) {
+    console.error(e);
+  }
+}
 
 export const neynarLimiter = {
   async getUsersByFid(fids: number[]) {

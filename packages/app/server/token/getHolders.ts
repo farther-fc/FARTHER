@@ -1,14 +1,9 @@
 import { fetchQuery, init } from "@airstack/node";
 import { intToBigInt } from "@farther/common";
-import {
-  ENVIRONMENT,
-  NEXT_PUBLIC_AIRSTACK_API_KEY,
-} from "@farther/common/src/env";
+import { ENVIRONMENT } from "@farther/common/src/env";
 import { neynarLimiter } from "@farther/common/src/neynar";
 import { dummyHolders } from "@farther/common/src/onchain/dummyHolders";
 import { getAllLiqProviderBalances } from "../liquidity/getAllLiqProviderBalances";
-
-init(NEXT_PUBLIC_AIRSTACK_API_KEY);
 
 /**
  *
@@ -20,6 +15,12 @@ export async function getHolders({
   if (ENVIRONMENT === "development") {
     return dummyHolders;
   }
+
+  if (!process.env.NEXT_PUBLIC_AIRSTACK_API_KEY) {
+    throw new Error("NEXT_PUBLIC_AIRSTACK_API_KEY is not set");
+  }
+
+  init(process.env.NEXT_PUBLIC_AIRSTACK_API_KEY);
 
   const balances: { address: string; balance: number }[] = [];
 

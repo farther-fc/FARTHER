@@ -1,12 +1,17 @@
 import { prisma } from "@farther/backend";
-import { neynarLimiter } from "@farther/common";
+import { ENVIRONMENT, neynarLimiter } from "@farther/common";
 import NodeCache from "node-cache";
+import { leaderboardDummyData } from "server/tips/dummyData/leaderboard";
 import { adminProcedure, publicProcedure } from "server/trpc";
 
 const key = `TIPS_LEADERBOARD`;
 const cache = new NodeCache({ stdTTL: 24 * 60 * 60 }); // 24 hours
 
 export const tipsLeaderboard = publicProcedure.query(async () => {
+  if (ENVIRONMENT === "development") {
+    return leaderboardDummyData;
+  }
+
   const cachedLeaderboard = cache.get(key);
 
   if (cachedLeaderboard) {
