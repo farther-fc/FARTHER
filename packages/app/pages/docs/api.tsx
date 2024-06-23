@@ -27,7 +27,7 @@ function ApiDocsPage() {
           <p className="flex justify-between">
             <span>Get user by address</span>
             <ExampleQuery
-              href={`${ROOT_ENDPOINT}/api/v1/public.user.byFid?input=${encodeURIComponent(JSON.stringify({ address: FARTHER_OWNER_ADDRESS }))}`}
+              href={`${ROOT_ENDPOINT}/api/v1/public.user.byAddress?input=${encodeURIComponent(JSON.stringify({ address: FARTHER_OWNER_ADDRESS }))}`}
             />
           </p>
           <code>
@@ -43,7 +43,7 @@ function ApiDocsPage() {
           <p className="mt-6 flex justify-between">
             <span>Get user by FID</span>
             <ExampleQuery
-              href={`${ROOT_ENDPOINT}/api/v1/public.user.byAddress?input=${encodeURIComponent(JSON.stringify({ fid: FARTHER_OWNER_FID }))}`}
+              href={`${ROOT_ENDPOINT}/api/v1/public.user.byFid?input=${encodeURIComponent(JSON.stringify({ fid: FARTHER_OWNER_FID }))}`}
             />
           </p>
           <code>
