@@ -4,10 +4,6 @@ import { generateCronJob } from "./generateCronJob";
 
 const ENV = defineString("NEXT_PUBLIC_ENVIRONMENT");
 
-// exports.invalidateStaleAllocations = functions.pubsub
-//   .schedule("0 2 * * *")
-//   .onRun(generateCronJob("invalidateStaleAllocations"));
-
 exports.distributeAllowances = functions
   .runWith({
     // 9 minutes (max)

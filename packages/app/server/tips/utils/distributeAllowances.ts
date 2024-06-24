@@ -2,6 +2,7 @@ import { prisma } from "@farther/backend";
 import { ENVIRONMENT } from "@farther/common";
 import { scaleLinear } from "d3";
 import { DistributeAllowancesError } from "server/errors";
+import { flushLeaderboardCache } from "server/tips/tipsLeaderboard";
 import { getTipMinimum } from "server/tips/utils/getTipMinimum";
 import { getUniqueTippees } from "server/tips/utils/getUniqueTippees";
 import { getPrice } from "server/token/getPrice";
@@ -182,4 +183,6 @@ export async function distributeAllowances() {
       data: newAllowances,
     });
   });
+
+  await flushLeaderboardCache();
 }

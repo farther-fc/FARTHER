@@ -73,6 +73,12 @@ function ApiDocsPage() {
               href={`${ROOT_ENDPOINT}/api/v1/public.tips.meta?input=%7B"date":"2024-06-01T19:31:14.333Z"%7D`}
             />
           </p>
+          <p className="mt-6 flex justify-between">
+            <span>Get all tips allowances</span>
+            <ExampleQuery
+              href={`${ROOT_ENDPOINT}/api/v1/public.tips.meta?input=%7B"date":"2024-06-01T19:31:14.333Z"%7D`}
+            />
+          </p>
           <code>
             <pre>{`const params = { date: "2024-06-01T19:31:14.333Z" }`}</pre>
           </code>

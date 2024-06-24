@@ -2,7 +2,7 @@ import { prisma } from "@farther/backend";
 import { ENVIRONMENT, neynarLimiter } from "@farther/common";
 import NodeCache from "node-cache";
 import { leaderboardDummyData } from "server/tips/dummyData/leaderboard";
-import { adminProcedure, publicProcedure } from "server/trpc";
+import { publicProcedure } from "server/trpc";
 
 const key = `TIPS_LEADERBOARD`;
 const cache = new NodeCache({ stdTTL: 24 * 60 * 60 }); // 24 hours
@@ -29,10 +29,9 @@ export const tipsLeaderboard = publicProcedure.query(async () => {
   return leaderboardData;
 });
 
-export const flushLeaderboardCache = adminProcedure.query(async () => {
+export const flushLeaderboardCache = () => {
   cache.flushAll();
-  return true;
-});
+};
 
 async function getLeaderboardData() {
   const currentTipMeta = await prisma.tipMeta.findFirst({
@@ -40,22 +39,36 @@ async function getLeaderboardData() {
       createdAt: "desc",
     },
     take: 1,
-    include: {
-      allowances: {
-        include: {
-          user: {
-            select: {
-              id: true,
-              tipsReceived: {
-                where: {
-                  invalidTipReason: null,
-                },
-              },
-            },
-          },
+  });
+
+  if (!currentTipMeta) {
+    return [];
+  }
+
+  const tippers = await prisma.user.findMany({
+    where: {
+      tipsGiven: {
+        some: {
+          invalidTipReason: null,
+        },
+      },
+      tipAllowances: {
+        some: {
+          tipMetaId: currentTipMeta.id,
+        },
+      },
+    },
+    select: {
+      id: true,
+      tipAllowances: {
+        orderBy: {
+          createdAt: "desc",
+        },
+        select: {
+          amount: true,
           tips: {
-            where: {
-              invalidTipReason: null,
+            select: {
+              amount: true,
             },
           },
         },
@@ -63,29 +76,30 @@ async function getLeaderboardData() {
     },
   });
 
-  if (!currentTipMeta) {
-    return [];
-  }
+  const userData = await neynarLimiter.getUsersByFid(tippers.map((t) => t.id));
 
-  const userData = await neynarLimiter.getUsersByFid(
-    currentTipMeta.allowances.map((a) => a.user.id),
-  );
-
-  return currentTipMeta.allowances.map((a, i) => ({
-    fid: a.user.id,
+  return tippers.map((tipper, i) => ({
+    fid: tipper.id,
     displayName: userData[i].display_name,
     pfpUrl: userData[i].pfp_url,
     username: userData[i].username,
     powerBadge: userData[i].power_badge,
-    tips: {
-      allowance: a.amount,
-      givenCount: a.tips.length,
-      givenAmount: a.tips.reduce((acc, tip) => acc + tip.amount, 0),
-      receivedCount: a.user.tipsReceived.length,
-      receivedAmount: a.user.tipsReceived.reduce(
-        (acc, tip) => acc + tip.amount,
+    currentAllowance: tipper.tipAllowances[0].amount,
+    totalAllowance: Math.round(
+      tipper.tipAllowances.reduce(
+        (acc, allowance) => acc + allowance.amount,
         0,
       ),
-    },
+    ),
+    totalGivenCount: tipper.tipAllowances.reduce(
+      (acc, ta) => acc + ta.tips.length,
+      0,
+    ),
+    totalGivenAmount: Math.round(
+      tipper.tipAllowances.reduce(
+        (acc, ta) => acc + ta.tips.reduce((acc, tip) => acc + tip.amount, 0),
+        0,
+      ),
+    ),
   }));
 }
