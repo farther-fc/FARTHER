@@ -159,12 +159,7 @@ export const publicGetUserByAddress = publicProcedure
       });
     }
 
-    const currentTipMeta = await prisma.tipMeta.findFirst({
-      orderBy: {
-        createdAt: "desc",
-      },
-      take: 1,
-    });
+    const currentTipMeta = await getCurrentTipMeta();
 
     const dbUser = await getPublicUser({
       fid: neynarUserData.fid,
@@ -191,12 +186,7 @@ export const publicGetUserByFid = publicProcedure
 
     const fid = opts.input.fid;
 
-    const currentTipMeta = await prisma.tipMeta.findFirst({
-      orderBy: {
-        createdAt: "desc",
-      },
-      take: 1,
-    });
+    const currentTipMeta = await getCurrentTipMeta();
 
     const dbUser = await getPublicUser({ fid, currentTipMeta });
 
@@ -440,7 +430,7 @@ function prepPublicUser({
 }: {
   dbUser: Awaited<ReturnType<typeof getPublicUser>>;
   neynarUserData: Awaited<ReturnType<typeof getUserFromNeynar>>;
-  currentTipMeta: TipMeta | null;
+  currentTipMeta: Awaited<ReturnType<typeof getCurrentTipMeta>>;
 }) {
   const latestTipsReceived =
     currentTipMeta && dbUser
@@ -487,8 +477,25 @@ function prepPublicUser({
         receivedCount: latestTipsReceived.length,
         receivedAmount,
         tipMinimum: currentTipMeta?.tipMinimum,
+        eligibleTippers: currentTipMeta?._count.allowances,
       },
     },
     allocations: dbUser.allocations,
   };
+}
+
+async function getCurrentTipMeta() {
+  return await prisma.tipMeta.findFirst({
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 1,
+    include: {
+      _count: {
+        select: {
+          allowances: true,
+        },
+      },
+    },
+  });
 }
