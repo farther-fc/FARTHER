@@ -83,6 +83,15 @@ function ApiDocsPage() {
               }
             </pre>
           </code>
+          <p className="mt-6 flex justify-between">
+            <span>Get tips leaderboard</span>
+            <ExampleQuery
+              href={`${ROOT_ENDPOINT}/api/v1/public.tips.leaderboard`}
+            />
+          </p>
+          <code className="mt-2">
+            <pre>{"GET /api/v1/public.tips.leaderboard"}</pre>
+          </code>
         </div>
         <div>
           <hr className="mb-0 mt-10" />
