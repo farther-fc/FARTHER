@@ -35,9 +35,9 @@ export const UserContext = createContainer(function () {
     isLoading,
     refetch,
   } = trpcClient.getUser.useQuery(
-    { address: "0x29ffebd73dd219b601ba99888bb5d16d58eef222" as Address },
+    { address: account.address as Address },
     {
-      enabled: !!"0x29ffebd73dd219b601ba99888bb5d16d58eef222",
+      enabled: !!account.address,
     },
   );
 
