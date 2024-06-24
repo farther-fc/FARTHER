@@ -1,4 +1,4 @@
-import "./assertLocalhost";
+import "@farther/common/src/assertLocalhost";
 
 import { execSync } from "child_process";
 

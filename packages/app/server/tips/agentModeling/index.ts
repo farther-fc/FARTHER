@@ -1,4 +1,4 @@
-import "../../scripts/assertLocalhost";
+import "@farther/common/src/assertLocalhost";
 
 import { prisma } from "@farther/backend";
 import { TIPS_DURATION_DAYS } from "@farther/common";
