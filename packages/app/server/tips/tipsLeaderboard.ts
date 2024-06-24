@@ -7,7 +7,7 @@ import { publicProcedure } from "server/trpc";
 const key = `TIPS_LEADERBOARD`;
 const cache = new NodeCache({ stdTTL: 24 * 60 * 60 }); // 24 hours
 
-export const tipsLeaderboard = publicProcedure.query(async () => {
+export const publicTipsLeaderboard = publicProcedure.query(async () => {
   if (ENVIRONMENT === "development") {
     return leaderboardDummyData;
   }
@@ -28,10 +28,6 @@ export const tipsLeaderboard = publicProcedure.query(async () => {
 
   return leaderboardData;
 });
-
-export const flushLeaderboardCache = () => {
-  cache.flushAll();
-};
 
 async function getLeaderboardData() {
   const currentTipMeta = await prisma.tipMeta.findFirst({
@@ -103,3 +99,7 @@ async function getLeaderboardData() {
     ),
   }));
 }
+
+export const flushLeaderboardCache = () => {
+  cache.flushAll();
+};

@@ -2,7 +2,7 @@ import { Container } from "@components/ui/Container";
 import { trpcClient } from "@lib/trpcClient";
 
 function TipsLeaderboardPage() {
-  const { data, isLoading } = trpcClient.tips.leaderboard.useQuery();
+  const { data, isLoading } = trpcClient.public.tips.leaderboard.useQuery();
 
   console.log(data);
 

@@ -11,7 +11,7 @@ import { publicGetPrice } from "server/getPrice";
 import { distributeAllowances } from "server/tips/distributeAllowances";
 import { handleTip } from "server/tips/handleTip";
 import { publicGetTipsMeta } from "server/tips/publicGetTipsMeta";
-import { tipsLeaderboard } from "server/tips/tipsLeaderboard";
+import { publicTipsLeaderboard } from "server/tips/tipsLeaderboard";
 import { createContext, router } from "server/trpc";
 import {
   getUser,
@@ -37,18 +37,11 @@ export const appRouter = router({
     }),
     tips: router({
       meta: publicGetTipsMeta,
+      leaderboard: publicTipsLeaderboard,
     }),
     token: router({
       price: publicGetPrice,
     }),
-  }),
-  // TODO: remove this after notifying compez.eth
-  tips: router({
-    meta: publicGetTipsMeta,
-    leaderboard: tipsLeaderboard,
-  }),
-  token: router({
-    price: publicGetPrice,
   }),
 });
 
