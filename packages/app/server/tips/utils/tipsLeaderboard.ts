@@ -1,34 +1,35 @@
 import { prisma } from "@farther/backend";
 import { ENVIRONMENT, neynarLimiter } from "@farther/common";
-import NodeCache from "node-cache";
-import { leaderboardDummyData } from "../dummyData/leaderboard";
+import { kv } from "@vercel/kv";
+import { leaderboardDummyData } from "server/tips/dummyData/leaderboard";
 
 const key = `TIPS_LEADERBOARD`;
-const cache = new NodeCache({ stdTTL: 24 * 60 * 60 }); // 24 hours
+
+const ONE_DAY = 24 * 60 * 60;
 
 export async function tipsLeaderboard() {
-  if (ENVIRONMENT === "development") {
-    return leaderboardDummyData;
-  }
-
-  const cachedLeaderboard = cache.get(key);
+  const cachedLeaderboard =
+    await kv.get<Awaited<ReturnType<typeof getLeaderboardData>>>(key);
 
   if (cachedLeaderboard) {
     console.info("Cache hit for leaderboard data");
 
-    return cachedLeaderboard as Awaited<ReturnType<typeof getLeaderboardData>>;
+    return cachedLeaderboard;
   }
 
   console.info("Cache miss for leaderboard data");
 
   const leaderboardData = await getLeaderboardData();
 
-  cache.set(key, leaderboardData);
+  kv.set(key, leaderboardData, { ex: ONE_DAY });
 
   return leaderboardData;
 }
 
 async function getLeaderboardData() {
+  if (ENVIRONMENT === "development") {
+    return leaderboardDummyData;
+  }
   const currentTipMeta = await prisma.tipMeta.findFirst({
     orderBy: {
       createdAt: "desc",
@@ -104,5 +105,5 @@ async function getLeaderboardData() {
 }
 
 export const flushLeaderboardCache = () => {
-  cache.flushAll();
+  kv.flushall();
 };

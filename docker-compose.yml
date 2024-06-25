@@ -10,3 +10,19 @@ services:
       - POSTGRES_USER=vitalik
       - POSTGRES_PASSWORD=buterin
       - POSTGRES_DB=farther_db
+
+  # This is the redis server that the serverless-redis-http server will connect to
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+  # This is the serverless router that allows the Vercel KV libraries to send queries to the redis server above (redis:6379)
+  # https://github.com/vercel/storage/issues/281#issuecomment-2067729077
+  serverless-redis-http:
+    ports:
+      - "8079:80"
+    image: hiett/serverless-redis-http:latest
+    environment:
+      SRH_MODE: env
+      SRH_TOKEN: KV_REST_API_TOKEN
+      SRH_CONNECTION_STRING: "redis://redis:6379" # Using `redis` hostname since they're in the same Docker network.

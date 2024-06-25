@@ -10,8 +10,11 @@ import { validateTweet } from "server/evangelize/validateTweet";
 import { publicGetPrice } from "server/getPrice";
 import { distributeAllowances } from "server/tips/distributeAllowances";
 import { handleTip } from "server/tips/handleTip";
+import {
+  flushLeaderboard,
+  publicTipsLeaderboard,
+} from "server/tips/leaderboard";
 import { publicGetTipsMeta } from "server/tips/publicGetTipsMeta";
-import { publicTipsLeaderboard } from "server/tips/publicTipsLeaderboard";
 import { createContext, router } from "server/trpc";
 import {
   getUser,
@@ -29,6 +32,7 @@ export const appRouter = router({
     distributeAllowances,
     getAdminData,
     invalidateStaleAllocations,
+    flushLeaderboard,
   }),
   public: router({
     user: router({
