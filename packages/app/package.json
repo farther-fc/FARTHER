@@ -48,6 +48,7 @@
     "@trpc/next": "11.0.0-next-beta.228",
     "@trpc/react-query": "11.0.0-next-beta.228",
     "@trpc/server": "11.0.0-next-beta.228",
+    "@vercel/kv": "^2.0.0",
     "@wagmi/core": "^2.6.9",
     "abitype": "^1.0.2",
     "axios": "^1.6.8",
