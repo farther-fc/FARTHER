@@ -1,6 +1,6 @@
 import { keccak256, toBytes } from "viem";
 
-export function dummyCast({
+export function createDummyCast({
   tipperFid,
   tippeeFid,
   amount,

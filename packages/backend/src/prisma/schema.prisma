@@ -51,6 +51,7 @@ model Allocation {
   address String?
 
   tweets Tweet[]
+  tips   Tip[]
 
   @@unique([userId, airdropId])
 }
@@ -117,6 +118,8 @@ model Tip {
   tipAllowance     TipAllowance      @relation(fields: [tipAllowanceId], references: [id])
   amount           Float
   invalidTipReason InvalidTipReason?
+  allocationId     String?
+  allocation       Allocation?       @relation(fields: [allocationId], references: [id])
 }
 
 enum InvalidTipReason {

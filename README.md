@@ -1,8 +1,10 @@
 # Farther
 
+**[farther.social](https://farther.social)**
+
 Farther is a token community on a mission to accelerate the global adoption of [Farcaster](https://farcaster.xyz/).
 
-Here you can find the code for the [Farther website](farther.social), backend, and smart contracts.
+Here you can find the code for the Farther website, backend, and smart contracts.
 
 ## Token
 

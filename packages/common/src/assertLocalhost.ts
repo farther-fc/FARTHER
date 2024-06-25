@@ -11,5 +11,5 @@ const DATABASE_URL = new URL(process.env.DATABASE_URL);
 assert(
   DATABASE_URL.hostname === "localhost" ||
     DATABASE_URL.hostname === "127.0.0.1",
-  "This can only be executed on a localhost database"
+  "This can only be executed on a localhost database",
 );

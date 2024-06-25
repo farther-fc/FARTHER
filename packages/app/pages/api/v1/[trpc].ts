@@ -11,7 +11,7 @@ import { publicGetPrice } from "server/getPrice";
 import { distributeAllowances } from "server/tips/distributeAllowances";
 import { handleTip } from "server/tips/handleTip";
 import { publicGetTipsMeta } from "server/tips/publicGetTipsMeta";
-import { publicTipsLeaderboard } from "server/tips/tipsLeaderboard";
+import { publicTipsLeaderboard } from "server/tips/publicTipsLeaderboard";
 import { createContext, router } from "server/trpc";
 import {
   getUser,
