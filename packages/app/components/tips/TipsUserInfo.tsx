@@ -18,11 +18,6 @@ export function TipsUserInfo() {
     user?.tipAllowance?.tips.reduce((acc, t) => t.amount + acc, 0) || 0;
   const remainingAllowance = allowance - spentAllowance;
 
-  console.log({
-    spentAllowance,
-    tipsGiven: user?.tipAllowance?.tips.map((t) => t.amount),
-  });
-
   return (
     <>
       {userIsLoading ? (
