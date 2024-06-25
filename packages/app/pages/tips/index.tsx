@@ -61,7 +61,6 @@ function TipsPage() {
           (capitalization and spaces are ignored):
         </p>
         <ul>
-          <li>{`42069✨`}</li>
           <li>{`42069 farther`}</li>
           <li>{`42069 $farther`}</li>
         </ul>
