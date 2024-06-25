@@ -16,6 +16,7 @@ import { User as NeynarUser } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import * as Sentry from "@sentry/nextjs";
 import { TRPCError } from "@trpc/server";
 import _ from "lodash";
+import { tipsLeaderboard } from "server/tips/utils/tipsLeaderboard";
 import { publicProcedure } from "server/trpc";
 import { isAddress } from "viem";
 import { AllocationType, TipMeta, prisma } from "../../backend/src/prisma";
@@ -173,7 +174,7 @@ export const publicGetUserByAddress = publicProcedure
       });
     }
 
-    return prepPublicUser({ dbUser, neynarUserData, currentTipMeta });
+    return await prepPublicUser({ dbUser, neynarUserData, currentTipMeta });
   });
 
 export const publicGetUserByFid = publicProcedure
@@ -201,7 +202,7 @@ export const publicGetUserByFid = publicProcedure
       fid,
     });
 
-    return prepPublicUser({ dbUser, neynarUserData, currentTipMeta });
+    return await prepPublicUser({ dbUser, neynarUserData, currentTipMeta });
   });
 
 /********************************
@@ -423,7 +424,7 @@ async function getPublicUser({
   return user;
 }
 
-function prepPublicUser({
+async function prepPublicUser({
   dbUser,
   neynarUserData,
   currentTipMeta,
@@ -432,6 +433,8 @@ function prepPublicUser({
   neynarUserData: Awaited<ReturnType<typeof getUserFromNeynar>>;
   currentTipMeta: Awaited<ReturnType<typeof getCurrentTipMeta>>;
 }) {
+  const leaderboard = await tipsLeaderboard();
+
   const latestTipsReceived =
     currentTipMeta && dbUser
       ? dbUser?.tipsReceived.filter(
@@ -458,6 +461,7 @@ function prepPublicUser({
   return {
     ...neynarUserData,
     tips: {
+      rank: leaderboard.findIndex((u) => u.fid === dbUser.id) + 1,
       totals: {
         givenCount: dbUser.tipsGiven.length,
         givenAmount: dbUser.tipsGiven.reduce((acc, t) => acc + t.amount, 0),

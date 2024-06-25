@@ -1,13 +1,12 @@
 import { prisma } from "@farther/backend";
 import { ENVIRONMENT, neynarLimiter } from "@farther/common";
 import NodeCache from "node-cache";
-import { leaderboardDummyData } from "../../server/tips/dummyData/leaderboard";
-import { publicProcedure } from "../../server/trpc";
+import { leaderboardDummyData } from "../dummyData/leaderboard";
 
 const key = `TIPS_LEADERBOARD`;
 const cache = new NodeCache({ stdTTL: 24 * 60 * 60 }); // 24 hours
 
-export const publicTipsLeaderboard = publicProcedure.query(async () => {
+export async function tipsLeaderboard() {
   if (ENVIRONMENT === "development") {
     return leaderboardDummyData;
   }
@@ -27,7 +26,7 @@ export const publicTipsLeaderboard = publicProcedure.query(async () => {
   cache.set(key, leaderboardData);
 
   return leaderboardData;
-});
+}
 
 async function getLeaderboardData() {
   const currentTipMeta = await prisma.tipMeta.findFirst({
@@ -74,7 +73,7 @@ async function getLeaderboardData() {
 
   const userData = await neynarLimiter.getUsersByFid(tippers.map((t) => t.id));
 
-  return tippers.map((tipper, i) => ({
+  const leaderboardData = tippers.map((tipper, i) => ({
     fid: tipper.id,
     displayName: userData[i].display_name,
     pfpUrl: userData[i].pfp_url,
@@ -98,6 +97,10 @@ async function getLeaderboardData() {
       ),
     ),
   }));
+
+  leaderboardData.sort((a, b) => b.totalGivenAmount - a.totalGivenAmount);
+
+  return leaderboardData;
 }
 
 export const flushLeaderboardCache = () => {

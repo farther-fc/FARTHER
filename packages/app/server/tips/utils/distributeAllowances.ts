@@ -1,10 +1,10 @@
 import { prisma } from "@farther/backend";
 import { scaleLinear } from "d3";
-import { DistributeAllowancesError } from "../../../server/errors";
-import { flushLeaderboardCache } from "../../../server/tips/tipsLeaderboard";
-import { getTipMinimum } from "../../../server/tips/utils/getTipMinimum";
-import { getUniqueTippees } from "../../../server/tips/utils/getUniqueTippees";
-import { getPrice } from "../../../server/token/getPrice";
+import { DistributeAllowancesError } from "../../errors";
+import { getTipMinimum } from "../../tips/utils/getTipMinimum";
+import { getUniqueTippees } from "../../tips/utils/getUniqueTippees";
+import { flushLeaderboardCache } from "../../tips/utils/tipsLeaderboard";
+import { getPrice } from "../../token/getPrice";
 import { dailyTipDistribution } from "./dailyTipDistribution";
 import { getEligibleTippers, getExistingTippers } from "./getEligibleTippers";
 
