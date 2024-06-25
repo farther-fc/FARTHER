@@ -1,12 +1,10 @@
 import { prisma } from "@farther/backend";
-import { ENVIRONMENT } from "@farther/common";
 import { scaleLinear } from "d3";
 import { DistributeAllowancesError } from "../../../server/errors";
 import { flushLeaderboardCache } from "../../../server/tips/tipsLeaderboard";
 import { getTipMinimum } from "../../../server/tips/utils/getTipMinimum";
 import { getUniqueTippees } from "../../../server/tips/utils/getUniqueTippees";
 import { getPrice } from "../../../server/token/getPrice";
-import { FIDS_TO_WATCH } from "../agentModeling/config";
 import { dailyTipDistribution } from "./dailyTipDistribution";
 import { getEligibleTippers, getExistingTippers } from "./getEligibleTippers";
 
@@ -62,8 +60,6 @@ export async function distributeAllowances() {
   const { usd } = await getPrice(currentDay);
   const fartherUsdPrice = usd;
 
-  const newTippers = eligibleTippers.filter((t) => !t.tipAllowances[0]);
-
   if (previousMeta) {
     console.info("Previous tip min:", previousMeta.tipMinimum.toLocaleString());
     console.info(
@@ -72,14 +68,8 @@ export async function distributeAllowances() {
     );
   }
 
+  console.info(`Eligible tippers: ${eligibleTippers.length}`);
   console.info(`Previous unused allowance: ${prevUnusedAllowance}`);
-  console.info("Number of existing tippers:", existingTippers.length);
-  console.info(
-    "New tippers:",
-    newTippers.length,
-    newTippers.map((t) => t.id),
-  );
-
   console.info(
     "Available total allowance:",
     availableTotalAllowance.toLocaleString(),
@@ -131,12 +121,6 @@ export async function distributeAllowances() {
             (1 + STATIC_ADJUSTMENT_FACTOR * uniqueTippees) *
             (1 + recoveryAdjustment)
           : prevWeight;
-
-      if (ENVIRONMENT === "development" && FIDS_TO_WATCH.includes(tipper.id)) {
-        console.info(
-          `Tipper ${tipper.id}, uniqueTippees: ${uniqueTippees}, recoveryAdjustment: ${recoveryAdjustment}, prevAllowance: ${prevAllowance}`,
-        );
-      }
     }
 
     totalWeight += weight;
