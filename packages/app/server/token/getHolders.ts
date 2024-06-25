@@ -1,6 +1,5 @@
 import { fetchQuery, init } from "@airstack/node";
-import { intToBigInt } from "@farther/common";
-import { ENVIRONMENT } from "@farther/common/src/env";
+import { ENVIRONMENT, intToBigInt } from "@farther/common";
 import { neynarLimiter } from "@farther/common/src/neynar";
 import { dummyHolders } from "@farther/common/src/onchain/dummyHolders";
 import { getAllLiqProviderBalances } from "../liquidity/getAllLiqProviderBalances";
@@ -174,11 +173,6 @@ const airstackQuery = (cursor?: string) => `query TokenBalances {
 
 // getHolders()
 //   .then((holders) => {
-//     const filteredHolders = holders.filter(
-//       (h) =>
-//         BigInt(h.totalBalance) >=
-//         BigInt(TIPPER_REQUIRED_FARTHER_BALANCE) * WAD_SCALER,
-//     );
-//     writeFileSync("holders.json", JSON.stringify(filteredHolders, null, 2));
+//     writeFileSync("holders.json", JSON.stringify(holders, null, 2));
 //   })
 //   .catch(console.error);

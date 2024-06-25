@@ -1,8 +1,8 @@
 import { prisma } from "@farther/backend";
 import { ENVIRONMENT, neynarLimiter } from "@farther/common";
 import NodeCache from "node-cache";
-import { leaderboardDummyData } from "server/tips/dummyData/leaderboard";
-import { publicProcedure } from "server/trpc";
+import { leaderboardDummyData } from "../../server/tips/dummyData/leaderboard";
+import { publicProcedure } from "../../server/trpc";
 
 const key = `TIPS_LEADERBOARD`;
 const cache = new NodeCache({ stdTTL: 24 * 60 * 60 }); // 24 hours

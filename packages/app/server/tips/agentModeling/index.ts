@@ -1,11 +1,11 @@
-import "../../scripts/assertLocalhost";
+import "@farther/common/src/assertLocalhost";
 
 import { prisma } from "@farther/backend";
 import { TIPS_DURATION_DAYS } from "@farther/common";
 import { distributeAllowances } from "../utils/distributeAllowances";
 import { handleTip } from "../utils/handleTip";
-import { FIDS_TO_WATCH, behaviors } from "./config";
-import { dummyCast } from "./dummyCast";
+import { behaviors } from "./config";
+import { createDummyCast } from "./createDummyCast";
 
 const USER_SELECTION = {
   id: true,
@@ -16,7 +16,6 @@ const USER_SELECTION = {
     take: 1,
   },
   tipsGiven: true,
-  behavior: true,
 } as const;
 
 async function tipsAgentModeling() {
@@ -55,17 +54,11 @@ async function tipsAgentModeling() {
     const { tipMinimum } = tipMeta;
 
     for (const tipper of tippers) {
-      const behavior = behaviors[tipper.behavior];
+      const behavior = behaviors[tipper.id % behaviors.length];
       const spendRatio =
         behavior.spendRatios[(day - 1) % behavior.spendRatios.length];
 
       let remainingAllowance = tipper.tipAllowances[0].amount * spendRatio;
-
-      if (FIDS_TO_WATCH.includes(tipper.id)) {
-        console.log(
-          `Tipper ${tipper.id} allowance ${tipper.tipAllowances[0].amount}. (behavior: ${tipper.behavior})`,
-        );
-      }
 
       let i = 0;
       while (remainingAllowance > tipMinimum) {
@@ -75,10 +68,10 @@ async function tipsAgentModeling() {
           behavior.tippeeIds[(day - 1) % behavior.tippeeIds.length];
         const tippeeFid = tippeeFids[i % tippeeFids.length];
 
-        const dummyCastData = dummyCast({
+        const dummyCastData = createDummyCast({
           tipperFid: tipper.id,
           tippeeFid: tippeeFid,
-          amount: tipAmount,
+          amount: Math.round(tipAmount * (1 + Math.random())),
         });
 
         await handleTip({

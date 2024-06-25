@@ -87,25 +87,21 @@ export async function handleTip({
     return;
   }
 
-  // Get tips since the latest tip allowance
-  const tipsSinceAllowance = await prisma.tip.findMany({
+  const tipsThisCycle = await prisma.tip.findMany({
     where: {
-      tipperId: tipper.fid,
+      tipAllowanceId: tipAllowance.id,
       invalidTipReason: null,
-      createdAt: {
-        gte: tipAllowance.createdAt,
-      },
     },
   });
 
-  const amountTippedSinceLatestDistribution = tipsSinceAllowance.reduce(
+  const amountTippedThisCycle = tipsThisCycle.reduce(
     (acc, tip) => acc + tip.amount,
     0,
   );
 
-  const newTipTotal = amountTippedSinceLatestDistribution + tipAmount;
+  const newTipTotal = amountTippedThisCycle + tipAmount;
 
-  if (tipsSinceAllowance.length && newTipTotal > tipAllowance.amount) {
+  if (newTipTotal > tipAllowance.amount) {
     await storeTip({
       allowanceId: tipAllowance.id,
       castHash: castData.hash,
