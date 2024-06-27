@@ -74,3 +74,13 @@ export function removeFalsyValues<T>(list: readonly T[]): NonNullable<T>[] {
     (item): item is NonNullable<T> => item != null,
   ) as NonNullable<T>[];
 }
+
+export function maxBigInt(...values: bigint[]) {
+  if (values.length === 0) {
+    throw new Error("No values provided");
+  }
+  return values.reduce(
+    (max, current) => (current > max ? current : max),
+    values[0],
+  );
+}

@@ -56,7 +56,7 @@ export function NavMenu() {
           Features
         </h4>
         {Object.entries(ROUTES)
-          .filter(([, { type }]) => type === "feature")
+          .filter(([, { type, hidden }]) => type === "feature" && !hidden)
           .map(([_id, route]) => (
             <Link href={route.path} legacyBehavior key={route.path}>
               <a onClick={closeMenu} className="mb-3 text-right">
@@ -66,7 +66,7 @@ export function NavMenu() {
           ))}
         <h4 className={headingStyles}>About</h4>
         {Object.entries(ROUTES)
-          .filter(([_, { type }]) => type === "info")
+          .filter(([_, { type, hidden }]) => type === "info" && !hidden)
           .map(([_id, route]) => (
             <Link href={route.path} legacyBehavior key={route.path}>
               <a onClick={closeMenu} className="mb-3 text-right">
@@ -79,7 +79,7 @@ export function NavMenu() {
         </ExternalLink>
         <h4 className={headingStyles}>Developers</h4>
         {Object.entries(ROUTES)
-          .filter(([_, { type }]) => type === "dev")
+          .filter(([_, { type, hidden }]) => type === "dev" && !hidden)
           .map(([_id, route]) => (
             <Link href={route.path} legacyBehavior key={route.path}>
               <a onClick={closeMenu} className="mb-3 text-right">

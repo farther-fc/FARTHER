@@ -6,7 +6,6 @@ import { getAdminData } from "server/admin/getAdminData";
 import { invalidateStaleAllocations } from "server/admin/invalidateStaleAllocations";
 import { getMerkleProof } from "server/airdrop/getMerkleProof";
 import { setAllocationClaimed } from "server/airdrop/setAllocationClaimed";
-import { validateTweet } from "server/evangelize/validateTweet";
 import { publicGetPrice } from "server/getPrice";
 import { distributeAllowances } from "server/tips/distributeAllowances";
 import { handleTip } from "server/tips/handleTip";
@@ -25,7 +24,6 @@ import {
 export const appRouter = router({
   getMerkleProof,
   setAllocationClaimed,
-  validateTweet,
   handleTip,
   getUser,
   admin: router({
