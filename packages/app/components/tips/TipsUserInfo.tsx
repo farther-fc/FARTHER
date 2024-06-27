@@ -10,7 +10,7 @@ import { useTipsMeta } from "hooks/useTipsMeta";
 
 export function TipsUserInfo() {
   const { createdAt } = useTipsMeta();
-  const { account, user, userIsLoading } = useUser();
+  const { accountAddress, user, userIsLoading } = useUser();
   const { openConnectModal } = useConnectModal();
 
   const allowance = user?.tipAllowance?.amount || 0;
@@ -89,7 +89,7 @@ export function TipsUserInfo() {
             </div>
           </InfoCard>
         </>
-      ) : !account.address ? (
+      ) : !accountAddress ? (
         <InfoCard className="text-center" variant="ghost">
           <Button
             sentryId={clickIds.tipsUserInfoConnectWallet}

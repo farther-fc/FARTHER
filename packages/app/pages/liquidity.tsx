@@ -30,7 +30,7 @@ import { Info } from "lucide-react";
 import Link from "next/link";
 
 export default function LiquidityPage() {
-  const { account } = useUser();
+  const { accountAddress } = useUser();
   const { openConnectModal } = useConnectModal();
   const { claimPending, handleClaimRewards, claimSuccess } =
     useLiquidityHandlers();
@@ -198,14 +198,14 @@ export default function LiquidityPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {account.address && positions?.length ? (
+              {accountAddress && positions?.length ? (
                 positions.map((position) => (
                   <LiquidityTableRow key={position.id} position={position} />
                 ))
               ) : (
                 <TableRow>
                   <TableCell className="px-0" colSpan={3}>
-                    {!account.address ? (
+                    {!accountAddress ? (
                       <InfoCard className="text-center" variant="ghost">
                         <Button
                           sentryId={clickIds.liquidtyPageConnectWallet}

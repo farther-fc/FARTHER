@@ -12,7 +12,7 @@ import Link from "next/link";
 export function SiteHeader() {
   const { isTablet } = useMediaQuery();
   const { openConnectModal } = useConnectModal();
-  const { account } = useUser();
+  const { accountAddress } = useUser();
   const scrollPos = useScrollPosition();
 
   return (
@@ -28,7 +28,7 @@ export function SiteHeader() {
           {isTablet && <span className="tracking-widest">FARTHER</span>}
         </Link>
         <div className="flex space-x-2">
-          {account.isConnected ? (
+          {accountAddress ? (
             <ProfileMenu />
           ) : (
             openConnectModal && (

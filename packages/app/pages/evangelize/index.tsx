@@ -11,10 +11,10 @@ import { useConnectModal } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
 
 export default function EvangelizePage() {
-  const { account, user, userIsLoading } = useUser();
+  const { accountAddress, user, userIsLoading } = useUser();
   const { openConnectModal } = useConnectModal();
 
-  const isNotOnFarcaster = account.address && !user && !userIsLoading;
+  const isNotOnFarcaster = accountAddress && !user && !userIsLoading;
 
   const DEFAULT_TWEET_LINK = `https://twitter.com/intent/tweet?text=Farcaster%20is%20pushing%20social%20media%20$farther%E2%9C%A8%0A%0AFID${user?.fid}%0A@farther_social`;
 
@@ -35,7 +35,7 @@ export default function EvangelizePage() {
         <TweetRewardTable />
         <h2>Steps</h2>
         <ol>
-          {!account.address && (
+          {!accountAddress && (
             <li>
               <Button
                 sentryId={clickIds.evangelizePageConnectWallet}

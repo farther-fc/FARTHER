@@ -21,7 +21,7 @@ export type Position = FartherPositionsQuery["positions"][number] & {
 };
 
 export function useLiquidityHandlers() {
-  const { account, refetchBalance } = useUser();
+  const { accountAddress, refetchBalance } = useUser();
   const logError = useLogError();
   const { toast } = useToast();
   const { refetchIndexerData, refetchClaimableRewards } = useLiquidity();
@@ -51,7 +51,7 @@ export function useLiquidityHandlers() {
   } = useWriteContract();
 
   const handleStake = async (tokenId: string) => {
-    if (!account.address) {
+    if (!accountAddress) {
       logError({ error: "No account address found", showGenericToast: true });
       return;
     }
@@ -62,7 +62,7 @@ export function useLiquidityHandlers() {
         address: contractAddresses.NFT_POSITION_MANAGER,
         functionName: "safeTransferFrom",
         args: [
-          account.address,
+          accountAddress,
           contractAddresses.UNISWAP_V3_STAKER,
           BigInt(tokenId),
           incentivePrograms[1].incentiveKey,
@@ -74,7 +74,7 @@ export function useLiquidityHandlers() {
   };
 
   const handleUnstake = async (tokenId: string) => {
-    if (!account.address) {
+    if (!accountAddress) {
       logError({ error: "No account address found", showGenericToast: true });
       return;
     }
@@ -103,7 +103,7 @@ export function useLiquidityHandlers() {
             encodeFunctionData({
               abi: UniswapV3StakerAbi,
               functionName: "withdrawToken",
-              args: [BigInt(tokenId), account.address, "0x"],
+              args: [BigInt(tokenId), accountAddress, "0x"],
             }),
           ],
         ],
@@ -117,7 +117,7 @@ export function useLiquidityHandlers() {
   };
 
   const handleClaimRewards = async () => {
-    if (!account.address) {
+    if (!accountAddress) {
       logError({ error: "No account address found", showGenericToast: true });
       return;
     }
@@ -127,7 +127,7 @@ export function useLiquidityHandlers() {
         abi: UniswapV3StakerAbi,
         address: contractAddresses.UNISWAP_V3_STAKER,
         functionName: "claimReward",
-        args: [contractAddresses.FARTHER, account.address, BigInt(0)],
+        args: [contractAddresses.FARTHER, accountAddress, BigInt(0)],
       });
     } catch (error) {
       // We should be able to safely ignore this. Seems to happen intermittently when the function returns "0x" as expected

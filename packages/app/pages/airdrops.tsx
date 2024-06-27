@@ -12,7 +12,7 @@ import { useConnectModal } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
 
 export default function AirdropPage() {
-  const { account, user, userIsLoading } = useUser();
+  const { accountAddress, user, userIsLoading } = useUser();
   const { openConnectModal } = useConnectModal();
   const powerDrop = user?.allocations?.filter(
     (a) => a.type === "POWER_USER",
@@ -42,7 +42,7 @@ export default function AirdropPage() {
             )}
           </InfoCard>
         )}
-        {account.isConnected &&
+        {accountAddress &&
           (powerDrop && powerDrop?.isClaimed ? (
             <InfoCard variant="ghost" className="text-center">
               You have already claimed your airdrop. ✨
@@ -66,11 +66,11 @@ export default function AirdropPage() {
           ) : (
             !user && !userIsLoading && <NoUserFoundCard />
           ))}
-        {account.isConnected && !user && userIsLoading && (
+        {accountAddress && !user && userIsLoading && (
           <Skeleton className="h-[120px]" />
         )}
         <AirdropInfo />
-        {!account.isConnected && (
+        {!accountAddress && (
           <InfoCard className="text-center">
             If you think you are eligible for an airdrop,{" "}
             <Button
