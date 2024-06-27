@@ -19,7 +19,7 @@ function closeMenu() {
 }
 
 export function NavMenu() {
-  const { account } = useUser();
+  const { accountAddress } = useUser();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -35,11 +35,11 @@ export function NavMenu() {
         className="flex w-40 flex-col px-4 pt-4 text-lg"
         align="end"
       >
-        {!!account.address && (
+        {!!accountAddress && (
           <h4 className={cn(headingStyles, "border-none pt-0")}>User</h4>
         )}
         {Object.entries(ROUTES)
-          .filter(([id]) => !!account.address && id === "profile")
+          .filter(([id]) => !!accountAddress && id === "profile")
           .map(([_id, route]) => (
             <Link href={route.path} legacyBehavior key={route.path}>
               <a onClick={closeMenu} className="mb-4 text-right">
@@ -50,7 +50,7 @@ export function NavMenu() {
         <h4
           className={cn(
             headingStyles,
-            !account.address ? "border-none pt-0 font-normal" : "",
+            !accountAddress ? "border-none pt-0 font-normal" : "",
           )}
         >
           Features

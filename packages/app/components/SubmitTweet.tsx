@@ -27,7 +27,7 @@ type FormData = z.infer<typeof FormSchema>;
 export function SubmitTweet() {
   const { closeModal } = useModal();
   const { toast } = useToast();
-  const { user, userIsLoading, refetchUser, account } = useUser();
+  const { user, userIsLoading, refetchUser, accountAddress } = useUser();
   const logError = useLogError();
   const form = useForm<FormData>({
     defaultValues: {
@@ -146,7 +146,7 @@ export function SubmitTweet() {
               Evangelist rewards are currently paused while this month's
               airdrops are prepared. Please check back later.
             </FormMessage>
-          ) : !account.address ? (
+          ) : !accountAddress ? (
             <FormMessage>Please connect your wallet to submit</FormMessage>
           ) : (
             !user &&

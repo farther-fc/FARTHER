@@ -7,19 +7,19 @@ import { useRouter } from "next/router";
 import React from "react";
 
 function AdminPage() {
-  const { isAdmin, account } = useUser();
+  const { isAdmin, accountAddress } = useUser();
   const router = useRouter();
 
   React.useEffect(() => {
-    if (account.address && !isAdmin) {
+    if (accountAddress && !isAdmin) {
       router.push("/404");
     }
-  }, [account.address, isAdmin, router]);
+  }, [accountAddress, isAdmin, router]);
 
   const { data, isLoading } = trpcClient.admin.getAdminData.useQuery(
     undefined,
     {
-      enabled: account.address && isAdmin,
+      enabled: accountAddress && isAdmin,
     },
   );
 
@@ -73,7 +73,7 @@ function AdminPage() {
     }
   });
 
-  return account.address && isAdmin ? (
+  return accountAddress && isAdmin ? (
     <Container variant="page">
       <div className="content">
         <h1>Admin</h1>

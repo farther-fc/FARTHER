@@ -18,13 +18,14 @@ import { useAccount, useReadContract } from "wagmi";
 export const UserContext = createContainer(function () {
   const { toast } = useToast();
   const account = useAccount();
+  const accountAddress = account.address;
   const { data: balance, refetch: refetchBalance } = useReadContract({
     abi: FartherToken__factory.abi,
     address: contractAddresses.FARTHER,
     functionName: "balanceOf",
-    args: [account.address as Address],
+    args: [accountAddress as Address],
     query: {
-      enabled: !!account.address,
+      enabled: !!accountAddress,
     },
   });
 
@@ -35,20 +36,20 @@ export const UserContext = createContainer(function () {
     isLoading,
     refetch,
   } = trpcClient.getUser.useQuery(
-    { address: account.address as Address },
+    { address: accountAddress as Address },
     {
-      enabled: !!account.address,
+      enabled: !!accountAddress,
     },
   );
 
   const isAdmin =
-    account.address &&
+    accountAddress &&
     [
       FARTHER_OWNER_ADDRESS.toLowerCase(),
       DEV_USER_ADDRESS.toLowerCase(),
       GIGAMESH_ADDRESS.toLowerCase(),
       DEV_DEPLOYER_ADDRESS.toLowerCase(),
-    ].includes(account.address.toLowerCase());
+    ].includes(accountAddress.toLowerCase());
 
   React.useEffect(() => {
     if (!user?.tipAllowance) return;
@@ -77,7 +78,8 @@ export const UserContext = createContainer(function () {
     isAdmin,
     user,
     userIsLoading: isLoading,
-    account,
+    accountAddress: account.address,
+    chainId: account.chainId,
     refetchUser: refetch,
     balance: balance || BigInt(0),
     refetchBalance,
