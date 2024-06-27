@@ -71,11 +71,6 @@ export default function Home() {
             users spanning 3 years, beginning May 1, 2024.
           </li>
           <li>
-            {" "}
-            <Link href={ROUTES.evangelize.path}>Evangelist rewards</Link> for
-            expressing love of Farcaster on legacy social apps
-          </li>
-          <li>
             <Link href={ROUTES.liquidty.path}>Onchain liquidity rewards</Link>
           </li>
           <li>

@@ -1,9 +1,11 @@
 import { FartherPositionsQuery, getBuiltGraphSDK } from ".graphclient";
 import { AllocationType } from "@farther/backend";
 import {
+  LIQUIDITY_BONUS_MAX,
   LIQUIDITY_BONUS_MULTIPLIER,
   NFTPositionMngrAbi,
   UniswapV3StakerAbi,
+  WAD_SCALER,
   contractAddresses,
   incentivePrograms,
   viemClient,
@@ -13,6 +15,7 @@ import { POSITIONS_REFRESH_INTERVAL, ROUTES } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import { createContainer } from "@lib/context/unstated";
 import { getEarliestStart } from "@lib/getEarliestStart";
+import { maxBigInt } from "@lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { useLogError } from "hooks/useLogError";
 import { usePathname } from "next/navigation";
@@ -256,12 +259,17 @@ const LiquidityContext = createContainer(function () {
   // Pending reference amount is anything left over after subtracting the airdropped reference
   // (onchain amount that has an associated airdropped bonus) from the total onchain rewards claimed.
   // Multiply by multiplier to get the bonus.
-  const pendingBonusAmount =
+  const uncappedBonus =
     ((claimableRewards || BigInt(0)) +
       BigInt(rewardsClaimed || "0") +
       pendingStakedLiqRewards -
       airdroppedReferenceTotal) *
     BigInt(LIQUIDITY_BONUS_MULTIPLIER);
+
+  const pendingBonusAmount = maxBigInt(
+    uncappedBonus,
+    BigInt(LIQUIDITY_BONUS_MAX) * WAD_SCALER,
+  );
 
   const unclaimedBonusStartTime = getEarliestStart(unclaimedBonusAllocations);
 
