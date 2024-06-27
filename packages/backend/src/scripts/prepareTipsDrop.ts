@@ -1,6 +1,7 @@
 import {
   CHAIN_ID,
   ENVIRONMENT,
+  NETWORK,
   NEXT_AIRDROP_END_TIME,
   NEXT_AIRDROP_START_TIME,
   WAD_SCALER,
@@ -11,8 +12,15 @@ import { v4 as uuidv4 } from "uuid";
 import { Address } from "viem";
 import { AllocationType, prisma } from "../prisma";
 import { writeFile } from "../utils/helpers";
+import { airdropSanityCheck } from "./airdropSanityCheck";
 
 async function prepareTipsDrop() {
+  await airdropSanityCheck({
+    date: NEXT_AIRDROP_START_TIME,
+    network: NETWORK,
+    environment: ENVIRONMENT,
+  });
+
   // Get date of last tips drop
   const latestTipsAirdrop = await prisma.airdrop.findFirst({
     where: {

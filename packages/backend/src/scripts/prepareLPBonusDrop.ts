@@ -6,7 +6,6 @@ import {
   ENVIRONMENT,
   LIQUIDITY_BONUS_MULTIPLIER,
   NETWORK,
-  NEXT_AIRDROP_END_TIME,
   NEXT_AIRDROP_START_TIME,
   getMerkleRoot,
   isProduction,
@@ -15,22 +14,33 @@ import {
 // import { v4 as uuidv4 } from "uuid";
 import { getLpAccounts } from "../../../app/server/liquidity/getLpAccounts";
 import { AllocationType, prisma } from "../prisma";
-import { formatNum } from "../utils/helpers";
+import { formatNum, writeFile } from "../utils/helpers";
 import { airdropSanityCheck } from "./airdropSanityCheck";
-
-const startTime = NEXT_AIRDROP_START_TIME;
-const endTime = NEXT_AIRDROP_END_TIME;
 
 async function prepareLpBonusDrop() {
   await airdropSanityCheck({
-    date: startTime,
+    date: NEXT_AIRDROP_START_TIME,
     network: NETWORK,
     environment: ENVIRONMENT,
   });
 
   try {
-    const accounts = await getLpAccounts();
-    const addresses = Array.from(accounts).map(([id]) => id);
+    const lps = await getLpAccounts();
+    const lpsWithRewards = Array.from(lps.values()).filter(
+      (lp) =>
+        lp.rewardsClaimable > 0 ||
+        lp.rewardsClaimed > 0 ||
+        lp.rewardsUnclaimed > 0,
+    );
+
+    const addresses = Array.from(lpsWithRewards).map((d) => d.id);
+
+    console.log(
+      "welp lp data",
+      lpsWithRewards.filter(
+        (a) => a.id === "0x4888c0030b743c17c89a8af875155cf75dcfd1e1",
+      ),
+    );
 
     // Get all airdropped liquidity reward allocations
     const allocations = await prisma.allocation.findMany({
@@ -46,61 +56,86 @@ async function prepareLpBonusDrop() {
       select: {
         address: true,
         userId: true,
-        // This is the amount that was used as the basis for calculating the bonus
+        amount: true,
         referenceAmount: true,
       },
     });
 
+    console.log(
+      "welp allocations",
+      allocations.filter(
+        (a) => a.address === "0x4888c0030b743c17c89a8af875155cf75dcfd1e1",
+      ),
+    );
+
     // Group by address and sum amounts for each address
-    const pastTotals: Record<string, bigint> = allocations.reduce(
-      (acc, a) => ({
-        ...acc,
-        [a.address]: (acc[a.address] || BigInt(0)) + BigInt(a.referenceAmount),
-      }),
-      {},
+    const previouslyAllocated: Record<
+      string,
+      {
+        amount: bigint;
+        referenceAmount: bigint;
+      }
+    > = allocations.reduce((acc, a) => {
+      if (!acc[a.address]) {
+        acc[a.address] = {
+          amount: BigInt(a.amount),
+          referenceAmount: BigInt(a.referenceAmount),
+        };
+      } else {
+        acc[a.address].amount += BigInt(a.amount);
+        acc[a.address].referenceAmount += BigInt(a.referenceAmount);
+      }
+      return acc;
+    }, {});
+
+    console.log(
+      "welp past total",
+      previouslyAllocated["0x4888c0030b743c17c89a8af875155cf75dcfd1e1"],
     );
 
     // Limit to users with power badges
     const usersData = await getUserData(addresses);
     const lpsWithPowerBadge = usersData.filter((u) => !!u.powerBadge);
 
-    const allocationData = lpsWithPowerBadge.map((u) => {
-      const account = accounts.get(u.address);
-
-      if (u.address !== account?.id) {
-        throw new Error(
-          `Account address mismatch: ${u.address}, ${account?.id}`,
+    const allocationData = lpsWithPowerBadge
+      .map((u) => {
+        const account = lpsWithRewards.find(
+          (lp) => lp.id.toLowerCase() === u.address.toLowerCase(),
         );
-      }
 
-      if (!account) {
-        throw new Error(
-          `No account found for address: ${u.address}, fid: ${u.fid}`,
-        );
-      }
+        if (u.address !== account?.id) {
+          throw new Error(
+            `Account address mismatch: ${u.address}, ${account?.id}`,
+          );
+        }
 
-      // Subtract past liquidity reward allocations from each account's claimed & unclaimed rewards
-      const referenceAmount =
-        BigInt(account.rewardsClaimed) +
-        BigInt(account.rewardsUnclaimed) -
-        (pastTotals[account.id] || BigInt(0));
+        if (!account) {
+          throw new Error(
+            `No account found for address: ${u.address}, fid: ${u.fid}`,
+          );
+        }
 
-      // Multiply that amount by the bonus multiplier
-      const amount = referenceAmount * BigInt(LIQUIDITY_BONUS_MULTIPLIER);
-      return {
-        address: account.id,
-        fid: u.fid,
-        amount,
-        referenceAmount,
-      };
-    });
+        const prevAllocatedAmount =
+          previouslyAllocated[account.id]?.amount || BigInt(0);
 
-    console.log(
-      allocationData.map((r, i) => ({
-        fid: r.fid,
-        address: r.address.toLowerCase(),
-      })),
-    );
+        // Subtract past liquidity reward allocations from each account's claimed & unclaimed rewards
+        const referenceAmount =
+          BigInt(account.rewardsClaimable) +
+          BigInt(account.rewardsClaimed) +
+          BigInt(account.rewardsUnclaimed);
+
+        // Multiply that amount by the bonus multiplier
+        const totalAmount =
+          referenceAmount * BigInt(LIQUIDITY_BONUS_MULTIPLIER);
+        const amount = totalAmount - prevAllocatedAmount;
+        return {
+          address: account.id,
+          fid: u.fid,
+          amount,
+          referenceAmount,
+        };
+      })
+      .filter((a) => a.amount > BigInt(0));
 
     // Create merkle tree
     const allocationSum = allocationData.reduce(
@@ -132,7 +167,7 @@ async function prepareLpBonusDrop() {
     //       root,
     //       address:
     //         ENVIRONMENT === "development" ? ANVIL_AIRDROP_ADDRESS : undefined,
-    //       startTime,
+    //       startTime: NEXT_AIRDROP_START_TIME,
     //       endTime,
     //     },
     //   });
@@ -151,18 +186,18 @@ async function prepareLpBonusDrop() {
     //     })),
     //   });
 
-    //   await writeFile(
-    //     `airdrops/${ENVIRONMENT}/${AllocationType.LIQUIDITY.toLowerCase()}-${startTime.toISOString()}.json`,
-    //     JSON.stringify(
-    //       {
-    //         root,
-    //         amount: allocationSum.toString(),
-    //         rawLeafData,
-    //       },
-    //       null,
-    //       2,
-    //     ),
-    //   );
+    await writeFile(
+      `airdrops/${ENVIRONMENT}/${AllocationType.LIQUIDITY.toLowerCase()}-${NEXT_AIRDROP_START_TIME.toISOString()}.json`,
+      JSON.stringify(
+        {
+          root,
+          amount: allocationSum.toString(),
+          rawLeafData,
+        },
+        null,
+        2,
+      ),
+    );
     // });
 
     const sortedallocations = allocationData.sort((a, b) => {
@@ -175,7 +210,7 @@ async function prepareLpBonusDrop() {
       }
     });
 
-    console.log(allocationData);
+    console.log(sortedallocations);
 
     console.info({
       root,
