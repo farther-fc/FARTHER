@@ -103,7 +103,7 @@ async function getLeaderboardData() {
     ),
   }));
 
-  leaderboardData.sort((a, b) => b.currentAllowance - a.currentAllowance);
+  leaderboardData.sort((a, b) => b.totalGivenAmount - a.totalGivenAmount);
 
   return leaderboardData;
 }
