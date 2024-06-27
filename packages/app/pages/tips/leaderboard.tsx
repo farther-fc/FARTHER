@@ -18,8 +18,8 @@ function TipsLeaderboardPage() {
    */
 
   return (
-    <Container variant="page" >
-      <main className="content text-xl self-start">TipsLeaderboardPage</main>
+    <Container variant="page" className="text-center">
+      <main className="content text-2xl ">TipsLeaderboardPage</main>
       <DataTable columns={columns} data={leaderboardDummyData} />
     </Container>
   );
