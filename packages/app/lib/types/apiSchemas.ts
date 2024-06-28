@@ -44,10 +44,4 @@ export const apiSchemas = {
       })
       .optional(),
   },
-  validateTweet: {
-    input: z.object({
-      tweetId: z.string(),
-      fid: z.coerce.number().int().gte(0).lte(100_000_000_000),
-    }),
-  },
 };
