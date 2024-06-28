@@ -32,7 +32,7 @@ function TipsPage() {
           </>
         )}
         {!tipsMetaLoading && createdAt ? (
-          <div className="mb-10 grid grid-cols-[120px_1fr] gap-2">
+          <div className="grid grid-cols-[120px_1fr] gap-2">
             <>
               <span className="text-muted">Tip minimum:</span>
               <span className="flex items-center">
@@ -58,7 +58,7 @@ function TipsPage() {
           <Skeleton className="max-w-[300px]" />
         )}
         <Link href={ROUTES.tipsLeaderboard.path}>
-          <Button>View Leaderboard</Button>
+          <Button className="mt-8">View Leaderboard</Button>
         </Link>
         <h3 className="mt-12">Your Stats</h3>
         <TipsUserInfo />
@@ -73,10 +73,12 @@ function TipsPage() {
         </ul>
         <h4>Maximum distribution ➡️ Greater allowance</h4>
         <p>
-          Tippers who distribute to the greatest number of accounts each day
-          will receive larger share of daily allowances over time. The aim of
-          this is to maximize the number of users receiving tips and mitigate
-          bot shenanigans.
+          Tippers who distribute their daily allowance to the greatest number of
+          accounts{" "}
+          <em className="font-bold">that aren't also receiving an allowance</em>{" "}
+          will receive larger share of the daily allowance pool over time. The
+          aim of this is to maximize the number of users receiving tips and
+          mitigate bot account manipulation.
         </p>
         <h4>Daily tip minimum</h4>
         <p className="whitespace-pre-line">
