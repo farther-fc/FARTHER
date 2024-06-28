@@ -1,9 +1,10 @@
 import { prisma } from "@farther/backend";
+import { WAD_SCALER } from "@farther/common";
 import { scaleLinear } from "d3";
+import { getHolderBalanceAdjustment } from "server/tips/utils/getHolderBalanceAdjustment";
 import { DistributeAllowancesError } from "../../errors";
 import { getTipMinimum } from "../../tips/utils/getTipMinimum";
 import { getUniqueTippees } from "../../tips/utils/getUniqueTippees";
-import { flushLeaderboardCache } from "../../tips/utils/tipsLeaderboard";
 import { getPrice } from "../../token/getPrice";
 import { dailyTipDistribution } from "./dailyTipDistribution";
 import { getEligibleTippers, getExistingTippers } from "./getEligibleTippers";
@@ -112,6 +113,9 @@ export async function distributeAllowances() {
 
       const prevAllowanceMinusTipMinimum = prevAllowance - previousTipMin;
       const recoveryAdjustment = getRecoveryAdjustment(prevAllowance);
+      const holderBalanceAdjustment = getHolderBalanceAdjustment(
+        Number(BigInt(tipper.totalBalance) / WAD_SCALER),
+      );
 
       prevWeight =
         prevAllowanceMinusTipMinimum / prevTotalAllowanceMinusTipMinimums;
@@ -119,7 +123,8 @@ export async function distributeAllowances() {
         uniqueTippees > 0
           ? prevWeight *
             (1 + STATIC_ADJUSTMENT_FACTOR * uniqueTippees) *
-            (1 + recoveryAdjustment)
+            (1 + recoveryAdjustment) *
+            holderBalanceAdjustment
           : prevWeight;
     }
 
@@ -139,34 +144,62 @@ export async function distributeAllowances() {
   // Subtract tip min from total daily allowance (since min is automatically given to everyone)
   const allowanceRemainder = availableTotalAllowance - combinedTipMinimums;
 
-  await prisma.$transaction(async (tx) => {
-    const tipMeta = await tx.tipMeta.create({
-      data: {
-        tipMinimum,
-        totalAllowance: availableTotalAllowance,
-        carriedOver: prevUnusedAllowance,
-        usdPrice: fartherUsdPrice,
-      },
-    });
+  // TODO: REMOVE THIS
+  const newAllowances = eligibleTippers.map((tipper, i) => {
+    const amount = Math.floor(
+      tipMinimum + (currentWeights[i] / totalWeight) * allowanceRemainder,
+    );
 
-    // Distribute
-    const newAllowances = eligibleTippers.map((tipper, i) => {
-      const amount = Math.floor(
-        tipMinimum + (currentWeights[i] / totalWeight) * allowanceRemainder,
-      );
+    const data = {
+      userId: tipper.id,
+      amount,
+      userBalance: Number(
+        BigInt(tipper.totalBalance) / WAD_SCALER,
+      ).toLocaleString(),
+    };
 
-      return {
-        userId: tipper.id,
-        tipMetaId: tipMeta.id,
-        amount,
-        userBalance: tipper.totalBalance,
-      };
-    });
+    if (
+      [
+        246871, // russian_acai
+        3741, // wahoo.eth
+        5513, // agu
+        283144, // reneecampbell
+      ].includes(tipper.id)
+    ) {
+      console.log(data);
+    }
 
-    await tx.tipAllowance.createMany({
-      data: newAllowances,
-    });
+    return data;
   });
 
-  await flushLeaderboardCache();
+  // await prisma.$transaction(async (tx) => {
+  //   const tipMeta = await tx.tipMeta.create({
+  //     data: {
+  //       tipMinimum,
+  //       totalAllowance: availableTotalAllowance,
+  //       carriedOver: prevUnusedAllowance,
+  //       usdPrice: fartherUsdPrice,
+  //     },
+  //   });
+
+  //   // Distribute
+  //   const newAllowances = eligibleTippers.map((tipper, i) => {
+  //     const amount = Math.floor(
+  //       tipMinimum + (currentWeights[i] / totalWeight) * allowanceRemainder,
+  //     );
+
+  //     return {
+  //       userId: tipper.id,
+  //       tipMetaId: tipMeta.id,
+  //       amount,
+  //       userBalance: tipper.totalBalance,
+  //     };
+  //   });
+
+  //   await tx.tipAllowance.createMany({
+  //     data: newAllowances,
+  //   });
+  // });
+
+  // await flushLeaderboardCache();
 }
