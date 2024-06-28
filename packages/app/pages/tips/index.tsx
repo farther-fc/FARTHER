@@ -1,4 +1,5 @@
 import { TipsUserInfo } from "@components/tips/TipsUserInfo";
+import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { Popover } from "@components/ui/Popover";
@@ -8,9 +9,11 @@ import {
   TIPPER_REQUIRED_FARTHER_BALANCE,
   TIP_USD_MINIMUM,
 } from "@farther/common";
+import { ROUTES } from "@lib/constants";
 import dayjs from "dayjs";
 import { useTipsMeta } from "hooks/useTipsMeta";
 import { Info } from "lucide-react";
+import Link from "next/link";
 
 function TipsPage() {
   const { createdAt, tipsMetaLoading, tipMinimum, eligibleTippers } =
@@ -54,6 +57,10 @@ function TipsPage() {
         ) : (
           <Skeleton className="max-w-[300px]" />
         )}
+        <Link href={ROUTES.tipsLeaderboard.path}>
+          <Button>View Leaderboard</Button>
+        </Link>
+        <h3 className="mt-12">Your Stats</h3>
         <TipsUserInfo />
         <h3 className="mt-12">How to tip</h3>
         <p>
