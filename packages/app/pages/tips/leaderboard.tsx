@@ -1,5 +1,8 @@
+import { DataTable } from "@components/leaderboard/data-table";
 import { Container } from "@components/ui/Container";
 import { trpcClient } from "@lib/trpcClient";
+import { columns } from "@components/leaderboard/columns";
+import { leaderboardDummyData } from "../../server/tips/dummyData/leaderboard";
 
 function TipsLeaderboardPage() {
   const { data, isLoading } = trpcClient.public.tips.leaderboard.useQuery();
@@ -15,8 +18,9 @@ function TipsLeaderboardPage() {
    */
 
   return (
-    <Container variant="page">
-      <main className="content">TipsLeaderboardPage</main>
+    <Container variant="page" className="text-center">
+      <main className="content text-2xl ">TipsLeaderboardPage</main>
+      <DataTable columns={columns} data={leaderboardDummyData} />
     </Container>
   );
 }
