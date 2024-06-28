@@ -50,10 +50,14 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      // Basic redirect
       {
         source: "/rewards",
         destination: "/user/profile",
+        permanent: true,
+      },
+      {
+        source: "/evangelize/submit-tweet",
+        destination: "/",
         permanent: true,
       },
     ];
