@@ -9,8 +9,12 @@ import Link from "next/link";
 
 export const columns: ColumnDef<LeaderboardRow>[] = [
   {
+    accessorKey: "rank",
+    header: "",
+  },
+  {
     accessorKey: "username",
-    header: "Username",
+    header: "User",
     cell: ({ row }) => {
       const { pfpUrl, username } = row.original;
       return (
@@ -22,7 +26,7 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
         >
           <Avatar className="size-8">
             <AvatarImage src={pfpUrl} alt={username} />
-            <AvatarFallback>{username[0]}</AvatarFallback>
+            <AvatarFallback>{username || ""}</AvatarFallback>
           </Avatar>
           <span>{username}</span>
         </Link>
@@ -33,53 +37,48 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
     accessorKey: "totalGivenAmount",
     header: ({ column }) => (
       <Button
-        sentryId="leaderboard_total_given_amount_sorting"
         variant="ghost"
+        className="h-auto backdrop-blur-none"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
         Total Amount Given
         <ArrowUpDown className="ml-2 size-4" />
       </Button>
     ),
+    cell: ({ row }) => (
+      <span>{row.original.totalGivenAmount.toLocaleString()} ✨</span>
+    ),
   },
   {
     accessorKey: "totalGivenCount",
     header: ({ column }) => (
       <Button
-        sentryId="leaderboard_total_given_count_sorting"
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        className="h-auto backdrop-blur-none"
       >
         Total Tips Given
         <ArrowUpDown className="ml-2 size-4" />
       </Button>
     ),
-  },
-
-  {
-    accessorKey: "totalAllowance",
-    header: ({ column }) => (
-      <Button
-        sentryId="leaderboard_total_allowance_sorting"
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        Total Allowance
-        <ArrowUpDown className="ml-2 size-4" />
-      </Button>
+    cell: ({ row }) => (
+      <span>{row.original.totalGivenCount.toLocaleString()}</span>
     ),
   },
   {
     accessorKey: "currentAllowance",
     header: ({ column }) => (
       <Button
-        sentryId="leaderboard_current_allowance_sorting"
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        className="h-auto backdrop-blur-none"
       >
         Current Allowance
         <ArrowUpDown className="ml-2 size-4" />
       </Button>
+    ),
+    cell: ({ row }) => (
+      <span>{row.original.currentAllowance.toLocaleString()} ✨</span>
     ),
   },
 ];

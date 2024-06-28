@@ -106,9 +106,14 @@ async function getLeaderboardData() {
     };
   });
 
-  leaderboardData.sort((a, b) => b.totalGivenAmount - a.totalGivenAmount);
+  const rankedData = leaderboardData
+    .sort((a, b) => b.totalGivenAmount - a.totalGivenAmount)
+    .map((d, i) => ({
+      ...d,
+      rank: i + 1,
+    }));
 
-  return leaderboardData;
+  return rankedData;
 }
 
 export const flushLeaderboardCache = () => {

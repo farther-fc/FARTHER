@@ -11,7 +11,11 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
+import DoubleArrowLeftIcon from "@components/icons/DoubleArrowLeftIcon";
+import DoubleArrowRightIcon from "@components/icons/DoubleArrowRightIcon";
+import { columns } from "@components/leaderboard/columns";
 import { Button } from "@components/ui/Button";
+import { Skeleton } from "@components/ui/Skeleton";
 import {
   Table,
   TableBody,
@@ -20,31 +24,28 @@ import {
   TableHeader,
   TableRow,
 } from "@components/ui/Table";
-import React from "react";
-
-import DoubleArrowLeftIcon from "@components/icons/DoubleArrowLeftIcon";
-import DoubleArrowRightIcon from "@components/icons/DoubleArrowRightIcon";
-import { Skeleton } from "@components/ui/Skeleton";
+import { trpcClient } from "@lib/trpcClient";
+import { LeaderboardRow } from "@lib/types/apiTypes";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
-import { DataTableToolbar } from "./data-table-toolbar";
+import React from "react";
+import { DataTableToolbar } from "./LeaderboardToolbar";
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data?: TData[];
-  isLoading?: boolean;
-}
+const columnStyles: { [key: string]: string } = {
+  rank: "w-[40px]",
+  totalGivenAmount: "text-right",
+  totalGivenCount: "text-right",
+  currentAllowance: "text-right",
+} as const;
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
+export function Leaderboard() {
+  const { data } = trpcClient.public.tips.leaderboard.useQuery();
   const [sorting, setSorting] = React.useState<SortingState>([
     { id: "totalAllowance", desc: true },
   ]);
 
   const table = useReactTable({
     data: data ?? [],
-    columns,
+    columns: columns as ColumnDef<LeaderboardRow>[],
     state: {
       sorting,
     },
@@ -64,20 +65,22 @@ export function DataTable<TData, TValue>({
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead
-                    key={header.id}
-                    colSpan={header.colSpan}
-                    className="table-head h-[80px] w-1/4 lg:w-1/6"
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                  </TableHead>
-                ))}
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead
+                      key={header.id}
+                      colSpan={header.colSpan}
+                      className={`table-head h-auto lg:h-[60px] ${columnStyles[header.id] ?? ""}`}
+                    >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                    </TableHead>
+                  );
+                })}
               </TableRow>
             ))}
           </TableHeader>
@@ -88,17 +91,19 @@ export function DataTable<TData, TValue>({
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                 >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      className="table-cell w-1/4 text-center lg:w-1/6"
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
-                  ))}
+                  {row.getVisibleCells().map((cell) => {
+                    return (
+                      <TableCell
+                        key={cell.id}
+                        className={`table-cell px-4 ${columnStyles[cell.column.id] ?? ""}`}
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </TableCell>
+                    );
+                  })}
                 </TableRow>
               ))
             ) : (
@@ -122,7 +127,6 @@ export function DataTable<TData, TValue>({
           </div>
           <div className="flex items-center space-x-2">
             <Button
-              sentryId="leaderboard_pagination_button"
               className="hidden size-8 p-0 lg:flex"
               onClick={() => table.setPageIndex(0)}
               disabled={!table.getCanPreviousPage()}
@@ -131,7 +135,6 @@ export function DataTable<TData, TValue>({
               <DoubleArrowLeftIcon className="size-4" />
             </Button>
             <Button
-              sentryId="leaderboard_pagination_button"
               className="size-8 p-0"
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
@@ -140,7 +143,6 @@ export function DataTable<TData, TValue>({
               <ChevronLeftIcon className="size-4" />
             </Button>
             <Button
-              sentryId="leaderboard_pagination_button"
               className="size-8 p-0"
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
@@ -149,7 +151,6 @@ export function DataTable<TData, TValue>({
               <ChevronRightIcon className="size-4" />
             </Button>
             <Button
-              sentryId="leaderboard_pagination_button"
               className="hidden size-8 p-0 lg:flex"
               onClick={() => table.setPageIndex(table.getPageCount() - 1)}
               disabled={!table.getCanNextPage()}
