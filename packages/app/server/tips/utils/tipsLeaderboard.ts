@@ -78,30 +78,33 @@ async function getLeaderboardData() {
 
   const userData = await neynarLimiter.getUsersByFid(tippers.map((t) => t.id));
 
-  const leaderboardData = tippers.map((tipper, i) => ({
-    fid: tipper.id,
-    displayName: userData[i].display_name,
-    pfpUrl: userData[i].pfp_url,
-    username: userData[i].username,
-    powerBadge: userData[i].power_badge,
-    currentAllowance: tipper.tipAllowances[0].amount,
-    totalAllowance: Math.round(
-      tipper.tipAllowances.reduce(
-        (acc, allowance) => acc + allowance.amount,
+  const leaderboardData = tippers.map((tipper, i) => {
+    const user = userData.find((u) => u.fid === tipper.id);
+    return {
+      fid: tipper.id,
+      displayName: user?.display_name,
+      pfpUrl: user?.pfp_url,
+      username: user?.username,
+      powerBadge: user?.power_badge,
+      currentAllowance: tipper.tipAllowances[0].amount,
+      totalAllowance: Math.round(
+        tipper.tipAllowances.reduce(
+          (acc, allowance) => acc + allowance.amount,
+          0,
+        ),
+      ),
+      totalGivenCount: tipper.tipAllowances.reduce(
+        (acc, ta) => acc + ta.tips.length,
         0,
       ),
-    ),
-    totalGivenCount: tipper.tipAllowances.reduce(
-      (acc, ta) => acc + ta.tips.length,
-      0,
-    ),
-    totalGivenAmount: Math.round(
-      tipper.tipAllowances.reduce(
-        (acc, ta) => acc + ta.tips.reduce((acc, tip) => acc + tip.amount, 0),
-        0,
+      totalGivenAmount: Math.round(
+        tipper.tipAllowances.reduce(
+          (acc, ta) => acc + ta.tips.reduce((acc, tip) => acc + tip.amount, 0),
+          0,
+        ),
       ),
-    ),
-  }));
+    };
+  });
 
   leaderboardData.sort((a, b) => b.totalGivenAmount - a.totalGivenAmount);
 
