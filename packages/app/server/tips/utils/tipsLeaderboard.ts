@@ -30,6 +30,7 @@ async function getLeaderboardData() {
   if (ENVIRONMENT === "development") {
     return leaderboardDummyData;
   }
+
   const currentTipMeta = await prisma.tipMeta.findFirst({
     orderBy: {
       createdAt: "desc",
@@ -63,6 +64,9 @@ async function getLeaderboardData() {
         select: {
           amount: true,
           tips: {
+            where: {
+              invalidTipReason: null,
+            },
             select: {
               amount: true,
             },

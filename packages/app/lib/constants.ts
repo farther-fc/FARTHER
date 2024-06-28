@@ -5,41 +5,49 @@ export const ROUTES = {
     title: "Profile",
     path: "/user/profile",
     type: "user",
+    hidden: false,
   },
   tips: {
     title: "Tips",
     path: "/tips",
     type: "feature",
+    hidden: false,
   },
   liquidty: {
     title: "Liquidity",
     path: "/liquidity",
     type: "feature",
+    hidden: false,
   },
   airdrop: {
     title: "Powerdrops",
     path: "/airdrops",
     type: "feature",
+    hidden: false,
   },
   evangelize: {
     title: "Evangelize",
     path: "/evangelize",
     type: "feature",
+    hidden: false,
   },
   tokenomics: {
     title: "Tokenomics",
     path: "/tokenomics",
     type: "info",
+    hidden: false,
   },
   resources: {
     title: "Resources",
     path: "/resources",
     type: "info",
+    hidden: false,
   },
   apiDocs: {
     title: "API Docs",
     path: "/docs/api",
     type: "dev",
+    hidden: false,
   },
 } as const;
 
@@ -93,3 +101,6 @@ export const clickIds = {
 } as const;
 
 export const POSITIONS_REFRESH_INTERVAL = 10_000;
+
+export const JULY_ANNOUCEMENT_LINK =
+  "https://paragraph.xyz/@farther/farther-toward-the-horizon";

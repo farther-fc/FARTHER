@@ -19,7 +19,7 @@ function closeMenu() {
 }
 
 export function NavMenu() {
-  const { account } = useUser();
+  const { accountAddress } = useUser();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -35,11 +35,11 @@ export function NavMenu() {
         className="flex w-40 flex-col px-4 pt-4 text-lg"
         align="end"
       >
-        {!!account.address && (
+        {!!accountAddress && (
           <h4 className={cn(headingStyles, "border-none pt-0")}>User</h4>
         )}
         {Object.entries(ROUTES)
-          .filter(([id]) => !!account.address && id === "profile")
+          .filter(([id]) => !!accountAddress && id === "profile")
           .map(([_id, route]) => (
             <Link href={route.path} legacyBehavior key={route.path}>
               <a onClick={closeMenu} className="mb-4 text-right">
@@ -50,13 +50,13 @@ export function NavMenu() {
         <h4
           className={cn(
             headingStyles,
-            !account.address ? "border-none pt-0 font-normal" : "",
+            !accountAddress ? "border-none pt-0 font-normal" : "",
           )}
         >
           Features
         </h4>
         {Object.entries(ROUTES)
-          .filter(([, { type }]) => type === "feature")
+          .filter(([, { type, hidden }]) => type === "feature" && !hidden)
           .map(([_id, route]) => (
             <Link href={route.path} legacyBehavior key={route.path}>
               <a onClick={closeMenu} className="mb-3 text-right">
@@ -66,7 +66,7 @@ export function NavMenu() {
           ))}
         <h4 className={headingStyles}>About</h4>
         {Object.entries(ROUTES)
-          .filter(([_, { type }]) => type === "info")
+          .filter(([_, { type, hidden }]) => type === "info" && !hidden)
           .map(([_id, route]) => (
             <Link href={route.path} legacyBehavior key={route.path}>
               <a onClick={closeMenu} className="mb-3 text-right">
@@ -79,7 +79,7 @@ export function NavMenu() {
         </ExternalLink>
         <h4 className={headingStyles}>Developers</h4>
         {Object.entries(ROUTES)
-          .filter(([_, { type }]) => type === "dev")
+          .filter(([_, { type, hidden }]) => type === "dev" && !hidden)
           .map(([_id, route]) => (
             <Link href={route.path} legacyBehavior key={route.path}>
               <a onClick={closeMenu} className="mb-3 text-right">

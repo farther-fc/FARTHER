@@ -16,7 +16,7 @@ import { useDisconnect } from "wagmi";
 export function ProfileMenu() {
   const { fartherUsdPrice, priceLoading } = useTokenInfo();
   const { disconnect } = useDisconnect();
-  const { user, account, balance, userIsLoading } = useUser();
+  const { user, accountAddress, balance, userIsLoading } = useUser();
 
   function closeMenu() {
     document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
@@ -30,7 +30,7 @@ export function ProfileMenu() {
     }, 100);
   };
 
-  const profileHandle = user?.displayName || shortenHash(account.address);
+  const profileHandle = user?.displayName || shortenHash(accountAddress);
 
   return (
     <DropdownMenu>

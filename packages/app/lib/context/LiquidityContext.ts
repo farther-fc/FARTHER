@@ -36,7 +36,7 @@ const LiquidityContext = createContainer(function () {
   const router = useRouter();
   const isValidPath = PATHS.includes(router.pathname);
   const pollingTimer = React.useRef<NodeJS.Timeout>();
-  const { account, user } = useUser();
+  const { accountAddress, user } = useUser();
   const [positions, setPositions] = React.useState<Position[]>();
   const logError = useLogError();
   const pathname = usePathname();
@@ -49,9 +49,9 @@ const LiquidityContext = createContainer(function () {
     abi: UniswapV3StakerAbi,
     address: contractAddresses.UNISWAP_V3_STAKER,
     functionName: "rewards",
-    args: [contractAddresses.FARTHER, account.address as Address],
+    args: [contractAddresses.FARTHER, accountAddress as Address],
     query: {
-      enabled: isValidPath && !!account.address,
+      enabled: isValidPath && !!accountAddress,
     },
   });
   const {
@@ -60,15 +60,15 @@ const LiquidityContext = createContainer(function () {
     isLoading: _positionsLoading,
     refetch: refetchIndexerData,
   } = useQuery({
-    queryKey: [account.address],
+    queryKey: [accountAddress],
     queryFn: () => {
-      if (!account.address) return null;
+      if (!accountAddress) return null;
       return sdk.FartherPositions({
-        ownerId: account.address.toLowerCase() as Address,
+        ownerId: accountAddress.toLowerCase() as Address,
         poolId: contractAddresses.UNIV3_FARTHER_ETH_30BPS_POOL,
       });
     },
-    enabled: isValidPath && !!account.address,
+    enabled: isValidPath && !!accountAddress,
   });
 
   const indexerDataLoading =
@@ -116,7 +116,7 @@ const LiquidityContext = createContainer(function () {
   );
 
   const fetchPositionLiqAndRewards = React.useCallback(async () => {
-    if (!indexerData?.positions.length || !account.address) return;
+    if (!indexerData?.positions.length || !accountAddress) return;
     try {
       const pendingStakedLiqRewards = await getPendingRewards(
         indexerData.positions.filter((p) => p.isStaked),
@@ -161,7 +161,7 @@ const LiquidityContext = createContainer(function () {
         error,
       });
     }
-  }, [indexerData, account.address, logError, getPendingRewards]);
+  }, [indexerData, accountAddress, logError, getPendingRewards]);
 
   // Poll for pending rewards
   React.useEffect(() => {
@@ -185,9 +185,9 @@ const LiquidityContext = createContainer(function () {
 
   // Clear polling if connected address changes
   React.useEffect(() => {
-    if (!account.address) return;
+    if (!accountAddress) return;
     clearTimeout(pollingTimer.current);
-  }, [account.address]);
+  }, [accountAddress]);
 
   React.useEffect(() => {
     if (!positionsFetchError) return;
@@ -221,9 +221,9 @@ const LiquidityContext = createContainer(function () {
 
   /** Wipe positions when account is changed */
   React.useEffect(() => {
-    if (!account.address) return;
+    if (!accountAddress) return;
     setPositions(undefined);
-  }, [account.address]);
+  }, [accountAddress]);
 
   const rewardsClaimed = indexerData?.accountById?.rewardsClaimed as
     | string

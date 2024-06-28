@@ -28,7 +28,7 @@ import { Info } from "lucide-react";
 import Link from "next/link";
 
 export default function ProfilePage() {
-  const { account, user, userIsLoading } = useUser();
+  const { accountAddress, user, userIsLoading } = useUser();
   const { handleClaimRewards, claimSuccess, claimPending } =
     useLiquidityHandlers();
   const {
@@ -66,7 +66,7 @@ export default function ProfilePage() {
             <Skeleton className="h-[200px]" />
           ) : (
             <>
-              {!account.isConnected ? (
+              {!accountAddress ? (
                 <InfoCard className="text-center" variant="ghost">
                   <Button
                     sentryId={clickIds.rewardsPageConnectWallet}

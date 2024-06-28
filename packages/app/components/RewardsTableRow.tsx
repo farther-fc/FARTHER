@@ -38,11 +38,11 @@ export function RewardsTableRow({
     ElementType<NonNullable<GetUserOuput>["allocations"]>
   >;
 }) {
-  const { account, refetchBalance, user } = useUser();
+  const { chainId, accountAddress, refetchBalance, user } = useUser();
   const addressMismatch =
     !!allocation.address &&
-    !!account?.address &&
-    allocation.address.toLowerCase() !== account.address.toLowerCase();
+    !!accountAddress &&
+    allocation.address.toLowerCase() !== accountAddress.toLowerCase();
   const logError = useLogError();
   const { mutate: setAllocationClaimed } =
     trpcClient.setAllocationClaimed.useMutation();
@@ -94,7 +94,7 @@ export function RewardsTableRow({
     }
 
     // For typescript
-    if (!account) {
+    if (!accountAddress) {
       return;
     }
 
@@ -107,7 +107,7 @@ export function RewardsTableRow({
       return;
     }
 
-    if (account.chainId !== CHAIN_ID) {
+    if (chainId !== CHAIN_ID) {
       try {
         await switchChainAsync({ chainId: CHAIN_ID });
       } catch (error) {
@@ -122,7 +122,7 @@ export function RewardsTableRow({
       functionName: "claim",
       args: [
         BigInt(allocation.index),
-        account.address as Address,
+        accountAddress as Address,
         BigInt(allocation.amount),
         proof as `0x${string}`[],
       ],

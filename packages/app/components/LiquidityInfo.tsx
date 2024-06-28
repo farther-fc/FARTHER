@@ -16,7 +16,7 @@ import { useConnectModal } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
 
 export function LiquidityInfo() {
-  const { account } = useUser();
+  const { accountAddress } = useUser();
   const { openModal } = useModal();
   const { openConnectModal } = useConnectModal();
 
@@ -86,7 +86,7 @@ export function LiquidityInfo() {
             </li>
           </ul>
         </li>
-        {!account.address && (
+        {!accountAddress && (
           <li>
             <Button
               sentryId={clickIds.liqInfoConnect}
