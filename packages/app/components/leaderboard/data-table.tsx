@@ -2,15 +2,16 @@
 
 import {
   ColumnDef,
+  SortingState,
   flexRender,
   getCoreRowModel,
-  useReactTable,
-  getPaginationRowModel,
-  SortingState,
-  getSortedRowModel,
   getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
 } from "@tanstack/react-table";
 
+import { Button } from "@components/ui/Button";
 import {
   Table,
   TableBody,
@@ -19,17 +20,18 @@ import {
   TableHeader,
   TableRow,
 } from "@components/ui/Table";
-import { Button } from "@components/ui/Button";
 import React from "react";
 
 import DoubleArrowLeftIcon from "@components/icons/DoubleArrowLeftIcon";
 import DoubleArrowRightIcon from "@components/icons/DoubleArrowRightIcon";
+import { Skeleton } from "@components/ui/Skeleton";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { DataTableToolbar } from "./data-table-toolbar";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  data?: TData[];
+  isLoading?: boolean;
 }
 
 export function DataTable<TData, TValue>({
@@ -41,7 +43,7 @@ export function DataTable<TData, TValue>({
   ]);
 
   const table = useReactTable({
-    data,
+    data: data ?? [],
     columns,
     state: {
       sorting,
@@ -54,10 +56,10 @@ export function DataTable<TData, TValue>({
     enableColumnFilters: true,
   });
 
-  return (
+  return data ? (
     <div className="space-y-4 ">
       <DataTableToolbar table={table} />
-      <div className="rounded-md border table-container overflow-auto lg:overflow-visible ">
+      <div className="table-container overflow-auto rounded-md border lg:overflow-visible ">
         <Table className=" w-full ">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -66,7 +68,7 @@ export function DataTable<TData, TValue>({
                   <TableHead
                     key={header.id}
                     colSpan={header.colSpan}
-                    className="table-head w-1/4 lg:w-1/6 h-[80px]"
+                    className="table-head h-[80px] w-1/4 lg:w-1/6"
                   >
                     {header.isPlaceholder
                       ? null
@@ -89,7 +91,7 @@ export function DataTable<TData, TValue>({
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
-                      className="table-cell w-1/4 lg:w-1/6 text-center"
+                      className="table-cell w-1/4 text-center lg:w-1/6"
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
@@ -121,43 +123,45 @@ export function DataTable<TData, TValue>({
           <div className="flex items-center space-x-2">
             <Button
               sentryId="leaderboard_pagination_button"
-              className="hidden h-8 w-8 p-0 lg:flex"
+              className="hidden size-8 p-0 lg:flex"
               onClick={() => table.setPageIndex(0)}
               disabled={!table.getCanPreviousPage()}
             >
               <span className="sr-only">Go to first page</span>
-              <DoubleArrowLeftIcon className="h-4 w-4" />
+              <DoubleArrowLeftIcon className="size-4" />
             </Button>
             <Button
               sentryId="leaderboard_pagination_button"
-              className="h-8 w-8 p-0"
+              className="size-8 p-0"
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
             >
               <span className="sr-only">Go to previous page</span>
-              <ChevronLeftIcon className="h-4 w-4" />
+              <ChevronLeftIcon className="size-4" />
             </Button>
             <Button
               sentryId="leaderboard_pagination_button"
-              className="h-8 w-8 p-0"
+              className="size-8 p-0"
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
             >
               <span className="sr-only">Go to next page</span>
-              <ChevronRightIcon className="h-4 w-4" />
+              <ChevronRightIcon className="size-4" />
             </Button>
             <Button
               sentryId="leaderboard_pagination_button"
-              className="hidden h-8 w-8 p-0 lg:flex"
+              className="hidden size-8 p-0 lg:flex"
               onClick={() => table.setPageIndex(table.getPageCount() - 1)}
               disabled={!table.getCanNextPage()}
             >
               <span className="sr-only">Go to last page</span>
-              <DoubleArrowRightIcon className="h-4 w-4" />
+              <DoubleArrowRightIcon className="size-4" />
             </Button>
           </div>
         </div>
       </div>
     </div>
+  ) : (
+    <Skeleton className="h-96" />
   );
 }
