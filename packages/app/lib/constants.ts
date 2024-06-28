@@ -29,7 +29,7 @@ export const ROUTES = {
     title: "Evangelize",
     path: "/evangelize",
     type: "feature",
-    hidden: true,
+    hidden: false,
   },
   tokenomics: {
     title: "Tokenomics",
