@@ -103,4 +103,4 @@ export const clickIds = {
 export const POSITIONS_REFRESH_INTERVAL = 10_000;
 
 export const JULY_ANNOUCEMENT_LINK =
-  "https://paragraph.xyz/@farther/preview/VN6bCGK8QDq4IW1IQukA";
+  "https://paragraph.xyz/@farther/farther-toward-the-horizon";
