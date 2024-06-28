@@ -13,6 +13,12 @@ export const ROUTES = {
     type: "feature",
     hidden: false,
   },
+  tipsLeaderboard: {
+    title: "Tips Leaderboard",
+    path: "/tips/leaderboard",
+    type: "feature",
+    hidden: true,
+  },
   liquidty: {
     title: "Liquidity",
     path: "/liquidity",

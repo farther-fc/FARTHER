@@ -98,7 +98,7 @@ export function TipsUserInfo() {
           >
             Connect your wallet
           </Button>
-          &nbsp; to see your tips info.
+          &nbsp; to see your stats.
         </InfoCard>
       ) : (
         <NoUserFoundCard />
