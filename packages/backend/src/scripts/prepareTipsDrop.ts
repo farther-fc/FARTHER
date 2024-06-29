@@ -83,18 +83,21 @@ async function prepareTipsDrop() {
     );
   }
 
-  const leafData = recipientsWithAddress.map((a, i) => ({
+  const leafsWithFids = recipientsWithAddress.map((a, i) => ({
+    fid: a.fid,
     index: i,
     address: a.address as `0x${string}`,
     amount: a.amount,
   }));
 
-  const allocationSum = leafData.reduce(
+  const leafs = leafsWithFids.map(({ fid, ...leafData }) => leafData);
+
+  const allocationSum = leafsWithFids.reduce(
     (acc, d) => BigInt(d.amount) + acc,
     BigInt(0),
   );
 
-  const root = getMerkleRoot(leafData);
+  const root = getMerkleRoot(leafs);
 
   const airdrop = await prisma.airdrop.create({
     data: {
@@ -107,21 +110,21 @@ async function prepareTipsDrop() {
   });
 
   await prisma.$transaction(
-    recipientsWithAddress.map((recipient) => {
-      const index = leafData.findIndex((l) => l.address === recipient.address);
+    leafsWithFids.map((leaf) => {
+      const recipient = recipientsWithAddress.find((r) => r.fid === leaf.fid);
 
-      if (index === -1) {
-        throw new Error(`Index not found for ${recipient.address}`);
+      if (!recipient) {
+        throw new Error(`Recipient not found for leaf with fid: ${leaf.fid}`);
       }
 
       return prisma.allocation.create({
         data: {
           id: uuidv4(),
           airdropId: airdrop.id,
-          userId: recipient.fid,
-          address: recipient.address as Address,
-          amount: recipient.amount,
-          index,
+          userId: leaf.fid,
+          address: leaf.address as Address,
+          amount: leaf.amount,
+          index: leaf.index,
           type: AllocationType.TIPS,
           tips: {
             connect: recipient.tipsReceived.map((t) => ({ hash: t.hash })),
@@ -145,7 +148,7 @@ async function prepareTipsDrop() {
         minUserAllocation: sortedAllocations[0],
         maxUserAllocation: sortedAllocations[sortedAllocations.length - 1],
         startTime: Math.round(NEXT_AIRDROP_START_TIME.getTime() / 1000),
-        leafData,
+        rawLeafData: leafs,
       },
       null,
       2,

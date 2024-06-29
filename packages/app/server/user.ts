@@ -1,11 +1,8 @@
 import {
-  DEV_USER_ADDRESS,
-  DEV_USER_FID,
   cacheTimes,
   fetchUserByAddress,
   fetchUserByFid,
   getPowerBadgeFids,
-  isProduction,
 } from "@farther/common";
 import {
   PENDING_POWER_ALLOCATION_ID,
@@ -91,12 +88,19 @@ export const getUser = publicProcedure
         });
       }
 
-      if (totalTipsReceived) {
+      const unallocatedTips =
+        dbUser?.tipsReceived.filter((t) => t.allocationId === null) || [];
+
+      if (unallocatedTips.length > 0) {
+        const totalUnallocatedTips = unallocatedTips.reduce(
+          (total, tip) => tip.amount + total,
+          0,
+        );
         allocations.push({
           type: AllocationType.TIPS,
           id: PENDING_TIPS_ALLOCATION_ID,
           isClaimed: false,
-          amount: BigInt(totalTipsReceived * 10 ** 18).toString(),
+          amount: BigInt(totalUnallocatedTips * 10 ** 18).toString(),
           referenceAmount: "0",
           baseAmount: "0",
           airdrop: null,
@@ -220,17 +224,17 @@ async function getUserFromNeynar({
     throw new Error("Must provide either address or fid");
   }
 
-  if (!isProduction) {
-    return {
-      fid: DEV_USER_FID,
-      username: "testuser",
-      displayName: "Test User",
-      pfpUrl:
-        "https://wrpcd.net/cdn-cgi/image/fit=contain,f=auto,w=168/https%3A%2F%2Fi.imgur.com%2F3hrPNK8.jpg",
-      powerBadge: false,
-      verifiedAddresses: [DEV_USER_ADDRESS],
-    };
-  }
+  // if (!isProduction) {
+  //   return {
+  //     fid: DEV_USER_FID,
+  //     username: "testuser",
+  //     displayName: "Test User",
+  //     pfpUrl:
+  //       "https://wrpcd.net/cdn-cgi/image/fit=contain,f=auto,w=168/https%3A%2F%2Fi.imgur.com%2F3hrPNK8.jpg",
+  //     powerBadge: false,
+  //     verifiedAddresses: [DEV_USER_ADDRESS],
+  //   };
+  // }
 
   let user: NeynarUser | null = null;
 

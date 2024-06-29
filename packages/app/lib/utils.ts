@@ -1,4 +1,4 @@
-import { DUST_AMOUNT, getStartOfMonthUTC } from "@farther/common";
+import { DUST_AMOUNT } from "@farther/common";
 import { clsx, type ClassValue } from "clsx";
 import dayjs from "dayjs";
 import numeral from "numeral";
@@ -21,7 +21,7 @@ export const shortenHash = (
   );
 };
 
-export const formatAirdropTime = (date: Date = getStartOfMonthUTC()) => {
+export const formatAirdropTime = (date: Date) => {
   const oneDay = 8.64e7;
   const fiveDays = oneDay * 5;
   // Calculate time until airdrop

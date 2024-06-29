@@ -43,7 +43,7 @@ export default function LiquidityPage() {
     pendingBonusAmount,
     unclaimedBonusAllocations,
     unclaimedBonusStartTime,
-    hasCurrentCycleBeenAirdropped,
+    bonusLpRewardsDropDate,
   } = useLiquidity();
 
   const claimableBonusAmount =
@@ -143,12 +143,7 @@ export default function LiquidityPage() {
                       sentryId={clickIds.liquidityPendingBonus}
                       disabled={true}
                     >
-                      Avail.{" "}
-                      {formatAirdropTime(
-                        getStartOfMonthUTC(
-                          hasCurrentCycleBeenAirdropped ? 2 : 1,
-                        ),
-                      )}
+                      Avail. {bonusLpRewardsDropDate}
                     </Button>
                   )}
                 </div>
