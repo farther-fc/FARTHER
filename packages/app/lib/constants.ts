@@ -13,6 +13,12 @@ export const ROUTES = {
     type: "feature",
     hidden: false,
   },
+  tipsLeaderboard: {
+    title: "Tips Leaderboard",
+    path: "/tips/leaderboard",
+    type: "feature",
+    hidden: true,
+  },
   liquidty: {
     title: "Liquidity",
     path: "/liquidity",
@@ -29,7 +35,7 @@ export const ROUTES = {
     title: "Evangelize",
     path: "/evangelize",
     type: "feature",
-    hidden: true,
+    hidden: false,
   },
   tokenomics: {
     title: "Tokenomics",
@@ -103,4 +109,4 @@ export const clickIds = {
 export const POSITIONS_REFRESH_INTERVAL = 10_000;
 
 export const JULY_ANNOUCEMENT_LINK =
-  "https://paragraph.xyz/@farther/preview/VN6bCGK8QDq4IW1IQukA";
+  "https://paragraph.xyz/@farther/farther-toward-the-horizon";

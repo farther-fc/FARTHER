@@ -6,14 +6,20 @@ export default function EvangelizePage() {
   return (
     <Container variant="page">
       <div className="mx-auto mt-[20vh] max-w-[350px] text-center">
+        <p className="mb-6">
+          The evangelist program has concluded. Thank you to all who
+          participated!
+        </p>
+        <p className="mb-6">
+          The remaining evangelist tokens are being reallocated to other Farther
+          features, and a Farther app is in development which aims to create
+          stronger utility while staying aligned with Farther's mission.{" "}
+        </p>
         <p>
-          The evangelist program has concluded and its remaining tokens have
-          been reallocated to other Farther features.{" "}
           <ExternalLink href={JULY_ANNOUCEMENT_LINK}>
             Learn more here.
           </ExternalLink>{" "}
         </p>{" "}
-        <p className="mt-8">Thank you to all who participated!</p>
       </div>
     </Container>
   );
