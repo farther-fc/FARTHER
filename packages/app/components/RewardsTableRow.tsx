@@ -3,7 +3,11 @@ import { Button } from "@components/ui/Button";
 import { Popover } from "@components/ui/Popover";
 import { TableCell, TableRow } from "@components/ui/Table";
 import { AllocationType } from "@farther/backend";
-import { CHAIN_ID, FartherAirdrop__factory } from "@farther/common";
+import {
+  CHAIN_ID,
+  FartherAirdrop__factory,
+  getStartOfMonthUTC,
+} from "@farther/common";
 import {
   PENDING_POWER_ALLOCATION_ID,
   PENDING_TIPS_ALLOCATION_ID,
@@ -33,10 +37,12 @@ type ElementType<T> = T extends (infer U)[] ? U : T;
 
 export function RewardsTableRow({
   allocation,
+  allocTypeHasUpcomingAirdrop,
 }: {
   allocation: NonNullable<
     ElementType<NonNullable<GetUserOuput>["allocations"]>
   >;
+  allocTypeHasUpcomingAirdrop?: boolean;
 }) {
   const { chainId, accountAddress, refetchBalance, user } = useUser();
   const addressMismatch =
@@ -167,9 +173,8 @@ export function RewardsTableRow({
     }
   }, [setAllocationClaimed, allocation, isClaimed]);
 
-  const startTime = allocation.airdrop?.startTime;
-  const startTimeNum = startTime
-    ? new Date(startTime).getTime()
+  const startTimeNum = allocation.airdrop?.startTime
+    ? new Date(allocation.airdrop.startTime).getTime()
     : Number.POSITIVE_INFINITY;
   const airdropStartTimeExceeded = Date.now() > startTimeNum;
 
@@ -180,13 +185,13 @@ export function RewardsTableRow({
     hasClaimed ||
     isProofLoading;
 
-  const buttonText = !allocation.airdrop?.address
-    ? `Avail. ${formatAirdropTime()}`
+  const buttonText = !allocation.airdrop?.startTime
+    ? `Avail. ${formatAirdropTime(getStartOfMonthUTC(allocTypeHasUpcomingAirdrop ? 2 : 1))}`
     : hasClaimed
       ? "Claimed"
       : airdropStartTimeExceeded
         ? "Claim"
-        : `Avail. ${formatAirdropTime(new Date(startTime as string))}`;
+        : `Avail. ${formatAirdropTime(new Date(allocation.airdrop.startTime as string))}`;
 
   const amountContent = (
     <>
@@ -210,7 +215,9 @@ export function RewardsTableRow({
       <TableCell className="text-right">
         {allocation.airdrop
           ? dayjs(allocation.airdrop?.startTime).format("MMM D")
-          : null}
+          : allocTypeHasUpcomingAirdrop
+            ? formatAirdropTime(getStartOfMonthUTC(2))
+            : null}
       </TableCell>
       <TableCell className="pr-1 text-right ">
         {allocation.id === PENDING_POWER_ALLOCATION_ID ? (

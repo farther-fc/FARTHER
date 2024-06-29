@@ -1,17 +1,18 @@
 import {
-  // ANVIL_AIRDROP_ADDRESS,
-  // CHAIN_ID,
+  ANVIL_AIRDROP_ADDRESS,
+  CHAIN_ID,
   DEV_USER_ADDRESS,
   DEV_USER_FID,
   ENVIRONMENT,
   LIQUIDITY_BONUS_MULTIPLIER,
   NETWORK,
+  NEXT_AIRDROP_END_TIME,
   NEXT_AIRDROP_START_TIME,
   getMerkleRoot,
   isProduction,
   neynarLimiter,
 } from "@farther/common";
-// import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from "uuid";
 import { getLpAccounts } from "../../../app/server/liquidity/getLpAccounts";
 import { AllocationType, prisma } from "../prisma";
 import { formatNum, writeFile } from "../utils/helpers";
@@ -35,13 +36,6 @@ async function prepareLpBonusDrop() {
 
     const addresses = Array.from(lpsWithRewards).map((d) => d.id);
 
-    console.log(
-      "welp lp data",
-      lpsWithRewards.filter(
-        (a) => a.id === "0x4888c0030b743c17c89a8af875155cf75dcfd1e1",
-      ),
-    );
-
     // Get all airdropped liquidity reward allocations
     const allocations = await prisma.allocation.findMany({
       where: {
@@ -60,13 +54,6 @@ async function prepareLpBonusDrop() {
         referenceAmount: true,
       },
     });
-
-    console.log(
-      "welp allocations",
-      allocations.filter(
-        (a) => a.address === "0x4888c0030b743c17c89a8af875155cf75dcfd1e1",
-      ),
-    );
 
     // Group by address and sum amounts for each address
     const previouslyAllocated: Record<
@@ -87,11 +74,6 @@ async function prepareLpBonusDrop() {
       }
       return acc;
     }, {});
-
-    console.log(
-      "welp past total",
-      previouslyAllocated["0x4888c0030b743c17c89a8af875155cf75dcfd1e1"],
-    );
 
     // Limit to users with power badges
     const usersData = await getUserData(addresses);
@@ -156,49 +138,47 @@ async function prepareLpBonusDrop() {
       throw new Error("Merkle root is 0x");
     }
 
-    // TODO: Prior to running this again, test it many times. Something still seems off.
-
-    // await prisma.$transaction(async (tx) => {
-    //   // Create Airdrop
-    //   const airdrop = await tx.airdrop.create({
-    //     data: {
-    //       chainId: CHAIN_ID,
-    //       amount: allocationSum.toString(),
-    //       root,
-    //       address:
-    //         ENVIRONMENT === "development" ? ANVIL_AIRDROP_ADDRESS : undefined,
-    //       startTime: NEXT_AIRDROP_START_TIME,
-    //       endTime,
-    //     },
-    //   });
-
-    //   // Save allocations
-    //   await tx.allocation.createMany({
-    //     data: allocationData.map((r, i) => ({
-    //       id: uuidv4(),
-    //       userId: r.fid,
-    //       index: i,
-    //       airdropId: airdrop.id,
-    //       type: AllocationType.LIQUIDITY,
-    //       address: r.address.toLowerCase(),
-    //       amount: r.amount.toString(),
-    //       referenceAmount: r.referenceAmount.toString(),
-    //     })),
-    //   });
-
-    await writeFile(
-      `airdrops/${ENVIRONMENT}/${AllocationType.LIQUIDITY.toLowerCase()}-${NEXT_AIRDROP_START_TIME.toISOString()}.json`,
-      JSON.stringify(
-        {
-          root,
+    await prisma.$transaction(async (tx) => {
+      // Create Airdrop
+      const airdrop = await tx.airdrop.create({
+        data: {
+          chainId: CHAIN_ID,
           amount: allocationSum.toString(),
-          rawLeafData,
+          root,
+          address:
+            ENVIRONMENT === "development" ? ANVIL_AIRDROP_ADDRESS : undefined,
+          startTime: NEXT_AIRDROP_START_TIME,
+          endTime: NEXT_AIRDROP_END_TIME,
         },
-        null,
-        2,
-      ),
-    );
-    // });
+      });
+
+      // Save allocations
+      await tx.allocation.createMany({
+        data: allocationData.map((r, i) => ({
+          id: uuidv4(),
+          userId: r.fid,
+          index: i,
+          airdropId: airdrop.id,
+          type: AllocationType.LIQUIDITY,
+          address: r.address.toLowerCase(),
+          amount: r.amount.toString(),
+          referenceAmount: r.referenceAmount.toString(),
+        })),
+      });
+
+      await writeFile(
+        `airdrops/${ENVIRONMENT}/${AllocationType.LIQUIDITY.toLowerCase()}-${NEXT_AIRDROP_START_TIME.toISOString()}.json`,
+        JSON.stringify(
+          {
+            root,
+            amount: allocationSum.toString(),
+            rawLeafData,
+          },
+          null,
+          2,
+        ),
+      );
+    });
 
     const sortedallocations = allocationData.sort((a, b) => {
       if (BigInt(a.amount) < BigInt(b.amount)) {
@@ -209,8 +189,6 @@ async function prepareLpBonusDrop() {
         return 0;
       }
     });
-
-    console.log(sortedallocations);
 
     console.info({
       root,

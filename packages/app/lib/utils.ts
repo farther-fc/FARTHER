@@ -1,4 +1,4 @@
-import { DUST_AMOUNT, getStartOfMonthUTC } from "@farther/common";
+import { DUST_AMOUNT } from "@farther/common";
 import { clsx, type ClassValue } from "clsx";
 import dayjs from "dayjs";
 import numeral from "numeral";
@@ -21,7 +21,7 @@ export const shortenHash = (
   );
 };
 
-export const formatAirdropTime = (date: Date = getStartOfMonthUTC()) => {
+export const formatAirdropTime = (date: Date) => {
   const oneDay = 8.64e7;
   const fiveDays = oneDay * 5;
   // Calculate time until airdrop
@@ -73,14 +73,4 @@ export function removeFalsyValues<T>(list: readonly T[]): NonNullable<T>[] {
   return list.filter(
     (item): item is NonNullable<T> => item != null,
   ) as NonNullable<T>[];
-}
-
-export function maxBigInt(...values: bigint[]) {
-  if (values.length === 0) {
-    throw new Error("No values provided");
-  }
-  return values.reduce(
-    (max, current) => (current > max ? current : max),
-    values[0],
-  );
 }
