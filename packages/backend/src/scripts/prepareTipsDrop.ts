@@ -108,6 +108,12 @@ async function prepareTipsDrop() {
 
   await prisma.$transaction(
     recipientsWithAddress.map((recipient) => {
+      const index = leafData.findIndex((l) => l.address === recipient.address);
+
+      if (index === -1) {
+        throw new Error(`Index not found for ${recipient.address}`);
+      }
+
       return prisma.allocation.create({
         data: {
           id: uuidv4(),
@@ -115,6 +121,7 @@ async function prepareTipsDrop() {
           userId: recipient.fid,
           address: recipient.address as Address,
           amount: recipient.amount,
+          index,
           type: AllocationType.TIPS,
           tips: {
             connect: recipient.tipsReceived.map((t) => ({ hash: t.hash })),
