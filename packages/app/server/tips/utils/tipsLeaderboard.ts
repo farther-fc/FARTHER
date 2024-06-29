@@ -1,7 +1,7 @@
 import { prisma } from "@farther/backend";
 import { ENVIRONMENT, neynarLimiter } from "@farther/common";
 import { kv } from "@vercel/kv";
-import { leaderboardDummyData } from "server/tips/dummyData/leaderboard";
+import { leaderboardDummyData } from "../dummyData/leaderboard";
 
 const key = `TIPS_LEADERBOARD`;
 
