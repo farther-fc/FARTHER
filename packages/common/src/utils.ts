@@ -68,3 +68,13 @@ export async function getPowerBadgeFids() {
 
   return powerBadgeFids;
 }
+
+export function maxBigInt(...values: bigint[]) {
+  if (values.length === 0) {
+    throw new Error("No values provided");
+  }
+  return values.reduce(
+    (max, current) => (current > max ? current : max),
+    values[0],
+  );
+}
