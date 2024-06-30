@@ -14,22 +14,13 @@ import { AllocationType, prisma } from "../prisma";
 import { writeFile } from "../utils/helpers";
 import { airdropSanityCheck } from "./airdropSanityCheck";
 
+/// TODO: MAKE SURE THIS WORKS CORRECTLY IN AUGUST!!!
+
 async function prepareTipsDrop() {
   await airdropSanityCheck({
     date: NEXT_AIRDROP_START_TIME,
     network: NETWORK,
     environment: ENVIRONMENT,
-  });
-
-  // Get date of last tips drop
-  const latestTipsAirdrop = await prisma.airdrop.findFirst({
-    where: {
-      allocations: {
-        some: {
-          type: AllocationType.TIPS,
-        },
-      },
-    },
   });
 
   // Get all users who have received tips that haven't been allocated an airdrop
@@ -61,9 +52,11 @@ async function prepareTipsDrop() {
     address: u.verified_addresses.eth_addresses[0],
     amount: (
       BigInt(
-        users
-          .find((user) => user.id === u.fid)
-          .tipsReceived.reduce((acc, t) => t.amount + acc, 0),
+        Math.round(
+          users
+            .find((user) => user.id === u.fid)
+            .tipsReceived.reduce((acc, t) => t.amount + acc, 0),
+        ),
       ) * WAD_SCALER
     ).toString(),
     tipsReceived: users.find((user) => user.id === u.fid).tipsReceived,
@@ -90,67 +83,85 @@ async function prepareTipsDrop() {
     );
   }
 
-  const leafData = recipientsWithAddress.map((a, i) => ({
+  const leafsWithFids = recipientsWithAddress.map((a, i) => ({
+    fid: a.fid,
     index: i,
     address: a.address as `0x${string}`,
     amount: a.amount,
   }));
 
-  const allocationSum = leafData.reduce(
+  const leafs = leafsWithFids.map(({ fid, ...leafData }) => leafData);
+
+  const allocationSum = leafsWithFids.reduce(
     (acc, d) => BigInt(d.amount) + acc,
     BigInt(0),
   );
 
-  const root = getMerkleRoot(leafData);
+  const root = getMerkleRoot(leafs);
 
-  await prisma.$transaction(async (tx) => {
-    // Create airdrop
-    const airdrop = await tx.airdrop.create({
-      data: {
-        chainId: CHAIN_ID,
-        amount: allocationSum.toString(),
-        root,
-        startTime: NEXT_AIRDROP_START_TIME,
-        endTime: NEXT_AIRDROP_END_TIME,
-      },
-    });
+  const airdrop = await prisma.airdrop.create({
+    data: {
+      chainId: CHAIN_ID,
+      amount: allocationSum.toString(),
+      root,
+      startTime: NEXT_AIRDROP_START_TIME,
+      endTime: NEXT_AIRDROP_END_TIME,
+    },
+  });
 
-    for (const recipient of recipientsWithAddress) {
-      await tx.allocation.create({
+  await prisma.$transaction(
+    leafsWithFids.map((leaf) => {
+      const recipient = recipientsWithAddress.find((r) => r.fid === leaf.fid);
+
+      if (!recipient) {
+        throw new Error(`Recipient not found for leaf with fid: ${leaf.fid}`);
+      }
+
+      return prisma.allocation.create({
         data: {
           id: uuidv4(),
           airdropId: airdrop.id,
-          userId: recipient.fid,
-          address: recipient.address as Address,
-          amount: recipient.amount,
+          userId: leaf.fid,
+          address: leaf.address as Address,
+          amount: leaf.amount,
+          index: leaf.index,
           type: AllocationType.TIPS,
           tips: {
             connect: recipient.tipsReceived.map((t) => ({ hash: t.hash })),
           },
         },
       });
-    }
+    }),
+  );
 
-    const sortedAllocations = recipientsWithAddress
-      .map((r) => Number(BigInt(r.amount) / WAD_SCALER))
-      .sort((a, b) => a - b);
+  const sortedAllocations = recipientsWithAddress
+    .map((r) => Number(BigInt(r.amount) / WAD_SCALER))
+    .sort((a, b) => a - b);
 
-    await writeFile(
-      `airdrops/${ENVIRONMENT}/${AllocationType.TIPS.toLowerCase()}-${NEXT_AIRDROP_START_TIME.toISOString()}.json`,
-      JSON.stringify(
-        {
-          root,
-          amount: allocationSum.toString(),
-          numberOfRecipients: recipientsWithAddress.length,
-          minUserAllocation: sortedAllocations[0],
-          maxUserAllocation: sortedAllocations[sortedAllocations.length - 1],
-          startTime: Math.round(NEXT_AIRDROP_START_TIME.getTime() / 1000),
-          leafData,
-        },
-        null,
-        2,
-      ),
-    );
+  await writeFile(
+    `airdrops/${ENVIRONMENT}/${AllocationType.TIPS.toLowerCase()}-${NEXT_AIRDROP_START_TIME.toISOString()}.json`,
+    JSON.stringify(
+      {
+        root,
+        amount: allocationSum.toString(),
+        numberOfRecipients: recipientsWithAddress.length,
+        minUserAllocation: sortedAllocations[0],
+        maxUserAllocation: sortedAllocations[sortedAllocations.length - 1],
+        startTime: Math.round(NEXT_AIRDROP_START_TIME.getTime() / 1000),
+        rawLeafData: leafs,
+      },
+      null,
+      2,
+    ),
+  );
+
+  console.info({
+    root,
+    amount: allocationSum.toString(),
+    numberOfRecipients: recipientsWithAddress.length,
+    minUserAllocation: sortedAllocations[0],
+    maxUserAllocation: sortedAllocations[sortedAllocations.length - 1],
+    startTime: Math.round(NEXT_AIRDROP_START_TIME.getTime() / 1000),
   });
 }
 

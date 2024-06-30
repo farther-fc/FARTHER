@@ -5,6 +5,7 @@ import {
   NFTPositionMngrAbi,
   UniswapV3StakerAbi,
   contractAddresses,
+  getStartOfMonthUTC,
   incentivePrograms,
   viemClient,
   viemPublicClient,
@@ -13,6 +14,7 @@ import { POSITIONS_REFRESH_INTERVAL, ROUTES } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import { createContainer } from "@lib/context/unstated";
 import { getEarliestStart } from "@lib/getEarliestStart";
+import { formatAirdropTime } from "@lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { useLogError } from "hooks/useLogError";
 import { usePathname } from "next/navigation";
@@ -269,6 +271,10 @@ const LiquidityContext = createContainer(function () {
     ? unclaimedBonusStartTime > Date.now()
     : false;
 
+  const bonusLpRewardsDropDate = formatAirdropTime(
+    getStartOfMonthUTC(hasCurrentCycleBeenAirdropped ? 2 : 1),
+  );
+
   return {
     rewardsClaimed,
     indexerDataLoading,
@@ -280,7 +286,7 @@ const LiquidityContext = createContainer(function () {
     pendingBonusAmount,
     unclaimedBonusAllocations,
     unclaimedBonusStartTime,
-    hasCurrentCycleBeenAirdropped,
+    bonusLpRewardsDropDate,
   };
 });
 

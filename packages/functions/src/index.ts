@@ -12,7 +12,7 @@ exports.distributeAllowances = functions
   .pubsub.schedule(
     ENV.equals("production").thenElse(true, false)
       ? // This uses PST timezone!
-        "0 12 * * *"
+        "0 9 * * *"
       : "*/5 * * * *",
   )
 

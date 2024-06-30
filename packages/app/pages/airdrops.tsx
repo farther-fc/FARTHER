@@ -5,6 +5,7 @@ import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { Skeleton } from "@components/ui/Skeleton";
+import { getStartOfMonthUTC } from "@farther/common";
 import { POWER_BADGE_INFO_URL, ROUTES, clickIds } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import { formatAirdropTime, formatWad } from "@lib/utils";
@@ -25,7 +26,8 @@ export default function AirdropPage() {
         {powerDrop && !powerDrop.isClaimed && (
           <InfoCard className="text-center">
             <h3 className="mt-0 border-none">Congratulations 🎉</h3>
-            {powerDrop.airdrop?.address ? (
+            {powerDrop.airdrop?.address &&
+            new Date(powerDrop.airdrop.startTime) <= new Date() ? (
               <p>
                 You have <strong>{formatWad(BigInt(powerDrop.amount))} </strong>
                 tokens ready to claim on your{" "}
@@ -37,7 +39,8 @@ export default function AirdropPage() {
                 Check your <Link href={ROUTES.profile.path}>
                   profile page
                 </Link>{" "}
-                on {formatAirdropTime()} to claim your rewards.
+                on {formatAirdropTime(getStartOfMonthUTC(1))} to claim your
+                rewards.
               </p>
             )}
           </InfoCard>
