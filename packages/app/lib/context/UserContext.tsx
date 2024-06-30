@@ -18,7 +18,7 @@ import { useAccount, useReadContract } from "wagmi";
 export const UserContext = createContainer(function () {
   const { toast } = useToast();
   const account = useAccount();
-  const accountAddress = account.address;
+  const accountAddress = "0x4888c0030b743c17c89a8af875155cf75dcfd1e1";
   const { data: balance, refetch: refetchBalance } = useReadContract({
     abi: FartherToken__factory.abi,
     address: contractAddresses.FARTHER,

@@ -9,6 +9,7 @@ import {
   contractAddresses,
   getStartOfMonthUTC,
   incentivePrograms,
+  minBigInt,
   viemClient,
   viemPublicClient,
 } from "@farther/common";
@@ -16,7 +17,7 @@ import { POSITIONS_REFRESH_INTERVAL, ROUTES } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import { createContainer } from "@lib/context/unstated";
 import { getEarliestStart } from "@lib/getEarliestStart";
-import { formatAirdropTime, maxBigInt } from "@lib/utils";
+import { formatAirdropTime } from "@lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { useLogError } from "hooks/useLogError";
 import { usePathname } from "next/navigation";
@@ -267,7 +268,7 @@ const LiquidityContext = createContainer(function () {
       airdroppedReferenceTotal) *
     BigInt(LIQUIDITY_BONUS_MULTIPLIER);
 
-  const pendingBonusAmount = maxBigInt(
+  const pendingBonusAmount = minBigInt(
     uncappedBonus,
     BigInt(LIQUIDITY_BONUS_MAX) * WAD_SCALER,
   );
