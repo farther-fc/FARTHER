@@ -1,7 +1,6 @@
 // TODO: remove this after fix
 
 import { AirdropLeaf, getMerkleRoot, neynarLimiter } from "@farther/common";
-import { Address } from "viem";
 import { prisma } from "../prisma";
 import { leafs } from "./tempTipAllocLeafs";
 
@@ -151,13 +150,22 @@ async function merkleMismatch() {
     throw new Error("Mismatched length");
   }
 
-  const calculatedRoot = getMerkleRoot(
-    airdrop.allocations.map((a) => ({
-      index: a.index,
-      address: a.address as Address,
-      amount: a.amount,
-    })),
-  );
+  const unhashedLeaves = airdrop.allocations.map((r) => {
+    if (typeof r.index !== "number" || !r.address || !r.amount) {
+      throw new Error(
+        `Invalid recipient data. index: ${r.index}, address: ${r.address}, amount: ${r.amount}`,
+      );
+    }
+    return {
+      index: r.index,
+      address: r.address as `0x${string}`,
+      amount: r.amount,
+    };
+  });
+
+  unhashedLeaves.sort((a, b) => a.index - b.index);
+
+  const calculatedRoot = getMerkleRoot(unhashedLeaves);
 
   const calculatedRootFromJson = getMerkleRoot(leafs as AirdropLeaf[]);
 
@@ -165,24 +173,45 @@ async function merkleMismatch() {
   console.log("Actual root: ", airdrop.root);
   console.log("Calculated root from json: ", calculatedRootFromJson);
 
-  if (calculatedRoot !== airdrop.root) {
-    for (const alloc of airdrop.allocations) {
-      const leaf = leafs.find(
-        (l) => l.address === alloc.address && l.index === alloc.index,
+  areLeafsIdentical(leafs, unhashedLeaves);
+
+  console.log("gucci");
+}
+
+type Leafs = Array<{
+  index: number;
+  amount: string;
+  address: string;
+}>;
+function areLeafsIdentical(array1: Leafs, array2: Leafs): boolean {
+  if (array1.length !== array2.length) {
+    throw new Error("Arrays have different lengths");
+  }
+
+  for (let i = 0; i < array1.length; i++) {
+    const leaf1 = array1[i];
+    const leaf2 = array2[i];
+
+    if (leaf1.index !== leaf2.index) {
+      throw new Error(
+        `Mismatched index at position ${i}: ${leaf1.index} !== ${leaf2.index}`,
       );
-      if (!leaf) {
-        console.error("Missing leaf: ", alloc);
-      }
     }
-    for (const leaf of leafs) {
-      const alloc = airdrop.allocations.find(
-        (a) => a.address === leaf.address && a.index === leaf.index,
+
+    if (leaf1.amount !== leaf2.amount) {
+      throw new Error(
+        `Mismatched amount at position ${i}: ${leaf1.amount} !== ${leaf2.amount}`,
       );
-      if (!alloc) {
-        console.error("Missing alloc: ", leaf);
-      }
+    }
+
+    if (leaf1.address !== leaf2.address) {
+      throw new Error(
+        `Mismatched address at position ${i}: ${leaf1.address} !== ${leaf2.address}`,
+      );
     }
   }
+
+  return true;
 }
 
 // removeTipAllocations().catch(console.error);
