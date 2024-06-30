@@ -4,6 +4,7 @@ import { FartherAccountLink } from "@components/nav/FartherLinks";
 import { Button } from "@components/ui/Button";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import {
+  LIQUIDITY_BONUS_MAX,
   LIQUIDITY_BONUS_MULTIPLIER,
   NETWORK,
   allocationRatios,
@@ -31,8 +32,8 @@ export function LiquidityInfo() {
       </p>
       <InfoCard variant="attention">
         Liquidity providers who have a Warpcast power badge currently get a
-        <strong> {LIQUIDITY_BONUS_MULTIPLIER}x bonus </strong>for their claimed
-        rewards airdropped at the end of the month!{"  "}
+        <strong> {LIQUIDITY_BONUS_MULTIPLIER}x bonus </strong> (up to{" "}
+        {LIQUIDITY_BONUS_MAX / 1000}k) at the end of the month!{"  "}
         <Button
           sentryId={clickIds.liquidityInfoBonusRewards}
           onClick={() =>
