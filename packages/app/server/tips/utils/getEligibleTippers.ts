@@ -40,30 +40,18 @@ export async function getEligibleTippers() {
     (eh) => !existingHolderFids.includes(eh.fid),
   );
 
-  // const newHolders = await prisma.$transaction(
-  //   newHolderFids.map((user, i) =>
-  //     prisma.user.create({
-  //       data: {
-  //         id: user.fid,
-  //       },
-  //       include: tipperInclude(previousDistributionTime),
-  //     }),
-  //   ),
-  // );
+  const newHolders = await prisma.$transaction(
+    newHolderFids.map((user, i) =>
+      prisma.user.create({
+        data: {
+          id: user.fid,
+        },
+        include: tipperInclude(previousDistributionTime),
+      }),
+    ),
+  );
 
-  // return [...existingHolders, ...newHolders].map((holder) => {
-  //   const foundHolder = eligibleHolders.find((eh) => eh.fid === holder.id);
-  //   // This is mainly to silence typescript
-  //   if (!foundHolder) {
-  //     throw new Error(`Holder ${holder.id} not found in eligibleHolders`);
-  //   }
-  //   return {
-  //     ...holder,
-  //     totalBalance: foundHolder.totalBalance,
-  //   };
-  // });
-
-  return [...existingHolders].map((holder) => {
+  return [...existingHolders, ...newHolders].map((holder) => {
     const foundHolder = eligibleHolders.find((eh) => eh.fid === holder.id);
     // This is mainly to silence typescript
     if (!foundHolder) {
@@ -71,7 +59,7 @@ export async function getEligibleTippers() {
     }
     return {
       ...holder,
-      totalBalance: foundHolder.totalBalance,
+      totalBalance: foundHolder.totalBalance.toString(),
     };
   });
 }

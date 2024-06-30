@@ -7,8 +7,9 @@ export const allocationRatios = {
   POWER_DROPS: 0.25,
   LIQUIDITY_REWARDS: 0.15,
   LIQUIDITY_BACKSTOP: 0.1,
-  ECOSYSTEM_FUND: 0.3,
-  TIPS: 0.15,
+  EVANGELIST_REWARDS: 0.15,
+  ECOSYSTEM_FUND: 0.2,
+  TIPS: 0.1,
   DEV_FUND: 0.05,
 } as const;
 
@@ -19,6 +20,7 @@ export const tokenAllocations = {
   powerUserAirdrops: TOTAL_TOKEN_SUPPLY * allocationRatios.POWER_DROPS,
   liquidityRewards: TOTAL_TOKEN_SUPPLY * allocationRatios.LIQUIDITY_REWARDS,
   lpBackstop: TOTAL_TOKEN_SUPPLY * allocationRatios.LIQUIDITY_BACKSTOP,
+  evangelistRewards: TOTAL_TOKEN_SUPPLY * allocationRatios.EVANGELIST_REWARDS,
   ecosystemFund: TOTAL_TOKEN_SUPPLY * allocationRatios.ECOSYSTEM_FUND,
   tips: TOTAL_TOKEN_SUPPLY * allocationRatios.TIPS,
   devFund: TOTAL_TOKEN_SUPPLY * allocationRatios.DEV_FUND,
