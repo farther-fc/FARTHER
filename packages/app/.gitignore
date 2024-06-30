@@ -40,3 +40,5 @@ yarn-error.log*
 !.env.vault
 # Sentry Config File
 .sentryclirc
+
+tsconfig.tsbuildinfo

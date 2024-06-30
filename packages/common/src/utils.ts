@@ -78,3 +78,13 @@ export function maxBigInt(...values: bigint[]) {
     values[0],
   );
 }
+
+export function minBigInt(...values: bigint[]) {
+  if (values.length === 0) {
+    throw new Error("No values provided");
+  }
+  return values.reduce(
+    (min, current) => (current < min ? current : min),
+    values[0],
+  );
+}

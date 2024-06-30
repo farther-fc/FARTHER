@@ -4,12 +4,15 @@ import {
   DEV_USER_ADDRESS,
   DEV_USER_FID,
   ENVIRONMENT,
+  LIQUIDITY_BONUS_MAX,
   LIQUIDITY_BONUS_MULTIPLIER,
   NETWORK,
   NEXT_AIRDROP_END_TIME,
   NEXT_AIRDROP_START_TIME,
+  WAD_SCALER,
   getMerkleRoot,
   isProduction,
+  minBigInt,
   neynarLimiter,
 } from "@farther/common";
 import { v4 as uuidv4 } from "uuid";
@@ -107,8 +110,11 @@ async function prepareLpBonusDrop() {
           BigInt(account.rewardsUnclaimed);
 
         // Multiply that amount by the bonus multiplier
-        const totalAmount =
-          referenceAmount * BigInt(LIQUIDITY_BONUS_MULTIPLIER);
+        const totalAmount = minBigInt(
+          referenceAmount * BigInt(LIQUIDITY_BONUS_MULTIPLIER),
+          // TODO: verify this is correct
+          BigInt(LIQUIDITY_BONUS_MAX) * WAD_SCALER,
+        );
         const amount = totalAmount - prevAllocatedAmount;
         return {
           address: account.id,

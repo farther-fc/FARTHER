@@ -1,12 +1,15 @@
 import { FartherPositionsQuery, getBuiltGraphSDK } from ".graphclient";
 import { AllocationType } from "@farther/backend";
 import {
+  LIQUIDITY_BONUS_MAX,
   LIQUIDITY_BONUS_MULTIPLIER,
   NFTPositionMngrAbi,
   UniswapV3StakerAbi,
+  WAD_SCALER,
   contractAddresses,
   getStartOfMonthUTC,
   incentivePrograms,
+  minBigInt,
   viemClient,
   viemPublicClient,
 } from "@farther/common";
@@ -258,12 +261,17 @@ const LiquidityContext = createContainer(function () {
   // Pending reference amount is anything left over after subtracting the airdropped reference
   // (onchain amount that has an associated airdropped bonus) from the total onchain rewards claimed.
   // Multiply by multiplier to get the bonus.
-  const pendingBonusAmount =
+  const uncappedBonus =
     ((claimableRewards || BigInt(0)) +
       BigInt(rewardsClaimed || "0") +
       pendingStakedLiqRewards -
       airdroppedReferenceTotal) *
     BigInt(LIQUIDITY_BONUS_MULTIPLIER);
+
+  const pendingBonusAmount = minBigInt(
+    uncappedBonus,
+    BigInt(LIQUIDITY_BONUS_MAX) * WAD_SCALER,
+  );
 
   const unclaimedBonusStartTime = getEarliestStart(unclaimedBonusAllocations);
 
