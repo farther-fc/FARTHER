@@ -17,11 +17,10 @@ import {
   TableRow,
 } from "@components/ui/Table";
 import { AllocationType } from "@farther/backend";
-import { getStartOfMonthUTC } from "@farther/common";
 import { ROUTES, clickIds } from "@lib/constants";
 import { useLiquidity } from "@lib/context/LiquidityContext";
 import { useUser } from "@lib/context/UserContext";
-import { formatAirdropTime, formatWad, removeFalsyValues } from "@lib/utils";
+import { formatWad, removeFalsyValues } from "@lib/utils";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useLiquidityHandlers } from "hooks/useLiquidityHandlers";
 import { Info } from "lucide-react";
@@ -35,15 +34,36 @@ export default function ProfilePage() {
     claimableRewards,
     rewardsClaimed,
     pendingBonusAmount,
-    hasCurrentCycleBeenAirdropped,
+    bonusLpRewardsDropDate,
   } = useLiquidity();
 
   const rows = removeFalsyValues(user?.allocations || []);
 
   const { openConnectModal } = useConnectModal();
 
-  const bonusLiqDropDate = formatAirdropTime(
-    getStartOfMonthUTC(hasCurrentCycleBeenAirdropped ? 2 : 1),
+  const powerdropHasUpcomingAirdrop = rows.some(
+    (a) =>
+      a.type === AllocationType.POWER_USER &&
+      a.airdrop &&
+      new Date(a.airdrop.startTime) > new Date(),
+  );
+  const evangelistHasUpcomingAirdrop = rows.some(
+    (a) =>
+      a.type === AllocationType.EVANGELIST &&
+      a.airdrop &&
+      new Date(a.airdrop.startTime) > new Date(),
+  );
+  const lpHasUpcomingAirdrop = rows.some(
+    (a) =>
+      a.type === AllocationType.LIQUIDITY &&
+      a.airdrop &&
+      new Date(a.airdrop.startTime) > new Date(),
+  );
+  const tipsHasUpcomingAirdrop = rows.some(
+    (a) =>
+      a.type === AllocationType.TIPS &&
+      a.airdrop &&
+      new Date(a.airdrop.startTime) > new Date(),
   );
 
   return (
@@ -106,22 +126,42 @@ export default function ProfilePage() {
                       {rows
                         .filter((a) => a.type === AllocationType.POWER_USER)
                         .map((a) => (
-                          <RewardsTableRow key={a.id} allocation={a} />
+                          <RewardsTableRow
+                            key={a.id}
+                            allocation={a}
+                            allocTypeHasUpcomingAirdrop={
+                              powerdropHasUpcomingAirdrop
+                            }
+                          />
                         ))}
                       {rows
                         .filter((a) => a.type === AllocationType.TIPS)
                         .map((a) => (
-                          <RewardsTableRow key={a.id} allocation={a} />
+                          <RewardsTableRow
+                            key={a.id}
+                            allocation={a}
+                            allocTypeHasUpcomingAirdrop={tipsHasUpcomingAirdrop}
+                          />
                         ))}
                       {rows
                         .filter((a) => a.type === AllocationType.EVANGELIST)
                         .map((a) => (
-                          <RewardsTableRow key={a.id} allocation={a} />
+                          <RewardsTableRow
+                            key={a.id}
+                            allocation={a}
+                            allocTypeHasUpcomingAirdrop={
+                              evangelistHasUpcomingAirdrop
+                            }
+                          />
                         ))}
                       {rows
                         .filter((a) => a.type === AllocationType.LIQUIDITY)
                         .map((a) => (
-                          <RewardsTableRow key={a.id} allocation={a} />
+                          <RewardsTableRow
+                            key={a.id}
+                            allocation={a}
+                            allocTypeHasUpcomingAirdrop={lpHasUpcomingAirdrop}
+                          />
                         ))}
                       {/** CLAIMABLE ONCHAIN LIQUDITY REWARDS */}
                       {claimableRewards > BigInt(0) && (
@@ -163,11 +203,7 @@ export default function ProfilePage() {
                             </Link>
                           </TableCell>
                           <TableCell className="text-right">
-                            {formatAirdropTime(
-                              getStartOfMonthUTC(
-                                hasCurrentCycleBeenAirdropped ? 2 : 1,
-                              ),
-                            )}
+                            {bonusLpRewardsDropDate}
                           </TableCell>
                           <TableCell className="pr-1 text-right">
                             <Popover content={<LiquidityBonusRewardsPopover />}>
@@ -184,7 +220,7 @@ export default function ProfilePage() {
                                 className="w-tableButton md:w-tableButtonWide"
                                 disabled={true}
                               >
-                                Avail. {bonusLiqDropDate}
+                                Avail. {bonusLpRewardsDropDate}
                               </Button>
                             ) : (
                               <PendingRewardButton />

@@ -48,23 +48,36 @@ export const neynarLimiter = {
 
     return bulkUsersArray.map((data) => data.users).flat();
   },
+
   async getUsersByAddress(addresses: string[]) {
+    const users: Record<string, User[]> = {};
+
     const addressChunks = chunk(addresses, NEYNAR_DATA_SIZE_LIMIT);
 
-    const bulkUsersArray = await Promise.all(
-      addressChunks.map((addresses) =>
-        neynarScheduler.schedule(() =>
-          neynarClient.fetchBulkUsersByEthereumAddress(addresses),
-        ),
-      ),
-    );
+    for (const chunk of addressChunks) {
+      try {
+        const currentChunkUsers =
+          await neynarClient.fetchBulkUsersByEthereumAddress(chunk);
 
-    return bulkUsersArray.reduce(
-      (acc, cur) => {
-        return { ...acc, ...cur };
-      },
-      {} as Record<string, User | User[]>,
-    );
+        for (const address in currentChunkUsers) {
+          users[address] = currentChunkUsers[address];
+        }
+      } catch (error: any) {
+        console.log(error);
+        if (error.status === 404) {
+          for (const address of chunk) {
+            try {
+              const response = await fetchUserByAddress(address);
+              users[address] = response[address];
+            } catch (error) {
+              console.error(`Neynar didn't find user for address: ${address}`);
+            }
+          }
+        }
+      }
+    }
+
+    return users;
   },
 };
 
