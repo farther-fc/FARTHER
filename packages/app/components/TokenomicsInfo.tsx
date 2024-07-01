@@ -62,15 +62,6 @@ function TokenomicsInfo() {
           </ExternalLink>
         </li>
         <li>
-          {allocationRatios.EVANGELIST_REWARDS * 100}%{" "}
-          <Link href={ROUTES.evangelize.path}>evangelist rewards</Link>
-          <ExternalLink
-            href={`https://basescan.org/address/${fundCategoryAddresses.evangelist}`}
-          >
-            <ExternalLinkIcon className="ml-2 inline" size={16} />
-          </ExternalLink>
-        </li>
-        <li>
           {allocationRatios.ECOSYSTEM_FUND * 100}%{" "}
           <Button
             sentryId={clickIds.ecosystemFundOpenModal}

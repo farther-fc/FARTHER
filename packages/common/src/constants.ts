@@ -7,8 +7,7 @@ export const allocationRatios = {
   POWER_DROPS: 0.25,
   LIQUIDITY_REWARDS: 0.15,
   LIQUIDITY_BACKSTOP: 0.1,
-  EVANGELIST_REWARDS: 0.1,
-  ECOSYSTEM_FUND: 0.2,
+  ECOSYSTEM_FUND: 0.3,
   TIPS: 0.15,
   DEV_FUND: 0.05,
 } as const;
@@ -20,7 +19,6 @@ export const tokenAllocations = {
   powerUserAirdrops: TOTAL_TOKEN_SUPPLY * allocationRatios.POWER_DROPS,
   liquidityRewards: TOTAL_TOKEN_SUPPLY * allocationRatios.LIQUIDITY_REWARDS,
   lpBackstop: TOTAL_TOKEN_SUPPLY * allocationRatios.LIQUIDITY_BACKSTOP,
-  evangelistRewards: TOTAL_TOKEN_SUPPLY * allocationRatios.EVANGELIST_REWARDS,
   ecosystemFund: TOTAL_TOKEN_SUPPLY * allocationRatios.ECOSYSTEM_FUND,
   tips: TOTAL_TOKEN_SUPPLY * allocationRatios.TIPS,
   devFund: TOTAL_TOKEN_SUPPLY * allocationRatios.DEV_FUND,
@@ -187,10 +185,6 @@ export const TWEET_FARTHER_BONUS_MULTIPLIER = 1.2;
 export const LIQUIDITY_BONUS_MULTIPLIER = 5;
 
 export const LIQUIDITY_BONUS_MAX = 400_000;
-
-export const EVANGELIST_FOLLOWER_MINIMUM = 80;
-
-export const EVANGELIST_FOLLOWER_BONUS_MULTIPLE = 10;
 
 export const TIPS_DURATION_DAYS = 210;
 
