@@ -7,7 +7,7 @@ describe("getHolderBalanceAdjustment", () => {
     const weight3 = getHolderBalanceAdjustment(1_000_000);
 
     expect(weight1).toBe(1);
-    expect(weight2).toBe(1.8888888888888888);
-    expect(weight3).toBe(3);
+    expect(weight2).toBe(1.2096910013008055);
+    expect(weight3).toBe(1.3);
   });
 });
