@@ -18,7 +18,7 @@ export async function getAllLiqProviderBalances() {
   const positionOwners: Map<string, { id: string; liquidity: number }[]> =
     new Map();
 
-  const fartherBalances: { address: string; balance: number }[] = [];
+  const fartherBalances: { address: string; balance: bigint }[] = [];
 
   let hasNextPage = true;
   let cursor: string | undefined = undefined;
@@ -88,7 +88,7 @@ export async function getAllLiqProviderBalances() {
     if (totalFartherBalance > BigInt(0)) {
       fartherBalances.push({
         address: owner,
-        balance: Number(totalFartherBalance),
+        balance: totalFartherBalance,
       });
     }
   }

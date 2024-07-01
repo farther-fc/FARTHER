@@ -59,7 +59,7 @@ export async function getEligibleTippers() {
     }
     return {
       ...holder,
-      totalBalance: foundHolder.totalBalance.toString(),
+      totalBalance: foundHolder.totalBalance,
     };
   });
 }
