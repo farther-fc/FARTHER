@@ -136,7 +136,7 @@ export default function LiquidityPage() {
                       </div>
                     )}
                   </div>
-                  {pendingBonusAmount === BigInt(0) ? null : (
+                  {pendingBonusAmount > BigInt(0) ? (
                     <Button
                       className="ml-auto mt-2 w-full"
                       variant="secondary"
@@ -145,7 +145,7 @@ export default function LiquidityPage() {
                     >
                       Avail. {bonusLpRewardsDropDate}
                     </Button>
-                  )}
+                  ) : null}
                 </div>
                 <div>
                   <div className="mb-4 flex flex-col">

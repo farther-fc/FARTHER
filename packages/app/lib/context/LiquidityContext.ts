@@ -46,10 +46,10 @@ const LiquidityContext = createContainer(function () {
   const logError = useLogError();
   const pathname = usePathname();
   const {
-    data: claimableRewards,
-    error: claimableRewardsFetchError,
-    isLoading: claimableRewardsLoading,
-    refetch: refetchClaimableRewards,
+    data: claimableOnchainRewards,
+    error: claimableOnchainRewardsFetchError,
+    isLoading: claimableOnchainRewardsLoading,
+    refetch: refetchClaimableOnchainRewards,
   } = useReadContract({
     abi: UniswapV3StakerAbi,
     address: contractAddresses.UNISWAP_V3_STAKER,
@@ -205,14 +205,14 @@ const LiquidityContext = createContainer(function () {
   }, [logError, positionsFetchError]);
 
   React.useEffect(() => {
-    if (!claimableRewardsFetchError) return;
+    if (!claimableOnchainRewardsFetchError) return;
 
     logError({
-      error: claimableRewardsFetchError,
+      error: claimableOnchainRewardsFetchError,
       toastMsg:
         "Failed to fetch claimable rewards. This may be due to a temporary network error.",
     });
-  }, [logError, claimableRewardsFetchError]);
+  }, [logError, claimableOnchainRewardsFetchError]);
 
   React.useEffect(() => {
     if (
@@ -249,20 +249,25 @@ const LiquidityContext = createContainer(function () {
   const unclaimedBonusAllocations =
     airdroppedBonusAllocations.filter((a) => !a.isClaimed) || [];
 
-  const claimedBonusAllocations =
-    airdroppedBonusAllocations.filter((a) => !!a.isClaimed) || [];
-
   // This is the total amount of liqudity rewards that have received an airdropped bonus
-  const airdroppedReferenceTotal = claimedBonusAllocations.reduce(
+  const airdroppedReferenceTotal = airdroppedBonusAllocations.reduce(
     (acc, curr) => BigInt(curr.referenceAmount || "0") + acc,
     BigInt(0),
   );
+
+  // console.log({
+  //   claimableOnchainRewards,
+  //   rewardsClaimed,
+  //   pendingStakedLiqRewards,
+  //   airdroppedReferenceTotal,
+  //   airdroppedBonusAllocations,
+  // });
 
   // Pending reference amount is anything left over after subtracting the airdropped reference
   // (onchain amount that has an associated airdropped bonus) from the total onchain rewards claimed.
   // Multiply by multiplier to get the bonus.
   const uncappedBonus =
-    ((claimableRewards || BigInt(0)) +
+    ((claimableOnchainRewards || BigInt(0)) +
       BigInt(rewardsClaimed || "0") +
       pendingStakedLiqRewards -
       airdroppedReferenceTotal) *
@@ -287,10 +292,10 @@ const LiquidityContext = createContainer(function () {
     rewardsClaimed,
     indexerDataLoading,
     positions,
-    claimableRewards: claimableRewards || BigInt(0),
+    claimableRewards: claimableOnchainRewards || BigInt(0),
     refetchIndexerData,
-    refetchClaimableRewards,
-    claimableRewardsLoading,
+    refetchClaimableRewards: refetchClaimableOnchainRewards,
+    claimableRewardsLoading: claimableOnchainRewardsLoading,
     pendingBonusAmount,
     unclaimedBonusAllocations,
     unclaimedBonusStartTime,
