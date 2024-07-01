@@ -80,6 +80,14 @@ function TipsPage() {
           aim of this is to maximize the number of users receiving tips and
           mitigate bot account manipulation.
         </p>
+        <h4>FARTHER balance</h4>
+        <p>
+          An additional multiplier is applied to each tipper's weight based on
+          their balance. This includes the balance of FARTHER tokens in their
+          wallet and any FARTHER they're providing liquidity for in the Uniswap
+          0.3% pool. The multiplier logarithmically tapers to 1.3x for a balance
+          of 1 million tokens.
+        </p>
         <h4>Daily tip minimum</h4>
         <p className="whitespace-pre-line">
           Given that the allowance calculation incentivizes broad distribution,
