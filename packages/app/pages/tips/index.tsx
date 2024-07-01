@@ -85,7 +85,7 @@ function TipsPage() {
           An additional multiplier is applied to each tipper's weight based on
           their balance. This includes the balance of tokens in their wallet and
           any liquidity in the Uniswap 0.3% pool. The multiplier logarithmically
-          tapers to 1.3x for a balance of 1 million tokens.
+          increases to 1.3x up to a balance of 1 million tokens.
         </p>
         <h4>Daily tip minimum</h4>
         <p className="whitespace-pre-line">
