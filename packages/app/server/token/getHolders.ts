@@ -1,7 +1,5 @@
 import { fetchQuery, init } from "@airstack/node";
-import { ENVIRONMENT, intToBigInt } from "@farther/common";
-import { neynarLimiter } from "@farther/common/src/neynar";
-import { dummyHolders } from "@farther/common/src/onchain/dummyHolders";
+import { ENVIRONMENT, dummyHolders, neynarLimiter } from "@farther/common";
 import { getAllLiqProviderBalances } from "../liquidity/getAllLiqProviderBalances";
 
 /**
@@ -12,7 +10,14 @@ export async function getHolders({
   includeLPs,
 }: { includeLPs?: boolean } = {}) {
   if (ENVIRONMENT === "development") {
-    return dummyHolders;
+    return dummyHolders.map((h) => ({
+      fid: h.fid,
+      totalBalance: BigInt(h.totalBalance),
+      balances: h.balances.map((b) => ({
+        address: b.address,
+        balance: BigInt(b.balance),
+      })),
+    }));
   }
 
   if (!process.env.NEXT_PUBLIC_AIRSTACK_API_KEY) {
@@ -21,7 +26,7 @@ export async function getHolders({
 
   init(process.env.NEXT_PUBLIC_AIRSTACK_API_KEY);
 
-  const balances: { address: string; balance: number }[] = [];
+  const balances: { address: string; balance: bigint }[] = [];
 
   let hasNextPage = true;
   let cursor: string | undefined = undefined;
@@ -43,7 +48,8 @@ export async function getHolders({
       }
 
       const address = balanceData.owner.addresses[0];
-      const balance = Number(balanceData.amount);
+
+      const balance = BigInt(balanceData.amount);
 
       balances.push({
         address,
@@ -72,17 +78,30 @@ export async function getHolders({
 
   const holders = await attachFids(balances);
 
-  holders.sort(
-    (a, b) =>
-      b.balances.reduce((acc, bal) => bal.balance + acc, 0) -
-      a.balances.reduce((acc, bal) => bal.balance + acc, 0),
-  );
+  holders.sort((a, b) => {
+    const aBalance = a.balances.reduce(
+      (acc, bal) => bal.balance + acc,
+      BigInt(0),
+    );
+    const bBalance = b.balances.reduce(
+      (acc, bal) => bal.balance + acc,
+      BigInt(0),
+    );
+
+    if (aBalance < bBalance) {
+      return 1;
+    } else if (aBalance > bBalance) {
+      return -1;
+    } else {
+      return 0;
+    }
+  });
 
   return holders;
 }
 
 async function attachFids(
-  addressBalances: { address: string; balance: number }[],
+  addressBalances: { address: string; balance: bigint }[],
 ) {
   const neynarResponse = await neynarLimiter.getUsersByAddress(
     addressBalances.map((h) => h.address),
@@ -90,8 +109,8 @@ async function attachFids(
 
   const holders: {
     fid: number;
-    totalBalance: string;
-    balances: { address: string; balance: number }[];
+    totalBalance: bigint;
+    balances: { address: string; balance: bigint }[];
   }[] = [];
 
   let noFidCount = 0;
@@ -118,19 +137,16 @@ async function attachFids(
 
     const existingHolder = holders.find((r) => r.fid === user.fid);
 
-    const bigIntBalance = intToBigInt(balance);
-
     if (existingHolder) {
-      existingHolder.totalBalance = (
-        BigInt(existingHolder.totalBalance) + bigIntBalance
-      ).toString();
+      existingHolder.totalBalance = existingHolder.totalBalance + balance;
+
       existingHolder.balances.push({ address, balance });
       continue;
     }
 
     holders.push({
       fid: user.fid,
-      totalBalance: bigIntBalance.toString(),
+      totalBalance: balance,
       balances: [{ address, balance }],
     });
   }
@@ -148,7 +164,8 @@ const airstackQuery = (cursor?: string) => `query TokenBalances {
     input: {
       filter: {
         tokenAddress: 
-        { _eq: "0x8ad5b9007556749de59e088c88801a3aaa87134b" }
+        { _eq: "0x8ad5b9007556749de59e088c88801a3aaa87134b" },
+        formattedAmount: { _gt: 1 }
       }, 
       blockchain: 
       base, 
@@ -171,8 +188,22 @@ const airstackQuery = (cursor?: string) => `query TokenBalances {
   }
 }`;
 
-// getHolders()
+// getHolders({ includeLPs: true })
 //   .then((holders) => {
-//     writeFileSync("holders.json", JSON.stringify(holders, null, 2));
+//     writeFileSync(
+//       "holders.json",
+//       JSON.stringify(
+//         holders.map((h) => ({
+//           fid: h.fid,
+//           totalBalance: h.totalBalance.toString(),
+//           balances: h.balances.map((b) => ({
+//             address: b.address,
+//             balance: b.balance.toString(),
+//           })),
+//         })),
+//         null,
+//         2,
+//       ),
+//     );
 //   })
 //   .catch(console.error);

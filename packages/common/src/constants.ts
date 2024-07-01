@@ -7,9 +7,9 @@ export const allocationRatios = {
   POWER_DROPS: 0.25,
   LIQUIDITY_REWARDS: 0.15,
   LIQUIDITY_BACKSTOP: 0.1,
-  EVANGELIST_REWARDS: 0.15,
+  EVANGELIST_REWARDS: 0.1,
   ECOSYSTEM_FUND: 0.2,
-  TIPS: 0.1,
+  TIPS: 0.15,
   DEV_FUND: 0.05,
 } as const;
 
@@ -192,7 +192,7 @@ export const EVANGELIST_FOLLOWER_MINIMUM = 80;
 
 export const EVANGELIST_FOLLOWER_BONUS_MULTIPLE = 10;
 
-export const TIPS_DURATION_DAYS = 180;
+export const TIPS_DURATION_DAYS = 210;
 
 export const DUST_AMOUNT = 100000000;
 

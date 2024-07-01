@@ -63,16 +63,9 @@ export const neynarLimiter = {
           users[address] = currentChunkUsers[address];
         }
       } catch (error: any) {
-        console.log(error);
-        if (error.status === 404) {
-          for (const address of chunk) {
-            try {
-              const response = await fetchUserByAddress(address);
-              users[address] = response[address];
-            } catch (error) {
-              console.error(`Neynar didn't find user for address: ${address}`);
-            }
-          }
+        // Ignore 404s
+        if (error.response.status !== 404) {
+          throw error;
         }
       }
     }

@@ -1,12 +1,14 @@
 import { prisma } from "@farther/backend";
+import { WAD_SCALER } from "@farther/common";
 import { scaleLinear } from "d3";
 import { DistributeAllowancesError } from "../../errors";
 import { getTipMinimum } from "../../tips/utils/getTipMinimum";
 import { getUniqueTippees } from "../../tips/utils/getUniqueTippees";
-import { flushLeaderboardCache } from "../../tips/utils/tipsLeaderboard";
 import { getPrice } from "../../token/getPrice";
 import { dailyTipDistribution } from "./dailyTipDistribution";
 import { getEligibleTippers, getExistingTippers } from "./getEligibleTippers";
+import { getHolderBalanceAdjustment } from "./getHolderBalanceAdjustment";
+import { flushLeaderboardCache } from "./tipsLeaderboard";
 
 const STATIC_ADJUSTMENT_FACTOR = 0.002;
 
@@ -38,6 +40,7 @@ export async function distributeAllowances() {
 
   const defaultTotal = dailyTipDistribution({ currentDay });
 
+  // Get existing tippers to calculate the total unused allowance from the previous day
   const existingTippers = await getExistingTippers();
 
   const prevUnusedAllowance = existingTippers.reduce(
@@ -53,6 +56,7 @@ export async function distributeAllowances() {
 
   const availableTotalAllowance = defaultTotal + prevUnusedAllowance;
 
+  // Eligible tippers for new tip cycle
   const eligibleTippers = await getEligibleTippers();
 
   const tipMinimum = Math.round(await getTipMinimum(currentDay));
@@ -112,6 +116,9 @@ export async function distributeAllowances() {
 
       const prevAllowanceMinusTipMinimum = prevAllowance - previousTipMin;
       const recoveryAdjustment = getRecoveryAdjustment(prevAllowance);
+      const holderBalanceAdjustment = getHolderBalanceAdjustment(
+        Number(BigInt(tipper.totalBalance) / WAD_SCALER),
+      );
 
       prevWeight =
         prevAllowanceMinusTipMinimum / prevTotalAllowanceMinusTipMinimums;
@@ -119,7 +126,8 @@ export async function distributeAllowances() {
         uniqueTippees > 0
           ? prevWeight *
             (1 + STATIC_ADJUSTMENT_FACTOR * uniqueTippees) *
-            (1 + recoveryAdjustment)
+            (1 + recoveryAdjustment) *
+            holderBalanceAdjustment
           : prevWeight;
     }
 
@@ -159,7 +167,7 @@ export async function distributeAllowances() {
         userId: tipper.id,
         tipMetaId: tipMeta.id,
         amount,
-        userBalance: tipper.totalBalance,
+        userBalance: tipper.totalBalance.toString(),
       };
     });
 
