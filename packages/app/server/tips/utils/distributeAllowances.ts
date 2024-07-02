@@ -1,6 +1,8 @@
 import { prisma } from "@farther/backend";
 import { WAD_SCALER } from "@farther/common";
 import { scaleLinear } from "d3";
+import { constrainWeights } from "server/tips/utils/constrainWeights";
+import { flushLeaderboardCache } from "server/tips/utils/tipsLeaderboard";
 import { DistributeAllowancesError } from "../../errors";
 import { getTipMinimum } from "../../tips/utils/getTipMinimum";
 import { getUniqueTippees } from "../../tips/utils/getUniqueTippees";
@@ -8,7 +10,28 @@ import { getPrice } from "../../token/getPrice";
 import { dailyTipDistribution } from "./dailyTipDistribution";
 import { getEligibleTippers, getExistingTippers } from "./getEligibleTippers";
 import { getHolderBalanceAdjustment } from "./getHolderBalanceAdjustment";
-import { flushLeaderboardCache } from "./tipsLeaderboard";
+
+// const TIPPER_IDS = {
+//   acai: 246871,
+//   wahoo: 3741,
+//   kylepatrick: 247143,
+//   bunglon: 502822,
+//   matsuda: 334811,
+//   mercelonada: 330083,
+//   reneecampbell: 283144,
+// };
+
+// const TIPPER_NAMES = {
+//   246871: "acai",
+//   3741: "wahoo",
+//   247143: "kylepatrick",
+//   502822: "bunglon",
+//   334811: "matsuda",
+//   330083: "mercelonada",
+//   283144: "reneecampbell",
+// };
+
+// type TipperNameKey = keyof typeof TIPPER_NAMES;
 
 const STATIC_ADJUSTMENT_FACTOR = 0.002;
 
@@ -83,8 +106,6 @@ export async function distributeAllowances() {
 
   console.info(`Current price: $${fartherUsdPrice}`);
 
-  let totalWeight = 0;
-
   const previousTipMin = previousMeta ? previousMeta.tipMinimum : 0;
   const prevTotalAllowanceMinusTipMinimums = !previousMeta
     ? 0
@@ -107,7 +128,7 @@ export async function distributeAllowances() {
     if (!tipper.tipAllowances[0]) {
       prevWeight = 0;
       weight = previousMeta
-        ? meanAllowance / prevTotalAllowanceMinusTipMinimums
+        ? (meanAllowance / prevTotalAllowanceMinusTipMinimums) * 0.75
         : 1;
     } else {
       const prevAllowance = tipper.tipAllowances[0].amount;
@@ -131,10 +152,17 @@ export async function distributeAllowances() {
           : prevWeight;
     }
 
-    totalWeight += weight;
-
     return weight;
   });
+
+  const contrainedWeights = constrainWeights({
+    weights: currentWeights,
+    factor: 0.7,
+  });
+  const totalWeight = contrainedWeights.reduce(
+    (sum, weight) => sum + weight,
+    0,
+  );
 
   const combinedTipMinimums = tipMinimum * eligibleTippers.length;
 
@@ -160,7 +188,7 @@ export async function distributeAllowances() {
     // Distribute
     const newAllowances = eligibleTippers.map((tipper, i) => {
       const amount = Math.floor(
-        tipMinimum + (currentWeights[i] / totalWeight) * allowanceRemainder,
+        tipMinimum + (contrainedWeights[i] / totalWeight) * allowanceRemainder,
       );
 
       return {
