@@ -1,15 +1,12 @@
 import { FartherPositionsQuery, getBuiltGraphSDK } from ".graphclient";
 import { AllocationType } from "@farther/backend";
 import {
-  LIQUIDITY_BONUS_MAX,
-  LIQUIDITY_BONUS_MULTIPLIER,
   NFTPositionMngrAbi,
   UniswapV3StakerAbi,
-  WAD_SCALER,
   contractAddresses,
+  getLpBonusRewards,
   getStartOfMonthUTC,
   incentivePrograms,
-  minBigInt,
   viemClient,
   viemPublicClient,
 } from "@farther/common";
@@ -250,33 +247,21 @@ const LiquidityContext = createContainer(function () {
     airdroppedBonusAllocations.filter((a) => !a.isClaimed) || [];
 
   // This is the total amount of liqudity rewards that have received an airdropped bonus
-  const airdroppedReferenceTotal = airdroppedBonusAllocations.reduce(
-    (acc, curr) => BigInt(curr.referenceAmount || "0") + acc,
+  const airdroppedTotal = airdroppedBonusAllocations.reduce(
+    (acc, curr) => BigInt(curr.amount || "0") + acc,
     BigInt(0),
   );
 
-  // console.log({
-  //   claimableOnchainRewards,
-  //   rewardsClaimed,
-  //   pendingStakedLiqRewards,
-  //   airdroppedReferenceTotal,
-  //   airdroppedBonusAllocations,
-  // });
+  const totalBonusRewards = getLpBonusRewards({
+    claimableWad: BigInt(claimableOnchainRewards || 0),
+    claimedWad: BigInt(rewardsClaimed || 0),
+    pendingWad: pendingStakedLiqRewards,
+  });
 
-  // Pending reference amount is anything left over after subtracting the airdropped reference
-  // (onchain amount that has an associated airdropped bonus) from the total onchain rewards claimed.
-  // Multiply by multiplier to get the bonus.
-  const uncappedBonus =
-    ((claimableOnchainRewards || BigInt(0)) +
-      BigInt(rewardsClaimed || "0") +
-      pendingStakedLiqRewards -
-      airdroppedReferenceTotal) *
-    BigInt(LIQUIDITY_BONUS_MULTIPLIER);
+  const pendingBonusAmount = totalBonusRewards - airdroppedTotal;
 
-  const pendingBonusAmount = minBigInt(
-    uncappedBonus,
-    BigInt(LIQUIDITY_BONUS_MAX) * WAD_SCALER,
-  );
+  const hasReachedMaxBonus =
+    airdroppedTotal > BigInt(0) && pendingBonusAmount < BigInt(0);
 
   const unclaimedBonusStartTime = getEarliestStart(unclaimedBonusAllocations);
 
@@ -292,11 +277,12 @@ const LiquidityContext = createContainer(function () {
     rewardsClaimed,
     indexerDataLoading,
     positions,
-    claimableRewards: claimableOnchainRewards || BigInt(0),
+    claimableRewards: BigInt(claimableOnchainRewards || 0),
     refetchIndexerData,
     refetchClaimableRewards: refetchClaimableOnchainRewards,
     claimableRewardsLoading: claimableOnchainRewardsLoading,
     pendingBonusAmount,
+    hasReachedMaxBonus,
     unclaimedBonusAllocations,
     unclaimedBonusStartTime,
     bonusLpRewardsDropDate,

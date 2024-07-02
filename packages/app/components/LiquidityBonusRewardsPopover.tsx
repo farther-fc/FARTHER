@@ -17,13 +17,12 @@ function LiquidityBonusRewardsPopover() {
         Warpcast Power Badge
       </ExternalLink>
       . They're calculated by adding up all claimed & pending onchain rewards
-      during the month & multiplying by {LIQUIDITY_BONUS_MULTIPLIER}, up to a
-      monthly maximum of{" "}
-      {LIQUIDITY_BONUS_MAX.toLocaleString("en", {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
+      during the month & multiplying by {LIQUIDITY_BONUS_MULTIPLIER}. Each
+      liquidity provider can earn a maximum of{" "}
+      {(LIQUIDITY_BONUS_MAX / 1_000_000).toLocaleString("en", {
+        maximumFractionDigits: 1,
       })}{" "}
-      FARTHER.{" "}
+      million tokens as bonus rewards during the current incentive program.{" "}
       <Button
         sentryId={clickIds.liquidityInfoBonusRewards}
         onClick={() =>

@@ -184,7 +184,7 @@ export const TWEET_FARTHER_BONUS_MULTIPLIER = 1.2;
 
 export const LIQUIDITY_BONUS_MULTIPLIER = 5;
 
-export const LIQUIDITY_BONUS_MAX = 400_000;
+export const LIQUIDITY_BONUS_MAX = 2_000_000;
 
 export const TIPS_DURATION_DAYS = 210;
 

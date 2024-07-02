@@ -44,6 +44,7 @@ export default function LiquidityPage() {
     unclaimedBonusAllocations,
     unclaimedBonusStartTime,
     bonusLpRewardsDropDate,
+    hasReachedMaxBonus,
   } = useLiquidity();
 
   const claimableBonusAmount =
@@ -59,7 +60,7 @@ export default function LiquidityPage() {
         <div className="mt-16">
           <h2 className="mt-0">Positions</h2>
           <div className="mb-12 grid grid-cols-1 items-start justify-between gap-8 md:grid-cols-2 md:flex-row">
-            <InfoCard>
+            <InfoCard className="min-h-[220px]">
               <Popover
                 content={
                   <>
@@ -117,70 +118,77 @@ export default function LiquidityPage() {
                 </div>
               </div>
             </InfoCard>
-            <InfoCard>
+            <InfoCard className="min-h-[220px]">
               <Popover content={<LiquidityBonusRewardsPopover />}>
                 <h3 className="mt-0 border-none pl-0 text-center text-lg">
                   Bonus Rewards
                   <Info className="ml-2 inline w-4" />
                 </h3>
               </Popover>
-              <div className="grid grid-cols-2 gap-4">
+              {hasReachedMaxBonus ? (
                 <div>
-                  <div className="mb-4 flex flex-col">
-                    Pending
-                    {indexerDataLoading ? (
-                      <Spinner className="mt-1" size="xs" />
-                    ) : (
-                      <div className="text-link">
-                        {formatWad(pendingBonusAmount)}
-                      </div>
-                    )}
-                  </div>
-                  {pendingBonusAmount > BigInt(0) ? (
-                    <Button
-                      className="ml-auto mt-2 w-full"
-                      variant="secondary"
-                      sentryId={clickIds.liquidityPendingBonus}
-                      disabled={true}
-                    >
-                      Avail. {bonusLpRewardsDropDate}
-                    </Button>
-                  ) : null}
+                  You've reached the max bonus of this incentive program. Thank
+                  you for participating!
                 </div>
-                <div>
-                  <div className="mb-4 flex flex-col">
-                    <div className="flex justify-between">Allocated</div>
-                    <div className={`text-link`}>
-                      {formatWad(claimableBonusAmount)}
+              ) : (
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <div className="mb-4 flex flex-col">
+                      Pending
+                      {indexerDataLoading ? (
+                        <Spinner className="mt-1" size="xs" />
+                      ) : (
+                        <div className="text-link">
+                          {formatWad(pendingBonusAmount)}
+                        </div>
+                      )}
                     </div>
+                    {pendingBonusAmount > BigInt(0) ? (
+                      <Button
+                        className="ml-auto mt-2 w-full"
+                        variant="secondary"
+                        sentryId={clickIds.liquidityPendingBonus}
+                        disabled={true}
+                      >
+                        Avail. {bonusLpRewardsDropDate}
+                      </Button>
+                    ) : null}
                   </div>
-                  {/** Button link to profile page */}
-                  {unclaimedBonusStartTime &&
-                  unclaimedBonusStartTime < Date.now() ? (
-                    <Link href={ROUTES.profile.path}>
+                  <div>
+                    <div className="mb-4 flex flex-col">
+                      <div className="flex justify-between">Allocated</div>
+                      <div className={`text-link`}>
+                        {formatWad(claimableBonusAmount)}
+                      </div>
+                    </div>
+                    {/** Button link to profile page */}
+                    {unclaimedBonusStartTime &&
+                    unclaimedBonusStartTime < Date.now() ? (
+                      <Link href={ROUTES.profile.path}>
+                        <Button
+                          className="ml-auto mt-2 w-full"
+                          variant="secondary"
+                          sentryId={clickIds.liquidityClaimableBonus}
+                        >
+                          Claim
+                        </Button>
+                      </Link>
+                    ) : (
                       <Button
                         className="ml-auto mt-2 w-full"
                         variant="secondary"
                         sentryId={clickIds.liquidityClaimableBonus}
+                        disabled={true}
                       >
-                        Claim
+                        {!unclaimedBonusStartTime ||
+                        unclaimedBonusStartTime < Date.now()
+                          ? "Claim"
+                          : `Avail. ${formatAirdropTime(unclaimedBonusStartTime ? new Date(unclaimedBonusStartTime) : getStartOfMonthUTC())}`}
                       </Button>
-                    </Link>
-                  ) : (
-                    <Button
-                      className="ml-auto mt-2 w-full"
-                      variant="secondary"
-                      sentryId={clickIds.liquidityClaimableBonus}
-                      disabled={true}
-                    >
-                      {!unclaimedBonusStartTime ||
-                      unclaimedBonusStartTime < Date.now()
-                        ? "Claim"
-                        : `Avail. ${formatAirdropTime(unclaimedBonusStartTime ? new Date(unclaimedBonusStartTime) : getStartOfMonthUTC())}`}
-                    </Button>
-                  )}
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
             </InfoCard>
           </div>
 
