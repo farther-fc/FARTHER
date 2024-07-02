@@ -14,10 +14,10 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  allocations   Allocation[]
-  tipAllowances TipAllowance[]
-  tipsGiven     Tip[]          @relation(name: "tipper")
-  tipsReceived  Tip[]          @relation(name: "tippee")
+  allocations         Allocation[]
+  tipAllowances       TipAllowance[]
+  tipsGiven           Tip[]          @relation(name: "tipper")
+  tipsReceived        Tip[]          @relation(name: "tippee")
 }
 
 // Airdrop allocation

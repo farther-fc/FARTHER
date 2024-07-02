@@ -1,6 +1,11 @@
 import { Address, encodeAbiParameters, keccak256 } from "viem";
-import { DEV_USER_FID, WARPCAST_API_BASE_URL } from "./constants";
-import { isProduction } from "./env";
+import {
+  DEV_USER_FID,
+  LIQUIDITY_BONUS_MAX,
+  LIQUIDITY_BONUS_MULTIPLIER,
+  WARPCAST_API_BASE_URL,
+} from "./constants";
+import { WAD_SCALER, isProduction } from "./env";
 
 export function getStartOfMonthUTC(months: number = 1) {
   // Get the current date in UTC
@@ -86,5 +91,21 @@ export function minBigInt(...values: bigint[]) {
   return values.reduce(
     (min, current) => (current < min ? current : min),
     values[0],
+  );
+}
+
+export function getLpBonusRewards({
+  claimableWad,
+  claimedWad,
+  pendingWad,
+}: {
+  claimableWad: bigint;
+  claimedWad: bigint;
+  pendingWad: bigint;
+}) {
+  return minBigInt(
+    (claimableWad + claimedWad + pendingWad) *
+      BigInt(LIQUIDITY_BONUS_MULTIPLIER),
+    BigInt(LIQUIDITY_BONUS_MAX) * WAD_SCALER,
   );
 }
