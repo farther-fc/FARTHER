@@ -97,7 +97,7 @@ async function prepareLpBonusDrop() {
           );
         }
 
-        const amount = getLpBonusRewards({
+        const totalRewards = getLpBonusRewards({
           claimedWad: account.rewardsClaimed,
           claimableWad: account.rewardsClaimable,
           pendingWad: account.rewardsUnclaimed,
@@ -106,7 +106,9 @@ async function prepareLpBonusDrop() {
         return {
           address: account.id,
           fid: u.fid,
-          amount,
+          // TODO: verify this is correct
+          amount:
+            totalRewards - previouslyAllocated[account.id]?.amount || BigInt(0),
         };
       })
       .filter((a) => a.amount > BigInt(0));
