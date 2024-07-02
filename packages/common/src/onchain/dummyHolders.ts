@@ -1,75 +1,111 @@
 export const dummyHolders = [
   {
     fid: 429188,
-    totalBalance: "26072393894816866571780670",
+    totalBalance: "26307940514929753765839422",
     balances: [
       {
         address: "0x97e3b75b2eebcc722b504851416e1410b32180a3",
-        balance: "26072393894816866571780670",
+        balance: "26307940514929753765839422",
       },
     ],
   },
   {
     fid: 570843,
-    totalBalance: "9107632730244745745399808",
+    totalBalance: "14246779059029363461718016",
     balances: [
       {
         address: "0xb120172b46a3dad06d0f815c4ff9d1bb414fee07",
-        balance: "9107632730244745745399808",
-      },
-    ],
-  },
-  {
-    fid: 3741,
-    totalBalance: "2939508692323646526970790",
-    balances: [
-      {
-        address: "0xa8d04cd4e1951291740ef977d56336fdc7f394c5",
-        balance: "2884141454145879753016842",
-      },
-      {
-        address: "0xda1bcb25559206b7a38c02b211baed535ddf10a4",
-        balance: "55367238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 283056,
-    totalBalance: "1398425409132827051694270",
-    balances: [
-      {
-        address: "0x61b04d2b5cb1f1f8505e7b4e1cb3d9e8a0b15bae",
-        balance: "1398425409132827051694270",
-      },
-    ],
-  },
-  {
-    fid: 364017,
-    totalBalance: "1256286857806240475452456",
-    balances: [
-      {
-        address: "0x3966e5b5535f3aa6c58c99c27a78f1dce3227988",
-        balance: "1256286857806240475452456",
+        balance: "14246779059029363461718016",
       },
     ],
   },
   {
     fid: 4253,
-    totalBalance: "535176389315889698177024",
+    totalBalance: "8119499669164281890854531",
     balances: [
       {
         address: "0x4888c0030b743c17c89a8af875155cf75dcfd1e1",
-        balance: "535176389315889698177024",
+        balance: "8119499669164281890854531",
+      },
+    ],
+  },
+  {
+    fid: 3741,
+    totalBalance: "3023849692323646526970790",
+    balances: [
+      {
+        address: "0xa8d04cd4e1951291740ef977d56336fdc7f394c5",
+        balance: "3023849692323646526970790",
+      },
+    ],
+  },
+  {
+    fid: 364017,
+    totalBalance: "1607312857806240475452456",
+    balances: [
+      {
+        address: "0x3966e5b5535f3aa6c58c99c27a78f1dce3227988",
+        balance: "1607312857806240475452456",
+      },
+    ],
+  },
+  {
+    fid: 283056,
+    totalBalance: "1503442516968968768381363",
+    balances: [
+      {
+        address: "0x61b04d2b5cb1f1f8505e7b4e1cb3d9e8a0b15bae",
+        balance: "1503442516968968768381363",
+      },
+    ],
+  },
+  {
+    fid: 407704,
+    totalBalance: "627142242544339449693520",
+    balances: [
+      {
+        address: "0x04f344269a9e349f9b9c123570bb78ed28a73e61",
+        balance: "627142242544339449693520",
+      },
+    ],
+  },
+  {
+    fid: 243719,
+    totalBalance: "522301695905335375308246",
+    balances: [
+      {
+        address: "0x3702205145fac0fb99a9b8bc61e33486c126f155",
+        balance: "522301695905335375308246",
       },
     ],
   },
   {
     fid: 7418,
-    totalBalance: "519612509660089936515172",
+    totalBalance: "521280715441154683604819",
     balances: [
       {
         address: "0x8f791f061d7f36dc07de081ad88f87d71be1585e",
-        balance: "519612509660089936515172",
+        balance: "521280715441154683604819",
+      },
+    ],
+  },
+  {
+    fid: 271878,
+    totalBalance: "516607441151626678597983",
+    balances: [
+      {
+        address: "0x8cf7f8a2eb9cbf7a01dfb89f45951de4fb421d27",
+        balance: "516607441151626678597983",
+      },
+    ],
+  },
+  {
+    fid: 420229,
+    totalBalance: "508181037036873369780224",
+    balances: [
+      {
+        address: "0x543504622a0b392911621c2a874e3d8f687cdf67",
+        balance: "508181037036873369780224",
       },
     ],
   },
@@ -85,21 +121,61 @@ export const dummyHolders = [
   },
   {
     fid: 201258,
-    totalBalance: "494643049588396780412005",
+    totalBalance: "498639664971948000009317",
     balances: [
       {
         address: "0xc945795c0eaab92fd63ce49d70b61d77b84f52ca",
-        balance: "494643049588396780412005",
+        balance: "498639664971948000009317",
       },
     ],
   },
   {
-    fid: 243719,
-    totalBalance: "467632632867838136952278",
+    fid: 296315,
+    totalBalance: "459946191428148478607935",
     balances: [
       {
-        address: "0x3702205145fac0fb99a9b8bc61e33486c126f155",
-        balance: "467632632867838136952278",
+        address: "0x29ffebd73dd219b601ba99888bb5d16d58eef222",
+        balance: "459946191428148478607935",
+      },
+    ],
+  },
+  {
+    fid: 9933,
+    totalBalance: "423372702887346551390208",
+    balances: [
+      {
+        address: "0x38b2bac6431604dffec17a1e6adc649a9ea0efba",
+        balance: "423372702887346551390208",
+      },
+    ],
+  },
+  {
+    fid: 307568,
+    totalBalance: "420111402947552938035218",
+    balances: [
+      {
+        address: "0xeb6803a087881a0b016e47e18480f5025f62b4c8",
+        balance: "420111402947552938035218",
+      },
+    ],
+  },
+  {
+    fid: 17356,
+    totalBalance: "413853684055577020703497",
+    balances: [
+      {
+        address: "0xc4f67dea55e19155774dd2c9611738677a687d9a",
+        balance: "413853684055577020703497",
+      },
+    ],
+  },
+  {
+    fid: 365492,
+    totalBalance: "407419224978506320356576",
+    balances: [
+      {
+        address: "0x470a712e7d5ab5f6e06714871bec5468b35863c7",
+        balance: "407419224978506320356576",
       },
     ],
   },
@@ -114,42 +190,112 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 9933,
-    totalBalance: "368827753435602530336768",
+    fid: 191832,
+    totalBalance: "354824661033272358923445",
     balances: [
       {
-        address: "0x38b2bac6431604dffec17a1e6adc649a9ea0efba",
-        balance: "368827753435602530336768",
+        address: "0x98b2e9bb3fea78b6f2bbb2e289dd11012be79c54",
+        balance: "354824661033272358923445",
       },
     ],
   },
   {
-    fid: 296315,
-    totalBalance: "328398191428148478607935",
+    fid: 285998,
+    totalBalance: "350542615630070621520153",
     balances: [
       {
-        address: "0x29ffebd73dd219b601ba99888bb5d16d58eef222",
-        balance: "328398191428148478607935",
+        address: "0xbfdfe0b764bff626ecb1f746242e0ef4f230f8e1",
+        balance: "350542615630070621520153",
       },
     ],
   },
   {
-    fid: 307568,
-    totalBalance: "324289983846053657196198",
+    fid: 247143,
+    totalBalance: "331891792238062144753922",
     balances: [
       {
-        address: "0xeb6803a087881a0b016e47e18480f5025f62b4c8",
-        balance: "324289983846053657196198",
+        address: "0x508dd44ff3404e618d430d4562c3773b073a5ccc",
+        balance: "331891792238062144753922",
       },
     ],
   },
   {
-    fid: 17356,
-    totalBalance: "275380803131252045937433",
+    fid: 396484,
+    totalBalance: "310631936394130252861755",
     balances: [
       {
-        address: "0xc4f67dea55e19155774dd2c9611738677a687d9a",
-        balance: "275380803131252045937433",
+        address: "0x2c3560a3829d1fc74013fda53294469814dde0dc",
+        balance: "310631936394130252861755",
+      },
+    ],
+  },
+  {
+    fid: 322662,
+    totalBalance: "302365856550873978596125",
+    balances: [
+      {
+        address: "0x0045cb2b22bc2615a09a90bda866ff272c893906",
+        balance: "302365856550873978596125",
+      },
+    ],
+  },
+  {
+    fid: 8890,
+    totalBalance: "292904660382921946487480",
+    balances: [
+      {
+        address: "0x1c37ee5b8ba8f018637e7f3f816db2e4add1f56e",
+        balance: "292904660382921946487480",
+      },
+    ],
+  },
+  {
+    fid: 478311,
+    totalBalance: "284663975416036883849653",
+    balances: [
+      {
+        address: "0xdb81f550a3cff9a28f51ed3c92fa7f44b72082a5",
+        balance: "284663975416036883849653",
+      },
+    ],
+  },
+  {
+    fid: 345093,
+    totalBalance: "283067747817843636804081",
+    balances: [
+      {
+        address: "0x8d19ac93ee6cfc696e20776778bab7bb4b435982",
+        balance: "283067747817843636804081",
+      },
+    ],
+  },
+  {
+    fid: 234616,
+    totalBalance: "269858861861918740597692",
+    balances: [
+      {
+        address: "0x19d8da2674e8a025154153297ea3ab918debf96d",
+        balance: "269858861861918740597692",
+      },
+    ],
+  },
+  {
+    fid: 423378,
+    totalBalance: "264651285235734132060880",
+    balances: [
+      {
+        address: "0xe627311229899b45ba356ecfe02bc137d62abb84",
+        balance: "264651285235734132060880",
+      },
+    ],
+  },
+  {
+    fid: 283144,
+    totalBalance: "260886974874276993696305",
+    balances: [
+      {
+        address: "0xe06383ece7b8bbb6c3f65a95fc2b6450e9077a6c",
+        balance: "260886974874276993696305",
       },
     ],
   },
@@ -164,76 +310,86 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 8890,
-    totalBalance: "255071660382921946487480",
+    fid: 334811,
+    totalBalance: "254578000000000000000000",
     balances: [
       {
-        address: "0x1c37ee5b8ba8f018637e7f3f816db2e4add1f56e",
-        balance: "255071660382921946487480",
-      },
-    ],
-  },
-  {
-    fid: 247143,
-    totalBalance: "250789792238062144753922",
-    balances: [
-      {
-        address: "0x508dd44ff3404e618d430d4562c3773b073a5ccc",
-        balance: "250789792238062144753922",
+        address: "0xcf3b35077e9e8a64654b2c0b67cdef5ce2ae34f0",
+        balance: "254578000000000000000000",
       },
     ],
   },
   {
     fid: 420359,
-    totalBalance: "245146657544649528836924",
+    totalBalance: "253099440457326220718790",
     balances: [
       {
         address: "0x2232416fcb7091adb02c2bfcdd553a1fde1c7cb5",
-        balance: "245146657544649528836924",
+        balance: "253099440457326220718790",
       },
     ],
   },
   {
-    fid: 285998,
-    totalBalance: "237316615630070621520153",
+    fid: 431085,
+    totalBalance: "242248755837052100267739",
     balances: [
       {
-        address: "0xbfdfe0b764bff626ecb1f746242e0ef4f230f8e1",
-        balance: "237316615630070621520153",
+        address: "0xee8edcc4b3b4f6f7cfcfb5712d3a421a8e93bbf3",
+        balance: "242248755837052100267739",
       },
     ],
   },
   {
-    fid: 365492,
-    totalBalance: "232364914888153073756161",
+    fid: 500256,
+    totalBalance: "238498104401120294830606",
     balances: [
       {
-        address: "0x470a712e7d5ab5f6e06714871bec5468b35863c7",
-        balance: "232364914888153073756161",
+        address: "0x0faeb89c3342dd5d248c1663b757f71a4d43c6a7",
+        balance: "238498104401120294830606",
       },
     ],
   },
   {
-    fid: 396484,
-    totalBalance: "230191620759911963776210",
+    fid: 390273,
+    totalBalance: "238117793790892260753309",
     balances: [
       {
-        address: "0x2c3560a3829d1fc74013fda53294469814dde0dc",
-        balance: "230191620759911963776210",
+        address: "0x810f921c076067e095dc8c3ecb62d5a0b7f25fb3",
+        balance: "238117793790892260753309",
       },
     ],
   },
   {
-    fid: 271878,
-    totalBalance: "223075909779871270788154",
+    fid: 385627,
+    totalBalance: "237294988149234863632420",
     balances: [
       {
-        address: "0x8cf7f8a2eb9cbf7a01dfb89f45951de4fb421d27",
-        balance: "218075671602104496834206",
+        address: "0x711ac685d32ef2c694298e453e9595389eb4b567",
+        balance: "182258259754698084380708",
       },
       {
-        address: "0xdde09e93ecf5f9bc71a2423f61133dbdb8a25113",
-        balance: "5000238177766773953948",
+        address: "0x611ffb2a002e84e66cd3230642ff733b1c72a554",
+        balance: "55036728394536779251712",
+      },
+    ],
+  },
+  {
+    fid: 273379,
+    totalBalance: "234745501894965006910674",
+    balances: [
+      {
+        address: "0x211f656b82e254cfb2ec42bc89086ec9cb350c5e",
+        balance: "234745501894965006910674",
+      },
+    ],
+  },
+  {
+    fid: 12626,
+    totalBalance: "222618589152423960145132",
+    balances: [
+      {
+        address: "0xae412a9b9ad78c93a0253c86e617bf193bbccacd",
+        balance: "222618589152423960145132",
       },
     ],
   },
@@ -248,112 +404,212 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 403619,
-    totalBalance: "221131597269970107697349",
+    fid: 590111,
+    totalBalance: "221392929697898839408640",
     balances: [
       {
-        address: "0xcb69c793478a7355178979ae0be453bf61c378ee",
-        balance: "221131597269970107697349",
+        address: "0x5cf92efdeb3964c7d5474e2fba28e72b00463a38",
+        balance: "221392929697898839408640",
       },
     ],
   },
   {
-    fid: 393348,
-    totalBalance: "218609171197508957406016",
+    fid: 383877,
+    totalBalance: "220288633976413452780871",
     balances: [
       {
-        address: "0x4e4e2198d1fc0069d35cfb5921994638653dc377",
-        balance: "218609171197508957406016",
+        address: "0x138a15516d3e7e88ab20cd68305356c3c437d294",
+        balance: "220288633976413452780871",
       },
     ],
   },
   {
-    fid: 345093,
-    totalBalance: "206198747817843636804081",
+    fid: 462351,
+    totalBalance: "217648166138757859907232",
     balances: [
       {
-        address: "0x8d19ac93ee6cfc696e20776778bab7bb4b435982",
-        balance: "206198747817843636804081",
+        address: "0xc7886654b8877356787fb630c8e50414b49e853a",
+        balance: "217648166138757859907232",
       },
     ],
   },
   {
-    fid: 500256,
-    totalBalance: "200585104401120294830606",
+    fid: 330083,
+    totalBalance: "216001633279885592649937",
     balances: [
       {
-        address: "0x0faeb89c3342dd5d248c1663b757f71a4d43c6a7",
-        balance: "200585104401120294830606",
+        address: "0xa218e658f1f863147caa781610170f6b5f48de21",
+        balance: "216001633279885592649937",
       },
     ],
   },
   {
-    fid: 478311,
-    totalBalance: "200030975416036883849653",
+    fid: 633693,
+    totalBalance: "214700812469079979300190",
     balances: [
       {
-        address: "0xdb81f550a3cff9a28f51ed3c92fa7f44b72082a5",
-        balance: "200030975416036883849653",
+        address: "0x08955f36d742547dd02dfa76c0b1bfafde00178e",
+        balance: "214700812469079979300190",
       },
     ],
   },
   {
-    fid: 597941,
-    totalBalance: "200000000000000000000000",
+    fid: 263574,
+    totalBalance: "211611409613658010156672",
     balances: [
       {
-        address: "0x324143e84ad529960e28b63eb0de213ddd7b3d95",
-        balance: "200000000000000000000000",
+        address: "0x5b3cec6a5e219674d4485be572cd3faae338bfc6",
+        balance: "211611409613658010156672",
+      },
+    ],
+  },
+  {
+    fid: 347364,
+    totalBalance: "210850284835012587551655",
+    balances: [
+      {
+        address: "0x422347ff0b827a43ca4637a48a04b42f469278f4",
+        balance: "210850284835012587551655",
+      },
+    ],
+  },
+  {
+    fid: 15776,
+    totalBalance: "207244238177766773953948",
+    balances: [
+      {
+        address: "0xc793ee64e6ac6239c527fd041a78a8fcaa245e4f",
+        balance: "207244238177766773953948",
       },
     ],
   },
   {
     fid: 375053,
-    totalBalance: "187969195781206183982595",
+    totalBalance: "206945058934695727674883",
     balances: [
       {
         address: "0x1927678e5a888145edad4798988636f058809e32",
-        balance: "187969195781206183982595",
+        balance: "206945058934695727674883",
       },
     ],
   },
   {
-    fid: 423036,
-    totalBalance: "183507138384481735910228",
+    fid: 451499,
+    totalBalance: "206108484078461855495964",
     balances: [
       {
-        address: "0x02d52dc45881d1f6b08d1ab9c196287624e5ffc9",
-        balance: "183507138384481735910228",
+        address: "0x460f9c8de7f680326e375c810fa2facec16b9f26",
+        balance: "206108484078461855495964",
       },
     ],
   },
   {
-    fid: 418296,
-    totalBalance: "180000000000000000000000",
+    fid: 377111,
+    totalBalance: "202242399421286287207200",
     balances: [
       {
-        address: "0x6538bc9183bd6637e67b28ddb049a768e4ad3ab8",
-        balance: "180000000000000000000000",
+        address: "0x5ea71d048a4b2676f01b561e87d37d255a774add",
+        balance: "202242399421286287207200",
+      },
+    ],
+  },
+  {
+    fid: 278653,
+    totalBalance: "201372529767234516823147",
+    balances: [
+      {
+        address: "0x6e45310b69908a7490ebdbb66601462c8da6e46a",
+        balance: "201372529767234516823147",
+      },
+    ],
+  },
+  {
+    fid: 597941,
+    totalBalance: "200000000000000000000001",
+    balances: [
+      {
+        address: "0x324143e84ad529960e28b63eb0de213ddd7b3d95",
+        balance: "200000000000000000000001",
+      },
+    ],
+  },
+  {
+    fid: 409573,
+    totalBalance: "198075289987637278837305",
+    balances: [
+      {
+        address: "0x199554ccb0c7e11a8c5275a41f3e61a92c235846",
+        balance: "198075289987637278837305",
+      },
+    ],
+  },
+  {
+    fid: 644667,
+    totalBalance: "197542116906060392376671",
+    balances: [
+      {
+        address: "0x5dae13017b8f6c29736b4efd4bc4bea7d1057b84",
+        balance: "197542116906060392376671",
       },
     ],
   },
   {
     fid: 501210,
-    totalBalance: "178849493353396861483319",
+    totalBalance: "197177493353396861483319",
     balances: [
       {
         address: "0x523c95b1a42427a222452b5cdfad48a608779996",
-        balance: "178849493353396861483319",
+        balance: "197177493353396861483319",
       },
     ],
   },
   {
-    fid: 322662,
-    totalBalance: "178490764478763948331193",
+    fid: 421000,
+    totalBalance: "193285546637551216897720",
     balances: [
       {
-        address: "0x0045cb2b22bc2615a09a90bda866ff272c893906",
-        balance: "178490764478763948331193",
+        address: "0xa08d1837f14d1644b5bd2b714377c89d3268cf40",
+        balance: "193285546637551216897720",
+      },
+    ],
+  },
+  {
+    fid: 478906,
+    totalBalance: "188913117192191322861644",
+    balances: [
+      {
+        address: "0xae2e0acf54ea713f06b151d0b75dc44906b050c2",
+        balance: "188913117192191322861644",
+      },
+    ],
+  },
+  {
+    fid: 249958,
+    totalBalance: "188424075382900569623765",
+    balances: [
+      {
+        address: "0x495b2fd72a3562b22e8f93d1e7e673273cd7c5f2",
+        balance: "188424075382900569623765",
+      },
+    ],
+  },
+  {
+    fid: 417418,
+    totalBalance: "183822000000000000000000",
+    balances: [
+      {
+        address: "0xe0fc323e27383142c7b5aa6ff643e7fdad28b093",
+        balance: "183822000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 360623,
+    totalBalance: "182021593831401698822309",
+    balances: [
+      {
+        address: "0x1a3e2847d38cb68bb407a7e6a73a918a58fdcf3a",
+        balance: "182021593831401698822309",
       },
     ],
   },
@@ -368,6 +624,16 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 246871,
+    totalBalance: "176566844009763051959923",
+    balances: [
+      {
+        address: "0x5e46a8ecd4f4f0737ad7b7d243e767861885ed06",
+        balance: "176566844009763051959923",
+      },
+    ],
+  },
+  {
     fid: 308536,
     totalBalance: "175000000000000000000000",
     balances: [
@@ -378,82 +644,256 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 234616,
-    totalBalance: "174998505564199988223924",
+    fid: 504678,
+    totalBalance: "171909735252243436064632",
     balances: [
       {
-        address: "0x19d8da2674e8a025154153297ea3ab918debf96d",
-        balance: "174998505564199988223924",
+        address: "0x1e75550c4a00262fb278a2b9f3c03ec3632a2254",
+        balance: "171909735252243436064632",
       },
     ],
   },
   {
-    fid: 334811,
-    totalBalance: "160000000000000000000000",
+    fid: 323070,
+    totalBalance: "171577039840637450199203",
     balances: [
       {
-        address: "0xcf3b35077e9e8a64654b2c0b67cdef5ce2ae34f0",
-        balance: "160000000000000000000000",
+        address: "0x300db63d96b5b5061560e4f1ba7a04277ba14917",
+        balance: "171577039840637450199203",
       },
     ],
   },
   {
-    fid: 390273,
-    totalBalance: "159098793790892260753309",
+    fid: 397290,
+    totalBalance: "169759408582514545906306",
     balances: [
       {
-        address: "0x810f921c076067e095dc8c3ecb62d5a0b7f25fb3",
-        balance: "159098793790892260753309",
+        address: "0x4a4d0964edb10863aa0a57746df31f8c4458e8c0",
+        balance: "169759408582514545906306",
       },
     ],
   },
   {
-    fid: 246871,
-    totalBalance: "156332844009763051959923",
+    fid: 272116,
+    totalBalance: "168838634656721259029696",
     balances: [
       {
-        address: "0x5e46a8ecd4f4f0737ad7b7d243e767861885ed06",
-        balance: "156332844009763051959923",
+        address: "0xcdb53d17f1b829030b4fe0e3e106c2d4db33ac2a",
+        balance: "168838634656721259029696",
       },
     ],
   },
   {
-    fid: 347364,
-    totalBalance: "151492068262053429665775",
+    fid: 3372,
+    totalBalance: "166883472278036476922968",
     balances: [
       {
-        address: "0x422347ff0b827a43ca4637a48a04b42f469278f4",
-        balance: "151492068262053429665775",
+        address: "0xa88fe6fa01fcc112bb2164c6e37d63395b923e5f",
+        balance: "166883472278036476922968",
       },
     ],
   },
   {
-    fid: 462351,
-    totalBalance: "150921166138757859907232",
+    fid: 380660,
+    totalBalance: "166060031317988048541367",
     balances: [
       {
-        address: "0xc7886654b8877356787fb630c8e50414b49e853a",
-        balance: "150921166138757859907232",
+        address: "0xef5c67e6dbb6fd6cfb9c93adbc5801bcfc10c494",
+        balance: "166060031317988048541367",
+      },
+    ],
+  },
+  {
+    fid: 278239,
+    totalBalance: "165022238177766773953948",
+    balances: [
+      {
+        address: "0xb30c415a850477bb86e16410cd30865470ef9165",
+        balance: "165022238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 276506,
+    totalBalance: "164454315634218289085545",
+    balances: [
+      {
+        address: "0xad3908c6da93adaae576d2fe95001f21396de69c",
+        balance: "164454315634218289085545",
+      },
+    ],
+  },
+  {
+    fid: 340986,
+    totalBalance: "164347904844433440620614",
+    balances: [
+      {
+        address: "0x897fed9144674e36e49a73c5d4b714183ff5a70e",
+        balance: "164347904844433440620614",
+      },
+    ],
+  },
+  {
+    fid: 502822,
+    totalBalance: "160709075682425660536621",
+    balances: [
+      {
+        address: "0xc606aade250e4845e2634baf2c79d0ff3cc3025c",
+        balance: "160709075682425660536621",
+      },
+    ],
+  },
+  {
+    fid: 407598,
+    totalBalance: "158266043313658282554699",
+    balances: [
+      {
+        address: "0xfbfbc475813e561810929a8008621aa28043ca61",
+        balance: "158266043313658282554699",
+      },
+    ],
+  },
+  {
+    fid: 386287,
+    totalBalance: "157884926046618743354145",
+    balances: [
+      {
+        address: "0xa064d2935cfbdf084df9af145ddd32f3ea4fd620",
+        balance: "157884926046618743354145",
+      },
+    ],
+  },
+  {
+    fid: 445359,
+    totalBalance: "157838009177766773953948",
+    balances: [
+      {
+        address: "0x0b5fa155785fcb3ded40e6e138bededc9df1cfe9",
+        balance: "157838009177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 466111,
+    totalBalance: "157357472513326173689532",
+    balances: [
+      {
+        address: "0x380d89b06a1a596a2c4f788daaabc2dcc6493888",
+        balance: "36282432672688723490329",
+      },
+      {
+        address: "0xf631eae9033f881a35091f221ac20ee0c6b05310",
+        balance: "121075039840637450199203",
+      },
+    ],
+  },
+  {
+    fid: 398824,
+    totalBalance: "156646434745430868814669",
+    balances: [
+      {
+        address: "0x453a437a3a8825f2bf5b41b5090956e3a73dd670",
+        balance: "156646434745430868814669",
+      },
+    ],
+  },
+  {
+    fid: 442770,
+    totalBalance: "156064000000000000000000",
+    balances: [
+      {
+        address: "0x8e19969e14cb17bc4fe528073cb3b1683cd74740",
+        balance: "156064000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 373025,
+    totalBalance: "155112186378549272032356",
+    balances: [
+      {
+        address: "0xbc03f695a1f2a03669fca05ee1e7d2ed702f1b28",
+        balance: "155112186378549272032356",
+      },
+    ],
+  },
+  {
+    fid: 14553,
+    totalBalance: "154685076574599746160777",
+    balances: [
+      {
+        address: "0x407425cb78339f5cf3930e2cb26153dd7fd1f739",
+        balance: "154685076574599746160777",
+      },
+    ],
+  },
+  {
+    fid: 343324,
+    totalBalance: "154639238177766773953948",
+    balances: [
+      {
+        address: "0x1b17a2656e43c16398a4a407fc38691c61f2db79",
+        balance: "154639238177766773953948",
       },
     ],
   },
   {
     fid: 264538,
-    totalBalance: "150602396492385050974769",
+    totalBalance: "154252396492385050974769",
     balances: [
       {
         address: "0xc750a405983a615c09e52541e3fef805a91f8d15",
-        balance: "150602396492385050974769",
+        balance: "154252396492385050974769",
       },
     ],
   },
   {
-    fid: 633693,
-    totalBalance: "147064812469079979300190",
+    fid: 419871,
+    totalBalance: "153496000000000000000000",
     balances: [
       {
-        address: "0x08955f36d742547dd02dfa76c0b1bfafde00178e",
-        balance: "147064812469079979300190",
+        address: "0x7a71f6b57ed7548fe52311272458351289ab27f2",
+        balance: "153496000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 203666,
+    totalBalance: "152353502127585090959382",
+    balances: [
+      {
+        address: "0xdd3b3a67c66a5276aacc499ec2abd5241721e008",
+        balance: "152353502127585090959382",
+      },
+    ],
+  },
+  {
+    fid: 401137,
+    totalBalance: "151671938754993486392346",
+    balances: [
+      {
+        address: "0x5bd1e9bea6128076370bbeb9292a103f1c277533",
+        balance: "151671938754993486392346",
+      },
+    ],
+  },
+  {
+    fid: 301144,
+    totalBalance: "150074137483917993993273",
+    balances: [
+      {
+        address: "0xbdf82513b977e1bd329d20dac10dbd1a9d86fd4c",
+        balance: "150074137483917993993273",
+      },
+    ],
+  },
+  {
+    fid: 17360,
+    totalBalance: "146975520854942175765676",
+    balances: [
+      {
+        address: "0xd984b81f72fb0c8a061d6a4019c6c5201ad9ceec",
+        balance: "146975520854942175765676",
       },
     ],
   },
@@ -468,12 +908,82 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 365209,
+    totalBalance: "146904238177766773953948",
+    balances: [
+      {
+        address: "0x58ebbdb72cd8bcc07dc5f11ef91f8f67b4e9d054",
+        balance: "146904238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 373242,
+    totalBalance: "146797628025795952155195",
+    balances: [
+      {
+        address: "0x317970b030bd686f855ac72b4d96ec6bc0116a3a",
+        balance: "146797628025795952155195",
+      },
+    ],
+  },
+  {
+    fid: 423311,
+    totalBalance: "146686701934905008778794",
+    balances: [
+      {
+        address: "0x2f6c18f621f33dc42209d8cfe4a81ec77bef9466",
+        balance: "146686701934905008778794",
+      },
+    ],
+  },
+  {
+    fid: 15789,
+    totalBalance: "145175795467189616943445",
+    balances: [
+      {
+        address: "0xabff4e288c3a4bd1d622ac7d6e199e25fb0c561f",
+        balance: "145175795467189616943445",
+      },
+    ],
+  },
+  {
+    fid: 309242,
+    totalBalance: "145048238177766773953948",
+    balances: [
+      {
+        address: "0x9a064a0ef88393662de416a59fa4cbe9f4900fc8",
+        balance: "145048238177766773953948",
+      },
+    ],
+  },
+  {
     fid: 211635,
     totalBalance: "145025506517422419813002",
     balances: [
       {
         address: "0xb17b3e7910af9d232cb683c083ef73c34521fc8a",
         balance: "145025506517422419813002",
+      },
+    ],
+  },
+  {
+    fid: 15821,
+    totalBalance: "144938238177766773953948",
+    balances: [
+      {
+        address: "0x4c2d965fabf61006cba206e4bb2148b664a66adb",
+        balance: "144938238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 405729,
+    totalBalance: "144455885293780587176250",
+    balances: [
+      {
+        address: "0x20573df984658e59255fd9f607823a2bc1a3b65b",
+        balance: "144455885293780587176250",
       },
     ],
   },
@@ -488,32 +998,52 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 283144,
-    totalBalance: "142892974874276993696305",
+    fid: 410943,
+    totalBalance: "141977606267931547829170",
     balances: [
       {
-        address: "0xe06383ece7b8bbb6c3f65a95fc2b6450e9077a6c",
-        balance: "142892974874276993696305",
+        address: "0xdcfd02a2ddbc739c34f79da59c0fa99ea7297887",
+        balance: "141977606267931547829170",
       },
     ],
   },
   {
-    fid: 644667,
-    totalBalance: "140601116906060392376671",
+    fid: 378422,
+    totalBalance: "140659931231233425816211",
     balances: [
       {
-        address: "0x5dae13017b8f6c29736b4efd4bc4bea7d1057b84",
-        balance: "140601116906060392376671",
+        address: "0x589a4d21780b2ecf0cfd9bc5faa9b5fca88d7a54",
+        balance: "140659931231233425816211",
       },
     ],
   },
   {
-    fid: 263574,
-    totalBalance: "138221409613658010156672",
+    fid: 508261,
+    totalBalance: "140074446263549514353563",
     balances: [
       {
-        address: "0x5b3cec6a5e219674d4485be572cd3faae338bfc6",
-        balance: "138221409613658010156672",
+        address: "0x1d213ecfffc66ec8739265e61d3a57e66d5d9689",
+        balance: "140074446263549514353563",
+      },
+    ],
+  },
+  {
+    fid: 263309,
+    totalBalance: "139474000000000000000000",
+    balances: [
+      {
+        address: "0x7bf433b1be8f8f35c3a6c19f7921691815d37ff9",
+        balance: "139474000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 350698,
+    totalBalance: "138741582463482281176663",
+    balances: [
+      {
+        address: "0xbace13d5884e08ed18334b98a902cc3118b036c6",
+        balance: "138741582463482281176663",
       },
     ],
   },
@@ -528,76 +1058,136 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 401174,
-    totalBalance: "137462926601644307526806",
+    fid: 403619,
+    totalBalance: "137687391769837552271360",
     balances: [
       {
-        address: "0xf29b870b073a7114f33bd2bac6739c0057207dc0",
-        balance: "137462926601644307526806",
+        address: "0xcb69c793478a7355178979ae0be453bf61c378ee",
+        balance: "137687391769837552271360",
       },
     ],
   },
   {
-    fid: 385627,
-    totalBalance: "137155991650511933075492",
+    fid: 500500,
+    totalBalance: "137264047161808264938998",
     balances: [
       {
-        address: "0x711ac685d32ef2c694298e453e9595389eb4b567",
-        balance: "91326259754698084380708",
-      },
-      {
-        address: "0x611ffb2a002e84e66cd3230642ff733b1c72a554",
-        balance: "45829731895813848694784",
+        address: "0xc73ee6e9bef9ebfad3146c0616087b139247402c",
+        balance: "137264047161808264938998",
       },
     ],
   },
   {
-    fid: 398824,
-    totalBalance: "136517268921613491322411",
+    fid: 385793,
+    totalBalance: "135086713949805801564181",
     balances: [
       {
-        address: "0x453a437a3a8825f2bf5b41b5090956e3a73dd670",
-        balance: "136517268921613491322411",
+        address: "0x9cab05482982875ef365c7030a294a16c9d01f8d",
+        balance: "34594000000000000000000",
+      },
+      {
+        address: "0x8b815e9aba030d13623310c12f2acb93f4e17270",
+        balance: "100492713949805801564181",
       },
     ],
   },
   {
-    fid: 478906,
-    totalBalance: "133139811775830521156886",
+    fid: 398825,
+    totalBalance: "134945241863734639737538",
     balances: [
       {
-        address: "0xae2e0acf54ea713f06b151d0b75dc44906b050c2",
-        balance: "133139811775830521156886",
+        address: "0xe88d4c9c5dbbfe9554145134dfa97a4e5dbc6cec",
+        balance: "134945241863734639737538",
       },
     ],
   },
   {
-    fid: 508261,
-    totalBalance: "131390293082112676362336",
+    fid: 268977,
+    totalBalance: "132719684896142061091624",
     balances: [
       {
-        address: "0x1d213ecfffc66ec8739265e61d3a57e66d5d9689",
-        balance: "131390293082112676362336",
+        address: "0xe7d4191eb35870f5830b270dbc5f32ae64a9b78e",
+        balance: "132719684896142061091624",
       },
     ],
   },
   {
-    fid: 297799,
-    totalBalance: "130839692102226072284670",
+    fid: 488178,
+    totalBalance: "132506000000000000000000",
     balances: [
       {
-        address: "0xa2e9ec27b948d85b11f7935728cb68e11d73d8fd",
-        balance: "130839692102226072284670",
+        address: "0x58f1eb47c0885606e708564c52f4eeed54d24f02",
+        balance: "132506000000000000000000",
       },
     ],
   },
   {
-    fid: 386287,
-    totalBalance: "127745439490679836557902",
+    fid: 302229,
+    totalBalance: "132395723617389553265001",
     balances: [
       {
-        address: "0xa064d2935cfbdf084df9af145ddd32f3ea4fd620",
-        balance: "127745439490679836557902",
+        address: "0x102ec91ad54c1d006e8c46233e55bd4b6693947e",
+        balance: "132395723617389553265001",
+      },
+    ],
+  },
+  {
+    fid: 448920,
+    totalBalance: "130223063569136092538100",
+    balances: [
+      {
+        address: "0xd0c923aab713f60c6627d9b4091c8433c068906b",
+        balance: "130223063569136092538100",
+      },
+    ],
+  },
+  {
+    fid: 269405,
+    totalBalance: "130216361706220724117371",
+    balances: [
+      {
+        address: "0x77039399801f462b4ed13444a266b16355c471bf",
+        balance: "130216361706220724117371",
+      },
+    ],
+  },
+  {
+    fid: 402682,
+    totalBalance: "129875616394432178707561",
+    balances: [
+      {
+        address: "0x2d2cadf39f7c1856fb15b8cb2d5a39808b2cbd89",
+        balance: "129875616394432178707561",
+      },
+    ],
+  },
+  {
+    fid: 341438,
+    totalBalance: "128947432093165568735088",
+    balances: [
+      {
+        address: "0xe0bb3bfb8750b45fdaf8df7976c296722af370a7",
+        balance: "128947432093165568735088",
+      },
+    ],
+  },
+  {
+    fid: 18586,
+    totalBalance: "128529015398782371354094",
+    balances: [
+      {
+        address: "0x74fa01a5d0ef8039f1e14f4d4c8f90e8602e07b4",
+        balance: "128529015398782371354094",
+      },
+    ],
+  },
+  {
+    fid: 304818,
+    totalBalance: "128240057134548546829716",
+    balances: [
+      {
+        address: "0x1c3512e08c1b18bfd41311a06b0977a3f8259140",
+        balance: "128240057134548546829716",
       },
     ],
   },
@@ -612,22 +1202,42 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 14553,
-    totalBalance: "125750076574599746160777",
+    fid: 401099,
+    totalBalance: "126362663441923677208831",
     balances: [
       {
-        address: "0x407425cb78339f5cf3930e2cb26153dd7fd1f739",
-        balance: "125750076574599746160777",
+        address: "0xae5d0cee466d0327b3d6593fdc1572095b8b0de9",
+        balance: "126362663441923677208831",
       },
     ],
   },
   {
-    fid: 3372,
-    totalBalance: "125015472278036476922968",
+    fid: 318589,
+    totalBalance: "126251928081319148858849",
     balances: [
       {
-        address: "0xa88fe6fa01fcc112bb2164c6e37d63395b923e5f",
-        balance: "125015472278036476922968",
+        address: "0xd6b84a2de711da13a98466988d1bea18a427e8b5",
+        balance: "126251928081319148858849",
+      },
+    ],
+  },
+  {
+    fid: 306610,
+    totalBalance: "125475049664533701387221",
+    balances: [
+      {
+        address: "0x9b5546050984fe69ae9cfa57538c83282a3cbce2",
+        balance: "125475049664533701387221",
+      },
+    ],
+  },
+  {
+    fid: 317501,
+    totalBalance: "124945000000000000000000",
+    balances: [
+      {
+        address: "0x1847a58d11903ecd73ee8bf71ad801d7ed82ca97",
+        balance: "124945000000000000000000",
       },
     ],
   },
@@ -642,22 +1252,92 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 323070,
-    totalBalance: "124303039840637450199203",
+    fid: 211535,
+    totalBalance: "124804737291785055687349",
     balances: [
       {
-        address: "0x300db63d96b5b5061560e4f1ba7a04277ba14917",
-        balance: "124303039840637450199203",
+        address: "0x7b92ecc28fc91f1875263a8b1bfc707bbbb3bfd9",
+        balance: "124804737291785055687349",
       },
     ],
   },
   {
-    fid: 383877,
-    totalBalance: "122995547775858683430215",
+    fid: 500193,
+    totalBalance: "124463234313921051143014",
     balances: [
       {
-        address: "0x138a15516d3e7e88ab20cd68305356c3c437d294",
-        balance: "122995547775858683430215",
+        address: "0x447d556e8718771143fae562aa066a9a7015d606",
+        balance: "124463234313921051143014",
+      },
+    ],
+  },
+  {
+    fid: 513389,
+    totalBalance: "124452039840637450199203",
+    balances: [
+      {
+        address: "0x6337986bfbce85f742bd1fd5ad9770b8973fe522",
+        balance: "124452039840637450199203",
+      },
+    ],
+  },
+  {
+    fid: 350429,
+    totalBalance: "124450608481421343201416",
+    balances: [
+      {
+        address: "0xf178ddbacbbd1698a8afde0711c3cdf831362305",
+        balance: "124450608481421343201416",
+      },
+    ],
+  },
+  {
+    fid: 435160,
+    totalBalance: "124151463828744407738102",
+    balances: [
+      {
+        address: "0xe28d90a1d1fa0d9dc4b23e051b36114c9bfa4d73",
+        balance: "124151463828744407738102",
+      },
+    ],
+  },
+  {
+    fid: 308827,
+    totalBalance: "123118000000000000000000",
+    balances: [
+      {
+        address: "0xea9909370742a795fc041d235504c570218ce6e5",
+        balance: "123118000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 382384,
+    totalBalance: "123111999897251224276029",
+    balances: [
+      {
+        address: "0x82342b547e15521ec2b166f2f549df1ade5e8b95",
+        balance: "123111999897251224276029",
+      },
+    ],
+  },
+  {
+    fid: 192631,
+    totalBalance: "122595606253639391419392",
+    balances: [
+      {
+        address: "0x2b5606fb05188e248373a028ae70a896ed0747a1",
+        balance: "122595606253639391419392",
+      },
+    ],
+  },
+  {
+    fid: 672303,
+    totalBalance: "122373000000000000000000",
+    balances: [
+      {
+        address: "0xa3f5738249ed02c6b3c5d543111b518c31573236",
+        balance: "122373000000000000000000",
       },
     ],
   },
@@ -672,52 +1352,42 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 211535,
-    totalBalance: "122245105403048228737717",
+    fid: 323063,
+    totalBalance: "121603023764188463379739",
     balances: [
       {
-        address: "0x7b92ecc28fc91f1875263a8b1bfc707bbbb3bfd9",
-        balance: "122245105403048228737717",
+        address: "0xb84be5af8dc1b039531214c09170f650728b1ce9",
+        balance: "121603023764188463379739",
       },
     ],
   },
   {
-    fid: 317501,
-    totalBalance: "122000000000000000000000",
+    fid: 369619,
+    totalBalance: "120590834082980122933317",
     balances: [
       {
-        address: "0x1847a58d11903ecd73ee8bf71ad801d7ed82ca97",
-        balance: "122000000000000000000000",
+        address: "0xb82764654369ace610fea04e2fe9f1942ff53ae0",
+        balance: "120590834082980122933317",
       },
     ],
   },
   {
-    fid: 273379,
-    totalBalance: "120050514853069981254342",
+    fid: 301385,
+    totalBalance: "120369238177766773953948",
     balances: [
       {
-        address: "0x211f656b82e254cfb2ec42bc89086ec9cb350c5e",
-        balance: "120050514853069981254342",
+        address: "0xb4ed1a39491c83219764152e4dc68944d5547947",
+        balance: "120369238177766773953948",
       },
     ],
   },
   {
-    fid: 421000,
-    totalBalance: "120000231003332927812175",
+    fid: 456735,
+    totalBalance: "120242987039211435376245",
     balances: [
       {
-        address: "0xa08d1837f14d1644b5bd2b714377c89d3268cf40",
-        balance: "120000231003332927812175",
-      },
-    ],
-  },
-  {
-    fid: 353956,
-    totalBalance: "120000000000008611028668",
-    balances: [
-      {
-        address: "0x6c584a08058918bf14f9e5292e92d866b437d5fc",
-        balance: "120000000000008611028668",
+        address: "0x1cde201aefc97fec54eadfcaa9c31171ba435250",
+        balance: "120242987039211435376245",
       },
     ],
   },
@@ -732,162 +1402,82 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 330083,
-    totalBalance: "119830513664270503963135",
-    balances: [
-      {
-        address: "0xa218e658f1f863147caa781610170f6b5f48de21",
-        balance: "119830513664270503963135",
-      },
-    ],
-  },
-  {
-    fid: 6714,
-    totalBalance: "119614074214695715621072",
-    balances: [
-      {
-        address: "0x954b6de2e9c58b0ca7b21e9a048fd0a6cea6f92c",
-        balance: "119614074214695715621072",
-      },
-    ],
-  },
-  {
-    fid: 407704,
-    totalBalance: "119044442767092532055102",
-    balances: [
-      {
-        address: "0x04f344269a9e349f9b9c123570bb78ed28a73e61",
-        balance: "119044442767092532055102",
-      },
-    ],
-  },
-  {
-    fid: 402682,
-    totalBalance: "118927695182939040641738",
-    balances: [
-      {
-        address: "0x2d2cadf39f7c1856fb15b8cb2d5a39808b2cbd89",
-        balance: "118927695182939040641738",
-      },
-    ],
-  },
-  {
-    fid: 343324,
-    totalBalance: "118465238177766773953948",
-    balances: [
-      {
-        address: "0x1b17a2656e43c16398a4a407fc38691c61f2db79",
-        balance: "118465238177766773953948",
-      },
-    ],
-  },
-  {
     fid: 281290,
-    totalBalance: "117895220462657713291523",
+    totalBalance: "118254963557988109467907",
     balances: [
       {
         address: "0xc66f19554a41547e8c608427c36cdc1548dd8feb",
-        balance: "117895220462657713291523",
+        balance: "118254963557988109467907",
       },
     ],
   },
   {
-    fid: 373242,
-    totalBalance: "117539628025795952155195",
+    fid: 416401,
+    totalBalance: "118018164116507579622272",
     balances: [
       {
-        address: "0x317970b030bd686f855ac72b4d96ec6bc0116a3a",
-        balance: "117539628025795952155195",
+        address: "0x8712db20ab0e011faf38c6ea5ee74a5b1c5a8375",
+        balance: "118018164116507579622272",
       },
     ],
   },
   {
-    fid: 423378,
-    totalBalance: "116636857216822836986094",
+    fid: 285462,
+    totalBalance: "117057035272670931165851",
     balances: [
       {
-        address: "0xe627311229899b45ba356ecfe02bc137d62abb84",
-        balance: "116636857216822836986094",
+        address: "0xe3f96cb5ae6353ed964f12c3841f50c8453df33b",
+        balance: "117057035272670931165851",
       },
     ],
   },
   {
-    fid: 341438,
-    totalBalance: "116346974908101443270512",
+    fid: 360262,
+    totalBalance: "114433000000000000000000",
     balances: [
       {
-        address: "0xe0bb3bfb8750b45fdaf8df7976c296722af370a7",
-        balance: "116346974908101443270512",
+        address: "0x207412225ed2b71f06d339179f888de4ad1a7dbe",
+        balance: "114433000000000000000000",
       },
     ],
   },
   {
-    fid: 431085,
-    totalBalance: "114787132139114898201835",
+    fid: 437666,
+    totalBalance: "113357000000000000000000",
     balances: [
       {
-        address: "0xee8edcc4b3b4f6f7cfcfb5712d3a421a8e93bbf3",
-        balance: "114787132139114898201835",
+        address: "0x0ae3513b16ee8730f733fe440925f96beee997b2",
+        balance: "113357000000000000000000",
       },
     ],
   },
   {
-    fid: 448920,
-    totalBalance: "113853063569136092538100",
+    fid: 430312,
+    totalBalance: "113321039840637450199203",
     balances: [
       {
-        address: "0xd0c923aab713f60c6627d9b4091c8433c068906b",
-        balance: "113853063569136092538100",
+        address: "0xf52a30142877e3b7d30f3f6bb2c6bc55b8888710",
+        balance: "113321039840637450199203",
       },
     ],
   },
   {
-    fid: 500193,
-    totalBalance: "113801234313921051143014",
+    fid: 416361,
+    totalBalance: "112571221827037487811631",
     balances: [
       {
-        address: "0x447d556e8718771143fae562aa066a9a7015d606",
-        balance: "113801234313921051143014",
+        address: "0x065baf5897ff3d7a020195fa9ce58568defbc9ce",
+        balance: "112571221827037487811631",
       },
     ],
   },
   {
-    fid: 203666,
-    totalBalance: "112768078629439505198967",
+    fid: 328041,
+    totalBalance: "112504956680810405440981",
     balances: [
       {
-        address: "0xdd3b3a67c66a5276aacc499ec2abd5241721e008",
-        balance: "112768078629439505198967",
-      },
-    ],
-  },
-  {
-    fid: 380660,
-    totalBalance: "112609840054019912354964",
-    balances: [
-      {
-        address: "0xef5c67e6dbb6fd6cfb9c93adbc5801bcfc10c494",
-        balance: "112609840054019912354964",
-      },
-    ],
-  },
-  {
-    fid: 397290,
-    totalBalance: "112197800596776568577460",
-    balances: [
-      {
-        address: "0x4a4d0964edb10863aa0a57746df31f8c4458e8c0",
-        balance: "112197800596776568577460",
-      },
-    ],
-  },
-  {
-    fid: 302229,
-    totalBalance: "112047723617389553265001",
-    balances: [
-      {
-        address: "0x102ec91ad54c1d006e8c46233e55bd4b6693947e",
-        balance: "112047723617389553265001",
+        address: "0x6206f6e372a3bf424faf5618ba334e15488e3d6d",
+        balance: "112504956680810405440981",
       },
     ],
   },
@@ -916,6 +1506,26 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 420374,
+    totalBalance: "111294899797554988833736",
+    balances: [
+      {
+        address: "0x1f5233b0bb6249a17f4ad90ae407f6934c00a6cd",
+        balance: "111294899797554988833736",
+      },
+    ],
+  },
+  {
+    fid: 393348,
+    totalBalance: "111261561884574912779848",
+    balances: [
+      {
+        address: "0x4e4e2198d1fc0069d35cfb5921994638653dc377",
+        balance: "111261561884574912779848",
+      },
+    ],
+  },
+  {
     fid: 250664,
     totalBalance: "111100000000000000000000",
     balances: [
@@ -926,22 +1536,22 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 191832,
-    totalBalance: "110978618994985413421709",
+    fid: 318447,
+    totalBalance: "110337009755431081258634",
     balances: [
       {
-        address: "0x98b2e9bb3fea78b6f2bbb2e289dd11012be79c54",
-        balance: "110978618994985413421709",
+        address: "0x91942026918fd219c6b62f739c4dab80dd6673b6",
+        balance: "110337009755431081258634",
       },
     ],
   },
   {
-    fid: 410943,
-    totalBalance: "110723606267931547829170",
+    fid: 353956,
+    totalBalance: "110000000000008611028668",
     balances: [
       {
-        address: "0xdcfd02a2ddbc739c34f79da59c0fa99ea7297887",
-        balance: "110723606267931547829170",
+        address: "0x6c584a08058918bf14f9e5292e92d866b437d5fc",
+        balance: "110000000000008611028668",
       },
     ],
   },
@@ -956,72 +1566,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 462883,
-    totalBalance: "110000000000000000000000",
-    balances: [
-      {
-        address: "0xfb27a5900ed3926b350ac2f0e08b22c10ff8ff0d",
-        balance: "110000000000000000000000",
-      },
-    ],
-  },
-  {
-    fid: 442770,
-    totalBalance: "110000000000000000000000",
-    balances: [
-      {
-        address: "0x8e19969e14cb17bc4fe528073cb3b1683cd74740",
-        balance: "110000000000000000000000",
-      },
-    ],
-  },
-  {
-    fid: 553958,
-    totalBalance: "110000000000000000000000",
-    balances: [
-      {
-        address: "0x13360af89a758fdd1e3d3dfbd4aa397cb482ffec",
-        balance: "110000000000000000000000",
-      },
-    ],
-  },
-  {
-    fid: 437666,
-    totalBalance: "110000000000000000000000",
-    balances: [
-      {
-        address: "0x0ae3513b16ee8730f733fe440925f96beee997b2",
-        balance: "110000000000000000000000",
-      },
-    ],
-  },
-  {
     fid: 4642,
     totalBalance: "109301329878430477258578",
     balances: [
       {
         address: "0x648abda15186b1e4587722009497c8e3c9242c6b",
         balance: "109301329878430477258578",
-      },
-    ],
-  },
-  {
-    fid: 378422,
-    totalBalance: "109267931231233425816211",
-    balances: [
-      {
-        address: "0x589a4d21780b2ecf0cfd9bc5faa9b5fca88d7a54",
-        balance: "109267931231233425816211",
-      },
-    ],
-  },
-  {
-    fid: 350139,
-    totalBalance: "109248985863661901085980",
-    balances: [
-      {
-        address: "0x9dd7604f02f9ba324f7cea8f08e8a1945165be9f",
-        balance: "109248985863661901085980",
       },
     ],
   },
@@ -1040,42 +1590,102 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 415872,
-    totalBalance: "107521533493973276188884",
+    fid: 383360,
+    totalBalance: "108493000000000000000000",
     balances: [
       {
-        address: "0x5945ae0412583ee89e69761da2589a643fb363b1",
-        balance: "107521533493973276188884",
+        address: "0x542b55f6d981567fa6b20a72c3be07e6ac306f71",
+        balance: "108493000000000000000000",
       },
     ],
   },
   {
-    fid: 18586,
-    totalBalance: "107314658866057031964142",
+    fid: 401174,
+    totalBalance: "108392926601644307526806",
     balances: [
       {
-        address: "0x74fa01a5d0ef8039f1e14f4d4c8f90e8602e07b4",
-        balance: "107314658866057031964142",
+        address: "0xf29b870b073a7114f33bd2bac6739c0057207dc0",
+        balance: "108392926601644307526806",
       },
     ],
   },
   {
-    fid: 401099,
-    totalBalance: "107200663441923677208831",
+    fid: 353603,
+    totalBalance: "108210336850552595708463",
     balances: [
       {
-        address: "0xae5d0cee466d0327b3d6593fdc1572095b8b0de9",
-        balance: "107200663441923677208831",
+        address: "0x49e384d87a66fa6b43eb1ca211f6bdbca8264cc3",
+        balance: "108210336850552595708463",
       },
     ],
   },
   {
-    fid: 15789,
-    totalBalance: "106187795467189616943445",
+    fid: 627302,
+    totalBalance: "108090675218799034707086",
     balances: [
       {
-        address: "0xabff4e288c3a4bd1d622ac7d6e199e25fb0c561f",
-        balance: "106187795467189616943445",
+        address: "0x4ce0045c67a3ff085be9a9778e00754d0865abcf",
+        balance: "108090675218799034707086",
+      },
+    ],
+  },
+  {
+    fid: 418296,
+    totalBalance: "107912000000000000000000",
+    balances: [
+      {
+        address: "0x6538bc9183bd6637e67b28ddb049a768e4ad3ab8",
+        balance: "107912000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 245579,
+    totalBalance: "107690413336740751284830",
+    balances: [
+      {
+        address: "0x270735e7afdc9ef0ee9f3186990fd118e253dcc1",
+        balance: "107690413336740751284830",
+      },
+    ],
+  },
+  {
+    fid: 350139,
+    totalBalance: "107393320663623470772534",
+    balances: [
+      {
+        address: "0x9dd7604f02f9ba324f7cea8f08e8a1945165be9f",
+        balance: "107393320663623470772534",
+      },
+    ],
+  },
+  {
+    fid: 484256,
+    totalBalance: "107075297949108022327037",
+    balances: [
+      {
+        address: "0x0670303c741a704de90c4264ad6d775116a88a1b",
+        balance: "107075297949108022327037",
+      },
+    ],
+  },
+  {
+    fid: 348569,
+    totalBalance: "106417878207070390371829",
+    balances: [
+      {
+        address: "0xacbf5b79db3f441b3e1f0784f419ade0027ed899",
+        balance: "106417878207070390371829",
+      },
+    ],
+  },
+  {
+    fid: 349775,
+    totalBalance: "106225292153819862828377",
+    balances: [
+      {
+        address: "0x541cd6e89cca9286e87628e945d6d56a1483ec49",
+        balance: "106225292153819862828377",
       },
     ],
   },
@@ -1090,56 +1700,6 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 484256,
-    totalBalance: "105871297949108022327037",
-    balances: [
-      {
-        address: "0x0670303c741a704de90c4264ad6d775116a88a1b",
-        balance: "105871297949108022327037",
-      },
-    ],
-  },
-  {
-    fid: 445359,
-    totalBalance: "105674689177766773953948",
-    balances: [
-      {
-        address: "0x0b5fa155785fcb3ded40e6e138bededc9df1cfe9",
-        balance: "105674689177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 304818,
-    totalBalance: "105623057134548546829716",
-    balances: [
-      {
-        address: "0x1c3512e08c1b18bfd41311a06b0977a3f8259140",
-        balance: "105623057134548546829716",
-      },
-    ],
-  },
-  {
-    fid: 12626,
-    totalBalance: "105415589152423960145132",
-    balances: [
-      {
-        address: "0xae412a9b9ad78c93a0253c86e617bf193bbccacd",
-        balance: "105415589152423960145132",
-      },
-    ],
-  },
-  {
-    fid: 323063,
-    totalBalance: "105265023764188463379739",
-    balances: [
-      {
-        address: "0xb84be5af8dc1b039531214c09170f650728b1ce9",
-        balance: "105265023764188463379739",
-      },
-    ],
-  },
-  {
     fid: 12400,
     totalBalance: "105035928603729154793997",
     balances: [
@@ -1150,62 +1710,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 419871,
-    totalBalance: "105000000000000000000000",
+    fid: 462883,
+    totalBalance: "104733000000000000000000",
     balances: [
       {
-        address: "0x7a71f6b57ed7548fe52311272458351289ab27f2",
-        balance: "105000000000000000000000",
-      },
-    ],
-  },
-  {
-    fid: 278239,
-    totalBalance: "104900238177766773953948",
-    balances: [
-      {
-        address: "0xb30c415a850477bb86e16410cd30865470ef9165",
-        balance: "104900238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 268977,
-    totalBalance: "104370854661732511514624",
-    balances: [
-      {
-        address: "0xe7d4191eb35870f5830b270dbc5f32ae64a9b78e",
-        balance: "104370854661732511514624",
-      },
-    ],
-  },
-  {
-    fid: 17360,
-    totalBalance: "104350520854942175765676",
-    balances: [
-      {
-        address: "0xd984b81f72fb0c8a061d6a4019c6c5201ad9ceec",
-        balance: "104350520854942175765676",
-      },
-    ],
-  },
-  {
-    fid: 483322,
-    totalBalance: "104100000000000000000000",
-    balances: [
-      {
-        address: "0x5840c81d7dc225837e895e0a8ca86db59138c167",
-        balance: "104100000000000000000000",
-      },
-    ],
-  },
-  {
-    fid: 456735,
-    totalBalance: "103797987039211435376245",
-    balances: [
-      {
-        address: "0x1cde201aefc97fec54eadfcaa9c31171ba435250",
-        balance: "103797987039211435376245",
+        address: "0xfb27a5900ed3926b350ac2f0e08b22c10ff8ff0d",
+        balance: "104733000000000000000000",
       },
     ],
   },
@@ -1220,36 +1730,6 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 407598,
-    totalBalance: "103705043313658282554699",
-    balances: [
-      {
-        address: "0xfbfbc475813e561810929a8008621aa28043ca61",
-        balance: "103705043313658282554699",
-      },
-    ],
-  },
-  {
-    fid: 15776,
-    totalBalance: "103644238177766773953948",
-    balances: [
-      {
-        address: "0xc793ee64e6ac6239c527fd041a78a8fcaa245e4f",
-        balance: "103644238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 348569,
-    totalBalance: "103465562572852101286284",
-    balances: [
-      {
-        address: "0xacbf5b79db3f441b3e1f0784f419ade0027ed899",
-        balance: "103465562572852101286284",
-      },
-    ],
-  },
-  {
     fid: 492737,
     totalBalance: "103151118451044252744751",
     balances: [
@@ -1260,22 +1740,32 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 237884,
-    totalBalance: "103136816792948321908671",
+    fid: 389066,
+    totalBalance: "103138360597900492846912",
     balances: [
       {
-        address: "0x3ad226427d6c1d8a53fb1948efcd7a98890fe8c1",
-        balance: "103136816792948321908671",
+        address: "0x3d29c1482c224c0fe4b058a3d930a9264dd0a22e",
+        balance: "103138360597900492846912",
       },
     ],
   },
   {
-    fid: 417418,
-    totalBalance: "103000000000000000000000",
+    fid: 443863,
+    totalBalance: "102960211080689941996302",
     balances: [
       {
-        address: "0xe0fc323e27383142c7b5aa6ff643e7fdad28b093",
-        balance: "103000000000000000000000",
+        address: "0xd956fe0b4e5a0f6edf0c91699c5245c961f86371",
+        balance: "102960211080689941996302",
+      },
+    ],
+  },
+  {
+    fid: 420657,
+    totalBalance: "102858000000000000000000",
+    balances: [
+      {
+        address: "0x79ceb914e9e59fe581a73108ae2e2105940f3a45",
+        balance: "102858000000000000000000",
       },
     ],
   },
@@ -1290,92 +1780,72 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 350698,
-    totalBalance: "102745582463482281176663",
+    fid: 545571,
+    totalBalance: "102761684796158024244596",
     balances: [
       {
-        address: "0xbace13d5884e08ed18334b98a902cc3118b036c6",
-        balance: "102745582463482281176663",
+        address: "0x0aa85631775313aa0752ef5fd62f6b9c1cfa1ae0",
+        balance: "102761684796158024244596",
       },
     ],
   },
   {
-    fid: 416401,
-    totalBalance: "102645142791651846716024",
+    fid: 411778,
+    totalBalance: "102608448506068153129582",
     balances: [
       {
-        address: "0x8712db20ab0e011faf38c6ea5ee74a5b1c5a8375",
-        balance: "102645142791651846716024",
+        address: "0x02ab6dd8bff3aa73a0c0e5de4647ebd0700e4802",
+        balance: "102608448506068153129582",
       },
     ],
   },
   {
-    fid: 318589,
-    totalBalance: "102419928081319148858849",
+    fid: 570151,
+    totalBalance: "102476731836709788432902",
     balances: [
       {
-        address: "0xd6b84a2de711da13a98466988d1bea18a427e8b5",
-        balance: "102419928081319148858849",
+        address: "0xdf934f0949585548a06b31fe66d2db0f21a8bae1",
+        balance: "102476731836709788432902",
       },
     ],
   },
   {
-    fid: 416361,
-    totalBalance: "102318280066813474440459",
+    fid: 391861,
+    totalBalance: "102244985111832945992833",
     balances: [
       {
-        address: "0x065baf5897ff3d7a020195fa9ce58568defbc9ce",
-        balance: "102318280066813474440459",
+        address: "0xe1af1126762f05da147c239340b532fa155562e4",
+        balance: "102244985111832945992833",
       },
     ],
   },
   {
-    fid: 278653,
-    totalBalance: "102275117683552773355522",
+    fid: 299135,
+    totalBalance: "102016415394279765706195",
     balances: [
       {
-        address: "0x6e45310b69908a7490ebdbb66601462c8da6e46a",
-        balance: "102275117683552773355522",
+        address: "0x1840330bc03e16e633111a37325e6b8bfb588b2b",
+        balance: "102016415394279765706195",
       },
     ],
   },
   {
-    fid: 353603,
-    totalBalance: "102251336850552595708463",
+    fid: 386213,
+    totalBalance: "102008792941346184090938",
     balances: [
       {
-        address: "0x49e384d87a66fa6b43eb1ca211f6bdbca8264cc3",
-        balance: "102251336850552595708463",
+        address: "0x22d187e0392632386b6dc542d5c494602e0e67fe",
+        balance: "102008792941346184090938",
       },
     ],
   },
   {
-    fid: 328041,
-    totalBalance: "102237956680810405440981",
+    fid: 379435,
+    totalBalance: "101948405057513142323155",
     balances: [
       {
-        address: "0x6206f6e372a3bf424faf5618ba334e15488e3d6d",
-        balance: "102237956680810405440981",
-      },
-    ],
-  },
-  {
-    fid: 349775,
-    totalBalance: "102001292153819862828377",
-    balances: [
-      {
-        address: "0x541cd6e89cca9286e87628e945d6d56a1483ec49",
-        balance: "102001292153819862828377",
-      },
-    ],
-  },
-  {
-    fid: 401137,
-    totalBalance: "101991938754993486392346",
-    balances: [
-      {
-        address: "0x5bd1e9bea6128076370bbeb9292a103f1c277533",
-        balance: "101991938754993486392346",
+        address: "0x24255d06cfb9dbae774f9fb8697f7850f1d8a5f1",
+        balance: "101948405057513142323155",
       },
     ],
   },
@@ -1390,32 +1860,122 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 408838,
-    totalBalance: "101431887770379106589466",
+    fid: 445335,
+    totalBalance: "101649239062284943121290",
     balances: [
       {
-        address: "0x33d5fa63725fb6b739c96f7e0a62f4f58808f97f",
-        balance: "101431887770379106589466",
+        address: "0x58c86637c84730d61023eade6e5d8b4792a1097d",
+        balance: "101649239062284943121290",
       },
     ],
   },
   {
-    fid: 224525,
-    totalBalance: "101347998525936151054050",
+    fid: 193746,
+    totalBalance: "101628283579177900773442",
     balances: [
       {
-        address: "0x7a79944ac7e770cfd13ec024a4b31b8c5efee60d",
-        balance: "101347998525936151054050",
+        address: "0x98118cbf472c3ac76d08bc55d00e0fb389df2fa0",
+        balance: "101628283579177900773442",
       },
     ],
   },
   {
-    fid: 301385,
-    totalBalance: "101213238177766773953948",
+    fid: 343971,
+    totalBalance: "101623675188521665840107",
     balances: [
       {
-        address: "0xb4ed1a39491c83219764152e4dc68944d5547947",
-        balance: "101213238177766773953948",
+        address: "0x8b67305dcd897d380498bf38c9a1992bfafab763",
+        balance: "101623675188521665840107",
+      },
+    ],
+  },
+  {
+    fid: 362962,
+    totalBalance: "101595724676936284170406",
+    balances: [
+      {
+        address: "0xc505797987ae5760460df458f92f06798f6d2f90",
+        balance: "101595724676936284170406",
+      },
+    ],
+  },
+  {
+    fid: 415872,
+    totalBalance: "101581533493973276188884",
+    balances: [
+      {
+        address: "0x5945ae0412583ee89e69761da2589a643fb363b1",
+        balance: "101581533493973276188884",
+      },
+    ],
+  },
+  {
+    fid: 459170,
+    totalBalance: "101565000000000000000000",
+    balances: [
+      {
+        address: "0x83b01c3a08efd868f67b5ab2c6a62fc998b8a9b8",
+        balance: "101565000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 9138,
+    totalBalance: "101462599587661995776506",
+    balances: [
+      {
+        address: "0xc8763b39629e7043267f1e89c24381a82c5bc7ce",
+        balance: "101462599587661995776506",
+      },
+    ],
+  },
+  {
+    fid: 296241,
+    totalBalance: "101389316046999813186710",
+    balances: [
+      {
+        address: "0x326fb0eab3645763bc7cc027864ce89269838575",
+        balance: "101389316046999813186710",
+      },
+    ],
+  },
+  {
+    fid: 553958,
+    totalBalance: "101365000000000000000000",
+    balances: [
+      {
+        address: "0x13360af89a758fdd1e3d3dfbd4aa397cb482ffec",
+        balance: "101365000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 194604,
+    totalBalance: "101289877140302586213183",
+    balances: [
+      {
+        address: "0x8534a1cb741d8a3ae3e1269758f9378766aba99d",
+        balance: "101289877140302586213183",
+      },
+    ],
+  },
+  {
+    fid: 391793,
+    totalBalance: "101261157255918938789412",
+    balances: [
+      {
+        address: "0xcd87fdede1a1f71aafe085dbe584ea16cc71a0e1",
+        balance: "101261157255918938789412",
+      },
+    ],
+  },
+  {
+    fid: 388361,
+    totalBalance: "101255771490712234489984",
+    balances: [
+      {
+        address: "0x2c9550f20ec955f06b5caf6fba7ca3be00b7d987",
+        balance: "101255771490712234489984",
       },
     ],
   },
@@ -1430,282 +1990,182 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 360262,
-    totalBalance: "101111000000000000000000",
+    fid: 332316,
+    totalBalance: "101049854557193611214835",
     balances: [
       {
-        address: "0x207412225ed2b71f06d339179f888de4ad1a7dbe",
-        balance: "101111000000000000000000",
+        address: "0x9f327969a2aead18c7d0424c537a05c597080261",
+        balance: "101049854557193611214835",
       },
     ],
   },
   {
-    fid: 466111,
-    totalBalance: "101075039840637450199203",
-    balances: [
-      {
-        address: "0xf631eae9033f881a35091f221ac20ee0c6b05310",
-        balance: "101075039840637450199203",
-      },
-    ],
-  },
-  {
-    fid: 672303,
+    fid: 512582,
     totalBalance: "101000000000000000000000",
     balances: [
       {
-        address: "0xa3f5738249ed02c6b3c5d543111b518c31573236",
+        address: "0xa1caa777a61ae323ad20dbbf36b29e2ae7862cc1",
         balance: "101000000000000000000000",
       },
     ],
   },
   {
-    fid: 343971,
-    totalBalance: "101000000000000000000000",
+    fid: 408838,
+    totalBalance: "100990887770379106589466",
     balances: [
       {
-        address: "0x8b67305dcd897d380498bf38c9a1992bfafab763",
-        balance: "101000000000000000000000",
+        address: "0x33d5fa63725fb6b739c96f7e0a62f4f58808f97f",
+        balance: "100990887770379106589466",
       },
     ],
   },
   {
-    fid: 382384,
-    totalBalance: "100999999897251224276029",
+    fid: 284003,
+    totalBalance: "100909039219410119639842",
     balances: [
       {
-        address: "0x82342b547e15521ec2b166f2f549df1ade5e8b95",
-        balance: "100999999897251224276029",
+        address: "0xbf325981ff56367e545d2ef85f63471f63efd041",
+        balance: "100909039219410119639842",
       },
     ],
   },
   {
-    fid: 340986,
-    totalBalance: "100990904844433440620614",
+    fid: 445210,
+    totalBalance: "100881000000000000000000",
     balances: [
       {
-        address: "0x897fed9144674e36e49a73c5d4b714183ff5a70e",
-        balance: "100990904844433440620614",
+        address: "0xb4b812b6b62822ef0e910b38b7f0761217d53d38",
+        balance: "100881000000000000000000",
       },
     ],
   },
   {
-    fid: 301144,
-    totalBalance: "100895948238677868997883",
+    fid: 483365,
+    totalBalance: "100871631276006514574382",
     balances: [
       {
-        address: "0xbdf82513b977e1bd329d20dac10dbd1a9d86fd4c",
-        balance: "100895948238677868997883",
-      },
-    ],
-  },
-  {
-    fid: 269405,
-    totalBalance: "100871361706220724117371",
-    balances: [
-      {
-        address: "0x77039399801f462b4ed13444a266b16355c471bf",
-        balance: "100871361706220724117371",
-      },
-    ],
-  },
-  {
-    fid: 513389,
-    totalBalance: "100747039840637450199203",
-    balances: [
-      {
-        address: "0x6337986bfbce85f742bd1fd5ad9770b8973fe522",
-        balance: "100747039840637450199203",
+        address: "0x665eaba50ff0c80f318de79f5c2b7a9fce409dc1",
+        balance: "100871631276006514574382",
       },
     ],
   },
   {
     fid: 420601,
-    totalBalance: "100717862006715302494372",
+    totalBalance: "100767862006715302494372",
     balances: [
       {
         address: "0x2bf21aea22748cafa8139743bbb2f556d3fdbae0",
-        balance: "100717862006715302494372",
+        balance: "100767862006715302494372",
       },
     ],
   },
   {
-    fid: 192631,
-    totalBalance: "100695606253639391419392",
+    fid: 483322,
+    totalBalance: "100767000000000000000000",
     balances: [
       {
-        address: "0x2b5606fb05188e248373a028ae70a896ed0747a1",
-        balance: "100695606253639391419392",
+        address: "0x5840c81d7dc225837e895e0a8ca86db59138c167",
+        balance: "100767000000000000000000",
       },
     ],
   },
   {
-    fid: 249958,
-    totalBalance: "100560075382900569623765",
+    fid: 501095,
+    totalBalance: "100678000000000000000000",
     balances: [
       {
-        address: "0x495b2fd72a3562b22e8f93d1e7e673273cd7c5f2",
-        balance: "100560075382900569623765",
+        address: "0x75647253d31de219f28a66aa3c1ed310649aa337",
+        balance: "100678000000000000000000",
       },
     ],
   },
   {
-    fid: 406171,
-    totalBalance: "100557193079212333746243",
-    balances: [
-      {
-        address: "0x09129f15c61d63c80f3aabcacdea8be078cabe81",
-        balance: "100557193079212333746243",
-      },
-    ],
-  },
-  {
-    fid: 409573,
-    totalBalance: "100501289987637278837305",
-    balances: [
-      {
-        address: "0x199554ccb0c7e11a8c5275a41f3e61a92c235846",
-        balance: "100501289987637278837305",
-      },
-    ],
-  },
-  {
-    fid: 276506,
+    fid: 616002,
     totalBalance: "100500000000000000000000",
     balances: [
       {
-        address: "0xad3908c6da93adaae576d2fe95001f21396de69c",
+        address: "0x77cbb57ec6c87a23d09289884e1e7bef399b27fc",
         balance: "100500000000000000000000",
       },
     ],
   },
   {
-    fid: 405729,
-    totalBalance: "100499885293780587176250",
+    fid: 382827,
+    totalBalance: "100446000000000000000000",
     balances: [
       {
-        address: "0x20573df984658e59255fd9f607823a2bc1a3b65b",
-        balance: "100499885293780587176250",
+        address: "0x8bf0091f5166b5c0bdeeb7d769a8c8aa85176b9a",
+        balance: "100446000000000000000000",
       },
     ],
   },
   {
-    fid: 420374,
-    totalBalance: "100492899797554988833736",
+    fid: 507270,
+    totalBalance: "100385682760893810574789",
     balances: [
       {
-        address: "0x1f5233b0bb6249a17f4ad90ae407f6934c00a6cd",
-        balance: "100492899797554988833736",
+        address: "0x53c1d2371f59e289c758eaa08aef5948f87177ad",
+        balance: "100385682760893810574789",
       },
     ],
   },
   {
-    fid: 385793,
-    totalBalance: "100492713949805801564181",
+    fid: 239748,
+    totalBalance: "100360315634218289085545",
     balances: [
       {
-        address: "0x8b815e9aba030d13623310c12f2acb93f4e17270",
-        balance: "100492713949805801564181",
+        address: "0x2e5e1d7d74d17c5ab0376ca1d99cbc5619607672",
+        balance: "100360315634218289085545",
       },
     ],
   },
   {
-    fid: 443863,
-    totalBalance: "100489211080689941996302",
+    fid: 343855,
+    totalBalance: "100330329223163380983900",
     balances: [
       {
-        address: "0xd956fe0b4e5a0f6edf0c91699c5245c961f86371",
-        balance: "100489211080689941996302",
+        address: "0x98dc27fa946f1e5911354bf866ee3302091d976e",
+        balance: "100330329223163380983900",
       },
     ],
   },
   {
-    fid: 306610,
-    totalBalance: "100488049664533701387221",
+    fid: 423036,
+    totalBalance: "100310138384481735910228",
     balances: [
       {
-        address: "0x9b5546050984fe69ae9cfa57538c83282a3cbce2",
-        balance: "100488049664533701387221",
+        address: "0x02d52dc45881d1f6b08d1ab9c196287624e5ffc9",
+        balance: "100310138384481735910228",
       },
     ],
   },
   {
-    fid: 627302,
-    totalBalance: "100370675218799034707086",
+    fid: 500690,
+    totalBalance: "100306421335783981836217",
     balances: [
       {
-        address: "0x4ce0045c67a3ff085be9a9778e00754d0865abcf",
-        balance: "100370675218799034707086",
+        address: "0xb4bdc42b4c37034aefe2cf45a6291edf6fec463e",
+        balance: "100306421335783981836217",
       },
     ],
   },
   {
-    fid: 326040,
-    totalBalance: "100283157231792107248288",
+    fid: 434983,
+    totalBalance: "100275000000000000000000",
     balances: [
       {
-        address: "0x5243c3faf2fc7909082c857634ad2e61143add49",
-        balance: "100283157231792107248288",
+        address: "0x95a1f7b0a97d9e785ba91a228d4bb75467c11291",
+        balance: "100275000000000000000000",
       },
     ],
   },
   {
-    fid: 365209,
-    totalBalance: "100243238177766773953948",
+    fid: 316454,
+    totalBalance: "100261642247631788708412",
     balances: [
       {
-        address: "0x58ebbdb72cd8bcc07dc5f11ef91f8f67b4e9d054",
-        balance: "100243238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 377111,
-    totalBalance: "100232399421286287207200",
-    balances: [
-      {
-        address: "0x5ea71d048a4b2676f01b561e87d37d255a774add",
-        balance: "100232399421286287207200",
-      },
-    ],
-  },
-  {
-    fid: 332502,
-    totalBalance: "100231270903321160678264",
-    balances: [
-      {
-        address: "0x8f88644b17433f82cdf2b2e49518038ea694d104",
-        balance: "100231270903321160678264",
-      },
-    ],
-  },
-  {
-    fid: 570151,
-    totalBalance: "100189731836709788432902",
-    balances: [
-      {
-        address: "0xdf934f0949585548a06b31fe66d2db0f21a8bae1",
-        balance: "100189731836709788432902",
-      },
-    ],
-  },
-  {
-    fid: 15821,
-    totalBalance: "100176238177766773953948",
-    balances: [
-      {
-        address: "0x4c2d965fabf61006cba206e4bb2148b664a66adb",
-        balance: "100176238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 350429,
-    totalBalance: "100169608481421343201416",
-    balances: [
-      {
-        address: "0xf178ddbacbbd1698a8afde0711c3cdf831362305",
-        balance: "100169608481421343201416",
+        address: "0x15bf1554b8ce0a83a377b66cd5effbe3762d9166",
+        balance: "100261642247631788708412",
       },
     ],
   },
@@ -1720,22 +2180,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 373025,
-    totalBalance: "100126186378549272032356",
+    fid: 308284,
+    totalBalance: "100125033831887655192382",
     balances: [
       {
-        address: "0xbc03f695a1f2a03669fca05ee1e7d2ed702f1b28",
-        balance: "100126186378549272032356",
-      },
-    ],
-  },
-  {
-    fid: 398825,
-    totalBalance: "100116241863734639737538",
-    balances: [
-      {
-        address: "0xe88d4c9c5dbbfe9554145134dfa97a4e5dbc6cec",
-        balance: "100116241863734639737538",
+        address: "0x99a8dc4b9c217eb7dd7cee34519435984160b6c2",
+        balance: "100125033831887655192382",
       },
     ],
   },
@@ -1750,122 +2200,122 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 423311,
-    totalBalance: "100115701934905008778794",
-    balances: [
-      {
-        address: "0x2f6c18f621f33dc42209d8cfe4a81ec77bef9466",
-        balance: "100115701934905008778794",
-      },
-    ],
-  },
-  {
-    fid: 383360,
+    fid: 391341,
     totalBalance: "100100000000000000000000",
     balances: [
       {
-        address: "0x542b55f6d981567fa6b20a72c3be07e6ac306f71",
+        address: "0x408c6d55d1f226e551d92aa836a5e2df00bc6eda",
         balance: "100100000000000000000000",
       },
     ],
   },
   {
-    fid: 500690,
-    totalBalance: "100100000000000000000000",
+    fid: 368013,
+    totalBalance: "100096699069094482650214",
     balances: [
       {
-        address: "0xb4bdc42b4c37034aefe2cf45a6291edf6fec463e",
-        balance: "100100000000000000000000",
+        address: "0x1da6a4cf0a189fff6c3bfc383941a898baa2c503",
+        balance: "100096699069094482650214",
       },
     ],
   },
   {
-    fid: 263309,
-    totalBalance: "100100000000000000000000",
+    fid: 385830,
+    totalBalance: "100093906161766104290225",
     balances: [
       {
-        address: "0x7bf433b1be8f8f35c3a6c19f7921691815d37ff9",
-        balance: "100100000000000000000000",
+        address: "0x7ffabf2f60360c648772cc2f983b006794fcfa51",
+        balance: "100093906161766104290225",
       },
     ],
   },
   {
-    fid: 500500,
-    totalBalance: "100088047161808264938998",
+    fid: 326040,
+    totalBalance: "100087054233476968009153",
     balances: [
       {
-        address: "0xc73ee6e9bef9ebfad3146c0616087b139247402c",
-        balance: "100088047161808264938998",
+        address: "0x5243c3faf2fc7909082c857634ad2e61143add49",
+        balance: "100087054233476968009153",
       },
     ],
   },
   {
-    fid: 332316,
-    totalBalance: "100056854557193611214835",
+    fid: 389059,
+    totalBalance: "100085179331819878951734",
     balances: [
       {
-        address: "0x9f327969a2aead18c7d0424c537a05c597080261",
-        balance: "100056854557193611214835",
+        address: "0x4cca3f44208bee3c363868471956af0c1e2fff05",
+        balance: "100085179331819878951734",
       },
     ],
   },
   {
-    fid: 504678,
-    totalBalance: "100029511074673002107631",
+    fid: 354220,
+    totalBalance: "100034470352503661488175",
     balances: [
       {
-        address: "0x1e75550c4a00262fb278a2b9f3c03ec3632a2254",
-        balance: "100029511074673002107631",
-      },
-    ],
-  },
-  {
-    fid: 360623,
-    totalBalance: "100015278197183409736764",
-    balances: [
-      {
-        address: "0x1a3e2847d38cb68bb407a7e6a73a918a58fdcf3a",
-        balance: "100015278197183409736764",
-      },
-    ],
-  },
-  {
-    fid: 309242,
-    totalBalance: "100007238177766773953948",
-    balances: [
-      {
-        address: "0x9a064a0ef88393662de416a59fa4cbe9f4900fc8",
-        balance: "100007238177766773953948",
+        address: "0x87770975b396718481d3da83af70612672f8dc89",
+        balance: "100034470352503661488175",
       },
     ],
   },
   {
     fid: 462755,
-    totalBalance: "100003976436883136296740",
+    totalBalance: "100028976436883136296740",
     balances: [
       {
         address: "0x5048bf41ea4612f6c68b7d1337570f6193b4ba6e",
-        balance: "100003976436883136296740",
+        balance: "100028976436883136296740",
       },
     ],
   },
   {
-    fid: 194604,
-    totalBalance: "100001877140302586213183",
+    fid: 368345,
+    totalBalance: "100028000000000000000000",
     balances: [
       {
-        address: "0x8534a1cb741d8a3ae3e1269758f9378766aba99d",
-        balance: "100001877140302586213183",
+        address: "0x4c31a03f32d263bad138de520d3cc27af4dfa16d",
+        balance: "100028000000000000000000",
       },
     ],
   },
   {
-    fid: 488178,
-    totalBalance: "100001000000000000000000",
+    fid: 333772,
+    totalBalance: "100007238177766773953948",
     balances: [
       {
-        address: "0x58f1eb47c0885606e708564c52f4eeed54d24f02",
-        balance: "100001000000000000000000",
+        address: "0xa33bc5bf2d127b3083c4b76854fa8cf028c38105",
+        balance: "100007238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 13201,
+    totalBalance: "100000474613742094157550",
+    balances: [
+      {
+        address: "0x53240b58cb5f68d555856e5e3e71599599da6fe6",
+        balance: "100000474613742094157550",
+      },
+    ],
+  },
+  {
+    fid: 195474,
+    totalBalance: "100000000000000000000000",
+    balances: [
+      {
+        address: "0x74f58f96a981abe9f2c3acc94810d025459c9c0d",
+        balance: "100000000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 247653,
+    totalBalance: "100000000000000000000000",
+    balances: [
+      {
+        address: "0x7210de104487649c5c3b3e1b873355a0bfe69fb7",
+        balance: "100000000000000000000000",
       },
     ],
   },
@@ -1900,42 +2350,106 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 308827,
-    totalBalance: "100000000000000000000000",
+    fid: 13610,
+    totalBalance: "98998783968587060812731",
     balances: [
       {
-        address: "0xea9909370742a795fc041d235504c570218ce6e5",
-        balance: "100000000000000000000000",
+        address: "0xb9c70eb2ad91dfc3c4d392769b01d7ca90768212",
+        balance: "98998783968587060812731",
       },
     ],
   },
   {
-    fid: 445210,
-    totalBalance: "100000000000000000000000",
+    fid: 340034,
+    totalBalance: "97741981485080173911728",
     balances: [
       {
-        address: "0xb4b812b6b62822ef0e910b38b7f0761217d53d38",
-        balance: "100000000000000000000000",
+        address: "0x2f0c4fa1cdc9ac0cf1766d4306b58f6fe1248237",
+        balance: "97741981485080173911728",
       },
     ],
   },
   {
-    fid: 369619,
-    totalBalance: "93161772623913401649837",
+    fid: 291511,
+    totalBalance: "96783684408051464523921",
     balances: [
       {
-        address: "0xb82764654369ace610fea04e2fe9f1942ff53ae0",
-        balance: "93161772623913401649837",
+        address: "0xa21f7bc9dc4169614965ca3d269e6fa53c9269b6",
+        balance: "96651684000000000000000",
+      },
+      {
+        address: "0x0d7eef9fd6ea629b96509b9004475abf2a68e001",
+        balance: "132000408051464523921",
       },
     ],
   },
   {
-    fid: 354220,
-    totalBalance: "84736322807199051445001",
+    fid: 6714,
+    totalBalance: "95039750357498286833664",
     balances: [
       {
-        address: "0x87770975b396718481d3da83af70612672f8dc89",
-        balance: "84736322807199051445001",
+        address: "0x954b6de2e9c58b0ca7b21e9a048fd0a6cea6f92c",
+        balance: "95039750357498286833664",
+      },
+    ],
+  },
+  {
+    fid: 281129,
+    totalBalance: "94493238177766773953948",
+    balances: [
+      {
+        address: "0xcfe48d201c7f98c4c548e05face458195afc3f45",
+        balance: "94493238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 451952,
+    totalBalance: "94110795675996906323968",
+    balances: [
+      {
+        address: "0x822fdf8db5ce69d8c2e2a644523cc8b3f51e9dd1",
+        balance: "94110795675996906323968",
+      },
+    ],
+  },
+  {
+    fid: 14209,
+    totalBalance: "93669679110386189339121",
+    balances: [
+      {
+        address: "0xe288a00df4b697606078876788e4d64633cd2e01",
+        balance: "93669679110386189339121",
+      },
+    ],
+  },
+  {
+    fid: 422910,
+    totalBalance: "89740039840637450199203",
+    balances: [
+      {
+        address: "0xabb473bcc5f6cdb27208371e153e4288b4d3dba1",
+        balance: "89740039840637450199203",
+      },
+    ],
+  },
+  {
+    fid: 14340,
+    totalBalance: "85081189471736972705792",
+    balances: [
+      {
+        address: "0x767a3604750858fd489a50085d441d2d0d44984d",
+        balance: "85081189471736972705792",
+      },
+    ],
+  },
+  {
+    fid: 17486,
+    totalBalance: "84759386179034080057076",
+    balances: [
+      {
+        address: "0x95861622f2a196952561e8e6125221c516500c8a",
+        balance: "84759386179034080057076",
       },
     ],
   },
@@ -1990,26 +2504,6 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 17486,
-    totalBalance: "80648051135907593950964",
-    balances: [
-      {
-        address: "0x95861622f2a196952561e8e6125221c516500c8a",
-        balance: "80648051135907593950964",
-      },
-    ],
-  },
-  {
-    fid: 340034,
-    totalBalance: "80647917547425406951088",
-    balances: [
-      {
-        address: "0x2f0c4fa1cdc9ac0cf1766d4306b58f6fe1248237",
-        balance: "80647917547425406951088",
-      },
-    ],
-  },
-  {
     fid: 247916,
     totalBalance: "80500000000000000000000",
     balances: [
@@ -2030,32 +2524,52 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 278406,
+    totalBalance: "78077238177766773953948",
+    balances: [
+      {
+        address: "0xc9eae131858bb939e5117b283dc2ca70b0589fc0",
+        balance: "78077238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 382890,
+    totalBalance: "77697000177766773953948",
+    balances: [
+      {
+        address: "0x9904ceddba825a18bdf7e1984a886d23394ccbcc",
+        balance: "77697000177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 212556,
+    totalBalance: "73907860203867556828773",
+    balances: [
+      {
+        address: "0xbb1c043ceb7745b286987b4cc8359c5b508f0307",
+        balance: "73907860203867556828773",
+      },
+    ],
+  },
+  {
+    fid: 362664,
+    totalBalance: "72335238177766773953948",
+    balances: [
+      {
+        address: "0x5a2157a58531b52a06f26f4809bc399ca255fb8f",
+        balance: "72335238177766773953948",
+      },
+    ],
+  },
+  {
     fid: 410383,
     totalBalance: "71437179928048081073518",
     balances: [
       {
         address: "0x5ddcb1a6c043b88f7359f098bbb018362cfe4d26",
         balance: "71437179928048081073518",
-      },
-    ],
-  },
-  {
-    fid: 13610,
-    totalBalance: "70014861913519194577851",
-    balances: [
-      {
-        address: "0xb9c70eb2ad91dfc3c4d392769b01d7ca90768212",
-        balance: "70014861913519194577851",
-      },
-    ],
-  },
-  {
-    fid: 430312,
-    totalBalance: "69891039840637450199203",
-    balances: [
-      {
-        address: "0xf52a30142877e3b7d30f3f6bb2c6bc55b8888710",
-        balance: "69891039840637450199203",
       },
     ],
   },
@@ -2070,22 +2584,62 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 245579,
-    totalBalance: "67193563108752056385536",
-    balances: [
-      {
-        address: "0x270735e7afdc9ef0ee9f3186990fd118e253dcc1",
-        balance: "67193563108752056385536",
-      },
-    ],
-  },
-  {
     fid: 439559,
     totalBalance: "66774958108218464106427",
     balances: [
       {
         address: "0x3daf5f3ed3e3bdc3e5c5061b8a0a53c2bec722de",
         balance: "66774958108218464106427",
+      },
+    ],
+  },
+  {
+    fid: 14447,
+    totalBalance: "66421238177766773953948",
+    balances: [
+      {
+        address: "0xdaf20266179ecb3167a1435f3a76e9e431e53613",
+        balance: "66421238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 410492,
+    totalBalance: "65996571511100107287281",
+    balances: [
+      {
+        address: "0xe4784e4c0af675b48d7c2b2dafed8a27686d3682",
+        balance: "65996571511100107287281",
+      },
+    ],
+  },
+  {
+    fid: 307235,
+    totalBalance: "64871315634218289085545",
+    balances: [
+      {
+        address: "0x294cd7db1da684d6ab241a885fd94db07129a2cc",
+        balance: "64871315634218289085545",
+      },
+    ],
+  },
+  {
+    fid: 16214,
+    totalBalance: "64667657350424515852448",
+    balances: [
+      {
+        address: "0xf9f212973e0f0040e5118b09f1f9af55371d4761",
+        balance: "64667657350424515852448",
+      },
+    ],
+  },
+  {
+    fid: 282317,
+    totalBalance: "64663687908124779891678",
+    balances: [
+      {
+        address: "0xbda855bf60789f06d630bc109f1104e3f1aaf32e",
+        balance: "64663687908124779891678",
       },
     ],
   },
@@ -2100,32 +2654,22 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 14209,
-    totalBalance: "63381756924665045975040",
+    fid: 346080,
+    totalBalance: "63342537147246416245945",
     balances: [
       {
-        address: "0xe288a00df4b697606078876788e4d64633cd2e01",
-        balance: "63381756924665045975040",
+        address: "0xdf316c1fa737f6aa655d73616999e46672f60dd6",
+        balance: "63342537147246416245945",
       },
     ],
   },
   {
-    fid: 291511,
-    totalBalance: "63151684000000000000000",
+    fid: 261245,
+    totalBalance: "61887926931415459520959",
     balances: [
       {
-        address: "0xa21f7bc9dc4169614965ca3d269e6fa53c9269b6",
-        balance: "63151684000000000000000",
-      },
-    ],
-  },
-  {
-    fid: 362664,
-    totalBalance: "62011238177766773953948",
-    balances: [
-      {
-        address: "0x5a2157a58531b52a06f26f4809bc399ca255fb8f",
-        balance: "62011238177766773953948",
+        address: "0xb46adfe7e10675b1e43f9132da7f00a9ad3642f3",
+        balance: "61887926931415459520959",
       },
     ],
   },
@@ -2140,12 +2684,66 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 382890,
-    totalBalance: "60000000177766773953948",
+    fid: 403573,
+    totalBalance: "58038238177766773953948",
     balances: [
       {
-        address: "0x9904ceddba825a18bdf7e1984a886d23394ccbcc",
-        balance: "60000000177766773953948",
+        address: "0x80d47d88300b82e7ba1d8899a926f6b0f7e4d832",
+        balance: "58038238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 225851,
+    totalBalance: "57853901143870066812611",
+    balances: [
+      {
+        address: "0x90a27636185791da13e786a4a9dafcf2e2490f2e",
+        balance: "37724238177766773953948",
+      },
+      {
+        address: "0x906db339a79419faa9f5275554523507f2bd11e6",
+        balance: "20129662966103292858663",
+      },
+    ],
+  },
+  {
+    fid: 248150,
+    totalBalance: "56997000000000000000000",
+    balances: [
+      {
+        address: "0xbeb530a54d0da4ab7a6a07ea0cb64b6cfc7e3d38",
+        balance: "56997000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 415305,
+    totalBalance: "56655296685811078513942",
+    balances: [
+      {
+        address: "0x447fe6db1ee3194660e98a1041aac7a651849bda",
+        balance: "56655296685811078513942",
+      },
+    ],
+  },
+  {
+    fid: 321969,
+    totalBalance: "56607039840637450199203",
+    balances: [
+      {
+        address: "0x7960f1b90b257bff29d5164d16bca4c8030b7f6d",
+        balance: "56607039840637450199203",
+      },
+    ],
+  },
+  {
+    fid: 283441,
+    totalBalance: "55882556587442971333147",
+    balances: [
+      {
+        address: "0x1cf41ad63f67f3e7f8a1db240d812f5392b9a9c4",
+        balance: "55882556587442971333147",
       },
     ],
   },
@@ -2170,32 +2768,32 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 410492,
-    totalBalance: "55161571511100107287281",
+    fid: 12778,
+    totalBalance: "55041292500460050014637",
     balances: [
       {
-        address: "0xe4784e4c0af675b48d7c2b2dafed8a27686d3682",
-        balance: "55161571511100107287281",
+        address: "0x486cf96e23ef9a7c341deece9d7c3e4f70af7454",
+        balance: "55041292500460050014637",
       },
     ],
   },
   {
     fid: 11997,
-    totalBalance: "54073141870890076787242",
+    totalBalance: "54978576439310568051242",
     balances: [
       {
         address: "0xe2be887916afb9a33015d7f9316b00b4b205c650",
-        balance: "54073141870890076787242",
+        balance: "54978576439310568051242",
       },
     ],
   },
   {
-    fid: 278406,
-    totalBalance: "53919238177766773953948",
+    fid: 302556,
+    totalBalance: "54411039840637450199203",
     balances: [
       {
-        address: "0xc9eae131858bb939e5117b283dc2ca70b0589fc0",
-        balance: "53919238177766773953948",
+        address: "0x590f4ca9b70860d1b89be8a7e69f22e59f6dcf6f",
+        balance: "54411039840637450199203",
       },
     ],
   },
@@ -2220,16 +2818,6 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 225024,
-    totalBalance: "52688210037214865667117",
-    balances: [
-      {
-        address: "0x069737aa987d8c3fa6f87b5e91253c1efd71df89",
-        balance: "52688210037214865667117",
-      },
-    ],
-  },
-  {
     fid: 6957,
     totalBalance: "51702295187188715143851",
     balances: [
@@ -2240,16 +2828,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 225851,
-    totalBalance: "51489901143870066812611",
+    fid: 193,
+    totalBalance: "51525271049380590113679",
     balances: [
       {
-        address: "0x90a27636185791da13e786a4a9dafcf2e2490f2e",
-        balance: "31360238177766773953948",
-      },
-      {
-        address: "0x906db339a79419faa9f5275554523507f2bd11e6",
-        balance: "20129662966103292858663",
+        address: "0x605e05bf092ebd18e06d1b0f699df5b9dd85d452",
+        balance: "51525271049380590113679",
       },
     ],
   },
@@ -2264,12 +2848,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 415305,
-    totalBalance: "50425296685811078513942",
+    fid: 326567,
+    totalBalance: "50729039840637450199203",
     balances: [
       {
-        address: "0x447fe6db1ee3194660e98a1041aac7a651849bda",
-        balance: "50425296685811078513942",
+        address: "0x19250b770efd981c855195d0ce674f811f350f42",
+        balance: "50729039840637450199203",
       },
     ],
   },
@@ -2284,12 +2868,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 307235,
-    totalBalance: "50000000000000000000000",
+    fid: 444929,
+    totalBalance: "50081745848910321533293",
     balances: [
       {
-        address: "0x294cd7db1da684d6ab241a885fd94db07129a2cc",
-        balance: "50000000000000000000000",
+        address: "0xc0e382db62b26023e92bd5a104fb583a69333e09",
+        balance: "50081745848910321533293",
       },
     ],
   },
@@ -2314,32 +2898,32 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 193,
-    totalBalance: "49258882692220054262671",
+    fid: 348431,
+    totalBalance: "48061751139603865122701",
     balances: [
       {
-        address: "0x605e05bf092ebd18e06d1b0f699df5b9dd85d452",
-        balance: "49258882692220054262671",
+        address: "0xe116b895b798c774d40aadcc91b949dedadc85ef",
+        balance: "48061751139603865122701",
       },
     ],
   },
   {
-    fid: 368013,
-    totalBalance: "49013712512744938379932",
+    fid: 291942,
+    totalBalance: "48013238177766773953948",
     balances: [
       {
-        address: "0x1da6a4cf0a189fff6c3bfc383941a898baa2c503",
-        balance: "49013712512744938379932",
+        address: "0x745d9f9c9f01c7d8afb63e81d16c60f2fb74a1e0",
+        balance: "48013238177766773953948",
       },
     ],
   },
   {
-    fid: 248150,
-    totalBalance: "48970000000000000000000",
+    fid: 413614,
+    totalBalance: "47871000000000000000000",
     balances: [
       {
-        address: "0xbeb530a54d0da4ab7a6a07ea0cb64b6cfc7e3d38",
-        balance: "48970000000000000000000",
+        address: "0x457a96bb89baf897451aa10431ec6a72d95087eb",
+        balance: "47871000000000000000000",
       },
     ],
   },
@@ -2354,12 +2938,52 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 422910,
-    totalBalance: "47398039840637450199203",
+    fid: 206570,
+    totalBalance: "47385192530655844161708",
     balances: [
       {
-        address: "0xabb473bcc5f6cdb27208371e153e4288b4d3dba1",
-        balance: "47398039840637450199203",
+        address: "0xffab8336d49a9504ac2ecf65ab34c353b05da7e3",
+        balance: "47385192530655844161708",
+      },
+    ],
+  },
+  {
+    fid: 9227,
+    totalBalance: "46978001422696611658067",
+    balances: [
+      {
+        address: "0x7554c1f24dbab8b10d4229e4a7663b9d84628783",
+        balance: "46978001422696611658067",
+      },
+    ],
+  },
+  {
+    fid: 204173,
+    totalBalance: "46560164827568190521344",
+    balances: [
+      {
+        address: "0xb0d99c37bbd5da98175b80812982c9a07d091e8d",
+        balance: "46560164827568190521344",
+      },
+    ],
+  },
+  {
+    fid: 283222,
+    totalBalance: "46322214261100107287281",
+    balances: [
+      {
+        address: "0xe588a2b38f24c72e30535885d645ceba44480d1b",
+        balance: "46322214261100107287281",
+      },
+    ],
+  },
+  {
+    fid: 273442,
+    totalBalance: "46248238177766773953948",
+    balances: [
+      {
+        address: "0x99bd730362bf96288e47ae5736b52b48adc3a081",
+        balance: "46248238177766773953948",
       },
     ],
   },
@@ -2374,26 +2998,6 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 212556,
-    totalBalance: "45523640014528508269150",
-    balances: [
-      {
-        address: "0xbb1c043ceb7745b286987b4cc8359c5b508f0307",
-        balance: "45523640014528508269150",
-      },
-    ],
-  },
-  {
-    fid: 9227,
-    totalBalance: "44884450727708006103379",
-    balances: [
-      {
-        address: "0x7554c1f24dbab8b10d4229e4a7663b9d84628783",
-        balance: "44884450727708006103379",
-      },
-    ],
-  },
-  {
     fid: 306792,
     totalBalance: "44592238177766773953948",
     balances: [
@@ -2404,22 +3008,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 337090,
-    totalBalance: "44565000000000000000000",
+    fid: 2441,
+    totalBalance: "44049439627002422532143",
     balances: [
       {
-        address: "0x9a5feab2a4dc7b67d35c0ccb496262892fd89367",
-        balance: "44565000000000000000000",
-      },
-    ],
-  },
-  {
-    fid: 14447,
-    totalBalance: "44512238177766773953948",
-    balances: [
-      {
-        address: "0xdaf20266179ecb3167a1435f3a76e9e431e53613",
-        balance: "44512238177766773953948",
+        address: "0xea310c966d3ff5e09c65487f1763b21361eb71ef",
+        balance: "44049439627002422532143",
       },
     ],
   },
@@ -2434,22 +3028,22 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 283441,
-    totalBalance: "43391531523454521329013",
-    balances: [
-      {
-        address: "0x1cf41ad63f67f3e7f8a1db240d812f5392b9a9c4",
-        balance: "43391531523454521329013",
-      },
-    ],
-  },
-  {
     fid: 129,
     totalBalance: "43020238177766773953948",
     balances: [
       {
         address: "0x18b7511938fbe2ee08adf3d4a24edb00a5c9b783",
         balance: "43020238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 195117,
+    totalBalance: "42975110938739857092895",
+    balances: [
+      {
+        address: "0x20da700ea03e9fe8bf3409d6f66105184aefb2fc",
+        balance: "42975110938739857092895",
       },
     ],
   },
@@ -2494,6 +3088,36 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 342717,
+    totalBalance: "42408400883966919424856",
+    balances: [
+      {
+        address: "0xfc783bfdc155457682cfb9131441761b7db9e9b7",
+        balance: "42408400883966919424856",
+      },
+    ],
+  },
+  {
+    fid: 6622,
+    totalBalance: "42288238177766773953948",
+    balances: [
+      {
+        address: "0x56c09caf7a77d5d254dae3438bb843a1ffd06aa2",
+        balance: "42288238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 247018,
+    totalBalance: "42253315634218289085545",
+    balances: [
+      {
+        address: "0x1471966abfe75cf87fdad8b76d657eab8400f0b0",
+        balance: "42253315634218289085545",
+      },
+    ],
+  },
+  {
     fid: 206,
     totalBalance: "42009238177766773953948",
     balances: [
@@ -2524,22 +3148,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 2441,
-    totalBalance: "40830074560955769198639",
+    fid: 310801,
+    totalBalance: "40714571511100107287281",
     balances: [
       {
-        address: "0xea310c966d3ff5e09c65487f1763b21361eb71ef",
-        balance: "40830074560955769198639",
-      },
-    ],
-  },
-  {
-    fid: 204173,
-    totalBalance: "40561615984752654286848",
-    balances: [
-      {
-        address: "0xb0d99c37bbd5da98175b80812982c9a07d091e8d",
-        balance: "40561615984752654286848",
+        address: "0x67bd9f919091442e26ea68933ead525a41850337",
+        balance: "40714571511100107287281",
       },
     ],
   },
@@ -2570,16 +3184,6 @@ export const dummyHolders = [
       {
         address: "0xce4eb76664210426e900c20d4a3741a6b0f64855",
         balance: "40192238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 403573,
-    totalBalance: "40140238177766773953948",
-    balances: [
-      {
-        address: "0x80d47d88300b82e7ba1d8899a926f6b0f7e4d832",
-        balance: "40140238177766773953948",
       },
     ],
   },
@@ -2622,22 +3226,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 326567,
-    totalBalance: "39302039840637450199203",
+    fid: 8711,
+    totalBalance: "38873869834273364017768",
     balances: [
       {
-        address: "0x19250b770efd981c855195d0ce674f811f350f42",
-        balance: "39302039840637450199203",
-      },
-    ],
-  },
-  {
-    fid: 283222,
-    totalBalance: "38744214261100107287281",
-    balances: [
-      {
-        address: "0xe588a2b38f24c72e30535885d645ceba44480d1b",
-        balance: "38744214261100107287281",
+        address: "0xfcfdf5cf7573cb8467a5d371419b024005bc70b2",
+        balance: "38873869834273364017768",
       },
     ],
   },
@@ -2682,22 +3276,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 8711,
-    totalBalance: "36946911143968206389864",
+    fid: 236391,
+    totalBalance: "36338238177766773953948",
     balances: [
       {
-        address: "0xfcfdf5cf7573cb8467a5d371419b024005bc70b2",
-        balance: "36946911143968206389864",
-      },
-    ],
-  },
-  {
-    fid: 291942,
-    totalBalance: "35425238177766773953948",
-    balances: [
-      {
-        address: "0x745d9f9c9f01c7d8afb63e81d16c60f2fb74a1e0",
-        balance: "35425238177766773953948",
+        address: "0x05ad66873e4bc86aadffac20bf807197485d154d",
+        balance: "36338238177766773953948",
       },
     ],
   },
@@ -2708,6 +3292,16 @@ export const dummyHolders = [
       {
         address: "0x2d66a6a43c83b179d68afc4f0d93c72b689438a6",
         balance: "35364238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 9318,
+    totalBalance: "35070627661235601014784",
+    balances: [
+      {
+        address: "0xe8bb2e08e6f52f11d8b65e2a3db772daa60e117e",
+        balance: "35070627661235601014784",
       },
     ],
   },
@@ -2742,12 +3336,42 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 380606,
+    totalBalance: "34345895438693006276607",
+    balances: [
+      {
+        address: "0x60762ca831753d71929b4488d49392cf88e5f350",
+        balance: "34345895438693006276607",
+      },
+    ],
+  },
+  {
+    fid: 4215,
+    totalBalance: "33675573974174842680165",
+    balances: [
+      {
+        address: "0x32a6f3de4d2610ec943b6c20ac3341b30dc18d23",
+        balance: "33675573974174842680165",
+      },
+    ],
+  },
+  {
     fid: 267606,
     totalBalance: "33520824180886723784726",
     balances: [
       {
         address: "0xfd845e60eaea6c960d2a2b6f490b53d26925d5cb",
         balance: "33520824180886723784726",
+      },
+    ],
+  },
+  {
+    fid: 385899,
+    totalBalance: "33334315634218289085545",
+    balances: [
+      {
+        address: "0x9a9227e53d33af2c1029cd04bd2133bf4359af70",
+        balance: "33334315634218289085545",
       },
     ],
   },
@@ -2772,12 +3396,22 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 195117,
-    totalBalance: "32604795304521568007350",
+    fid: 236171,
+    totalBalance: "32966658440178302143312",
     balances: [
       {
-        address: "0x20da700ea03e9fe8bf3409d6f66105184aefb2fc",
-        balance: "32604795304521568007350",
+        address: "0x9235e63508e8d27e0cc858d059c752f8de4733c2",
+        balance: "32966658440178302143312",
+      },
+    ],
+  },
+  {
+    fid: 316492,
+    totalBalance: "32547993510240367500094",
+    balances: [
+      {
+        address: "0x2fbd105df18e962d9139e906495ce590e39c747d",
+        balance: "32547993510240367500094",
       },
     ],
   },
@@ -2822,22 +3456,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 346080,
-    totalBalance: "31570537147246416245945",
+    fid: 417451,
+    totalBalance: "31511925249197751274393",
     balances: [
       {
-        address: "0xdf316c1fa737f6aa655d73616999e46672f60dd6",
-        balance: "31570537147246416245945",
-      },
-    ],
-  },
-  {
-    fid: 6622,
-    totalBalance: "31284238177766773953948",
-    balances: [
-      {
-        address: "0x56c09caf7a77d5d254dae3438bb843a1ffd06aa2",
-        balance: "31284238177766773953948",
+        address: "0x456fb001c4b6aa2d4c99c587fce826d9ae733529",
+        balance: "31511925249197751274393",
       },
     ],
   },
@@ -2852,32 +3476,52 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 282317,
-    totalBalance: "30998681144632246810491",
+    fid: 268455,
+    totalBalance: "30597484876313188378277",
     balances: [
       {
-        address: "0xbda855bf60789f06d630bc109f1104e3f1aaf32e",
-        balance: "30998681144632246810491",
+        address: "0x3a7d19ba6534ab149f8fe95f832cff8d64a0321c",
+        balance: "30597484876313188378277",
       },
     ],
   },
   {
-    fid: 273442,
-    totalBalance: "30537238177766773953948",
+    fid: 466688,
+    totalBalance: "30593238177766773953948",
     balances: [
       {
-        address: "0x99bd730362bf96288e47ae5736b52b48adc3a081",
-        balance: "30537238177766773953948",
+        address: "0xee22b2cad0598df173099581ddec2c8b393152c3",
+        balance: "30593238177766773953948",
       },
     ],
   },
   {
-    fid: 380606,
-    totalBalance: "30507389878605821212671",
+    fid: 706,
+    totalBalance: "30570905379893692858368",
     balances: [
       {
-        address: "0x60762ca831753d71929b4488d49392cf88e5f350",
-        balance: "30507389878605821212671",
+        address: "0xa5c3a513645a9a00cb561fed40438e9dfe0d6a69",
+        balance: "30570905379893692858368",
+      },
+    ],
+  },
+  {
+    fid: 364883,
+    totalBalance: "30565000000000000000000",
+    balances: [
+      {
+        address: "0x846ada7377d586ec7a55599deee5fdd716138348",
+        balance: "30565000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 307128,
+    totalBalance: "30534238177766773953948",
+    balances: [
+      {
+        address: "0xc25fb678003eaf8edbb4c92a8b928b11957b7ecc",
+        balance: "30534238177766773953948",
       },
     ],
   },
@@ -2896,12 +3540,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 4215,
-    totalBalance: "30433930780632378288000",
+    fid: 379089,
+    totalBalance: "30372039840637450199203",
     balances: [
       {
-        address: "0x32a6f3de4d2610ec943b6c20ac3341b30dc18d23",
-        balance: "30433930780632378288000",
+        address: "0xa6e5411a621a00d5195bb55d736505f4a5e7c289",
+        balance: "30372039840637450199203",
       },
     ],
   },
@@ -2912,16 +3556,6 @@ export const dummyHolders = [
       {
         address: "0x32cf4d1df6fb7bb173183cf8b51ef9499c803634",
         balance: "30177238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 206570,
-    totalBalance: "30072169200588042750857",
-    balances: [
-      {
-        address: "0xffab8336d49a9504ac2ecf65ab34c353b05da7e3",
-        balance: "30072169200588042750857",
       },
     ],
   },
@@ -2946,22 +3580,22 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 385830,
-    totalBalance: "30000000000000000000000",
+    fid: 13833,
+    totalBalance: "29835238177766773953948",
     balances: [
       {
-        address: "0x7ffabf2f60360c648772cc2f983b006794fcfa51",
-        balance: "30000000000000000000000",
+        address: "0xfd0afaa85a72468b02827c418cb3b40a9a2f5467",
+        balance: "29835238177766773953948",
       },
     ],
   },
   {
-    fid: 236391,
-    totalBalance: "29769238177766773953948",
+    fid: 239933,
+    totalBalance: "29643238177766773953948",
     balances: [
       {
-        address: "0x05ad66873e4bc86aadffac20bf807197485d154d",
-        balance: "29769238177766773953948",
+        address: "0x6de24695bf9946e4a866a81d21ef5b74af4db06b",
+        balance: "29643238177766773953948",
       },
     ],
   },
@@ -2972,6 +3606,16 @@ export const dummyHolders = [
       {
         address: "0xfe35e15be885750d9b2363cbb6abdd57ac9c4c40",
         balance: "29623793247950722280610",
+      },
+    ],
+  },
+  {
+    fid: 9134,
+    totalBalance: "29510258268838303891456",
+    balances: [
+      {
+        address: "0x963441dcf6b2e82198a46c835a0c8f06b4d4e504",
+        balance: "29510258268838303891456",
       },
     ],
   },
@@ -3006,32 +3650,42 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 236171,
-    totalBalance: "29259910263011637676880",
+    fid: 275486,
+    totalBalance: "29106039840637450199203",
     balances: [
       {
-        address: "0x9235e63508e8d27e0cc858d059c752f8de4733c2",
-        balance: "29259910263011637676880",
+        address: "0xcb6660a8e717f0b280a3b665e2d03a51d0cdb0d3",
+        balance: "29106039840637450199203",
       },
     ],
   },
   {
-    fid: 310801,
-    totalBalance: "28180571511100107287281",
+    fid: 280002,
+    totalBalance: "28898039840637450199203",
     balances: [
       {
-        address: "0x67bd9f919091442e26ea68933ead525a41850337",
-        balance: "28180571511100107287281",
+        address: "0x3770fc866d3a9357eb17b0111973667838b73c34",
+        balance: "28898039840637450199203",
       },
     ],
   },
   {
-    fid: 342717,
-    totalBalance: "28098554442369254980241",
+    fid: 2755,
+    totalBalance: "28354235801926347930999",
     balances: [
       {
-        address: "0xfc783bfdc155457682cfb9131441761b7db9e9b7",
-        balance: "28098554442369254980241",
+        address: "0xd7b7a3ab29b3282dc76419bd57776e0e90de8a41",
+        balance: "28354235801926347930999",
+      },
+    ],
+  },
+  {
+    fid: 5483,
+    totalBalance: "28174000000000000000000",
+    balances: [
+      {
+        address: "0x14190083645da88b847813581e009a505ab0518d",
+        balance: "28174000000000000000000",
       },
     ],
   },
@@ -3046,22 +3700,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 16214,
-    totalBalance: "28050162544576278036480",
+    fid: 296687,
+    totalBalance: "27761000000000000000000",
     balances: [
       {
-        address: "0xf9f212973e0f0040e5118b09f1f9af55371d4761",
-        balance: "28050162544576278036480",
-      },
-    ],
-  },
-  {
-    fid: 7206,
-    totalBalance: "27662000000000000000000",
-    balances: [
-      {
-        address: "0x1bc9ae590a295ec727ce028875c0816405e2b21c",
-        balance: "27662000000000000000000",
+        address: "0xe19753f803790d5a524d1fd710d8a6d821a8bb55",
+        balance: "27761000000000000000000",
       },
     ],
   },
@@ -3086,6 +3730,30 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 319054,
+    totalBalance: "27094922527982695725153",
+    balances: [
+      {
+        address: "0x4a825d95ee45db286ae3694b7bc7f7090c9f8bf3",
+        balance: "25094922527982695725153",
+      },
+      {
+        address: "0x36e72ffef02da9d293e24ceb934f65ab4dd9d52d",
+        balance: "2000000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 17226,
+    totalBalance: "26823843208519838633595",
+    balances: [
+      {
+        address: "0xc0c3125e6c69e0eae82ddd8a502785754bfa6b34",
+        balance: "26823843208519838633595",
+      },
+    ],
+  },
+  {
     fid: 2982,
     totalBalance: "26745238177766773953948",
     balances: [
@@ -3096,12 +3764,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 706,
-    totalBalance: "26632322478189599260672",
+    fid: 265506,
+    totalBalance: "26671238177766773953948",
     balances: [
       {
-        address: "0xa5c3a513645a9a00cb561fed40438e9dfe0d6a69",
-        balance: "26632322478189599260672",
+        address: "0x77b51bfeb893a7b20474ea59812305f729cb656d",
+        balance: "26671238177766773953948",
       },
     ],
   },
@@ -3126,16 +3794,6 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 17226,
-    totalBalance: "26492843208519838633595",
-    balances: [
-      {
-        address: "0xc0c3125e6c69e0eae82ddd8a502785754bfa6b34",
-        balance: "26492843208519838633595",
-      },
-    ],
-  },
-  {
     fid: 407587,
     totalBalance: "26417000000000000000000",
     balances: [
@@ -3146,12 +3804,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 444929,
-    totalBalance: "26332745848910321533293",
+    fid: 403090,
+    totalBalance: "26397000000000000000000",
     balances: [
       {
-        address: "0xc0e382db62b26023e92bd5a104fb583a69333e09",
-        balance: "26332745848910321533293",
+        address: "0xa535a38359a49e045ca1e2fde2d26496fbf0fc96",
+        balance: "26397000000000000000000",
       },
     ],
   },
@@ -3166,16 +3824,6 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 13833,
-    totalBalance: "26257238177766773953948",
-    balances: [
-      {
-        address: "0xfd0afaa85a72468b02827c418cb3b40a9a2f5467",
-        balance: "26257238177766773953948",
-      },
-    ],
-  },
-  {
     fid: 189165,
     totalBalance: "26227342084504051296220",
     balances: [
@@ -3186,32 +3834,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 348431,
-    totalBalance: "26180751139603865122701",
+    fid: 420554,
+    totalBalance: "26080000000000000000000",
     balances: [
       {
-        address: "0xe116b895b798c774d40aadcc91b949dedadc85ef",
-        balance: "26180751139603865122701",
-      },
-    ],
-  },
-  {
-    fid: 285462,
-    totalBalance: "26044149805447605158402",
-    balances: [
-      {
-        address: "0xe3f96cb5ae6353ed964f12c3841f50c8453df33b",
-        balance: "26044149805447605158402",
-      },
-    ],
-  },
-  {
-    fid: 364883,
-    totalBalance: "26044000000000000000000",
-    balances: [
-      {
-        address: "0x846ada7377d586ec7a55599deee5fdd716138348",
-        balance: "26044000000000000000000",
+        address: "0x98a7696310a3a835a25fc496be51e676999a99bc",
+        balance: "26080000000000000000000",
       },
     ],
   },
@@ -3222,6 +3850,26 @@ export const dummyHolders = [
       {
         address: "0x1aadeb2b723c70dcd02a543e5206fd7adcdcb79e",
         balance: "25938000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 265153,
+    totalBalance: "25885470343181780979072",
+    balances: [
+      {
+        address: "0x7ab125904af75823858bdc7259a08b581999c0ae",
+        balance: "25885470343181780979072",
+      },
+    ],
+  },
+  {
+    fid: 3993,
+    totalBalance: "25859734956300010782720",
+    balances: [
+      {
+        address: "0xf6910d47fbb1f5518d60c721d4189936ecd5a1b6",
+        balance: "25859734956300010782720",
       },
     ],
   },
@@ -3246,22 +3894,32 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 9134,
-    totalBalance: "25708323154448091185152",
+    fid: 466926,
+    totalBalance: "25719979469924592864623",
     balances: [
       {
-        address: "0x963441dcf6b2e82198a46c835a0c8f06b4d4e504",
-        balance: "25708323154448091185152",
+        address: "0xd17cc500ada9c61384f21cbaf9e6429ff4f1a844",
+        balance: "25719979469924592864623",
       },
     ],
   },
   {
-    fid: 585995,
-    totalBalance: "25538049488971373369437",
+    fid: 266053,
+    totalBalance: "25547000177766773953948",
     balances: [
       {
-        address: "0x5c0aed74917667f07786947ed677a7e3c808e006",
-        balance: "25538049488971373369437",
+        address: "0xf306998c59b1d7f311f5d731451d09734635ef23",
+        balance: "25547000177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 354795,
+    totalBalance: "25345000000000000000000",
+    balances: [
+      {
+        address: "0x0998fc77b101e4c538f57bc7616c5ecd77deab5a",
+        balance: "25345000000000000000000",
       },
     ],
   },
@@ -3272,6 +3930,26 @@ export const dummyHolders = [
       {
         address: "0xe1e8590b110a5ec1c44247f026269b2e66aa7b47",
         balance: "25316238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 189874,
+    totalBalance: "25289224409970274620758",
+    balances: [
+      {
+        address: "0xefbe74a2d564b5da62407d452038db32c9fd6b27",
+        balance: "25289224409970274620758",
+      },
+    ],
+  },
+  {
+    fid: 13797,
+    totalBalance: "25269042041994837872338",
+    balances: [
+      {
+        address: "0x0880cc27a345b5400fb5942f58f4e573e64f2f50",
+        balance: "25269042041994837872338",
       },
     ],
   },
@@ -3292,6 +3970,36 @@ export const dummyHolders = [
       {
         address: "0x2d12db57554f0dbc18247d1caedc73dfb1d93786",
         balance: "25103238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 407655,
+    totalBalance: "25070238177766773953948",
+    balances: [
+      {
+        address: "0xcf87ae07e961062e1269ecca91138196e455d5b4",
+        balance: "25070238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 663264,
+    totalBalance: "24892000000000000000000",
+    balances: [
+      {
+        address: "0x4db1e1a5f6488881497b2d15f406dbe0e3103409",
+        balance: "24892000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 5303,
+    totalBalance: "24741625913440087310336",
+    balances: [
+      {
+        address: "0x3d7863e87afd6cc4bb584c3d07f5deeaa6d26802",
+        balance: "24741625913440087310336",
       },
     ],
   },
@@ -3336,6 +4044,26 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 5625,
+    totalBalance: "24439232250231541202944",
+    balances: [
+      {
+        address: "0x1a4b0923b0f150b5fa8cdfb2138d0d78b1ec85fc",
+        balance: "24439232250231541202944",
+      },
+    ],
+  },
+  {
+    fid: 306175,
+    totalBalance: "24315238177766773953948",
+    balances: [
+      {
+        address: "0xbffd0f67e2e8f9688dd8e6a3ec6f6a74ced85b37",
+        balance: "24315238177766773953948",
+      },
+    ],
+  },
+  {
     fid: 847,
     totalBalance: "24238238177766773953948",
     balances: [
@@ -3352,6 +4080,16 @@ export const dummyHolders = [
       {
         address: "0x962f89e977e2d2c3bd3d503c9d53873d9ffea16b",
         balance: "24233811303838882114500",
+      },
+    ],
+  },
+  {
+    fid: 1768,
+    totalBalance: "23922238177766773953948",
+    balances: [
+      {
+        address: "0x8f4359d1c2166452b5e7a02742d6fe9ca5448fde",
+        balance: "23922238177766773953948",
       },
     ],
   },
@@ -3406,22 +4144,22 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 14988,
+    totalBalance: "23243884549034878966772",
+    balances: [
+      {
+        address: "0x11c1503ba0a3a42773dc1a9a76edfe54b30bcc38",
+        balance: "23243884549034878966772",
+      },
+    ],
+  },
+  {
     fid: 191,
     totalBalance: "23025238177766773953948",
     balances: [
       {
         address: "0x7cac817861e5c3384753403fb6c0c556c204b1ce",
         balance: "23025238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 2755,
-    totalBalance: "22968456819498251042084",
-    balances: [
-      {
-        address: "0xd7b7a3ab29b3282dc76419bd57776e0e90de8a41",
-        balance: "22968456819498251042084",
       },
     ],
   },
@@ -3436,22 +4174,32 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 1768,
-    totalBalance: "22922238177766773953948",
-    balances: [
-      {
-        address: "0x8f4359d1c2166452b5e7a02742d6fe9ca5448fde",
-        balance: "22922238177766773953948",
-      },
-    ],
-  },
-  {
     fid: 7626,
     totalBalance: "22903238177766773953948",
     balances: [
       {
         address: "0x57fe87c42d41461805f13812cb5565eda2d96ad5",
         balance: "22903238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 308410,
+    totalBalance: "22880238177766773953947",
+    balances: [
+      {
+        address: "0xa2fb6967a323cef8b481e88b39539fbc22d61e09",
+        balance: "22880238177766773953947",
+      },
+    ],
+  },
+  {
+    fid: 238017,
+    totalBalance: "22773171880882138513408",
+    balances: [
+      {
+        address: "0x002748db885d4ccfe3c7c92143f0805f4ebeec01",
+        balance: "22773171880882138513408",
       },
     ],
   },
@@ -3466,6 +4214,16 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 7941,
+    totalBalance: "22517622864177434460160",
+    balances: [
+      {
+        address: "0xe76183d03fcad988f74a2645c122b06b467f6649",
+        balance: "22517622864177434460160",
+      },
+    ],
+  },
+  {
     fid: 451,
     totalBalance: "22505238177766773953948",
     balances: [
@@ -3476,42 +4234,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 466688,
-    totalBalance: "22406238177766773953948",
-    balances: [
-      {
-        address: "0xee22b2cad0598df173099581ddec2c8b393152c3",
-        balance: "22406238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 5483,
-    totalBalance: "22327000000000000000000",
-    balances: [
-      {
-        address: "0x14190083645da88b847813581e009a505ab0518d",
-        balance: "22327000000000000000000",
-      },
-    ],
-  },
-  {
     fid: 417063,
     totalBalance: "22084238177766773953948",
     balances: [
       {
         address: "0x217408137af1ff89e11029694ab676914344c73c",
         balance: "22084238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 235795,
-    totalBalance: "22016131385172438880910",
-    balances: [
-      {
-        address: "0x4e73c5717f6d48d06e3b811c6bd37cd2df82f862",
-        balance: "22016131385172438880910",
       },
     ],
   },
@@ -3536,46 +4264,32 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 319054,
-    totalBalance: "21688905498647234691476",
+    fid: 507309,
+    totalBalance: "21826315634218289085545",
     balances: [
       {
-        address: "0x4a825d95ee45db286ae3694b7bc7f7090c9f8bf3",
-        balance: "19688905498647234691476",
-      },
-      {
-        address: "0x36e72ffef02da9d293e24ceb934f65ab4dd9d52d",
-        balance: "2000000000000000000000",
+        address: "0x4b7fec2f9d3b90e0e1d535b26bf16d697c3758cc",
+        balance: "21826315634218289085545",
       },
     ],
   },
   {
-    fid: 5303,
-    totalBalance: "21554054476739215622144",
+    fid: 264222,
+    totalBalance: "21435543482966982945619",
     balances: [
       {
-        address: "0x3d7863e87afd6cc4bb584c3d07f5deeaa6d26802",
-        balance: "21554054476739215622144",
+        address: "0x2452e136265e4b2ce559534e9eb18e9907f45973",
+        balance: "21435543482966982945619",
       },
     ],
   },
   {
-    fid: 12778,
-    totalBalance: "21364345563198691213312",
+    fid: 538388,
+    totalBalance: "21279000000000000000000",
     balances: [
       {
-        address: "0x486cf96e23ef9a7c341deece9d7c3e4f70af7454",
-        balance: "21364345563198691213312",
-      },
-    ],
-  },
-  {
-    fid: 5625,
-    totalBalance: "21290619506336678805504",
-    balances: [
-      {
-        address: "0x1a4b0923b0f150b5fa8cdfb2138d0d78b1ec85fc",
-        balance: "21290619506336678805504",
+        address: "0x3ba55b17e2498007f074eb9b145ce83089ba2686",
+        balance: "21279000000000000000000",
       },
     ],
   },
@@ -3590,12 +4304,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 302556,
-    totalBalance: "21229039840637450199203",
+    fid: 13696,
+    totalBalance: "21110039840637450199203",
     balances: [
       {
-        address: "0x590f4ca9b70860d1b89be8a7e69f22e59f6dcf6f",
-        balance: "21229039840637450199203",
+        address: "0x82a37593514485dc2a0add90b858db01902849a8",
+        balance: "21110039840637450199203",
       },
     ],
   },
@@ -3610,12 +4324,22 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 195394,
-    totalBalance: "20972645061896990749784",
+    fid: 198629,
+    totalBalance: "20979238177766773953948",
     balances: [
       {
-        address: "0x1709b27fe330411a8e23a2cfa71d64c75c04044b",
-        balance: "20972645061896990749784",
+        address: "0x58e2cabcd07cd3c1d443651c89d35846bef04d5e",
+        balance: "20979238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 349340,
+    totalBalance: "20959039840637450199203",
+    balances: [
+      {
+        address: "0x963d3c06f87cf9c301b20ee350f19836869755a8",
+        balance: "20959039840637450199203",
       },
     ],
   },
@@ -3630,12 +4354,22 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 189874,
-    totalBalance: "20942146418501711036416",
+    fid: 308405,
+    totalBalance: "20920238177766773953948",
     balances: [
       {
-        address: "0xefbe74a2d564b5da62407d452038db32c9fd6b27",
-        balance: "20942146418501711036416",
+        address: "0xf561592d05174512905cece6f00efc52423adc3c",
+        balance: "20920238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 243907,
+    totalBalance: "20882472265867681857536",
+    balances: [
+      {
+        address: "0x18ccc241cce98a67564e367ebc1f1f0e692e3188",
+        balance: "20882472265867681857536",
       },
     ],
   },
@@ -3646,6 +4380,16 @@ export const dummyHolders = [
       {
         address: "0x8d25687829d6b85d9e0020b8c89e3ca24de20a89",
         balance: "20783238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 262475,
+    totalBalance: "20761000000000000000000",
+    balances: [
+      {
+        address: "0xf654cd6ef4a402622e62e1c98258834c9137564e",
+        balance: "20761000000000000000000",
       },
     ],
   },
@@ -3670,32 +4414,46 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 9318,
-    totalBalance: "20600043203773117497344",
+    fid: 535389,
+    totalBalance: "20661998105056495999400",
     balances: [
       {
-        address: "0xe8bb2e08e6f52f11d8b65e2a3db772daa60e117e",
-        balance: "20600043203773117497344",
+        address: "0x7e5283035e728073e8ed1cb1d26490a7daea3766",
+        balance: "19585315634218289085545",
+      },
+      {
+        address: "0xb2d39905d4acec5e4b759c15b5d4a302b99af5ef",
+        balance: "1076682470838206913855",
       },
     ],
   },
   {
-    fid: 243907,
-    totalBalance: "20470252356994464743424",
+    fid: 309043,
+    totalBalance: "20510000000000000000000",
     balances: [
       {
-        address: "0x18ccc241cce98a67564e367ebc1f1f0e692e3188",
-        balance: "20470252356994464743424",
+        address: "0xab3fcf5ea98f31bbb47b0e47c054d70e13b21966",
+        balance: "20510000000000000000000",
       },
     ],
   },
   {
-    fid: 386444,
-    totalBalance: "20120731703480798683735",
+    fid: 4698,
+    totalBalance: "20215570526538416783360",
     balances: [
       {
-        address: "0x35e68b841ad158817ccf8851896055b0cac806ed",
-        balance: "20120731703480798683735",
+        address: "0xea1bf2a0b45ed328a52a4aa3744669f6ae525866",
+        balance: "20215570526538416783360",
+      },
+    ],
+  },
+  {
+    fid: 423995,
+    totalBalance: "20165932322144825376768",
+    balances: [
+      {
+        address: "0x403089b876128b97012aee31e3f91b4f6cfebede",
+        balance: "20165932322144825376768",
       },
     ],
   },
@@ -3710,12 +4468,22 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 13797,
-    totalBalance: "19940042041994837872338",
+    fid: 462167,
+    totalBalance: "19994538375781721757453",
     balances: [
       {
-        address: "0x0880cc27a345b5400fb5942f58f4e573e64f2f50",
-        balance: "19940042041994837872338",
+        address: "0x3a9be2560d36977db76adbf123b9c259e133b13f",
+        balance: "19994538375781721757453",
+      },
+    ],
+  },
+  {
+    fid: 240835,
+    totalBalance: "19877238177766773953948",
+    balances: [
+      {
+        address: "0xa9c4512042dfe48e8cdf653999a91519c85296e0",
+        balance: "19877238177766773953948",
       },
     ],
   },
@@ -3726,16 +4494,6 @@ export const dummyHolders = [
       {
         address: "0xaf82a37fa0febd276c378c92524675d3f91be8a4",
         balance: "19862238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 238017,
-    totalBalance: "19839204951443334234112",
-    balances: [
-      {
-        address: "0x002748db885d4ccfe3c7c92143f0805f4ebeec01",
-        balance: "19839204951443334234112",
       },
     ],
   },
@@ -3760,22 +4518,32 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 7941,
-    totalBalance: "19616579427688318500864",
-    balances: [
-      {
-        address: "0xe76183d03fcad988f74a2645c122b06b467f6649",
-        balance: "19616579427688318500864",
-      },
-    ],
-  },
-  {
     fid: 11491,
     totalBalance: "19531238177766773953948",
     balances: [
       {
         address: "0x51f956b281b282fceb2635f295200157a22b920b",
         balance: "19531238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 410523,
+    totalBalance: "19421000000000000000000",
+    balances: [
+      {
+        address: "0x95f45afde79613c10634d82e94b2a0da5bd2d0c6",
+        balance: "19421000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 271526,
+    totalBalance: "19411039840637450199203",
+    balances: [
+      {
+        address: "0x95f8018494cef5b069d009d115e05d360b81a34d",
+        balance: "19411039840637450199203",
       },
     ],
   },
@@ -3790,12 +4558,62 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 452094,
+    totalBalance: "19314315634218289085545",
+    balances: [
+      {
+        address: "0xddc9520acb5d1923412674a4ce07bb2e32ff0ac7",
+        balance: "19314315634218289085545",
+      },
+    ],
+  },
+  {
+    fid: 205077,
+    totalBalance: "19298315634218289085545",
+    balances: [
+      {
+        address: "0xf924efc8830bfa1029fa0cd7a51901a5ec03de3d",
+        balance: "19298315634218289085545",
+      },
+    ],
+  },
+  {
+    fid: 415368,
+    totalBalance: "19293315634218289085545",
+    balances: [
+      {
+        address: "0x603121410742328b0af3b0e4a066b29a9018fb1b",
+        balance: "19293315634218289085545",
+      },
+    ],
+  },
+  {
     fid: 326271,
     totalBalance: "19211841394330017345496",
     balances: [
       {
         address: "0x651d699af32cd71b5573571935c99c35f074dd51",
         balance: "19211841394330017345496",
+      },
+    ],
+  },
+  {
+    fid: 190218,
+    totalBalance: "19183000000000000000000",
+    balances: [
+      {
+        address: "0x4311e583bb30d9f8d62dd51c465272edfd2c0aa6",
+        balance: "19183000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 9587,
+    totalBalance: "19091829207634620809108",
+    balances: [
+      {
+        address: "0x6c9e4f9e8ca34743c3926131dff919bd9d934c9e",
+        balance: "19091829207634620809108",
       },
     ],
   },
@@ -3830,22 +4648,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 264222,
-    totalBalance: "18680291091713524132691",
+    fid: 403398,
+    totalBalance: "18677390751759503609754",
     balances: [
       {
-        address: "0x2452e136265e4b2ce559534e9eb18e9907f45973",
-        balance: "18680291091713524132691",
-      },
-    ],
-  },
-  {
-    fid: 394357,
-    totalBalance: "18577000000000000000000",
-    balances: [
-      {
-        address: "0xcc2860b3e735f4a65fbbc4dd402f8eab79525642",
-        balance: "18577000000000000000000",
+        address: "0xb447c845a0c9c4d9e6e053543536127991bbaca4",
+        balance: "18677390751759503609754",
       },
     ],
   },
@@ -3920,12 +4728,22 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 14988,
-    totalBalance: "18205633000888697887732",
+    fid: 1020,
+    totalBalance: "18136864814694500866998",
     balances: [
       {
-        address: "0x11c1503ba0a3a42773dc1a9a76edfe54b30bcc38",
-        balance: "18205633000888697887732",
+        address: "0xd91c4283ebbc00af162b73418ec4ab0b3c159900",
+        balance: "18136864814694500866998",
+      },
+    ],
+  },
+  {
+    fid: 440747,
+    totalBalance: "18104315634218289085545",
+    balances: [
+      {
+        address: "0x05cee3a59e550b7b79991d0eb17344b2f8b52160",
+        balance: "18104315634218289085545",
       },
     ],
   },
@@ -3960,12 +4778,42 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 595979,
+    totalBalance: "18032000000000000000000",
+    balances: [
+      {
+        address: "0x4102ec6cc8d0b134d68143902417c8026d90dc18",
+        balance: "18032000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 17507,
+    totalBalance: "18027825244507274739712",
+    balances: [
+      {
+        address: "0xcae4ccfe670f8c2a4999f9dfaf44625110fce9e5",
+        balance: "18027825244507274739712",
+      },
+    ],
+  },
+  {
     fid: 247870,
     totalBalance: "18025370341520757252738",
     balances: [
       {
         address: "0x2e8f6f8662593134dc8311e312885921855332bc",
         balance: "18025370341520757252738",
+      },
+    ],
+  },
+  {
+    fid: 265108,
+    totalBalance: "17898238177766773953948",
+    balances: [
+      {
+        address: "0xb71b50ed3cd27588888ab40062d11be71f19088e",
+        balance: "17898238177766773953948",
       },
     ],
   },
@@ -3980,12 +4828,52 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 4698,
-    totalBalance: "17611110520051870990336",
+    fid: 245309,
+    totalBalance: "17879622218851193716736",
     balances: [
       {
-        address: "0xea1bf2a0b45ed328a52a4aa3744669f6ae525866",
-        balance: "17611110520051870990336",
+        address: "0x194e6a6d66604369f8c98ae2785753e62c9500fe",
+        balance: "17879622218851193716736",
+      },
+    ],
+  },
+  {
+    fid: 306404,
+    totalBalance: "17810238177766773953948",
+    balances: [
+      {
+        address: "0xecaa5f28aa25cc39a848836b32744673a555b9ba",
+        balance: "17810238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 10093,
+    totalBalance: "17723773708125798161456",
+    balances: [
+      {
+        address: "0xbf52fffc7ab171670241badf3c93b03eca780360",
+        balance: "17723773708125798161456",
+      },
+    ],
+  },
+  {
+    fid: 422333,
+    totalBalance: "17636859529728796796420",
+    balances: [
+      {
+        address: "0xcd2797af670d8a2c55273fd212e46ec395d2b042",
+        balance: "17636859529728796796420",
+      },
+    ],
+  },
+  {
+    fid: 409032,
+    totalBalance: "17628000000000000000000",
+    balances: [
+      {
+        address: "0xaa7fab01446dc9c985e0624c8c3046ac3ef5285a",
+        balance: "17628000000000000000000",
       },
     ],
   },
@@ -3996,16 +4884,6 @@ export const dummyHolders = [
       {
         address: "0xaa3600788b72863ff51c8f0db5f10bb65fbfeab4",
         balance: "17571034788082340172502",
-      },
-    ],
-  },
-  {
-    fid: 423995,
-    totalBalance: "17567867421745800544256",
-    balances: [
-      {
-        address: "0x403089b876128b97012aee31e3f91b4f6cfebede",
-        balance: "17567867421745800544256",
       },
     ],
   },
@@ -4070,6 +4948,16 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 396234,
+    totalBalance: "16909373158894530843287",
+    balances: [
+      {
+        address: "0x4a974c58f8f69432cfa25d4c6bb8d3eac0f88773",
+        balance: "16909373158894530843287",
+      },
+    ],
+  },
+  {
     fid: 83,
     totalBalance: "16756706801738443909901",
     balances: [
@@ -4111,11 +4999,31 @@ export const dummyHolders = [
   },
   {
     fid: 330172,
-    totalBalance: "16666666666666666666666",
+    totalBalance: "16654666666666666666666",
     balances: [
       {
         address: "0xaa627ca20ac56805d93d66660f9c9524add203b6",
-        balance: "16666666666666666666666",
+        balance: "16654666666666666666666",
+      },
+    ],
+  },
+  {
+    fid: 13229,
+    totalBalance: "16558849567202212793381",
+    balances: [
+      {
+        address: "0x2c8d2e50ee03f98a2f4ccfbe1a61552b79bdf6fa",
+        balance: "16558849567202212793381",
+      },
+    ],
+  },
+  {
+    fid: 511479,
+    totalBalance: "16513000000000000000000",
+    balances: [
+      {
+        address: "0x14cee93be114986c609f907c16de143938b0d403",
+        balance: "16513000000000000000000",
       },
     ],
   },
@@ -4130,32 +5038,32 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 1020,
-    totalBalance: "16285047886010560748470",
+    fid: 463851,
+    totalBalance: "16336000000000000000000",
     balances: [
       {
-        address: "0xd91c4283ebbc00af162b73418ec4ab0b3c159900",
-        balance: "16285047886010560748470",
+        address: "0xaf321fbdb65eddb21d184a0840784e8dc89c7b8d",
+        balance: "16336000000000000000000",
       },
     ],
   },
   {
-    fid: 9587,
-    totalBalance: "16235117154333650157460",
+    fid: 330802,
+    totalBalance: "16291000000000000000000",
     balances: [
       {
-        address: "0x6c9e4f9e8ca34743c3926131dff919bd9d934c9e",
-        balance: "16235117154333650157460",
+        address: "0xad847adde6d4ff896e00b04d6657ac0b730b07b6",
+        balance: "16291000000000000000000",
       },
     ],
   },
   {
-    fid: 265506,
-    totalBalance: "16180238177766773953948",
+    fid: 8421,
+    totalBalance: "16236633411026308349251",
     balances: [
       {
-        address: "0x77b51bfeb893a7b20474ea59812305f729cb656d",
-        balance: "16180238177766773953948",
+        address: "0x218cf5b0bb35384e9abbd8e74a162173a071e3b4",
+        balance: "16236633411026308349251",
       },
     ],
   },
@@ -4170,12 +5078,62 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 10093,
-    totalBalance: "15960835354637551033392",
+    fid: 1161,
+    totalBalance: "16003109217262057849116",
     balances: [
       {
-        address: "0xbf52fffc7ab171670241badf3c93b03eca780360",
-        balance: "15960835354637551033392",
+        address: "0x681bb473da4045b26fabc040ca9c6c5e80cbd451",
+        balance: "16003109217262057849116",
+      },
+    ],
+  },
+  {
+    fid: 307705,
+    totalBalance: "15995238177766773953948",
+    balances: [
+      {
+        address: "0xbf6f895ee174e959efbad35ae9ee7807f37f9c03",
+        balance: "15995238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 195847,
+    totalBalance: "15907000000000000000000",
+    balances: [
+      {
+        address: "0x52f9624409e9aa19a6ce397d8b4cb9d8de92c247",
+        balance: "15907000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 418671,
+    totalBalance: "15739000000000000000000",
+    balances: [
+      {
+        address: "0xf1f5d35c46fd62fdd9150c39acc4a1b6a8327ae4",
+        balance: "15739000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 441956,
+    totalBalance: "15671039840637450199203",
+    balances: [
+      {
+        address: "0x6fb53031e2b3d7d4d6f7fad6d69952f87477bc82",
+        balance: "15671039840637450199203",
+      },
+    ],
+  },
+  {
+    fid: 4483,
+    totalBalance: "15669238177766773953948",
+    balances: [
+      {
+        address: "0x2b26da567c2a8c220daf91be8e37a429d33aef0b",
+        balance: "15669238177766773953948",
       },
     ],
   },
@@ -4190,6 +5148,16 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 315697,
+    totalBalance: "15627315634218289085545",
+    balances: [
+      {
+        address: "0x45d618eb326694f77919a674a6e229a4551654ac",
+        balance: "15627315634218289085545",
+      },
+    ],
+  },
+  {
     fid: 16567,
     totalBalance: "15611238177766773953948",
     balances: [
@@ -4200,22 +5168,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 245309,
-    totalBalance: "15576112607833554419712",
+    fid: 205525,
+    totalBalance: "15567239638833228879045",
     balances: [
       {
-        address: "0x194e6a6d66604369f8c98ae2785753e62c9500fe",
-        balance: "15576112607833554419712",
-      },
-    ],
-  },
-  {
-    fid: 261245,
-    totalBalance: "15547289420265468456423",
-    balances: [
-      {
-        address: "0xb46adfe7e10675b1e43f9132da7f00a9ad3642f3",
-        balance: "15547289420265468456423",
+        address: "0x012c6934d9e8e1422a48af53948754b58f373169",
+        balance: "15567239638833228879045",
       },
     ],
   },
@@ -4240,12 +5198,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 306404,
-    totalBalance: "15331238177766773953948",
+    fid: 209586,
+    totalBalance: "15316238177766773953948",
     balances: [
       {
-        address: "0xecaa5f28aa25cc39a848836b32744673a555b9ba",
-        balance: "15331238177766773953948",
+        address: "0xd7b77b0a69308392ef13db63a412df391146d434",
+        balance: "15316238177766773953948",
       },
     ],
   },
@@ -4260,12 +5218,32 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 342222,
+    totalBalance: "15007238177766773953948",
+    balances: [
+      {
+        address: "0x52ce3c6605ed169cba5425020a4bc8447550e612",
+        balance: "15007238177766773953948",
+      },
+    ],
+  },
+  {
     fid: 280603,
     totalBalance: "15000000000000000000000",
     balances: [
       {
         address: "0x051e7e222a283aee196e2c22fad93274c6c512ae",
         balance: "15000000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 427349,
+    totalBalance: "14998264101536918043745",
+    balances: [
+      {
+        address: "0xee2f0b52bd3bcbced0a3f1a9d91c1f54c1f5d036",
+        balance: "14998264101536918043745",
       },
     ],
   },
@@ -4280,12 +5258,42 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 299247,
+    totalBalance: "14911238177766773953948",
+    balances: [
+      {
+        address: "0x01ad75dc5a57680bd83bef6b9ba91dd21520543f",
+        balance: "14911238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 12756,
+    totalBalance: "14873039840637450199203",
+    balances: [
+      {
+        address: "0x3ac61447a75149ba67639100ecc92c76fb20941c",
+        balance: "14873039840637450199203",
+      },
+    ],
+  },
+  {
     fid: 604,
     totalBalance: "14860238177766773953948",
     balances: [
       {
         address: "0xa49958fa14309f3720159c83cd92c5f38b1e3306",
         balance: "14860238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 14601,
+    totalBalance: "14811994901881584353280",
+    balances: [
+      {
+        address: "0x22ec7a4429c381f5c382ac7ea624cc05d37ffdde",
+        balance: "14811994901881584353280",
       },
     ],
   },
@@ -4320,12 +5328,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 13229,
-    totalBalance: "14689126627458996456485",
+    fid: 245237,
+    totalBalance: "14660450431758308781530",
     balances: [
       {
-        address: "0x2c8d2e50ee03f98a2f4ccfbe1a61552b79bdf6fa",
-        balance: "14689126627458996456485",
+        address: "0xedd47f01133d82445815890b7cbd857783dbd64d",
+        balance: "14660450431758308781530",
       },
     ],
   },
@@ -4350,6 +5358,16 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 298111,
+    totalBalance: "14403288408317441938005",
+    balances: [
+      {
+        address: "0x30fedb223ada290b7fadd9ad650aadab40365062",
+        balance: "14403288408317441938005",
+      },
+    ],
+  },
+  {
     fid: 19105,
     totalBalance: "14401421119755021200462",
     balances: [
@@ -4360,42 +5378,22 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 403398,
-    totalBalance: "14343390751759503609754",
+    fid: 9856,
+    totalBalance: "14346238177766773953948",
     balances: [
       {
-        address: "0xb447c845a0c9c4d9e6e053543536127991bbaca4",
-        balance: "14343390751759503609754",
+        address: "0xec8b6b6ee8dc5c6631747bdc6b1400aff08829fd",
+        balance: "14346238177766773953948",
       },
     ],
   },
   {
-    fid: 396234,
-    totalBalance: "14339373158894530843287",
+    fid: 10103,
+    totalBalance: "14271068016324628185088",
     balances: [
       {
-        address: "0x4a974c58f8f69432cfa25d4c6bb8d3eac0f88773",
-        balance: "14339373158894530843287",
-      },
-    ],
-  },
-  {
-    fid: 298111,
-    totalBalance: "14322093170492596884053",
-    balances: [
-      {
-        address: "0x30fedb223ada290b7fadd9ad650aadab40365062",
-        balance: "14322093170492596884053",
-      },
-    ],
-  },
-  {
-    fid: 8421,
-    totalBalance: "14302232787519851511107",
-    balances: [
-      {
-        address: "0x218cf5b0bb35384e9abbd8e74a162173a071e3b4",
-        balance: "14302232787519851511107",
+        address: "0xb749a586080436e616f097f193ba9cb6a25e7ea6",
+        balance: "14271068016324628185088",
       },
     ],
   },
@@ -4410,6 +5408,16 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 406908,
+    totalBalance: "14102315634218289085545",
+    balances: [
+      {
+        address: "0x675da94d0efe96cfec1cc6bd6fa11702ebe14249",
+        balance: "14102315634218289085545",
+      },
+    ],
+  },
+  {
     fid: 762,
     totalBalance: "14101238177766773953948",
     balances: [
@@ -4420,12 +5428,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 3993,
-    totalBalance: "14086446082264534387965",
+    fid: 470886,
+    totalBalance: "14079039840637450199203",
     balances: [
       {
-        address: "0xf6910d47fbb1f5518d60c721d4189936ecd5a1b6",
-        balance: "14086446082264534387965",
+        address: "0x54b154d4fb3750c22b3c4062e9c588ad147e2ce4",
+        balance: "14079039840637450199203",
       },
     ],
   },
@@ -4436,6 +5444,26 @@ export const dummyHolders = [
       {
         address: "0x158d6dde3f17411f4365ef7cda7db8fffbb6dda9",
         balance: "14024238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 417359,
+    totalBalance: "13713444859104437571994",
+    balances: [
+      {
+        address: "0x062dc0dd824f3bc8d641180eadd611cdcfc39c72",
+        balance: "13713444859104437571994",
+      },
+    ],
+  },
+  {
+    fid: 323144,
+    totalBalance: "13710315634218289085545",
+    balances: [
+      {
+        address: "0x93d7845b05971d8beb3a33ad76a0dcbba1c25102",
+        balance: "13710315634218289085545",
       },
     ],
   },
@@ -4460,22 +5488,22 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 422333,
-    totalBalance: "13548859529728796796420",
+    fid: 19531,
+    totalBalance: "13548234603575732338688",
     balances: [
       {
-        address: "0xcd2797af670d8a2c55273fd212e46ec395d2b042",
-        balance: "13548859529728796796420",
+        address: "0x2f5926896bc7f9432392099bbc66526cea300077",
+        balance: "13548234603575732338688",
       },
     ],
   },
   {
-    fid: 266053,
-    totalBalance: "13520000177766773953948",
+    fid: 394357,
+    totalBalance: "13440455976615880000000",
     balances: [
       {
-        address: "0xf306998c59b1d7f311f5d731451d09734635ef23",
-        balance: "13520000177766773953948",
+        address: "0xcc2860b3e735f4a65fbbc4dd402f8eab79525642",
+        balance: "13440455976615880000000",
       },
     ],
   },
@@ -4490,12 +5518,42 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 19531,
-    totalBalance: "13411688176122924630016",
+    fid: 214598,
+    totalBalance: "13410286880528167528438",
     balances: [
       {
-        address: "0x2f5926896bc7f9432392099bbc66526cea300077",
-        balance: "13411688176122924630016",
+        address: "0x3fa515df9e7a82ff12990ce279c707f95d2fcc7c",
+        balance: "13410286880528167528438",
+      },
+    ],
+  },
+  {
+    fid: 260433,
+    totalBalance: "13387904844433440620614",
+    balances: [
+      {
+        address: "0x13f750dd96148e98bd87d3c123d4a2a77102f8cb",
+        balance: "13387904844433440620614",
+      },
+    ],
+  },
+  {
+    fid: 455975,
+    totalBalance: "13364315634218289085545",
+    balances: [
+      {
+        address: "0x391a8591426d509ff04648591619b7fc8ba5cb37",
+        balance: "13364315634218289085545",
+      },
+    ],
+  },
+  {
+    fid: 12351,
+    totalBalance: "13299429569476407724720",
+    balances: [
+      {
+        address: "0xd4a9cfa1d7cca50f29a46bd0f6f5646f5548a793",
+        balance: "13299429569476407724720",
       },
     ],
   },
@@ -4516,6 +5574,20 @@ export const dummyHolders = [
       {
         address: "0xcec2f267008b82640ded79683aa58d3514b2e9b9",
         balance: "13236619935010488398766",
+      },
+    ],
+  },
+  {
+    fid: 355566,
+    totalBalance: "13220238177766773953948",
+    balances: [
+      {
+        address: "0x688f1d8b0c59e9716d3512a0cbf32cda837544dc",
+        balance: "11220000000000000000000",
+      },
+      {
+        address: "0x0d3c16f2d152373539610da87d231f4d78f73a35",
+        balance: "2000238177766773953948",
       },
     ],
   },
@@ -4560,12 +5632,22 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 14601,
-    totalBalance: "12903701080166778273792",
+    fid: 309567,
+    totalBalance: "12929238177766773953948",
     balances: [
       {
-        address: "0x22ec7a4429c381f5c382ac7ea624cc05d37ffdde",
-        balance: "12903701080166778273792",
+        address: "0x5a6a84fb9063af1d83d0ac4809697a40715a1530",
+        balance: "12929238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 421198,
+    totalBalance: "12857315634218289085545",
+    balances: [
+      {
+        address: "0xca4a7dcfa46b07cf4eba08860e3cd732736a229b",
+        balance: "12857315634218289085545",
       },
     ],
   },
@@ -4590,6 +5672,16 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 307899,
+    totalBalance: "12794315634218289085545",
+    balances: [
+      {
+        address: "0xacfbc87d4ff16bc6d2df6d383c25ffe7efa56da8",
+        balance: "12794315634218289085545",
+      },
+    ],
+  },
+  {
     fid: 4461,
     totalBalance: "12776238177766773953948",
     balances: [
@@ -4600,32 +5692,22 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 462989,
+    totalBalance: "12755315634218289085545",
+    balances: [
+      {
+        address: "0x1c288f4ec7d841548fb48c43882c2dea5bb71fd1",
+        balance: "12755315634218289085545",
+      },
+    ],
+  },
+  {
     fid: 3307,
     totalBalance: "12688238177766773953948",
     balances: [
       {
         address: "0x607e6697233d045ee6a586b303630298dd80515d",
         balance: "12688238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 9856,
-    totalBalance: "12664238177766773953948",
-    balances: [
-      {
-        address: "0xec8b6b6ee8dc5c6631747bdc6b1400aff08829fd",
-        balance: "12664238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 424231,
-    totalBalance: "12661043149941581841904",
-    balances: [
-      {
-        address: "0x18e2a5ac202d8b5023dd224a27621d406349c352",
-        balance: "12661043149941581841904",
       },
     ],
   },
@@ -4650,22 +5732,22 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 308405,
-    totalBalance: "12639238177766773953948",
-    balances: [
-      {
-        address: "0xf561592d05174512905cece6f00efc52423adc3c",
-        balance: "12639238177766773953948",
-      },
-    ],
-  },
-  {
     fid: 5431,
     totalBalance: "12591238177766773953948",
     balances: [
       {
         address: "0x3cc1a943b27c2af7c6dcf3be0137f66c2f22e712",
         balance: "12591238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 413828,
+    totalBalance: "12528315634218289085545",
+    balances: [
+      {
+        address: "0x09b4685d00804107f764444fbef0485df13191ab",
+        balance: "12528315634218289085545",
       },
     ],
   },
@@ -4710,16 +5792,6 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 10103,
-    totalBalance: "12432464161460719714304",
-    balances: [
-      {
-        address: "0xb749a586080436e616f097f193ba9cb6a25e7ea6",
-        balance: "12432464161460719714304",
-      },
-    ],
-  },
-  {
     fid: 8004,
     totalBalance: "12376238177766773953948",
     balances: [
@@ -4736,6 +5808,16 @@ export const dummyHolders = [
       {
         address: "0x0e467a0288a439ba2678eb7d3b0b64b01e2bbbfc",
         balance: "12372238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 3828,
+    totalBalance: "12343959283395995893760",
+    balances: [
+      {
+        address: "0x962d14e98cfdcc72ba89943f72ba24d435ec2a68",
+        balance: "12343959283395995893760",
       },
     ],
   },
@@ -4760,22 +5842,22 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 445793,
+    totalBalance: "12269039840637450199203",
+    balances: [
+      {
+        address: "0xa6bc44a89510ceabface881a74b5b57df879da05",
+        balance: "12269039840637450199203",
+      },
+    ],
+  },
+  {
     fid: 3895,
     totalBalance: "12260238177766773953948",
     balances: [
       {
         address: "0xc7a0d765c3af6e2710ba05a56c5e2ca190c2e11e",
         balance: "12260238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 299135,
-    totalBalance: "12239996454894856361834",
-    balances: [
-      {
-        address: "0xfde114f7e6123519c45ab30d80ad370761046bcd",
-        balance: "12239996454894856361834",
       },
     ],
   },
@@ -4790,12 +5872,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 3828,
-    totalBalance: "12142535186446666432512",
+    fid: 439799,
+    totalBalance: "12219039840637450199203",
     balances: [
       {
-        address: "0x962d14e98cfdcc72ba89943f72ba24d435ec2a68",
-        balance: "12142535186446666432512",
+        address: "0x008d0e083e67a453cb300386d7cf5d52ba813d7d",
+        balance: "12219039840637450199203",
       },
     ],
   },
@@ -4870,6 +5952,16 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 408746,
+    totalBalance: "11980000000000000000000",
+    balances: [
+      {
+        address: "0x980f925d1644489305068fe95255b4bca3af6927",
+        balance: "11980000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 1355,
     totalBalance: "11965238177766773953948",
     balances: [
@@ -4900,6 +5992,16 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 349545,
+    totalBalance: "11935315634218289085545",
+    balances: [
+      {
+        address: "0x7c7838a874c790b2dd3d6cd3bcd66ea748025100",
+        balance: "11935315634218289085545",
+      },
+    ],
+  },
+  {
     fid: 399720,
     totalBalance: "11909289526886439732891",
     balances: [
@@ -4920,22 +6022,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 12351,
-    totalBalance: "11858635352975975778992",
+    fid: 380455,
+    totalBalance: "11841315634218289085545",
     balances: [
       {
-        address: "0xd4a9cfa1d7cca50f29a46bd0f6f5646f5548a793",
-        balance: "11858635352975975778992",
-      },
-    ],
-  },
-  {
-    fid: 245237,
-    totalBalance: "11852450431758308781530",
-    balances: [
-      {
-        address: "0xedd47f01133d82445815890b7cbd857783dbd64d",
-        balance: "11852450431758308781530",
+        address: "0xfe86a3c7360ef8b172c6e89c9e99e7c833deb855",
+        balance: "11841315634218289085545",
       },
     ],
   },
@@ -4976,6 +6068,16 @@ export const dummyHolders = [
       {
         address: "0xa6bcb89f21e0bf71e08ded426c142757791e17cf",
         balance: "11752238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 20133,
+    totalBalance: "11752225350431185183967",
+    balances: [
+      {
+        address: "0x07890858904dd9c47b567d1319c2c558a0473b9f",
+        balance: "11752225350431185183967",
       },
     ],
   },
@@ -5030,6 +6132,16 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 292506,
+    totalBalance: "11676106615362227545926",
+    balances: [
+      {
+        address: "0xb3ae363c083d2fdb4580733dc805b28f66f29d1f",
+        balance: "11676106615362227545926",
+      },
+    ],
+  },
+  {
     fid: 1657,
     totalBalance: "11651238177766773953948",
     balances: [
@@ -5046,6 +6158,16 @@ export const dummyHolders = [
       {
         address: "0xfa6b3df826636eb76e23c1ee38180db3b8f60a86",
         balance: "11632238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 379809,
+    totalBalance: "11613000000000000000000",
+    balances: [
+      {
+        address: "0x3613da05428b2523b78ba608ee01692a0526ab86",
+        balance: "11613000000000000000000",
       },
     ],
   },
@@ -5090,6 +6212,16 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 249232,
+    totalBalance: "11573000000000000000000",
+    balances: [
+      {
+        address: "0x5576274800a2c36489320b2d6994590dc0cf9d1f",
+        balance: "11573000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 10575,
     totalBalance: "11568238177766773953948",
     balances: [
@@ -5120,12 +6252,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 14532,
-    totalBalance: "11540681472392747483939",
+    fid: 354417,
+    totalBalance: "11560560513685698961729",
     balances: [
       {
-        address: "0x02a8f422e4623cf409b2a1a64a603b16357ea9da",
-        balance: "11540681472392747483939",
+        address: "0x5a99d1dfabbfaf5f0f1cf5ade3d380c0afe11341",
+        balance: "11560560513685698961729",
       },
     ],
   },
@@ -5136,6 +6268,16 @@ export const dummyHolders = [
       {
         address: "0xb03f5438f9a243de5c3b830b7841ec315034cd5f",
         balance: "11538238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 375727,
+    totalBalance: "11537238177766773953948",
+    balances: [
+      {
+        address: "0xc1350a60fe9d88ec147b3e15d6ac0442526ef74c",
+        balance: "11537238177766773953948",
       },
     ],
   },
@@ -5156,6 +6298,16 @@ export const dummyHolders = [
       {
         address: "0xc691ac712df9ddf5ae49dfe7bf82c291b59d9af4",
         balance: "11510238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 588078,
+    totalBalance: "11488000000000000000000",
+    balances: [
+      {
+        address: "0x57fcb710c32ddde9ae6d39e264af679bb13827ad",
+        balance: "11488000000000000000000",
       },
     ],
   },
@@ -5210,16 +6362,6 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 1161,
-    totalBalance: "11372588409905179787264",
-    balances: [
-      {
-        address: "0x681bb473da4045b26fabc040ca9c6c5e80cbd451",
-        balance: "11372588409905179787264",
-      },
-    ],
-  },
-  {
     fid: 647,
     totalBalance: "11274238177766773953948",
     balances: [
@@ -5240,22 +6382,32 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 411409,
+    totalBalance: "11172315634218289085545",
+    balances: [
+      {
+        address: "0x79579b2032565133a53f876e80179d0066d293f0",
+        balance: "11172315634218289085545",
+      },
+    ],
+  },
+  {
+    fid: 14937,
+    totalBalance: "11166238177766773953948",
+    balances: [
+      {
+        address: "0xa3e51498579db0f7bb1ec9e3093b2f44158e25a5",
+        balance: "11166238177766773953948",
+      },
+    ],
+  },
+  {
     fid: 5860,
     totalBalance: "11135238177766773953948",
     balances: [
       {
         address: "0xf005bc919b57dc1a95070a614c0d51a2897d11ff",
         balance: "11135238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 368278,
-    totalBalance: "11109968864551069122924",
-    balances: [
-      {
-        address: "0x22d02786f813a70c5699621810d0ea85efa07332",
-        balance: "11109968864551069122924",
       },
     ],
   },
@@ -5300,12 +6452,22 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 4483,
-    totalBalance: "11020238177766773953948",
+    fid: 502568,
+    totalBalance: "11069315634218289085545",
     balances: [
       {
-        address: "0x2b26da567c2a8c220daf91be8e37a429d33aef0b",
-        balance: "11020238177766773953948",
+        address: "0x5869699c85d5d7be8f0261c0ab6e703120a4af95",
+        balance: "11069315634218289085545",
+      },
+    ],
+  },
+  {
+    fid: 409644,
+    totalBalance: "11033790971163659195404",
+    balances: [
+      {
+        address: "0x80649c3771d0999ae97ff2895a9fc6d4c55fb79f",
+        balance: "11033790971163659195404",
       },
     ],
   },
@@ -5340,22 +6502,22 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 20133,
-    totalBalance: "10988134465450061210847",
-    balances: [
-      {
-        address: "0x07890858904dd9c47b567d1319c2c558a0473b9f",
-        balance: "10988134465450061210847",
-      },
-    ],
-  },
-  {
     fid: 8685,
     totalBalance: "10857238177766773953948",
     balances: [
       {
         address: "0x09a900eb2ff6e9aca12d4d1a396ddc9be0307661",
         balance: "10857238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 282560,
+    totalBalance: "10838709223424260173861",
+    balances: [
+      {
+        address: "0xfa57da0dec2d28a2e35a337955d33573d3b9cd7a",
+        balance: "10838709223424260173861",
       },
     ],
   },
@@ -5390,6 +6552,26 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 4567,
+    totalBalance: "10716238177766773953948",
+    balances: [
+      {
+        address: "0xbf0d78ebe5e2c5a8ed9dbe42d539f5e8ea115d61",
+        balance: "10716238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 349621,
+    totalBalance: "10642000000000000000000",
+    balances: [
+      {
+        address: "0x414672bb8e3dc26f60295be8b64f6bfbaeededd5",
+        balance: "10642000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 378285,
     totalBalance: "10574455996339615021825",
     balances: [
@@ -5400,12 +6582,32 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 246905,
+    totalBalance: "10554315634218289085545",
+    balances: [
+      {
+        address: "0x79479e4fc351f23df380bd3f686416f6592a74b0",
+        balance: "10554315634218289085545",
+      },
+    ],
+  },
+  {
     fid: 701,
     totalBalance: "10550238177766773953948",
     balances: [
       {
         address: "0x1e79b045dc29eae9fdc69673c9dcd7c53e5e159d",
         balance: "10550238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 6805,
+    totalBalance: "10540573254585543443040",
+    balances: [
+      {
+        address: "0x95aa6cf80aa61c3433215c7b8330c065ed29ce97",
+        balance: "10540573254585543443040",
       },
     ],
   },
@@ -5460,12 +6662,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 214598,
-    totalBalance: "10406286880528167528438",
+    fid: 250455,
+    totalBalance: "10437238177766773953948",
     balances: [
       {
-        address: "0x3fa515df9e7a82ff12990ce279c707f95d2fcc7c",
-        balance: "10406286880528167528438",
+        address: "0x98ca6baf2eb6715f00c8f7453da8c81757311dd4",
+        balance: "10437238177766773953948",
       },
     ],
   },
@@ -5480,12 +6682,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 282560,
-    totalBalance: "10397943472615388213285",
+    fid: 431629,
+    totalBalance: "10366315634218289085545",
     balances: [
       {
-        address: "0xfa57da0dec2d28a2e35a337955d33573d3b9cd7a",
-        balance: "10397943472615388213285",
+        address: "0x6d9e53347296b19450aa85378cf6acee137a25be",
+        balance: "10366315634218289085545",
       },
     ],
   },
@@ -5500,32 +6702,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 538388,
-    totalBalance: "10300000000000000000000",
+    fid: 544228,
+    totalBalance: "10265820231490975091928",
     balances: [
       {
-        address: "0x3ba55b17e2498007f074eb9b145ce83089ba2686",
-        balance: "10300000000000000000000",
-      },
-    ],
-  },
-  {
-    fid: 588078,
-    totalBalance: "10300000000000000000000",
-    balances: [
-      {
-        address: "0x57fcb710c32ddde9ae6d39e264af679bb13827ad",
-        balance: "10300000000000000000000",
-      },
-    ],
-  },
-  {
-    fid: 260433,
-    totalBalance: "10264904844433440620614",
-    balances: [
-      {
-        address: "0x13f750dd96148e98bd87d3c123d4a2a77102f8cb",
-        balance: "10264904844433440620614",
+        address: "0x38515171bec8b8cad9fcbea4b0f95f6681a721ec",
+        balance: "10265820231490975091928",
       },
     ],
   },
@@ -5550,6 +6732,16 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 270228,
+    totalBalance: "10154000000000000000000",
+    balances: [
+      {
+        address: "0x96a6e33c4783d240ceafcd75fe7a7d8c8be88e2c",
+        balance: "10154000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 379491,
     totalBalance: "10149624499752913428923",
     balances: [
@@ -5560,22 +6752,22 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 398028,
+    totalBalance: "10140000000000000000000",
+    balances: [
+      {
+        address: "0x495e4f8c59f9b2df760f77c42f27ea514697bf73",
+        balance: "10140000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 323645,
     totalBalance: "10116238177766773953948",
     balances: [
       {
         address: "0x8d7f598347e1d526e02e51e663ba837393068e6e",
         balance: "10116238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 6805,
-    totalBalance: "10095458811266837398112",
-    balances: [
-      {
-        address: "0x95aa6cf80aa61c3433215c7b8330c065ed29ce97",
-        balance: "10095458811266837398112",
       },
     ],
   },
@@ -5610,12 +6802,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 354417,
-    totalBalance: "10035560513685698961729",
+    fid: 516028,
+    totalBalance: "10031000000000000000000",
     balances: [
       {
-        address: "0x5a99d1dfabbfaf5f0f1cf5ade3d380c0afe11341",
-        balance: "10035560513685698961729",
+        address: "0x1c3b5f31b866d9a1c6a9e02fe3e1df1cd36e1fec",
+        balance: "10031000000000000000000",
       },
     ],
   },
@@ -5626,16 +6818,6 @@ export const dummyHolders = [
       {
         address: "0xa08d5ea7bbbd0a199023f8fe5621a062f3e574e1",
         balance: "10010000000000000000000",
-      },
-    ],
-  },
-  {
-    fid: 205525,
-    totalBalance: "10000239638833228879045",
-    balances: [
-      {
-        address: "0x012c6934d9e8e1422a48af53948754b58f373169",
-        balance: "10000239638833228879045",
       },
     ],
   },
@@ -5680,16 +6862,6 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 379809,
-    totalBalance: "10000000000000000000000",
-    balances: [
-      {
-        address: "0x3613da05428b2523b78ba608ee01692a0526ab86",
-        balance: "10000000000000000000000",
-      },
-    ],
-  },
-  {
     fid: 348320,
     totalBalance: "9990162551084019142883",
     balances: [
@@ -5700,12 +6872,32 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 271526,
-    totalBalance: "9873039840637450199203",
+    fid: 399658,
+    totalBalance: "9956315634218289085545",
     balances: [
       {
-        address: "0x95f8018494cef5b069d009d115e05d360b81a34d",
-        balance: "9873039840637450199203",
+        address: "0xd99c74b587373c77c7c9ad05f613baf3fe871434",
+        balance: "9956315634218289085545",
+      },
+    ],
+  },
+  {
+    fid: 230238,
+    totalBalance: "9939238177766773953948",
+    balances: [
+      {
+        address: "0xd4bf6958538f26266ef2a32db47d296323734b5a",
+        balance: "9939238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 418316,
+    totalBalance: "9919000000000000000000",
+    balances: [
+      {
+        address: "0x6218320cd3bce41e69e443ec07fccec9871e0998",
+        balance: "9919000000000000000000",
       },
     ],
   },
@@ -5730,12 +6922,42 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 409059,
+    totalBalance: "9725952313304888159633",
+    balances: [
+      {
+        address: "0x3b073a8d0ce0589eef40dd5015a27526260b2c38",
+        balance: "9725952313304888159633",
+      },
+    ],
+  },
+  {
+    fid: 383054,
+    totalBalance: "9716000000000000000000",
+    balances: [
+      {
+        address: "0x6d0b3a3f613a65c9f9ac6809730d18ff709eb1d3",
+        balance: "9716000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 11124,
     totalBalance: "9715238177766773953948",
     balances: [
       {
         address: "0x000cbf0bec88214aab15bc1fa40d3c30b3ca97a9",
         balance: "9715238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 246823,
+    totalBalance: "9709039840637450199203",
+    balances: [
+      {
+        address: "0x29b4e928cfd2221d7840d4644978651be8751a47",
+        balance: "9709039840637450199203",
       },
     ],
   },
@@ -5760,6 +6982,16 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 17582,
+    totalBalance: "9660238177766773953948",
+    balances: [
+      {
+        address: "0x915c51a7a0399662e63c99e1faf351f668198de8",
+        balance: "9660238177766773953948",
+      },
+    ],
+  },
+  {
     fid: 351803,
     totalBalance: "9588039840637450199203",
     balances: [
@@ -5780,12 +7012,32 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 333414,
+    totalBalance: "9560000000000000000000",
+    balances: [
+      {
+        address: "0xebd0f365ed9dd4546be18f77ab25ddcf44467417",
+        balance: "9560000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 656,
     totalBalance: "9557238177766773953948",
     balances: [
       {
         address: "0xf0ae4f60a4dc379ae25371a34b4b699dee8d530f",
         balance: "9557238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 234611,
+    totalBalance: "9553315634218289085545",
+    balances: [
+      {
+        address: "0xed26b14762edce1d38e17b94afbb810a441c08e4",
+        balance: "9553315634218289085545",
       },
     ],
   },
@@ -5940,12 +7192,32 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 427838,
+    totalBalance: "9396561943612444639232",
+    balances: [
+      {
+        address: "0xb38821ede1af0bd16e67cc0d8e7b249d6b00c151",
+        balance: "9396561943612444639232",
+      },
+    ],
+  },
+  {
     fid: 272717,
     totalBalance: "9370582407581691543552",
     balances: [
       {
         address: "0x12789c79ad0499cd9b93ae56d402c4ce4840b270",
         balance: "9370582407581691543552",
+      },
+    ],
+  },
+  {
+    fid: 414383,
+    totalBalance: "9367238177766773953948",
+    balances: [
+      {
+        address: "0xbda96bf910fd8b3731ce567a78ad3eb439efe54c",
+        balance: "9367238177766773953948",
       },
     ],
   },
@@ -5966,6 +7238,16 @@ export const dummyHolders = [
       {
         address: "0xcb8a633c0c58cfeee1136599edb47f0e68a1b2b1",
         balance: "9342238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 472352,
+    totalBalance: "9339315634218289085545",
+    balances: [
+      {
+        address: "0xfb949be0be9b4e99e824b1f868e84891aee4ee6a",
+        balance: "9339315634218289085545",
       },
     ],
   },
@@ -6006,6 +7288,16 @@ export const dummyHolders = [
       {
         address: "0x6bf08768995e7430184a48e96940b83c15c1653f",
         balance: "9263238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 3652,
+    totalBalance: "9259759058348925888555",
+    balances: [
+      {
+        address: "0xbdddfb2ff21efcc00a2ca5a7d1fdc5798c98f07b",
+        balance: "9259759058348925888555",
       },
     ],
   },
@@ -6066,6 +7358,26 @@ export const dummyHolders = [
       {
         address: "0x5c70af3ddc7e815a40f2a09d22483e6e24eddf8e",
         balance: "9213238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 512534,
+    totalBalance: "9207000000000000000000",
+    balances: [
+      {
+        address: "0xf8eac1cb7deaab2cfc7c7d085168582cdd6470d4",
+        balance: "9207000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 11004,
+    totalBalance: "9202238177766773953948",
+    balances: [
+      {
+        address: "0x5b23c893ab99fa6d9ff3532d10a9019cae06383e",
+        balance: "9202238177766773953948",
       },
     ],
   },
@@ -6196,6 +7508,16 @@ export const dummyHolders = [
       {
         address: "0x579d5f73015014284245f0d6057f6c9b1596904b",
         balance: "9086238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 415225,
+    totalBalance: "9067238177766773953948",
+    balances: [
+      {
+        address: "0xee72c0525683093299a07c0444e00b17687d53a3",
+        balance: "9067238177766773953948",
       },
     ],
   },
@@ -6370,6 +7692,16 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 435843,
+    totalBalance: "8965238177766773953948",
+    balances: [
+      {
+        address: "0x90e0dd5b9698f236772bc358fba58bed849527cf",
+        balance: "8965238177766773953948",
+      },
+    ],
+  },
+  {
     fid: 296737,
     totalBalance: "8961238177766773953948",
     balances: [
@@ -6415,16 +7747,6 @@ export const dummyHolders = [
     balances: [
       {
         address: "0x049569adb8a1e8a9349e9f1111c7b7993a4612eb",
-        balance: "8959238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 4567,
-    totalBalance: "8959238177766773953948",
-    balances: [
-      {
-        address: "0xbf0d78ebe5e2c5a8ed9dbe42d539f5e8ea115d61",
         balance: "8959238177766773953948",
       },
     ],
@@ -6530,6 +7852,16 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 217834,
+    totalBalance: "8906238177766773953948",
+    balances: [
+      {
+        address: "0xd45b1f5bd0bab33e4f13bbd2c1c9522d5e69dcbf",
+        balance: "8906238177766773953948",
+      },
+    ],
+  },
+  {
     fid: 4973,
     totalBalance: "8901238177766773953948",
     balances: [
@@ -6570,16 +7902,6 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 281129,
-    totalBalance: "8884238177766773953948",
-    balances: [
-      {
-        address: "0xcfe48d201c7f98c4c548e05face458195afc3f45",
-        balance: "8884238177766773953948",
-      },
-    ],
-  },
-  {
     fid: 4895,
     totalBalance: "8882238177766773953948",
     balances: [
@@ -6600,22 +7922,22 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 503286,
+    totalBalance: "8870000000000000000000",
+    balances: [
+      {
+        address: "0x228313f87fb8a51de733058b5c502fdd9bc05865",
+        balance: "8870000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 2649,
     totalBalance: "8868238177766773953948",
     balances: [
       {
         address: "0xd0e370d498b98a2c19fbf22053ce1d93752fad46",
         balance: "8868238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 198629,
-    totalBalance: "8866238177766773953948",
-    balances: [
-      {
-        address: "0x58e2cabcd07cd3c1d443651c89d35846bef04d5e",
-        balance: "8866238177766773953948",
       },
     ],
   },
@@ -6750,12 +8072,22 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 527170,
+    fid: 7548,
     totalBalance: "8823238177766773953948",
     balances: [
       {
         address: "0x74d8967e812de34702ecd3d453a44bf37440b10b",
         balance: "8823238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 8850,
+    totalBalance: "8821685233372316565504",
+    balances: [
+      {
+        address: "0xad93602657dca36570118f88af69f4706b283476",
+        balance: "8821685233372316565504",
       },
     ],
   },
@@ -6890,16 +8222,6 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 3635,
-    totalBalance: "8797238177766773953948",
-    balances: [
-      {
-        address: "0xfecbbfec931a06c0cf7b008cf3c013457f610a22",
-        balance: "8797238177766773953948",
-      },
-    ],
-  },
-  {
     fid: 20388,
     totalBalance: "8796238177766773953948",
     balances: [
@@ -6956,16 +8278,6 @@ export const dummyHolders = [
       {
         address: "0x76963ee4c482fa4f9e125ea3c9cc2ea81fe8e8c6",
         balance: "8788238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 230238,
-    totalBalance: "8784238177766773953948",
-    balances: [
-      {
-        address: "0xd4bf6958538f26266ef2a32db47d296323734b5a",
-        balance: "8784238177766773953948",
       },
     ],
   },
@@ -7036,16 +8348,6 @@ export const dummyHolders = [
       {
         address: "0x8469b7b08d30c63fea3a248a198de9d634b63d70",
         balance: "8770238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 307705,
-    totalBalance: "8767238177766773953948",
-    balances: [
-      {
-        address: "0xbf6f895ee174e959efbad35ae9ee7807f37f9c03",
-        balance: "8767238177766773953948",
       },
     ],
   },
@@ -7290,16 +8592,6 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 250455,
-    totalBalance: "8712238177766773953948",
-    balances: [
-      {
-        address: "0x98ca6baf2eb6715f00c8f7453da8c81757311dd4",
-        balance: "8712238177766773953948",
-      },
-    ],
-  },
-  {
     fid: 247466,
     totalBalance: "8711238177766773953948",
     balances: [
@@ -7390,26 +8682,6 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 270168,
-    totalBalance: "8703238177766773953948",
-    balances: [
-      {
-        address: "0x652747cb44d5fc52799c3daea613c52625588ab5",
-        balance: "8703238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 11004,
-    totalBalance: "8702238177766773953948",
-    balances: [
-      {
-        address: "0x5b23c893ab99fa6d9ff3532d10a9019cae06383e",
-        balance: "8702238177766773953948",
-      },
-    ],
-  },
-  {
     fid: 946,
     totalBalance: "8698238177766773953948",
     balances: [
@@ -7456,26 +8728,6 @@ export const dummyHolders = [
       {
         address: "0xad5c39984149aa60663bbac47676f84192c04ca8",
         balance: "8691238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 17582,
-    totalBalance: "8687238177766773953948",
-    balances: [
-      {
-        address: "0x915c51a7a0399662e63c99e1faf351f668198de8",
-        balance: "8687238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 209586,
-    totalBalance: "8686238177766773953948",
-    balances: [
-      {
-        address: "0xd7b77b0a69308392ef13db63a412df391146d434",
-        balance: "8686238177766773953948",
       },
     ],
   },
@@ -8100,6 +9352,16 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 15441,
+    totalBalance: "8613833956257826848221",
+    balances: [
+      {
+        address: "0x33bbf6e27ce7b254e537bcb9f3b00cd1451563ea",
+        balance: "8613833956257826848221",
+      },
+    ],
+  },
+  {
     fid: 11299,
     totalBalance: "8612238177766773953948",
     balances: [
@@ -8156,16 +9418,6 @@ export const dummyHolders = [
       {
         address: "0x1a72451e54ea87d2552d2d75217001721bef3a10",
         balance: "8609238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 398480,
-    totalBalance: "8608238177766773953948",
-    balances: [
-      {
-        address: "0x03a13594f9741b0bd9cd65e5079020d489a3a7c0",
-        balance: "8608238177766773953948",
       },
     ],
   },
@@ -8305,16 +9557,6 @@ export const dummyHolders = [
     balances: [
       {
         address: "0xd9bfbc709da3e481e469af815265fbd1bc4ae31f",
-        balance: "8595238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 324915,
-    totalBalance: "8595238177766773953948",
-    balances: [
-      {
-        address: "0xfe825766ae68ab3780fa2ebdb64f84e68dd7dbc0",
         balance: "8595238177766773953948",
       },
     ],
@@ -8790,16 +10032,6 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 333772,
-    totalBalance: "8573238177766773953948",
-    balances: [
-      {
-        address: "0xa33bc5bf2d127b3083c4b76854fa8cf028c38105",
-        balance: "8573238177766773953948",
-      },
-    ],
-  },
-  {
     fid: 20402,
     totalBalance: "8572238177766773953948",
     balances: [
@@ -8865,16 +10097,6 @@ export const dummyHolders = [
     balances: [
       {
         address: "0x07a145dbbc7e425d0f1b3b9982f955e97abad7a2",
-        balance: "8571238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 408979,
-    totalBalance: "8571238177766773953948",
-    balances: [
-      {
-        address: "0x4bd682796a9e39d0937d6aea4d424cd9aace83f8",
         balance: "8571238177766773953948",
       },
     ],
@@ -9170,16 +10392,6 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 11360,
-    totalBalance: "8556238177766773953948",
-    balances: [
-      {
-        address: "0x49c4688912b50fb7b775fba7fe668e785b006049",
-        balance: "8556238177766773953948",
-      },
-    ],
-  },
-  {
     fid: 1656,
     totalBalance: "8555238177766773953948",
     balances: [
@@ -9250,16 +10462,6 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 342222,
-    totalBalance: "8553238177766773953948",
-    balances: [
-      {
-        address: "0x52ce3c6605ed169cba5425020a4bc8447550e612",
-        balance: "8553238177766773953948",
-      },
-    ],
-  },
-  {
     fid: 187737,
     totalBalance: "8553238177766773953948",
     balances: [
@@ -9295,16 +10497,6 @@ export const dummyHolders = [
     balances: [
       {
         address: "0xe01c54a0b4615a49a910cb8a26516c0c879a480f",
-        balance: "8550238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 375727,
-    totalBalance: "8550238177766773953948",
-    balances: [
-      {
-        address: "0xc1350a60fe9d88ec147b3e15d6ac0442526ef74c",
         balance: "8550238177766773953948",
       },
     ],
@@ -9880,22 +11072,22 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 1069,
+    totalBalance: "8530238177766773953948",
+    balances: [
+      {
+        address: "0x097f71d2abaf370e686fb3f3d773592d9b0031ed",
+        balance: "8530238177766773953948",
+      },
+    ],
+  },
+  {
     fid: 411104,
     totalBalance: "8530238177766773953948",
     balances: [
       {
         address: "0x736eb244650a90fc37c410482970538d321ab634",
         balance: "8530238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 401491,
-    totalBalance: "8529238177766773953948",
-    balances: [
-      {
-        address: "0xbad8ca0d3ef9e2b9d2a3149b707a879ebea2a0bd",
-        balance: "8529238177766773953948",
       },
     ],
   },
@@ -10650,16 +11842,6 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 407655,
-    totalBalance: "8510238177766773953948",
-    balances: [
-      {
-        address: "0xcf87ae07e961062e1269ecca91138196e455d5b4",
-        balance: "8510238177766773953948",
-      },
-    ],
-  },
-  {
     fid: 197007,
     totalBalance: "8510238177766773953948",
     balances: [
@@ -11120,16 +12302,6 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 414383,
-    totalBalance: "8501238177766773953948",
-    balances: [
-      {
-        address: "0xbda96bf910fd8b3731ce567a78ad3eb439efe54c",
-        balance: "8501238177766773953948",
-      },
-    ],
-  },
-  {
     fid: 345466,
     totalBalance: "8501238177766773953948",
     balances: [
@@ -11366,16 +12538,6 @@ export const dummyHolders = [
       {
         address: "0xa4cc6067b40e554ece60106d6890bc146fbde326",
         balance: "8497238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 15441,
-    totalBalance: "8496380896507519942109",
-    balances: [
-      {
-        address: "0x33bbf6e27ce7b254e537bcb9f3b00cd1451563ea",
-        balance: "8496380896507519942109",
       },
     ],
   },
@@ -12350,6 +13512,16 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 382891,
+    totalBalance: "8347315634218289085545",
+    balances: [
+      {
+        address: "0x8142b9a50a603ea0ed05c5d71e91e0fc41a6ef0b",
+        balance: "8347315634218289085545",
+      },
+    ],
+  },
+  {
     fid: 5515,
     totalBalance: "8333333333333333333333",
     balances: [
@@ -12366,6 +13538,26 @@ export const dummyHolders = [
       {
         address: "0xc1aebd6f0d37611d744b0ecd0865984fbcb4b4c4",
         balance: "8265252880939073033909",
+      },
+    ],
+  },
+  {
+    fid: 312305,
+    totalBalance: "8196039840637450199203",
+    balances: [
+      {
+        address: "0xaf614b479583c53221e323ee6264a5efda63601f",
+        balance: "8196039840637450199203",
+      },
+    ],
+  },
+  {
+    fid: 444766,
+    totalBalance: "8188000000000000000000",
+    balances: [
+      {
+        address: "0xc432e0fa125d8e019d00aff44c5d4f26d45dffba",
+        balance: "8188000000000000000000",
       },
     ],
   },
@@ -12390,42 +13582,62 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 280002,
-    totalBalance: "8056039840637450199203",
+    fid: 264194,
+    totalBalance: "8110000000000000000000",
     balances: [
       {
-        address: "0x3770fc866d3a9357eb17b0111973667838b73c34",
-        balance: "8056039840637450199203",
+        address: "0xda77b72781d9985bedba5064736da9138b2d6b8e",
+        balance: "8110000000000000000000",
       },
     ],
   },
   {
-    fid: 240835,
-    totalBalance: "8000238177766773953948",
+    fid: 262876,
+    totalBalance: "7894717713007444074199",
     balances: [
       {
-        address: "0xa9c4512042dfe48e8cdf653999a91519c85296e0",
-        balance: "8000238177766773953948",
+        address: "0x0ecf5262e5b864e1612875f8fc18f151315b5e91",
+        balance: "7894717713007444074199",
       },
     ],
   },
   {
-    fid: 321969,
-    totalBalance: "7729039840637450199203",
+    fid: 518129,
+    totalBalance: "7868000000000000000000",
     balances: [
       {
-        address: "0x7960f1b90b257bff29d5164d16bca4c8030b7f6d",
-        balance: "7729039840637450199203",
+        address: "0x788e1f6e7f599bd9130c2c0a14df5a08a2222476",
+        balance: "7868000000000000000000",
       },
     ],
   },
   {
-    fid: 275486,
-    totalBalance: "7697039840637450199203",
+    fid: 14351,
+    totalBalance: "7797000000000000000000",
     balances: [
       {
-        address: "0xcb6660a8e717f0b280a3b665e2d03a51d0cdb0d3",
-        balance: "7697039840637450199203",
+        address: "0x2eb468b1c02e6713770a0a71b95e9077a9f16651",
+        balance: "7797000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 381093,
+    totalBalance: "7717000000000000000000",
+    balances: [
+      {
+        address: "0x59ed4b96db0cf824b10e31eb477e174c08c6bdd5",
+        balance: "7717000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 652993,
+    totalBalance: "7700315634218289085545",
+    balances: [
+      {
+        address: "0xd3ff29796172e12e8e503bc62542ced4decd306e",
+        balance: "7700315634218289085545",
       },
     ],
   },
@@ -12440,12 +13652,32 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 17507,
-    totalBalance: "7564585853564646064128",
+    fid: 248111,
+    totalBalance: "7559000000000000000000",
     balances: [
       {
-        address: "0xcae4ccfe670f8c2a4999f9dfaf44625110fce9e5",
-        balance: "7564585853564646064128",
+        address: "0xbeb40eafd717ae1c6ac0414ba1631f46e2777795",
+        balance: "7559000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 410789,
+    totalBalance: "7555315634218289085545",
+    balances: [
+      {
+        address: "0x1f3fa1a72acc23bb2269a89b4a1363ee72a9d4bf",
+        balance: "7555315634218289085545",
+      },
+    ],
+  },
+  {
+    fid: 496668,
+    totalBalance: "7537000000000000000000",
+    balances: [
+      {
+        address: "0x3957a4bdc7aefaad3a09581db27cc12cc52194f0",
+        balance: "7537000000000000000000",
       },
     ],
   },
@@ -12470,16 +13702,6 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 397668,
-    totalBalance: "7500000000000000000000",
-    balances: [
-      {
-        address: "0xc698865c38ec12b475aa55764d447566dd54c758",
-        balance: "7500000000000000000000",
-      },
-    ],
-  },
-  {
     fid: 430105,
     totalBalance: "7452585413827988363267",
     balances: [
@@ -12490,32 +13712,52 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 8850,
-    totalBalance: "7428276396098429386752",
+    fid: 487640,
+    totalBalance: "7291000000000000000000",
     balances: [
       {
-        address: "0xad93602657dca36570118f88af69f4706b283476",
-        balance: "7428276396098429386752",
+        address: "0xde0ffa6c9e2cfdeb0289c73cccbfae9b450295f4",
+        balance: "7291000000000000000000",
       },
     ],
   },
   {
-    fid: 292506,
-    totalBalance: "7370377193842028914158",
+    fid: 482149,
+    totalBalance: "7145000000000000000000",
     balances: [
       {
-        address: "0xb3ae363c083d2fdb4580733dc805b28f66f29d1f",
-        balance: "7370377193842028914158",
+        address: "0x4d76a3e5a55f843ab7d4fb50e5ae194817720e6e",
+        balance: "7145000000000000000000",
       },
     ],
   },
   {
-    fid: 415225,
-    totalBalance: "7129238177766773953948",
+    fid: 419722,
+    totalBalance: "7057000000000000000000",
     balances: [
       {
-        address: "0xee72c0525683093299a07c0444e00b17687d53a3",
-        balance: "7129238177766773953948",
+        address: "0x4fd3bf4b285bcd30848327052abda467a16f9f48",
+        balance: "7057000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 4378,
+    totalBalance: "6976625747683507699712",
+    balances: [
+      {
+        address: "0x795050decc0322567c4f0098209d4edc5a69b9d0",
+        balance: "6976625747683507699712",
+      },
+    ],
+  },
+  {
+    fid: 265048,
+    totalBalance: "6902000000000000000000",
+    balances: [
+      {
+        address: "0x3f08a8029bca8aff2e9c0b828f2a3485c620a644",
+        balance: "6902000000000000000000",
       },
     ],
   },
@@ -12526,6 +13768,36 @@ export const dummyHolders = [
       {
         address: "0x3a0b21d02754d329b4a8f98b3f1fd90543222917",
         balance: "6803000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 423985,
+    totalBalance: "6765315634218289085545",
+    balances: [
+      {
+        address: "0x9a3ceb789f117df1471628bb074fcb8a5d64968a",
+        balance: "6765315634218289085545",
+      },
+    ],
+  },
+  {
+    fid: 309202,
+    totalBalance: "6755326125920400107813",
+    balances: [
+      {
+        address: "0x13257e056112d578414e5d291926c9d684d5d9ef",
+        balance: "6755326125920400107813",
+      },
+    ],
+  },
+  {
+    fid: 250772,
+    totalBalance: "6705000000000000000000",
+    balances: [
+      {
+        address: "0x00000274d208d797f3fa90ed734578079db51a69",
+        balance: "6705000000000000000000",
       },
     ],
   },
@@ -12550,16 +13822,6 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 309202,
-    totalBalance: "6554947782332073306405",
-    balances: [
-      {
-        address: "0x13257e056112d578414e5d291926c9d684d5d9ef",
-        balance: "6554947782332073306405",
-      },
-    ],
-  },
-  {
     fid: 211250,
     totalBalance: "6503238177766773953948",
     balances: [
@@ -12580,12 +13842,82 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 4378,
-    totalBalance: "6237336172879416284253",
+    fid: 434358,
+    totalBalance: "6455000000000000000000",
     balances: [
       {
-        address: "0x795050decc0322567c4f0098209d4edc5a69b9d0",
-        balance: "6237336172879416284253",
+        address: "0xdfe329c4acc81b46e9fc34bc789f17e5f02fb76a",
+        balance: "6455000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 348611,
+    totalBalance: "6451238177766773953948",
+    balances: [
+      {
+        address: "0x8298708a93c9a12d744852809b60ea0e4d32b1a1",
+        balance: "6451238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 316268,
+    totalBalance: "6446039840637450199203",
+    balances: [
+      {
+        address: "0xc17547cac2e3275b95730c3ca385ac47a6698c02",
+        balance: "6446039840637450199203",
+      },
+    ],
+  },
+  {
+    fid: 14260,
+    totalBalance: "6398000000000000000000",
+    balances: [
+      {
+        address: "0x1ed4a7446556ed14593e15cdba22b1bba158cf8c",
+        balance: "6398000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 5952,
+    totalBalance: "6383716824165058084864",
+    balances: [
+      {
+        address: "0x5a084aaef5eddd9195f28f6fe056785e01f210eb",
+        balance: "6383716824165058084864",
+      },
+    ],
+  },
+  {
+    fid: 426045,
+    totalBalance: "6337000000000000000000",
+    balances: [
+      {
+        address: "0x262d9290e5924bf587844fb522131fb62932bb5e",
+        balance: "6337000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 344203,
+    totalBalance: "6267000000000000000000",
+    balances: [
+      {
+        address: "0x8fe119c244edef526efc2739a2b2e56cd7aae80d",
+        balance: "6267000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 415745,
+    totalBalance: "6217315634218289085545",
+    balances: [
+      {
+        address: "0xd6c09962e907428112069273d5c0dc861e7b1c57",
+        balance: "6217315634218289085545",
       },
     ],
   },
@@ -12596,6 +13928,36 @@ export const dummyHolders = [
       {
         address: "0x6d8dec3fd68d94a7189a98346ea52b4d32e00012",
         balance: "6177927802399390798497",
+      },
+    ],
+  },
+  {
+    fid: 343358,
+    totalBalance: "6175315634218289085545",
+    balances: [
+      {
+        address: "0xb2ac2f80bf988a6670af324c503322f34bc5c7fd",
+        balance: "6175315634218289085545",
+      },
+    ],
+  },
+  {
+    fid: 469659,
+    totalBalance: "6170039840637450199203",
+    balances: [
+      {
+        address: "0x547e74307af43a1bc633761e36477899299a6a75",
+        balance: "6170039840637450199203",
+      },
+    ],
+  },
+  {
+    fid: 229682,
+    totalBalance: "6081587738711304162065",
+    balances: [
+      {
+        address: "0x6fb86d2e833fb71f6960b7520889b83f9e8a4230",
+        balance: "6081587738711304162065",
       },
     ],
   },
@@ -12630,12 +13992,32 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 13696,
-    totalBalance: "5925039840637450199203",
+    fid: 480683,
+    totalBalance: "5982761348595201474560",
     balances: [
       {
-        address: "0x82a37593514485dc2a0add90b858db01902849a8",
-        balance: "5925039840637450199203",
+        address: "0xdf9134f23f39519cb8e5af048873facfb0154080",
+        balance: "5982761348595201474560",
+      },
+    ],
+  },
+  {
+    fid: 269775,
+    totalBalance: "5973000000000000000000",
+    balances: [
+      {
+        address: "0xeb0836820d6efd24f3d7ca317c3408d215cb6d0e",
+        balance: "5973000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 414258,
+    totalBalance: "5941039840637450199203",
+    balances: [
+      {
+        address: "0xcda919f602b54d975e7e7a2d6d95911a56a4180c",
+        balance: "5941039840637450199203",
       },
     ],
   },
@@ -12650,12 +14032,22 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 229682,
-    totalBalance: "5843587738711304162065",
+    fid: 424658,
+    totalBalance: "5783000000000000000000",
     balances: [
       {
-        address: "0x6fb86d2e833fb71f6960b7520889b83f9e8a4230",
-        balance: "5843587738711304162065",
+        address: "0xb6fba009c0dc55f4ad3b2109000f64862db293ab",
+        balance: "5783000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 388401,
+    totalBalance: "5735039840637450199203",
+    balances: [
+      {
+        address: "0x3d4b58964ed615a2622e7e0eb66013b395718c98",
+        balance: "5735039840637450199203",
       },
     ],
   },
@@ -12666,6 +14058,26 @@ export const dummyHolders = [
       {
         address: "0x008555414b8c487a33bba91a6165f3f39630f2bb",
         balance: "5718000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 235686,
+    totalBalance: "5715039840637450199203",
+    balances: [
+      {
+        address: "0x34c4358458d890c8652f339a55cdea3034df879f",
+        balance: "5715039840637450199203",
+      },
+    ],
+  },
+  {
+    fid: 431336,
+    totalBalance: "5690000000000000000000",
+    balances: [
+      {
+        address: "0x465eba94ec620c73ea74cbffff1c180d7c676e96",
+        balance: "5690000000000000000000",
       },
     ],
   },
@@ -12720,12 +14132,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 5952,
-    totalBalance: "5561274779333976653824",
+    fid: 478791,
+    totalBalance: "5561000000000000000000",
     balances: [
       {
-        address: "0x5a084aaef5eddd9195f28f6fe056785e01f210eb",
-        balance: "5561274779333976653824",
+        address: "0x7add4d977a701a83a51a3d6101fd72e54d6ea6b6",
+        balance: "5561000000000000000000",
       },
     ],
   },
@@ -12740,32 +14152,32 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 12756,
-    totalBalance: "5510039840637450199203",
-    balances: [
-      {
-        address: "0x3ac61447a75149ba67639100ecc92c76fb20941c",
-        balance: "5510039840637450199203",
-      },
-    ],
-  },
-  {
-    fid: 379089,
-    totalBalance: "5504039840637450199203",
-    balances: [
-      {
-        address: "0xa6e5411a621a00d5195bb55d736505f4a5e7c289",
-        balance: "5504039840637450199203",
-      },
-    ],
-  },
-  {
     fid: 326147,
     totalBalance: "5481039840637450199203",
     balances: [
       {
         address: "0xc672f0fa5ebdc8bc4877f53f232a98e87fcd6416",
         balance: "5481039840637450199203",
+      },
+    ],
+  },
+  {
+    fid: 422003,
+    totalBalance: "5463000000000000000000",
+    balances: [
+      {
+        address: "0x843953c8133e12ac7c6eca155a94758ede30a202",
+        balance: "5463000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 349986,
+    totalBalance: "5445000000000000000000",
+    balances: [
+      {
+        address: "0x323265b92ad96acb96c5a1f9c7d4b6139e7bc679",
+        balance: "5445000000000000000000",
       },
     ],
   },
@@ -12780,16 +14192,32 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 355566,
-    totalBalance: "5144238177766773953948",
+    fid: 420540,
+    totalBalance: "5256000000000000000000",
     balances: [
       {
-        address: "0x688f1d8b0c59e9716d3512a0cbf32cda837544dc",
-        balance: "3144000000000000000000",
+        address: "0xadd446769d566c5fc57e6a045fd325920938c41d",
+        balance: "5256000000000000000000",
       },
+    ],
+  },
+  {
+    fid: 246847,
+    totalBalance: "5255000000000000000000",
+    balances: [
       {
-        address: "0x0d3c16f2d152373539610da87d231f4d78f73a35",
-        balance: "2000238177766773953948",
+        address: "0xa7d90dab198886529c97afdb77007a0eb28a185a",
+        balance: "5255000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 426167,
+    totalBalance: "5220000000000000000000",
+    balances: [
+      {
+        address: "0x59479108adfd232aa3f2af184639fa0e08f24dde",
+        balance: "5220000000000000000000",
       },
     ],
   },
@@ -12804,6 +14232,16 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 412192,
+    totalBalance: "5095000000000000000000",
+    balances: [
+      {
+        address: "0xc35bc219db73ab6b9578f48152dfb86ac0585c35",
+        balance: "5095000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 218952,
     totalBalance: "5092888962723809720206",
     balances: [
@@ -12814,22 +14252,22 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 427838,
-    totalBalance: "5078450078992050421760",
+    fid: 445127,
+    totalBalance: "5071000000000000000000",
     balances: [
       {
-        address: "0xb38821ede1af0bd16e67cc0d8e7b249d6b00c151",
-        balance: "5078450078992050421760",
+        address: "0xe895eb79ff949f4ee735c0a98aa131fdd4820ecc",
+        balance: "5071000000000000000000",
       },
     ],
   },
   {
-    fid: 466926,
-    totalBalance: "5060413017769561037442",
+    fid: 426178,
+    totalBalance: "5041000000000000000000",
     balances: [
       {
-        address: "0xd17cc500ada9c61384f21cbaf9e6429ff4f1a844",
-        balance: "5060413017769561037442",
+        address: "0x8382abe3d32d56538a918282b1fe432bc318d459",
+        balance: "5041000000000000000000",
       },
     ],
   },
@@ -12884,6 +14322,26 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 446004,
+    totalBalance: "4945026305716365020316",
+    balances: [
+      {
+        address: "0xc934bfe130c02ba3d2d0dfe4fe606a2097e8f058",
+        balance: "4945026305716365020316",
+      },
+    ],
+  },
+  {
+    fid: 15417,
+    totalBalance: "4927000000000000000000",
+    balances: [
+      {
+        address: "0x9d3f36be8462ff2468b9fbb2b44e52d49f1ec792",
+        balance: "4927000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 469501,
     totalBalance: "4893039840637450199203",
     balances: [
@@ -12934,12 +14392,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 246823,
-    totalBalance: "4798039840637450199203",
+    fid: 4877,
+    totalBalance: "4794973714920219607040",
     balances: [
       {
-        address: "0x29b4e928cfd2221d7840d4644978651be8751a47",
-        balance: "4798039840637450199203",
+        address: "0x5f8b9b4541ecef965424f1db923806aad626add2",
+        balance: "4794973714920219607040",
       },
     ],
   },
@@ -12950,6 +14408,16 @@ export const dummyHolders = [
       {
         address: "0xf58d4bcf9bf4d30334dfed66d5d4db63147979b1",
         balance: "4782039840637450199203",
+      },
+    ],
+  },
+  {
+    fid: 398480,
+    totalBalance: "4781238177766773953948",
+    balances: [
+      {
+        address: "0x03a13594f9741b0bd9cd65e5079020d489a3a7c0",
+        balance: "4781238177766773953948",
       },
     ],
   },
@@ -12970,6 +14438,16 @@ export const dummyHolders = [
       {
         address: "0x18ebba24521acddd4fb545fdde433990bb1d9e1b",
         balance: "4765039840637450199203",
+      },
+    ],
+  },
+  {
+    fid: 263750,
+    totalBalance: "4753000000000000000000",
+    balances: [
+      {
+        address: "0xb8ad671479618b7e204b82c16d7d4aa675c71ca6",
+        balance: "4753000000000000000000",
       },
     ],
   },
@@ -13004,12 +14482,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 470886,
-    totalBalance: "4668039840637450199203",
+    fid: 387008,
+    totalBalance: "4695000000000000000000",
     balances: [
       {
-        address: "0x54b154d4fb3750c22b3c4062e9c588ad147e2ce4",
-        balance: "4668039840637450199203",
+        address: "0xae5a04c25531949edc6fc3e650efec82c1ba773a",
+        balance: "4695000000000000000000",
       },
     ],
   },
@@ -13044,6 +14522,16 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 335503,
+    totalBalance: "4653000000000000000000",
+    balances: [
+      {
+        address: "0x45c482f3ebfbfc08dac537217db4b1332d66582b",
+        balance: "4653000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 356039,
     totalBalance: "4646039840637450199203",
     balances: [
@@ -13064,22 +14552,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 414258,
-    totalBalance: "4626039840637450199203",
+    fid: 3827,
+    totalBalance: "4640000000000000000000",
     balances: [
       {
-        address: "0xcda919f602b54d975e7e7a2d6d95911a56a4180c",
-        balance: "4626039840637450199203",
-      },
-    ],
-  },
-  {
-    fid: 439799,
-    totalBalance: "4626039840637450199203",
-    balances: [
-      {
-        address: "0x008d0e083e67a453cb300386d7cf5d52ba813d7d",
-        balance: "4626039840637450199203",
+        address: "0x2ee0485f71764bcd2062a84d9455688c581b90f8",
+        balance: "4640000000000000000000",
       },
     ],
   },
@@ -13100,16 +14578,6 @@ export const dummyHolders = [
       {
         address: "0x61da82d341141dbafc8b536eedb23e7d83496c7c",
         balance: "4613607177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 349340,
-    totalBalance: "4608039840637450199203",
-    balances: [
-      {
-        address: "0x963d3c06f87cf9c301b20ee350f19836869755a8",
-        balance: "4608039840637450199203",
       },
     ],
   },
@@ -13144,32 +14612,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 445793,
-    totalBalance: "4575039840637450199203",
-    balances: [
-      {
-        address: "0xa6bc44a89510ceabface881a74b5b57df879da05",
-        balance: "4575039840637450199203",
-      },
-    ],
-  },
-  {
     fid: 353665,
     totalBalance: "4572039840637450199203",
     balances: [
       {
         address: "0x4124a6fdc257d3135d86db375393cc44eadefbfb",
         balance: "4572039840637450199203",
-      },
-    ],
-  },
-  {
-    fid: 451952,
-    totalBalance: "4570594863492914729747",
-    balances: [
-      {
-        address: "0x822fdf8db5ce69d8c2e2a644523cc8b3f51e9dd1",
-        balance: "4570594863492914729747",
       },
     ],
   },
@@ -13194,16 +14642,6 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 469659,
-    totalBalance: "4565039840637450199203",
-    balances: [
-      {
-        address: "0x547e74307af43a1bc633761e36477899299a6a75",
-        balance: "4565039840637450199203",
-      },
-    ],
-  },
-  {
     fid: 1050,
     totalBalance: "4551929137566587469051",
     balances: [
@@ -13220,16 +14658,6 @@ export const dummyHolders = [
       {
         address: "0x68856c1fb2525e65bfb3f945e2041e24ea373c21",
         balance: "4549238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 446004,
-    totalBalance: "4546039840637450199203",
-    balances: [
-      {
-        address: "0xc934bfe130c02ba3d2d0dfe4fe606a2097e8f058",
-        balance: "4546039840637450199203",
       },
     ],
   },
@@ -13294,12 +14722,22 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 318447,
-    totalBalance: "4487960797066940363368",
+    fid: 330471,
+    totalBalance: "4465000000000000000000",
     balances: [
       {
-        address: "0x91942026918fd219c6b62f739c4dab80dd6673b6",
-        balance: "4487960797066940363368",
+        address: "0x8e47f230c4240138ea7e7d71b0cc18224b40cd43",
+        balance: "4465000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 505633,
+    totalBalance: "4460000000000000000000",
+    balances: [
+      {
+        address: "0x6aa13addb4d628ec5531f0cbe9de605ff76a43aa",
+        balance: "4460000000000000000000",
       },
     ],
   },
@@ -13314,12 +14752,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 3652,
-    totalBalance: "4337759058348925888555",
+    fid: 401879,
+    totalBalance: "4380000000000000000000",
     balances: [
       {
-        address: "0xbdddfb2ff21efcc00a2ca5a7d1fdc5798c98f07b",
-        balance: "4337759058348925888555",
+        address: "0x82aa36b0ad351c8803cb7cffcd369fe9801885a2",
+        balance: "4380000000000000000000",
       },
     ],
   },
@@ -13330,16 +14768,6 @@ export const dummyHolders = [
       {
         address: "0x98f1bda2d45ffaca73fcf2154e9e007871e14934",
         balance: "4314238177766773953948",
-      },
-    ],
-  },
-  {
-    fid: 262876,
-    totalBalance: "4280238177766773953948",
-    balances: [
-      {
-        address: "0x0ecf5262e5b864e1612875f8fc18f151315b5e91",
-        balance: "4280238177766773953948",
       },
     ],
   },
@@ -13364,12 +14792,22 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 4877,
-    totalBalance: "4178504708703504039936",
+    fid: 254449,
+    totalBalance: "4220855783984144580608",
     balances: [
       {
-        address: "0x5f8b9b4541ecef965424f1db923806aad626add2",
-        balance: "4178504708703504039936",
+        address: "0x18ebcbbd06be17ade6198b68d3e1cf2abe9d7adb",
+        balance: "4220855783984144580608",
+      },
+    ],
+  },
+  {
+    fid: 285604,
+    totalBalance: "4205000000000000000000",
+    balances: [
+      {
+        address: "0xb87f0856a16033ef36298a5f2f8d0649c0802fd4",
+        balance: "4205000000000000000000",
       },
     ],
   },
@@ -13384,12 +14822,32 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 513267,
+    totalBalance: "4147386587249560256512",
+    balances: [
+      {
+        address: "0xac543418e27ebc5fab61dfc1ecec4bfd728bd154",
+        balance: "4147386587249560256512",
+      },
+    ],
+  },
+  {
     fid: 285171,
     totalBalance: "4102379559105180878522",
     balances: [
       {
         address: "0xc78c5e5ff84d4b3bb09dee016216e0c194e7105b",
         balance: "4102379559105180878522",
+      },
+    ],
+  },
+  {
+    fid: 411955,
+    totalBalance: "4095005721250389085485",
+    balances: [
+      {
+        address: "0x0775761f6c00691bdc6a996eecdf9b78e394ab9c",
+        balance: "4095005721250389085485",
       },
     ],
   },
@@ -13404,12 +14862,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 239933,
-    totalBalance: "4077238177766773953948",
+    fid: 14836,
+    totalBalance: "4070000000000000000000",
     balances: [
       {
-        address: "0x6de24695bf9946e4a866a81d21ef5b74af4db06b",
-        balance: "4077238177766773953948",
+        address: "0x1f2a9082a7692ad4f1049b573313c52e49400137",
+        balance: "4070000000000000000000",
       },
     ],
   },
@@ -13424,12 +14882,32 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 11778,
+    totalBalance: "4047946884776023598128",
+    balances: [
+      {
+        address: "0x6c965b656c450259a6d4d95a2e68fb4319eecbc0",
+        balance: "4047946884776023598128",
+      },
+    ],
+  },
+  {
     fid: 242582,
     totalBalance: "4005238177766773953948",
     balances: [
       {
         address: "0x067e95ca18d1bfb75a12ca92cbc72cb142272052",
         balance: "4005238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 631749,
+    totalBalance: "4004000000000000000000",
+    balances: [
+      {
+        address: "0x75afacac743769c517726064722737d75bb501e4",
+        balance: "4004000000000000000000",
       },
     ],
   },
@@ -13464,42 +14942,82 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 409059,
-    totalBalance: "3999999826988181198764",
+    fid: 416398,
+    totalBalance: "3995000000000000000000",
     balances: [
       {
-        address: "0x3b073a8d0ce0589eef40dd5015a27526260b2c38",
-        balance: "3999999826988181198764",
+        address: "0xce266fe58cf589735db06212949170a471798d9c",
+        balance: "3995000000000000000000",
       },
     ],
   },
   {
-    fid: 308410,
-    totalBalance: "3787238177766773953947",
+    fid: 406668,
+    totalBalance: "3952000000000000000000",
     balances: [
       {
-        address: "0xa2fb6967a323cef8b481e88b39539fbc22d61e09",
-        balance: "3787238177766773953947",
+        address: "0x35555becd27773e85d685f642b8357d6d53bc3af",
+        balance: "3952000000000000000000",
       },
     ],
   },
   {
-    fid: 254449,
-    totalBalance: "3677064548010727309312",
+    fid: 482872,
+    totalBalance: "3948000000000000000000",
     balances: [
       {
-        address: "0x18ebcbbd06be17ade6198b68d3e1cf2abe9d7adb",
-        balance: "3677064548010727309312",
+        address: "0xddf9aedc737d396f6463c6af8460cfc87c246a8b",
+        balance: "3948000000000000000000",
       },
     ],
   },
   {
-    fid: 462167,
-    totalBalance: "3599538375781721757453",
+    fid: 446697,
+    totalBalance: "3858890860279890459057",
     balances: [
       {
-        address: "0x3a9be2560d36977db76adbf123b9c259e133b13f",
-        balance: "3599538375781721757453",
+        address: "0x764e427020ad72624075c61260192c6e486d15a5",
+        balance: "3858890860279890459057",
+      },
+    ],
+  },
+  {
+    fid: 483188,
+    totalBalance: "3724000000000000000000",
+    balances: [
+      {
+        address: "0x8e244e89b3589f798424d5ed6c6b7397a9aa0688",
+        balance: "3724000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 354815,
+    totalBalance: "3709000000000000000000",
+    balances: [
+      {
+        address: "0x577fcb8702f4681b30bd99d7ea0e28da7f00e0c5",
+        balance: "3709000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 420304,
+    totalBalance: "3699838079738294815996",
+    balances: [
+      {
+        address: "0xda054b75d48e05ef7b6507bd2552e431dc0ce06d",
+        balance: "3699838079738294815996",
+      },
+    ],
+  },
+  {
+    fid: 471160,
+    totalBalance: "3677000000000000000000",
+    balances: [
+      {
+        address: "0x1bae19af613bd5db94baf043d5817e16a53a4c33",
+        balance: "3677000000000000000000",
       },
     ],
   },
@@ -13520,6 +15038,46 @@ export const dummyHolders = [
       {
         address: "0xc0f2749b6039e9ffad49d1ec36f454fa1d2458cf",
         balance: "3500000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 380913,
+    totalBalance: "3499000000000000000000",
+    balances: [
+      {
+        address: "0xb28ae742d1bbbde1a60b824dbfcb1ed4458db90a",
+        balance: "3499000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 419754,
+    totalBalance: "3475000000000000000000",
+    balances: [
+      {
+        address: "0x4fbb601d44d9f6368130bf2cc7148eb7c271088f",
+        balance: "3475000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 650532,
+    totalBalance: "3420000000000000000000",
+    balances: [
+      {
+        address: "0xa452ac86bb083e4c3112a0248056a8c6bb393d72",
+        balance: "3420000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 390242,
+    totalBalance: "3379000000000000000000",
+    balances: [
+      {
+        address: "0x36b2310e0ab8a149e3f4b1d87a644869aba3bfd9",
+        balance: "3379000000000000000000",
       },
     ],
   },
@@ -13554,12 +15112,72 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 303249,
+    totalBalance: "3357000000000000000000",
+    balances: [
+      {
+        address: "0x7c918c99b279c8ecfa5b4c61c92c8fc1698509c7",
+        balance: "3357000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 5787,
+    totalBalance: "3356000000000000000000",
+    balances: [
+      {
+        address: "0xba8e220834c32fac376bbfb33820c001f022d72e",
+        balance: "3356000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 401859,
     totalBalance: "3340000000000000000000",
     balances: [
       {
         address: "0xc90f44cbc3a8eeb198c564245eb2b853090039f3",
         balance: "3340000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 250739,
+    totalBalance: "3337000000000000000000",
+    balances: [
+      {
+        address: "0xe7d28301d9c0a5d8a6c47eee5b36878e708c9011",
+        balance: "3337000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 323555,
+    totalBalance: "3282000000000000000000",
+    balances: [
+      {
+        address: "0x54e5d8b4d06d5a8e73e3d6203cb8a63e8dc9294b",
+        balance: "3282000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 294370,
+    totalBalance: "3155000000000000000000",
+    balances: [
+      {
+        address: "0x1cad695af5639c5657bff199b875352adf682dbc",
+        balance: "3155000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 468120,
+    totalBalance: "3112000000000000000000",
+    balances: [
+      {
+        address: "0x648fcc555a9c9c64c39c7b3c2354b5458ce5d332",
+        balance: "3112000000000000000000",
       },
     ],
   },
@@ -13574,12 +15192,42 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 420304,
-    totalBalance: "3086838079738294815996",
+    fid: 444841,
+    totalBalance: "3103000000000000000000",
     balances: [
       {
-        address: "0xda054b75d48e05ef7b6507bd2552e431dc0ce06d",
-        balance: "3086838079738294815996",
+        address: "0x90907ce62328d9442042edf129109fc628e8b301",
+        balance: "3103000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 370263,
+    totalBalance: "3087000000000000000000",
+    balances: [
+      {
+        address: "0x4bf907a4c97c239061ebb642ae9c305373ae4791",
+        balance: "3087000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 463031,
+    totalBalance: "3082000000000000000000",
+    balances: [
+      {
+        address: "0x3edf30c673c343174bca57c67d36776a3f82848f",
+        balance: "3082000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 302926,
+    totalBalance: "3053356749452754297302",
+    balances: [
+      {
+        address: "0x7fdcd78669591bc6bf7a9e9925acd8ad55061fd8",
+        balance: "3053356749452754297302",
       },
     ],
   },
@@ -13594,12 +15242,32 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 265153,
-    totalBalance: "2917381449761231830189",
+    fid: 378176,
+    totalBalance: "2997000000000000000000",
     balances: [
       {
-        address: "0x7ab125904af75823858bdc7259a08b581999c0ae",
-        balance: "2917381449761231830189",
+        address: "0x598c91d70e16177defb34cba95c2f80f551a4ccb",
+        balance: "2997000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 460229,
+    totalBalance: "2973000000000000000000",
+    balances: [
+      {
+        address: "0x0dfbd9aa17bd6a7bbf5ddb2e1fe152bb7fda5c20",
+        balance: "2973000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 269515,
+    totalBalance: "2924000000000000000000",
+    balances: [
+      {
+        address: "0xeba9a4ea74691790bd5ecc28a1fe5f9b0b220ce0",
+        balance: "2924000000000000000000",
       },
     ],
   },
@@ -13614,62 +15282,112 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 199989,
-    totalBalance: "2857228093395076186746",
+    fid: 642075,
+    totalBalance: "2896000000000000000000",
     balances: [
       {
-        address: "0x54ad158eec82476d2f957924d714ec7abfc3aa47",
-        balance: "2857228093395076186746",
+        address: "0x732dac76e8fdc11663a1c07b0506f4efe4a2a5e1",
+        balance: "2896000000000000000000",
       },
     ],
   },
   {
-    fid: 409032,
-    totalBalance: "2832000000000000000000",
+    fid: 370409,
+    totalBalance: "2819462273392465718890",
     balances: [
       {
-        address: "0xaa7fab01446dc9c985e0624c8c3046ac3ef5285a",
-        balance: "2832000000000000000000",
-      },
-    ],
-  },
-  {
-    fid: 308045,
-    totalBalance: "2781920779733259639604",
-    balances: [
-      {
-        address: "0xbe646c8a9ceb3e1d5f44524bb931d72321e322ce",
-        balance: "2781920779733259639604",
+        address: "0xd8a8f314f33a35fef910eac188ef77296a9cdad5",
+        balance: "2819462273392465718890",
       },
     ],
   },
   {
     fid: 192490,
-    totalBalance: "2758174663098119085210",
+    totalBalance: "2774502836197220539546",
     balances: [
       {
         address: "0xf56e55e35d2cca5a34f5ba568454974424aea0f4",
-        balance: "2758174663098119085210",
+        balance: "2774502836197220539546",
       },
     ],
   },
   {
-    fid: 302926,
-    totalBalance: "2667335174138811130326",
+    fid: 393842,
+    totalBalance: "2749000000000000000000",
     balances: [
       {
-        address: "0x7fdcd78669591bc6bf7a9e9925acd8ad55061fd8",
-        balance: "2667335174138811130326",
+        address: "0x8d03343c95f408dfc53335380c2c702d483da333",
+        balance: "2749000000000000000000",
       },
     ],
   },
   {
-    fid: 480683,
-    totalBalance: "2620995170090079879168",
+    fid: 401818,
+    totalBalance: "2739000000000000000000",
     balances: [
       {
-        address: "0xdf9134f23f39519cb8e5af048873facfb0154080",
-        balance: "2620995170090079879168",
+        address: "0x3289ef61f776e9e389347d8e4f4be2f6494c7848",
+        balance: "2739000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 499373,
+    totalBalance: "2736000000000000000000",
+    balances: [
+      {
+        address: "0x7f8e1c6a9ba366198bd5be26759889c60a19158a",
+        balance: "2736000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 511496,
+    totalBalance: "2702000000000000000000",
+    balances: [
+      {
+        address: "0x1182a0dd0c8e62548fe86bd289e04c95beee686a",
+        balance: "2702000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 201299,
+    totalBalance: "2682000000000000000000",
+    balances: [
+      {
+        address: "0x9d62fbadf8dadbbadfa424b97132c14317f0ce9c",
+        balance: "2682000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 262222,
+    totalBalance: "2669000000000000000000",
+    balances: [
+      {
+        address: "0x64a15b1d2de581097cb48e5d82619203e24bb3e1",
+        balance: "2669000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 399012,
+    totalBalance: "2639238177766773953948",
+    balances: [
+      {
+        address: "0x3b007a4cd8df0ac8278b7796f501eb7b1252c340",
+        balance: "2639238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 483991,
+    totalBalance: "2620000000000000000000",
+    balances: [
+      {
+        address: "0x7bb761891a041065f8af5c70e1f9e0906b31f16c",
+        balance: "2620000000000000000000",
       },
     ],
   },
@@ -13680,6 +15398,16 @@ export const dummyHolders = [
       {
         address: "0xf05e38803ed2a70bbd540fa576df0643223e9632",
         balance: "2592704945668085758049",
+      },
+    ],
+  },
+  {
+    fid: 437433,
+    totalBalance: "2586000000000000000000",
+    balances: [
+      {
+        address: "0xb99e9fa67f5f1e2a04af9d63ec65a7f19440bae6",
+        balance: "2586000000000000000000",
       },
     ],
   },
@@ -13714,6 +15442,26 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 449748,
+    totalBalance: "2499000000000000000000",
+    balances: [
+      {
+        address: "0xdb67fa906f5c206c77fdace8a44bd61dd6b05d96",
+        balance: "2499000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 528914,
+    totalBalance: "2481000000000000000000",
+    balances: [
+      {
+        address: "0x42b79f4279edf1c404c664fcfbbc6fa3f1d803a9",
+        balance: "2481000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 226972,
     totalBalance: "2478588796667815788544",
     balances: [
@@ -13740,6 +15488,96 @@ export const dummyHolders = [
       {
         address: "0x012efd9feeaa8b7e1edf4af9f5fff4b1d9431a7d",
         balance: "2285381031035202112826",
+      },
+    ],
+  },
+  {
+    fid: 406881,
+    totalBalance: "2260000000000000000000",
+    balances: [
+      {
+        address: "0x903395c9e6fd4f94fbd706c85d397a5df219efa2",
+        balance: "2260000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 511655,
+    totalBalance: "2253000000000000000000",
+    balances: [
+      {
+        address: "0xac7491be41827e21e8a8a6581babd1e7f60fa22f",
+        balance: "2253000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 296050,
+    totalBalance: "2245000000000000000000",
+    balances: [
+      {
+        address: "0x68288a41b4ba864503860fc33648d787a5c34790",
+        balance: "2245000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 519844,
+    totalBalance: "2215000000000000000000",
+    balances: [
+      {
+        address: "0x3999dcdd2db288f442dcf4de0e900c63ce1a1bdd",
+        balance: "2215000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 454428,
+    totalBalance: "2210000000000000000000",
+    balances: [
+      {
+        address: "0x741e56c8311e30e938811963eaa97e4d8c0c6f53",
+        balance: "2210000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 327687,
+    totalBalance: "2209000000000000000000",
+    balances: [
+      {
+        address: "0xc83f5ac04da5f9b79ee71ebefb100d14bc2c5b76",
+        balance: "2209000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 359298,
+    totalBalance: "2195000000000000000000",
+    balances: [
+      {
+        address: "0x3addb670e8f242749779c16e0ecf1c4c99194627",
+        balance: "2195000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 394049,
+    totalBalance: "2177000000000000000000",
+    balances: [
+      {
+        address: "0x6eb6e110b902c101f9ebef428fad9a29c89664d8",
+        balance: "2177000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 236210,
+    totalBalance: "2175000000000000000000",
+    balances: [
+      {
+        address: "0x09da8f3ec58fc9694b4635fbc8c8b349c746e303",
+        balance: "2175000000000000000000",
       },
     ],
   },
@@ -13774,12 +15612,36 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 427349,
-    totalBalance: "2101948467318628958200",
+    fid: 300485,
+    totalBalance: "2119000000000000000000",
     balances: [
       {
-        address: "0xee2f0b52bd3bcbced0a3f1a9d91c1f54c1f5d036",
-        balance: "2101948467318628958200",
+        address: "0xfc559a9619bf03a55ba7a93b6479b3e9c24295ab",
+        balance: "2119000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 300986,
+    totalBalance: "2082000000000000000000",
+    balances: [
+      {
+        address: "0xbcfbd4e6d624452b0fdd39b37fb0dc42a35bcef1",
+        balance: "1582000000000000000000",
+      },
+      {
+        address: "0x570124a4f149724e8ea7e99beec4491fecb28c95",
+        balance: "500000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 211158,
+    totalBalance: "2060000000000000000000",
+    balances: [
+      {
+        address: "0x9c5092166500d01e463eb363c72bb0a96e41113c",
+        balance: "2060000000000000000000",
       },
     ],
   },
@@ -13790,6 +15652,56 @@ export const dummyHolders = [
       {
         address: "0xc07f2306a0dfd73d48b49fc59d6e157d88121c3b",
         balance: "2012902459622414658112",
+      },
+    ],
+  },
+  {
+    fid: 443245,
+    totalBalance: "2000000000000000000000",
+    balances: [
+      {
+        address: "0x8abdc026a8a00c2a03f1747d8fd8f6f4d440daee",
+        balance: "2000000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 292956,
+    totalBalance: "1960000000000000000000",
+    balances: [
+      {
+        address: "0x066fe3aadfa0aa8b97f444bcaac942d80286f278",
+        balance: "1960000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 360651,
+    totalBalance: "1957000000000000000000",
+    balances: [
+      {
+        address: "0xd88cc6064141f3f2a9c5c487efd62a809d5b353f",
+        balance: "1957000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 410043,
+    totalBalance: "1955800099026099765248",
+    balances: [
+      {
+        address: "0xeecd97c0b9261aa1a52c3f982d828229dfb2ad20",
+        balance: "1955800099026099765248",
+      },
+    ],
+  },
+  {
+    fid: 357545,
+    totalBalance: "1938000000000000000000",
+    balances: [
+      {
+        address: "0x24c4bc81a02d5aa25585c1912e1f5fb0ca6688a3",
+        balance: "1938000000000000000000",
       },
     ],
   },
@@ -13814,12 +15726,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 446697,
-    totalBalance: "1805579581928948118272",
+    fid: 344796,
+    totalBalance: "1815000000000000000000",
     balances: [
       {
-        address: "0x764e427020ad72624075c61260192c6e486d15a5",
-        balance: "1805579581928948118272",
+        address: "0x3f2f644a37924532d501a00dc4356ee376be2276",
+        balance: "1815000000000000000000",
       },
     ],
   },
@@ -13834,12 +15746,32 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 393610,
+    totalBalance: "1790000000000000000000",
+    balances: [
+      {
+        address: "0x3be0c7e94a946aa76e5fc0c20f7c542264a73d8c",
+        balance: "1790000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 7761,
     totalBalance: "1763658739749709953948",
     balances: [
       {
         address: "0xf28efd5f546e3c0669e4a049abee25fda18a4cf6",
         balance: "1763658739749709953948",
+      },
+    ],
+  },
+  {
+    fid: 451136,
+    totalBalance: "1735000000000000000000",
+    balances: [
+      {
+        address: "0x92fbd7c2e20f5e55bb0ad158f2661e32d628c315",
+        balance: "1735000000000000000000",
       },
     ],
   },
@@ -13854,12 +15786,92 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 410043,
-    totalBalance: "1703825853139301695488",
+    fid: 354760,
+    totalBalance: "1723000000000000000000",
     balances: [
       {
-        address: "0xeecd97c0b9261aa1a52c3f982d828229dfb2ad20",
-        balance: "1703825853139301695488",
+        address: "0xc5e8aca1589e70c0ce31d6e07238819f478dddce",
+        balance: "1723000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 338853,
+    totalBalance: "1699000000000000000000",
+    balances: [
+      {
+        address: "0x5b41cc4300003f383628c232a508e3d4c1da5038",
+        balance: "1699000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 258848,
+    totalBalance: "1674000000000000000000",
+    balances: [
+      {
+        address: "0x5c23ed6da75a583b579459e744f05a65cb51d8fd",
+        balance: "1674000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 595886,
+    totalBalance: "1602000000000000000000",
+    balances: [
+      {
+        address: "0xa410337448ad6cc73655b5ff6346ee29de44eb83",
+        balance: "1602000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 18471,
+    totalBalance: "1578000000000000000000",
+    balances: [
+      {
+        address: "0xaffb9ad129e2966e60701c32d4028fdf6ffc27f9",
+        balance: "1578000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 511753,
+    totalBalance: "1573000000000000000000",
+    balances: [
+      {
+        address: "0xac9976a40acb41a95ebde03b0cf8ab0bb63120be",
+        balance: "1573000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 628195,
+    totalBalance: "1529000000000000000000",
+    balances: [
+      {
+        address: "0x0bc10fc71c7bfd7d166b96b583134df10a8aaac3",
+        balance: "1529000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 211249,
+    totalBalance: "1527704216454695900165",
+    balances: [
+      {
+        address: "0x0deabda10f6aa947ab79b70ee2271272c9cabf7a",
+        balance: "1527704216454695900165",
+      },
+    ],
+  },
+  {
+    fid: 443870,
+    totalBalance: "1518000000000000000000",
+    balances: [
+      {
+        address: "0x992c8af7766d6b5439896414bee1241d73663594",
+        balance: "1518000000000000000000",
       },
     ],
   },
@@ -13874,12 +15886,42 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 191648,
-    totalBalance: "1446605715432965668864",
+    fid: 214025,
+    totalBalance: "1500000000000000000000",
     balances: [
       {
-        address: "0x6160f79afb844c875977b81f426b363890b7c4d7",
-        balance: "1446605715432965668864",
+        address: "0x30bec89100f144aad632153de93b58a32772cf58",
+        balance: "1500000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 479174,
+    totalBalance: "1496000000000000000000",
+    balances: [
+      {
+        address: "0x0c32f7759b0f9035a7cd74238abc398a7e90a23e",
+        balance: "1496000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 556868,
+    totalBalance: "1495000000000000000000",
+    balances: [
+      {
+        address: "0x0485d91b2ecaa47dda12d34bd7e564ec3ff4ae08",
+        balance: "1495000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 402010,
+    totalBalance: "1446000000000000000000",
+    balances: [
+      {
+        address: "0x29c9001104561089b199b55f677854ca10ce27b2",
+        balance: "1446000000000000000000",
       },
     ],
   },
@@ -13894,12 +15936,182 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 211249,
-    totalBalance: "1343150479571344577541",
+    fid: 379581,
+    totalBalance: "1427000000000000000000",
     balances: [
       {
-        address: "0x0deabda10f6aa947ab79b70ee2271272c9cabf7a",
-        balance: "1343150479571344577541",
+        address: "0x2f0607aa5d12743aef4e8c642b5d94374588558c",
+        balance: "1427000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 11587,
+    totalBalance: "1427000000000000000000",
+    balances: [
+      {
+        address: "0x2a259f94ede30a0499f1d83ff534026f6717f4f7",
+        balance: "1427000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 565125,
+    totalBalance: "1407000000000000000000",
+    balances: [
+      {
+        address: "0x4af457d8892737a72bcae723636448f70a527ebf",
+        balance: "1407000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 503541,
+    totalBalance: "1404000000000000000000",
+    balances: [
+      {
+        address: "0x0aecfbcd36b15dfb73d9ccaaeac1ebc3f8ace5a0",
+        balance: "1404000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 344029,
+    totalBalance: "1400000000000000000000",
+    balances: [
+      {
+        address: "0xb235940f122b44ae654a41188801dee48a5463bf",
+        balance: "1400000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 508644,
+    totalBalance: "1364000000000000000000",
+    balances: [
+      {
+        address: "0xe35957da898be77828ae329c468a73e8eb2a8beb",
+        balance: "1364000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 2946,
+    totalBalance: "1357579104656120610816",
+    balances: [
+      {
+        address: "0x7e3a74ab669d4c5f411940e97d1c29db3d39e950",
+        balance: "1357579104656120610816",
+      },
+    ],
+  },
+  {
+    fid: 425372,
+    totalBalance: "1354000000000000000000",
+    balances: [
+      {
+        address: "0xb0325f29c243cb8fd68ae5b872a54ddf3eb71b36",
+        balance: "1354000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 474644,
+    totalBalance: "1351000000000000000000",
+    balances: [
+      {
+        address: "0x6a2f6c4c10c8af0f0eee8eea8b7859c2a6000902",
+        balance: "1351000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 432789,
+    totalBalance: "1350000000000000000000",
+    balances: [
+      {
+        address: "0x94d27d601775ff0db45122be89d5512a62699094",
+        balance: "1350000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 482688,
+    totalBalance: "1348000000000000000000",
+    balances: [
+      {
+        address: "0xd1fddff7d0174ed5b5df04014c241a9c4ba68180",
+        balance: "1348000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 391632,
+    totalBalance: "1340000000000000000000",
+    balances: [
+      {
+        address: "0x2ce843b5300415a98902368ee120735b4ae122df",
+        balance: "1340000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 408038,
+    totalBalance: "1323000000000000000000",
+    balances: [
+      {
+        address: "0x95a08e89a93950ac00445f34548891a353089fd2",
+        balance: "1323000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 308045,
+    totalBalance: "1316920779733259639604",
+    balances: [
+      {
+        address: "0xbe646c8a9ceb3e1d5f44524bb931d72321e322ce",
+        balance: "1316920779733259639604",
+      },
+    ],
+  },
+  {
+    fid: 633100,
+    totalBalance: "1256000000000000000000",
+    balances: [
+      {
+        address: "0x62f9f31c06a61adc4d1df714d48859fb3004de4c",
+        balance: "1256000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 373248,
+    totalBalance: "1252000000000000000000",
+    balances: [
+      {
+        address: "0xe2906617c0fc9bad975dfd24eed826f00c1065e0",
+        balance: "1252000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 376177,
+    totalBalance: "1242000000000000000000",
+    balances: [
+      {
+        address: "0x675d882d6cdcdd8b2eaea95f21fbfc6916af89f8",
+        balance: "1242000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 403323,
+    totalBalance: "1235000000000000000000",
+    balances: [
+      {
+        address: "0x56c2cb50753a884ca449f59ec17958421cb6263d",
+        balance: "1235000000000000000000",
       },
     ],
   },
@@ -13914,12 +16126,22 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 2946,
-    totalBalance: "1182676275221896626176",
+    fid: 543988,
+    totalBalance: "1209000000000000000000",
     balances: [
       {
-        address: "0x7e3a74ab669d4c5f411940e97d1c29db3d39e950",
-        balance: "1182676275221896626176",
+        address: "0xfe5759fefc888d781a21c03a63d1ced6909840ab",
+        balance: "1209000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 421263,
+    totalBalance: "1207333333333333333333",
+    balances: [
+      {
+        address: "0x1f7df402de23b87499a6272c44344a5ac265f270",
+        balance: "1207333333333333333333",
       },
     ],
   },
@@ -13934,32 +16156,102 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 348611,
-    totalBalance: "1143238177766773953948",
+    fid: 11866,
+    totalBalance: "1163000000000000000000",
     balances: [
       {
-        address: "0x8298708a93c9a12d744852809b60ea0e4d32b1a1",
-        balance: "1143238177766773953948",
+        address: "0xd958bbefb7513b083a74962e49f759745f36b008",
+        balance: "1163000000000000000000",
       },
     ],
   },
   {
-    fid: 309567,
-    totalBalance: "1130238177766773953948",
+    fid: 509384,
+    totalBalance: "1157000000000000000000",
     balances: [
       {
-        address: "0x5a6a84fb9063af1d83d0ac4809697a40715a1530",
-        balance: "1130238177766773953948",
+        address: "0xb1f0f96de1f2a86588e562495b107eda90e8f363",
+        balance: "1157000000000000000000",
       },
     ],
   },
   {
-    fid: 268455,
-    totalBalance: "1102988701274197662693",
+    fid: 322937,
+    totalBalance: "1142000000000000000000",
     balances: [
       {
-        address: "0x3a7d19ba6534ab149f8fe95f832cff8d64a0321c",
-        balance: "1102988701274197662693",
+        address: "0x72b5a3fa0fd93487411084a43bf36fa4bfeeb928",
+        balance: "1142000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 409561,
+    totalBalance: "1141000000000000000000",
+    balances: [
+      {
+        address: "0x73726d9a79324888f7964d96171db1e0a7dc4266",
+        balance: "1141000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 262303,
+    totalBalance: "1135000000000000000000",
+    balances: [
+      {
+        address: "0x900ab1129a3b983f521a9fb6e248366b1409fb19",
+        balance: "1135000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 457245,
+    totalBalance: "1128000000000000000000",
+    balances: [
+      {
+        address: "0xc567dddf9fe14c8e4c771f06e949425273078492",
+        balance: "1128000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 444156,
+    totalBalance: "1124000000000000000000",
+    balances: [
+      {
+        address: "0x8e7f88a778ad33daf00dd112ae320f381e0f8083",
+        balance: "1124000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 404478,
+    totalBalance: "1123000000000000000000",
+    balances: [
+      {
+        address: "0x49e5be8fd0844b8577d20eeeee3f4b27e6547e8a",
+        balance: "1123000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 460892,
+    totalBalance: "1115000000000000000000",
+    balances: [
+      {
+        address: "0x57343bd52129cb496c22ae05c443fa5343022b2a",
+        balance: "1115000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 368278,
+    totalBalance: "1097968864551069024256",
+    balances: [
+      {
+        address: "0x22d02786f813a70c5699621810d0ea85efa07332",
+        balance: "1097968864551069024256",
       },
     ],
   },
@@ -13974,12 +16266,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 535389,
-    totalBalance: "1076682470838206913855",
+    fid: 13184,
+    totalBalance: "1089000000000000000000",
     balances: [
       {
-        address: "0xb2d39905d4acec5e4b759c15b5d4a302b99af5ef",
-        balance: "1076682470838206913855",
+        address: "0x2ba8d5034c84a9e38280ad6169ad7e02df0b6828",
+        balance: "1089000000000000000000",
       },
     ],
   },
@@ -13994,12 +16286,22 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 385571,
-    totalBalance: "1032039840637450199203",
+    fid: 395662,
+    totalBalance: "1054000000000000000000",
     balances: [
       {
-        address: "0x0152cdbb6200f88034debeeb0214d1cba85adaab",
-        balance: "1032039840637450199203",
+        address: "0xae8b569ed7fcf9a153cfe39ff5846092c8ae82c2",
+        balance: "1054000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 13030,
+    totalBalance: "1035000000000000000000",
+    balances: [
+      {
+        address: "0xfac50fd9eb90c1a7c0bc7b739eb90f1bda06e9d0",
+        balance: "1035000000000000000000",
       },
     ],
   },
@@ -14124,12 +16426,82 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 11778,
-    totalBalance: "947986357148991619072",
+    fid: 454819,
+    totalBalance: "964000000000000000000",
     balances: [
       {
-        address: "0x6c965b656c450259a6d4d95a2e68fb4319eecbc0",
-        balance: "947986357148991619072",
+        address: "0x466cf4f9bdf6ace5bc7c016eb9aaac5f951a3b2f",
+        balance: "964000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 440080,
+    totalBalance: "961000000000000000000",
+    balances: [
+      {
+        address: "0xafb0c3b0a2ab6da9eb81fc298f1bb42284729ca2",
+        balance: "961000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 665993,
+    totalBalance: "955260060214587999888",
+    balances: [
+      {
+        address: "0xfdcfe235ffeea047c7312de9935f03f4ed06736f",
+        balance: "955260060214587999888",
+      },
+    ],
+  },
+  {
+    fid: 326702,
+    totalBalance: "955000000000000000000",
+    balances: [
+      {
+        address: "0x10d503ffe3b10fc43285396de53d4df66a7a15e5",
+        balance: "955000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 422412,
+    totalBalance: "930000000000000000000",
+    balances: [
+      {
+        address: "0x8270e5cccb7e4cd47a49ce29ade9d39a5960d408",
+        balance: "930000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 397488,
+    totalBalance: "911000000000000000000",
+    balances: [
+      {
+        address: "0xe053c8056131ed122307cbe68084d8b5d223b9f2",
+        balance: "911000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 505620,
+    totalBalance: "907000000000000000000",
+    balances: [
+      {
+        address: "0x26a8193b5d8eeaa3cfe50d4085598c502dba7629",
+        balance: "907000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 394933,
+    totalBalance: "906000000000000000000",
+    balances: [
+      {
+        address: "0x3533980938df81199e8cb46e108ba6d680314b63",
+        balance: "906000000000000000000",
       },
     ],
   },
@@ -14154,12 +16526,32 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 289331,
+    totalBalance: "864000000000000000000",
+    balances: [
+      {
+        address: "0xb5e89146d72a73ca0c2bacd2061418847bfd7775",
+        balance: "864000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 9816,
     totalBalance: "851021849510846733418",
     balances: [
       {
         address: "0x8c8bfa1b4ba3b71838f2386aaeba8c5753963903",
         balance: "851021849510846733418",
+      },
+    ],
+  },
+  {
+    fid: 4840,
+    totalBalance: "850000000000000000000",
+    balances: [
+      {
+        address: "0xb13a55d8512aec4bf7b15067d733c4c3c68f2439",
+        balance: "850000000000000000000",
       },
     ],
   },
@@ -14194,12 +16586,82 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 511972,
+    totalBalance: "810000000000000000000",
+    balances: [
+      {
+        address: "0x6c0d1ed9dbcf23ef4af36d1ea621aa643cc31dc8",
+        balance: "810000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 315721,
+    totalBalance: "797000000000000000000",
+    balances: [
+      {
+        address: "0xc1b29f1862f61cd8a19e90d8b779fa22b00b129c",
+        balance: "797000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 375775,
+    totalBalance: "795000000000000000000",
+    balances: [
+      {
+        address: "0xa5eec3192042ab93afa4fe416afd66b17e6c0bac",
+        balance: "795000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 513129,
+    totalBalance: "779000000000000000000",
+    balances: [
+      {
+        address: "0x1557cdddfa654a794a51e3eca2d1910e06bb53b1",
+        balance: "779000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 322492,
     totalBalance: "760986285238195252822",
     balances: [
       {
         address: "0xf0f1a04a214efe01ac5e189e6d9f38cf5d98d84e",
         balance: "760986285238195252822",
+      },
+    ],
+  },
+  {
+    fid: 224759,
+    totalBalance: "758050253755624980480",
+    balances: [
+      {
+        address: "0x5258345926f1cdd53f36488f7626de51e69c8bbc",
+        balance: "758050253755624980480",
+      },
+    ],
+  },
+  {
+    fid: 14511,
+    totalBalance: "756000000000000000000",
+    balances: [
+      {
+        address: "0x13c39b3e6e6159bc233fad90825f1f9f84fcb102",
+        balance: "756000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 468087,
+    totalBalance: "756000000000000000000",
+    balances: [
+      {
+        address: "0x905169bc5bc5da0e3d6022e5b79c43bb82750d37",
+        balance: "756000000000000000000",
       },
     ],
   },
@@ -14214,12 +16676,42 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 343849,
+    totalBalance: "731000000000000000000",
+    balances: [
+      {
+        address: "0xad9f179e3383ad27f64a814b1ea07ff4785d9fe8",
+        balance: "731000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 455692,
     totalBalance: "724583757490173282333",
     balances: [
       {
         address: "0x33926ba342eef50bb9870b5fcbf92110f1e37f16",
         balance: "724583757490173282333",
+      },
+    ],
+  },
+  {
+    fid: 412582,
+    totalBalance: "720000000000000000000",
+    balances: [
+      {
+        address: "0x7fe238f7b760ecf6774a6cf650c662328f104fce",
+        balance: "720000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 502075,
+    totalBalance: "717000000000000000000",
+    balances: [
+      {
+        address: "0x969897a2c0983d7dedfd8c7d5503732fe35772ed",
+        balance: "717000000000000000000",
       },
     ],
   },
@@ -14234,12 +16726,92 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 430258,
+    totalBalance: "710000000000000000000",
+    balances: [
+      {
+        address: "0x6826ba168776251688d4e3a6c4ac430cf4f185a8",
+        balance: "710000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 468670,
+    totalBalance: "706000000000000000000",
+    balances: [
+      {
+        address: "0xbe914cade5189df9f49cf708f268e17b2b39f096",
+        balance: "706000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 438190,
+    totalBalance: "706000000000000000000",
+    balances: [
+      {
+        address: "0xcfdda69723fc8e9b86c0430e45b2de6ca1b2f51f",
+        balance: "706000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 381751,
+    totalBalance: "702000000000000000000",
+    balances: [
+      {
+        address: "0x40c967bd8f32dda34947d3cc0c094b4c1c52fc34",
+        balance: "702000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 13536,
+    totalBalance: "700000000000000000000",
+    balances: [
+      {
+        address: "0xaf090d3e78530b3c9a4ed035bbe09978b560d7ee",
+        balance: "700000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 248890,
     totalBalance: "699420699999999953948",
     balances: [
       {
         address: "0x683576dbad04c03f43f87d8941b17dd89521cdcc",
         balance: "699420699999999953948",
+      },
+    ],
+  },
+  {
+    fid: 407690,
+    totalBalance: "696000000000000000000",
+    balances: [
+      {
+        address: "0xee5ac4ca0ee655cd4b138512ded66c683ebd2f3e",
+        balance: "696000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 269991,
+    totalBalance: "685000000000000000000",
+    balances: [
+      {
+        address: "0x77c2f2073a9573f97de4f2a5269357bd86b6979c",
+        balance: "685000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 425901,
+    totalBalance: "673000000000000000000",
+    balances: [
+      {
+        address: "0xa7d3550db9ef30637fba35bacf8806627cc9eb8c",
+        balance: "673000000000000000000",
       },
     ],
   },
@@ -14254,6 +16826,46 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 277409,
+    totalBalance: "661000000000000000000",
+    balances: [
+      {
+        address: "0x199c417b48220f1dc6c9f65850998c6623868da8",
+        balance: "661000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 260299,
+    totalBalance: "650000000000000000000",
+    balances: [
+      {
+        address: "0x01b37edd07ea71eaf552b6ef1b8dcfbb328e1f39",
+        balance: "650000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 308399,
+    totalBalance: "650000000000000000000",
+    balances: [
+      {
+        address: "0x12d6874e2ed0bdc20d8dfaf0d9100efac16779dc",
+        balance: "650000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 195929,
+    totalBalance: "648000000000000000000",
+    balances: [
+      {
+        address: "0x8349de968a70b79d09886da1690cc259b67cbcbc",
+        balance: "648000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 387395,
     totalBalance: "646166059833822182583",
     balances: [
@@ -14264,12 +16876,52 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 379835,
+    totalBalance: "639000000000000000000",
+    balances: [
+      {
+        address: "0xeea90ac8c06c1d1b76c4332c12ceae927aad2e69",
+        balance: "639000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 298650,
     totalBalance: "626981343778728953948",
     balances: [
       {
         address: "0xdfe5e8fc16dd87a5e09dd3e58e31fad3081845c1",
         balance: "626981343778728953948",
+      },
+    ],
+  },
+  {
+    fid: 474528,
+    totalBalance: "619000000000000000000",
+    balances: [
+      {
+        address: "0xf7acf7f5d2faaeaa414050cd2a24b6a7faac2c64",
+        balance: "619000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 324790,
+    totalBalance: "615000000000000000000",
+    balances: [
+      {
+        address: "0x6aecf5c79c3d5cd028e2fd9c616ac5d2ac81f01d",
+        balance: "615000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 487070,
+    totalBalance: "615000000000000000000",
+    balances: [
+      {
+        address: "0x3d335600833f6d4075184ea5350a3f37f3b82ce1",
+        balance: "615000000000000000000",
       },
     ],
   },
@@ -14294,12 +16946,32 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 600113,
+    totalBalance: "588000000000000000000",
+    balances: [
+      {
+        address: "0xc8d6170774b61682a89681aa1dee0b67812c8fff",
+        balance: "588000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 383911,
     totalBalance: "574258914009073135630",
     balances: [
       {
         address: "0x9fefead7ff47b609161eb6b4a6b95e9549216732",
         balance: "574258914009073135630",
+      },
+    ],
+  },
+  {
+    fid: 316097,
+    totalBalance: "567000000000000000000",
+    balances: [
+      {
+        address: "0x6c1cbe8cfc32a74188a9d3bf364945ea53b01b04",
+        balance: "567000000000000000000",
       },
     ],
   },
@@ -14324,12 +16996,32 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 224759,
-    totalBalance: "554376840874245947392",
+    fid: 401987,
+    totalBalance: "557000000000000000000",
     balances: [
       {
-        address: "0x5258345926f1cdd53f36488f7626de51e69c8bbc",
-        balance: "554376840874245947392",
+        address: "0x5066e4a067a3e4ad984a962be83075709863b8ad",
+        balance: "557000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 533404,
+    totalBalance: "550000000000000000000",
+    balances: [
+      {
+        address: "0xa8f2559f8a690691321ce93a3b29eed6186daba9",
+        balance: "550000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 400135,
+    totalBalance: "547000000000000000000",
+    balances: [
+      {
+        address: "0x26ec21625d09697986db923d7181c1cdeabaa11a",
+        balance: "547000000000000000000",
       },
     ],
   },
@@ -14344,12 +17036,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 310953,
-    totalBalance: "542643062566773836220",
+    fid: 520630,
+    totalBalance: "543000000000000000000",
     balances: [
       {
-        address: "0x257000ab96627a7b431a0d81903ce6ead48c00da",
-        balance: "542643062566773836220",
+        address: "0xe42decfc5ee3ad5f45276e733ce5c00df51fd565",
+        balance: "543000000000000000000",
       },
     ],
   },
@@ -14364,12 +17056,42 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 435513,
+    totalBalance: "528000000000000000000",
+    balances: [
+      {
+        address: "0x4b27579cc89fe4ff4e36d81194e5688a3f2f2bd6",
+        balance: "528000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 675076,
+    totalBalance: "518000000000000000000",
+    balances: [
+      {
+        address: "0xbd726070271978172872ca015ad88a8eb32fbcdd",
+        balance: "518000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 403517,
     totalBalance: "510238177766773953948",
     balances: [
       {
         address: "0x658884c6be7a46cc14229c7646a57c9e049f4a6a",
         balance: "510238177766773953948",
+      },
+    ],
+  },
+  {
+    fid: 457283,
+    totalBalance: "503000000000000000000",
+    balances: [
+      {
+        address: "0x349f582d001528f0831cfc0f058adef0cfc2de38",
+        balance: "503000000000000000000",
       },
     ],
   },
@@ -14384,11 +17106,21 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 300986,
+    fid: 365049,
     totalBalance: "500000000000000000000",
     balances: [
       {
-        address: "0x570124a4f149724e8ea7e99beec4491fecb28c95",
+        address: "0xec3e4988729eba47a397261ef3a48ca4bdbdf736",
+        balance: "500000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 327209,
+    totalBalance: "500000000000000000000",
+    balances: [
+      {
+        address: "0xfbf7e572a63ca6a4e21a83720c0f23dd644e32e0",
         balance: "500000000000000000000",
       },
     ],
@@ -14404,6 +17136,26 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 297075,
+    totalBalance: "498000000000000000000",
+    balances: [
+      {
+        address: "0xc45c9f773c646ff6ce29ddff485ab23bc789c4b8",
+        balance: "498000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 523720,
+    totalBalance: "493000000000000000000",
+    balances: [
+      {
+        address: "0x97c77079530a75a0d85607c6dbe637e0b042929a",
+        balance: "493000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 263303,
     totalBalance: "487238177766773953948",
     balances: [
@@ -14414,11 +17166,121 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 398028,
+    fid: 357407,
+    totalBalance: "485000000000000000000",
+    balances: [
+      {
+        address: "0xc3cc572dcdadd0262b38226926b705f86faad56a",
+        balance: "485000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 508983,
+    totalBalance: "482000000000000000000",
+    balances: [
+      {
+        address: "0x41ea372f432c701c777c0b632649658728184762",
+        balance: "482000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 253744,
+    totalBalance: "467000000000000000000",
+    balances: [
+      {
+        address: "0x94db828f971919dff4097e0d8970329ca5b95c1f",
+        balance: "467000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 432964,
+    totalBalance: "465000000000000000000",
+    balances: [
+      {
+        address: "0x2d8b0abd7980c5c9d0cb5a008a3af690c1586509",
+        balance: "465000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 414708,
+    totalBalance: "452000000000000000000",
+    balances: [
+      {
+        address: "0x58085ddc6050825495060735b8a41999150879e2",
+        balance: "452000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 515439,
+    totalBalance: "447000000000000000000",
+    balances: [
+      {
+        address: "0xf34aecdb1c3fbb7fc283254fe18833e18822857d",
+        balance: "447000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 7212,
+    totalBalance: "444000000000000000000",
+    balances: [
+      {
+        address: "0xdd31db93082a3a71b98d37ba26230f8734bd63c3",
+        balance: "444000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 496444,
+    totalBalance: "431000000000000000000",
+    balances: [
+      {
+        address: "0x022a6193a170bea2eb7507fc77f6aa30a8881980",
+        balance: "431000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 485585,
+    totalBalance: "428000000000000000000",
+    balances: [
+      {
+        address: "0xafa3247ab6ec4d01ade507795a84f04030faae46",
+        balance: "428000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 399289,
+    totalBalance: "425000000000000000000",
+    balances: [
+      {
+        address: "0x5dfaee36108cbc75437305eb2b524f8923340287",
+        balance: "425000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 518889,
+    totalBalance: "422000000000000000000",
+    balances: [
+      {
+        address: "0x3aed68fd6f4c298ddecdb5dfcf265f7688987925",
+        balance: "422000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 400425,
     totalBalance: "420000000000000000000",
     balances: [
       {
-        address: "0x495e4f8c59f9b2df760f77c42f27ea514697bf73",
+        address: "0x649752ade9e65a013193fd56de8919250ce43105",
         balance: "420000000000000000000",
       },
     ],
@@ -14434,12 +17296,42 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 572717,
+    totalBalance: "403000000000000000000",
+    balances: [
+      {
+        address: "0x5f3378ca369cac04c824b4495e967359896e62d2",
+        balance: "403000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 15268,
+    totalBalance: "403000000000000000000",
+    balances: [
+      {
+        address: "0x0fc1e682f966e272599bcc53cf4f8622303aef0e",
+        balance: "403000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 233794,
     totalBalance: "402350610457787432238",
     balances: [
       {
         address: "0x024943485277e8d480c480a4b9c4565ff2310e4b",
         balance: "402350610457787432238",
+      },
+    ],
+  },
+  {
+    fid: 425866,
+    totalBalance: "396000000000000000000",
+    balances: [
+      {
+        address: "0x053735c6e364cd04c9826e8a90dcb363c68ab80a",
+        balance: "396000000000000000000",
       },
     ],
   },
@@ -14454,12 +17346,82 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 393452,
+    totalBalance: "386000000000000000000",
+    balances: [
+      {
+        address: "0x914be65af0295ab44c8c0b4041fe29e00135b045",
+        balance: "386000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 393198,
+    totalBalance: "381327135928377212928",
+    balances: [
+      {
+        address: "0x492f2a6deb1c7e298319d6fff72cfdde13b4cb55",
+        balance: "381327135928377212928",
+      },
+    ],
+  },
+  {
+    fid: 436951,
+    totalBalance: "373000000000000000000",
+    balances: [
+      {
+        address: "0x9b23e0537e5758a8e608d7062952d02509bef0e6",
+        balance: "373000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 404871,
+    totalBalance: "367000000000000000000",
+    balances: [
+      {
+        address: "0x9ad3bed8365d6a8ffb6529428901cbc74bc57d9b",
+        balance: "367000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 566351,
+    totalBalance: "364211149335036791823",
+    balances: [
+      {
+        address: "0xbdec7287c08c0c153f9843c4796d59e3bf7178e4",
+        balance: "364211149335036791823",
+      },
+    ],
+  },
+  {
     fid: 14150,
     totalBalance: "363485938712970940477",
     balances: [
       {
         address: "0x892b1b02f263485b96dbb3dffc14323dbe55f302",
         balance: "363485938712970940477",
+      },
+    ],
+  },
+  {
+    fid: 438444,
+    totalBalance: "360000000000000000000",
+    balances: [
+      {
+        address: "0x8f70cc0a8619510f952d9f8ee7a5a2fa25e66a99",
+        balance: "360000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 272572,
+    totalBalance: "359000000000000000000",
+    balances: [
+      {
+        address: "0x9412976973bea57d61278cf9d5fa8084071179c6",
+        balance: "359000000000000000000",
       },
     ],
   },
@@ -14484,22 +17446,52 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 388361,
-    totalBalance: "337117503683866138282",
+    fid: 429694,
+    totalBalance: "343000000000000000000",
     balances: [
       {
-        address: "0x2c9550f20ec955f06b5caf6fba7ca3be00b7d987",
-        balance: "337117503683866138282",
+        address: "0xf34e807e14ef6dd029d2b5aab992ca108c2e70ed",
+        balance: "343000000000000000000",
       },
     ],
   },
   {
-    fid: 393198,
-    totalBalance: "332199100011224367104",
+    fid: 397100,
+    totalBalance: "340000000000000000000",
     balances: [
       {
-        address: "0x492f2a6deb1c7e298319d6fff72cfdde13b4cb55",
-        balance: "332199100011224367104",
+        address: "0x3f3a25f1fd0c7f6f0b31679090fd3cf8cf8d81ee",
+        balance: "340000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 502510,
+    totalBalance: "334000000000000000000",
+    balances: [
+      {
+        address: "0x136280a6585c2fbf2da72fd2925ecb797f919fae",
+        balance: "334000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 237677,
+    totalBalance: "331000000000000000000",
+    balances: [
+      {
+        address: "0x25f89c7874a0bb3473afee0fa1d822f37aabc098",
+        balance: "331000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 354748,
+    totalBalance: "330000000000000000000",
+    balances: [
+      {
+        address: "0x51a5d13793b3482b001077c90c6ac7b00e6eb40f",
+        balance: "330000000000000000000",
       },
     ],
   },
@@ -14514,22 +17506,42 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 411955,
-    totalBalance: "321005721250389085485",
-    balances: [
-      {
-        address: "0x0775761f6c00691bdc6a996eecdf9b78e394ab9c",
-        balance: "321005721250389085485",
-      },
-    ],
-  },
-  {
     fid: 383695,
     totalBalance: "310220982492629353944",
     balances: [
       {
         address: "0xaf806997a51a29ad14905e322d81154ba81aaa04",
         balance: "310220982492629353944",
+      },
+    ],
+  },
+  {
+    fid: 307913,
+    totalBalance: "310000000000000000000",
+    balances: [
+      {
+        address: "0xc582eba6ef4da2d346312a1d5f16b25bd35699d6",
+        balance: "310000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 241141,
+    totalBalance: "310000000000000000000",
+    balances: [
+      {
+        address: "0xba86e23e64828781a43b71647cc2d2a32bfe8890",
+        balance: "310000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 521007,
+    totalBalance: "308000000000000000000",
+    balances: [
+      {
+        address: "0x74f241e1a79ac4e4fdcc287d74dbbca7669d299f",
+        balance: "308000000000000000000",
       },
     ],
   },
@@ -14544,6 +17556,56 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 410099,
+    totalBalance: "300000000000000000000",
+    balances: [
+      {
+        address: "0xacaf3e4c6bc6666fad6227c714bd323fd14c568d",
+        balance: "300000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 671554,
+    totalBalance: "300000000000000000000",
+    balances: [
+      {
+        address: "0x8f54cb6f55e3b524d80a6833a32843049281984f",
+        balance: "300000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 398667,
+    totalBalance: "300000000000000000000",
+    balances: [
+      {
+        address: "0x9938b6b6a6c005e752c0366be98fa5ca346052d8",
+        balance: "300000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 435984,
+    totalBalance: "291000000000000000000",
+    balances: [
+      {
+        address: "0x78ebad0138b089caecf62438ea4d0a6246a213dc",
+        balance: "291000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 327341,
+    totalBalance: "286000000000000000000",
+    balances: [
+      {
+        address: "0x133ca9a3f0fe9f2ef8de02f80d5c92e78b278b8a",
+        balance: "286000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 452624,
     totalBalance: "280730281465640966719",
     balances: [
@@ -14554,22 +17616,102 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 261355,
-    totalBalance: "279502919907430481169",
+    fid: 479088,
+    totalBalance: "271000000000000000000",
     balances: [
       {
-        address: "0xebf024f067f344cb60350516228255cae8ecce1d",
-        balance: "279502919907430481169",
+        address: "0xc6f267bfdacefc83393680b1d14be87d23bd7ad5",
+        balance: "271000000000000000000",
       },
     ],
   },
   {
-    fid: 380973,
-    totalBalance: "258992285401879732540",
+    fid: 514537,
+    totalBalance: "271000000000000000000",
     balances: [
       {
-        address: "0x4b48270cdca8e80a9e8a842cd5b9fbc3dd540aab",
-        balance: "258992285401879732540",
+        address: "0x02b1b4aa1311aec57e40aeb5adbb812dce62e53c",
+        balance: "271000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 669527,
+    totalBalance: "270000000000000000000",
+    balances: [
+      {
+        address: "0x2c68a1ffc15ffadd5c79ad2ce3b7f976a7127ce3",
+        balance: "270000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 542585,
+    totalBalance: "266000000000000000000",
+    balances: [
+      {
+        address: "0x0be028706dfdc5c2f584a007141580ca509be220",
+        balance: "266000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 512446,
+    totalBalance: "265000000000000000000",
+    balances: [
+      {
+        address: "0xc5a9dccb82ba9afe674e9308df61b47d05310e81",
+        balance: "265000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 520989,
+    totalBalance: "261000000000000000000",
+    balances: [
+      {
+        address: "0x0855895639c19c3dd7b17ab17d5c92da19062261",
+        balance: "261000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 469156,
+    totalBalance: "260000000000000000000",
+    balances: [
+      {
+        address: "0xa2982b96745ad2bf0a7533c0694055e50c8c4bd1",
+        balance: "260000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 371670,
+    totalBalance: "259000000000000000000",
+    balances: [
+      {
+        address: "0x4d5b14bf9cdaba4a7321b997ee5bcf673a8f2de9",
+        balance: "259000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 343434,
+    totalBalance: "258000000000000000000",
+    balances: [
+      {
+        address: "0x21dd27d022af7dbd6fcfbf0cb94dfdf6ace7aa86",
+        balance: "258000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 379149,
+    totalBalance: "257000000000000000000",
+    balances: [
+      {
+        address: "0x003c25ef1b172de248c86794870c68785947b97d",
+        balance: "257000000000000000000",
       },
     ],
   },
@@ -14584,12 +17726,132 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 400198,
+    totalBalance: "256000000000000000000",
+    balances: [
+      {
+        address: "0x10d29e2724bf47a667fd767e0cab3a4eceb77cc7",
+        balance: "256000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 470027,
+    totalBalance: "250000000000000000000",
+    balances: [
+      {
+        address: "0x0d3227b7384b80a0616807ec7ff4e66843cee426",
+        balance: "250000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 291789,
+    totalBalance: "250000000000000000000",
+    balances: [
+      {
+        address: "0x80b8e8228aed9bb9bc813726a0460955e8261921",
+        balance: "250000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 452317,
+    totalBalance: "250000000000000000000",
+    balances: [
+      {
+        address: "0xe247cc885dee3c92248b388638588ec4edbb5a53",
+        balance: "250000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 404804,
+    totalBalance: "249000000000000000000",
+    balances: [
+      {
+        address: "0x417f0ac59cf641f93db0681942654868ecf8d4b5",
+        balance: "249000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 415557,
+    totalBalance: "247000000000000000000",
+    balances: [
+      {
+        address: "0x88f2d4765c42447d900ba4220925efd85c8e6afb",
+        balance: "247000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 455119,
+    totalBalance: "238000000000000000000",
+    balances: [
+      {
+        address: "0x1549da3d2f9436e087db7a312a6b7d082e1e52c8",
+        balance: "238000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 345047,
+    totalBalance: "234000000000000000000",
+    balances: [
+      {
+        address: "0xdf4a612ebc3a4135d55b576bbb6b78543c8be261",
+        balance: "234000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 558172,
+    totalBalance: "231861800333208310192",
+    balances: [
+      {
+        address: "0x40d73dbd8621142c7e408260b79818c713d477cc",
+        balance: "231861800333208310192",
+      },
+    ],
+  },
+  {
+    fid: 379996,
+    totalBalance: "231000000000000000000",
+    balances: [
+      {
+        address: "0x0ee8e99f5ef8c7fd33b4aa1e0449328091d939d3",
+        balance: "231000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 508744,
+    totalBalance: "227000000000000000000",
+    balances: [
+      {
+        address: "0xaa09156dc6b875530b25bcb597417b8afe9f4b14",
+        balance: "227000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 536057,
     totalBalance: "226985099290902263127",
     balances: [
       {
         address: "0x9489a9c51a49318f4fa2572a62e64374dd063529",
         balance: "226985099290902263127",
+      },
+    ],
+  },
+  {
+    fid: 414670,
+    totalBalance: "222000000000000000000",
+    balances: [
+      {
+        address: "0xb142a1d58dcb24737a42a4165a7a9c7fde0225fa",
+        balance: "222000000000000000000",
       },
     ],
   },
@@ -14604,22 +17866,122 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 3827,
-    totalBalance: "164000000000000000000",
+    fid: 538074,
+    totalBalance: "211000000000000000000",
     balances: [
       {
-        address: "0x2ee0485f71764bcd2062a84d9455688c581b90f8",
-        balance: "164000000000000000000",
+        address: "0xc6c9b9c154d7053f14beca7483ab14a9ce279328",
+        balance: "211000000000000000000",
       },
     ],
   },
   {
-    fid: 214298,
-    totalBalance: "163458776238543015030",
+    fid: 435713,
+    totalBalance: "210000000000000000000",
     balances: [
       {
-        address: "0xcc64cde5f401404063066a8d63857b2354cb3d9c",
-        balance: "163458776238543015030",
+        address: "0x8d2102c4ee22b0082289d8e6e1a892310a21e366",
+        balance: "210000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 449264,
+    totalBalance: "200000000000000000000",
+    balances: [
+      {
+        address: "0x9d2ddcbd17c76cf8c096a80cdf2a946d420e90c6",
+        balance: "200000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 435071,
+    totalBalance: "200000000000000000000",
+    balances: [
+      {
+        address: "0x6be346bcdab1928db7f8b27cd02354f2e6f880dd",
+        balance: "200000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 442531,
+    totalBalance: "185000000000000000000",
+    balances: [
+      {
+        address: "0xbd97523a12366a60aded0c8cd2f2b1e28f607d6b",
+        balance: "185000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 261888,
+    totalBalance: "160000000000000000000",
+    balances: [
+      {
+        address: "0x872f281c517094b826bf84a77ccb3a27acc0acd0",
+        balance: "160000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 489662,
+    totalBalance: "150000000000000000000",
+    balances: [
+      {
+        address: "0x2d7c99bd362e50a05dc4edbab981b7d825cf4aa8",
+        balance: "150000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 436154,
+    totalBalance: "150000000000000000000",
+    balances: [
+      {
+        address: "0x21782b1147e55998e24b172ad1eb8566375d3eb8",
+        balance: "150000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 385419,
+    totalBalance: "147000000000000000000",
+    balances: [
+      {
+        address: "0x8c5f693b6dacd402f7a1a9c2968f42bb29000cff",
+        balance: "147000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 236578,
+    totalBalance: "147000000000000000000",
+    balances: [
+      {
+        address: "0x07c8687758d8a45bbfdab0c818a2767a08b8d5cc",
+        balance: "147000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 258564,
+    totalBalance: "147000000000000000000",
+    balances: [
+      {
+        address: "0x873ec853a4545ddc1d8568988b72782798b22db2",
+        balance: "147000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 390579,
+    totalBalance: "145000000000000000000",
+    balances: [
+      {
+        address: "0xa928add4ac06eaf404c64234ca3640296e9ffc5b",
+        balance: "145000000000000000000",
       },
     ],
   },
@@ -14634,6 +17996,46 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 14999,
+    totalBalance: "141606637321446785024",
+    balances: [
+      {
+        address: "0x2c4469d16a86989c15741fb13ad583166ef0895a",
+        balance: "141606637321446785024",
+      },
+    ],
+  },
+  {
+    fid: 406493,
+    totalBalance: "140000000000000000000",
+    balances: [
+      {
+        address: "0x58708037f18a8f3b11281c774af628a575b2ea5f",
+        balance: "140000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 444649,
+    totalBalance: "140000000000000000000",
+    balances: [
+      {
+        address: "0xbcc57309cd628e0b409f174b0d1baeae84e9835b",
+        balance: "140000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 348020,
+    totalBalance: "140000000000000000000",
+    balances: [
+      {
+        address: "0x946a9ba3c8c3eea5f9dce3c65a0d77850187cb1d",
+        balance: "140000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 7021,
     totalBalance: "138238177766773953948",
     balances: [
@@ -14644,12 +18046,182 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 566351,
-    totalBalance: "126099239931607960591",
+    fid: 331061,
+    totalBalance: "138000000000000000000",
     balances: [
       {
-        address: "0xbdec7287c08c0c153f9843c4796d59e3bf7178e4",
-        balance: "126099239931607960591",
+        address: "0xb5e55e5885a59e107168d61ad7df7541cb1b9373",
+        balance: "138000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 269856,
+    totalBalance: "133247964386106204956",
+    balances: [
+      {
+        address: "0x3a3e97112353f7d239a93160c7cfc566565e91e3",
+        balance: "133247964386106204956",
+      },
+    ],
+  },
+  {
+    fid: 426875,
+    totalBalance: "133000000000000000000",
+    balances: [
+      {
+        address: "0x243889b354e1ca7f29a87f7ea44e84263d1f679a",
+        balance: "133000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 470521,
+    totalBalance: "130000000000000000000",
+    balances: [
+      {
+        address: "0xa84058d037fd01a037f1eba05775919fd7717279",
+        balance: "130000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 526628,
+    totalBalance: "125000000000000000000",
+    balances: [
+      {
+        address: "0xc3928c008fbc443bb19bb8b36f5cc058418c4150",
+        balance: "125000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 542818,
+    totalBalance: "120000000000000000000",
+    balances: [
+      {
+        address: "0x1401cf26ac5554ed8f035b6f72c7cf38eab63dc2",
+        balance: "120000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 440287,
+    totalBalance: "120000000000000000000",
+    balances: [
+      {
+        address: "0xb68519d903d710eccb5c476485a97a6c960b81c9",
+        balance: "120000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 419386,
+    totalBalance: "120000000000000000000",
+    balances: [
+      {
+        address: "0x46f8fffd5209e4226f712a7e7dc426a94f2df06c",
+        balance: "120000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 621261,
+    totalBalance: "120000000000000000000",
+    balances: [
+      {
+        address: "0x2747d3239265e8f4a6a954d5d736121a92e401c4",
+        balance: "120000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 241079,
+    totalBalance: "119000000000000000000",
+    balances: [
+      {
+        address: "0xaa247c5b4f6c25de5cf4f33d924d738a128dd246",
+        balance: "119000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 255795,
+    totalBalance: "118000000000000000000",
+    balances: [
+      {
+        address: "0xb92519eb7cfb381606df6759578edbc84109e849",
+        balance: "118000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 543203,
+    totalBalance: "118000000000000000000",
+    balances: [
+      {
+        address: "0x6aad27e5452a7e593d7324a7e5e9bf315a397e55",
+        balance: "118000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 266248,
+    totalBalance: "117000000000000000000",
+    balances: [
+      {
+        address: "0x43f604d0434bf6a95f85641c2b001828b871f6c0",
+        balance: "117000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 257650,
+    totalBalance: "114000000000000000000",
+    balances: [
+      {
+        address: "0xe0048a0b4190638a98706a18e876d47c0718873d",
+        balance: "114000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 196444,
+    totalBalance: "111000000000000000000",
+    balances: [
+      {
+        address: "0x81a8ccb2fa2bd6bdb67f50ccd6dc860641381c07",
+        balance: "111000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 306229,
+    totalBalance: "110000000000000000000",
+    balances: [
+      {
+        address: "0xe3f1864e378057c77064b50f948f08525c190157",
+        balance: "110000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 465773,
+    totalBalance: "110000000000000000000",
+    balances: [
+      {
+        address: "0x6d042a65b5b22a087a402182fd4b7ce42907bd4d",
+        balance: "110000000000000000000",
+      },
+    ],
+  },
+  {
+    fid: 464035,
+    totalBalance: "110000000000000000000",
+    balances: [
+      {
+        address: "0xe77cb45299689fb5b65a357d61e1f95099a4b687",
+        balance: "110000000000000000000",
       },
     ],
   },
@@ -14734,16 +18306,6 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 435716,
-    totalBalance: "78039840637450199203",
-    balances: [
-      {
-        address: "0x90fa9b6cde840a219d2e6517122f3e908f794876",
-        balance: "78039840637450199203",
-      },
-    ],
-  },
-  {
     fid: 452884,
     totalBalance: "74130401782343199203",
     balances: [
@@ -14754,22 +18316,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 337018,
-    totalBalance: "74000000000000000000",
+    fid: 435716,
+    totalBalance: "54039840637450199203",
     balances: [
       {
-        address: "0xbcfca495966a3132ec76d1b0cf8ffe1d4ad95e0a",
-        balance: "74000000000000000000",
-      },
-    ],
-  },
-  {
-    fid: 509256,
-    totalBalance: "69000000000000000000",
-    balances: [
-      {
-        address: "0xbb757f8777dd30776d610dc68e10a6d76aadfea3",
-        balance: "69000000000000000000",
+        address: "0x90fa9b6cde840a219d2e6517122f3e908f794876",
+        balance: "54039840637450199203",
       },
     ],
   },
@@ -14779,26 +18331,6 @@ export const dummyHolders = [
     balances: [
       {
         address: "0xb444d513a06843c3fdafd93368db7d492c240e0e",
-        balance: "50000000000000000000",
-      },
-    ],
-  },
-  {
-    fid: 422233,
-    totalBalance: "50000000000000000000",
-    balances: [
-      {
-        address: "0x1aa9ace6a350d834da92c86e3fdaca2e7d492ae3",
-        balance: "50000000000000000000",
-      },
-    ],
-  },
-  {
-    fid: 330020,
-    totalBalance: "50000000000000000000",
-    balances: [
-      {
-        address: "0x8df4e551cc464492ef7858256e57a57006d338e5",
         balance: "50000000000000000000",
       },
     ],
@@ -14814,6 +18346,16 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 509587,
+    totalBalance: "42000000000000000000",
+    balances: [
+      {
+        address: "0x001c213fc52654c2a3dc3ad4f7ac5233f2a31df7",
+        balance: "42000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 8039,
     totalBalance: "34238177766773953948",
     balances: [
@@ -14824,12 +18366,12 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 441417,
-    totalBalance: "17980099451640137753",
+    fid: 514577,
+    totalBalance: "24000000000000000000",
     balances: [
       {
-        address: "0x8dde615413f33ef5b2c5b9dd9ebee15e1279a7c6",
-        balance: "17980099451640137753",
+        address: "0xbf4dd9e97e724ba6f3b433a30b9dfc5b4a207bee",
+        balance: "24000000000000000000",
       },
     ],
   },
@@ -14844,12 +18386,42 @@ export const dummyHolders = [
     ],
   },
   {
+    fid: 630358,
+    totalBalance: "16000000000000000000",
+    balances: [
+      {
+        address: "0x1a2f8a09c4e317690b320b2c1a9fa7c910f5a8b3",
+        balance: "16000000000000000000",
+      },
+    ],
+  },
+  {
     fid: 279471,
     totalBalance: "14792939047412120602",
     balances: [
       {
         address: "0x829f734aa6cc31e737170937e7c8a9f70cdbf2da",
         balance: "14792939047412120602",
+      },
+    ],
+  },
+  {
+    fid: 7472,
+    totalBalance: "13373243734428330978",
+    balances: [
+      {
+        address: "0xb57381c7ed83bb9031a786d2c691cc6c7c2207a4",
+        balance: "13373243734428330978",
+      },
+    ],
+  },
+  {
+    fid: 474708,
+    totalBalance: "10000000000000000000",
+    balances: [
+      {
+        address: "0x54f5df56122ed5ac0be67ca05c3a18bd12c78c2a",
+        balance: "10000000000000000000",
       },
     ],
   },
@@ -14884,16 +18456,6 @@ export const dummyHolders = [
     ],
   },
   {
-    fid: 399012,
-    totalBalance: "5238177766773953948",
-    balances: [
-      {
-        address: "0x3b007a4cd8df0ac8278b7796f501eb7b1252c340",
-        balance: "5238177766773953948",
-      },
-    ],
-  },
-  {
     fid: 441699,
     totalBalance: "4000000000000000000",
     balances: [
@@ -14910,16 +18472,6 @@ export const dummyHolders = [
       {
         address: "0xe1ec8c3fd2e25b080f60d7377b5c2d744ba0b5a6",
         balance: "1128196975893603741",
-      },
-    ],
-  },
-  {
-    fid: 273708,
-    totalBalance: "1008177766773953948",
-    balances: [
-      {
-        address: "0x3c515f7776f41ffc9df45a4bbd515c85e21aba62",
-        balance: "1008177766773953948",
       },
     ],
   },
