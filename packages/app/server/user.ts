@@ -110,6 +110,11 @@ export const getUser = publicProcedure
         });
       }
 
+      const allowance = dbUser?.tipAllowances[0]?.amount || 0;
+      const spent =
+        dbUser?.tipAllowances[0]?.tips.reduce((acc, t) => t.amount + acc, 0) ||
+        0;
+
       return {
         fid: user.fid,
         username: user.username,
@@ -130,7 +135,12 @@ export const getUser = publicProcedure
           number: latestTipsReceived.length,
           amount: latestTipsReceived.reduce((acc, t) => acc + t.amount, 0) || 0,
         },
-        tipAllowance: dbUser?.tipAllowances[0],
+        currentAllowance: {
+          amount: dbUser?.tipAllowances[0]?.amount || 0,
+          tipsGiven: dbUser?.tipAllowances[0]?.tips.length || 0,
+          spent,
+          remaining: allowance - spent,
+        },
       };
     } catch (error: any) {
       if (error.response && error.response.statusText === "Not Found") {
