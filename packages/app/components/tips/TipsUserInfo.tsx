@@ -13,11 +13,6 @@ export function TipsUserInfo() {
   const { accountAddress, user, userIsLoading } = useUser();
   const { openConnectModal } = useConnectModal();
 
-  const allowance = user?.tipAllowance?.amount || 0;
-  const spentAllowance =
-    user?.tipAllowance?.tips.reduce((acc, t) => t.amount + acc, 0) || 0;
-  const remainingAllowance = allowance - spentAllowance;
-
   return (
     <>
       {userIsLoading ? (
@@ -38,17 +33,19 @@ export function TipsUserInfo() {
                   Allowance
                 </span>
                 <span className="font-bold md:text-lg">
-                  {allowance.toLocaleString()} ✨
+                  {user.currentAllowance.amount.toLocaleString()} ✨
                 </span>
                 <span className="text-muted">Given</span>
                 <span>
-                  {spentAllowance.toLocaleString()} ✨{" "}
+                  {user.currentAllowance.spent.toLocaleString()} ✨{" "}
                   <span className="text-ghost">
-                    ({user.tipAllowance?.tips.length} tips)
+                    ({user.currentAllowance.tipsGiven} tips)
                   </span>
                 </span>
                 <span className="text-muted">Remaining</span>
-                <span>{remainingAllowance.toLocaleString()} ✨</span>
+                <span>
+                  {user.currentAllowance.remaining.toLocaleString()} ✨
+                </span>
               </div>
               <div className="mt-6 grid grid-cols-[100px_200px] gap-2 md:mt-0">
                 <span className="text-muted font-bold md:text-lg">
