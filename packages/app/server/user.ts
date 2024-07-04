@@ -13,10 +13,10 @@ import { User as NeynarUser } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import * as Sentry from "@sentry/nextjs";
 import { TRPCError } from "@trpc/server";
 import _ from "lodash";
-import { tipsLeaderboard } from "server/tips/utils/tipsLeaderboard";
 import { publicProcedure } from "server/trpc";
 import { isAddress } from "viem";
 import { AllocationType, TipMeta, prisma } from "../../backend/src/prisma";
+import { tipsLeaderboard } from "./tips/utils/tipsLeaderboard";
 
 export const getUser = publicProcedure
   .input(apiSchemas.getUser.input)

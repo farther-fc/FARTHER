@@ -18,9 +18,9 @@ const PRICE_REFRESH_TIME_MS = 1_200_000; // 20 minutes
 
 export async function getPrice(day?: number) {
   if (ENVIRONMENT === "development" || AGENT_MODELING) {
-    if (AGENT_MODELING && typeof day !== "number") {
-      throw new Error("Day is required when agent modeling");
-    }
+    // if (AGENT_MODELING && typeof day !== "number") {
+    //   throw new Error("Day is required when agent modeling");
+    // }
 
     return { usd: 0.003 * 1.05 ** (day || 1) };
   }

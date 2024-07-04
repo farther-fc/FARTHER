@@ -1,11 +1,10 @@
 import { prisma } from "@farther/backend";
 import { WAD_SCALER } from "@farther/common";
 import { scaleLinear } from "d3";
-import { constrainWeights } from "server/tips/utils/constrainWeights";
-import { flushLeaderboardCache } from "server/tips/utils/tipsLeaderboard";
 import { DistributeAllowancesError } from "../../errors";
 import { getTipMinimum } from "../../tips/utils/getTipMinimum";
 import { getUniqueTippees } from "../../tips/utils/getUniqueTippees";
+import { flushLeaderboardCache } from "../../tips/utils/tipsLeaderboard";
 import { getPrice } from "../../token/getPrice";
 import { dailyTipDistribution } from "./dailyTipDistribution";
 import { getEligibleTippers, getExistingTippers } from "./getEligibleTippers";
@@ -34,6 +33,7 @@ import { getHolderBalanceAdjustment } from "./getHolderBalanceAdjustment";
 // type TipperNameKey = keyof typeof TIPPER_NAMES;
 
 const STATIC_ADJUSTMENT_FACTOR = 0.002;
+const MAX_UNIQUE_TIPPEES = 50;
 
 // Recovery threshold is a multiplier of the previous tip minimum.
 // When the tipper's allowance is at or below the recovery threshold, they receive a boost
@@ -146,7 +146,9 @@ export async function distributeAllowances() {
       weight =
         uniqueTippees > 0
           ? prevWeight *
-            (1 + STATIC_ADJUSTMENT_FACTOR * uniqueTippees) *
+            (1 +
+              STATIC_ADJUSTMENT_FACTOR *
+                Math.min(uniqueTippees, MAX_UNIQUE_TIPPEES)) *
             (1 + recoveryAdjustment) *
             holderBalanceAdjustment
           : prevWeight;
@@ -155,14 +157,7 @@ export async function distributeAllowances() {
     return weight;
   });
 
-  const contrainedWeights = constrainWeights({
-    weights: currentWeights,
-    factor: 0.7,
-  });
-  const totalWeight = contrainedWeights.reduce(
-    (sum, weight) => sum + weight,
-    0,
-  );
+  const totalWeight = currentWeights.reduce((sum, weight) => sum + weight, 0);
 
   const combinedTipMinimums = tipMinimum * eligibleTippers.length;
 
@@ -188,7 +183,7 @@ export async function distributeAllowances() {
     // Distribute
     const newAllowances = eligibleTippers.map((tipper, i) => {
       const amount = Math.floor(
-        tipMinimum + (contrainedWeights[i] / totalWeight) * allowanceRemainder,
+        tipMinimum + (currentWeights[i] / totalWeight) * allowanceRemainder,
       );
 
       return {

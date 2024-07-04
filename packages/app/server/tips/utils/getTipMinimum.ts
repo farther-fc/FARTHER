@@ -13,16 +13,12 @@ export async function getTipMinimumDev(day?: number) {
 }
 
 export async function getTipMinimum(day?: number) {
-  if (ENVIRONMENT === "development" && !process.env.AGENT_MODELING) {
+  if (ENVIRONMENT === "development") {
     return await getTipMinimumDev(day);
   }
 
   const price = await getPrice(day);
 
   // $1 worth of FARTHER
-  return calculateTipMinimum(price.usd);
-}
-
-export function calculateTipMinimum(usdPrice: number) {
-  return TIP_USD_MINIMUM / usdPrice;
+  return TIP_USD_MINIMUM / price.usd;
 }

@@ -12,29 +12,30 @@ const getIds = (length: number) => {
 export const behaviors = [
   // extreme degen
   {
-    portionOfTippers: 0.05,
-    spendRatios: [1, 0.9, 0.8, 1, 0.5, 1],
-    tippeeIds: [getIds(100), getIds(50), getIds(20), getIds(5), getIds(1)],
+    portionOfTippers: 0.1,
+    spendRatios: [1],
+    tippeeIds: [getIds(100)],
   },
   // aggressive
   {
-    portionOfTippers: 0.1,
+    portionOfTippers: 0.9,
     spendRatios: [
-      1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+      1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+      1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     ],
-    tippeeIds: [getIds(100), getIds(20)],
+    tippeeIds: [getIds(100)],
   },
-  // mid fan
-  {
-    portionOfTippers: 0.45,
-    spendRatios: [0.5, 1, 0.8, 0, 1],
-    tippeeIds: [getIds(30), getIds(10)],
-  },
-  // casual
-  {
-    portionOfTippers: 0.4,
-    spendRatios: [0.3, 0, 1, 0, 0.5],
-    tippeeIds: [getIds(15), getIds(5), getIds(1)],
-  },
+  // // mid fan
+  // {
+  //   portionOfTippers: 0.45,
+  //   spendRatios: [0.5, 1, 0.8, 0, 1],
+  //   tippeeIds: [getIds(30), getIds(10)],
+  // },
+  // // casual
+  // {
+  //   portionOfTippers: 0.4,
+  //   spendRatios: [0.3, 0, 1, 0, 0.5],
+  //   tippeeIds: [getIds(15), getIds(5), getIds(1)],
+  // },
 ];
