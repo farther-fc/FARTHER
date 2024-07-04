@@ -62,7 +62,8 @@ async function tipsAgentModeling() {
 
       let i = 0;
       while (remainingAllowance > tipMinimum) {
-        let tipAmount = tipMinimum;
+        // const tipAmount = Math.round(tipMinimum * (1 + Math.random()))
+        const tipAmount = tipMinimum;
 
         const tippeeFids =
           behavior.tippeeIds[(day - 1) % behavior.tippeeIds.length];
@@ -71,7 +72,7 @@ async function tipsAgentModeling() {
         const dummyCastData = createDummyCast({
           tipperFid: tipper.id,
           tippeeFid: tippeeFid,
-          amount: Math.round(tipAmount * (1 + Math.random())),
+          amount: tipAmount,
         });
 
         await handleTip({
@@ -82,6 +83,13 @@ async function tipsAgentModeling() {
         remainingAllowance -= tipAmount;
 
         i++;
+      }
+
+      if ([570843, 429188].includes(tipper.id)) {
+        console.info(
+          `${tipper.id} allowance: ${tipper.tipAllowances[0].amount}`,
+        );
+        console.log(`${tipper.id} tips given: `, i);
       }
     }
   }
