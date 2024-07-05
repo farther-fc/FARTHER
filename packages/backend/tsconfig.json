@@ -5,6 +5,9 @@
   "compilerOptions": {
     "target": "ES2021",
     "esModuleInterop": true,
-    "moduleResolution": "node"
-  }
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "skipLibCheck": true
+  },
+  "files": ["src/server.ts"]
 }
