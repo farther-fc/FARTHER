@@ -32,6 +32,9 @@
     "db:format": "prisma format",
     "db:view": "pnpm env:dev prisma studio",
     "dev": "pnpm db:push && pnpm generate",
+    "start": "pnpm env:dev pnpm ts-node src/server",
+    "start:staging": "pnpm pnpm env:staging pnpm ts-node src/server --transpile-only",
+    "start:prod": "pnpm pnpm env:prod pnpm ts-node src/server --transpile-only",
     "test": "pnpm env:dev jest"
   },
   "prisma": {
@@ -52,6 +55,7 @@
     "enquirer": "^2.4.1",
     "ethers": "^6.11.1",
     "jest": "^29.7.0",
+    "nodemon": "^3.1.4",
     "numeral": "^2.0.6",
     "pg": "^8.11.3",
     "ts-jest": "^29.1.2",
@@ -72,6 +76,7 @@
     "esbuild-register": "^3.5.0",
     "prisma": "^5.8.1",
     "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.4.5"
   },
