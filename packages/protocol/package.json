@@ -19,7 +19,6 @@
     "staging:deploy:airdrop": "pnpm env:staging pnpm deploy:airdrop",
     "prod:deploy:airdrop": "pnpm env:prod pnpm deploy:airdrop",
     "foundry": "curl -L https://foundry.paradigm.xyz | bash && source /vercel/.bashrc && foundryup && forge install",
-    "generate": "wagmi generate",
     "typechain": "typechain --target ethers-v6 --out-dir ../common/src/typechain ./out/**/*.json",
     "test": "dotenv -e ../../.env forge test"
   },
