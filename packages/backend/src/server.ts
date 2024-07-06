@@ -1,7 +1,13 @@
-import { prisma } from "./prisma";
+import { ENVIRONMENT } from "@farther/common";
+import cron from "node-cron";
+import {
+  SNAPSHOT_DAY,
+  takeOpenRankSnapshot,
+} from "./utils/takeOpenRankSnapshot";
 
-(async () => {
-  const user = await prisma.user.findFirst({ where: { id: 1 } });
+console.log("server running!");
 
-  console.log(user);
-})();
+const schedule =
+  ENVIRONMENT === "development" ? "*/15 * * * *" : `0 0 ${SNAPSHOT_DAY} * *`;
+
+cron.schedule(schedule, takeOpenRankSnapshot, { timezone: "Etc/UTC" });
