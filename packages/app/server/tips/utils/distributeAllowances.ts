@@ -1,5 +1,4 @@
 import { prisma } from "@farther/backend";
-import { WAD_SCALER } from "@farther/common";
 import { scaleLinear } from "d3";
 import { DistributeAllowancesError } from "../../errors";
 import { getTipMinimum } from "../../tips/utils/getTipMinimum";
@@ -8,7 +7,6 @@ import { flushLeaderboardCache } from "../../tips/utils/tipsLeaderboard";
 import { getPrice } from "../../token/getPrice";
 import { dailyTipDistribution } from "./dailyTipDistribution";
 import { getEligibleTippers, getExistingTippers } from "./getEligibleTippers";
-import { getHolderBalanceAdjustment } from "./getHolderBalanceAdjustment";
 
 // const TIPPER_IDS = {
 //   acai: 246871,
@@ -137,9 +135,12 @@ export async function distributeAllowances() {
 
       const prevAllowanceMinusTipMinimum = prevAllowance - previousTipMin;
       const recoveryAdjustment = getRecoveryAdjustment(prevAllowance);
-      const holderBalanceAdjustment = getHolderBalanceAdjustment(
-        Number(BigInt(tipper.totalBalance) / WAD_SCALER),
-      );
+      // const holderBalanceAdjustment = getHolderBalanceAdjustment(
+      //   Number(BigInt(tipper.totalBalance) / WAD_SCALER),
+      // );
+
+      // TODO: Fix
+      const holderBalanceAdjustment = 1;
 
       prevWeight =
         prevAllowanceMinusTipMinimum / prevTotalAllowanceMinusTipMinimums;
