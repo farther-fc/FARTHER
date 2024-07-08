@@ -10,11 +10,6 @@ export default function EvangelizePage() {
           The evangelist program has concluded. Thank you to all who
           participated!
         </p>
-        <p className="mb-6">
-          The remaining evangelist tokens are being reallocated to other Farther
-          features, and a Farther app is in development which aims to create
-          stronger utility while staying aligned with Farther's mission.{" "}
-        </p>
         <p>
           <ExternalLink href={JULY_ANNOUCEMENT_LINK}>
             Learn more here.
