@@ -58,7 +58,7 @@ export async function handleTip({
   const isAtleastTipMinimum = tipAmount >= tipMinimum;
 
   if (!tipAllowance) {
-    console.warn(`No tip allowance found for user ${tipper.fid}`);
+    console.warn(`No tip allowance found for user ${tipper}`);
     return;
   }
 
