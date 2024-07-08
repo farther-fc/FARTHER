@@ -17,8 +17,9 @@
     "typecheck": "tsc --noEmit",
     "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
     "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
-    "tipsAgentModeling": "pnpm env:dev ts-node server/tips/agentModeling",
-    "test": "cd ../backend && pnpm db:reset && cd ../app && dotenv -e ../../.env jest"
+    "tipsAgentModeling": "pnpm db:reset && pnpm env:dev ts-node server/tips/agentModeling",
+    "db:reset": "cd ../backend && pnpm env:dev pnpm db:reset && cd ../app",
+    "test": "pnpm db:reset && dotenv -e ../../.env jest"
   },
   "dependencies": {
     "@airstack/node": "^0.0.7",

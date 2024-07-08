@@ -1,35 +1,14 @@
 import { prisma } from "@farther/backend";
+import { ENVIRONMENT } from "@farther/common";
 import { scaleLinear } from "d3";
-import { constrainWeights } from "server/tips/utils/constrainWeights";
-import { flushLeaderboardCache } from "server/tips/utils/tipsLeaderboard";
 import { DistributeAllowancesError } from "../../errors";
+import { constrainWeights } from "../../tips/utils/constrainWeights";
 import { getTipMinimum } from "../../tips/utils/getTipMinimum";
 import { getUniqueTippees } from "../../tips/utils/getUniqueTippees";
+import { flushLeaderboardCache } from "../../tips/utils/tipsLeaderboard";
 import { getPrice } from "../../token/getPrice";
 import { dailyTipDistribution } from "./dailyTipDistribution";
 import { getEligibleTippers, getExistingTippers } from "./getEligibleTippers";
-
-const TIPPER_IDS = {
-  acai: 246871,
-  wahoo: 3741,
-  kylepatrick: 247143,
-  bunglon: 502822,
-  matsuda: 334811,
-  marcelonada: 330083,
-  reneecampbell: 283144,
-};
-
-const TIPPER_NAMES = {
-  246871: "acai",
-  3741: "wahoo",
-  247143: "kylepatrick",
-  502822: "bunglon",
-  334811: "matsuda",
-  330083: "mercelonada",
-  283144: "reneecampbell",
-};
-
-type TipperNameKey = keyof typeof TIPPER_NAMES;
 
 // Recovery threshold is a multiplier of the previous tip minimum.
 // When the tipper's allowance is at or below the recovery threshold, they receive a boost
@@ -89,7 +68,7 @@ export async function distributeAllowances() {
   const { usd } = await getPrice(currentDay);
   const fartherUsdPrice = usd;
 
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.NODE_ENV === "development" || ENVIRONMENT === "development") {
     printDevLogs({
       currentDay,
       previousMeta,
@@ -234,6 +213,28 @@ function getUniqueTippeeAdjustment({
     ? 1 + uniqueTippees * TIPPEE_ADJUSTMENT_FACTOR * allowanceDampener
     : 1;
 }
+
+const TIPPER_IDS = {
+  acai: 246871,
+  wahoo: 3741,
+  kylepatrick: 247143,
+  bunglon: 502822,
+  matsuda: 334811,
+  marcelonada: 330083,
+  reneecampbell: 283144,
+};
+
+const TIPPER_NAMES = {
+  246871: "acai",
+  3741: "wahoo",
+  247143: "kylepatrick",
+  502822: "bunglon",
+  334811: "matsuda",
+  330083: "mercelonada",
+  283144: "reneecampbell",
+};
+
+type TipperNameKey = keyof typeof TIPPER_NAMES;
 
 function printDevLogs({
   currentDay,
