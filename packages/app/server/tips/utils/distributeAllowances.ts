@@ -1,5 +1,7 @@
 import { prisma } from "@farther/backend";
 import { scaleLinear } from "d3";
+import { constrainWeights } from "server/tips/utils/constrainWeights";
+import { flushLeaderboardCache } from "server/tips/utils/tipsLeaderboard";
 import { DistributeAllowancesError } from "../../errors";
 import { getTipMinimum } from "../../tips/utils/getTipMinimum";
 import { getUniqueTippees } from "../../tips/utils/getUniqueTippees";
@@ -13,7 +15,7 @@ const TIPPER_IDS = {
   kylepatrick: 247143,
   bunglon: 502822,
   matsuda: 334811,
-  mercelonada: 330083,
+  marcelonada: 330083,
   reneecampbell: 283144,
 };
 
@@ -84,6 +86,9 @@ export async function distributeAllowances() {
   // Subtract tip min from total daily allowance (since min is automatically given to everyone)
   const allowanceRemainder = availableTotalAllowance - combinedTipMinimums;
 
+  const { usd } = await getPrice(currentDay);
+  const fartherUsdPrice = usd;
+
   if (process.env.NODE_ENV === "development") {
     printDevLogs({
       currentDay,
@@ -95,39 +100,40 @@ export async function distributeAllowances() {
       weights,
       totalWeight,
       allowanceRemainder,
+      fartherUsdPrice,
     });
   }
 
-  // await prisma.$transaction(async (tx) => {
-  //   const tipMeta = await tx.tipMeta.create({
-  //     data: {
-  //       tipMinimum,
-  //       totalAllowance: availableTotalAllowance,
-  //       carriedOver: prevUnusedAllowance,
-  //       usdPrice: fartherUsdPrice,
-  //     },
-  //   });
+  await prisma.$transaction(async (tx) => {
+    const tipMeta = await tx.tipMeta.create({
+      data: {
+        tipMinimum,
+        totalAllowance: availableTotalAllowance,
+        carriedOver: prevUnusedAllowance,
+        usdPrice: fartherUsdPrice,
+      },
+    });
 
-  //   // Distribute
-  //   const newAllowances = eligibleTippers.map((tipper, i) => {
-  //     const amount = Math.floor(
-  //       tipMinimum + (weights[i] / totalWeight) * allowanceRemainder,
-  //     );
+    // Distribute
+    const newAllowances = eligibleTippers.map((tipper, i) => {
+      const amount = Math.floor(
+        tipMinimum + (weights[i] / totalWeight) * allowanceRemainder,
+      );
 
-  //     return {
-  //       userId: tipper.id,
-  //       tipMetaId: tipMeta.id,
-  //       amount,
-  //       userBalance: tipper.totalBalance.toString(),
-  //     };
-  //   });
+      return {
+        userId: tipper.id,
+        tipMetaId: tipMeta.id,
+        amount,
+        userBalance: tipper.totalBalance.toString(),
+      };
+    });
 
-  //   await tx.tipAllowance.createMany({
-  //     data: newAllowances,
-  //   });
-  // });
+    await tx.tipAllowance.createMany({
+      data: newAllowances,
+    });
+  });
 
-  // await flushLeaderboardCache();
+  await flushLeaderboardCache();
 }
 
 async function getTipMetas() {
@@ -169,7 +175,7 @@ function getWeights({
     .range([MAX_RECOVERY_ADJUSTMENT_FACTOR, 0])
     .clamp(true);
 
-  return eligibleTippers.map((tipper) => {
+  const weights = eligibleTippers.map((tipper) => {
     let weight: number;
 
     // New tippers don't have an allowance yet
@@ -202,6 +208,8 @@ function getWeights({
 
     return weight;
   });
+
+  return constrainWeights({ weights, breadth: 0.6 });
 }
 
 const TIPPEE_ADJUSTMENT_FACTOR = 0.002;
@@ -227,7 +235,7 @@ function getUniqueTippeeAdjustment({
     : 1;
 }
 
-async function printDevLogs({
+function printDevLogs({
   currentDay,
   previousMeta,
   eligibleTippers,
@@ -237,6 +245,7 @@ async function printDevLogs({
   weights,
   totalWeight,
   allowanceRemainder,
+  fartherUsdPrice,
 }: {
   currentDay: number;
   previousMeta: Awaited<ReturnType<typeof getTipMetas>>[0];
@@ -247,10 +256,8 @@ async function printDevLogs({
   weights: number[];
   totalWeight: number;
   allowanceRemainder: number;
+  fartherUsdPrice: number;
 }) {
-  const { usd } = await getPrice(currentDay);
-  const fartherUsdPrice = usd;
-
   if (previousMeta) {
     console.info("Previous tip min:", previousMeta.tipMinimum.toLocaleString());
     console.info(

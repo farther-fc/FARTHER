@@ -1,6 +1,6 @@
 import { fetchQuery } from "@airstack/node";
-import { dummyHolders, neynarLimiter } from "@farther/common";
-import { getAllLiqProviderBalances } from "../liquidity/getAllLiqProviderBalances";
+import { ENVIRONMENT, dummyHolders, neynarLimiter } from "@farther/common";
+import { getAllLiqProviderBalances } from "server/liquidity/getAllLiqProviderBalances";
 
 /**
  *
@@ -9,16 +9,16 @@ import { getAllLiqProviderBalances } from "../liquidity/getAllLiqProviderBalance
 export async function getHolders({
   includeLPs,
 }: { includeLPs?: boolean } = {}) {
-  // if (ENVIRONMENT === "development") {
-  return dummyHolders.map((h) => ({
-    fid: h.fid,
-    totalBalance: BigInt(h.totalBalance),
-    balances: h.balances.map((b) => ({
-      address: b.address,
-      balance: BigInt(b.balance),
-    })),
-  }));
-  // }
+  if (ENVIRONMENT === "development") {
+    return dummyHolders.map((h) => ({
+      fid: h.fid,
+      totalBalance: BigInt(h.totalBalance),
+      balances: h.balances.map((b) => ({
+        address: b.address,
+        balance: BigInt(b.balance),
+      })),
+    }));
+  }
 
   if (!process.env.NEXT_PUBLIC_AIRSTACK_API_KEY) {
     throw new Error("NEXT_PUBLIC_AIRSTACK_API_KEY is not set");
