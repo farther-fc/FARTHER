@@ -4,6 +4,7 @@ import {
   isProduction,
 } from "@farther/common";
 import cron from "node-cron";
+import "../instrument";
 import { takeOpenRankSnapshot } from "./lib/takeOpenRankSnapshot";
 
 console.log("server running!");
