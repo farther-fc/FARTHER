@@ -169,13 +169,14 @@ model OpenRankScore {
   userId      Int
   user        User     @relation(fields: [userId], references: [id])
   score       Float
-  snapshotId  DateTime
-  snapshot    OpenRankSnapshot @relation(fields: [snapshotId], references: [createdAt])
+  snapshotId  String
+  snapshot    OpenRankSnapshot @relation(fields: [snapshotId], references: [id])
 
   @@unique([userId, snapshotId])
 }
 
 model OpenRankSnapshot {
-  createdAt   DateTime @default(now()) @id
+  id   String @id
+  createdAt   DateTime @default(now())
   scores      OpenRankScore[]
 }

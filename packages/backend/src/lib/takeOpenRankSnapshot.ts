@@ -1,14 +1,15 @@
 import {
   OPENRANK_BATCH_LIMIT,
+  OPENRANK_SNAPSHOT_CRON,
   OPENRANK_URL,
-  getStartOfMonthUTC,
+  isProduction,
 } from "@farther/common";
 import { AxiosResponse } from "axios";
 import Bottleneck from "bottleneck";
 import { chunk } from "underscore";
+import { tippees as dummyTippees } from "../dummy-data/tippees";
 import { prisma } from "../prisma";
 import { axios } from "./axios";
-import { powerBadgeFids } from "./fids";
 import { getLatestCronTime } from "./getLatestCronTime";
 
 type OpenRankData = {
@@ -33,77 +34,24 @@ const RATE_LIMIT = 10;
 export async function takeOpenRankSnapshot() {
   console.log("Running takeOpenRankSnapshot", new Date());
 
-  const latestOpenRankSnapshot = await prisma.openRankSnapshot.findFirst({
-    orderBy: {
-      createdAt: "desc",
-    },
-    take: 1,
-  });
-
-  const tips = await prisma.tip.findMany({
-    where: {
-      AND: [
-        {
-          createdAt: {
-            gte: latestOpenRankSnapshot?.createdAt ?? getStartOfMonthUTC(-1),
-          },
-        },
-        {
-          // This is to handle the case where a snapshot fails
-          // and we need to re-run it.
-          tippee: {
-            NOT: {
-              openRankScores: {
-                some: {
-                  snapshotId: getStartOfMonthUTC(0),
-                },
-              },
+  const tippees = !isProduction
+    ? dummyTippees
+    : await prisma.user.findMany({
+        where: {
+          tipsReceived: {
+            some: {
+              invalidTipReason: null,
             },
           },
         },
-      ],
-    },
-    select: {
-      tippeeId: true,
-    },
-  });
+        select: {
+          id: true,
+        },
+      });
 
-  const tipeeeFids = tips.map((t) => t.tippeeId);
+  const tipeeeFids = tippees.map((t) => t.id);
 
-  await fetchScores(powerBadgeFids);
-
-  // for (const fids of tippeeFidChunks) {
-  //   const response: OpenRankResponse = await fetch(OPENRANK_URL, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(fids),
-  //   }).then((res) => res.json());
-
-  //   const { result } = response;
-
-  //   const snapshotId = getStartOfMonthUTC(0);
-
-  //   await prisma.$transaction(async () => {
-  //     prisma.openRankScore.deleteMany({
-  //       where: {
-  //         snapshotId,
-  //         userId: {
-  //           in: fids,
-  //         },
-  //       },
-  //     });
-
-  //     prisma.openRankScore.createMany({
-  //       data: result.map((r) => ({
-  //         snapshotId,
-  //         userId: r.fid,
-  //         score: r.score,
-  //       })),
-  //     });
-  //   });
-  // }
+  await fetchScores(tipeeeFids);
 }
 
 const scheduler = new Bottleneck({
@@ -138,35 +86,56 @@ const fetchScores = async (fids: number[]) => {
 };
 
 async function storeScores(scores: OpenRankData["result"]) {
-  console.log("storing scores", scores);
-  await prisma.openRankScore.createMany({
-    data: scores.map((r) => ({
-      snapshotId: getLatestCronTime(),
-      userId: r.fid,
-      score: r.score,
-    })),
-  });
+  const dedupedScores = removeDuplicates(scores);
+
+  const snapshotTimeId = getLatestCronTime(OPENRANK_SNAPSHOT_CRON);
+
+  await prisma.$transaction(
+    dedupedScores.map((r) => {
+      const data = {
+        snapshot: {
+          connectOrCreate: {
+            where: {
+              id: snapshotTimeId,
+            },
+            create: {
+              id: snapshotTimeId,
+            },
+          },
+        },
+        user: {
+          connectOrCreate: {
+            where: {
+              id: r.fid,
+            },
+            create: {
+              id: r.fid,
+            },
+          },
+        },
+        score: r.score,
+      } as const;
+
+      return prisma.openRankScore.upsert({
+        where: {
+          userId_snapshotId: {
+            snapshotId: snapshotTimeId,
+            userId: r.fid,
+          },
+        },
+        create: data,
+        update: data,
+      });
+    }),
+  );
 }
 
-// export function getLatestCronTime(): Date {
-//   const now = new Date();
-
-//   const hours = now.getUTCHours();
-
-//   // Determine the latest cron run time based on current time
-//   if (hours >= CRON_HOURS[1]) {
-//     // If current time is after 3pm
-//     now.setUTCHours(CRON_HOURS[1], 0, 0, 0);
-//   } else if (hours >= CRON_HOURS[0]) {
-//     // If current time is after 3am but before 3pm
-//     now.setUTCHours(CRON_HOURS[0], 0, 0, 0);
-//   } else {
-//     // If current time is before 3am
-//     now.setUTCDate(now.getUTCDate() - 1);
-//     now.setUTCHours(CRON_HOURS[1], 0, 0, 0);
-//   }
-
-//   return now;
-// }
+const removeDuplicates = (scores: OpenRankData["result"]) => {
+  return scores.filter(
+    (item, index, self) =>
+      index ===
+      self.findIndex((t) => t.fid === item.fid && t.score === item.score),
+  );
+};
 
 takeOpenRankSnapshot().catch(console.error);
