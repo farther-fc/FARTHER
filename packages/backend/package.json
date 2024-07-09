@@ -25,7 +25,7 @@
     "verifyAirdrop:prod": "pnpm env:prod ts-node src/scripts/verifyAirdrop.ts",
     "migrate:create": "pnpm env:dev prisma migrate dev",
     "migrate:staging": "pnpm env:staging prisma migrate deploy",
-    "migrate:prod": "env:prod prisma migrate deploy",
+    "migrate:prod": "pnpm env:prod prisma migrate deploy",
     "generate": "prisma generate",
     "db:push": "pnpm env:dev prisma db push --skip-generate",
     "db:reset": "pnpm env:dev ts-node src/scripts/reset.ts",
