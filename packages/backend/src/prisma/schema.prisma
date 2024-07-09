@@ -18,6 +18,7 @@ model User {
   tipAllowances       TipAllowance[]
   tipsGiven           Tip[]          @relation(name: "tipper")
   tipsReceived        Tip[]          @relation(name: "tippee")
+  openRankScores      OpenRankScore[]
 }
 
 // Airdrop allocation
@@ -160,4 +161,22 @@ model TokenPrice {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   usd         Float    @default(0)   
+}
+
+model OpenRankScore {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt   DateTime @default(now())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+  score       Float
+  snapshotId  String
+  snapshot    OpenRankSnapshot @relation(fields: [snapshotId], references: [id])
+
+  @@unique([userId, snapshotId])
+}
+
+model OpenRankSnapshot {
+  id   String @id
+  createdAt   DateTime @default(now())
+  scores      OpenRankScore[]
 }

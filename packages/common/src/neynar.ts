@@ -7,7 +7,7 @@ import { ENVIRONMENT } from "./env";
 
 const cache = new NodeCache({ stdTTL: 60 * 60 });
 
-const NEYNAR_DATA_SIZE_LIMIT = 100;
+const NEYNAR_BATCH_LIMIT = 100;
 
 const NEXT_PUBLIC_NEYNAR_API_KEY = process.env.NEXT_PUBLIC_NEYNAR_API_KEY || "";
 
@@ -38,7 +38,7 @@ try {
 
 export const neynarLimiter = {
   async getUsersByFid(fids: number[]) {
-    const fidChunks = chunk(fids, NEYNAR_DATA_SIZE_LIMIT);
+    const fidChunks = chunk(fids, NEYNAR_BATCH_LIMIT);
 
     const bulkUsersArray = await Promise.all(
       fidChunks.map((fids) =>
@@ -52,7 +52,7 @@ export const neynarLimiter = {
   async getUsersByAddress(addresses: string[]) {
     const users: Record<string, User[]> = {};
 
-    const addressChunks = chunk(addresses, NEYNAR_DATA_SIZE_LIMIT);
+    const addressChunks = chunk(addresses, NEYNAR_BATCH_LIMIT);
 
     for (const chunk of addressChunks) {
       try {

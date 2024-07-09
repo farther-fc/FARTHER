@@ -14,8 +14,8 @@ import {
 } from "@farther/common";
 import { v4 as uuidv4 } from "uuid";
 import { getLpAccounts } from "../../../app/server/liquidity/getLpAccounts";
+import { formatNum, writeFile } from "../lib/helpers";
 import { AllocationType, prisma } from "../prisma";
-import { formatNum, writeFile } from "../utils/helpers";
 import { airdropSanityCheck } from "./airdropSanityCheck";
 
 async function prepareLpBonusDrop() {
