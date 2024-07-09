@@ -15,9 +15,9 @@ import {
   tokenAllocations,
 } from "@farther/common";
 import { v4 as uuidv4 } from "uuid";
+import { allocateTokens } from "../lib/allocateTokens";
+import { writeFile } from "../lib/helpers";
 import { AllocationType, prisma } from "../prisma";
-import { allocateTokens } from "../utils/allocateTokens";
-import { writeFile } from "../utils/helpers";
 import { airdropSanityCheck } from "./airdropSanityCheck";
 
 const totalAllocation =

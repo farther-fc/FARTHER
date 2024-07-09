@@ -346,6 +346,9 @@ importers:
       axios:
         specifier: ^1.6.8
         version: 1.6.8
+      axios-retry:
+        specifier: ^4.4.1
+        version: 4.4.1(axios@1.6.8)
       bluebird:
         specifier: ^3.7.2
         version: 3.7.2
@@ -361,6 +364,9 @@ importers:
       jest:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@20.12.7)(ts-node@10.9.2)
+      later:
+        specifier: ^1.2.0
+        version: 1.2.0
       node-cron:
         specifier: ^3.0.3
         version: 3.0.3
@@ -392,6 +398,9 @@ importers:
       '@types/jest':
         specifier: ^29.5.12
         version: 29.5.12
+      '@types/later':
+        specifier: ^1.2.9
+        version: 1.2.9
       '@types/node':
         specifier: ^20.11.3
         version: 20.12.7
@@ -11840,6 +11849,10 @@ packages:
       '@types/node': 20.14.2
     dev: true
 
+  /@types/later@1.2.9:
+    resolution: {integrity: sha512-WDRhMSfbqT+q3mC+XCMm86xXJShPMTuKeCnhpssHQUxQj9FWRQkqw3/5atBYV+MjPjCbNfLdY59IwycN+4cbIA==}
+    dev: true
+
   /@types/linkify-it@3.0.5:
     resolution: {integrity: sha512-yg6E+u0/+Zjva+buc3EIb+29XEg4wltq7cSmd4Uc2EE/1nUVmxyzpX6gUXD0V8jIrG0r7YeOGVIbYRkxeooCtw==}
     requiresBuild: true
@@ -14170,6 +14183,15 @@ packages:
     resolution: {integrity: sha512-M0JtH+hlOL5pLQwHOLNYZaXuhqmvS8oExsqB1SBYgA4Dk7u/xx+YdGHXaK5pyUfed5mYXdlYiphWq3G8cRi5JQ==}
     engines: {node: '>=4'}
     dev: true
+
+  /axios-retry@4.4.1(axios@1.6.8):
+    resolution: {integrity: sha512-JGzNoglDHtHWIEvvAampB0P7jxQ/sT4COmW0FgSQkVg6o4KqNjNMBI6uFVOq517hkw/OAYYAG08ADtBlV8lvmQ==}
+    peerDependencies:
+      axios: 0.x || 1.x
+    dependencies:
+      axios: 1.6.8
+      is-retry-allowed: 2.2.0
+    dev: false
 
   /axios@1.6.5:
     resolution: {integrity: sha512-Ii012v05KEVuUoFWmMW/UQv9aRIc3ZwkWDcM+h5Il8izZCtRVpDUfwpoFf7eOtajT3QiGR4yDUx7lPqHJULgbg==}
@@ -21231,6 +21253,11 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
+  /is-retry-allowed@2.2.0:
+    resolution: {integrity: sha512-XVm7LOeLpTW4jV19QSH38vkswxoLud8sQ57YwJVTPWdiaI9I8keEhGFpBlslyVsgdQy4Opg8QOLb8YRgsyZiQg==}
+    engines: {node: '>=10'}
+    dev: false
+
   /is-set@2.0.3:
     resolution: {integrity: sha512-iPAjerrse27/ygGLxw+EBR9agv9Y6uLeYVJMu+QNCoouJ1/1ri0mGrcWpfCqFZuzzx3WjtwxG098X+n4OuRkPg==}
     engines: {node: '>= 0.4'}
@@ -22664,6 +22691,11 @@ packages:
     dependencies:
       language-subtag-registry: 0.3.22
     dev: true
+
+  /later@1.2.0:
+    resolution: {integrity: sha512-Gi4c6JariwTigfAQLFCyWKKtyY5yzMZOdJdUH9Ori4FqQxQYDREvDRTu5N+jBM7hcnyEDMeYjhmRUTwLIjEMqA==}
+    deprecated: Please upgrade to the maintained and new drop-in replacement @breejs/later at https://github.com/breejs/later 🚀 Thanks and happy hacking! 🚀  @niftylettuce
+    dev: false
 
   /lcid@1.0.0:
     resolution: {integrity: sha512-YiGkH6EnGrDGqLMITnGjXtGmNtjoXw9SVUzcaos8RBi7Ps0VBylkq+vOcY9QE5poLasPCR849ucFUkl0UzUyOw==}
