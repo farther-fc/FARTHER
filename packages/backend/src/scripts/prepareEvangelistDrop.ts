@@ -14,8 +14,8 @@ import {
   isProduction,
   neynarLimiter,
 } from "@farther/common";
+import { writeFile } from "../lib/helpers";
 import { AllocationType, prisma } from "../prisma";
-import { writeFile } from "../utils/helpers";
 import { airdropSanityCheck } from "./airdropSanityCheck";
 
 // After calling it, deploy the airdrop contract with the merkle root, manually add Airdrop.address & Airdrop.root in the DB,

@@ -10,8 +10,8 @@ import {
 } from "@farther/common";
 import { v4 as uuidv4 } from "uuid";
 import { Address } from "viem";
+import { writeFile } from "../lib/helpers";
 import { AllocationType, prisma } from "../prisma";
-import { writeFile } from "../utils/helpers";
 import { airdropSanityCheck } from "./airdropSanityCheck";
 
 /// TODO: MAKE SURE THIS WORKS CORRECTLY IN AUGUST!!!

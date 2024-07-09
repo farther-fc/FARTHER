@@ -5,9 +5,11 @@
   "compilerOptions": {
     "target": "ES2021",
     "esModuleInterop": true,
-    "moduleResolution": "node",
+    "moduleResolution": "NodeNext",
     "outDir": "dist",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "module": "NodeNext"
   },
+  "include": ["src/**/*.ts"],
   "files": ["src/server.ts"]
 }
