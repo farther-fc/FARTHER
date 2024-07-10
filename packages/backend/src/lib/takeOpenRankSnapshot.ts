@@ -137,5 +137,3 @@ const removeDuplicates = (scores: OpenRankData["result"]) => {
       self.findIndex((t) => t.fid === item.fid && t.score === item.score),
   );
 };
-
-takeOpenRankSnapshot().catch(console.error);
