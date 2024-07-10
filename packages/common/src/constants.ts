@@ -242,3 +242,7 @@ export const NEVER_RUN_CRON = "0 0 31 2 *";
 export const DEV_CRON = "*/15 * * * *";
 
 export const API_BATCH_LIMIT = 100;
+
+export const TOTAL_DAILY_TIP_ALLOCATION = 500_000;
+
+export const TOTAL_MONTHLY_TIP_REWARDS = 4.25e6;

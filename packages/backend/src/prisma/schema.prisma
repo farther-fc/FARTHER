@@ -125,7 +125,6 @@ model Tip {
   allocationId         String?
   allocation           Allocation?       @relation(fields: [allocationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  // Tip recipient's change in OpenRank score * Tip.amount
   // This is stored mainly for efficiency reasons so it doesn't need to be recalculated
   latestFartherScore   Float?
 
