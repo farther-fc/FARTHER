@@ -14,6 +14,8 @@ const openrankSnapshotSchedule = isProduction
   ? OPENRANK_SNAPSHOT_CRON
   : NEVER_RUN_CRON;
 
+console.log({ openrankSnapshotSchedule });
+
 cron.schedule(openrankSnapshotSchedule, takeOpenRankSnapshot, {
   timezone: "Etc/UTC",
 });
