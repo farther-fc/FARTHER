@@ -1,5 +1,5 @@
-import { AllocationType, prisma } from "../prisma";
-import { getLatestTipperAirdrop } from "./getLatestTipperAirdrop";
+import { AllocationType, prisma } from "../../prisma";
+import { getLatestTipperAirdrop } from "../getLatestTipperAirdrop";
 
 describe("getLatestTipperAirdrop", () => {
   const AIRDROP_COUNT = 3;

@@ -1,5 +1,6 @@
 import { OPENRANK_SNAPSHOT_CRON } from "@farther/common";
 import { getLatestCronTime } from "../getLatestCronTime";
+import { mockDate } from "./testUtils";
 
 describe("getLatestCronTime", () => {
   test("returns 3am of the same day if the current time is between 3am and 3pm", () => {
@@ -42,7 +43,3 @@ describe("getLatestCronTime", () => {
     expect(time2).toEqual(new Date("2024-07-08T08:00:00Z").toISOString());
   });
 });
-
-function mockDate(isoDate: string) {
-  jest.useFakeTimers().setSystemTime(new Date(isoDate));
-}

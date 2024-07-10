@@ -1,6 +1,6 @@
 export * from "@prisma/client";
 import { isProduction } from "@farther/common";
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 
 const globalForPrisma = global as unknown as {
   prisma: PrismaClient | undefined;
@@ -18,3 +18,5 @@ export const prisma =
   });
 
 if (isProduction) globalForPrisma.prisma = prisma;
+
+export type Tables = (typeof Prisma.ModelName)[keyof typeof Prisma.ModelName];
