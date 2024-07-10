@@ -5,10 +5,27 @@ import {
 } from "@farther/common";
 import cron from "node-cron";
 import "../instrument";
+import { generateApiCallCron } from "./lib/generateApiCallCron";
 import { takeOpenRankSnapshot } from "./lib/takeOpenRankSnapshot";
 
 console.log("server running!");
 
-const schedule = isProduction ? OPENRANK_SNAPSHOT_CRON : NEVER_RUN_CRON;
+const openrankSnapshotSchedule = isProduction
+  ? OPENRANK_SNAPSHOT_CRON
+  : NEVER_RUN_CRON;
 
-cron.schedule(schedule, takeOpenRankSnapshot, { timezone: "Etc/UTC" });
+cron.schedule(openrankSnapshotSchedule, takeOpenRankSnapshot, {
+  timezone: "Etc/UTC",
+});
+
+const distributeAllowancesSchedule = isProduction
+  ? "0 16 * * *"
+  : "*/5 * * * *";
+
+cron.schedule(
+  distributeAllowancesSchedule,
+  generateApiCallCron("admin.distributeAllowances"),
+  {
+    timezone: "Etc/UTC",
+  },
+);

@@ -1,15 +1,17 @@
 import axios from "axios";
-import { defineString } from "firebase-functions/params";
+import { requireEnv } from "require-env-variable";
 
-const CRON_SECRET = defineString("CRON_SECRET");
-const ENV = defineString("NEXT_PUBLIC_ENVIRONMENT");
+const { NEXT_PUBLIC_ENVIRONMENT: ENV, CRON_SECRET } = requireEnv(
+  "NEXT_PUBLIC_ENVIRONMENT",
+  "CRON_SECRET",
+);
 
-export function generateCronJob(pathName: string) {
+export function generateApiCallCron(pathName: string) {
   const fn = async () => {
     try {
       const response = await axios(`${getBaseUrl()}${pathName}`, {
         method: "POST",
-        headers: { Authorization: CRON_SECRET.value() },
+        headers: { Authorization: CRON_SECRET },
       });
 
       if (response.status !== 200) {
@@ -26,9 +28,9 @@ export function generateCronJob(pathName: string) {
 }
 
 function getBaseUrl() {
-  return ENV.value() === "production"
+  return ENV === "production"
     ? "https://farther.social/api/v1/"
-    : ENV.value() === "staging"
+    : ENV === "staging"
       ? "https://staging.farther.social/api/v1/"
       : "http://localhost:3000/api/v1/";
 }
