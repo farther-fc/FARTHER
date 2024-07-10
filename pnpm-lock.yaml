@@ -382,6 +382,9 @@ importers:
       pg:
         specifier: ^8.11.3
         version: 8.11.5
+      require-env-variable:
+        specifier: ^4.0.2
+        version: 4.0.2
       ts-jest:
         specifier: ^29.1.2
         version: 29.1.2(@babel/core@7.24.7)(esbuild@0.21.5)(jest@29.7.0)(typescript@5.4.5)
@@ -27119,6 +27122,10 @@ packages:
   /require-directory@2.1.1:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
     engines: {node: '>=0.10.0'}
+
+  /require-env-variable@4.0.2:
+    resolution: {integrity: sha512-gdVmg7tVno0u5MokVSVeuRDSez1XyktsGaNCJfdEqrU40OUXw1oG7MWVPr8PLC7UJul6L98hjULh1e2pmGwdPg==}
+    dev: false
 
   /require-from-string@1.2.1:
     resolution: {integrity: sha512-H7AkJWMobeskkttHyhTVtS0fxpFLjxhbfMa6Bk3wimP7sdPRGL3EyCg3sAQenFfAe+xQ+oAc85Nmtvq0ROM83Q==}
