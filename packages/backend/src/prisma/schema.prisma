@@ -86,7 +86,7 @@ model Airdrop {
   createdAt DateTime @default(now())
   chainId   Int
   address   String?
-  root      String?
+  root      String   @unique
   amount    String
   startTime DateTime
   endTime   DateTime
