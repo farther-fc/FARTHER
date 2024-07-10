@@ -147,8 +147,8 @@ model TipAllowance {
   createdAt   DateTime @default(now())
   userId      Int
   user        User     @relation(fields: [userId], references: [id])
-  tipMetaId   String?  @db.Uuid
-  tipMeta     TipMeta? @relation(fields: [tipMetaId], references: [id])
+  tipMetaId   String   @db.Uuid
+  tipMeta     TipMeta  @relation(fields: [tipMetaId], references: [id])
   amount      Float
   tips        Tip[]
 
