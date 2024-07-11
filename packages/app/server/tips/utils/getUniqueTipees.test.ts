@@ -23,6 +23,7 @@ describe("getUniqueTipees", () => {
           amount: 100000,
           userId: TIPPER_ID,
           userBalance: "42069",
+          tipMetaId: "69",
         },
       });
 
@@ -33,6 +34,7 @@ describe("getUniqueTipees", () => {
             amount: 100000,
             userId: id,
             userBalance: "42069",
+            tipMetaId: "69",
           },
         });
       }

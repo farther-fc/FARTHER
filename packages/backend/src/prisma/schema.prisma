@@ -19,6 +19,7 @@ model User {
   tipsGiven           Tip[]          @relation(name: "tipper")
   tipsReceived        Tip[]          @relation(name: "tippee")
   openRankScores      OpenRankScore[]
+  tipScores           TipScore[]
 }
 
 // Airdrop allocation
@@ -51,8 +52,9 @@ model Allocation {
   // the user's wallet connection, and don't store the recipient's address until an airdrop merkle root is calculated.
   address String?
 
-  tweets Tweet[]
-  tips   Tip[]
+  tweets   Tweet[]
+  tips     Tip[]
+  tipScore TipScore?
 
   @@unique([userId, airdropId])
 }
@@ -61,7 +63,8 @@ enum AllocationType {
   POWER_USER
   EVANGELIST
   LIQUIDITY
-  TIPS
+  TIPS // tips received
+  TIPPER // tipper rewards
 }
 
 model Tweet {
@@ -121,6 +124,10 @@ model Tip {
   invalidTipReason InvalidTipReason?
   allocationId     String?
   allocation       Allocation?       @relation(fields: [allocationId], references: [id])
+
+  // Tip recipient's change in OpenRank score * Tip.amount
+  // This is stored mainly for efficiency reasons so it doesn't need to be recalculated
+  latestScore      Float?
 }
 
 enum InvalidTipReason {
@@ -147,8 +154,8 @@ model TipAllowance {
   createdAt   DateTime @default(now())
   userId      Int
   user        User     @relation(fields: [userId], references: [id])
-  tipMetaId   String?  @db.Uuid
-  tipMeta     TipMeta? @relation(fields: [tipMetaId], references: [id])
+  tipMetaId   String   @db.Uuid
+  tipMeta     TipMeta  @relation(fields: [tipMetaId], references: [id])
   amount      Float
   tips        Tip[]
 
@@ -179,4 +186,16 @@ model OpenRankSnapshot {
   id   String @id
   createdAt   DateTime @default(now())
   scores      OpenRankScore[]
+}
+
+model TipScore {
+  id            String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt     DateTime    @default(now())
+  userId        Int
+  user          User        @relation(fields: [userId], references: [id])
+  score         Float
+  allocationId  String?     @unique
+  allocation    Allocation? @relation(fields: [allocationId], references: [id])
+
+  @@unique([userId, allocationId])
 }
