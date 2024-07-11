@@ -1,15 +1,13 @@
 import { prisma } from "../prisma";
-import { getLatestTipperAirdrop } from "./getLatestTipperAirdrop";
 
-export async function getSeasonTippers() {
-  const latestAirdrop = await getLatestTipperAirdrop();
+export async function getRecentTippers(date: Date) {
   return await prisma.user.findMany({
     where: {
       tipsGiven: {
         some: {
           invalidTipReason: null,
           createdAt: {
-            gte: latestAirdrop ? latestAirdrop.createdAt : new Date(0),
+            gte: date,
           },
         },
       },

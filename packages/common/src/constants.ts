@@ -237,6 +237,8 @@ export const OPENRANK_BATCH_LIMIT = 100;
 
 export const OPENRANK_SNAPSHOT_CRON = "0 3,9,15,21 * * *";
 
+export const OPENRANK_SNAPSHOT_INTERVAL = 6;
+
 export const NEVER_RUN_CRON = "0 0 31 2 *";
 
 export const DEV_CRON = "*/15 * * * *";

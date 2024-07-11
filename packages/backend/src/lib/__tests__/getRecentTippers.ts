@@ -1,18 +1,17 @@
 import { prisma } from "../../prisma";
-import { getSeasonTippers } from "../getSeasonTippers";
+import { getRecentTippers } from "../getRecentTippers";
 import { resetDatabase } from "./testUtils";
 
-describe("getSeasonalTippers", () => {
+describe("getRecentTippers", () => {
   const SEASON_1_TIPPER_ID = 1;
   const SEASON_2_TIPPER_ID = 2;
+  const SEASON_1_START = new Date("2023-01-01T00:00:00.000Z");
+  const SEASON_2_START = new Date("2023-02-01T00:00:00.000Z");
 
   const MAX_MS = 5;
 
   beforeEach(async () => {
-    await resetDatabase("Tip", "TipAllowance", "Airdrop", "Allocation", "User");
-
-    const SEASON_1_START = new Date("2023-01-01T00:00:00.000Z");
-    const SEASON_2_START = new Date("2023-02-01T00:00:00.000Z");
+    await resetDatabase();
 
     await createTips({
       tipperId: SEASON_1_TIPPER_ID,
@@ -64,7 +63,7 @@ describe("getSeasonalTippers", () => {
       }),
     );
 
-    const seasonTippers = await getSeasonTippers();
+    const seasonTippers = await getRecentTippers(SEASON_2_START);
 
     console.log("all tips", await prisma.tip.findMany());
 
@@ -77,9 +76,9 @@ describe("getSeasonalTippers", () => {
   });
 
   it("should return an empty array if no tips are found", async () => {
-    await resetDatabase("Tip", "TipAllowance", "Allocation", "User");
+    await resetDatabase();
 
-    const result = await getSeasonTippers();
+    const result = await getRecentTippers(SEASON_2_START);
     expect(result).toEqual([]);
   });
 

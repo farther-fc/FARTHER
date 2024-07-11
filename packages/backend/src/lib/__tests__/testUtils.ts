@@ -1,13 +1,29 @@
-import { Tables } from "../../prisma";
 import { pgClientPromise } from "./pgClientPromise";
 
 export function mockDate(isoDate: string) {
-  jest.useFakeTimers().setSystemTime(new Date(isoDate));
+  jest
+    .useFakeTimers({ doNotFake: ["nextTick"] })
+    .setSystemTime(new Date(isoDate));
 }
 
 // Borrowed from sound.xyz code repo
-export async function resetDatabase(...tables: [Tables, ...Tables[]]) {
-  const query = tables.map((table) => `DELETE FROM "${table}"`).join(";");
+export async function resetDatabase() {
+  const query = [
+    "OpenRankScore",
+    "OpenRankSnapshot",
+    "Tweet",
+    "Airdrop",
+    "EcosystemPayment",
+    "Tip",
+    "TipMeta",
+    "TipAllowance",
+    "TokenPrice",
+    "TipScore",
+    "Allocation",
+    "User",
+  ]
+    .map((table) => `DELETE FROM "${table}"`)
+    .join(";");
 
   return await (
     await pgClientPromise()
