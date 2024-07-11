@@ -69,6 +69,7 @@ export const allocationTypeNames = {
   [AllocationType.EVANGELIST]: "Evangelist",
   [AllocationType.LIQUIDITY]: "Liquidity (bonus)",
   [AllocationType.TIPS]: "Tips",
+  [AllocationType.TIPPER]: "Tipper Rewards",
 };
 
 export const allocationTypeLinks = {
@@ -76,6 +77,7 @@ export const allocationTypeLinks = {
   [AllocationType.EVANGELIST]: ROUTES.evangelize.path,
   [AllocationType.LIQUIDITY]: ROUTES.liquidty.path,
   [AllocationType.TIPS]: ROUTES.tips.path,
+  [AllocationType.TIPPER]: ROUTES.tips.path,
 };
 
 export const PENDING_POWER_ALLOCATION_ID = "pending-power-drop-allocation";
