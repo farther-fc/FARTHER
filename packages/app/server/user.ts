@@ -182,10 +182,8 @@ export const publicGetUserByAddress = publicProcedure
     });
 
     if (!dbUser) {
-      throw new TRPCError({
-        code: "NOT_FOUND",
-        message: "User not found in database",
-      });
+      console.warn("User not found in database. address:", address);
+      return null;
     }
 
     return await prepPublicUser({ dbUser, neynarUserData, currentTipMeta });
@@ -206,10 +204,8 @@ export const publicGetUserByFid = publicProcedure
     const dbUser = await getPublicUser({ fid, currentTipMeta });
 
     if (!dbUser) {
-      throw new TRPCError({
-        code: "NOT_FOUND",
-        message: "User not found in database",
-      });
+      console.warn("User not found in database. fid:", fid);
+      return null;
     }
 
     const neynarUserData = await getUserFromNeynar({
@@ -429,10 +425,8 @@ async function getPublicUser({
   });
 
   if (!user) {
-    throw new TRPCError({
-      code: "NOT_FOUND",
-      message: "User not found in database",
-    });
+    console.warn("User not found in database. fid:", fid);
+    return null;
   }
 
   return user;
