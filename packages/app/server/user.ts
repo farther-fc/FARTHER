@@ -441,6 +441,9 @@ async function prepPublicUser({
   neynarUserData: Awaited<ReturnType<typeof getUserFromNeynar>>;
   currentTipMeta: Awaited<ReturnType<typeof getCurrentTipMeta>>;
 }) {
+  if (!dbUser) {
+    return null;
+  }
   const leaderboard = await tipsLeaderboard();
 
   const latestTipsReceived =
