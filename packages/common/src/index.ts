@@ -1,4 +1,5 @@
 export * from "./abis";
+export * from "./axios";
 export * from "./constants";
 export * from "./env";
 export * from "./errors";
