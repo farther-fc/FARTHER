@@ -6,6 +6,12 @@ import { prisma } from "../prisma";
 export const acceptedWindowMs =
   (OPENRANK_SNAPSHOT_INTERVAL + 1) * 60 * 60 * 1000;
 
+export const acceptedLookBackDate = dayjs().subtract(acceptedWindowMs).toDate();
+
+/**
+ * Get the openrank score pair for a user at the given time range
+ * Returns null if no score is found (assumes the openrank score data is complete)
+ */
 export async function getOpenRankScorePair({
   userId,
   startTime,
@@ -21,6 +27,7 @@ export async function getOpenRankScorePair({
         userId,
         createdAt: {
           gte: startTime,
+          lt: dayjs(startTime).add(acceptedWindowMs, "ms").toDate(),
         },
       },
       orderBy: {
@@ -32,6 +39,7 @@ export async function getOpenRankScorePair({
         userId,
         createdAt: {
           lt: endTime,
+          gte: dayjs(endTime).subtract(acceptedWindowMs, "ms").toDate(),
         },
       },
       orderBy: {
@@ -39,22 +47,6 @@ export async function getOpenRankScorePair({
       },
     }),
   ]);
-
-  if (!startScore) {
-    throw new Error("No start score found");
-  }
-
-  if (!endScore) {
-    throw new Error("No end score found");
-  }
-
-  if (dayjs(startScore.createdAt).diff(dayjs(startTime)) > acceptedWindowMs) {
-    throw new Error("No score found within accepted interval for startTime");
-  }
-
-  if (dayjs(endTime).diff(dayjs(endScore.createdAt)) > acceptedWindowMs) {
-    throw new Error("No score found within accepted interval for endTime");
-  }
 
   return [startScore, endScore];
 }

@@ -1,107 +1,133 @@
 import dayjs from "dayjs";
-import { Tip } from "../prisma";
+import Decimal from "decimal.js";
+import { writeFile } from "fs";
+import { prisma } from "../prisma";
 import { getLatestTipperAirdrop } from "./getLatestTipperAirdrop";
-import { getOpenRankScorePair } from "./getOpenRankScorePair";
+import { acceptedLookBackDate } from "./getOpenRankScorePair";
 import { getRecentTippers } from "./getRecentTippers";
 
 const SCORE_START_DATE = new Date("2024-07-09T15:00:00.000Z");
 
 export async function calculateTipperScores() {
+  console.log(`Starting calculateTipperScores`, new Date());
+
   const latestAirdrop = await getLatestTipperAirdrop();
   const tippers = await getRecentTippers(
     latestAirdrop ? latestAirdrop.createdAt : SCORE_START_DATE,
   );
 
   const tips = tippers.map((tipper) => tipper.tipsGiven).flat();
+  const tipees = new Set(tips.map((tip) => tip.tippeeId));
 
-  console.log("processing", tippers.length, "tippers and", tips.length, "tips");
+  // Tip data for each tipeee to calculate the tipper's score
+  const tippeeTipSnapshots: {
+    [fid: number]: {
+      tippeeId: number;
+      createdAt: Date;
+      amount: number;
+      startScore: number | null;
+    }[];
+  } = {};
 
-  const tipperScores: { [id: string]: number[] } = {};
-  for (const tip of tips) {
-    const tipScore = await getTipScore(tip);
-    if (!tipperScores[tip.tipperId]) {
-      tipperScores[tip.tipperId] = [];
+  tips.forEach((tip) => {
+    if (!tippeeTipSnapshots[tip.tippeeId]) {
+      tippeeTipSnapshots[tip.tippeeId] = [];
     }
-    tipperScores[tip.tipperId].push(tipScore);
-  }
-
-  const averagedScores = Object.entries(tipperScores).map(
-    ([userId, scores]) => {
-      const sum = scores.reduce((acc, score) => acc + score, 0);
-      return {
-        userId,
-        score: sum / scores.length,
-      };
-    },
-  );
-
-  return averagedScores;
-}
-
-/**
- * OpenRank score delta per day
- */
-async function getTipScore(tip: Tip) {
-  const [score1, score2] = await getOpenRankScorePair({
-    userId: tip.tippeeId,
-    startTime: tip.createdAt,
+    tippeeTipSnapshots[tip.tippeeId].push({
+      tippeeId: tip.tippeeId,
+      createdAt: tip.createdAt,
+      amount: tip.amount,
+      startScore: tip.tippeeOpenRankScore,
+    });
   });
 
-  const days = dayjs(score2.createdAt).diff(dayjs(score1.createdAt), "day");
+  const latestTippeeOpenRankScores = await getUserOpenRankScores(
+    Array.from(tipees),
+  );
 
-  return (score2.score - score1.score) / days;
+  return Object.entries(tippeeTipSnapshots).map(([fid, tips]) => {
+    const latestOpenRankScoreData = latestTippeeOpenRankScores.find(
+      (d) => d.fid === Number(fid),
+    );
+
+    const tipScoreSum = getTipScoreSum({
+      tips,
+      latestOpenRankScore: latestOpenRankScoreData
+        ? latestOpenRankScoreData.openRankScore
+        : 0,
+    });
+
+    const totalAmountTipped = tips.reduce((acc, tip) => acc + tip.amount, 0);
+    return {
+      fid,
+      tipperScore: tipScoreSum.toNumber() / totalAmountTipped,
+    };
+  });
 }
 
-// async function getScores() {
-//   const scores = await prisma.openRankScore.findMany({
-//     where: {
-//       user: {
-//         tipsReceived: {
-//           some: {
-//             createdAt: {
-//               gte: new Date("2024-07-10 16:00:49.451"),
-//             },
-//           },
-//         },
-//       },
-//     },
-//   });
+async function getUserOpenRankScores(fids: number[]) {
+  const data = await prisma.user.findMany({
+    where: {
+      id: {
+        in: fids,
+      },
+    },
+    select: {
+      id: true,
+      openRankScores: {
+        where: {
+          createdAt: {
+            gte: acceptedLookBackDate,
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        take: 1,
+        select: {
+          score: true,
+        },
+      },
+    },
+  });
 
-//   console.log(
-//     "scores",
-//     scores.reduce((acc, score) => {
-//       if (!acc[score.userId]) {
-//         acc[score.userId] = [];
-//       }
-//       acc[score.userId].push(score);
-//       return acc;
-//     }, {}),
-//   );
-// }
+  return data.map((user) => ({
+    fid: user.id,
+    openRankScore: user.openRankScores[0].score,
+  }));
+}
 
-// getScores();
+function getTipScoreSum({
+  tips,
+  latestOpenRankScore,
+}: {
+  tips: {
+    tippeeId: number;
+    createdAt: Date;
+    amount: number;
+    startScore: number | null;
+  }[];
+  latestOpenRankScore: number;
+}) {
+  return tips.reduce((acc, tip) => {
+    const startScore = new Decimal(tip.startScore || 0);
+    const latestScore = new Decimal(latestOpenRankScore);
+    // % change in OpenRank score per day
+    const daysSinceTip = dayjs().diff(tip.createdAt, "day", true);
+    const openRankChange = latestScore.div(startScore);
+    const openRankChangePerDay = openRankChange.div(daysSinceTip);
+
+    return acc.add(openRankChangePerDay);
+  }, new Decimal(0));
+}
 
 calculateTipperScores().then((scores) => {
-  const avgScore =
-    scores.reduce((acc, score) => acc + score.score, 0) / scores.length;
-  const largestScore = scores.reduce(
-    (acc, score) => Math.max(acc, score.score),
-    0,
-  );
-  const smallestScore = scores.reduce(
-    (acc, score) => Math.min(acc, score.score),
-    0,
-  );
-
-  console.log("avgScore", avgScore);
-  console.log("largestScore", largestScore);
-  console.log("smallestScore", smallestScore);
-  console.log(
-    "biggest winner deviation from avg",
-    Math.abs(largestScore - avgScore),
-  );
-  console.log(
-    "biggest loser deviation from avg",
-    Math.abs(smallestScore - avgScore),
-  );
+  console.log(scores);
+  writeFile("tipperScores.json", JSON.stringify(scores), (err) => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log("Tipper scores written to tipperScores.json");
+    }
+  });
 });

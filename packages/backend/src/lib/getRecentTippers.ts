@@ -13,7 +13,14 @@ export async function getRecentTippers(date: Date) {
       },
     },
     include: {
-      tipsGiven: true,
+      tipsGiven: {
+        where: {
+          invalidTipReason: null,
+          createdAt: {
+            gte: date,
+          },
+        },
+      },
     },
   });
 }

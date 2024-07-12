@@ -94,40 +94,37 @@ describe("getOpenRankScorePair", () => {
     expect(score2?.score).toBe(0.004);
   });
 
-  test(`should throw error if start score isn't found`, async () => {
-    await expect(
-      async () =>
-        await getOpenRankScorePair({
-          userId: 1,
-          startTime: new Date("2050-01-01 00:00:00.000"),
-        }),
-    ).rejects.toThrow();
+  test(`should return null if start score isn't found`, async () => {
+    const [score1] = await getOpenRankScorePair({
+      userId: 1,
+      startTime: new Date("2050-01-01 00:00:00.000"),
+    });
+
+    expect(score1).toBeNull();
   });
 
-  test(`should throw error if earliest recorded score is past accepted time window`, async () => {
-    await expect(
-      async () =>
-        await getOpenRankScorePair({
-          userId: 1,
-          startTime: dayjs(times.score1)
-            .subtract(acceptedWindowMs + 1)
-            .toDate(),
-          endTime: new Date("2024-07-10 19:30:00.000"),
-        }),
-    ).rejects.toThrow();
+  test(`should return null if earliest recorded score is past accepted time window`, async () => {
+    const [score1] = await getOpenRankScorePair({
+      userId: 1,
+      startTime: dayjs(times.score1)
+        .subtract(acceptedWindowMs + 1)
+        .toDate(),
+      endTime: new Date("2024-07-10 19:30:00.000"),
+    });
+
+    expect(score1).toBeNull();
   });
 
-  test(`should throw error if end time is too far past the latest score`, async () => {
+  test(`should return null if end time is too far past the latest score`, async () => {
     const endTime = dayjs(times.score4)
       .add(acceptedWindowMs + 1)
       .toDate();
-    await expect(
-      async () =>
-        await getOpenRankScorePair({
-          userId: 1,
-          startTime: new Date("2024-07-10 01:00:00.000"),
-          endTime,
-        }),
-    ).rejects.toThrow();
+
+    const [, score2] = await getOpenRankScorePair({
+      userId: 1,
+      startTime: new Date("2024-07-10 01:00:00.000"),
+      endTime,
+    });
+    expect(score2).toBeNull();
   });
 });

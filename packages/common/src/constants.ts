@@ -96,6 +96,8 @@ export const baseContractAddresses = {
       "0x03a520b32c04bf3beef7beb72e919cf822ed34f1".toLowerCase() as Address,
     UNIV3_FARTHER_ETH_30BPS_POOL:
       "0x306e600e33A9c86B91EeA5A14c8C73F8de62AC84".toLowerCase() as Address,
+    FARCASTER_ID_REGISTRY:
+      "0x00000000Fc6c5F01Fc30151999387Bb99A9f489b".toLowerCase() as Address,
   },
   staging: {
     FARTHER:
@@ -109,6 +111,8 @@ export const baseContractAddresses = {
       "0x03a520b32c04bf3beef7beb72e919cf822ed34f1".toLowerCase() as Address,
     UNIV3_FARTHER_ETH_30BPS_POOL:
       "0x2453274556565Eb7c2f2411673b0301D2570e6Cf".toLowerCase() as Address,
+    FARCASTER_ID_REGISTRY:
+      "0x00000000Fc6c5F01Fc30151999387Bb99A9f489b".toLowerCase() as Address,
   },
   development: {
     FARTHER: "0x".toLowerCase() as Address,
@@ -117,6 +121,7 @@ export const baseContractAddresses = {
     UNISWAP_V3_STAKER: "0x".toLowerCase() as Address,
     NFT_POSITION_MANAGER: "0x".toLowerCase() as Address,
     UNIV3_FARTHER_ETH_30BPS_POOL: "0x".toLowerCase() as Address,
+    FARCASTER_ID_REGISTRY: "0x".toLowerCase() as Address,
   },
 } as const;
 
