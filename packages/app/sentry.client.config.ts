@@ -36,4 +36,19 @@ Sentry.init({
     }
     return breadcrumb;
   },
+  beforeSend(event, _hint) {
+    if (
+      event.request &&
+      event.request.url &&
+      event.request.url.includes("/api/")
+    ) {
+      console.warn(
+        "Ignoring event from /api route",
+        event.type,
+        event.request.url,
+      );
+      return null; // Drop the event
+    }
+    return event;
+  },
 });
