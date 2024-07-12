@@ -1,4 +1,8 @@
-import { OPENRANK_SNAPSHOT_CRON, isProduction } from "@farther/common";
+import {
+  OPENRANK_SNAPSHOT_CRON,
+  OpenRankError,
+  isProduction,
+} from "@farther/common";
 import {
   OpenRankData,
   getOpenRankScores,
@@ -33,8 +37,7 @@ export async function takeOpenRankSnapshot() {
 
     await storeScores(scores);
   } catch (error) {
-    // TODO: make custom error
-    Sentry.captureException(error);
+    Sentry.captureException(new OpenRankError({ originalError: error }));
   }
 }
 

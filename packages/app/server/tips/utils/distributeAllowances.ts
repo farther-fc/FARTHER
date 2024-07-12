@@ -1,7 +1,6 @@
 import { prisma } from "@farther/backend";
-import { ENVIRONMENT } from "@farther/common";
+import { DistributeAllowancesError, ENVIRONMENT } from "@farther/common";
 import { scaleLinear } from "d3";
-import { DistributeAllowancesError } from "../../errors";
 import { constrainWeights } from "../../tips/utils/constrainWeights";
 import { getTipMinimum } from "../../tips/utils/getTipMinimum";
 import { getUniqueTippees } from "../../tips/utils/getUniqueTippees";

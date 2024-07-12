@@ -33,7 +33,8 @@
     ".next/types/**/*.ts",
     "tailwind.config.ts",
     "lib/gql-queries.ts",
-    "lib/codegenPostScript.ts"
+    "lib/codegenPostScript.ts",
+    "../common/src/errors.ts"
   ],
   "exclude": ["node_modules"],
   "ts-node": {
