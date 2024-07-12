@@ -90,7 +90,8 @@ export async function handleTip({
 
   const openRankScores = await getOpenRankScores([tippee.fid]);
 
-  const tippeeOpenRankScore = openRankScores ? openRankScores[0].score : 0;
+  const tippeeOpenRankScore =
+    openRankScores && openRankScores[0] ? openRankScores[0].score : 0;
 
   const tipsThisCycle = await prisma.tip.findMany({
     where: {
