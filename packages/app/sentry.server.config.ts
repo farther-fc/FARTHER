@@ -13,4 +13,19 @@ Sentry.init({
   dsn: SENTRY_DSN,
   environment: NEXT_PUBLIC_ENVIRONMENT,
   enabled: NEXT_PUBLIC_ENVIRONMENT !== "development",
+  beforeSend(event, _hint) {
+    if (
+      event.request &&
+      event.request.url &&
+      event.request.url.includes("/api/")
+    ) {
+      console.warn(
+        "Ignoring event from /api route",
+        event.type,
+        event.request.url,
+      );
+      return null; // Drop the event
+    }
+    return event;
+  },
 });
