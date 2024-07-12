@@ -111,23 +111,26 @@ model EcosystemPayment {
 }
 
 model Tip {
-  hash             String            @id // Cast hash
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
-  tipperId         Int
-  tipper           User              @relation(name: "tipper", fields: [tipperId], references: [id])
-  tippeeId         Int
-  tippee           User              @relation(name: "tippee", fields: [tippeeId], references: [id])
-  tipAllowanceId   String            @db.Uuid
-  tipAllowance     TipAllowance      @relation(fields: [tipAllowanceId], references: [id])
-  amount           Float
-  invalidTipReason InvalidTipReason?
-  allocationId     String?
-  allocation       Allocation?       @relation(fields: [allocationId], references: [id])
+  hash                 String            @id // Cast hash
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+  tipperId             Int
+  tipper               User              @relation(name: "tipper", fields: [tipperId], references: [id])
+  tippeeId             Int
+  tippee               User              @relation(name: "tippee", fields: [tippeeId], references: [id])
+  tipAllowanceId       String            @db.Uuid
+  tipAllowance         TipAllowance      @relation(fields: [tipAllowanceId], references: [id])
+  amount               Float
+  invalidTipReason     InvalidTipReason?
+  allocationId         String?
+  allocation           Allocation?       @relation(fields: [allocationId], references: [id])
 
   // Tip recipient's change in OpenRank score * Tip.amount
   // This is stored mainly for efficiency reasons so it doesn't need to be recalculated
-  latestScore      Float?
+  latestFartherScore   Float?
+
+  // Stored at the time the tip is made
+  tippeeOpenRankScore  Float?
 }
 
 enum InvalidTipReason {

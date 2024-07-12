@@ -10,6 +10,10 @@
     "skipLibCheck": true,
     "module": "NodeNext"
   },
-  "include": ["src/**/*.ts"],
+  "include": [
+    "src/**/*.ts",
+    "../common/src/getOpenRankScore.ts",
+    "../common/src/axios.ts"
+  ],
   "files": ["src/server.ts"]
 }

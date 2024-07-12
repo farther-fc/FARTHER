@@ -51,8 +51,6 @@
     "@sentry/node": "^8.15.0",
     "@sentry/profiling-node": "^8.15.0",
     "ajv": "^8.13.0",
-    "axios": "^1.6.8",
-    "axios-retry": "^4.4.1",
     "bluebird": "^3.7.2",
     "d3": "^6.7",
     "enquirer": "^2.4.1",
