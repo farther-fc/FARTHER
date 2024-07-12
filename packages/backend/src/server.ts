@@ -18,9 +18,7 @@ cron.schedule(openrankSnapshotSchedule, takeOpenRankSnapshot, {
   timezone: "Etc/UTC",
 });
 
-const distributeAllowancesSchedule = isProduction
-  ? "0 16 * * *"
-  : "*/5 * * * *";
+const distributeAllowancesSchedule = "0 16 * * *";
 
 cron.schedule(
   distributeAllowancesSchedule,

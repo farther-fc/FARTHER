@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@farther/common";
 import { requireEnv } from "require-env-variable";
 
 const { NEXT_PUBLIC_ENVIRONMENT: ENV, CRON_SECRET } = requireEnv(
