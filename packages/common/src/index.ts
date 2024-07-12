@@ -1,6 +1,7 @@
 export * from "./abis";
 export * from "./constants";
 export * from "./env";
+export * from "./getOpenRankScore";
 export * from "./intToBigInt";
 export * from "./merkle";
 export * from "./neynar";

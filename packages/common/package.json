@@ -30,6 +30,8 @@
   },
   "dependencies": {
     "@neynar/nodejs-sdk": "^1.19.3",
+    "axios": "^1.6.8",
+    "axios-retry": "^4.4.1",
     "bottleneck": "^2.19.5",
     "ethers": "^6.11.1",
     "merkletreejs": "^0.3.11",

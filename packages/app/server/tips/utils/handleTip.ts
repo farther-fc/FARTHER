@@ -1,5 +1,5 @@
 import { prisma } from "@farther/backend";
-import { HANDLE_TIP_REGEX } from "@farther/common";
+import { HANDLE_TIP_REGEX, getOpenRankScores } from "@farther/common";
 import { Cast } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { InvalidTipReason } from "@prisma/client";
 
@@ -80,12 +80,17 @@ export async function handleTip({
       tipAmount,
       invalidTipReason,
       castHash: castData.hash,
+      tippeeOpenRankScore: null,
     };
 
     await storeTip(tipData);
 
     return;
   }
+
+  const openRankScores = await getOpenRankScores([tippee.fid]);
+
+  const tippeeOpenRankScore = openRankScores ? openRankScores[0].score : 0;
 
   const tipsThisCycle = await prisma.tip.findMany({
     where: {
@@ -109,6 +114,7 @@ export async function handleTip({
       tippeeFid: tippee.fid,
       tipAmount,
       invalidTipReason: InvalidTipReason.INSUFFICIENT_ALLOWANCE,
+      tippeeOpenRankScore,
     });
     return;
   }
@@ -119,6 +125,7 @@ export async function handleTip({
     tipperFid: tipper.fid,
     tippeeFid: tippee.fid,
     tipAmount,
+    tippeeOpenRankScore,
   });
 }
 
@@ -129,6 +136,7 @@ async function storeTip({
   tippeeFid,
   tipAmount,
   invalidTipReason,
+  tippeeOpenRankScore,
 }: {
   allowanceId: string;
   castHash: string;
@@ -136,6 +144,7 @@ async function storeTip({
   tippeeFid: number;
   tipAmount: number;
   invalidTipReason?: InvalidTipReason;
+  tippeeOpenRankScore: number | null;
 }) {
   await prisma.$transaction([
     prisma.tip.create({
@@ -143,6 +152,7 @@ async function storeTip({
         hash: castHash,
         amount: tipAmount,
         invalidTipReason,
+        tippeeOpenRankScore,
         tipper: {
           connectOrCreate: {
             where: { id: tipperFid },
