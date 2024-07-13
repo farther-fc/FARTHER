@@ -52,6 +52,7 @@ async function getLeaderboardData() {
       tipAllowances: {
         some: {
           tipMetaId: currentTipMeta.id,
+          invalidatedAmount: null,
         },
       },
     },

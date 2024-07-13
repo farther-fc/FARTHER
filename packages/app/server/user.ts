@@ -385,7 +385,6 @@ async function getPublicUser({
           createdAt: {
             gte: currentTipCycleStart,
           },
-          invalidatedAmount: null,
         },
         include: {
           tips: {
@@ -469,8 +468,9 @@ async function prepPublicUser({
     0,
   );
 
-  const remainingAllowance =
-    latestTipAllowance && givenAmount
+  const remainingAllowance = latestTipAllowance?.invalidatedAmount
+    ? 0
+    : latestTipAllowance && givenAmount
       ? latestTipAllowance.amount - givenAmount
       : null;
 
@@ -494,6 +494,7 @@ async function prepPublicUser({
         givenCount: latestTipAllowance ? latestTipAllowance.tips.length : null,
         givenAmount,
         remainingAllowance,
+        invalidatedAmount: latestTipAllowance?.invalidatedAmount,
         receivedCount: latestTipsReceived.length,
         receivedAmount,
         tipMinimum: currentTipMeta?.tipMinimum,
