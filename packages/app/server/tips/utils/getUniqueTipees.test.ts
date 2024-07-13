@@ -1,13 +1,10 @@
-import { prisma } from "@farther/backend";
+import { prisma, resetDatabase } from "@farther/backend";
 import { tipperInclude } from "./getEligibleTippers";
 import { getUniqueTippees } from "./getUniqueTippees";
 
 describe("getUniqueTipees", () => {
   beforeEach(async () => {
-    await prisma.tipAllowance.deleteMany();
-    await prisma.tip.deleteMany();
-    await prisma.tipMeta.deleteMany();
-    await prisma.user.deleteMany();
+    await resetDatabase();
   });
 
   it("returns the unique number of tippees for a given tipper fid", async () => {
@@ -35,7 +32,7 @@ describe("getUniqueTipees", () => {
     // Give the tipper a tip allowance
     const tipAllowance = await prisma.tipAllowance.create({
       data: {
-        amount: 100000,
+        amount: 30239739073,
         userId: TIPPER_ID,
         userBalance: "42069",
         tipMetaId: tipMeta.id,
@@ -46,7 +43,7 @@ describe("getUniqueTipees", () => {
     for (let id = 1; id < 3; id++) {
       await prisma.tipAllowance.create({
         data: {
-          amount: 100000,
+          amount: 23503270923,
           userId: id,
           userBalance: "42069",
           tipMetaId: tipMeta.id,

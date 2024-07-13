@@ -1,4 +1,4 @@
-import { pgClientPromise } from "./pgClientPromise";
+import { pgClientPromise } from "./__tests__/pgClientPromise";
 
 export function mockDate(isoDate: string) {
   jest
@@ -15,8 +15,8 @@ export async function resetDatabase() {
     "Airdrop",
     "EcosystemPayment",
     "Tip",
-    "TipMeta",
     "TipAllowance",
+    "TipMeta",
     "TokenPrice",
     "TipScore",
     "Allocation",

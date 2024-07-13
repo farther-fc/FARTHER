@@ -1,15 +1,14 @@
-import { TipMeta, User, prisma } from "@farther/backend";
+import { TipMeta, User, prisma, resetDatabase } from "@farther/backend";
 import { getLatestTipAllowance } from "./getLatestTipAllowance";
 
 describe("getLatestTipAllowance", () => {
+  const USER_ID = 137093;
+
   let tipMeta: TipMeta;
   let tipper: User;
 
   beforeEach(async () => {
-    await prisma.tip.deleteMany();
-    await prisma.tipAllowance.deleteMany();
-    await prisma.tipMeta.deleteMany();
-    await prisma.user.deleteMany();
+    await resetDatabase();
 
     tipMeta = await prisma.tipMeta.create({
       data: {
@@ -22,7 +21,7 @@ describe("getLatestTipAllowance", () => {
 
     tipper = await prisma.user.create({
       data: {
-        id: Math.round(Math.random() * 1000000),
+        id: USER_ID,
       },
     });
   });
@@ -31,18 +30,15 @@ describe("getLatestTipAllowance", () => {
     await prisma.tipAllowance.create({
       data: {
         userId: tipper.id,
-        createdAt: new Date(0),
-        invalidatedAmount: 0,
         amount: 123,
         userBalance: "123",
         tipMetaId: tipMeta.id,
       },
     });
 
-    const tipperId = 0;
     const sinceWhen = new Date(0);
     const tipAllowance = await getLatestTipAllowance({
-      tipperId,
+      tipperId: USER_ID,
       sinceWhen,
     });
 
@@ -53,7 +49,6 @@ describe("getLatestTipAllowance", () => {
     await prisma.tipAllowance.create({
       data: {
         userId: tipper.id,
-        createdAt: new Date(0),
         invalidatedAmount: 1,
         amount: 123,
         userBalance: "123",
