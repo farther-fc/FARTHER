@@ -2,7 +2,7 @@ import { prisma } from "@farther/backend";
 import { HANDLE_TIP_REGEX, getOpenRankScores } from "@farther/common";
 import { Cast } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { InvalidTipReason } from "@prisma/client";
-import { getLatestTipAllowance } from "server/tips/utils/getLatestTipAllowance";
+import { getLatestTipAllowance } from "./getLatestTipAllowance";
 
 export async function handleTip({
   castData,
@@ -17,7 +17,6 @@ export async function handleTip({
     throw new Error(`No matching text found in cast: ${castData.hash}`);
   }
 
-  let invalidTipReason: undefined | InvalidTipReason = undefined;
   const tipper = castData.author;
   const tippee = castData.parent_author;
 
@@ -51,39 +50,6 @@ export async function handleTip({
     return;
   }
 
-  const tipMinimum = tipMeta.tipMinimum;
-
-  const isAtleastTipMinimum = tipAmount >= tipMinimum;
-
-  const validTime = createdAtMs > tipMeta.createdAt.getTime();
-
-  if (selfTip || !validTime || !isAtleastTipMinimum) {
-    invalidTipReason = selfTip
-      ? InvalidTipReason.SELF_TIPPING
-      : !validTime
-        ? InvalidTipReason.INVALID_TIME
-        : InvalidTipReason.BELOW_MINIMUM;
-
-    const tipData = {
-      allowanceId: tipAllowance.id,
-      tipperFid: tipper.fid,
-      tippeeFid: tippee.fid,
-      tipAmount,
-      invalidTipReason,
-      castHash: castData.hash,
-      tippeeOpenRankScore: null,
-    };
-
-    await storeTip(tipData);
-
-    return;
-  }
-
-  const openRankScores = await getOpenRankScores([tippee.fid]);
-
-  const tippeeOpenRankScore =
-    openRankScores && openRankScores[0] ? openRankScores[0].score : 0;
-
   const tipsThisCycle = await prisma.tip.findMany({
     where: {
       tipAllowanceId: tipAllowance.id,
@@ -100,18 +66,44 @@ export async function handleTip({
   const availableAllowance =
     tipAllowance.amount - (tipAllowance.invalidatedAmount ?? 0);
 
-  if (newTipTotal > availableAllowance) {
-    await storeTip({
+  const isBelowMinimum = tipAmount < tipMeta.tipMinimum;
+
+  const validTime = createdAtMs >= tipMeta.createdAt.getTime();
+
+  const exceedsAllowance = newTipTotal > availableAllowance;
+
+  const invalidTipReason = selfTip
+    ? InvalidTipReason.SELF_TIPPING
+    : !validTime
+      ? InvalidTipReason.INVALID_TIME
+      : isBelowMinimum
+        ? InvalidTipReason.BELOW_MINIMUM
+        : exceedsAllowance
+          ? InvalidTipReason.INSUFFICIENT_ALLOWANCE
+          : null;
+
+  if (invalidTipReason) {
+    const tipData = {
       allowanceId: tipAllowance.id,
-      castHash: castData.hash,
       tipperFid: tipper.fid,
       tippeeFid: tippee.fid,
       tipAmount,
-      invalidTipReason: InvalidTipReason.INSUFFICIENT_ALLOWANCE,
-      tippeeOpenRankScore,
-    });
+      invalidTipReason,
+      castHash: castData.hash,
+      tippeeOpenRankScore: null,
+    };
+
+    console.warn("Storing invalid tip", tipData);
+
+    await storeTip(tipData);
+
     return;
   }
+
+  const openRankScores = await getOpenRankScores([tippee.fid]);
+
+  const tippeeOpenRankScore =
+    openRankScores && openRankScores[0] ? openRankScores[0].score : 0;
 
   await storeTip({
     allowanceId: tipAllowance.id,
