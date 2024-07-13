@@ -3,10 +3,13 @@ import Decimal from "decimal.js";
 import { writeFile } from "fs";
 import { prisma } from "../prisma";
 import { getLatestTipperAirdrop } from "./getLatestTipperAirdrop";
-import { acceptedLookBackDate } from "./getOpenRankScorePair";
 import { getRecentTippers } from "./getRecentTippers";
 
-const SCORE_START_DATE = new Date("2024-07-09T15:00:00.000Z");
+// // Allow for a 1 hour buffer in case the snapshot is delayed
+//  const acceptedWindowMs =
+//   (OPENRANK_SNAPSHOT_INTERVAL + 1) * 60 * 60 * 1000;
+
+const SCORE_START_DATE = new Date(1720747891576);
 
 export async function calculateTipperScores() {
   console.log(`Starting calculateTipperScores`, new Date());
@@ -21,7 +24,7 @@ export async function calculateTipperScores() {
 
   // Tip data for each tipeee to calculate the tipper's score
   const tippeeTipSnapshots: {
-    [fid: number]: {
+    [tippeeId: number]: {
       tippeeId: number;
       createdAt: Date;
       amount: number;
@@ -33,7 +36,7 @@ export async function calculateTipperScores() {
     if (!tippeeTipSnapshots[tip.tippeeId]) {
       tippeeTipSnapshots[tip.tippeeId] = [];
     }
-    tippeeTipSnapshots[tip.tippeeId].push({
+    tippeeTipSnapshots[tip.tipperId].push({
       tippeeId: tip.tippeeId,
       createdAt: tip.createdAt,
       amount: tip.amount,
@@ -41,13 +44,13 @@ export async function calculateTipperScores() {
     });
   });
 
-  const latestTippeeOpenRankScores = await getUserOpenRankScores(
+  const latestTippeeOpenRankScores = await getLatestOpenRankScores(
     Array.from(tipees),
   );
 
-  return Object.entries(tippeeTipSnapshots).map(([fid, tips]) => {
+  return Object.entries(tippeeTipSnapshots).map(([tippeeFid, tips]) => {
     const latestOpenRankScoreData = latestTippeeOpenRankScores.find(
-      (d) => d.fid === Number(fid),
+      (d) => d.fid === Number(tippeeFid),
     );
 
     const tipScoreSum = getTipScoreSum({
@@ -59,13 +62,13 @@ export async function calculateTipperScores() {
 
     const totalAmountTipped = tips.reduce((acc, tip) => acc + tip.amount, 0);
     return {
-      fid,
+      tippeeFid,
       tipperScore: tipScoreSum.toNumber() / totalAmountTipped,
     };
   });
 }
 
-async function getUserOpenRankScores(fids: number[]) {
+async function getLatestOpenRankScores(fids: number[]) {
   const data = await prisma.user.findMany({
     where: {
       id: {
@@ -75,11 +78,6 @@ async function getUserOpenRankScores(fids: number[]) {
     select: {
       id: true,
       openRankScores: {
-        where: {
-          createdAt: {
-            gte: acceptedLookBackDate,
-          },
-        },
         orderBy: {
           createdAt: "desc",
         },
@@ -93,7 +91,7 @@ async function getUserOpenRankScores(fids: number[]) {
 
   return data.map((user) => ({
     fid: user.id,
-    openRankScore: user.openRankScores[0].score,
+    openRankScore: user.openRankScores[0] ? user.openRankScores[0].score : 0,
   }));
 }
 
@@ -123,7 +121,7 @@ function getTipScoreSum({
 
 calculateTipperScores().then((scores) => {
   console.log(scores);
-  writeFile("tipperScores.json", JSON.stringify(scores), (err) => {
+  writeFile("tipperScores.json", JSON.stringify(scores, null, 2), (err) => {
     if (err) {
       console.error(err);
     } else {
