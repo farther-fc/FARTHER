@@ -68,13 +68,13 @@ export async function handleTip({
 
   const isBelowMinimum = tipAmount < tipMeta.tipMinimum;
 
-  const validTime = createdAtMs >= tipMeta.createdAt.getTime();
+  const invalidTime = createdAtMs >= tipMeta.createdAt.getTime();
 
   const exceedsAllowance = newTipTotal > availableAllowance;
 
   const invalidTipReason = selfTip
     ? InvalidTipReason.SELF_TIPPING
-    : !validTime
+    : !invalidTime
       ? InvalidTipReason.INVALID_TIME
       : isBelowMinimum
         ? InvalidTipReason.BELOW_MINIMUM
@@ -92,8 +92,6 @@ export async function handleTip({
       castHash: castData.hash,
       tippeeOpenRankScore: null,
     };
-
-    console.warn("Storing invalid tip", tipData);
 
     await storeTip(tipData);
 
