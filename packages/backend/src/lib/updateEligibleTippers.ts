@@ -3,8 +3,6 @@ import { getEligibleTippers } from "./getEligibleTippers";
 import { invalidateAllowance } from "./invalidateAllowance";
 
 export async function updateEligibleTippers() {
-  const eligibleTippers = await getEligibleTippers();
-
   const tipMeta = await prisma.tipMeta.findFirst({
     orderBy: {
       createdAt: "desc",
@@ -15,15 +13,13 @@ export async function updateEligibleTippers() {
   const allowances = await prisma.tipAllowance.findMany({
     where: {
       createdAt: {
-        gt: tipMeta.createdAt,
+        gte: tipMeta.createdAt,
       },
-      invalidatedAmount: {
-        not: {
-          gt: 0,
-        },
-      },
+      invalidatedAmount: null,
     },
   });
+
+  const eligibleTippers = await getEligibleTippers();
 
   for (const allowance of allowances) {
     const tipper = eligibleTippers.find((t) => t.id === allowance.userId);

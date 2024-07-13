@@ -137,9 +137,13 @@ export const getUser = publicProcedure
         },
         currentAllowance: {
           amount: dbUser?.tipAllowances[0]?.amount || 0,
+          invalidatedAmount: dbUser?.tipAllowances[0]?.invalidatedAmount,
           tipsGiven: dbUser?.tipAllowances[0]?.tips.length || 0,
           spent,
-          remaining: allowance - spent,
+          remaining:
+            allowance -
+            spent -
+            (dbUser?.tipAllowances[0]?.invalidatedAmount || 0),
         },
       };
     } catch (error: any) {
@@ -381,11 +385,7 @@ async function getPublicUser({
           createdAt: {
             gte: currentTipCycleStart,
           },
-          invalidatedAmount: {
-            not: {
-              gt: 0,
-            },
-          },
+          invalidatedAmount: null,
         },
         include: {
           tips: {

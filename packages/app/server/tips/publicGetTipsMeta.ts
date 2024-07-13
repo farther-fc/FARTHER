@@ -13,11 +13,7 @@ export const publicGetTipsMeta = publicProcedure
         select: {
           allowances: {
             where: {
-              invalidatedAmount: {
-                not: {
-                  gt: 0,
-                },
-              },
+              invalidatedAmount: null,
             },
           },
         },
@@ -32,7 +28,19 @@ export const publicGetTipsMeta = publicProcedure
             gte: new Date(opts.input.date),
           },
         },
-        include,
+        include: {
+          _count: {
+            select: {
+              allowances: {
+                where: {
+                  invalidatedAmount: {
+                    AND: [],
+                  },
+                },
+              },
+            },
+          },
+        },
       });
     }
 
