@@ -1,4 +1,4 @@
-import { TipAllowance, prisma } from "../prisma";
+import { TipAllowance, prisma } from "@farther/backend/src/prisma";
 
 export async function invalidateAllowance(allowance: TipAllowance) {
   const tips = await prisma.tip.findMany({

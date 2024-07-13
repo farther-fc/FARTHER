@@ -1,4 +1,4 @@
-import { prisma } from "../prisma";
+import { prisma } from "@farther/backend";
 import { getEligibleTippers } from "./getEligibleTippers";
 import { invalidateAllowance } from "./invalidateAllowance";
 
@@ -9,6 +9,10 @@ export async function updateEligibleTippers() {
     },
     take: 1,
   });
+
+  if (!tipMeta) {
+    throw new Error("updateEligibleTippers: No tip meta found");
+  }
 
   const allowances = await prisma.tipAllowance.findMany({
     where: {

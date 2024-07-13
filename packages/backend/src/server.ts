@@ -7,7 +7,6 @@ import cron from "node-cron";
 import "../instrument";
 import { generateApiCallCron } from "./lib/generateApiCallCron";
 import { takeOpenRankSnapshot } from "./lib/takeOpenRankSnapshot";
-import { updateEligibleTippers } from "./lib/updateEligibleTippers";
 
 console.log("server running!");
 
@@ -26,6 +25,10 @@ cron.schedule("0 16 * * *", generateApiCallCron("admin.distributeAllowances"), {
 // Eligibility is checked every hour, with a random delay to keep allowance farmers on their toes
 cron.schedule(isProduction ? "0 * * * *" : NEVER_RUN_CRON, () => {
   const randomDelay = Math.floor(Math.random() * 3_600_000);
+
+  const updateEligibleTippers = generateApiCallCron(
+    "admin.updateEligibleTippers",
+  );
 
   setTimeout(updateEligibleTippers, isProduction ? randomDelay : 0);
 });

@@ -1,6 +1,5 @@
-import { TipAllowance, prisma } from "../../prisma";
-import { invalidateAllowance } from "../invalidateAllowance";
-import { resetDatabase } from "../testUtils";
+import { TipAllowance, prisma, resetDatabase } from "@farther/backend";
+import { invalidateAllowance } from "../utils/invalidateAllowance";
 
 describe("invalidateAllowance", () => {
   const USER_ID = 1730937;
