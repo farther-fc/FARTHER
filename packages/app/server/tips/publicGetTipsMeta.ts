@@ -28,19 +28,7 @@ export const publicGetTipsMeta = publicProcedure
             gte: new Date(opts.input.date),
           },
         },
-        include: {
-          _count: {
-            select: {
-              allowances: {
-                where: {
-                  invalidatedAmount: {
-                    AND: [],
-                  },
-                },
-              },
-            },
-          },
-        },
+        include,
       });
     }
 
