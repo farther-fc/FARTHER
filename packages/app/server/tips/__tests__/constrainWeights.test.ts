@@ -1,5 +1,5 @@
 // constrainWeights.test.ts
-import { constrainWeights } from "./constrainWeights";
+import { constrainWeights } from "../utils/constrainWeights";
 
 describe("constrainWeights", () => {
   test("should throw on bad inputs", () => {

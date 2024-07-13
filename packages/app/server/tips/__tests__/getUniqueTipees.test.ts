@@ -1,6 +1,6 @@
 import { prisma, resetDatabase } from "@farther/backend";
-import { tipperInclude } from "./getEligibleTippers";
-import { getUniqueTippees } from "./getUniqueTippees";
+import { tipperInclude } from "../utils/getEligibleTippers";
+import { getUniqueTippees } from "../utils/getUniqueTippees";
 
 describe("getUniqueTipees", () => {
   beforeEach(async () => {

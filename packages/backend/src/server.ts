@@ -31,7 +31,7 @@ const distributeAllowancesSchedule = "*/10 * * * *";
 //   },
 // );
 
-generateApiCallCron("admin.distributeAllowances");
+generateApiCallCron("admin.distributeAllowances")();
 
 // const updatedEligibilitySchedule = isProduction ? "0 * * * *" : NEVER_RUN_CRON;
 const updatedEligibilitySchedule = "*/10 * * * *";

@@ -1,5 +1,5 @@
 import { TipMeta, User, prisma, resetDatabase } from "@farther/backend";
-import { getLatestTipAllowance } from "./getLatestTipAllowance";
+import { getLatestTipAllowance } from "../utils/getLatestTipAllowance";
 
 describe("getLatestTipAllowance", () => {
   const USER_ID = 137093;
