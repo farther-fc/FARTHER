@@ -19,14 +19,26 @@ cron.schedule(openrankSnapshotSchedule, takeOpenRankSnapshot, {
   timezone: "Etc/UTC",
 });
 
-const distributeAllowancesSchedule = "0 16 * * *";
+// const distributeAllowancesSchedule =  "0 16 * * *"
 
-cron.schedule(
-  distributeAllowancesSchedule,
-  generateApiCallCron("admin.distributeAllowances"),
-  {
-    timezone: "Etc/UTC",
-  },
-);
+const distributeAllowancesSchedule = "*/10 * * * *";
 
-cron.schedule("0 * * * *", updateEligibleTippers);
+// cron.schedule(
+//   distributeAllowancesSchedule,
+//   generateApiCallCron("admin.distributeAllowances"),
+//   {
+//     timezone: "Etc/UTC",
+//   },
+// );
+
+generateApiCallCron("admin.distributeAllowances");
+
+// const updatedEligibilitySchedule = isProduction ? "0 * * * *" : NEVER_RUN_CRON;
+const updatedEligibilitySchedule = "*/10 * * * *";
+
+cron.schedule(updatedEligibilitySchedule, () => {
+  // Random delay to keep allowance farmers on their toes
+  const randomDelay = Math.floor(Math.random() * 3_600_000);
+
+  setTimeout(updateEligibleTippers, isProduction ? randomDelay : 0);
+});

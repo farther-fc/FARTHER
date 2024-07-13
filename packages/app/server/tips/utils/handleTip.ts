@@ -46,14 +46,14 @@ export async function handleTip({
     sinceWhen: tipMeta.createdAt,
   });
 
-  const tipMinimum = tipMeta.tipMinimum;
-
-  const isAtleastTipMinimum = tipAmount >= tipMinimum;
-
   if (!tipAllowance) {
     console.warn(`No tip allowance found for user ${tipper}`);
     return;
   }
+
+  const tipMinimum = tipMeta.tipMinimum;
+
+  const isAtleastTipMinimum = tipAmount >= tipMinimum;
 
   const validTime = createdAtMs > tipMeta.createdAt.getTime();
 
