@@ -162,6 +162,9 @@ importers:
       dayjs:
         specifier: ^1.11.11
         version: 1.11.11
+      dns:
+        specifier: file:./mock/dns
+        version: file:packages/app/mock/dns
       graphql-tag:
         specifier: ^2.12.6
         version: 2.12.6(graphql@16.8.1)
@@ -30984,6 +30987,11 @@ packages:
     dependencies:
       react: 18.3.1
       use-sync-external-store: 1.2.0(react@18.3.1)
+    dev: false
+
+  file:packages/app/mock/dns:
+    resolution: {directory: packages/app/mock/dns, type: directory}
+    name: dns
     dev: false
 
   github.com/ethereumjs/ethereumjs-abi/ee3994657fa7a427238e6ba92a84d0b529bbcde0:
