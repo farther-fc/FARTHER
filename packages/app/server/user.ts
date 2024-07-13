@@ -381,6 +381,11 @@ async function getPublicUser({
           createdAt: {
             gte: currentTipCycleStart,
           },
+          invalidatedAmount: {
+            not: {
+              gt: 0,
+            },
+          },
         },
         include: {
           tips: {
