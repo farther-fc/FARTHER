@@ -21718,6 +21718,7 @@ packages:
       slash: 3.0.0
       strip-json-comments: 3.1.1
       ts-node: 10.9.2(@types/node@20.12.7)(typescript@5.4.5)
+<<<<<<< Updated upstream
     transitivePeerDependencies:
       - babel-plugin-macros
       - supports-color
@@ -21759,6 +21760,8 @@ packages:
       slash: 3.0.0
       strip-json-comments: 3.1.1
       ts-node: 10.9.2(@types/node@20.12.7)(typescript@5.4.5)
+=======
+>>>>>>> Stashed changes
     transitivePeerDependencies:
       - babel-plugin-macros
       - supports-color
