@@ -44,6 +44,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@airstack/node": "^0.0.7",
     "@farther/common": "*",
     "@neondatabase/serverless": "^0.7.2",
     "@neynar/nodejs-sdk": "^1.19.3",

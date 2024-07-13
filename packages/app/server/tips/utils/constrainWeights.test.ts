@@ -2,7 +2,7 @@
 import { constrainWeights } from "./constrainWeights";
 
 describe("constrainWeights", () => {
-  test("should throw an error if breadth is less than or equal to 0", () => {
+  test("should throw on bad inputs", () => {
     expect(() => constrainWeights({ weights: [1, 2, 3], breadth: 0 })).toThrow(
       "Breadth must be greater than 0",
     );

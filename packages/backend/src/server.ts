@@ -7,6 +7,7 @@ import cron from "node-cron";
 import "../instrument";
 import { generateApiCallCron } from "./lib/generateApiCallCron";
 import { takeOpenRankSnapshot } from "./lib/takeOpenRankSnapshot";
+import { updateEligibleTippers } from "./lib/updateEligibleTippers";
 
 console.log("server running!");
 
@@ -27,3 +28,5 @@ cron.schedule(
     timezone: "Etc/UTC",
   },
 );
+
+cron.schedule("0 * * * *", updateEligibleTippers);

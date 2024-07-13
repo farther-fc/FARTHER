@@ -11,8 +11,6 @@ export function constrainWeights({
 
   if (weights.length === 0) return [];
 
-  if (breadth === 1 || smallToBigRatio > 0.2) return weights;
-
   if (breadth <= 0) {
     throw new Error("Breadth must be greater than 0");
   }
@@ -20,6 +18,8 @@ export function constrainWeights({
   if (breadth > 1) {
     throw new Error("Breadth must be less than or equal to 1");
   }
+
+  if (breadth === 1 || smallToBigRatio > 0.2) return weights;
 
   const medianWeight = sortedWeights[Math.floor(sortedWeights.length / 2)];
 

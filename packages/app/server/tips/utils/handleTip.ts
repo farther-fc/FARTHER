@@ -2,6 +2,7 @@ import { prisma } from "@farther/backend";
 import { HANDLE_TIP_REGEX, getOpenRankScores } from "@farther/common";
 import { Cast } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { InvalidTipReason } from "@prisma/client";
+import { getLatestTipAllowance } from "server/tips/utils/getLatestTipAllowance";
 
 export async function handleTip({
   castData,
@@ -40,17 +41,9 @@ export async function handleTip({
     throw new Error("No tip meta found");
   }
 
-  // Get latest tip allowance
-  const tipAllowance = await prisma.tipAllowance.findFirst({
-    where: {
-      userId: tipper.fid,
-      createdAt: {
-        gte: tipMeta.createdAt,
-      },
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
+  const tipAllowance = await getLatestTipAllowance({
+    tipperId: tipper.fid,
+    sinceWhen: tipMeta.createdAt,
   });
 
   const tipMinimum = tipMeta.tipMinimum;
@@ -62,9 +55,7 @@ export async function handleTip({
     return;
   }
 
-  const validTime = tipAllowance
-    ? createdAtMs > tipAllowance.createdAt.getTime()
-    : false;
+  const validTime = createdAtMs > tipMeta.createdAt.getTime();
 
   if (selfTip || !validTime || !isAtleastTipMinimum) {
     invalidTipReason = selfTip
@@ -106,8 +97,10 @@ export async function handleTip({
   );
 
   const newTipTotal = amountTippedThisCycle + tipAmount;
+  const availableAllowance =
+    tipAllowance.amount - (tipAllowance.invalidatedAmount ?? 0);
 
-  if (newTipTotal > tipAllowance.amount) {
+  if (newTipTotal > availableAllowance) {
     await storeTip({
       allowanceId: tipAllowance.id,
       castHash: castData.hash,
