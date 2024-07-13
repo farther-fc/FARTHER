@@ -11,6 +11,10 @@ const nextConfig = {
   swcMinify: true,
   webpack: (config) => {
     config.resolve.fallback = { fs: false, net: false, tls: false };
+    config.module.rules?.push({
+      test: /__tests__/,
+      loader: "ignore-loader",
+    });
     return config;
   },
   experimental: {

@@ -137,9 +137,13 @@ export const getUser = publicProcedure
         },
         currentAllowance: {
           amount: dbUser?.tipAllowances[0]?.amount || 0,
+          invalidatedAmount: dbUser?.tipAllowances[0]?.invalidatedAmount,
           tipsGiven: dbUser?.tipAllowances[0]?.tips.length || 0,
           spent,
-          remaining: allowance - spent,
+          remaining:
+            allowance -
+            spent -
+            (dbUser?.tipAllowances[0]?.invalidatedAmount || 0),
         },
       };
     } catch (error: any) {
@@ -464,8 +468,9 @@ async function prepPublicUser({
     0,
   );
 
-  const remainingAllowance =
-    latestTipAllowance && givenAmount
+  const remainingAllowance = latestTipAllowance?.invalidatedAmount
+    ? 0
+    : latestTipAllowance && givenAmount
       ? latestTipAllowance.amount - givenAmount
       : null;
 
@@ -489,6 +494,7 @@ async function prepPublicUser({
         givenCount: latestTipAllowance ? latestTipAllowance.tips.length : null,
         givenAmount,
         remainingAllowance,
+        invalidatedAmount: latestTipAllowance?.invalidatedAmount,
         receivedCount: latestTipsReceived.length,
         receivedAmount,
         tipMinimum: currentTipMeta?.tipMinimum,

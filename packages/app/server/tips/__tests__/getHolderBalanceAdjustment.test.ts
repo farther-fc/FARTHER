@@ -1,4 +1,4 @@
-import { getHolderBalanceAdjustment } from "./getHolderBalanceAdjustment";
+import { getHolderBalanceAdjustment } from "../utils/getHolderBalanceAdjustment";
 
 describe("getHolderBalanceAdjustment", () => {
   it("returns the correct weight for a given balance", async () => {

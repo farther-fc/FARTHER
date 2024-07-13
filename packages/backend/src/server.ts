@@ -18,12 +18,17 @@ cron.schedule(openrankSnapshotSchedule, takeOpenRankSnapshot, {
   timezone: "Etc/UTC",
 });
 
-const distributeAllowancesSchedule = "0 16 * * *";
+cron.schedule("0 16 * * *", generateApiCallCron("admin.distributeAllowances"), {
+  timezone: "Etc/UTC",
+});
 
-cron.schedule(
-  distributeAllowancesSchedule,
-  generateApiCallCron("admin.distributeAllowances"),
-  {
-    timezone: "Etc/UTC",
-  },
-);
+// Eligibility is checked every hour, with a random delay to keep allowance farmers on their toes
+cron.schedule(isProduction ? "0 * * * *" : NEVER_RUN_CRON, () => {
+  const randomDelay = Math.floor(Math.random() * 3_600_000);
+
+  const updateEligibleTippers = generateApiCallCron(
+    "admin.updateEligibleTippers",
+  );
+
+  setTimeout(updateEligibleTippers, isProduction ? randomDelay : 0);
+});

@@ -14,6 +14,7 @@ import {
   publicTipsLeaderboard,
 } from "server/tips/leaderboard";
 import { publicGetTipsMeta } from "server/tips/publicGetTipsMeta";
+import { updateEligibleTippers } from "server/tips/updateEligibleTippers";
 import { createContext, router } from "server/trpc";
 import {
   getUser,
@@ -28,6 +29,7 @@ export const appRouter = router({
   getUser,
   admin: router({
     distributeAllowances,
+    updateEligibleTippers,
     getAdminData,
     invalidateStaleAllocations,
     flushLeaderboard,

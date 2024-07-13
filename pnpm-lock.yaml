@@ -162,6 +162,9 @@ importers:
       dayjs:
         specifier: ^1.11.11
         version: 1.11.11
+      dns:
+        specifier: file:./mock/dns
+        version: file:packages/app/mock/dns
       graphql-tag:
         specifier: ^2.12.6
         version: 2.12.6(graphql@16.8.1)
@@ -304,6 +307,9 @@ importers:
       eslint-plugin-tailwindcss:
         specifier: ^3.13.0
         version: 3.15.1(tailwindcss@3.4.3)
+      ignore-loader:
+        specifier: ^0.1.2
+        version: 0.1.2
       jest:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@17.0.45)(ts-node@10.9.2)
@@ -328,6 +334,9 @@ importers:
 
   packages/backend:
     dependencies:
+      '@airstack/node':
+        specifier: ^0.0.7
+        version: 0.0.7
       '@farther/common':
         specifier: '*'
         version: link:../common
@@ -20777,6 +20786,10 @@ packages:
   /ieee754@1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
 
+  /ignore-loader@0.1.2:
+    resolution: {integrity: sha512-yOJQEKrNwoYqrWLS4DcnzM7SEQhRKis5mB+LdKKh4cPmGYlLPR0ozRzHV5jmEk2IxptqJNQA5Cc0gw8Fj12bXA==}
+    dev: true
+
   /ignore@4.0.6:
     resolution: {integrity: sha512-cyFDKrqc/YdcWFniJhzI42+AzS+gNwmUzOSFcRCQYwySuBBBy/KjuxWLZ/FHEH6Moq1NizMOBWyTcv8O4OZIMg==}
     engines: {node: '>= 4'}
@@ -30981,6 +30994,11 @@ packages:
     dependencies:
       react: 18.3.1
       use-sync-external-store: 1.2.0(react@18.3.1)
+    dev: false
+
+  file:packages/app/mock/dns:
+    resolution: {directory: packages/app/mock/dns, type: directory}
+    name: dns
     dev: false
 
   github.com/ethereumjs/ethereumjs-abi/ee3994657fa7a427238e6ba92a84d0b529bbcde0:

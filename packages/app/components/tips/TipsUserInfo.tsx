@@ -1,12 +1,15 @@
 import { InfoCard } from "@components/InfoCard";
 import { NoUserFoundCard } from "@components/NoUserFoundCard";
 import { Button } from "@components/ui/Button";
+import { Popover } from "@components/ui/Popover";
 import { Skeleton } from "@components/ui/Skeleton";
+import { TIPPER_REQUIRED_FARTHER_BALANCE } from "@farther/common";
 import { clickIds } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import dayjs from "dayjs";
 import { useTipsMeta } from "hooks/useTipsMeta";
+import { AlertCircle } from "lucide-react";
 
 export function TipsUserInfo() {
   const { createdAt } = useTipsMeta();
@@ -33,29 +36,60 @@ export function TipsUserInfo() {
                   Allowance
                 </span>
                 <span className="font-bold md:text-lg">
-                  {user.currentAllowance.amount.toLocaleString()} ✨
+                  {user.currentAllowance.amount.toLocaleString()}{" "}
+                  {user.currentAllowance.amount > 0 && "✨"}
                 </span>
                 <span className="text-muted">Given</span>
                 <span>
-                  {user.currentAllowance.spent.toLocaleString()} ✨{" "}
+                  {user.currentAllowance.spent.toLocaleString()}{" "}
+                  {user.currentAllowance.spent > 0 && "✨"}{" "}
                   <span className="text-ghost">
                     ({user.currentAllowance.tipsGiven} tips)
                   </span>
                 </span>
-                <span className="text-muted">Remaining</span>
-                <span>
-                  {user.currentAllowance.remaining.toLocaleString()} ✨
-                </span>
+                {user.currentAllowance.invalidatedAmount ? (
+                  <>
+                    {" "}
+                    <span className="text-muted text-red-400">Voided</span>
+                    <div className="flex text-red-400">
+                      {user.currentAllowance.invalidatedAmount.toLocaleString()}
+                      <Popover
+                        content={
+                          <>
+                            Your $farther balance dropped below the{" "}
+                            {TIPPER_REQUIRED_FARTHER_BALANCE.toLocaleString()}{" "}
+                            balance requirement. Any tips you've given are still
+                            valid, but your remaining allowance for this cycle
+                            has been voided.
+                          </>
+                        }
+                      >
+                        <AlertCircle className="ml-2 w-3 text-red-400" />
+                      </Popover>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-muted">Remaining</span>
+                    <span>
+                      {user.currentAllowance.remaining.toLocaleString()}{" "}
+                      {user.currentAllowance.remaining > 0 && "✨"}
+                    </span>
+                  </>
+                )}
               </div>
               <div className="mt-6 grid grid-cols-[100px_200px] gap-2 md:mt-0">
                 <span className="text-muted font-bold md:text-lg">
                   Received
                 </span>
                 <span className="font-bold md:text-lg">
-                  {user.latestTipsReceived.amount.toLocaleString()} ✨{" "}
-                  <span className="text-ghost">
-                    ({user.latestTipsReceived.number} tips)
-                  </span>
+                  {user.latestTipsReceived.amount.toLocaleString()}{" "}
+                  {user.latestTipsReceived.amount > 0 && "✨"}{" "}
+                  {user.latestTipsReceived.number ? (
+                    <span className="text-ghost">
+                      ({user.latestTipsReceived.number} tips)
+                    </span>
+                  ) : null}
                 </span>
               </div>
             </div>
@@ -66,7 +100,8 @@ export function TipsUserInfo() {
               <div className="grid grid-cols-[100px_200px] gap-2">
                 <span className="text-muted font-bold md:text-lg">Given</span>
                 <span className="font-bold md:text-lg">
-                  {user.totalTipsGiven.amount.toLocaleString()} ✨{" "}
+                  {user.totalTipsGiven.amount.toLocaleString()}{" "}
+                  {user.totalTipsGiven.amount > 0 && "✨"}{" "}
                   <span className="text-ghost">
                     ({user.totalTipsGiven.number} tips)
                   </span>
@@ -77,10 +112,13 @@ export function TipsUserInfo() {
                   Received
                 </span>
                 <span className="font-bold md:text-lg">
-                  {user.totalTipsReceived.amount.toLocaleString()} ✨{" "}
-                  <span className="text-ghost">
-                    ({user.totalTipsReceived.number} tips)
-                  </span>
+                  {user.totalTipsReceived.amount.toLocaleString()}{" "}
+                  {user.totalTipsReceived.amount > 0 && "✨"}{" "}
+                  {user.totalTipsReceived.number ? (
+                    <span className="text-ghost">
+                      ({user.totalTipsReceived.number} tips)
+                    </span>
+                  ) : null}
                 </span>
               </div>
             </div>

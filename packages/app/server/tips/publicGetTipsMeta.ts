@@ -11,7 +11,11 @@ export const publicGetTipsMeta = publicProcedure
     const include = {
       _count: {
         select: {
-          allowances: true,
+          allowances: {
+            where: {
+              invalidatedAmount: null,
+            },
+          },
         },
       },
     } as const;
