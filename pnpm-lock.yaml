@@ -207,6 +207,9 @@ importers:
       react-hook-form:
         specifier: ^7.49.3
         version: 7.51.3(react@18.2.0)
+      react-infinite-scroller:
+        specifier: ^1.2.6
+        version: 1.2.6(react@18.2.0)
       sharp:
         specifier: ^0.31.3
         version: 0.31.3
@@ -283,6 +286,9 @@ importers:
       '@types/react-dom':
         specifier: ^18.2.6
         version: 18.2.25
+      '@types/react-infinite-scroller':
+        specifier: ^1.2.5
+        version: 1.2.5
       '@types/uuid':
         specifier: ^9.0.8
         version: 9.0.8
@@ -12281,6 +12287,12 @@ packages:
     resolution: {integrity: sha512-o/V48vf4MQh7juIKZU2QGDfli6p1+OOi5oXx36Hffpc9adsHeXjVp8rHuPkjd8VT8sOJ2Zp05HR7CdpGTIUFUA==}
     dependencies:
       '@types/react': 18.2.79
+
+  /@types/react-infinite-scroller@1.2.5:
+    resolution: {integrity: sha512-fJU1jhMgoL6NJFrqTM0Ob7tnd2sQWGxe2ESwiU6FZWbJK/VO/Er5+AOhc+e2zbT0dk5pLygqctsulOLJ8xnSzw==}
+    dependencies:
+      '@types/react': 18.2.79
+    dev: true
 
   /@types/react@18.2.79:
     resolution: {integrity: sha512-RwGAGXPl9kSXwdNTafkOEuFrTBD5SA2B3iEB96xi8+xu5ddUa/cpvyVCSNn+asgLCTHkb5ZxN8gbuibYJi4s1w==}
@@ -25687,6 +25699,15 @@ packages:
       i18next: 22.5.1
       react: 18.3.1
       react-native: 0.74.2(@babel/core@7.24.7)(@babel/preset-env@7.24.7)(react@18.3.1)
+    dev: false
+
+  /react-infinite-scroller@1.2.6(react@18.2.0):
+    resolution: {integrity: sha512-mGdMyOD00YArJ1S1F3TVU9y4fGSfVVl6p5gh/Vt4u99CJOptfVu/q5V/Wlle72TMgYlBwIhbxK5wF0C/R33PXQ==}
+    peerDependencies:
+      react: ^0.14.9 || ^15.3.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
     dev: false
 
   /react-is@16.13.1:
