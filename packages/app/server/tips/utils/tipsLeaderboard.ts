@@ -1,15 +1,17 @@
 import { prisma } from "@farther/backend";
-import { ENVIRONMENT, neynarLimiter } from "@farther/common";
+import {
+  ENVIRONMENT,
+  cacheKeys,
+  cacheTimes,
+  neynarLimiter,
+} from "@farther/common";
 import { kv } from "@vercel/kv";
 import { leaderboardDummyData } from "../dummyData/leaderboard";
 
-const key = `TIPS_LEADERBOARD`;
-
-const ONE_DAY = 24 * 60 * 60;
-
 export async function tipsLeaderboard() {
-  const cachedLeaderboard =
-    await kv.get<Awaited<ReturnType<typeof getLeaderboardData>>>(key);
+  const cachedLeaderboard = await kv.get<
+    Awaited<ReturnType<typeof getLeaderboardData>>
+  >(cacheKeys.LEADERBOARD);
 
   if (cachedLeaderboard) {
     console.info("Cache hit for leaderboard data");
@@ -21,7 +23,9 @@ export async function tipsLeaderboard() {
 
   const leaderboardData = await getLeaderboardData();
 
-  kv.set(key, leaderboardData, { ex: ONE_DAY });
+  kv.set(cacheKeys.LEADERBOARD, leaderboardData, {
+    ex: cacheTimes.LEADERBOARD,
+  });
 
   return leaderboardData;
 }

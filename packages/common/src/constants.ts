@@ -217,9 +217,15 @@ export const HANDLE_TIP_REGEX =
     : /\d+(\.\d+)?\s*(\$(f|F)(t|T)(e|E)(s|S)(t|T)|(f|F)(t|T)(e|E)(s|S)(t|T))/;
 
 export const cacheTimes = {
-  PUBLIC_USER: 600,
+  PUBLIC_USER: 3,
   PUBLIC_PRICE: 1200,
-  PUBLIC_TIP_META: 3600,
+  PUBLIC_TIP_META: 43200, // 12 hours
+  LEADERBOARD: 43200, // 12 hours
+} as const;
+
+export const cacheKeys = {
+  TIP_META: "TIP_META",
+  LEADERBOARD: "LEADERBOARD",
 } as const;
 
 export const TIP_META_RESET_HOUR = 19;
@@ -234,3 +240,5 @@ export const OPENRANK_SNAPSHOT_CRON = "0 3,9,15,21 * * *";
 export const NEVER_RUN_CRON = "0 0 31 2 *";
 
 export const DEV_CRON = "*/15 * * * *";
+
+export const API_BATCH_LIMIT = 100;

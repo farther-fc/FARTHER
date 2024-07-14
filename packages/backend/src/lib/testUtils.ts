@@ -1,4 +1,4 @@
-import { pgClientPromise } from "./__tests__/pgClientPromise";
+import { prisma } from "../prisma";
 
 export function mockDate(isoDate: string) {
   jest
@@ -6,26 +6,19 @@ export function mockDate(isoDate: string) {
     .setSystemTime(new Date(isoDate));
 }
 
-// Borrowed from sound.xyz code repo
-export async function resetDatabase() {
-  const query = [
-    "OpenRankScore",
-    "OpenRankSnapshot",
-    "Tweet",
-    "Airdrop",
-    "EcosystemPayment",
-    "Tip",
-    "TipAllowance",
-    "TipMeta",
-    "TokenPrice",
-    "TipScore",
-    "Allocation",
-    "User",
-  ]
-    .map((table) => `DELETE FROM "${table}"`)
-    .join(";");
+export async function clearDatabase() {
+  const tables: { tablename: string }[] = await prisma.$queryRaw`
+    SELECT tablename
+    FROM pg_tables
+    WHERE schemaname='public'`;
 
-  return await (
-    await pgClientPromise()
-  ).client.query(`START TRANSACTION; ${query}; COMMIT;`);
+  const tableNames = tables
+    .map(({ tablename }) => `"public"."${tablename}"`)
+    .join(", ");
+
+  if (tableNames.length) {
+    await prisma.$executeRawUnsafe(
+      `TRUNCATE TABLE ${tableNames} RESTART IDENTITY CASCADE`,
+    );
+  }
 }

@@ -1,3 +1,4 @@
+import { API_BATCH_LIMIT } from "@farther/common";
 import { Address } from "viem";
 import * as z from "zod";
 
@@ -43,5 +44,14 @@ export const apiSchemas = {
         date: z.string().datetime(),
       })
       .optional(),
+  },
+  publicTipsByTipper: {
+    input: z.object({
+      fid: z.coerce.number().int().gte(0).lte(100_000_000_000),
+      cursor: z.number().int().min(0).max(8640000000000000).optional(),
+      from: z.number().int().min(0).max(8640000000000000).optional(),
+      order: z.enum(["asc", "desc"]).default("asc").optional(),
+      limit: z.number().min(1).max(API_BATCH_LIMIT).optional(),
+    }),
   },
 };
