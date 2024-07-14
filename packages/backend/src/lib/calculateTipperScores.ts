@@ -22,9 +22,9 @@ export async function calculateTipperScores() {
   const tips = tippers.map((tipper) => tipper.tipsGiven).flat();
   const tipees = new Set(tips.map((tip) => tip.tippeeId));
 
-  // Tip data for each tipeee to calculate the tipper's score
-  const tippeeTipSnapshots: {
-    [tippeeId: number]: {
+  // Grouped by tipper
+  const tipSnapshots: {
+    [tipperId: number]: {
       tippeeId: number;
       createdAt: Date;
       amount: number;
@@ -33,10 +33,10 @@ export async function calculateTipperScores() {
   } = {};
 
   tips.forEach((tip) => {
-    if (!tippeeTipSnapshots[tip.tippeeId]) {
-      tippeeTipSnapshots[tip.tippeeId] = [];
+    if (!tipSnapshots[tip.tipperId]) {
+      tipSnapshots[tip.tipperId] = [];
     }
-    tippeeTipSnapshots[tip.tipperId].push({
+    tipSnapshots[tip.tipperId].push({
       tippeeId: tip.tippeeId,
       createdAt: tip.createdAt,
       amount: tip.amount,
@@ -48,24 +48,19 @@ export async function calculateTipperScores() {
     Array.from(tipees),
   );
 
-  return Object.entries(tippeeTipSnapshots).map(([tippeeFid, tips]) => {
-    const latestOpenRankScoreData = latestTippeeOpenRankScores.find(
-      (d) => d.fid === Number(tippeeFid),
-    );
+  const tipperScores: { [fid: number]: number } = {};
 
+  for (const tipper of tippers) {
     const tipScoreSum = getTipScoreSum({
-      tips,
-      latestOpenRankScore: latestOpenRankScoreData
-        ? latestOpenRankScoreData.openRankScore
-        : 0,
+      tips: tipSnapshots[tipper.id] || [],
+      latestOpenRankScore: latestTippeeOpenRankScores[tipper.id] || 0,
     });
 
     const totalAmountTipped = tips.reduce((acc, tip) => acc + tip.amount, 0);
-    return {
-      tippeeFid,
-      tipperScore: tipScoreSum.toNumber() / totalAmountTipped,
-    };
-  });
+
+    tipperScores[tipper.id] = tipScoreSum.toNumber() / totalAmountTipped;
+  }
+  return tipperScores;
 }
 
 async function getLatestOpenRankScores(fids: number[]) {
@@ -89,10 +84,13 @@ async function getLatestOpenRankScores(fids: number[]) {
     },
   });
 
-  return data.map((user) => ({
-    fid: user.id,
-    openRankScore: user.openRankScores[0] ? user.openRankScores[0].score : 0,
-  }));
+  const scores: { [fid: number]: number } = {};
+
+  data.forEach((user) => {
+    scores[user.id] = user.openRankScores[0] ? user.openRankScores[0].score : 0;
+  });
+
+  return scores;
 }
 
 function getTipScoreSum({
