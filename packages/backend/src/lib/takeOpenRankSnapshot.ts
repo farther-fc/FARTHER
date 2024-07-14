@@ -37,7 +37,8 @@ export async function takeOpenRankSnapshot() {
 
     await storeScores(scores);
   } catch (error) {
-    Sentry.captureException(new OpenRankError({ originalError: error }));
+    console.error(error);
+    Sentry.captureException(new OpenRankError({ message: error.message }));
   }
 }
 
@@ -83,5 +84,3 @@ async function storeScores(scores: OpenRankData["result"]) {
     }),
   );
 }
-
-takeOpenRankSnapshot();

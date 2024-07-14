@@ -27,12 +27,9 @@ export class DistributeAllowancesError extends Error {
 }
 
 export class OpenRankError extends Error {
-  originalError: unknown;
-
-  constructor({ originalError }: { originalError?: unknown }) {
-    super();
+  constructor({ message }: { message?: string }) {
+    super(message);
 
     this.name = "OpenRankError";
-    this.originalError = originalError;
   }
 }
