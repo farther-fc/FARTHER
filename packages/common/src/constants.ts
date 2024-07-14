@@ -217,7 +217,7 @@ export const HANDLE_TIP_REGEX =
     : /\d+(\.\d+)?\s*(\$(f|F)(t|T)(e|E)(s|S)(t|T)|(f|F)(t|T)(e|E)(s|S)(t|T))/;
 
 export const cacheTimes = {
-  PUBLIC_USER: 600,
+  PUBLIC_USER: 3,
   PUBLIC_PRICE: 1200,
   PUBLIC_TIP_META: 3600,
 } as const;
