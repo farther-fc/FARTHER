@@ -1,10 +1,14 @@
-import { prisma, resetDatabase } from "@farther/backend";
+import { clearDatabase, prisma } from "@farther/backend";
 import { tipperInclude } from "../utils/getEligibleTippers";
 import { getUniqueTippees } from "../utils/getUniqueTippees";
 
 describe("getUniqueTipees", () => {
-  beforeEach(async () => {
-    await resetDatabase();
+  beforeAll(async () => {
+    await clearDatabase();
+  });
+
+  afterEach(async () => {
+    await clearDatabase();
   });
 
   it("returns the unique number of tippees for a given tipper fid", async () => {
@@ -58,8 +62,9 @@ describe("getUniqueTipees", () => {
           hash: `0x${Math.random()}`,
           amount: 1,
           tipper: {
-            connect: {
-              id: TIPPER_ID,
+            connectOrCreate: {
+              where: { id: TIPPER_ID },
+              create: { id: TIPPER_ID },
             },
           },
           tippee: {

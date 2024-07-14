@@ -1,14 +1,20 @@
-import { TipAllowance, prisma, resetDatabase } from "@farther/backend";
+import { TipAllowance, clearDatabase, prisma } from "@farther/backend";
 import { invalidateAllowance } from "../utils/invalidateAllowance";
 
 describe("invalidateAllowance", () => {
+  beforeAll(async () => {
+    await clearDatabase();
+  });
+
+  afterEach(async () => {
+    await clearDatabase();
+  });
+
   const USER_ID = 1730937;
 
   let allowance: TipAllowance;
 
   beforeEach(async () => {
-    await resetDatabase();
-
     const tipMeta = await prisma.tipMeta.create({
       data: {
         tipMinimum: 100,

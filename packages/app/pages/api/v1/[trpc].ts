@@ -14,6 +14,7 @@ import {
   publicTipsLeaderboard,
 } from "server/tips/leaderboard";
 import { publicGetTipsMeta } from "server/tips/publicGetTipsMeta";
+import { publicTipsByTipper } from "server/tips/publicTipsByTipper";
 import { updateEligibleTippers } from "server/tips/updateEligibleTippers";
 import { createContext, router } from "server/trpc";
 import {
@@ -42,6 +43,7 @@ export const appRouter = router({
     tips: router({
       meta: publicGetTipsMeta,
       leaderboard: publicTipsLeaderboard,
+      byTipper: publicTipsByTipper,
     }),
     token: router({
       price: publicGetPrice,
