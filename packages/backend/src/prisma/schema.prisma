@@ -131,6 +131,13 @@ model Tip {
 
   // Stored at the time the tip is made
   tippeeOpenRankScore  Float?
+
+  @@index([createdAt])
+  @@index([tipperId])
+  @@index([tippeeId])
+  @@index([tipperId, tippeeId])
+  @@index([tipAllowanceId])
+  @@index([allocationId])
 }
 
 enum InvalidTipReason {
@@ -167,6 +174,9 @@ model TipAllowance {
 
   // Combined balance for all their addresses at the time of the snapshot
   userBalance   String
+
+  @@index([userId])
+  @@index([tipMetaId])
 }
 
 model TokenPrice {
@@ -185,6 +195,9 @@ model OpenRankScore {
   snapshotId  String
   snapshot    OpenRankSnapshot @relation(fields: [snapshotId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
+  @@index([userId])
+  @@index([createdAt])
+  @@index([userId, createdAt])
   @@unique([userId, snapshotId])
 }
 

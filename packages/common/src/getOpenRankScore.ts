@@ -42,9 +42,12 @@ export const getOpenRankScores = async (fids: number[]) => {
       ),
     ),
   ).then(async (responses: AxiosResponse<OpenRankData>[]) => {
-    for (const response of responses) {
-      return dedupeScores(response.data.result);
+    const allResults = responses.map((response) => response.data.result);
+    const allScores: OpenRankData["result"] = [];
+    for (const result of allResults) {
+      allScores.push(...dedupeScores(result));
     }
+    return allScores;
   });
 };
 

@@ -83,3 +83,5 @@ async function storeScores(scores: OpenRankData["result"]) {
     }),
   );
 }
+
+takeOpenRankSnapshot();
