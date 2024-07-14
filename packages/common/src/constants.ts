@@ -219,7 +219,13 @@ export const HANDLE_TIP_REGEX =
 export const cacheTimes = {
   PUBLIC_USER: 3,
   PUBLIC_PRICE: 1200,
-  PUBLIC_TIP_META: 3600,
+  PUBLIC_TIP_META: 43200, // 12 hours
+  LEADERBOARD: 43200, // 12 hours
+} as const;
+
+export const cacheKeys = {
+  TIP_META: "TIP_META",
+  LEADERBOARD: "LEADERBOARD",
 } as const;
 
 export const TIP_META_RESET_HOUR = 19;
