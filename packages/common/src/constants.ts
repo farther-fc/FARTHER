@@ -240,16 +240,20 @@ export const OPENRANK_URL =
 
 export const OPENRANK_BATCH_LIMIT = 100;
 
-export const OPENRANK_SNAPSHOT_CRON = "0 3,9,15,21 * * *";
-
 export const OPENRANK_SNAPSHOT_INTERVAL = 6;
 
-export const NEVER_RUN_CRON = "0 0 31 2 *";
-
-export const DEV_CRON = "*/15 * * * *";
+export const cronSchedules = {
+  OPENRANK_SNAPSHOT: "0 3,9,15,21 * * *",
+  DISTRIBUTE_ALLOWANCES: "0 16 * * *",
+  UPDATE_ELIGIBLE_TIPPERS: "0 * * * *",
+  NEVER_RUN: "0 0 31 2 *",
+  DEV_CRON: "*/15 * * * *",
+};
 
 export const API_BATCH_LIMIT = 100;
 
 export const TOTAL_DAILY_TIP_ALLOCATION = 500_000;
 
 export const TOTAL_MONTHLY_TIP_REWARDS = 4.25e6;
+
+export const TIP_SCORE_SCALER = 1_000_000_000;

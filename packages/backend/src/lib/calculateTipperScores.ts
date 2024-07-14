@@ -1,15 +1,11 @@
+import { TIP_SCORE_SCALER } from "@farther/common";
 import dayjs from "dayjs";
 import Decimal from "decimal.js";
-import { writeFile } from "fs";
 import { prisma } from "../prisma";
 import { getLatestTipperAirdrop } from "./getLatestTipperAirdrop";
 import { getRecentTippers } from "./getRecentTippers";
 
-// // Allow for a 1 hour buffer in case the snapshot is delayed
-//  const acceptedWindowMs =
-//   (OPENRANK_SNAPSHOT_INTERVAL + 1) * 60 * 60 * 1000;
-
-const SCORE_START_DATE = new Date(1720747891576);
+const SCORE_START_DATE = new Date("2024-07-14T03:00:08.894Z");
 
 export async function calculateTipperScores() {
   console.log(`Starting calculateTipperScores`, new Date());
@@ -22,7 +18,7 @@ export async function calculateTipperScores() {
   const tips = tippers.map((tipper) => tipper.tipsGiven).flat();
   const tipees = new Set(tips.map((tip) => tip.tippeeId));
 
-  // Grouped by tipper
+  // Tips grouped by tipper
   const tipSnapshots: {
     [tipperId: number]: {
       tippeeId: number;
@@ -53,14 +49,12 @@ export async function calculateTipperScores() {
   for (const tipper of tippers) {
     const tipScoreSum = getTipScoreSum({
       tips: tipSnapshots[tipper.id] || [],
-      latestOpenRankScore: latestTippeeOpenRankScores[tipper.id] || 0,
+      latestTippeeOpenRankScores,
     });
 
-    const totalAmountTipped = tips.reduce((acc, tip) => acc + tip.amount, 0);
-
-    tipperScores[tipper.id] = tipScoreSum.toNumber() / totalAmountTipped;
+    tipperScores[tipper.id] = tipScoreSum.toNumber();
   }
-  return tipperScores;
+  return Object.entries(tipperScores).sort((a, b) => b[1] - a[1]);
 }
 
 async function getLatestOpenRankScores(fids: number[]) {
@@ -95,7 +89,7 @@ async function getLatestOpenRankScores(fids: number[]) {
 
 function getTipScoreSum({
   tips,
-  latestOpenRankScore,
+  latestTippeeOpenRankScores,
 }: {
   tips: {
     tippeeId: number;
@@ -103,27 +97,38 @@ function getTipScoreSum({
     amount: number;
     startScore: number | null;
   }[];
-  latestOpenRankScore: number;
+  latestTippeeOpenRankScores: { [fid: number]: number };
 }) {
-  return tips.reduce((acc, tip) => {
-    const startScore = new Decimal(tip.startScore || 0);
-    const latestScore = new Decimal(latestOpenRankScore);
-    // % change in OpenRank score per day
-    const daysSinceTip = dayjs().diff(tip.createdAt, "day", true);
-    const openRankChange = latestScore.div(startScore);
-    const openRankChangePerDay = openRankChange.div(daysSinceTip);
+  return (
+    tips
+      .reduce((acc, tip) => {
+        const startScore = new Decimal(tip.startScore || 0);
+        const latestScore = new Decimal(
+          latestTippeeOpenRankScores[tip.tippeeId],
+        );
 
-    return acc.add(openRankChangePerDay);
-  }, new Decimal(0));
+        // Change in OpenRank score per day
+        const daysSinceTip = dayjs().diff(tip.createdAt, "day", true);
+        const openRankChange = latestScore.sub(startScore);
+        const openRankChangePerDay = openRankChange.div(daysSinceTip);
+
+        // Change per token
+        const changePerToken = openRankChangePerDay.div(tip.amount);
+
+        return acc.add(changePerToken);
+      }, new Decimal(0))
+      // Scale up to human readable numbers
+      .mul(TIP_SCORE_SCALER)
+  );
 }
 
-calculateTipperScores().then((scores) => {
-  console.log(scores);
-  writeFile("tipperScores.json", JSON.stringify(scores, null, 2), (err) => {
-    if (err) {
-      console.error(err);
-    } else {
-      console.log("Tipper scores written to tipperScores.json");
-    }
-  });
-});
+// calculateTipperScores().then((scores) => {
+//   console.log(scores);
+//   writeFile("tipperScores.json", JSON.stringify(scores, null, 2), (err) => {
+//     if (err) {
+//       console.error(err);
+//     } else {
+//       console.log("Tipper scores written to tipperScores.json");
+//     }
+//   });
+// });
