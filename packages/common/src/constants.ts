@@ -248,7 +248,7 @@ export const cronSchedules = {
   UPDATE_ELIGIBLE_TIPPERS: "0 */4 * * *",
   NEVER_RUN: "0 0 31 2 *",
   DEV_CRON: "*/15 * * * *",
-};
+} as const;
 
 export const API_BATCH_LIMIT = 100;
 
