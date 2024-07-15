@@ -17,7 +17,7 @@ export function TipsUserInfo() {
   const { openConnectModal } = useConnectModal();
 
   return (
-    <>
+    <div className="mb-14">
       {userIsLoading ? (
         <>
           <Skeleton className="mt-8 h-[140px]" />
@@ -138,6 +138,6 @@ export function TipsUserInfo() {
       ) : (
         <NoUserFoundCard />
       )}
-    </>
+    </div>
   );
 }
