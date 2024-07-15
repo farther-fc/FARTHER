@@ -1,11 +1,11 @@
-import { OPENRANK_SNAPSHOT_CRON } from "@farther/common";
 import { getLatestCronTime } from "../getLatestCronTime";
+import { cronSchedules } from "./../../../../common/src/constants";
 import { mockDate } from "./testUtils";
 
 describe("getLatestCronTime", () => {
   test("returns 3am of the same day if the current time is between 3am and 3pm", () => {
     mockDate("2024-07-08T05:05:00Z");
-    const latestCronTime = getLatestCronTime(OPENRANK_SNAPSHOT_CRON);
+    const latestCronTime = getLatestCronTime(cronSchedules.OPENRANK_SNAPSHOT);
     jest.useRealTimers();
     expect(latestCronTime).toEqual(
       new Date("2024-07-08T03:00:00Z").toISOString(),
@@ -14,7 +14,7 @@ describe("getLatestCronTime", () => {
 
   test("returns 3pm of the same day if the current time is after 3pm", () => {
     mockDate("2024-07-08T20:00:00Z"); // 8pm UTC (example)
-    const latestCronTime = getLatestCronTime(OPENRANK_SNAPSHOT_CRON);
+    const latestCronTime = getLatestCronTime(cronSchedules.OPENRANK_SNAPSHOT);
     jest.useRealTimers();
     expect(latestCronTime).toEqual(
       new Date("2024-07-08T15:00:00Z").toISOString(),
@@ -23,7 +23,7 @@ describe("getLatestCronTime", () => {
 
   test("returns 3pm of the previous day if the current time is before 3am", () => {
     mockDate("2024-07-08T01:00:00Z"); // 1am UTC (example)
-    const latestCronTime = getLatestCronTime(OPENRANK_SNAPSHOT_CRON);
+    const latestCronTime = getLatestCronTime(cronSchedules.OPENRANK_SNAPSHOT);
     jest.useRealTimers();
     expect(latestCronTime).toEqual(
       new Date("2024-07-07T21:00:00Z").toISOString(),

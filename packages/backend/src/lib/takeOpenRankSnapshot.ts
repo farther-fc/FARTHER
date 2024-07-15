@@ -1,8 +1,4 @@
-import {
-  OPENRANK_SNAPSHOT_CRON,
-  OpenRankError,
-  isProduction,
-} from "@farther/common";
+import { OpenRankError, cronSchedules, isProduction } from "@farther/common";
 import {
   OpenRankData,
   getOpenRankScores,
@@ -43,7 +39,7 @@ export async function takeOpenRankSnapshot() {
 }
 
 async function storeScores(scores: OpenRankData["result"]) {
-  const snapshotTimeId = getLatestCronTime(OPENRANK_SNAPSHOT_CRON);
+  const snapshotTimeId = getLatestCronTime(cronSchedules.OPENRANK_SNAPSHOT);
 
   await prisma.$transaction(
     scores.map((r) => {
