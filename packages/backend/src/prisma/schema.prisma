@@ -189,6 +189,7 @@ model TokenPrice {
 model OpenRankScore {
   id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   userId      Int
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   score       Float
@@ -204,12 +205,14 @@ model OpenRankScore {
 model OpenRankSnapshot {
   id   String @id
   createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   scores      OpenRankScore[]
 }
 
 model TipScore {
   id            String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
   userId        Int
   user          User        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   score         Float
