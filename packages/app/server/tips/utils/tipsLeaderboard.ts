@@ -121,6 +121,6 @@ async function getLeaderboardData() {
   return rankedData;
 }
 
-export const flushLeaderboardCache = () => {
+export const flushCache = () => {
   kv.flushall();
 };
