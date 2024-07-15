@@ -400,19 +400,20 @@ async function getPublicUser({
 }) {
   const currentTipCycleStart = currentTipMeta?.createdAt || new Date();
 
+  if (!fid && !address) {
+    throw new Error("Must provide either address or fid");
+  }
+
   const user = await prisma.user.findFirst({
-    where: {
-      OR: [
-        { id: fid },
-        {
+    where: fid
+      ? { id: fid }
+      : {
           ethAccounts: {
             some: {
               ethAccountId: address,
             },
           },
         },
-      ],
-    },
     select: {
       id: true,
       username: true,
