@@ -1,5 +1,6 @@
 import { fetchQuery, init } from "@airstack/node";
-import { ENVIRONMENT, dummyHolders, neynarLimiter } from "@farther/common";
+import { prisma } from "@farther/backend";
+import { ENVIRONMENT, dummyHolders } from "@farther/common";
 import { getAllLiqProviderBalances } from "../liquidity/getAllLiqProviderBalances";
 
 /**
@@ -103,7 +104,7 @@ export async function getHolders({
 async function attachFids(
   addressBalances: { address: string; balance: bigint }[],
 ) {
-  const neynarResponse = await neynarLimiter.getUsersByAddress(
+  const allUsers = await getUsersByAddress(
     addressBalances.map((h) => h.address),
   );
 
@@ -118,24 +119,31 @@ async function attachFids(
   for (const addressBalance of addressBalances) {
     const { address, balance } = addressBalance;
 
-    const users = neynarResponse[address];
+    const usersForAddress = allUsers.filter((u) =>
+      u.ethAccounts.some(
+        (a) => a.ethAccountId.toLowerCase() === address.toLowerCase(),
+      ),
+    );
 
-    if (!users) {
+    if (!usersForAddress.length) {
       noFidCount++;
       continue;
     }
 
     // If multiple users are returned, use the one with the most followers
-    const user = Array.isArray(users)
-      ? users.sort((a, b) => b.follower_count - a.follower_count)[0]
-      : users;
+    const user =
+      usersForAddress.length > 1
+        ? usersForAddress.sort(
+            (a, b) => (b.followerCount || 0) - (a.followerCount || 0),
+          )[0]
+        : usersForAddress[0];
 
     if (!user) {
       noFidCount++;
       continue;
     }
 
-    const existingHolder = holders.find((r) => r.fid === user.fid);
+    const existingHolder = holders.find((r) => r.fid === user.id);
 
     if (existingHolder) {
       existingHolder.totalBalance = existingHolder.totalBalance + balance;
@@ -145,7 +153,7 @@ async function attachFids(
     }
 
     holders.push({
-      fid: user.fid,
+      fid: user.id,
       totalBalance: balance,
       balances: [{ address, balance }],
     });
@@ -187,6 +195,23 @@ const airstackQuery = (cursor?: string) => `query TokenBalances {
     }
   }
 }`;
+
+export async function getUsersByAddress(addresses: string[]) {
+  return await prisma.user.findMany({
+    where: {
+      ethAccounts: {
+        some: {
+          ethAccountId: {
+            in: addresses.map((a) => a.toLowerCase()),
+          },
+        },
+      },
+    },
+    include: {
+      ethAccounts: true,
+    },
+  });
+}
 
 // getHolders({ includeLPs: true })
 //   .then((holders) => {
