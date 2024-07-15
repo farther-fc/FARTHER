@@ -4,7 +4,7 @@ import { scaleLinear } from "d3";
 import { constrainWeights } from "../../tips/utils/constrainWeights";
 import { getTipMinimum } from "../../tips/utils/getTipMinimum";
 import { getUniqueTippees } from "../../tips/utils/getUniqueTippees";
-import { flushLeaderboardCache } from "../../tips/utils/tipsLeaderboard";
+import { flushCache } from "../../tips/utils/tipsLeaderboard";
 import { getPrice } from "../../token/getPrice";
 import { dailyTipDistribution } from "./dailyTipDistribution";
 import { getEligibleTippers, getExistingTippers } from "./getEligibleTippers";
@@ -111,7 +111,7 @@ export async function distributeAllowances() {
     });
   });
 
-  await flushLeaderboardCache();
+  await flushCache();
 }
 
 async function getTipMetas() {

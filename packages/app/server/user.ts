@@ -14,26 +14,16 @@ import * as Sentry from "@sentry/nextjs";
 import { TRPCError } from "@trpc/server";
 import _ from "lodash";
 import { publicProcedure } from "server/trpc";
-import { isAddress } from "viem";
+import { Address, isAddress } from "viem";
 import { AllocationType, TipMeta, prisma } from "../../backend/src/prisma";
 import { tipsLeaderboard } from "./tips/utils/tipsLeaderboard";
 
 export const getUser = publicProcedure
   .input(apiSchemas.getUser.input)
   .query(async (opts) => {
-    const address = opts.input.address.toLowerCase();
-
-    let fid: number;
+    const address = opts.input.address.toLowerCase() as Address;
 
     try {
-      const user = await getUserFromNeynar({ address });
-
-      if (!user) {
-        return null;
-      }
-
-      fid = user.fid;
-
       const latestTipMeta = await prisma.tipMeta.findFirst({
         orderBy: {
           createdAt: "desc",
@@ -45,14 +35,48 @@ export const getUser = publicProcedure
         Sentry.captureException("latestTipMeta not found in getUser");
       }
 
-      const dbUser = await getPrivateUser({
-        fid,
+      let dbUser = await getPrivateUser({
+        address: address,
         latestAllowanceDate: latestTipMeta?.createdAt,
       });
 
+      // If no user, fetch from Neynar and create all the user data in the database
+      // then fetch the user (inefficient but easy)
       if (!dbUser) {
-        await prisma.user.create({
-          data: { id: fid },
+        const user = await getUserFromNeynar({ address });
+
+        if (!user) {
+          return null;
+        }
+
+        dbUser = await prisma.$transaction(async (tx) => {
+          await tx.user.create({
+            data: {
+              id: user.fid,
+              pfpUrl: user.pfpUrl,
+              username: user.username,
+              displayName: user.displayName,
+              followerCount: user.followerCount,
+            },
+          });
+
+          await tx.ethAccount.createMany({
+            data: user.verifiedAddresses.map((address) => ({
+              address: address.toLowerCase(),
+            })),
+          });
+
+          await tx.userEthAccount.createMany({
+            data: user.verifiedAddresses.map((address) => ({
+              userId: user.fid,
+              ethAccountId: address.toLowerCase(),
+            })),
+          });
+
+          return await getPrivateUser({
+            address: address,
+            latestAllowanceDate: latestTipMeta?.createdAt,
+          });
         });
       }
 
@@ -71,7 +95,7 @@ export const getUser = publicProcedure
       // If user has a power badge, add this dummy pending allocation for UX purposes
       // (doesn't get added for real until airdrop is created)
       if (
-        user.powerBadge &&
+        dbUser?.powerBadge &&
         !allocations.find((a) => a.type === AllocationType.POWER_USER)
       ) {
         allocations.push({
@@ -116,12 +140,11 @@ export const getUser = publicProcedure
         0;
 
       return {
-        fid: user.fid,
-        username: user.username,
-        displayName: user.displayName,
-        pfpUrl: user.pfpUrl,
-        powerBadge: user.powerBadge,
-        verifiedAddress: user.verifiedAddresses[0],
+        fid: dbUser?.id,
+        username: dbUser?.username,
+        displayName: dbUser?.displayName,
+        pfpUrl: dbUser?.pfpUrl,
+        powerBadge: dbUser?.powerBadge,
         allocations,
         totalTipsReceived: {
           number: dbUser?.tipsReceived.length || 0,
@@ -169,6 +192,7 @@ export const publicGetUserByAddress = publicProcedure
       throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid address" });
     }
 
+    // TODO: REMOVE THIS AFTER SYNCING USER PROFILE DATA
     const neynarUserData = await getUserFromNeynar({ address });
 
     if (!neynarUserData) {
@@ -289,29 +313,43 @@ async function getUserFromNeynar({
   }
 
   return {
-    fid: user?.fid,
-    username: user?.username,
-    displayName: user?.display_name,
-    pfpUrl: user?.pfp_url,
-    powerBadge: user?.power_badge,
-    verifiedAddresses: user?.verified_addresses.eth_addresses,
+    fid: user.fid,
+    username: user.username,
+    displayName: user.display_name,
+    pfpUrl: user.pfp_url,
+    powerBadge: user.power_badge,
+    followerCount: user.follower_count,
+    verifiedAddresses: user.verified_addresses.eth_addresses,
   };
 }
 
 // DB call for non-public API data
 async function getPrivateUser({
-  fid,
+  address,
   latestAllowanceDate = new Date(),
 }: {
-  fid: number;
+  address: Address;
   latestAllowanceDate?: Date;
 }) {
   return await prisma.user.findFirst({
     where: {
-      id: fid,
+      ethAccounts: {
+        some: {
+          ethAccountId: address,
+        },
+      },
     },
+    orderBy: {
+      followerCount: "desc",
+    },
+    take: 1,
     select: {
       id: true,
+      username: true,
+      pfpUrl: true,
+      displayName: true,
+      followerCount: true,
+      powerBadge: true,
       tipAllowances: {
         where: {
           createdAt: {
@@ -380,6 +418,10 @@ async function getPublicUser({
     },
     select: {
       id: true,
+      username: true,
+      pfpUrl: true,
+      displayName: true,
+      followerCount: true,
       tipAllowances: {
         where: {
           createdAt: {
