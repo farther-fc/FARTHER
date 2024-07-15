@@ -1,4 +1,3 @@
-import { TipsViewer } from "@components/TipsViewer";
 import { TipsUserInfo } from "@components/tips/TipsUserInfo";
 import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
@@ -63,7 +62,7 @@ function TipsPage() {
         </Link>
         <h3 className="mt-12">Your Stats</h3>
         <TipsUserInfo />
-        <TipsViewer />
+        {/* <TipsViewer /> */}
         <h3 className="mt-12">How to tip</h3>
         <p>
           Send tips by including text like this in replies to casts
