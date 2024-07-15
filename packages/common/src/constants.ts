@@ -246,8 +246,8 @@ export const cronSchedules = {
   OPENRANK_SNAPSHOT: "0 3,9,15,21 * * *",
   DISTRIBUTE_ALLOWANCES: "0 16 * * *",
   UPDATE_ELIGIBLE_TIPPERS: "0 */4 * * *",
+  SYNC_USER_DATA: "0 */12 * * *",
   NEVER_RUN: "0 0 31 2 *",
-  DEV_CRON: "*/15 * * * *",
 } as const;
 
 export const API_BATCH_LIMIT = 100;

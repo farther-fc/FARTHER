@@ -40,6 +40,8 @@ export const getUser = publicProcedure
         latestAllowanceDate: latestTipMeta?.createdAt,
       });
 
+      // If no user, fetch from Neynar and create all the user data in the database
+      // then fetch the user (inefficient but easy)
       if (!dbUser) {
         const user = await getUserFromNeynar({ address });
 
@@ -47,26 +49,34 @@ export const getUser = publicProcedure
           return null;
         }
 
-        await prisma.user.create({
-          data: {
-            id: user.fid,
-            pfpUrl: user.pfpUrl,
-            username: user.username,
-            displayName: user.displayName,
-            followerCount: user.followerCount,
-            ethAccounts: {
-              createMany: {
-                data: user.verifiedAddresses.map((address) => ({
-                  address,
-                })),
-              },
+        dbUser = await prisma.$transaction(async (tx) => {
+          await tx.user.create({
+            data: {
+              id: user.fid,
+              pfpUrl: user.pfpUrl,
+              username: user.username,
+              displayName: user.displayName,
+              followerCount: user.followerCount,
             },
-          },
-        });
+          });
 
-        dbUser = await getPrivateUser({
-          address: address,
-          latestAllowanceDate: latestTipMeta?.createdAt,
+          await tx.ethAccount.createMany({
+            data: user.verifiedAddresses.map((address) => ({
+              address: address.toLowerCase(),
+            })),
+          });
+
+          await tx.userEthAccount.createMany({
+            data: user.verifiedAddresses.map((address) => ({
+              userId: user.fid,
+              ethAccountId: address.toLowerCase(),
+            })),
+          });
+
+          return await getPrivateUser({
+            address: address,
+            latestAllowanceDate: latestTipMeta?.createdAt,
+          });
         });
       }
 
@@ -325,7 +335,7 @@ async function getPrivateUser({
     where: {
       ethAccounts: {
         some: {
-          address: address,
+          ethAccountId: address,
         },
       },
     },
