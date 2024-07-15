@@ -1,5 +1,5 @@
 import { prisma } from "../../prisma";
-import { getRecentTippers } from "../getRecentTippers";
+import { getRecentTippers } from "../getTippersByDate";
 import { resetDatabase } from "./testUtils";
 
 describe("getRecentTippers", () => {

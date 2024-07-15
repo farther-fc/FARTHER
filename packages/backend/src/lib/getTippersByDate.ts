@@ -1,13 +1,20 @@
 import { prisma } from "../prisma";
 
-export async function getRecentTippers(date: Date) {
+export async function getTippersByDate({
+  from,
+  to = new Date(),
+}: {
+  from: Date;
+  to?: Date;
+}) {
   return await prisma.user.findMany({
     where: {
       tipsGiven: {
         some: {
           invalidTipReason: null,
           createdAt: {
-            gte: date,
+            gte: from,
+            lt: to,
           },
         },
       },
@@ -17,7 +24,8 @@ export async function getRecentTippers(date: Date) {
         where: {
           invalidTipReason: null,
           createdAt: {
-            gte: date,
+            gte: from,
+            lt: to,
           },
         },
       },
