@@ -33,3 +33,24 @@ export class OpenRankError extends Error {
     this.name = "OpenRankError";
   }
 }
+
+export class SyncUserDataError extends Error {
+  originalError: unknown;
+  status: number | undefined;
+
+  constructor({
+    message,
+    status,
+    originalError,
+  }: {
+    message?: string;
+    status?: number;
+    originalError?: unknown;
+  }) {
+    super(message);
+
+    this.name = "SyncUserDataError";
+    this.originalError = originalError;
+    this.status = status;
+  }
+}

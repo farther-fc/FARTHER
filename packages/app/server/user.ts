@@ -192,20 +192,10 @@ export const publicGetUserByAddress = publicProcedure
       throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid address" });
     }
 
-    // TODO: REMOVE THIS AFTER SYNCING USER PROFILE DATA
-    const neynarUserData = await getUserFromNeynar({ address });
-
-    if (!neynarUserData) {
-      throw new TRPCError({
-        code: "NOT_FOUND",
-        message: "No user data returned from Neynar",
-      });
-    }
-
     const currentTipMeta = await getCurrentTipMeta();
 
     const dbUser = await getPublicUser({
-      fid: neynarUserData.fid,
+      address,
       currentTipMeta,
     });
 
@@ -214,7 +204,7 @@ export const publicGetUserByAddress = publicProcedure
       return null;
     }
 
-    return await prepPublicUser({ dbUser, neynarUserData, currentTipMeta });
+    return await prepPublicUser({ dbUser, currentTipMeta });
   });
 
 export const publicGetUserByFid = publicProcedure
@@ -236,11 +226,7 @@ export const publicGetUserByFid = publicProcedure
       return null;
     }
 
-    const neynarUserData = await getUserFromNeynar({
-      fid,
-    });
-
-    return await prepPublicUser({ dbUser, neynarUserData, currentTipMeta });
+    return await prepPublicUser({ dbUser, currentTipMeta });
   });
 
 /********************************
@@ -405,23 +391,36 @@ async function getPrivateUser({
 // DB call for public API data
 async function getPublicUser({
   fid,
+  address,
   currentTipMeta,
 }: {
-  fid: number;
+  fid?: number;
+  address?: string;
   currentTipMeta: TipMeta | null;
 }) {
   const currentTipCycleStart = currentTipMeta?.createdAt || new Date();
 
+  if (!fid && !address) {
+    throw new Error("Must provide either address or fid");
+  }
+
   const user = await prisma.user.findFirst({
-    where: {
-      id: fid,
-    },
+    where: fid
+      ? { id: fid }
+      : {
+          ethAccounts: {
+            some: {
+              ethAccountId: address,
+            },
+          },
+        },
     select: {
       id: true,
       username: true,
       pfpUrl: true,
       displayName: true,
       followerCount: true,
+      powerBadge: true,
       tipAllowances: {
         where: {
           createdAt: {
@@ -480,11 +479,9 @@ async function getPublicUser({
 
 async function prepPublicUser({
   dbUser,
-  neynarUserData,
   currentTipMeta,
 }: {
   dbUser: Awaited<ReturnType<typeof getPublicUser>>;
-  neynarUserData: Awaited<ReturnType<typeof getUserFromNeynar>>;
   currentTipMeta: Awaited<ReturnType<typeof getCurrentTipMeta>>;
 }) {
   if (!dbUser) {
@@ -517,7 +514,12 @@ async function prepPublicUser({
       : null;
 
   return {
-    ...neynarUserData,
+    fid: dbUser.id,
+    username: dbUser.username,
+    displayName: dbUser.displayName,
+    pfpUrl: dbUser.pfpUrl,
+    followerCount: dbUser.followerCount,
+    powerBadge: dbUser.powerBadge,
     tips: {
       rank: leaderboard.findIndex((u) => u.fid === dbUser.id) + 1,
       totals: {
