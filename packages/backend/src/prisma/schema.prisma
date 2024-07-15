@@ -14,12 +14,27 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  pfpUrl              String?
+  username            String?
+  displayName         String?
+  followerCount       Int?
+  powerBadge          Boolean?
+
   allocations         Allocation[]
   tipAllowances       TipAllowance[]
   tipsGiven           Tip[]          @relation(name: "tipper")
   tipsReceived        Tip[]          @relation(name: "tippee")
   openRankScores      OpenRankScore[]
   tipScores           TipScore[]
+  ethAccounts         EthAccount[]
+}
+
+model EthAccount {
+  address   String   @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId  Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 // Airdrop allocation
