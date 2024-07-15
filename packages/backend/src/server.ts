@@ -28,7 +28,7 @@ cron.schedule(
     ? cronSchedules.UPDATE_ELIGIBLE_TIPPERS
     : cronSchedules.NEVER_RUN,
   () => {
-    const randomDelay = Math.floor(Math.random() * 3_600_000);
+    const randomDelay = Math.floor(Math.random() * 3_600_000 * 4);
 
     const updateEligibleTippers = generateApiCallCron(
       "admin.updateEligibleTippers",
