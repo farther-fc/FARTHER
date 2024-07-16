@@ -7,9 +7,13 @@ import { takeOpenRankSnapshot } from "./lib/takeOpenRankSnapshot";
 
 console.log("server running!");
 
-cron.schedule("15 16 * * *", syncUserData, {
+cron.schedule(cronSchedules.SYNC_USER_DATA, syncUserData, {
   timezone: "Etc/UTC",
 });
+
+if (isProduction) {
+  syncUserData();
+}
 
 const openrankSnapshotSchedule = isProduction
   ? cronSchedules.OPENRANK_SNAPSHOT
