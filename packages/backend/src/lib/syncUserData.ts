@@ -37,8 +37,6 @@ const worker = new Worker(
             async () =>
               await prisma.$transaction(
                 async (tx) => {
-                  console.log(`Syncing ${index}`);
-
                   await tx.userEthAccount.deleteMany({
                     where: {
                       userId: data.fid,
