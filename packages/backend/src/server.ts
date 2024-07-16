@@ -7,7 +7,7 @@ import { takeOpenRankSnapshot } from "./lib/takeOpenRankSnapshot";
 
 console.log("server running!");
 
-cron.schedule(cronSchedules.SYNC_USER_DATA, syncUserData, {
+cron.schedule("15 16 * * *", syncUserData, {
   timezone: "Etc/UTC",
 });
 
