@@ -3,9 +3,10 @@ import {
   DEV_USER_FID,
   LIQUIDITY_BONUS_MAX,
   LIQUIDITY_BONUS_MULTIPLIER,
+  WAD_SCALER,
   WARPCAST_API_BASE_URL,
 } from "./constants";
-import { WAD_SCALER, isProduction } from "./env";
+import { isProduction } from "./env";
 
 export function getStartOfMonthUTC(months: number = 1) {
   // Get the current date in UTC

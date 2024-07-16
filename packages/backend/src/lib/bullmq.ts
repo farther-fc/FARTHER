@@ -1,8 +1,12 @@
-import { ENVIRONMENT } from "@farther/common";
 import { Queue, Worker } from "bullmq";
+import { requireEnv } from "require-env-variable";
 
-const host =
-  ENVIRONMENT === "development" ? "localhost" : process.env.KV_REST_API_URL;
+const { KV_REST_API_URL, KV_REST_API_TOKEN } = requireEnv(
+  "KV_REST_API_URL",
+  "KV_REST_API_TOKEN",
+);
+
+const host = `${KV_REST_API_URL}?_token=${KV_REST_API_TOKEN}`;
 
 export const queueNames = {
   SYNC_USER_DATA: "sync_user_data",
