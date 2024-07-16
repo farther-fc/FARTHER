@@ -11,8 +11,6 @@ cron.schedule(cronSchedules.SYNC_USER_DATA, syncUserData, {
   timezone: "Etc/UTC",
 });
 
-syncUserData();
-
 const openrankSnapshotSchedule = isProduction
   ? cronSchedules.OPENRANK_SNAPSHOT
   : cronSchedules.NEVER_RUN;
@@ -29,7 +27,7 @@ cron.schedule(
   },
 );
 
-// Eligibility is checked every hour, with a random delay to keep allowance farmers on their toes
+// // Eligibility is checked every hour, with a random delay to keep allowance farmers on their toes
 // cron.schedule(
 //   isProduction
 //     ? cronSchedules.UPDATE_ELIGIBLE_TIPPERS
