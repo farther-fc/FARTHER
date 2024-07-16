@@ -28,17 +28,17 @@ cron.schedule(
 );
 
 // Eligibility is checked every hour, with a random delay to keep allowance farmers on their toes
-cron.schedule(
-  isProduction
-    ? cronSchedules.UPDATE_ELIGIBLE_TIPPERS
-    : cronSchedules.NEVER_RUN,
-  () => {
-    const randomDelay = Math.floor(Math.random() * 3_600_000 * 4);
+// cron.schedule(
+//   isProduction
+//     ? cronSchedules.UPDATE_ELIGIBLE_TIPPERS
+//     : cronSchedules.NEVER_RUN,
+//   () => {
+//     const randomDelay = Math.floor(Math.random() * 3_600_000 * 4);
 
-    const updateEligibleTippers = generateApiCallCron(
-      "admin.updateEligibleTippers",
-    );
+//     const updateEligibleTippers = generateApiCallCron(
+//       "admin.updateEligibleTippers",
+//     );
 
-    setTimeout(updateEligibleTippers, isProduction ? randomDelay : 0);
-  },
-);
+//     setTimeout(updateEligibleTippers, isProduction ? randomDelay : 0);
+//   },
+// );
