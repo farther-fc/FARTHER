@@ -98,7 +98,7 @@ const worker = new Worker(
         },
       });
 
-      return { jobName, latestFid: fids[fids.length - 1] };
+      return { jobName };
     } catch (error) {
       console.error("Error syncing user data", error);
       Sentry.captureException(error, {
@@ -117,20 +117,14 @@ const worker = new Worker(
   },
 );
 
-worker.on("completed", (job, { jobName, latestFid }) => {
-  console.log(`Job ${jobName} completed. Latest fid: ${latestFid}`);
+worker.on("completed", (_, { jobName }) => {
+  console.log(`Job ${jobName} completed.`);
 });
 
 export async function syncUserData() {
   await syncUserDataQueue.drain();
 
-  const users = await prisma.user.findMany({
-    where: {
-      tipsGiven: {
-        some: {},
-      },
-    },
-  });
+  const users = await prisma.user.findMany();
 
   const allFids = users.map((user) => user.id);
 
