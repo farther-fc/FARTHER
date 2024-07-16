@@ -51,9 +51,9 @@ model Allocation {
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
   userId    Int
-  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user      User           @relation(fields: [userId], references: [id])
   airdropId String?        @db.Uuid
-  airdrop   Airdrop?       @relation(fields: [airdropId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  airdrop   Airdrop?       @relation(fields: [airdropId], references: [id])
   isClaimed Boolean        @default(false)
   type      AllocationType
   amount    String
@@ -96,7 +96,7 @@ model Tweet {
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
   allocationId  String
-  allocation    Allocation @relation(fields: [allocationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  allocation    Allocation @relation(fields: [allocationId], references: [id])
   authorId      String     @default("")
   followerCount Int        @default(0)
 
@@ -138,15 +138,15 @@ model Tip {
   createdAt            DateTime          @default(now())
   updatedAt            DateTime          @updatedAt
   tipperId             Int
-  tipper               User              @relation(name: "tipper", fields: [tipperId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  tipper               User              @relation(name: "tipper", fields: [tipperId], references: [id])
   tippeeId             Int
-  tippee               User              @relation(name: "tippee", fields: [tippeeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  tippee               User              @relation(name: "tippee", fields: [tippeeId], references: [id])
   tipAllowanceId       String            @db.Uuid
-  tipAllowance         TipAllowance      @relation(fields: [tipAllowanceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  tipAllowance         TipAllowance      @relation(fields: [tipAllowanceId], references: [id])
   amount               Float
   invalidTipReason     InvalidTipReason?
   allocationId         String?
-  allocation           Allocation?       @relation(fields: [allocationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  allocation           Allocation?       @relation(fields: [allocationId], references: [id])
 
   // Tip recipient's change in OpenRank score * Tip.amount
   // This is stored mainly for efficiency reasons so it doesn't need to be recalculated
@@ -186,9 +186,9 @@ model TipAllowance {
   id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt     DateTime @default(now())
   userId        Int
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user          User     @relation(fields: [userId], references: [id])
   tipMetaId     String   @db.Uuid
-  tipMeta       TipMeta  @relation(fields: [tipMetaId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  tipMeta       TipMeta  @relation(fields: [tipMetaId], references: [id])
   amount        Float
   tips          Tip[]
 
@@ -214,10 +214,10 @@ model OpenRankScore {
   createdAt   DateTime @default(now())
   updatedAt   DateTime? @updatedAt
   userId      Int
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user        User     @relation(fields: [userId], references: [id])
   score       Float
   snapshotId  String
-  snapshot    OpenRankSnapshot @relation(fields: [snapshotId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  snapshot    OpenRankSnapshot @relation(fields: [snapshotId], references: [id])
 
   @@index([userId])
   @@index([createdAt])
@@ -237,10 +237,10 @@ model TipScore {
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
   userId        Int
-  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user          User        @relation(fields: [userId], references: [id])
   score         Float
   allocationId  String?     @unique
-  allocation    Allocation? @relation(fields: [allocationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  allocation    Allocation? @relation(fields: [allocationId], references: [id])
 
   @@unique([userId, allocationId])
 }

@@ -10,6 +10,8 @@ export class HandleTipError extends Error {
 }
 
 export class DistributeAllowancesError extends Error {
+  readonly name = "DistributeAllowancesError";
+
   originalError: unknown;
 
   constructor({
@@ -20,37 +22,14 @@ export class DistributeAllowancesError extends Error {
     originalError?: unknown;
   }) {
     super(message);
-
-    this.name = "DistributeAllowancesError";
     this.originalError = originalError;
   }
 }
 
 export class OpenRankError extends Error {
+  readonly name = "OpenRankError";
+
   constructor({ message }: { message?: string }) {
     super(message);
-
-    this.name = "OpenRankError";
-  }
-}
-
-export class SyncUserDataError extends Error {
-  originalError: unknown;
-  status: number | undefined;
-
-  constructor({
-    message,
-    status,
-    originalError,
-  }: {
-    message?: string;
-    status?: number;
-    originalError?: unknown;
-  }) {
-    super(message);
-
-    this.name = "SyncUserDataError";
-    this.originalError = originalError;
-    this.status = status;
   }
 }

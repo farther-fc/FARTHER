@@ -1,5 +1,12 @@
-import { SyncUserDataError, neynarLimiter } from "@farther/common";
+import { neynarLimiter, retryWithExponentialBackoff } from "@farther/common";
+import * as Sentry from "@sentry/node";
+import Bottleneck from "bottleneck";
 import { prisma } from "../prisma";
+
+const scheduler = new Bottleneck({
+  maxConcurrent: 8,
+  minTime: 20,
+});
 
 /**
  * Gets user profile data from Neynar and puts it in database
@@ -15,78 +22,84 @@ export async function syncUserData() {
       throw new Error("Neynar data length does not match user data length");
     }
 
-    const userAddressPairs = neynarUserData.flatMap((user) =>
-      user.verified_addresses.eth_addresses.map((address) => ({
-        userId: user.fid,
-        ethAccountId: address,
-      })),
-    );
+    const transactions = neynarUserData.map((data, index) =>
+      scheduler.schedule(() =>
+        retryWithExponentialBackoff(
+          async () =>
+            await prisma.$transaction(
+              async (tx) => {
+                console.log(`Syncing ${index}`);
 
-    const uniqueUserAddressPairs: { userId: number; ethAccountId: string }[] =
-      Array.from(
-        new Set(userAddressPairs.map((pair) => JSON.stringify(pair))),
-      ).map((pair) => JSON.parse(pair));
+                await tx.userEthAccount.deleteMany({
+                  where: {
+                    userId: data.fid,
+                  },
+                });
 
-    const uniqueAddresses = Array.from(
-      new Set(
-        neynarUserData.flatMap((user) => user.verified_addresses.eth_addresses),
+                const profileData = {
+                  pfpUrl: data.pfp_url,
+                  username: data.username,
+                  displayName: data.display_name,
+                  followerCount: data.follower_count,
+                  powerBadge: data.power_badge,
+                  ethAccounts: {
+                    connectOrCreate: data.verified_addresses.eth_addresses.map(
+                      (address) => ({
+                        where: {
+                          userId_ethAccountId: {
+                            userId: data.fid,
+                            ethAccountId: address.toLowerCase(),
+                          },
+                        },
+                        create: {
+                          ethAccount: {
+                            connectOrCreate: {
+                              where: { address: address.toLowerCase() },
+                              create: { address: address.toLowerCase() },
+                            },
+                          },
+                        },
+                      }),
+                    ),
+                  },
+                } as const;
+                await tx.user.upsert({
+                  where: { id: data.fid },
+                  update: profileData,
+                  create: {
+                    id: data.fid,
+                    ...profileData,
+                  },
+                });
+              },
+              { timeout: 300_000 },
+            ),
+          { retries: 10 },
+        ),
       ),
     );
 
-    await prisma.$transaction(
-      async (tx) => {
-        await prisma.ethAccount.deleteMany({
-          where: {
-            users: {
-              some: {
-                userId: {
-                  in: fids,
-                },
-              },
-            },
-          },
-        });
+    await Promise.all(transactions);
 
-        await tx.user.deleteMany({
-          where: {
-            id: {
-              in: fids,
-            },
-          },
-        });
-
-        await tx.user.createMany({
-          data: neynarUserData.map((user) => ({
-            id: user.fid,
-            displayName: user.display_name,
-            username: user.username,
-            pfpUrl: user.pfp_url,
-            followerCount: user.follower_count,
-            powerBadge: user.power_badge,
-          })),
-        });
-
-        await tx.ethAccount.createMany({
-          data: uniqueAddresses.map((address) => ({
-            address: address,
-          })),
-        });
-
-        await tx.userEthAccount.createMany({
-          data: uniqueUserAddressPairs.map(({ userId, ethAccountId }) => ({
-            userId,
-            ethAccountId,
-          })),
-        });
+    // Delete orphaned eth accounts
+    await prisma.ethAccount.deleteMany({
+      where: {
+        users: {
+          none: {},
+        },
       },
-      { timeout: 300_000 },
-    );
+    });
   } catch (error) {
     console.error("Error syncing user data", error);
-    throw new SyncUserDataError({
-      message: error.message,
-      status: error.status,
-      originalError: error,
+    Sentry.captureException(error, {
+      captureContext: {
+        tags: {
+          method: "syncUserData",
+        },
+      },
     });
+    throw error;
   }
 }
+
+syncUserData();

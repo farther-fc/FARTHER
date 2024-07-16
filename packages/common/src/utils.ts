@@ -109,3 +109,23 @@ export function getLpBonusRewards({
     BigInt(LIQUIDITY_BONUS_MAX) * WAD_SCALER,
   );
 }
+
+export async function retryWithExponentialBackoff(
+  fn: Function,
+  { retries = 3, delay = 1000 },
+) {
+  let attempt = 0;
+  while (attempt < retries) {
+    try {
+      return await fn();
+    } catch (error) {
+      attempt++;
+      if (attempt >= retries) {
+        throw error;
+      }
+      console.log(`Retrying in ${delay}ms... (Attempt ${attempt}/${retries})`);
+      await new Promise((resolve) => setTimeout(resolve, delay));
+      delay *= 2; // Exponential backoff
+    }
+  }
+}
