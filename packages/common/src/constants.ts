@@ -246,7 +246,7 @@ export const cronSchedules = {
   OPENRANK_SNAPSHOT: "0 3,9,15,21 * * *",
   DISTRIBUTE_ALLOWANCES: "0 16 * * *",
   UPDATE_ELIGIBLE_TIPPERS: "0 */4 * * *",
-  SYNC_USER_DATA: isProduction ? "0 */8 * * *" : "*/5 * * * *",
+  SYNC_USER_DATA: isProduction ? "0 */3 * * *" : "*/5 * * * *",
   NEVER_RUN: "0 0 31 2 *",
 } as const;
 
