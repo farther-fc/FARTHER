@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { ENVIRONMENT } from "./env";
+import { ENVIRONMENT, isProduction } from "./env";
 
 export const TOTAL_TOKEN_SUPPLY = 1_000_000_000;
 
@@ -246,7 +246,7 @@ export const cronSchedules = {
   OPENRANK_SNAPSHOT: "0 3,9,15,21 * * *",
   DISTRIBUTE_ALLOWANCES: "0 16 * * *",
   UPDATE_ELIGIBLE_TIPPERS: "0 */4 * * *",
-  SYNC_USER_DATA: "0 */12 * * *",
+  SYNC_USER_DATA: isProduction ? "0 */12 * * *" : "* * * * *",
   NEVER_RUN: "0 0 31 2 *",
 } as const;
 

@@ -3,13 +3,14 @@ import cron from "node-cron";
 import "../instrument";
 import { generateApiCallCron } from "./lib/generateApiCallCron";
 // import { syncUserData } from "./lib/syncUserData";
+import { startSyncUserData } from "./lib/syncUserData";
 import { takeOpenRankSnapshot } from "./lib/takeOpenRankSnapshot";
 
 console.log("server running!");
 
-// cron.schedule(cronSchedules.SYNC_USER_DATA, syncUserData, {
-//   timezone: "Etc/UTC",
-// });
+cron.schedule(cronSchedules.SYNC_USER_DATA, startSyncUserData, {
+  timezone: "Etc/UTC",
+});
 
 const openrankSnapshotSchedule = isProduction
   ? cronSchedules.OPENRANK_SNAPSHOT

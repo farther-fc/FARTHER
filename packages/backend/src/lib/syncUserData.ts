@@ -2,6 +2,7 @@ import { neynarLimiter, retryWithExponentialBackoff } from "@farther/common";
 import * as Sentry from "@sentry/node";
 import Bottleneck from "bottleneck";
 import { prisma } from "../prisma";
+import { syncUserDataQueue } from "./bullmq";
 
 const scheduler = new Bottleneck({
   maxConcurrent: 8,
@@ -102,4 +103,6 @@ export async function syncUserData() {
   }
 }
 
-syncUserData();
+export function startSyncUserData() {
+  syncUserDataQueue.add("test", { time: new Date().toISOString() });
+}
