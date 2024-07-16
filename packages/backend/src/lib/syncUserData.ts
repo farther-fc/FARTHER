@@ -124,7 +124,14 @@ worker.on("completed", (job, { jobName, latestFid }) => {
 export async function syncUserData() {
   await syncUserDataQueue.drain();
 
-  const users = await prisma.user.findMany();
+  const users = await prisma.user.findMany({
+    where: {
+      tipsGiven: {
+        some: {},
+      },
+    },
+  });
+
   const allFids = users.map((user) => user.id);
 
   const fidBatches = chunk(allFids, BATCH_SIZE);
