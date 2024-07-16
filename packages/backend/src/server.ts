@@ -11,10 +11,6 @@ cron.schedule(cronSchedules.SYNC_USER_DATA, syncUserData, {
   timezone: "Etc/UTC",
 });
 
-if (isProduction) {
-  syncUserData();
-}
-
 const openrankSnapshotSchedule = isProduction
   ? cronSchedules.OPENRANK_SNAPSHOT
   : cronSchedules.NEVER_RUN;
