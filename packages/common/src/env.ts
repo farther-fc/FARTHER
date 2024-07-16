@@ -43,5 +43,3 @@ export const chainIds = {
 export type ChainId = (typeof chainIds)[typeof NETWORK];
 
 export const CHAIN_ID = chainIds[NETWORK];
-
-export const WAD_SCALER = BigInt(10 ** 18);

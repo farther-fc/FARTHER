@@ -3,9 +3,10 @@ import {
   DEV_USER_FID,
   LIQUIDITY_BONUS_MAX,
   LIQUIDITY_BONUS_MULTIPLIER,
+  WAD_SCALER,
   WARPCAST_API_BASE_URL,
 } from "./constants";
-import { WAD_SCALER, isProduction } from "./env";
+import { isProduction } from "./env";
 
 export function getStartOfMonthUTC(months: number = 1) {
   // Get the current date in UTC
@@ -108,4 +109,24 @@ export function getLpBonusRewards({
       BigInt(LIQUIDITY_BONUS_MULTIPLIER),
     BigInt(LIQUIDITY_BONUS_MAX) * WAD_SCALER,
   );
+}
+
+export async function retryWithExponentialBackoff(
+  fn: Function,
+  { retries = 3, delay = 1000 },
+) {
+  let attempt = 0;
+  while (attempt < retries) {
+    try {
+      return await fn();
+    } catch (error) {
+      attempt++;
+      if (attempt >= retries) {
+        throw error;
+      }
+      console.log(`Retrying in ${delay}ms... (Attempt ${attempt}/${retries})`);
+      await new Promise((resolve) => setTimeout(resolve, delay));
+      delay *= 2; // Exponential backoff
+    }
+  }
 }

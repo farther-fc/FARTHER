@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { ENVIRONMENT } from "./env";
+import { ENVIRONMENT, isProduction } from "./env";
 
 export const TOTAL_TOKEN_SUPPLY = 1_000_000_000;
 
@@ -246,7 +246,7 @@ export const cronSchedules = {
   OPENRANK_SNAPSHOT: "0 3,9,15,21 * * *",
   DISTRIBUTE_ALLOWANCES: "0 16 * * *",
   UPDATE_ELIGIBLE_TIPPERS: "0 */4 * * *",
-  SYNC_USER_DATA: "0 */12 * * *",
+  SYNC_USER_DATA: isProduction ? "0 */8 * * *" : "*/5 * * * *",
   NEVER_RUN: "0 0 31 2 *",
 } as const;
 
@@ -257,3 +257,5 @@ export const TOTAL_DAILY_TIP_ALLOCATION = 500_000;
 export const TOTAL_MONTHLY_TIP_REWARDS = 4.25e6;
 
 export const TIP_SCORE_SCALER = 100_000_000_000;
+
+export const WAD_SCALER = BigInt(10 ** 18);

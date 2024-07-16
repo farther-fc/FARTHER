@@ -1,92 +1,142 @@
-import { SyncUserDataError, neynarLimiter } from "@farther/common";
+import { neynarLimiter, retryWithExponentialBackoff } from "@farther/common";
+import * as Sentry from "@sentry/node";
+import Bottleneck from "bottleneck";
+import { Worker } from "bullmq";
+import { chunk } from "underscore";
 import { prisma } from "../prisma";
+import { queueConnection, queueNames, syncUserDataQueue } from "./bullmq";
 
-/**
- * Gets user profile data from Neynar and puts it in database
- */
-export async function syncUserData() {
-  try {
-    const users = await prisma.user.findMany();
-    const fids = users.map((user) => user.id);
+const BATCH_SIZE = 1000;
 
-    const neynarUserData = await neynarLimiter.getUsersByFid(fids);
+const scheduler = new Bottleneck({
+  maxConcurrent: 8,
+  minTime: 20,
+});
 
-    if (neynarUserData.length !== fids.length) {
-      throw new Error("Neynar data length does not match user data length");
-    }
+const worker = new Worker(
+  queueNames.SYNC_USER_DATA,
+  async function syncUserDataBatch({
+    name: jobName,
+    data: { fids },
+  }: {
+    name: string;
+    data: { fids: number[] };
+  }) {
+    console.log(`Processing ${jobName}`);
 
-    const userAddressPairs = neynarUserData.flatMap((user) =>
-      user.verified_addresses.eth_addresses.map((address) => ({
-        userId: user.fid,
-        ethAccountId: address,
-      })),
-    );
+    try {
+      const neynarUserData = await neynarLimiter.getUsersByFid(fids);
 
-    const uniqueUserAddressPairs: { userId: number; ethAccountId: string }[] =
-      Array.from(
-        new Set(userAddressPairs.map((pair) => JSON.stringify(pair))),
-      ).map((pair) => JSON.parse(pair));
+      if (neynarUserData.length !== fids.length) {
+        throw new Error("Neynar data length does not match user data length");
+      }
 
-    const uniqueAddresses = Array.from(
-      new Set(
-        neynarUserData.flatMap((user) => user.verified_addresses.eth_addresses),
-      ),
-    );
+      const transactions = neynarUserData.map((data, index) =>
+        scheduler.schedule(() =>
+          retryWithExponentialBackoff(
+            async () =>
+              await prisma.$transaction(
+                async (tx) => {
+                  await tx.userEthAccount.deleteMany({
+                    where: {
+                      userId: data.fid,
+                    },
+                  });
 
-    await prisma.$transaction(
-      async (tx) => {
-        await prisma.ethAccount.deleteMany({
-          where: {
-            users: {
-              some: {
-                userId: {
-                  in: fids,
+                  const profileData = {
+                    pfpUrl: data.pfp_url,
+                    username: data.username,
+                    displayName: data.display_name,
+                    followerCount: data.follower_count,
+                    powerBadge: data.power_badge,
+                    ethAccounts: {
+                      connectOrCreate:
+                        data.verified_addresses.eth_addresses.map(
+                          (address) => ({
+                            where: {
+                              userId_ethAccountId: {
+                                userId: data.fid,
+                                ethAccountId: address.toLowerCase(),
+                              },
+                            },
+                            create: {
+                              ethAccount: {
+                                connectOrCreate: {
+                                  where: { address: address.toLowerCase() },
+                                  create: { address: address.toLowerCase() },
+                                },
+                              },
+                            },
+                          }),
+                        ),
+                    },
+                  } as const;
+                  await tx.user.upsert({
+                    where: { id: data.fid },
+                    update: profileData,
+                    create: {
+                      id: data.fid,
+                      ...profileData,
+                    },
+                  });
                 },
-              },
-            },
+                { timeout: 300_000 },
+              ),
+            { retries: 10 },
+          ),
+        ),
+      );
+
+      await Promise.all(transactions);
+
+      // Delete orphaned eth accounts
+      await prisma.ethAccount.deleteMany({
+        where: {
+          users: {
+            none: {},
           },
-        });
+        },
+      });
 
-        await tx.user.deleteMany({
-          where: {
-            id: {
-              in: fids,
-            },
+      return fids[fids.length - 1];
+    } catch (error) {
+      console.error("Error syncing user data", error);
+      Sentry.captureException(error, {
+        captureContext: {
+          tags: {
+            method: "syncUserData",
           },
-        });
+        },
+      });
+      throw error;
+    }
+  },
+  {
+    connection: queueConnection,
+    concurrency: 5,
+  },
+);
 
-        await tx.user.createMany({
-          data: neynarUserData.map((user) => ({
-            id: user.fid,
-            displayName: user.display_name,
-            username: user.username,
-            pfpUrl: user.pfp_url,
-            followerCount: user.follower_count,
-            powerBadge: user.power_badge,
-          })),
-        });
+worker.on("completed", (job, latestFid) => {
+  console.log(`Job ${job.id} completed. Latest fid: ${latestFid}`);
+});
 
-        await tx.ethAccount.createMany({
-          data: uniqueAddresses.map((address) => ({
-            address: address,
-          })),
-        });
+export async function syncUserData() {
+  await syncUserDataQueue.drain();
 
-        await tx.userEthAccount.createMany({
-          data: uniqueUserAddressPairs.map(({ userId, ethAccountId }) => ({
-            userId,
-            ethAccountId,
-          })),
-        });
-      },
-      { timeout: 300_000 },
-    );
-  } catch (error) {
-    console.error("Error syncing user data", error);
-    throw new SyncUserDataError({
-      message: error.message,
-      status: error.status,
-      originalError: error,
-    });
-  }
+  const users = await prisma.user.findMany();
+  const allFids = users.map((user) => user.id).sort();
+
+  const fidBatches = chunk(allFids, BATCH_SIZE);
+
+  console.log(
+    `Syncing ${allFids.length} users in ${fidBatches.length} batches...`,
+  );
+
+  syncUserDataQueue.addBulk(
+    fidBatches.map((fids, i) => ({
+      name: `syncUserDataBatch-${(i + 1) * BATCH_SIZE}`,
+      data: { fids },
+    })),
+  );
 }

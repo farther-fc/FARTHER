@@ -1,12 +1,12 @@
 import { AllocationType, prisma } from "../../prisma";
 import { getLatestTipperAirdrop } from "../getLatestTipperAirdrop";
-import { resetDatabase } from "./testUtils";
+import { clearDatabase } from "../testUtils";
 
 describe("getLatestTipperAirdrop", () => {
   const AIRDROP_COUNT = 3;
 
   beforeEach(async () => {
-    await resetDatabase();
+    await clearDatabase();
     const userIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
     // Create dummy users
