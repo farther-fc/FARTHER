@@ -1,7 +1,6 @@
 import { OPENRANK_SNAPSHOT_INTERVAL, TIP_SCORE_SCALER } from "@farther/common";
 import dayjs from "dayjs";
 import Decimal from "decimal.js";
-import { writeFile } from "fs";
 import { prisma } from "../prisma";
 import { getLatestTipperAirdrop } from "./getLatestTipperAirdrop";
 import { getTippersByDate } from "./getTippersByDate";
@@ -71,15 +70,12 @@ export async function calculateTipperScores() {
     .sort((a, b) => a[1] - b[1])
     .map(([fid, rawScore]) => ({ fid, rawScore }));
 
-  const total = sortedScores.reduce(
-    (acc, { rawScore }) => acc.add(rawScore),
-    new Decimal(0),
-  );
-
-  console.log(sortedScores);
-  console.log({ total });
-
-  return sortedScores;
+  await prisma.tipScore.createMany({
+    data: sortedScores.map(({ fid, rawScore }) => ({
+      userId: parseInt(fid),
+      score: rawScore,
+    })),
+  });
 }
 
 async function getLatestOpenRankScores(fids: number[]) {
@@ -143,23 +139,6 @@ function getTipperScore({
       // Change per token
       const changePerToken = openRankChangePerDay.div(tip.amount);
 
-      if ([389059].includes(tip.tipperId)) {
-        console.log(
-          "startScore",
-          startScore,
-          "latestScore",
-          latestScore,
-          "fid",
-          tip.tipperId,
-          "hash",
-          tip.hash,
-          "days",
-          daysSinceTip,
-          "openrankChange",
-          openRankChange.mul(TIP_SCORE_SCALER).toNumber().toLocaleString(),
-        );
-      }
-
       return acc.add(changePerToken);
     }, new Decimal(0))
     // Scale up to human readable numbers
@@ -168,13 +147,13 @@ function getTipperScore({
   return scores.div(tips.length);
 }
 
-calculateTipperScores().then((scores) => {
-  // console.log(scores);
-  writeFile("tipperScores.json", JSON.stringify(scores, null, 2), (err) => {
-    if (err) {
-      console.error(err);
-    } else {
-      console.log("Tipper scores written to tipperScores.json");
-    }
-  });
-});
+// calculateTipperScores().then((scores) => {
+//   // console.log(scores);
+//   writeFile("tipperScores.json", JSON.stringify(scores, null, 2), (err) => {
+//     if (err) {
+//       console.error(err);
+//     } else {
+//       console.log("Tipper scores written to tipperScores.json");
+//     }
+//   });
+// });

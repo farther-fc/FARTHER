@@ -244,6 +244,8 @@ export const OPENRANK_SNAPSHOT_INTERVAL = 6;
 
 export const cronSchedules = {
   OPENRANK_SNAPSHOT: "0 3,9,15,21 * * *",
+  // 30 min after openrank snapshot
+  CALCULATE_TIPPER_SCORES: "30 3,9,15,21 * * *",
   DISTRIBUTE_ALLOWANCES: "0 16 * * *",
   UPDATE_ELIGIBLE_TIPPERS: "0 * * * *",
   SYNC_USER_DATA: isProduction ? "0 */12 * * *" : "*/5 * * * *",
@@ -256,6 +258,6 @@ export const TOTAL_DAILY_TIP_ALLOCATION = 500_000;
 
 export const TOTAL_MONTHLY_TIP_REWARDS = 4.25e6;
 
-export const TIP_SCORE_SCALER = 100_000;
+export const TIP_SCORE_SCALER = 10_000;
 
 export const WAD_SCALER = BigInt(10 ** 18);

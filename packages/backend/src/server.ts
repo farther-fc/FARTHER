@@ -1,6 +1,7 @@
 import { cronSchedules, isProduction } from "@farther/common";
 import cron from "node-cron";
 import "../instrument";
+import { calculateTipperScores } from "./lib/calculateTipperScores";
 import { generateApiCallCron } from "./lib/generateApiCallCron";
 import { syncUserData } from "./lib/syncUserData";
 import { takeOpenRankSnapshot } from "./lib/takeOpenRankSnapshot";
@@ -42,3 +43,7 @@ cron.schedule(
     setTimeout(updateEligibleTippers, isProduction ? randomDelay : 0);
   },
 );
+
+cron.schedule(cronSchedules.CALCULATE_TIPPER_SCORES, calculateTipperScores, {
+  timezone: "Etc/UTC",
+});
