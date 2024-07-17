@@ -45,7 +45,7 @@ async function storeScores(allScores: OpenRankData["result"]) {
   const scoreChunks = chunk(allScores, 1000);
 
   for (const scores of scoreChunks) {
-    await await prisma.$transaction(
+    await prisma.$transaction(
       scores.map((r) => {
         const data = {
           snapshot: {
