@@ -18,7 +18,7 @@ describe("getLatestTipperAirdrop", () => {
 
     for (let i = 0; i < AIRDROP_COUNT; i++) {
       // Create tipper reward allocations
-      const allocations = await prisma.$transaction(
+      const allocations = await prisma.(
         userIds.map((id) =>
           prisma.allocation.create({
             data: {

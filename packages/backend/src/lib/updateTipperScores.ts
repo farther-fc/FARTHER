@@ -1,8 +1,10 @@
-import { OPENRANK_SNAPSHOT_INTERVAL, TIP_SCORE_SCALER } from "@farther/common";
+import { OPENRANK_SNAPSHOT_INTERVAL } from "@farther/common";
 import dayjs from "dayjs";
 import Decimal from "decimal.js";
 import { prisma } from "../prisma";
+import { getLatestOpenRankScores } from "./getLatestOpenRankScores";
 import { getLatestTipperAirdrop } from "./getLatestTipperAirdrop";
+import { getTipScores } from "./getTipScores";
 import { getTippersByDate } from "./getTippersByDate";
 import { dbScheduler } from "./helpers";
 
@@ -97,73 +99,6 @@ export async function updateTipperScores() {
       userId: parseInt(fid),
       score,
     })),
-  });
-}
-
-async function getLatestOpenRankScores(fids: number[]) {
-  const data = await prisma.user.findMany({
-    where: {
-      id: {
-        in: fids,
-      },
-    },
-    select: {
-      id: true,
-      openRankScores: {
-        orderBy: {
-          createdAt: "desc",
-        },
-        take: 1,
-        select: {
-          score: true,
-        },
-      },
-    },
-  });
-
-  const scores: { [fid: number]: number } = {};
-
-  data.forEach((user) => {
-    scores[user.id] = user.openRankScores[0] ? user.openRankScores[0].score : 0;
-  });
-
-  return scores;
-}
-
-/**
- * For each tip, this calculates the OpenRank score change of the recipient per token tipped
- */
-async function getTipScores({
-  tips,
-  latestTippeeOpenRankScores,
-}: {
-  tips: {
-    hash: string;
-    tipperId: number;
-    tippeeId: number;
-    createdAt: Date;
-    amount: number;
-    startScore: number | null;
-  }[];
-  latestTippeeOpenRankScores: { [fid: number]: number };
-}) {
-  return tips.map((tip) => {
-    const startScore = new Decimal(tip.startScore || 0);
-    const latestScore = new Decimal(latestTippeeOpenRankScores[tip.tippeeId]);
-
-    // Change in OpenRank score per day
-    const daysSinceTip = dayjs().diff(tip.createdAt, "day", true);
-    const openRankChange = latestScore.div(startScore).mul(100).sub(100);
-    const openRankChangePerDay = openRankChange.div(daysSinceTip);
-
-    // Change per token
-    const changePerToken = openRankChangePerDay.div(tip.amount);
-
-    // Scale up to human readable numbers
-    return {
-      hash: tip.hash,
-      changePerToken: changePerToken.mul(TIP_SCORE_SCALER),
-    };
   });
 }
 
