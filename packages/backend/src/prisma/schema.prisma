@@ -150,7 +150,7 @@ model Tip {
 
   // Tip recipient's change in OpenRank score * Tip.amount
   // This is stored mainly for efficiency reasons so it doesn't need to be recalculated
-  latestFartherScore   Float?
+  openRankChange   Float?
 
   // Stored at the time the tip is made
   tippeeOpenRankScore  Float?

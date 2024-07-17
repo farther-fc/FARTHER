@@ -1,10 +1,10 @@
 import { cronSchedules, isProduction } from "@farther/common";
 import cron from "node-cron";
 import "../instrument";
-import { calculateTipperScores } from "./lib/calculateTipperScores";
 import { generateApiCallCron } from "./lib/generateApiCallCron";
 import { syncUserData } from "./lib/syncUserData";
 import { takeOpenRankSnapshot } from "./lib/takeOpenRankSnapshot";
+import { updateTipperScores } from "./lib/updateTipperScores";
 
 console.log("server running!");
 
@@ -44,6 +44,6 @@ cron.schedule(
   },
 );
 
-cron.schedule(cronSchedules.CALCULATE_TIPPER_SCORES, calculateTipperScores, {
+cron.schedule(cronSchedules.UPDATE_TIPPER_SCORES, updateTipperScores, {
   timezone: "Etc/UTC",
 });

@@ -4,10 +4,11 @@ import Decimal from "decimal.js";
 import { prisma } from "../prisma";
 import { getLatestTipperAirdrop } from "./getLatestTipperAirdrop";
 import { getTippersByDate } from "./getTippersByDate";
+import { dbScheduler } from "./helpers";
 
 const SCORE_START_DATE = new Date("2024-07-14T03:00:08.894Z");
 
-export async function calculateTipperScores() {
+export async function updateTipperScores() {
   console.log(`Starting calculateTipperScores`, new Date());
 
   const latestAirdrop = await getLatestTipperAirdrop();
@@ -58,22 +59,43 @@ export async function calculateTipperScores() {
   const tipperScores: { [fid: number]: number } = {};
 
   for (const tipper of tippers) {
-    const tipperSCore = getTipperScore({
+    const tipScores = await getTipScores({
       tips: tipSnapshots[tipper.id] || [],
       latestTippeeOpenRankScores,
     });
 
-    tipperScores[tipper.id] = tipperSCore.toNumber();
+    const totalScore = tipScores.reduce(
+      (acc, score) => acc.add(score.changePerToken),
+      new Decimal(0),
+    );
+
+    const tipUpdates = tipScores.map((tip, index) =>
+      dbScheduler.schedule(() =>
+        prisma.tip.update({
+          where: { hash: tip.hash },
+          data: {
+            openRankChange: tipScores[index].changePerToken.toNumber(),
+          },
+        }),
+      ),
+    );
+
+    await Promise.all(tipUpdates);
+
+    // Return average
+    const tipperScore = totalScore.div(tips.length);
+
+    tipperScores[tipper.id] = tipperScore.toNumber();
   }
 
   const sortedScores = Object.entries(tipperScores)
     .sort((a, b) => a[1] - b[1])
-    .map(([fid, rawScore]) => ({ fid, rawScore }));
+    .map(([fid, score]) => ({ fid, score }));
 
   await prisma.tipScore.createMany({
-    data: sortedScores.map(({ fid, rawScore }) => ({
+    data: sortedScores.map(({ fid, score }) => ({
       userId: parseInt(fid),
-      score: rawScore,
+      score,
     })),
   });
 }
@@ -109,10 +131,9 @@ async function getLatestOpenRankScores(fids: number[]) {
 }
 
 /**
- * For each tip, this calculates the OpenRank score change of the recipient per token tipped,
- * then returns an average of those values.
+ * For each tip, this calculates the OpenRank score change of the recipient per token tipped
  */
-function getTipperScore({
+async function getTipScores({
   tips,
   latestTippeeOpenRankScores,
 }: {
@@ -126,25 +147,24 @@ function getTipperScore({
   }[];
   latestTippeeOpenRankScores: { [fid: number]: number };
 }) {
-  const scores = tips
-    .reduce((acc, tip) => {
-      const startScore = new Decimal(tip.startScore || 0);
-      const latestScore = new Decimal(latestTippeeOpenRankScores[tip.tippeeId]);
+  return tips.map((tip) => {
+    const startScore = new Decimal(tip.startScore || 0);
+    const latestScore = new Decimal(latestTippeeOpenRankScores[tip.tippeeId]);
 
-      // Change in OpenRank score per day
-      const daysSinceTip = dayjs().diff(tip.createdAt, "day", true);
-      const openRankChange = latestScore.div(startScore).mul(100).sub(100);
-      const openRankChangePerDay = openRankChange.div(daysSinceTip);
+    // Change in OpenRank score per day
+    const daysSinceTip = dayjs().diff(tip.createdAt, "day", true);
+    const openRankChange = latestScore.div(startScore).mul(100).sub(100);
+    const openRankChangePerDay = openRankChange.div(daysSinceTip);
 
-      // Change per token
-      const changePerToken = openRankChangePerDay.div(tip.amount);
+    // Change per token
+    const changePerToken = openRankChangePerDay.div(tip.amount);
 
-      return acc.add(changePerToken);
-    }, new Decimal(0))
     // Scale up to human readable numbers
-    .mul(TIP_SCORE_SCALER);
-
-  return scores.div(tips.length);
+    return {
+      hash: tip.hash,
+      changePerToken: changePerToken.mul(TIP_SCORE_SCALER),
+    };
+  });
 }
 
 // calculateTipperScores().then((scores) => {

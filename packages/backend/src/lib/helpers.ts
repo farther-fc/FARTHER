@@ -1,3 +1,4 @@
+import Bottleneck from "bottleneck";
 import { formatEther } from "viem";
 
 const fs = require("fs");
@@ -14,3 +15,8 @@ export const writeFile = async (path: string, content: any) => {
 export const formatNum = (n: string | bigint) => {
   return Number(formatEther(BigInt(n))).toLocaleString();
 };
+
+export const dbScheduler = new Bottleneck({
+  maxConcurrent: 8,
+  minTime: 20,
+});
