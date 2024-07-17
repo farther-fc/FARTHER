@@ -245,7 +245,7 @@ export const OPENRANK_SNAPSHOT_INTERVAL = 6;
 export const cronSchedules = {
   OPENRANK_SNAPSHOT: "0 3,9,15,21 * * *",
   // 30 min after openrank snapshot
-  UPDATE_TIPPER_SCORES: "30 3,9,15,21 * * *",
+  UPDATE_TIPPER_SCORES: "10 3,9,15,21 * * *",
   DISTRIBUTE_ALLOWANCES: "0 16 * * *",
   UPDATE_ELIGIBLE_TIPPERS: "0 * * * *",
   SYNC_USER_DATA: isProduction ? "0 */12 * * *" : "*/5 * * * *",
