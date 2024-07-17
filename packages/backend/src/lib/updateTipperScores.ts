@@ -31,7 +31,7 @@ export async function updateTipperScores() {
       tippeeId: number;
       createdAt: Date;
       amount: number;
-      startScore: number | null;
+      startScore: number;
     }[];
   } = {};
 
@@ -54,16 +54,14 @@ export async function updateTipperScores() {
     });
   });
 
-  const latestTippeeOpenRankScores = await getLatestOpenRankScores(
-    Array.from(tipees),
-  );
+  const endScores = await getLatestOpenRankScores(Array.from(tipees));
 
   const tipperScores: { [fid: number]: number } = {};
 
   for (const tipper of tippers) {
     const tipScores = await getTipScores({
       tips: tipSnapshots[tipper.id] || [],
-      latestTippeeOpenRankScores,
+      endScores,
     });
 
     const totalScore = tipScores.reduce(

@@ -7,7 +7,8 @@ import Decimal from "decimal.js";
  */
 export async function getTipScores({
   tips,
-  latestTippeeOpenRankScores,
+  endScores,
+  endTime = new Date(),
 }: {
   tips: {
     hash: string;
@@ -15,16 +16,17 @@ export async function getTipScores({
     tippeeId: number;
     createdAt: Date;
     amount: number;
-    startScore: number | null;
+    startScore: number;
   }[];
-  latestTippeeOpenRankScores: { [fid: number]: number };
+  endScores: { [fid: number]: number };
+  endTime?: Date;
 }) {
   return tips.map((tip) => {
     const startScore = new Decimal(tip.startScore || 0);
-    const latestScore = new Decimal(latestTippeeOpenRankScores[tip.tippeeId]);
+    const latestScore = new Decimal(endScores[tip.tippeeId]);
 
     // Change in OpenRank score per day
-    const daysSinceTip = dayjs().diff(tip.createdAt, "day", true);
+    const daysSinceTip = dayjs(endTime).diff(tip.createdAt, "day", true);
     const openRankChange = latestScore.div(startScore).mul(100).sub(100);
     const openRankChangePerDay = openRankChange.div(daysSinceTip);
 
