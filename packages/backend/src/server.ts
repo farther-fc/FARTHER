@@ -4,6 +4,7 @@ import "../instrument";
 import { generateApiCallCron } from "./lib/generateApiCallCron";
 import { syncUserData } from "./lib/syncUserData";
 import { takeOpenRankSnapshot } from "./lib/takeOpenRankSnapshot";
+import { updateTipperScores } from "./lib/updateTipperScores";
 
 console.log("server running!");
 
@@ -42,3 +43,7 @@ cron.schedule(
     setTimeout(updateEligibleTippers, isProduction ? randomDelay : 0);
   },
 );
+
+cron.schedule(cronSchedules.UPDATE_TIPPER_SCORES, updateTipperScores, {
+  timezone: "Etc/UTC",
+});

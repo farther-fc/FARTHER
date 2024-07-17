@@ -18,6 +18,7 @@ describe("getLatestTipperAirdrop", () => {
 
     for (let i = 0; i < AIRDROP_COUNT; i++) {
       // Create tipper reward allocations
+      // Need to put this in a $transaction because createMany doesn't return the created records
       const allocations = await prisma.$transaction(
         userIds.map((id) =>
           prisma.allocation.create({
