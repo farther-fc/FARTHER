@@ -10,7 +10,7 @@ import { prisma } from "../prisma";
 import { getLatestCronTime } from "./getLatestCronTime";
 
 export async function takeOpenRankSnapshot() {
-  console.log("Running takeOpenRankSnapshot", new Date());
+  console.log("Starting takeOpenRankSnapshot", new Date());
 
   const tippees = !isProduction
     ? dummyTippees
@@ -33,6 +33,8 @@ export async function takeOpenRankSnapshot() {
     const scores = await getOpenRankScores(tipeeeFids);
 
     await storeScores(scores);
+
+    console.log("Finished takeOpenRankSnapshot", new Date());
   } catch (error) {
     console.error(error);
     Sentry.captureException(new OpenRankError({ message: error.message }));

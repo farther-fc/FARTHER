@@ -35,6 +35,7 @@
     "start": "pnpm env:dev pnpm ts-node src/server",
     "start:staging": "pnpm env:staging pnpm ts-node src/server --transpile-only",
     "start:prod": "pnpm env:prod pnpm ts-node src/server --transpile-only",
+    "updateTipperScores": "ts-node src/testCron.ts --transpile-only",
     "test": "pnpm db:reset && pnpm env:dev jest"
   },
   "prisma": {
