@@ -2,6 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/Avatar"; // Adjust the import path if needed
 import { Button } from "@components/ui/Button";
+import { Skeleton } from "@components/ui/Skeleton";
 import { LeaderboardRow } from "@lib/types/apiTypes";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
@@ -25,8 +26,13 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
           className="flex items-center space-x-2"
         >
           <Avatar className="size-8">
-            <AvatarImage src={pfpUrl} alt={username} />
-            <AvatarFallback>{username || ""}</AvatarFallback>
+            <AvatarImage
+              src={`https://res.cloudinary.com/merkle-manufactory/image/fetch/c_fill,f_png,h_30,w_30/${pfpUrl}`}
+              alt={username}
+            />
+            <AvatarFallback>
+              <Skeleton className="rounded-full" />
+            </AvatarFallback>
           </Avatar>
           <span>{username}</span>
         </Link>

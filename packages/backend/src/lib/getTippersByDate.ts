@@ -12,6 +12,9 @@ export async function getTippersByDate({
       tipsGiven: {
         some: {
           invalidTipReason: null,
+          tippeeOpenRankScore: {
+            not: null,
+          },
           createdAt: {
             gte: from,
             lt: to,

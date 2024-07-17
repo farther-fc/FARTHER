@@ -37,6 +37,11 @@ export async function calculateTipperScores() {
     if (!tipSnapshots[tip.tipperId]) {
       tipSnapshots[tip.tipperId] = [];
     }
+    if (tip.tippeeOpenRankScore === null) {
+      throw new Error(
+        `Tipper ${tip.tipperId} has a tip with no tippeeOpenRankScore`,
+      );
+    }
     tipSnapshots[tip.tipperId].push({
       hash: tip.hash,
       tipperId: tip.tipperId,
@@ -132,28 +137,28 @@ function getTipperScore({
 
       // Change in OpenRank score per day
       const daysSinceTip = dayjs().diff(tip.createdAt, "day", true);
-      const openRankChange = latestScore.sub(startScore);
+      const openRankChange = latestScore.div(startScore).mul(100).sub(100);
       const openRankChangePerDay = openRankChange.div(daysSinceTip);
 
       // Change per token
       const changePerToken = openRankChangePerDay.div(tip.amount);
 
-      // if ([268455, 283056].includes(tip.tipperId)) {
-      //   console.log(
-      //     // "startScore",
-      //     // startScore,
-      //     // "latestScore",
-      //     // latestScore,
-      //     "fid",
-      //     tip.tipperId,
-      //     "hash",
-      //     tip.hash,
-      //     "days",
-      //     daysSinceTip,
-      //     "openrankChange",
-      //     openRankChange.mul(TIP_SCORE_SCALER).toNumber().toLocaleString(),
-      //   );
-      // }
+      if ([389059].includes(tip.tipperId)) {
+        console.log(
+          "startScore",
+          startScore,
+          "latestScore",
+          latestScore,
+          "fid",
+          tip.tipperId,
+          "hash",
+          tip.hash,
+          "days",
+          daysSinceTip,
+          "openrankChange",
+          openRankChange.mul(TIP_SCORE_SCALER).toNumber().toLocaleString(),
+        );
+      }
 
       return acc.add(changePerToken);
     }, new Decimal(0))

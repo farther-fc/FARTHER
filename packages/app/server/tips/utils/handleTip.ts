@@ -101,7 +101,7 @@ export async function handleTip({
   const openRankScores = await getOpenRankScores([tippee.fid]);
 
   const tippeeOpenRankScore =
-    openRankScores && openRankScores[0] ? openRankScores[0].score : 0;
+    openRankScores && openRankScores[0] ? openRankScores[0].score : null;
 
   await storeTip({
     allowanceId: tipAllowance.id,
