@@ -3,12 +3,12 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "env:dev": "dotenv -e ../../.env -- ",
-    "env:prod": "dotenv -e ../../.env.production -- ",
-    "env:staging": "dotenv -e ../../.env.staging -- ",
+    "env:dev": "dotenvx run -f ../../.env -- ",
+    "env:prod": "dotenvx run -f ../../.env.production -- ",
+    "env:staging": "dotenvx run -f ../../.env.staging -- ",
     "dev": "next dev",
     "codegen": "pnpm env:prod graphclient build && ts-node lib/codegenPostScript.ts",
-    "graph:dev": "dotenv -e ../../.env.staging graphclient serve-dev",
+    "graph:dev": "pnpm env:staging graphclient serve-dev",
     "build:web": "pnpm next build",
     "start": "pnpm codegen && next start",
     "lint": "next lint",
@@ -19,7 +19,7 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
     "tipsAgentModeling": "pnpm db:reset && pnpm env:dev ts-node server/tips/agentModeling",
     "db:reset": "cd ../backend && pnpm env:dev pnpm db:reset && cd ../app",
-    "test": "pnpm db:reset && dotenv -e ../../.env jest"
+    "test": "pnpm db:reset && pnpm env:dev jest"
   },
   "dependencies": {
     "@airstack/node": "^0.0.7",

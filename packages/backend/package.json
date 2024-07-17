@@ -4,9 +4,9 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "env:dev": "dotenv -e ../../.env -- ",
-    "env:staging": "dotenv -e ../../.env.staging -- ",
-    "env:prod": "dotenv -e ../../.env.production -- ",
+    "env:dev": "dotenvx run -f ../../.env -- ",
+    "env:staging": "dotenvx run -f ../../.env.staging -- ",
+    "env:prod": "dotenvx run -f ../../.env.production -- ",
     "getTweet": "pnpm env:prod ts-node src/scripts/getTweet.ts",
     "getLpInfo:prod": "pnpm env:prod ts-node src/scripts/getLpInfo.ts",
     "prepareLpBonusDrop:prod": "pnpm env:prod ts-node -T src/scripts/prepareLpBonusDrop.ts",
