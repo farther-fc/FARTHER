@@ -35,7 +35,10 @@
     "start": "pnpm env:dev pnpm ts-node src/server",
     "start:staging": "pnpm env:staging pnpm ts-node src/server --transpile-only",
     "start:prod": "pnpm env:prod pnpm ts-node src/server --transpile-only",
-    "updateTipperScores": "ts-node src/testCron.ts --transpile-only",
+    "updateTipperScores": "CRON=updateTipperScores ts-node src/crons.ts --transpile-only",
+    "updateEligibleTippers": "CRON=updateEligibleTippers ts-node src/crons.ts --transpile-only",
+    "distributeAllowances": "CRON=distributeAllowances ts-node src/crons.ts --transpile-only",
+    "takeOpenRankSnapshot": "CRON=takeOpenRankSnapshot ts-node src/crons.ts --transpile-only",
     "test": "pnpm db:reset && pnpm env:dev jest"
   },
   "prisma": {

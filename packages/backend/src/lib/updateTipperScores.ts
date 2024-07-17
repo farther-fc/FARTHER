@@ -112,14 +112,3 @@ export async function updateTipperScores() {
 
   console.log(`Finished updateTipperScores`, new Date());
 }
-
-// calculateTipperScores().then((scores) => {
-//   // console.log(scores);
-//   writeFile("tipperScores.json", JSON.stringify(scores, null, 2), (err) => {
-//     if (err) {
-//       console.error(err);
-//     } else {
-//       console.log("Tipper scores written to tipperScores.json");
-//     }
-//   });
-// });
