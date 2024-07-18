@@ -35,7 +35,7 @@ export async function takeOpenRankSnapshot() {
     await storeScores(scores);
 
     console.log("Finished takeOpenRankSnapshot", new Date());
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     Sentry.captureException(new OpenRankError({ message: error.message }));
   }
@@ -44,7 +44,7 @@ export async function takeOpenRankSnapshot() {
 async function storeScores(allScores: OpenRankData["result"]) {
   const snapshotTimeId = getLatestCronTime(cronSchedules.OPENRANK_SNAPSHOT);
 
-  const scoreChunks = chunk(allScores, 1000);
+  const scoreChunks = chunk(allScores, 100);
 
   for (const scores of scoreChunks) {
     await prisma.$transaction(

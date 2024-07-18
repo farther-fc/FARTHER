@@ -130,3 +130,8 @@ export async function retryWithExponentialBackoff(
     }
   }
 }
+
+// Returns how long ago the given time was in hours
+export function getHoursAgo(date: Date) {
+  return (Date.now() - date.getTime()) / 1000 / 60 / 60;
+}
