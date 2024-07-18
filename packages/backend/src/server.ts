@@ -6,6 +6,10 @@ import { syncUserData } from "./lib/syncUserData";
 import { takeOpenRankSnapshot } from "./lib/takeOpenRankSnapshot";
 import { updateTipperScores } from "./lib/updateTipperScores";
 
+/**
+ * NOTE: This is currently not being used. The crons are scheduled in Railway directly.
+ */
+
 console.log("server running!");
 
 cron.schedule(cronSchedules.SYNC_USER_DATA, syncUserData, {

@@ -2,21 +2,13 @@
   "name": "farther",
   "private": true,
   "scripts": {
-    "pull-env:staging": "dotenv pull staging",
-    "pull-env:prod": "dotenv pull production",
     "build": "dotenv -- turbo build",
     "build:web": "dotenv -- turbo build:web",
-    "dev": "dotenv -- turbo dev",
-    "dev:prod": "dotenv -e .env.production turbo dev",
-    "dev:staging": "dotenv -e .env.staging turbo dev",
-    "deploy:dev": "dotenv -- pnpm --filter=protocol deploy:dev",
+    "dev": "dotenvx run -f .env -- turbo dev",
+    "dev:prod": "dotenvx run -f .env.production -- turbo dev",
+    "dev:staging": "dotenvx run -f .env.staging -- turbo dev",
     "lint": "turbo lint --log-prefix=none",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "pull-env": "dotenv-vault pull",
-    "push-env": "dotenv-vault push",
-    "db:push": "dotenv -- pnpm --filter=backend db:push",
-    "db:view": "dotenv -- pnpm --filter=backend db:view",
-    "db:reset": "dotenv -- pnpm --filter=backend db:reset",
     "start:staging": "pnpm --filter=backend start:staging",
     "start:prod": "pnpm --filter=backend start:prod"
   },
@@ -31,9 +23,10 @@
   },
   "packageManager": "pnpm@8.15.8+sha512.d1a029e1a447ad90bc96cd58b0fad486d2993d531856396f7babf2d83eb1823bb83c5a3d0fc18f675b2d10321d49eb161fece36fe8134aa5823ecd215feed392",
   "engines": {
-    "node": "21.7.2"
+    "node": ">=18"
   },
   "dependencies": {
+    "@dotenvx/dotenvx": "^1.6.4",
     "dotenv": "^16.4.5",
     "dotenv-cli": "^7.3.0",
     "dotenv-vault": "^1.26.0"

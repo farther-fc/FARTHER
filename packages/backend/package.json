@@ -4,9 +4,9 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "env:dev": "dotenv -e ../../.env -- ",
-    "env:staging": "dotenv -e ../../.env.staging -- ",
-    "env:prod": "dotenv -e ../../.env.production -- ",
+    "env:dev": "dotenvx run -f ../../.env --",
+    "env:staging": "dotenvx run -f ../../.env.staging --",
+    "env:prod": "dotenvx run -f ../../.env.production --",
     "getTweet": "pnpm env:prod ts-node src/scripts/getTweet.ts",
     "getLpInfo:prod": "pnpm env:prod ts-node src/scripts/getLpInfo.ts",
     "prepareLpBonusDrop:prod": "pnpm env:prod ts-node -T src/scripts/prepareLpBonusDrop.ts",
@@ -35,7 +35,14 @@
     "start": "pnpm env:dev pnpm ts-node src/server",
     "start:staging": "pnpm env:staging pnpm ts-node src/server --transpile-only",
     "start:prod": "pnpm env:prod pnpm ts-node src/server --transpile-only",
-    "updateTipperScores": "ts-node src/testCron.ts --transpile-only",
+    "updateTipperScores:staging": "CRON=updateTipperScores pnpm env:staging ts-node src/crons.ts --transpile-only",
+    "updateTipperScores:prod": "CRON=updateTipperScores pnpm env:prod ts-node src/crons.ts --transpile-only",
+    "updateEligibleTippers:staging": "CRON=updateEligibleTippers pnpm env:staging ts-node src/crons.ts --transpile-only",
+    "updateEligibleTippers:prod": "CRON=updateEligibleTippers pnpm env:prod ts-node src/crons.ts --transpile-only",
+    "distributeAllowances:staging": "CRON=distributeAllowances pnpm env:staging ts-node src/crons.ts --transpile-only",
+    "distributeAllowances:prod": "CRON=distributeAllowances pnpm env:prod ts-node src/crons.ts --transpile-only",
+    "takeOpenRankSnapshot:staging": "CRON=takeOpenRankSnapshot pnpm env:staging ts-node src/crons.ts --transpile-only",
+    "takeOpenRankSnapshot:prod": "CRON=takeOpenRankSnapshot pnpm env:prod ts-node src/crons.ts --transpile-only",
     "test": "pnpm db:reset && pnpm env:dev jest"
   },
   "prisma": {
