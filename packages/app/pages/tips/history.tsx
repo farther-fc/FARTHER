@@ -33,7 +33,6 @@ const Row = ({ tip, isTablet }: { tip: Tips[number]; isTablet: boolean }) => (
         <ExternalLinkIcon size={16} />
       </ExternalLink>
       <div className="text-muted py-1">
-        {" "}
         {dayjs(tip.createdAt).format(isTablet ? "M/D | h:mm a" : "M/D")}
       </div>
       <div className="py-1">{tip.tippee?.username || "unknown"}</div>
@@ -46,7 +45,7 @@ const Row = ({ tip, isTablet }: { tip: Tips[number]; isTablet: boolean }) => (
 );
 
 function TipsHistoryPage() {
-  const { user, userIsLoading } = useUser();
+  const { user, accountAddress, userIsLoading } = useUser();
   const [cursor, setCursor] = React.useState<number | undefined>();
   const { isTablet } = useMediaQuery();
   const [isLoading, setIsLoading] = React.useState(false);
@@ -64,7 +63,10 @@ function TipsHistoryPage() {
     tipsFromServer.length === API_BATCH_LIMIT && !!data?.nextCursor;
 
   React.useEffect(() => {
-    if (!tipsFromServer.length) return;
+    if (!tipsFromServer.length && isLoading) {
+      setIsLoading(false);
+      return;
+    }
 
     setTips((prev) => {
       const allTips = [...prev, ...tipsFromServer];
@@ -74,7 +76,7 @@ function TipsHistoryPage() {
       return uniqueTips;
     });
     setIsLoading(false);
-  }, [data?.tips.length]);
+  }, [tipsFromServer.length, isLoading, tipsFromServer]);
 
   React.useEffect(() => {
     if (!user && userIsLoading) {
@@ -87,7 +89,6 @@ function TipsHistoryPage() {
   }, [user, userIsLoading]);
 
   const loadMore = () => {
-    console.log("loadmore called");
     if (isLoading || tips.length < API_BATCH_LIMIT) return;
     setCursor(new Date(tips[tips.length - 1].createdAt).getTime());
   };
@@ -120,7 +121,7 @@ function TipsHistoryPage() {
             >
               {!tips.length && !isLoading && !userIsLoading ? (
                 <div className="m-auto w-[200px] text-center h-[480px] justify-center flex items-center text-ghost">
-                  {!user
+                  {!accountAddress
                     ? "Please connect your wallet to view your tips"
                     : "No tips found"}
                 </div>
