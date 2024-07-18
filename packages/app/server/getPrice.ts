@@ -5,7 +5,7 @@ import { getPrice as getPriceUtil } from "./token/getPrice";
 export const publicGetPrice = publicProcedure.query((opts) => {
   opts.ctx.res.setHeader(
     "cache-control",
-    `s-maxage=${cacheTimes.PUBLIC_PRICE}, stale-while-revalidate=1`,
+    `s-maxage=${cacheTimes.PRICE}, stale-while-revalidate=1`,
   );
 
   return getPriceUtil();
