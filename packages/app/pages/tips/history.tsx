@@ -1,18 +1,54 @@
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { Skeleton } from "@components/ui/Skeleton";
+import { Tooltip } from "@components/ui/Tooltip";
 import { API_BATCH_LIMIT } from "@farther/common";
+import { invalidTipReasons } from "@lib/constants";
+import { useMediaQuery } from "@lib/context/MediaQueryContext";
 import { useUser } from "@lib/context/UserContext";
 import { trpcClient } from "@lib/trpcClient";
 
 import { Tips } from "@lib/types/apiTypes";
 import dayjs from "dayjs";
+import { ExternalLinkIcon } from "lucide-react";
 import React from "react";
 import InfiniteScroll from "react-infinite-scroller";
+
+const GRID_STYLES =
+  "grid grid-cols-[4px_35px_minmax(60px,200px)_minmax(140px,1fr)_80px] md:grid-cols-[8px_50px_minmax(60px,200px)_minmax(140px,1fr)_80px] gap-1 relative";
+
+const Row = ({ tip, isTablet }: { tip: Tips[number]; isTablet: boolean }) => (
+  <div
+    className={`pr-2 md:pr-5 block hover:bg-background group cursor-default`}
+  >
+    <div className={GRID_STYLES}>
+      <div
+        className={`self-stretch ${tip.invalidTipReason ? "bg-red-700" : ""}`}
+      />
+      <ExternalLink
+        key={tip.hash}
+        href={`https://warpcast.com/~/conversations/${tip.hash}`}
+        className={`hover:no-underline ${tip.invalidTipReason ? "text-red-200 group-hover:text-red-300" : "text-link-hover group-hover:text-link"} flex self-stretch items-center pl-2 md:pl-4 py-1`}
+      >
+        <ExternalLinkIcon size={16} />
+      </ExternalLink>
+      <div className="text-muted py-1">
+        {" "}
+        {dayjs(tip.createdAt).format(isTablet ? "M/D | h:mm a" : "M/D")}
+      </div>
+      <div className="py-1">{tip.tippee?.username || "unknown"}</div>
+      <div className="text-right py-1">
+        {tip.amount.toLocaleString()} {tip.invalidTipReason ? "🚫" : "✨"}
+      </div>
+      {/* <div>{tip.tippeeOpenRankScore?.toLocaleString()}</div> */}
+    </div>
+  </div>
+);
 
 function TipsHistoryPage() {
   const { user, userIsLoading } = useUser();
   const [cursor, setCursor] = React.useState<number | undefined>();
+  const { isTablet } = useMediaQuery();
   const [isLoading, setIsLoading] = React.useState(false);
   const { data } = trpcClient.public.tips.byTipper.useQuery(
     {
@@ -41,31 +77,24 @@ function TipsHistoryPage() {
   }, [data?.tips.length]);
 
   React.useEffect(() => {
-    if (user) return;
-    if (userIsLoading) {
-      setIsLoading(true);
-    } else {
-      setTips([]);
-      setIsLoading(false);
-    }
-  }, [user]);
+    if (user || userIsLoading) return;
+    setTips([]);
+  }, [user, userIsLoading]);
 
   const loadMore = () => {
     console.log("loadmore called");
     if (isLoading || tips.length < API_BATCH_LIMIT) return;
-    setIsLoading(true);
     setCursor(new Date(tips[tips.length - 1].createdAt).getTime());
   };
-
-  const gridStyles =
-    "grid grid-cols-[minmax(80px,250px)_minmax(100px,1fr)_80px] gap-1";
 
   return (
     <Container variant="page">
       <h1>Tip History</h1>
-      <div className={`${gridStyles} px-2 md:px-8 py-2 text-muted mr-3`}>
-        {["Date", "Recipient", "Amount"].map((text, i) => (
-          <div className={i === 2 ? "text-right" : "text-left"}>{text}</div>
+      <div
+        className={`${GRID_STYLES} md:px-8 py-2 text-ghost uppercase md:mr-3`}
+      >
+        {["", "", "Date", "Recipient", "Amount"].map((text, i) => (
+          <div className={i === 4 ? "text-right" : "text-left"}>{text}</div>
         ))}
       </div>
       {isLoading ? (
@@ -84,29 +113,33 @@ function TipsHistoryPage() {
                 </div>
               }
             >
-              {!tips.length && !isLoading ? (
-                <div className="w-full h-[480px] justify-center flex items-center text-ghost">
+              {!tips.length && !isLoading && !userIsLoading ? (
+                <div className="m-auto w-[200px] text-center h-[480px] justify-center flex items-center text-ghost">
                   {!user
                     ? "Please connect your wallet to view your tips"
                     : "No tips found"}
                 </div>
               ) : (
-                tips.map((tip) => (
-                  <ExternalLink
-                    key={tip.hash}
-                    href={`https://warpcast.com/~/conversations/${tip.hash}`}
-                    className="hover:no-underline text-white hover:text-link px-2 md:px-8 py-1 block hover:bg-background"
-                  >
-                    <div className={gridStyles}>
-                      <div> {dayjs(tip.createdAt).format("M.D | h:mm a")}</div>
-                      <div>{tip.tippee?.username || "unknown"}</div>
-                      <div className="text-right">
-                        {tip.amount.toLocaleString()} ✨
+                tips.map((tip) => {
+                  if (tip.invalidTipReason) {
+                    console.log(
+                      tip.hash,
+                      invalidTipReasons[tip.invalidTipReason],
+                    );
+                  }
+                  return tip.invalidTipReason ? (
+                    <Tooltip
+                      key={tip.hash}
+                      content={invalidTipReasons[tip.invalidTipReason]}
+                    >
+                      <div>
+                        <Row tip={tip} isTablet={isTablet} />
                       </div>
-                      {/* <div>{tip.tippeeOpenRankScore?.toLocaleString()}</div> */}
-                    </div>
-                  </ExternalLink>
-                ))
+                    </Tooltip>
+                  ) : (
+                    <Row tip={tip} isTablet={isTablet} />
+                  );
+                })
               )}
             </InfiniteScroll>
           </div>

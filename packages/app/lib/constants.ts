@@ -118,3 +118,11 @@ export const POSITIONS_REFRESH_INTERVAL = 10_000;
 
 export const JULY_ANNOUCEMENT_LINK =
   "https://paragraph.xyz/@farther/farther-toward-the-horizon";
+
+export const invalidTipReasons = {
+  BELOW_MINIMUM: "Below tip minimum",
+  INSUFFICIENT_ALLOWANCE: "Insufficient allowance",
+  NULL_ALLOWANCE: "No allowance",
+  INVALID_TIME: "Invalid time",
+  SELF_TIPPING: "Self tipping",
+};
