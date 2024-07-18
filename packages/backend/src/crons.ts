@@ -1,5 +1,6 @@
 import { requireEnv } from "require-env-variable";
 import { generateApiCallCron } from "./lib/generateApiCallCron";
+import { syncUserData } from "./lib/syncUserData";
 import { takeOpenRankSnapshot } from "./lib/takeOpenRankSnapshot";
 import { updateTipperScores } from "./lib/updateTipperScores";
 import { prisma } from "./prisma";
@@ -7,6 +8,11 @@ import { prisma } from "./prisma";
 const { CRON } = requireEnv("CRON");
 
 switch (CRON) {
+  case "syncUserData": {
+    console.log("Running syncUserData on", process.env.NEXT_PUBLIC_ENVIRONMENT);
+    syncUserData().then(disconnect);
+    break;
+  }
   case "updateTipperScores": {
     console.log(
       "Running updateTipperScores on",
