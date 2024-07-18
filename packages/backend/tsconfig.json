@@ -18,7 +18,7 @@
     "../app/server/tips/utils/updateEligibleTippers.ts",
     "../app/server/tips/utils/invalidateAllowance.ts",
     "../app/server/tips/__tests__/invalidateAllowance.test.ts",
-    "../common/src/bullmq.ts"
+    "src/lib/bullmq.ts"
   ],
   "files": ["src/server.ts"]
 }

@@ -1,7 +1,7 @@
+import { ENVIRONMENT } from "@farther/common/src/env";
 import { Queue } from "bullmq";
 import Redis from "ioredis";
 import { requireEnv } from "require-env-variable";
-import { ENVIRONMENT } from "./env";
 
 const { KV_REST_API_URL, KV_REST_API_TOKEN } = requireEnv(
   "KV_REST_API_URL",
@@ -28,18 +28,17 @@ export const queueConnection =
     ? { host: "localhost", port: 6379 }
     : getRedisConnection();
 
+// NOTE: There is a mysterious bug that causes workers
+// to not be called if the queue name is too long 🤷‍♂️
 export const queueNames = {
   SYNC_USER_DATA: "sync_user_data",
-  DISTRIBUTE_ALLOWANCES: "distribute_allowances",
-};
+  DISTRIBUTE: "distribute",
+} as const;
 
 export const syncUserDataQueue = new Queue(queueNames.SYNC_USER_DATA, {
   connection: queueConnection,
 });
 
-export const distributeAllowancesQueue = new Queue(
-  queueNames.DISTRIBUTE_ALLOWANCES,
-  {
-    connection: queueConnection,
-  },
-);
+export const distributeAllowancesQueue = new Queue(queueNames.DISTRIBUTE, {
+  connection: queueConnection,
+});
