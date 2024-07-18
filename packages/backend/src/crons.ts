@@ -1,18 +1,24 @@
 import { requireEnv } from "require-env-variable";
-// import { generateApiCallCron } from "./lib/generateApiCallCron";
-// import { takeOpenRankSnapshot } from "./lib/takeOpenRankSnapshot";
-// import { updateTipperScores } from "./lib/updateTipperScores";
+import { generateApiCallCron } from "./lib/generateApiCallCron";
+import { syncUserData } from "./lib/syncUserData";
+import { takeOpenRankSnapshot } from "./lib/takeOpenRankSnapshot";
+import { updateTipperScores } from "./lib/updateTipperScores";
 import { prisma } from "./prisma";
 
 const { CRON } = requireEnv("CRON");
 
 switch (CRON) {
+  case "syncUserData": {
+    console.log("Running syncUserData on", process.env.NEXT_PUBLIC_ENVIRONMENT);
+    syncUserData().then(disconnect);
+    break;
+  }
   case "updateTipperScores": {
     console.log(
       "Running updateTipperScores on",
       process.env.NEXT_PUBLIC_ENVIRONMENT,
     );
-    // updateTipperScores().then(disconnect);
+    updateTipperScores().then(disconnect);
     break;
   }
   case "takeOpenRankSnapshot": {
@@ -20,7 +26,7 @@ switch (CRON) {
       "Running takeOpenRankSnapshot on",
       process.env.NEXT_PUBLIC_ENVIRONMENT,
     );
-    // takeOpenRankSnapshot().then(disconnect);
+    takeOpenRankSnapshot().then(disconnect);
     break;
   }
   case "updateEligibleTippers": {
@@ -28,7 +34,7 @@ switch (CRON) {
       "Running updateEligibleTippers on",
       process.env.NEXT_PUBLIC_ENVIRONMENT,
     );
-    // generateApiCallCron("admin.updateEligibleTippers")().then(disconnect);
+    generateApiCallCron("admin.updateEligibleTippers")().then(disconnect);
     break;
   }
   case "distributeAllowances": {
@@ -36,7 +42,7 @@ switch (CRON) {
       "Running distributeAllowances on",
       process.env.NEXT_PUBLIC_ENVIRONMENT,
     );
-    // generateApiCallCron("admin.distributeAllowances")().then(disconnect);
+    generateApiCallCron("admin.distributeAllowances")().then(disconnect);
     break;
   }
   default: {
