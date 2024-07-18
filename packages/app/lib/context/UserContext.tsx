@@ -8,14 +8,13 @@ import {
 } from "@farther/common";
 import { createContainer } from "@lib/context/unstated";
 import { trpcClient } from "@lib/trpcClient";
-import { useToast } from "hooks/useToast";
 import { Address } from "viem";
 import { useAccount, useReadContract } from "wagmi";
 
 // Fetches data from backend (database & Neynar) when the user connects a wallet
 export const UserContext = createContainer(function () {
-  const { toast } = useToast();
   const account = useAccount();
+  // const accountAddress = "0x5e46a8ecd4f4f0737ad7b7d243e767861885ed06"; // russian_acai
   const accountAddress = account?.address;
   const { data: balance, refetch: refetchBalance } = useReadContract({
     abi: FartherToken__factory.abi,

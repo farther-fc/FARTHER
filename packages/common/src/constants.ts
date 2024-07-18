@@ -252,7 +252,7 @@ export const cronSchedules = {
   NEVER_RUN: "0 0 31 2 *",
 } as const;
 
-export const API_BATCH_LIMIT = 100;
+export const API_BATCH_LIMIT = 300;
 
 export const TOTAL_DAILY_TIP_ALLOCATION = 500_000;
 
