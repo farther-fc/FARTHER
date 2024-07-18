@@ -29,7 +29,12 @@ export async function publicTipsByTipper({
         ? { lt: new Date(cursor) }
         : { lte: from ? new Date(from) : new Date() };
 
-  const tipCount = await prisma.tip.count({});
+  const tipCount = await prisma.tip.count({
+    where: {
+      tipperId,
+      createdAt: createdAtWhereClause,
+    },
+  });
 
   const tips = await prisma.tip.findMany({
     where: {
@@ -40,12 +45,19 @@ export async function publicTipsByTipper({
       createdAt: orderByCreatedAt,
     },
     take: batchSize,
+    include: {
+      tippee: {
+        select: {
+          username: true,
+        },
+      },
+    },
   });
 
   return {
     tips,
     nextCursor:
-      tipCount > batchSize && tips.length
+      tipCount > batchSize && !!tips.length
         ? tips[tips.length - 1]?.createdAt.getTime()
         : null,
   };

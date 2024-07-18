@@ -1,5 +1,10 @@
 import { prisma } from "@farther/backend";
-import { DistributeAllowancesError, ENVIRONMENT, getHoursAgo, isProduction } from "@farther/common";
+import {
+  DistributeAllowancesError,
+  ENVIRONMENT,
+  getHoursAgo,
+  isProduction,
+} from "@farther/common";
 import { scaleLinear } from "d3";
 import { constrainWeights } from "../../tips/utils/constrainWeights";
 import { getTipMinimum } from "../../tips/utils/getTipMinimum";
@@ -24,15 +29,14 @@ export async function distributeAllowances() {
 
   // Using dayjs, verify that the previous distribution was over 23 hours ago
   if (isProduction) {
-    const hoursSinceLastDistribution = getHoursAgo(previousMeta.createdAt)
+    const hoursSinceLastDistribution = getHoursAgo(previousMeta.createdAt);
 
     if (hoursSinceLastDistribution < 23) {
       throw new DistributeAllowancesError({
         message: `Last distribution was less than 23 hours ago`,
       });
-
+    }
   }
-
 
   const defaultTotal = dailyTipDistribution({ currentDay });
 

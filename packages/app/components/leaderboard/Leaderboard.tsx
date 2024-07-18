@@ -163,6 +163,6 @@ export function Leaderboard() {
       </div>
     </div>
   ) : (
-    <Skeleton className="h-96" />
+    <Skeleton className="h-[600px]" />
   );
 }

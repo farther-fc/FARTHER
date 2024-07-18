@@ -22,7 +22,7 @@ function TipsPage() {
   return (
     <Container variant="page">
       <main className="content">
-        <h1>Farther Tips</h1>
+        <h1>Tips</h1>
         {!tipsMetaLoading && createdAt && (
           <>
             <span className="text-ghost text-sm">CYCLE START TIME</span>
@@ -57,12 +57,16 @@ function TipsPage() {
         ) : (
           <Skeleton className="max-w-[300px]" />
         )}
-        <Link href={ROUTES.tipsLeaderboard.path}>
-          <Button className="mt-8">View Leaderboard</Button>
-        </Link>
+        <div className="grid gap-8 grid-cols-2 mt-6">
+          <Link href={ROUTES.tipsLeaderboard.path}>
+            <Button className="mt-8 w-full">Leaderboard</Button>
+          </Link>
+          <Link href={ROUTES.tipsHistory.path}>
+            <Button className="mt-8 w-full">History</Button>
+          </Link>
+        </div>
         <h3 className="mt-12">Your Stats</h3>
         <TipsUserInfo />
-        {/* <TipsViewer /> */}
         <h3 className="mt-12">How to tip</h3>
         <p>
           Send tips by including text like this in replies to casts

@@ -19,6 +19,12 @@ export const ROUTES = {
     type: "feature",
     hidden: true,
   },
+  tipsHistory: {
+    title: "Tips History",
+    path: "/tips/history",
+    type: "feature",
+    hidden: true,
+  },
   liquidty: {
     title: "Liquidity",
     path: "/liquidity",
