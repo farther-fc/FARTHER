@@ -222,9 +222,10 @@ export const HANDLE_TIP_REGEX =
     : /\d+(\.\d+)?\s*(\$(f|F)(t|T)(e|E)(s|S)(t|T)|(f|F)(t|T)(e|E)(s|S)(t|T))/;
 
 export const cacheTimes = {
-  PUBLIC_USER: 3,
-  PUBLIC_PRICE: 1200,
-  PUBLIC_TIP_META: 43200, // 12 hours
+  USER: 3,
+  TIP_HISTORY: 3,
+  PRICE: 1200,
+  TIP_META: 43200, // 12 hours
   LEADERBOARD: 43200, // 12 hours
 } as const;
 

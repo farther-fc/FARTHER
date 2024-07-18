@@ -183,7 +183,7 @@ export const publicGetUserByAddress = publicProcedure
   .query(async (opts) => {
     opts.ctx.res.setHeader(
       "cache-control",
-      `s-maxage=${cacheTimes.PUBLIC_USER}, stale-while-revalidate=1`,
+      `s-maxage=${cacheTimes.USER}, stale-while-revalidate=1`,
     );
 
     const address = opts.input.address.toLowerCase();
@@ -212,7 +212,7 @@ export const publicGetUserByFid = publicProcedure
   .query(async (opts) => {
     opts.ctx.res.setHeader(
       "cache-control",
-      `s-maxage=${cacheTimes.PUBLIC_USER}, stale-while-revalidate=1`,
+      `s-maxage=${cacheTimes.USER}, stale-while-revalidate=1`,
     );
 
     const fid = opts.input.fid;

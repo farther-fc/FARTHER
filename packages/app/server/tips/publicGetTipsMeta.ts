@@ -21,7 +21,7 @@ export const publicGetTipsMeta = publicProcedure
 
     const tipMetaData = await getTipMeta(opts.input?.date);
 
-    kv.set(cacheKeys.TIP_META, tipMetaData, { ex: cacheTimes.PUBLIC_TIP_META });
+    kv.set(cacheKeys.TIP_META, tipMetaData, { ex: cacheTimes.TIP_META });
 
     return tipMetaData;
   });
