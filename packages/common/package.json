@@ -33,12 +33,9 @@
     "axios": "^1.6.8",
     "axios-retry": "^4.4.1",
     "bottleneck": "^2.19.5",
-    "bullmq": "^5.10.0",
     "ethers": "^6.11.1",
-    "ioredis": "^5.4.1",
     "merkletreejs": "^0.3.11",
     "node-cache": "^5.1.2",
-    "require-env-variable": "^4.0.2",
     "ts-node": "^10.9.2",
     "viem": "2.10.2"
   }
