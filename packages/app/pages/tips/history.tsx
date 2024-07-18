@@ -97,7 +97,7 @@ function TipsHistoryPage() {
           <div className={i === 4 ? "text-right" : "text-left"}>{text}</div>
         ))}
       </div>
-      {isLoading ? (
+      {isLoading || userIsLoading ? (
         <Skeleton className="h-[500px] rounded-xl" />
       ) : (
         <div className="mb-14 border-ghost border rounded-xl overflow-hidden">
