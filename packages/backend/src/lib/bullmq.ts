@@ -28,11 +28,17 @@ export const queueConnection =
     ? { host: "localhost", port: 6379 }
     : getRedisConnection();
 
+// NOTE: There is a mysterious bug that causes workers
+// to not be called if the queue name is too long 🤷‍♂️
 export const queueNames = {
   SYNC_USER_DATA: "sync_user_data",
-};
+  DISTRIBUTE: "distribute",
+} as const;
 
-// Create a new connection in every instance
 export const syncUserDataQueue = new Queue(queueNames.SYNC_USER_DATA, {
+  connection: queueConnection,
+});
+
+export const distributeAllowancesQueue = new Queue(queueNames.DISTRIBUTE, {
   connection: queueConnection,
 });

@@ -3,6 +3,7 @@ import * as Sentry from "@sentry/node";
 import Bottleneck from "bottleneck";
 import { Worker } from "bullmq";
 import { chunk } from "underscore";
+import { disconnectCron } from "../crons";
 import { prisma } from "../prisma";
 import { queueConnection, queueNames, syncUserDataQueue } from "./bullmq";
 
@@ -117,10 +118,6 @@ const worker = new Worker(
   },
 );
 
-worker.on("completed", (_, { jobName }) => {
-  console.log(`Job ${jobName} completed.`);
-});
-
 export async function syncUserData() {
   await syncUserDataQueue.drain();
 
@@ -135,9 +132,18 @@ export async function syncUserData() {
   );
 
   syncUserDataQueue.addBulk(
-    fidBatches.map((fids, i) => ({
-      name: `syncUserDataBatch-${(i + 1) * BATCH_SIZE}`,
-      data: { fids },
-    })),
+    fidBatches.map((fids, i) => {
+      const jobId = `syncUserDataBatch-${i * BATCH_SIZE + fids.length}`;
+      return {
+        name: jobId,
+        data: { fids },
+        opts: { jobId },
+      };
+    }),
   );
 }
+
+worker.on("completed", (_, { jobName }) => {
+  console.log(`Job ${jobName} completed.`);
+  disconnectCron();
+});

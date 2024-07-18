@@ -1,4 +1,5 @@
 import { requireEnv } from "require-env-variable";
+import { distributeAllowancesJob } from "./lib/distributeAllowancesWorker";
 import { generateApiCallCron } from "./lib/generateApiCallCron";
 import { syncUserData } from "./lib/syncUserData";
 import { takeOpenRankSnapshot } from "./lib/takeOpenRankSnapshot";
@@ -10,7 +11,9 @@ const { CRON } = requireEnv("CRON");
 switch (CRON) {
   case "syncUserData": {
     console.log("Running syncUserData on", process.env.NEXT_PUBLIC_ENVIRONMENT);
-    syncUserData().then(disconnect);
+
+    // Uses worker - disconnect is called in the worker
+    syncUserData();
     break;
   }
   case "updateTipperScores": {
@@ -18,7 +21,7 @@ switch (CRON) {
       "Running updateTipperScores on",
       process.env.NEXT_PUBLIC_ENVIRONMENT,
     );
-    updateTipperScores().then(disconnect);
+    updateTipperScores().then(disconnectCron);
     break;
   }
   case "takeOpenRankSnapshot": {
@@ -26,7 +29,7 @@ switch (CRON) {
       "Running takeOpenRankSnapshot on",
       process.env.NEXT_PUBLIC_ENVIRONMENT,
     );
-    takeOpenRankSnapshot().then(disconnect);
+    takeOpenRankSnapshot().then(disconnectCron);
     break;
   }
   case "updateEligibleTippers": {
@@ -34,7 +37,7 @@ switch (CRON) {
       "Running updateEligibleTippers on",
       process.env.NEXT_PUBLIC_ENVIRONMENT,
     );
-    generateApiCallCron("admin.updateEligibleTippers")().then(disconnect);
+    generateApiCallCron("admin.updateEligibleTippers")().then(disconnectCron);
     break;
   }
   case "distributeAllowances": {
@@ -42,7 +45,9 @@ switch (CRON) {
       "Running distributeAllowances on",
       process.env.NEXT_PUBLIC_ENVIRONMENT,
     );
-    generateApiCallCron("admin.distributeAllowances")().then(disconnect);
+
+    // Uses worker - disconnect is called in the worker
+    distributeAllowancesJob();
     break;
   }
   default: {
@@ -50,7 +55,7 @@ switch (CRON) {
   }
 }
 
-function disconnect() {
+export async function disconnectCron() {
   prisma.$disconnect();
   process.exit(0);
 }
