@@ -77,7 +77,12 @@ function TipsHistoryPage() {
   }, [data?.tips.length]);
 
   React.useEffect(() => {
-    if (user || userIsLoading) return;
+    if (!user && userIsLoading) {
+      setIsLoading(true);
+    }
+    if (user || userIsLoading) {
+      return;
+    }
     setTips([]);
   }, [user, userIsLoading]);
 
