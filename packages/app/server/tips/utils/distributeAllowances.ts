@@ -15,9 +15,7 @@ import { getEligibleTippers, getExistingTippers } from "./getEligibleTippers";
 const RECOVERY_THRESHOLD = 10;
 const MAX_RECOVERY_ADJUSTMENT_FACTOR = 25;
 
-export async function distributeAllowances({ name: jobId }: { name: string }) {
-  console.log("Running distributeAllowances", { jobId });
-
+export async function distributeAllowances() {
   const tipsMetas = await getTipMetas();
 
   const currentDay = tipsMetas.length + 1;

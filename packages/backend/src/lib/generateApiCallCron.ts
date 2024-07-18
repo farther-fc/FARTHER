@@ -17,6 +17,7 @@ export function generateApiCallCron(pathName: string) {
       if (response.status !== 200) {
         throw new Error(`${pathName} failed with status ${response.status}`);
       }
+      return response;
     } catch (e: unknown) {
       if (e instanceof Error) {
         console.error(e);

@@ -1,4 +1,5 @@
 import { requireEnv } from "require-env-variable";
+import { distributeAllowancesJob } from "./lib/distributeAllowancesWorker";
 import { generateApiCallCron } from "./lib/generateApiCallCron";
 import { syncUserData } from "./lib/syncUserData";
 import { takeOpenRankSnapshot } from "./lib/takeOpenRankSnapshot";
@@ -42,7 +43,7 @@ switch (CRON) {
       "Running distributeAllowances on",
       process.env.NEXT_PUBLIC_ENVIRONMENT,
     );
-    generateApiCallCron("admin.distributeAllowances")().then(disconnect);
+    distributeAllowancesJob().then(disconnect);
     break;
   }
   default: {

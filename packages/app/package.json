@@ -55,7 +55,6 @@
     "abitype": "^1.0.2",
     "axios": "^1.6.8",
     "bluebird": "^3.7.2",
-    "bullmq": "^5.10.0",
     "chance": "^1.1.11",
     "class-variance-authority": "^0.4.0",
     "clsx": "^1.2.1",

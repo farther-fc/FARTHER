@@ -22,7 +22,7 @@ async function tipsAgentModeling() {
   for (let day = 1; day < TIPS_DURATION_DAYS; day++) {
     console.info(`\nDay ${day}.`);
 
-    await distributeAllowances({ name: "agent-modeling" });
+    await distributeAllowances();
 
     await pause(1000);
 
