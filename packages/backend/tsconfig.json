@@ -17,7 +17,8 @@
     "../common/src/axios.ts",
     "../app/server/tips/utils/updateEligibleTippers.ts",
     "../app/server/tips/utils/invalidateAllowance.ts",
-    "../app/server/tips/__tests__/invalidateAllowance.test.ts"
+    "../app/server/tips/__tests__/invalidateAllowance.test.ts",
+    "../common/src/bullmq.ts"
   ],
   "files": ["src/server.ts"]
 }

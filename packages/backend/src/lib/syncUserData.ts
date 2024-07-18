@@ -1,10 +1,15 @@
-import { neynarLimiter, retryWithExponentialBackoff } from "@farther/common";
+import {
+  neynarLimiter,
+  queueConnection,
+  queueNames,
+  retryWithExponentialBackoff,
+  syncUserDataQueue,
+} from "@farther/common";
 import * as Sentry from "@sentry/node";
 import Bottleneck from "bottleneck";
 import { Worker } from "bullmq";
 import { chunk } from "underscore";
 import { prisma } from "../prisma";
-import { queueConnection, queueNames, syncUserDataQueue } from "./bullmq";
 
 const BATCH_SIZE = 1000;
 

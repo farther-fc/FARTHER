@@ -1,7 +1,7 @@
-import { ENVIRONMENT } from "@farther/common";
 import { Queue } from "bullmq";
 import Redis from "ioredis";
 import { requireEnv } from "require-env-variable";
+import { ENVIRONMENT } from "./env";
 
 const { KV_REST_API_URL, KV_REST_API_TOKEN } = requireEnv(
   "KV_REST_API_URL",
@@ -30,9 +30,16 @@ export const queueConnection =
 
 export const queueNames = {
   SYNC_USER_DATA: "sync_user_data",
+  DISTRIBUTE_ALLOWANCES: "distribute_allowances",
 };
 
-// Create a new connection in every instance
 export const syncUserDataQueue = new Queue(queueNames.SYNC_USER_DATA, {
   connection: queueConnection,
 });
+
+export const distributeAllowancesQueue = new Queue(
+  queueNames.DISTRIBUTE_ALLOWANCES,
+  {
+    connection: queueConnection,
+  },
+);
