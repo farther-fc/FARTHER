@@ -10,7 +10,7 @@ export const publicTipsByTipper = publicProcedure
 
     opts.ctx.res.setHeader(
       "cache-control",
-      `s-maxage=${cacheTimes.TIP_HISTORY}, stale-while-revalidate=1`,
+      `s-maxage=${cacheTimes.TIP_HISTORY}, stale-while-revalidate=${cacheTimes.TIP_HISTORY}`,
     );
 
     return publicTipsByTipperUtil({
