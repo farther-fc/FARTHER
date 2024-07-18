@@ -1,4 +1,4 @@
-import { ENVIRONMENT } from "@farther/common/src/env";
+import { ENVIRONMENT } from "@farther/common";
 import { Queue } from "bullmq";
 import Redis from "ioredis";
 import { requireEnv } from "require-env-variable";

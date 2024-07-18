@@ -147,9 +147,6 @@ importers:
       bluebird:
         specifier: ^3.7.2
         version: 3.7.2
-      bullmq:
-        specifier: ^5.10.0
-        version: 5.10.0
       chance:
         specifier: ^1.1.11
         version: 1.1.11
