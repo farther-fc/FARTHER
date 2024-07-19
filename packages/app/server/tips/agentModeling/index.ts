@@ -1,8 +1,8 @@
 import "@farther/common/src/assertLocalhost";
 
 import { prisma } from "@farther/backend";
+import { distributeAllowances } from "@farther/backend/src/lib/distributeAllowances";
 import { TIPS_DURATION_DAYS } from "@farther/common";
-import { distributeAllowances } from "../utils/distributeAllowances";
 import { handleTip } from "../utils/handleTip";
 import { behaviors } from "./config";
 import { createDummyCast } from "./createDummyCast";

@@ -33,7 +33,6 @@ export const queueConnection =
 export const queueNames = {
   SYNC_USERS: "sync_users",
   SYNC_TIPPERS: "sync_tippers",
-  DISTRIBUTE: "distribute",
 } as const;
 
 export const syncUserDataQueue = new Queue(queueNames.SYNC_USERS, {
@@ -41,9 +40,5 @@ export const syncUserDataQueue = new Queue(queueNames.SYNC_USERS, {
 });
 
 export const syncTipperDataQueue = new Queue(queueNames.SYNC_TIPPERS, {
-  connection: queueConnection,
-});
-
-export const distributeAllowancesQueue = new Queue(queueNames.DISTRIBUTE, {
   connection: queueConnection,
 });

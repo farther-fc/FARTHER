@@ -1,2 +1,2 @@
-export * from "./lib/testUtils";
+export * from "./lib/utils/testUtils";
 export * from "./prisma";

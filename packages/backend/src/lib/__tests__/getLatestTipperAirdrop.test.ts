@@ -1,6 +1,6 @@
 import { AllocationType, prisma } from "../../prisma";
 import { getLatestTipperAirdrop } from "../getLatestTipperAirdrop";
-import { clearDatabase } from "../testUtils";
+import { clearDatabase } from "../utils/testUtils";
 
 describe("getLatestTipperAirdrop", () => {
   const AIRDROP_COUNT = 3;

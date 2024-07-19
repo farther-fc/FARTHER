@@ -10,7 +10,7 @@ import {
 } from "@farther/common";
 import { v4 as uuidv4 } from "uuid";
 import { Address } from "viem";
-import { writeFile } from "../lib/helpers";
+import { writeFile } from "../lib/utils/helpers";
 import { AllocationType, prisma } from "../prisma";
 import { airdropSanityCheck } from "./airdropSanityCheck";
 
@@ -46,21 +46,25 @@ async function prepareTipsDrop() {
   const userData = await neynarLimiter.getUsersByFid(users.map((u) => u.id));
 
   // Create leafs with amount tally for each recipient
-  const combinedData = userData.map((u) => ({
-    fid: u.fid,
-    username: u.username,
-    address: u.verified_addresses.eth_addresses[0],
-    amount: (
-      BigInt(
-        Math.round(
-          users
-            .find((user) => user.id === u.fid)
-            .tipsReceived.reduce((acc, t) => t.amount + acc, 0),
-        ),
-      ) * WAD_SCALER
-    ).toString(),
-    tipsReceived: users.find((user) => user.id === u.fid).tipsReceived,
-  }));
+  const combinedData = userData.map((u) => {
+    const user = users.find((user) => user.id === u.fid);
+
+    if (!user) {
+      throw new Error(`No user found for fid: ${u.fid}`);
+    }
+
+    return {
+      fid: u.fid,
+      username: u.username,
+      address: u.verified_addresses.eth_addresses[0],
+      amount: (
+        BigInt(
+          Math.round(user.tipsReceived.reduce((acc, t) => t.amount + acc, 0)),
+        ) * WAD_SCALER
+      ).toString(),
+      tipsReceived: user.tipsReceived,
+    };
+  });
 
   const recipientsWithAddress = combinedData.filter((a) => a.address);
   const recipientsWithoutAddress = combinedData.filter((a) => !a.address);

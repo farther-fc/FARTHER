@@ -1,9 +1,9 @@
 import { requireEnv } from "require-env-variable";
-import { distributeAllowancesJob } from "./lib/distributeAllowancesWorker";
-import { generateApiCallCron } from "./lib/generateApiCallCron";
+import { distributeAllowances } from "./lib/distributeAllowances";
 import { syncTipperData } from "./lib/syncTipperData";
 import { syncUserData } from "./lib/syncUserData";
 import { takeOpenRankSnapshot } from "./lib/takeOpenRankSnapshot";
+import { updateEligibleTippers } from "./lib/updateEligibleTippers";
 import { updateTipperScores } from "./lib/updateTipperScores";
 import { prisma } from "./prisma";
 
@@ -48,7 +48,7 @@ switch (CRON) {
       "Running updateEligibleTippers on",
       process.env.NEXT_PUBLIC_ENVIRONMENT,
     );
-    generateApiCallCron("admin.updateEligibleTippers")().then(disconnectCron);
+    updateEligibleTippers().then(disconnectCron);
     break;
   }
   case "distributeAllowances": {
@@ -56,9 +56,7 @@ switch (CRON) {
       "Running distributeAllowances on",
       process.env.NEXT_PUBLIC_ENVIRONMENT,
     );
-
-    // Uses worker - disconnect is called in the worker
-    distributeAllowancesJob();
+    distributeAllowances().then(disconnectCron);
     break;
   }
   default: {

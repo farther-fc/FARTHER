@@ -15,9 +15,9 @@
     "src/**/*.ts",
     "../common/src/getOpenRankScore.ts",
     "../common/src/axios.ts",
-    "../app/server/tips/utils/updateEligibleTippers.ts",
-    "../app/server/tips/utils/invalidateAllowance.ts",
-    "../app/server/tips/__tests__/invalidateAllowance.test.ts",
+    "src/lib/updateEligibleTippers.ts",
+    "src/lib/invalidateAllowance.ts",
+    "src/lib/__tests__/invalidateAllowance.test.ts",
     "src/lib/bullmq.ts"
   ],
   "files": ["src/server.ts"]

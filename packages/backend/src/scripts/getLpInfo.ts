@@ -8,7 +8,7 @@ import {
 } from "@farther/common";
 import { keccak256 } from "ethers";
 import { getLpAccounts } from "../../../app/server/liquidity/getLpAccounts";
-import { formatNum } from "../lib/helpers";
+import { formatNum } from "../lib/utils/helpers";
 
 const incentiveRewardsTotalAllocation =
   BigInt(tokenAllocations.liquidityRewards) * WAD_SCALER;

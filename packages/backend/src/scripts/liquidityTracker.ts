@@ -7,7 +7,7 @@ import {
 } from "@farther/common";
 import { ERC20__factory } from "@farther/common/src/typechain";
 import { viemPublicClient } from "@farther/common/src/viem";
-import { formatNum } from "../lib/helpers";
+import { formatNum } from "../lib/utils/helpers";
 
 const START_BLOCK = 13832035;
 const FARTHER_1PERCENT_POOL = "0xeB00349d28B2B3F7fc7d0182d1433fe5B4cB3425";

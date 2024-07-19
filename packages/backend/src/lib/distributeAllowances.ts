@@ -1,4 +1,3 @@
-import { prisma } from "@farther/backend";
 import {
   DistributeAllowancesError,
   ENVIRONMENT,
@@ -6,13 +5,17 @@ import {
   isProduction,
 } from "@farther/common";
 import { scaleLinear } from "d3";
-import { constrainWeights } from "../../tips/utils/constrainWeights";
-import { getTipMinimum } from "../../tips/utils/getTipMinimum";
-import { getUniqueTippees } from "../../tips/utils/getUniqueTippees";
-import { flushCache } from "../../tips/utils/tipsLeaderboard";
-import { getPrice } from "../../token/getPrice";
-import { dailyTipDistribution } from "./dailyTipDistribution";
+import { requireEnv } from "require-env-variable";
+import { prisma } from "../prisma";
 import { getEligibleTippers, getExistingTippers } from "./getEligibleTippers";
+import { constrainWeights } from "./utils/constrainWeights";
+import { dailyTipDistribution } from "./utils/dailyTipDistribution";
+import { flushLeaderboard } from "./utils/flushLeaderboard";
+import { getPrice } from "./utils/getPrice";
+import { getTipMinimum } from "./utils/getTipMinimum";
+import { getUniqueTippees } from "./utils/getUniqueTippees";
+
+const { CRON_SECRET } = requireEnv("CRON_SECRET");
 
 // Recovery threshold is a multiplier of the previous tip minimum.
 // When the tipper's allowance is at or below the recovery threshold, they receive a boost
@@ -59,7 +62,7 @@ export async function distributeAllowances() {
   // Eligible tippers for new tip cycle
   const eligibleTippers = await getEligibleTippers();
 
-  const tipMinimum = Math.round(await getTipMinimum(currentDay));
+  const tipMinimum = Math.round(await getTipMinimum());
 
   const weights = getWeights({
     previousMeta,
@@ -80,8 +83,7 @@ export async function distributeAllowances() {
   // Subtract tip min from total daily allowance (since min is automatically given to everyone)
   const allowanceRemainder = availableTotalAllowance - combinedTipMinimums;
 
-  const { usd } = await getPrice(currentDay);
-  const fartherUsdPrice = usd;
+  const fartherUsdPrice = await getPrice();
 
   if (process.env.NODE_ENV === "development" || ENVIRONMENT === "development") {
     printDevLogs({
@@ -127,7 +129,7 @@ export async function distributeAllowances() {
     });
   });
 
-  await flushCache();
+  await flushLeaderboard();
 }
 
 async function getTipMetas() {

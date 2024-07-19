@@ -47,6 +47,7 @@
     "distributeAllowances:prod": "CRON=distributeAllowances pnpm env:prod ts-node src/crons.ts --transpile-only",
     "takeOpenRankSnapshot:staging": "CRON=takeOpenRankSnapshot pnpm env:staging ts-node src/crons.ts --transpile-only",
     "takeOpenRankSnapshot:prod": "CRON=takeOpenRankSnapshot pnpm env:prod ts-node src/crons.ts --transpile-only",
+    "typecheck": "tsc --noEmit",
     "test": "pnpm db:reset && pnpm env:dev jest"
   },
   "prisma": {

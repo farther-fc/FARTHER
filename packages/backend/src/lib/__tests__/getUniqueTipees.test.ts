@@ -1,6 +1,7 @@
-import { clearDatabase, prisma } from "@farther/backend";
-import { tipperInclude } from "../utils/getEligibleTippers";
+import { prisma } from "../../prisma";
+import { tipperInclude } from "../getEligibleTippers";
 import { getUniqueTippees } from "../utils/getUniqueTippees";
+import { clearDatabase } from "../utils/testUtils";
 
 describe("getUniqueTipees", () => {
   beforeAll(async () => {
