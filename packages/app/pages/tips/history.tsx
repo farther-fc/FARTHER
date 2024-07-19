@@ -7,7 +7,6 @@ import { invalidTipReasons } from "@lib/constants";
 import { useMediaQuery } from "@lib/context/MediaQueryContext";
 import { useUser } from "@lib/context/UserContext";
 import { trpcClient } from "@lib/trpcClient";
-
 import { Tips } from "@lib/types/apiTypes";
 import dayjs from "dayjs";
 import { ExternalLinkIcon } from "lucide-react";
@@ -44,7 +43,7 @@ const Row = ({ tip, isTablet }: { tip: Tips[number]; isTablet: boolean }) => (
   </div>
 );
 
-function TipsHistoryPage() {
+function TipHistoryPage() {
   const { user, accountAddress, userIsLoading } = useUser();
   const [cursor, setCursor] = React.useState<number | undefined>();
   const { isTablet } = useMediaQuery();
@@ -76,7 +75,7 @@ function TipsHistoryPage() {
       return uniqueTips;
     });
     setIsLoading(false);
-  }, [tipsFromServer.length, isLoading, tipsFromServer]);
+  }, [tipsFromServer.length, isLoading]);
 
   React.useEffect(() => {
     if (!user && userIsLoading) {
@@ -100,7 +99,9 @@ function TipsHistoryPage() {
         className={`${GRID_STYLES} md:px-8 py-2 text-ghost uppercase md:mr-3`}
       >
         {["", "", "Date", "Recipient", "Amount"].map((text, i) => (
-          <div className={i === 4 ? "text-right" : "text-left"}>{text}</div>
+          <div key={i} className={i === 4 ? "text-right" : "text-left"}>
+            {text}
+          </div>
         ))}
       </div>
       {isLoading || userIsLoading ? (
@@ -155,4 +156,14 @@ function TipsHistoryPage() {
   );
 }
 
-export default TipsHistoryPage;
+export function getStaticProps() {
+  return {
+    props: {
+      seo: {
+        title: "Tip History",
+      },
+    },
+  };
+}
+
+export default TipHistoryPage;
