@@ -31,7 +31,7 @@ export async function airdropSanityCheck({
   });
 
   let response3: Response = { answer: "y" };
-  if (totalAllocation || ratio) {
+  if (totalAllocation && ratio) {
     const response: Response = await prompt({
       type: "input",
       name: "answer",

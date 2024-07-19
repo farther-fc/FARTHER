@@ -63,14 +63,20 @@ async function prepareLpBonusDrop() {
         referenceAmount: bigint;
       }
     > = allocations.reduce((acc, a) => {
+      if (!a.address) {
+        throw new Error(
+          `No address found for allocation: ${JSON.stringify(a)}`,
+        );
+      }
+
       if (!acc[a.address]) {
         acc[a.address] = {
           amount: BigInt(a.amount),
-          referenceAmount: BigInt(a.referenceAmount),
+          referenceAmount: BigInt(a.referenceAmount || 0),
         };
       } else {
         acc[a.address].amount += BigInt(a.amount);
-        acc[a.address].referenceAmount += BigInt(a.referenceAmount);
+        acc[a.address].referenceAmount += BigInt(a.referenceAmount || 0);
       }
       return acc;
     }, {});

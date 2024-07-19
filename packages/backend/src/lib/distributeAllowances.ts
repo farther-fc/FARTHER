@@ -62,7 +62,7 @@ export async function distributeAllowances() {
   // Eligible tippers for new tip cycle
   const eligibleTippers = await getEligibleTippers();
 
-  const tipMinimum = Math.round(await getTipMinimum(currentDay));
+  const tipMinimum = Math.round(await getTipMinimum());
 
   const weights = getWeights({
     previousMeta,

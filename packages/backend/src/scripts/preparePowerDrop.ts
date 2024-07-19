@@ -96,7 +96,7 @@ async function preparePowerDrop() {
   });
 
   const bonusAllocations = allocateTokens(
-    followerCounts.map((u) => ({ fid: u.fid, followers: u.followers })),
+    followerCounts.map((u) => ({ fid: u.fid, followers: u.followers || 0 })),
     // Need to scale back down to decimal for this function
     Number(halfOfTotalWad / WAD_SCALER),
   );
@@ -156,11 +156,17 @@ async function preparePowerDrop() {
   );
 
   // Create a merkle tree with the above recipients
-  const rawLeafData = recipientsWithAddress.map((r, i) => ({
-    index: i,
-    address: r.address.toLowerCase() as `0x${string}`,
-    amount: r.amount.toString(), // Amount is not needed in the merkle proof
-  }));
+  const rawLeafData = recipientsWithAddress.map((r, i) => {
+    if (!r.address) {
+      throw new Error(`Address is missing for user: ${r.id}`);
+    }
+
+    return {
+      index: i,
+      address: r.address.toLowerCase() as `0x${string}`,
+      amount: r.amount.toString(), // Amount is not needed in the merkle proof
+    };
+  });
 
   const root = getMerkleRoot(rawLeafData);
 
@@ -179,16 +185,22 @@ async function preparePowerDrop() {
 
     // Add allocations to db
     await tx.allocation.createMany({
-      data: recipientsWithAddress.map((r, i) => ({
-        id: uuidv4(),
-        amount: r.amount.toString(),
-        baseAmount: basePerRecipientWad.toString(),
-        index: i,
-        airdropId: airdrop.id,
-        userId: r.id,
-        type: AllocationType.POWER_USER,
-        address: r.address.toLowerCase(),
-      })),
+      data: recipientsWithAddress.map((r, i) => {
+        if (!r.address) {
+          throw new Error(`Address is missing for user: ${r.id}`);
+        }
+
+        return {
+          id: uuidv4(),
+          amount: r.amount.toString(),
+          baseAmount: basePerRecipientWad.toString(),
+          index: i,
+          airdropId: airdrop.id,
+          userId: r.id,
+          type: AllocationType.POWER_USER,
+          address: r.address.toLowerCase(),
+        };
+      }),
     });
 
     await writeFile(

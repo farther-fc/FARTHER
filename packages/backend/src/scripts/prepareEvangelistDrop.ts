@@ -57,6 +57,10 @@ async function prepareEvangelistDrop() {
 
   const combinedData = allocations.map((a) => {
     const user = userData.find((u) => u.fid === a.user.id);
+
+    if (!user) {
+      throw new Error(`No user found for fid: ${a.user.id}`);
+    }
     return {
       ...a,
       address: user.address,

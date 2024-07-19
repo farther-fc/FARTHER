@@ -36,7 +36,6 @@ const wallet = createWalletClient({
 async function createIncentive() {
   // Approve staker to transfer tokens
   const approveHash = await wallet.writeContract({
-    DEV_DEPLOYER_ADDRESS,
     address: contractAddresses.FARTHER,
     abi: ERC20__factory.abi,
     functionName: "approve",
@@ -52,7 +51,6 @@ async function createIncentive() {
   await new Promise((resolve) => setTimeout(resolve, 5_000));
 
   const createIncentiveHash = await wallet.writeContract({
-    DEV_DEPLOYER_ADDRESS,
     address: contractAddresses.UNISWAP_V3_STAKER,
     abi: UniswapV3StakerAbi,
     functionName: "createIncentive",

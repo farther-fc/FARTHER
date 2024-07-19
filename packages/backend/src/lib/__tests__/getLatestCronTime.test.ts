@@ -1,6 +1,6 @@
 import { getLatestCronTime } from "../getLatestCronTime";
+import { mockDate } from "../utils/testUtils";
 import { cronSchedules } from "./../../../../common/src/constants";
-import { mockDate } from "./testUtils";
 
 describe("getLatestCronTime", () => {
   test("returns 3am of the same day if the current time is between 3am and 3pm", () => {
