@@ -1,5 +1,6 @@
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
+import { LabelValue } from "@components/ui/LabelValue";
 import { Skeleton } from "@components/ui/Skeleton";
 import { Tooltip } from "@components/ui/Tooltip";
 import { API_BATCH_LIMIT } from "@farther/common";
@@ -15,7 +16,7 @@ import React from "react";
 import InfiniteScroll from "react-infinite-scroller";
 
 const GRID_STYLES =
-  "grid grid-cols-[4px_25px_35px_minmax(100px,1fr)_minmax(50px,200px)_70px] md:grid-cols-[8px_50px_minmax(60px,200px)_minmax(140px,1fr)_minmax(80px,200px)_80px] gap-1 relative";
+  "grid grid-cols-[4px_25px_35px_minmax(100px,1fr)_minmax(50px,200px)_70px] md:grid-cols-[8px_50px_minmax(60px,200px)_minmax(140px,1fr)_minmax(80px,1fr)_minmax(80px,1fr)] gap-1 relative";
 
 const Row = ({ tip, isTablet }: { tip: Tips[number]; isTablet: boolean }) => (
   <div
@@ -38,13 +39,23 @@ const Row = ({ tip, isTablet }: { tip: Tips[number]; isTablet: boolean }) => (
         </span>
       </div>
       <div className="py-1 flex items-center">
-        <span>{tip.tippee?.username || "unknown"}</span>
+        <span>
+          <ExternalLink
+            href={
+              tip.tippee?.username
+                ? `https://warpcast.com/${tip.tippee?.username}`
+                : `https://warpcast.com/~/profiles/${tip.tippee.id}`
+            }
+          >
+            {tip.tippee?.username || tip.tippee.id}
+          </ExternalLink>
+        </span>
       </div>
       <div className="flex justify-end text-right self-stretch items-center">
         <span>
           {tip.invalidTipReason
             ? "_"
-            : numeral(tip.openRankChange || 0).format("0,0.[000]a")}
+            : numeral(tip.openRankChange || 0).format("0,0.[000]")}
         </span>
       </div>
       <div className="text-right py-1 flex justify-end self-stretch items-center">
@@ -105,11 +116,16 @@ function TipHistoryPage() {
     setCursor(new Date(tips[tips.length - 1].createdAt).getTime());
   };
 
-  const colHeadings = ["", "", "Date", "Recipient", "OpenRank δ", "Amount"];
+  const colHeadings = ["", "", "Date", "Recipient", "Score*", "Amount"];
 
   return (
     <Container variant="page">
       <h1>Tip History</h1>
+      <LabelValue
+        className="text-xl mb-4"
+        label="Tipper Score*"
+        value={numeral(user?.tipperScore).format("0,0.[000]")}
+      />
       <div className="text-xs md:text-sm">
         <p className="text-muted mb-8">
           These are all the tips you've given other Farcaster users.
@@ -127,10 +143,10 @@ function TipHistoryPage() {
           ))}
         </div>
         {isLoading || userIsLoading ? (
-          <Skeleton className="h-[500px] rounded-xl" />
+          <Skeleton className="h-[400px] md:h-[500px] rounded-xl" />
         ) : (
-          <div className="mb-14 border-ghost border rounded-xl overflow-hidden">
-            <div className="h-[500px] overflow-y-auto bg-background-dark rounded-xl">
+          <div className="border-ghost border rounded-xl overflow-hidden">
+            <div className="h-[400px] md:h-[500px] overflow-y-auto bg-background-dark rounded-xl">
               <InfiniteScroll
                 loadMore={loadMore}
                 hasMore={hasMore}
@@ -174,6 +190,22 @@ function TipHistoryPage() {
             </div>
           </div>
         )}
+      </div>
+      <div className="text-muted text-sm mt-6">
+        <p>
+          <span className="text-white">
+            <strong>*Tipper Score</strong>
+          </span>{" "}
+          is an average of all tip scores. Tip scores are derived from the
+          percentage change in tip receipient engagement (determined by{" "}
+          <ExternalLink href="https://docs.openrank.com/integrations/farcaster/ranking-strategies-on-farcaster#strategy-engagement">
+            OpenRank
+          </ExternalLink>
+          ) since the time the tip was made. The percentage change of each
+          recipient's engagement score is multiplied by the tip amount, then
+          scaled up by 10k to be easier to read.
+        </p>
+        <p>OpenRank data is synced every six hours.</p>
       </div>
     </Container>
   );

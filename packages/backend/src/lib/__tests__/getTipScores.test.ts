@@ -1,5 +1,5 @@
 import Decimal from "decimal.js";
-import { getTipScores } from "../getTipScores";
+import { getTipScores } from "../utils/getTipScores";
 
 const END_TIME = new Date("2023-07-15");
 

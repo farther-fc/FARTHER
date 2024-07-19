@@ -32,21 +32,21 @@ export function TipsUserInfo() {
           <InfoCard className="mt-0 w-full">
             <div className="flex flex-col justify-between md:flex-row">
               <div className="grid grid-cols-[100px_200px] gap-2">
-                <span className="text-muted font-bold md:text-lg">
-                  Allowance
-                </span>
-                <span className="font-bold md:text-lg">
+                <div className="text-muted font-bold md:text-lg">Allowance</div>
+                <div className="font-bold md:text-lg">
                   {user.currentAllowance.amount.toLocaleString()}{" "}
                   {user.currentAllowance.amount > 0 && "✨"}
-                </span>
-                <span className="text-muted">Given</span>
-                <span>
-                  {user.currentAllowance.spent.toLocaleString()}{" "}
-                  {user.currentAllowance.spent > 0 && "✨"}{" "}
-                  <span className="text-ghost">
-                    ({user.currentAllowance.tipsGiven} tips)
-                  </span>
-                </span>
+                </div>
+                <div className="text-muted">Given</div>
+                <div>
+                  <div>
+                    {user.currentAllowance.spent.toLocaleString()}{" "}
+                    {user.currentAllowance.spent > 0 && "✨"}{" "}
+                  </div>
+                  <div className="text-ghost text-sm">
+                    {user.currentAllowance.tipsGiven} tips
+                  </div>
+                </div>
                 {user.currentAllowance.invalidatedAmount ? (
                   <>
                     {" "}
@@ -70,27 +70,25 @@ export function TipsUserInfo() {
                   </>
                 ) : (
                   <>
-                    <span className="text-muted">Remaining</span>
-                    <span>
+                    <div className="text-muted">Remaining</div>
+                    <div>
                       {user.currentAllowance.remaining.toLocaleString()}{" "}
                       {user.currentAllowance.remaining > 0 && "✨"}
-                    </span>
+                    </div>
                   </>
                 )}
               </div>
               <div className="mt-6 grid grid-cols-[100px_200px] gap-2 md:mt-0">
-                <span className="text-muted font-bold md:text-lg">
-                  Received
-                </span>
-                <span className="font-bold md:text-lg">
+                <div className="text-muted font-bold md:text-lg">Received</div>
+                <div className="font-bold md:text-lg">
                   {user.latestTipsReceived.amount.toLocaleString()}{" "}
                   {user.latestTipsReceived.amount > 0 && "✨"}{" "}
                   {user.latestTipsReceived.number ? (
-                    <span className="text-ghost">
-                      ({user.latestTipsReceived.number} tips)
-                    </span>
+                    <div className="text-ghost text-sm">
+                      {user.latestTipsReceived.number} tips
+                    </div>
                   ) : null}
-                </span>
+                </div>
               </div>
             </div>
           </InfoCard>
@@ -98,28 +96,30 @@ export function TipsUserInfo() {
           <InfoCard className="mt-0 w-full">
             <div className="flex flex-col justify-between md:flex-row">
               <div className="grid grid-cols-[100px_200px] gap-2">
-                <span className="text-muted font-bold md:text-lg">Given</span>
-                <span className="font-bold md:text-lg">
+                <div className="text-muted font-bold md:text-lg">Given</div>
+                <div className="font-bold md:text-lg">
                   {user.totalTipsGiven.amount.toLocaleString()}{" "}
                   {user.totalTipsGiven.amount > 0 && "✨"}{" "}
-                  <span className="text-ghost">
-                    ({user.totalTipsGiven.number} tips)
-                  </span>
-                </span>
+                  <div className="text-ghost text-sm">
+                    {user.totalTipsGiven.number} tips
+                  </div>
+                </div>
               </div>
               <div className="mt-2 grid grid-cols-[100px_200px] gap-2 md:mt-0">
-                <span className="text-muted font-bold md:text-lg">
-                  Received
-                </span>
-                <span className="font-bold md:text-lg">
-                  {user.totalTipsReceived.amount.toLocaleString()}{" "}
-                  {user.totalTipsReceived.amount > 0 && "✨"}{" "}
-                  {user.totalTipsReceived.number ? (
-                    <span className="text-ghost">
-                      ({user.totalTipsReceived.number} tips)
-                    </span>
-                  ) : null}
-                </span>
+                <div className="text-muted font-bold md:text-lg">Received</div>
+                <div className="font-bold md:text-lg">
+                  <div>
+                    {user.totalTipsReceived.amount.toLocaleString()}{" "}
+                    {user.totalTipsReceived.amount > 0 && "✨"}{" "}
+                  </div>
+                  <div>
+                    {user.totalTipsReceived.number ? (
+                      <div className="text-ghost text-sm">
+                        {user.totalTipsReceived.number} tips
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
               </div>
             </div>
           </InfoCard>
