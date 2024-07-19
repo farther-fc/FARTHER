@@ -1,10 +1,5 @@
 import { prisma } from "@farther/backend";
-import {
-  ENVIRONMENT,
-  cacheKeys,
-  cacheTimes,
-  neynarLimiter,
-} from "@farther/common";
+import { ENVIRONMENT, cacheKeys, cacheTimes } from "@farther/common";
 import { kv } from "@vercel/kv";
 import { leaderboardDummyData } from "../dummyData/leaderboard";
 
@@ -62,6 +57,16 @@ async function getLeaderboardData() {
     },
     select: {
       id: true,
+      username: true,
+      displayName: true,
+      pfpUrl: true,
+      powerBadge: true,
+      tipScores: {
+        orderBy: {
+          createdAt: "desc",
+        },
+        take: 1,
+      },
       tipAllowances: {
         orderBy: {
           createdAt: "desc",
@@ -81,16 +86,14 @@ async function getLeaderboardData() {
     },
   });
 
-  const userData = await neynarLimiter.getUsersByFid(tippers.map((t) => t.id));
-
   const leaderboardData = tippers.map((tipper, i) => {
-    const user = userData.find((u) => u.fid === tipper.id);
     return {
       fid: tipper.id,
-      displayName: user?.display_name,
-      pfpUrl: user?.pfp_url,
-      username: user?.username,
-      powerBadge: user?.power_badge,
+      displayName: tipper.displayName,
+      pfpUrl: tipper.pfpUrl,
+      username: tipper.username,
+      powerBadge: tipper.powerBadge,
+      tipperScore: tipper.tipScores[0]?.score ?? 0,
       currentAllowance: tipper.tipAllowances[0].amount,
       totalAllowance: Math.round(
         tipper.tipAllowances.reduce(

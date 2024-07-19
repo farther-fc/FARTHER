@@ -25,10 +25,10 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
           rel="noopener noreferrer"
           className="flex items-center space-x-2"
         >
-          <Avatar className="size-8">
+          <Avatar className="size-5">
             <AvatarImage
               src={`https://res.cloudinary.com/merkle-manufactory/image/fetch/c_fill,f_png,h_30,w_30/${pfpUrl}`}
-              alt={username}
+              alt={username || ""}
             />
             <AvatarFallback>
               <Skeleton className="rounded-full" />
@@ -47,7 +47,7 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
         className="h-auto backdrop-blur-none"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Total Amount Given
+        Amount Given
         <ArrowUpDown className="ml-2 size-4" />
       </Button>
     ),
@@ -63,7 +63,7 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         className="h-auto backdrop-blur-none"
       >
-        Total Tips Given
+        Tips Given
         <ArrowUpDown className="ml-2 size-4" />
       </Button>
     ),
