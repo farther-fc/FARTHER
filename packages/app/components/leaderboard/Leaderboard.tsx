@@ -1,16 +1,5 @@
 "use client";
 
-import {
-  ColumnDef,
-  SortingState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-
 import DoubleArrowLeftIcon from "@components/icons/DoubleArrowLeftIcon";
 import DoubleArrowRightIcon from "@components/icons/DoubleArrowRightIcon";
 import { columns } from "@components/leaderboard/columns";
@@ -26,6 +15,16 @@ import {
 } from "@components/ui/Table";
 import { trpcClient } from "@lib/trpcClient";
 import { LeaderboardRow } from "@lib/types/apiTypes";
+import {
+  ColumnDef,
+  SortingState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import React from "react";
 import { DataTableToolbar } from "./LeaderboardToolbar";
@@ -60,7 +59,7 @@ export function Leaderboard() {
   return data ? (
     <div className="space-y-4 ">
       <DataTableToolbar table={table} />
-      <div className="table-container overflow-auto rounded-md border lg:overflow-visible ">
+      <div className="table-container overflow-auto rounded-md border border-muted lg:overflow-visible ">
         <Table className=" w-full ">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -119,14 +118,15 @@ export function Leaderboard() {
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-between px-2">
-        <div className="flex items-center space-x-6 lg:space-x-8">
+      <div className="flex items-center px-2 justify-end">
+        <div className="flex items-center space-x-6 lg:space-x-2">
           <div className="flex w-[100px] items-center justify-center text-sm font-medium">
             Page {table.getState().pagination.pageIndex + 1} of{" "}
             {table.getPageCount()}
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center ml-1">
             <Button
+              variant="ghost"
               className="hidden size-8 p-0 lg:flex"
               onClick={() => table.setPageIndex(0)}
               disabled={!table.getCanPreviousPage()}
@@ -135,6 +135,7 @@ export function Leaderboard() {
               <DoubleArrowLeftIcon className="size-4" />
             </Button>
             <Button
+              variant="ghost"
               className="size-8 p-0"
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
@@ -143,6 +144,7 @@ export function Leaderboard() {
               <ChevronLeftIcon className="size-4" />
             </Button>
             <Button
+              variant="ghost"
               className="size-8 p-0"
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
@@ -151,6 +153,7 @@ export function Leaderboard() {
               <ChevronRightIcon className="size-4" />
             </Button>
             <Button
+              variant="ghost"
               className="hidden size-8 p-0 lg:flex"
               onClick={() => table.setPageIndex(table.getPageCount() - 1)}
               disabled={!table.getCanNextPage()}
