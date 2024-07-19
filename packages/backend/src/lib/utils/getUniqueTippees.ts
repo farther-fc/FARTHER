@@ -1,4 +1,4 @@
-import { getEligibleTippers } from "server/tips/utils/getEligibleTippers";
+import { getEligibleTippers } from "../getEligibleTippers";
 
 export function getUniqueTippees(
   tipsGiven: Awaited<

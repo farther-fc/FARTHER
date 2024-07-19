@@ -1,5 +1,7 @@
-import { TipAllowance, clearDatabase, prisma } from "@farther/backend";
-import { invalidateAllowance } from "../utils/invalidateAllowance";
+import { TipAllowance } from "@prisma/client";
+import { prisma } from "../../prisma";
+import { invalidateAllowance } from "../invalidateAllowance";
+import { clearDatabase } from "../utils/testUtils";
 
 describe("invalidateAllowance", () => {
   beforeAll(async () => {

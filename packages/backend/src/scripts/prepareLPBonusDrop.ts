@@ -14,7 +14,7 @@ import {
 } from "@farther/common";
 import { v4 as uuidv4 } from "uuid";
 import { getLpAccounts } from "../../../app/server/liquidity/getLpAccounts";
-import { formatNum, writeFile } from "../lib/helpers";
+import { formatNum, writeFile } from "../lib/utils/helpers";
 import { AllocationType, prisma } from "../prisma";
 import { airdropSanityCheck } from "./airdropSanityCheck";
 

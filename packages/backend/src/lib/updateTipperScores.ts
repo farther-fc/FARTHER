@@ -7,7 +7,7 @@ import { getLatestOpenRankScores } from "./getLatestOpenRankScores";
 import { getLatestTipperAirdrop } from "./getLatestTipperAirdrop";
 import { getTipScores } from "./getTipScores";
 import { getTippersByDate } from "./getTippersByDate";
-import { dbScheduler } from "./helpers";
+import { dbScheduler } from "./utils/helpers";
 
 const SCORE_START_DATE = new Date("2024-07-14T03:00:08.894Z");
 

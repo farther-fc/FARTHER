@@ -1,6 +1,6 @@
 import { prisma } from "../../prisma";
 import { syncUserData } from "../syncUserData";
-import { clearDatabase } from "../testUtils";
+import { clearDatabase } from "../utils/testUtils";
 
 jest.mock("@farther/common", () => ({
   neynarLimiter: {

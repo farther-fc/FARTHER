@@ -10,7 +10,7 @@ import {
 } from "@farther/common";
 import { v4 as uuidv4 } from "uuid";
 import { Address } from "viem";
-import { writeFile } from "../lib/helpers";
+import { writeFile } from "../lib/utils/helpers";
 import { AllocationType, prisma } from "../prisma";
 import { airdropSanityCheck } from "./airdropSanityCheck";
 

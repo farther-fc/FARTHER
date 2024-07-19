@@ -14,7 +14,7 @@ import {
   isProduction,
   neynarLimiter,
 } from "@farther/common";
-import { writeFile } from "../lib/helpers";
+import { writeFile } from "../lib/utils/helpers";
 import { AllocationType, prisma } from "../prisma";
 import { airdropSanityCheck } from "./airdropSanityCheck";
 

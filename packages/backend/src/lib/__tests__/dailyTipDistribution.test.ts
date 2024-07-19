@@ -7,7 +7,10 @@ describe("dailyTipDistribution", () => {
     const totalAmount = 100_000_000;
     const totalDays = 91;
 
-    const results = [];
+    const results: {
+      currentDay: number;
+      dailyDistribution: number;
+    }[] = [];
 
     let total = 0;
     for (let currentDay = 0; currentDay < totalDays; currentDay++) {

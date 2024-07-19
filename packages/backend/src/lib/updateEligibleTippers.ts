@@ -1,4 +1,4 @@
-import { prisma } from "@farther/backend";
+import { prisma } from "../prisma";
 import { getEligibleTippers } from "./getEligibleTippers";
 import { invalidateAllowance } from "./invalidateAllowance";
 
