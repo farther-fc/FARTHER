@@ -7,7 +7,6 @@ import { invalidateStaleAllocations } from "server/admin/invalidateStaleAllocati
 import { getMerkleProof } from "server/airdrop/getMerkleProof";
 import { setAllocationClaimed } from "server/airdrop/setAllocationClaimed";
 import { publicGetPrice } from "server/getPrice";
-import { distributeAllowances } from "server/tips/distributeAllowances";
 import { handleTip } from "server/tips/handleTip";
 import {
   flushLeaderboard,
@@ -29,7 +28,6 @@ export const appRouter = router({
   handleTip,
   getUser,
   admin: router({
-    distributeAllowances,
     updateEligibleTippers,
     getAdminData,
     invalidateStaleAllocations,
