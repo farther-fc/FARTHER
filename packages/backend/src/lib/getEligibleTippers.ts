@@ -1,6 +1,6 @@
 import { TIPPER_REQUIRED_FARTHER_BALANCE, WAD_SCALER } from "@farther/common";
-import { getHolders } from "../../../app/server/token/getHolders";
 import { prisma } from "../prisma";
+import { getHolders } from "./getHolders";
 
 export async function getEligibleTippers() {
   const prevTipMeta = await prisma.tipMeta.findFirst({
