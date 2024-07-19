@@ -33,7 +33,7 @@ const columnStyles: { [key: string]: string } = {
   rank: "w-[40px]",
   totalGivenAmount: "text-right",
   totalGivenCount: "text-right",
-  currentAllowance: "text-right",
+  tipperScore: "text-right",
 } as const;
 
 export function Leaderboard() {

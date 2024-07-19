@@ -197,7 +197,8 @@ function TipHistoryPage() {
             <strong>*Tipper Score</strong>
           </span>{" "}
           is an average of all tip scores. Tip scores are derived from the
-          percentage change in tip receipient engagement (determined by{" "}
+          percentage change in the tip receipient's Farcaster engagement
+          (determined by{" "}
           <ExternalLink href="https://docs.openrank.com/integrations/farcaster/ranking-strategies-on-farcaster#strategy-engagement">
             OpenRank
           </ExternalLink>

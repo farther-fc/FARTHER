@@ -72,19 +72,17 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
     ),
   },
   {
-    accessorKey: "currentAllowance",
+    accessorKey: "tipperScore",
     header: ({ column }) => (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         className="h-auto backdrop-blur-none"
       >
-        Current Allowance
+        Tipper Score
         <ArrowUpDown className="ml-2 size-4" />
       </Button>
     ),
-    cell: ({ row }) => (
-      <span>{row.original.currentAllowance.toLocaleString()} ✨</span>
-    ),
+    cell: ({ row }) => <span>{row.original.tipperScore.toLocaleString()}</span>,
   },
 ];
