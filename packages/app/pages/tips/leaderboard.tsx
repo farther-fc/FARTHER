@@ -10,4 +10,14 @@ function TipsLeaderboardPage() {
   );
 }
 
+export function getStaticProps() {
+  return {
+    props: {
+      seo: {
+        title: "Tips Leaderboard",
+      },
+    },
+  };
+}
+
 export default TipsLeaderboardPage;
