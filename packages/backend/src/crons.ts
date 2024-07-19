@@ -1,6 +1,7 @@
 import { requireEnv } from "require-env-variable";
 import { distributeAllowancesJob } from "./lib/distributeAllowancesWorker";
 import { generateApiCallCron } from "./lib/generateApiCallCron";
+import { syncTipperData } from "./lib/syncTipperData";
 import { syncUserData } from "./lib/syncUserData";
 import { takeOpenRankSnapshot } from "./lib/takeOpenRankSnapshot";
 import { updateTipperScores } from "./lib/updateTipperScores";
@@ -14,6 +15,16 @@ switch (CRON) {
 
     // Uses worker - disconnect is called in the worker
     syncUserData();
+    break;
+  }
+  case "syncTipperData": {
+    console.log(
+      "Running syncTipperData on",
+      process.env.NEXT_PUBLIC_ENVIRONMENT,
+    );
+
+    // Uses worker - disconnect is called in the worker
+    syncTipperData();
     break;
   }
   case "updateTipperScores": {

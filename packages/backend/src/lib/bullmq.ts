@@ -31,11 +31,16 @@ export const queueConnection =
 // NOTE: There is a mysterious bug that causes workers
 // to not be called if the queue name is too long 🤷‍♂️
 export const queueNames = {
-  SYNC_USER_DATA: "sync_user_data",
+  SYNC_USERS: "sync_users",
+  SYNC_TIPPERS: "sync_tippers",
   DISTRIBUTE: "distribute",
 } as const;
 
-export const syncUserDataQueue = new Queue(queueNames.SYNC_USER_DATA, {
+export const syncUserDataQueue = new Queue(queueNames.SYNC_USERS, {
+  connection: queueConnection,
+});
+
+export const syncTipperDataQueue = new Queue(queueNames.SYNC_TIPPERS, {
   connection: queueConnection,
 });
 

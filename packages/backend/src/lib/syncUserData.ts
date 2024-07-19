@@ -14,109 +14,107 @@ const scheduler = new Bottleneck({
   minTime: 20,
 });
 
-const worker = new Worker(
-  queueNames.SYNC_USER_DATA,
-  async function syncUserDataBatch({
-    name: jobName,
-    data: { fids },
-  }: {
-    name: string;
-    data: { fids: number[] };
-  }) {
-    console.log(`Processing ${jobName}`);
+const worker = new Worker(queueNames.SYNC_USERS, syncUserDataBatch, {
+  connection: queueConnection,
+  concurrency: 5,
+});
 
-    try {
-      const neynarUserData = await neynarLimiter.getUsersByFid(fids);
+export async function syncUserDataBatch({
+  name: jobName,
+  data: { fids },
+}: {
+  name: string;
+  data: { fids: number[] };
+}) {
+  console.log(`Processing ${jobName}`);
 
-      if (neynarUserData.length !== fids.length) {
-        throw new Error("Neynar data length does not match user data length");
-      }
+  try {
+    const neynarUserData = await neynarLimiter.getUsersByFid(fids);
 
-      const transactions = neynarUserData.map((data, index) =>
-        scheduler.schedule(() =>
-          retryWithExponentialBackoff(
-            async () =>
-              await prisma.$transaction(
-                async (tx) => {
-                  await tx.userEthAccount.deleteMany({
-                    where: {
-                      userId: data.fid,
-                    },
-                  });
-
-                  const profileData = {
-                    pfpUrl: data.pfp_url,
-                    username: data.username,
-                    displayName: data.display_name,
-                    followerCount: data.follower_count,
-                    powerBadge: data.power_badge,
-                    ethAccounts: {
-                      connectOrCreate:
-                        data.verified_addresses.eth_addresses.map(
-                          (address) => ({
-                            where: {
-                              userId_ethAccountId: {
-                                userId: data.fid,
-                                ethAccountId: address.toLowerCase(),
-                              },
-                            },
-                            create: {
-                              ethAccount: {
-                                connectOrCreate: {
-                                  where: { address: address.toLowerCase() },
-                                  create: { address: address.toLowerCase() },
-                                },
-                              },
-                            },
-                          }),
-                        ),
-                    },
-                  } as const;
-                  await tx.user.upsert({
-                    where: { id: data.fid },
-                    update: profileData,
-                    create: {
-                      id: data.fid,
-                      ...profileData,
-                    },
-                  });
-                },
-                { timeout: 300_000 },
-              ),
-            { retries: 10 },
-          ),
-        ),
-      );
-
-      await Promise.all(transactions);
-
-      // Delete orphaned eth accounts
-      await prisma.ethAccount.deleteMany({
-        where: {
-          users: {
-            none: {},
-          },
-        },
-      });
-
-      return { jobName };
-    } catch (error) {
-      console.error("Error syncing user data", error);
-      Sentry.captureException(error, {
-        captureContext: {
-          tags: {
-            method: "syncUserData",
-          },
-        },
-      });
-      throw error;
+    if (neynarUserData.length !== fids.length) {
+      throw new Error("Neynar data length does not match user data length");
     }
-  },
-  {
-    connection: queueConnection,
-    concurrency: 5,
-  },
-);
+
+    const transactions = neynarUserData.map((data, index) =>
+      scheduler.schedule(() =>
+        retryWithExponentialBackoff(
+          async () =>
+            await prisma.$transaction(
+              async (tx) => {
+                await tx.userEthAccount.deleteMany({
+                  where: {
+                    userId: data.fid,
+                  },
+                });
+
+                const profileData = {
+                  pfpUrl: data.pfp_url,
+                  username: data.username,
+                  displayName: data.display_name,
+                  followerCount: data.follower_count,
+                  powerBadge: data.power_badge,
+                  ethAccounts: {
+                    connectOrCreate: data.verified_addresses.eth_addresses.map(
+                      (address) => ({
+                        where: {
+                          userId_ethAccountId: {
+                            userId: data.fid,
+                            ethAccountId: address.toLowerCase(),
+                          },
+                        },
+                        create: {
+                          ethAccount: {
+                            connectOrCreate: {
+                              where: { address: address.toLowerCase() },
+                              create: { address: address.toLowerCase() },
+                            },
+                          },
+                        },
+                      }),
+                    ),
+                  },
+                } as const;
+                await tx.user.upsert({
+                  where: { id: data.fid },
+                  update: profileData,
+                  create: {
+                    id: data.fid,
+                    ...profileData,
+                  },
+                });
+              },
+              { timeout: 300_000 },
+            ),
+          { retries: 10 },
+        ),
+      ),
+    );
+
+    await Promise.all(transactions);
+
+    // Delete orphaned eth accounts
+    await prisma.ethAccount.deleteMany({
+      where: {
+        users: {
+          none: {},
+        },
+      },
+    });
+
+    return { jobName };
+  } catch (error) {
+    console.error("Error syncing user data", error);
+    Sentry.captureException(error, {
+      captureContext: {
+        tags: {
+          method: "syncUserData",
+          jobName,
+        },
+      },
+    });
+    throw error;
+  }
+}
 
 export async function syncUserData() {
   await syncUserDataQueue.drain();

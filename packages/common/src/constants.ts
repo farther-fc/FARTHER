@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { ENVIRONMENT, isProduction } from "./env";
+import { ENVIRONMENT } from "./env";
 
 export const TOTAL_TOKEN_SUPPLY = 1_000_000_000;
 
@@ -249,7 +249,10 @@ export const cronSchedules = {
   UPDATE_TIPPER_SCORES: "10 3,9,15,21 * * *",
   DISTRIBUTE_ALLOWANCES: "0 16 * * *",
   UPDATE_ELIGIBLE_TIPPERS: "0 * * * *",
-  SYNC_USER_DATA: isProduction ? "0 */12 * * *" : "*/5 * * * *",
+  // 12:00 AM UTC on sunday
+  SYNC_USERS: "0 0 * * 0",
+  // 12:00 AM UTC every day but sunday
+  SYNC_TIPPERS: "0 0 * * 1,2,3,4,5,6",
   NEVER_RUN: "0 0 31 2 *",
 } as const;
 
