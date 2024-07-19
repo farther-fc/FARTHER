@@ -1,7 +1,7 @@
 import { fetchQuery, init } from "@airstack/node";
-import { prisma } from "@farther/backend";
 import { ENVIRONMENT, dummyHolders } from "@farther/common";
-import { getAllLiqProviderBalances } from "../liquidity/getAllLiqProviderBalances";
+import { prisma } from "../prisma";
+import { getAllLiqProviderBalances } from "./getAllLiqProviderBalances";
 
 /**
  *
