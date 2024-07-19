@@ -10,11 +10,12 @@ import { trpcClient } from "@lib/trpcClient";
 import { Tips } from "@lib/types/apiTypes";
 import dayjs from "dayjs";
 import { ExternalLinkIcon } from "lucide-react";
+import numeral from "numeral";
 import React from "react";
 import InfiniteScroll from "react-infinite-scroller";
 
 const GRID_STYLES =
-  "grid grid-cols-[4px_35px_minmax(60px,200px)_minmax(140px,1fr)_80px] md:grid-cols-[8px_50px_minmax(60px,200px)_minmax(140px,1fr)_80px] gap-1 relative";
+  "grid grid-cols-[4px_25px_35px_minmax(100px,1fr)_minmax(50px,200px)_70px] md:grid-cols-[8px_50px_minmax(60px,200px)_minmax(140px,1fr)_minmax(80px,200px)_80px] gap-1 relative";
 
 const Row = ({ tip, isTablet }: { tip: Tips[number]; isTablet: boolean }) => (
   <div
@@ -27,18 +28,30 @@ const Row = ({ tip, isTablet }: { tip: Tips[number]; isTablet: boolean }) => (
       <ExternalLink
         key={tip.hash}
         href={`https://warpcast.com/~/conversations/${tip.hash}`}
-        className={`hover:no-underline ${tip.invalidTipReason ? "text-red-200 group-hover:text-red-300" : "text-link-hover group-hover:text-link"} flex self-stretch items-center pl-2 md:pl-4 py-1`}
+        className={`hover:no-underline ${tip.invalidTipReason ? "text-red-200 group-hover:text-red-300" : "text-link-hover group-hover:text-link"} flex self-stretch items-center md:pl-4 py-1`}
       >
         <ExternalLinkIcon size={16} />
       </ExternalLink>
-      <div className="text-muted py-1">
-        {dayjs(tip.createdAt).format(isTablet ? "M/D | h:mm a" : "M/D")}
+      <div className="text-muted py-1 flex items-center">
+        <span>
+          {dayjs(tip.createdAt).format(isTablet ? "M/D | h:mm a" : "M/D")}
+        </span>
       </div>
-      <div className="py-1">{tip.tippee?.username || "unknown"}</div>
-      <div className="text-right py-1">
-        {tip.amount.toLocaleString()} {tip.invalidTipReason ? "🚫" : "✨"}
+      <div className="py-1 flex items-center">
+        <span>{tip.tippee?.username || "unknown"}</span>
       </div>
-      {/* <div>{tip.tippeeOpenRankScore?.toLocaleString()}</div> */}
+      <div className="flex justify-end text-right self-stretch items-center">
+        <span>
+          {tip.invalidTipReason
+            ? "_"
+            : numeral(tip.openRankChange || 0).format("0,0.[000]a")}
+        </span>
+      </div>
+      <div className="text-right py-1 flex justify-end self-stretch items-center">
+        <span>
+          {tip.amount.toLocaleString()} {tip.invalidTipReason ? "🚫" : "✨"}
+        </span>
+      </div>
     </div>
   </div>
 );
@@ -92,69 +105,76 @@ function TipHistoryPage() {
     setCursor(new Date(tips[tips.length - 1].createdAt).getTime());
   };
 
+  const colHeadings = ["", "", "Date", "Recipient", "OpenRank δ", "Amount"];
+
   return (
     <Container variant="page">
       <h1>Tip History</h1>
-      <p className="text-muted mb-8">
-        These are all the tips you've given other Farcaster users.
-      </p>
-      <div
-        className={`${GRID_STYLES} md:px-8 py-2 text-ghost uppercase md:mr-3`}
-      >
-        {["", "", "Date", "Recipient", "Amount"].map((text, i) => (
-          <div key={i} className={i === 4 ? "text-right" : "text-left"}>
-            {text}
-          </div>
-        ))}
-      </div>
-      {isLoading || userIsLoading ? (
-        <Skeleton className="h-[500px] rounded-xl" />
-      ) : (
-        <div className="mb-14 border-ghost border rounded-xl overflow-hidden">
-          <div className="h-[500px] overflow-y-auto bg-background-dark rounded-xl">
-            <InfiniteScroll
-              loadMore={loadMore}
-              hasMore={hasMore}
-              useWindow={false}
-              threshold={600} // pixel threshold to trigger loadMore
-              loader={
-                <div className="loader" key={0}>
-                  Loading ...
-                </div>
+      <div className="text-xs md:text-sm">
+        <p className="text-muted mb-8">
+          These are all the tips you've given other Farcaster users.
+        </p>
+        <div className={`${GRID_STYLES} py-2 text-ghost uppercase md:mr-9`}>
+          {colHeadings.map((text, i) => (
+            <div
+              key={i}
+              className={
+                i >= colHeadings.length - 2 ? "text-right" : "text-left"
               }
             >
-              {!tips.length && !isLoading && !userIsLoading ? (
-                <div className="m-auto w-[200px] text-center h-[480px] justify-center flex items-center text-ghost">
-                  {!accountAddress
-                    ? "Please connect your wallet to view your tips"
-                    : "No tips found"}
-                </div>
-              ) : (
-                tips.map((tip) => {
-                  if (tip.invalidTipReason) {
-                    console.log(
-                      tip.hash,
-                      invalidTipReasons[tip.invalidTipReason],
-                    );
-                  }
-                  return tip.invalidTipReason ? (
-                    <Tooltip
-                      key={tip.hash}
-                      content={invalidTipReasons[tip.invalidTipReason]}
-                    >
-                      <div>
-                        <Row tip={tip} isTablet={isTablet} />
-                      </div>
-                    </Tooltip>
-                  ) : (
-                    <Row tip={tip} isTablet={isTablet} />
-                  );
-                })
-              )}
-            </InfiniteScroll>
-          </div>
+              {text}
+            </div>
+          ))}
         </div>
-      )}
+        {isLoading || userIsLoading ? (
+          <Skeleton className="h-[500px] rounded-xl" />
+        ) : (
+          <div className="mb-14 border-ghost border rounded-xl overflow-hidden">
+            <div className="h-[500px] overflow-y-auto bg-background-dark rounded-xl">
+              <InfiniteScroll
+                loadMore={loadMore}
+                hasMore={hasMore}
+                useWindow={false}
+                threshold={600} // pixel threshold to trigger loadMore
+                loader={
+                  <div className="loader" key={0}>
+                    Loading ...
+                  </div>
+                }
+              >
+                {!tips.length && !isLoading && !userIsLoading ? (
+                  <div className="m-auto w-[200px] text-center h-[480px] justify-center flex items-center text-ghost">
+                    {!accountAddress
+                      ? "Please connect your wallet to view your tips"
+                      : "No tips found"}
+                  </div>
+                ) : (
+                  tips.map((tip) => {
+                    if (tip.invalidTipReason) {
+                      console.log(
+                        tip.hash,
+                        invalidTipReasons[tip.invalidTipReason],
+                      );
+                    }
+                    return tip.invalidTipReason ? (
+                      <Tooltip
+                        key={tip.hash}
+                        content={invalidTipReasons[tip.invalidTipReason]}
+                      >
+                        <div>
+                          <Row tip={tip} isTablet={isTablet} />
+                        </div>
+                      </Tooltip>
+                    ) : (
+                      <Row tip={tip} isTablet={isTablet} />
+                    );
+                  })
+                )}
+              </InfiniteScroll>
+            </div>
+          </div>
+        )}
+      </div>
     </Container>
   );
 }
