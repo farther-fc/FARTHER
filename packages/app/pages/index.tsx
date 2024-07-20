@@ -5,8 +5,9 @@ import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { contractAddresses } from "@farther/common";
-import { ROUTES, clickIds } from "@lib/constants";
+import { clickIds } from "@lib/constants";
 import { useModal } from "@lib/context/ModalContext";
+import { routes } from "@lib/routes";
 import Link from "next/link";
 
 export default function Home() {
@@ -49,8 +50,9 @@ export default function Home() {
           in a way that is both credibly neutral and scalable.
         </p>
         <p className="text-muted mt-8">
-          Visit the <Link href={ROUTES.resources.path}>resources page</Link> to
-          learn more about what makes Farcaster unique.
+          Visit the{" "}
+          <Link href={routes.info.resources.path}>resources page</Link> to learn
+          more about what makes Farcaster unique.
         </p>
         <h2>How</h2>
         <p>
@@ -67,19 +69,23 @@ export default function Home() {
         </p>
         <ul>
           <li>
-            <Link href={ROUTES.airdrop.path}>Airdrops</Link> to Farcaster power
-            users spanning 3 years, beginning May 1, 2024.
+            <Link href={routes.airdrops.main.path}>Airdrops</Link> to Farcaster
+            power users spanning 3 years, beginning May 1, 2024.
           </li>
           <li>
             {" "}
-            <Link href={ROUTES.evangelize.path}>Evangelist rewards</Link> for
-            expressing love of Farcaster on legacy social apps
+            <Link href={routes.evangelize.main.path}>
+              Evangelist rewards
+            </Link>{" "}
+            for expressing love of Farcaster on legacy social apps
           </li>
           <li>
-            <Link href={ROUTES.liquidty.path}>Onchain liquidity rewards</Link>
+            <Link href={routes.liquidity.main.path}>
+              Onchain liquidity rewards
+            </Link>
           </li>
           <li>
-            <Link href={ROUTES.tips.path}>Tip allocations</Link>
+            <Link href={routes.tips.main.path}>Tip allocations</Link>
           </li>
           <li>
             <Button

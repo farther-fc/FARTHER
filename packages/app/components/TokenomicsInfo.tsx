@@ -7,8 +7,9 @@ import {
   contractAddresses,
   fundCategoryAddresses,
 } from "@farther/common/src/constants";
-import { ROUTES, clickIds } from "@lib/constants";
+import { clickIds } from "@lib/constants";
 import { useModal } from "@lib/context/ModalContext";
+import { routes } from "@lib/routes";
 import { ExternalLink as ExternalLinkIcon } from "lucide-react";
 import Link from "next/link";
 import numeral from "numeral";
@@ -40,7 +41,7 @@ function TokenomicsInfo() {
       <ul>
         <li>
           {allocationRatios.POWER_DROPS * 100}%{" "}
-          <Link href={ROUTES.airdrop.path}>airdrops to power users</Link>
+          <Link href={routes.airdrops.main.path}>airdrops to power users</Link>
           <ExternalLink
             href={`https://basescan.org/address/${fundCategoryAddresses.powerDrops}`}
           >
@@ -52,7 +53,7 @@ function TokenomicsInfo() {
             allocationRatios.LIQUIDITY_BACKSTOP) *
             100}
           %{" "}
-          <Link href={ROUTES.liquidty.path}>
+          <Link href={routes.liquidity.main.path}>
             liquidity pool & mining rewards
           </Link>
           <ExternalLink
@@ -83,7 +84,7 @@ function TokenomicsInfo() {
         </li>
         <li>
           {allocationRatios.TIPS * 100}%{" "}
-          <Link href={ROUTES.tips.path}>tip allocations</Link>
+          <Link href={routes.tips.main.path}>tip allocations</Link>
           <ExternalLink
             href={`https://basescan.org/address/${fundCategoryAddresses.tips}`}
           >
