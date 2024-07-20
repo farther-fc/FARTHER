@@ -5,8 +5,9 @@ import {
   DropdownMenuTrigger,
 } from "@components/ui/DropdownMenu";
 import { ExternalLink } from "@components/ui/ExternalLink";
-import { FARTHER_CHANNEL_URL, ROUTES, clickIds } from "@lib/constants";
+import { clickIds } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
+import { flatRoutes } from "@lib/routes";
 import { cn } from "@lib/utils";
 import { Menu } from "lucide-react";
 import Link from "next/link";
@@ -17,6 +18,8 @@ const headingStyles =
 function closeMenu() {
   document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
 }
+
+console.log(flatRoutes);
 
 export function NavMenu() {
   const { accountAddress } = useUser();
@@ -38,12 +41,12 @@ export function NavMenu() {
         {!!accountAddress && (
           <h4 className={cn(headingStyles, "border-none pt-0")}>User</h4>
         )}
-        {Object.entries(ROUTES)
-          .filter(([id]) => !!accountAddress && id === "profile")
-          .map(([_id, route]) => (
-            <Link href={route.path} legacyBehavior key={route.path}>
+        {flatRoutes
+          .filter((r) => !!accountAddress && r.key === "user.profile")
+          .map((r) => (
+            <Link href={r.path} legacyBehavior key={r.path}>
               <a onClick={closeMenu} className="mb-4 text-right">
-                {route.title}
+                {r.title}
               </a>
             </Link>
           ))}
@@ -55,35 +58,38 @@ export function NavMenu() {
         >
           Features
         </h4>
-        {Object.entries(ROUTES)
-          .filter(([, { type, hidden }]) => type === "feature" && !hidden)
-          .map(([_id, route]) => (
-            <Link href={route.path} legacyBehavior key={route.path}>
+        {flatRoutes
+          .filter((r) => r.type === "feature" && !r.hidden)
+          .map((r) => (
+            <Link href={r.path} legacyBehavior key={r.path}>
               <a onClick={closeMenu} className="mb-3 text-right">
-                {route.title}
+                {r.title}
               </a>
             </Link>
           ))}
         <h4 className={headingStyles}>About</h4>
-        {Object.entries(ROUTES)
-          .filter(([_, { type, hidden }]) => type === "info" && !hidden)
-          .map(([_id, route]) => (
-            <Link href={route.path} legacyBehavior key={route.path}>
-              <a onClick={closeMenu} className="mb-3 text-right">
-                {route.title}
-              </a>
-            </Link>
-          ))}
-        <ExternalLink href={FARTHER_CHANNEL_URL} className="mb-3 text-right">
-          Community
-        </ExternalLink>
+        {flatRoutes
+          .filter((r) => r.type === "info" && !r.hidden)
+          .map((r) =>
+            r.external ? (
+              <ExternalLink className="mb-3 text-right" href={r.path}>
+                {r.title}
+              </ExternalLink>
+            ) : (
+              <Link href={r.path} legacyBehavior key={r.path}>
+                <a onClick={closeMenu} className="mb-3 text-right">
+                  {r.title}
+                </a>
+              </Link>
+            ),
+          )}
         <h4 className={headingStyles}>Developers</h4>
-        {Object.entries(ROUTES)
-          .filter(([_, { type, hidden }]) => type === "dev" && !hidden)
-          .map(([_id, route]) => (
-            <Link href={route.path} legacyBehavior key={route.path}>
+        {flatRoutes
+          .filter((r) => r.type === "dev" && !r.hidden)
+          .map((r) => (
+            <Link href={r.path} legacyBehavior key={r.path}>
               <a onClick={closeMenu} className="mb-3 text-right">
-                {route.title}
+                {r.title}
               </a>
             </Link>
           ))}

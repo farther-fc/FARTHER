@@ -20,9 +20,10 @@ import {
   IS_INCENTIVE_PROGRAM_ACTIVE,
   getStartOfMonthUTC,
 } from "@farther/common";
-import { ROUTES, clickIds } from "@lib/constants";
+import { clickIds } from "@lib/constants";
 import { useLiquidity } from "@lib/context/LiquidityContext";
 import { useUser } from "@lib/context/UserContext";
+import { routes } from "@lib/routes";
 import { formatAirdropTime, formatWad } from "@lib/utils";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useLiquidityHandlers } from "hooks/useLiquidityHandlers";
@@ -164,7 +165,7 @@ export default function LiquidityPage() {
                     {/** Button link to profile page */}
                     {unclaimedBonusStartTime &&
                     unclaimedBonusStartTime < Date.now() ? (
-                      <Link href={ROUTES.profile.path}>
+                      <Link href={routes.user.profile.path}>
                         <Button
                           className="ml-auto mt-2 w-full"
                           variant="secondary"

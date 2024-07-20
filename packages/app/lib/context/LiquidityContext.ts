@@ -10,10 +10,11 @@ import {
   viemClient,
   viemPublicClient,
 } from "@farther/common";
-import { POSITIONS_REFRESH_INTERVAL, ROUTES } from "@lib/constants";
+import { POSITIONS_REFRESH_INTERVAL } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
 import { createContainer } from "@lib/context/unstated";
 import { getEarliestStart } from "@lib/getEarliestStart";
+import { routes } from "@lib/routes";
 import { formatAirdropTime } from "@lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { useLogError } from "hooks/useLogError";
@@ -32,7 +33,7 @@ export type Position = FartherPositionsQuery["positions"][number] & {
 
 const sdk = getBuiltGraphSDK();
 
-const PATHS: string[] = [ROUTES.liquidty.path, ROUTES.profile.path];
+const PATHS: string[] = [routes.liquidity.main.path, routes.user.profile.path];
 
 const LiquidityContext = createContainer(function () {
   const router = useRouter();
@@ -214,7 +215,8 @@ const LiquidityContext = createContainer(function () {
   React.useEffect(() => {
     if (
       !indexerData?.positions.length ||
-      (pathname !== ROUTES.liquidty.path && pathname !== ROUTES.profile.path)
+      (pathname !== routes.liquidity.main.path &&
+        pathname !== routes.user.profile.path)
     )
       return;
 
