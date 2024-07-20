@@ -10,6 +10,9 @@ import { useConnectModal } from "@rainbow-me/rainbowkit";
 import dayjs from "dayjs";
 import { useTipsMeta } from "hooks/useTipsMeta";
 import { AlertCircle } from "lucide-react";
+import numeral from "numeral";
+
+const formatNum = (num: number) => numeral(num).format("0,0.[0]a");
 
 export function TipsUserInfo() {
   const { createdAt } = useTipsMeta();
@@ -30,21 +33,21 @@ export function TipsUserInfo() {
             &nbsp;Cycle
           </h4>
           <InfoCard className="mt-0 w-full">
-            <div className="flex flex-col justify-between md:flex-row">
-              <div className="grid grid-cols-[100px_200px] gap-2">
+            <div className="flex flex-col justify-between md:flex-row md:gap-40">
+              <div className="grid grid-cols-2 w-full gap-2">
                 <div className="text-muted font-bold md:text-lg">Allowance</div>
                 <div className="font-bold md:text-lg">
-                  {user.currentAllowance.amount.toLocaleString()}{" "}
+                  {formatNum(user.currentAllowance.amount)}{" "}
                   {user.currentAllowance.amount > 0 && "✨"}
                 </div>
                 <div className="text-muted">Given</div>
                 <div>
                   <div>
-                    {user.currentAllowance.spent.toLocaleString()}{" "}
+                    {formatNum(user.currentAllowance.spent)}{" "}
                     {user.currentAllowance.spent > 0 && "✨"}{" "}
                   </div>
                   <div className="text-ghost text-sm">
-                    {user.currentAllowance.tipsGiven} tips
+                    {formatNum(user.currentAllowance.tipsGiven)} tips
                   </div>
                 </div>
                 {user.currentAllowance.invalidatedAmount ? (
@@ -52,7 +55,7 @@ export function TipsUserInfo() {
                     {" "}
                     <span className="text-muted text-red-400">Voided</span>
                     <div className="flex text-red-400">
-                      {user.currentAllowance.invalidatedAmount.toLocaleString()}
+                      {formatNum(user.currentAllowance.invalidatedAmount)}
                       <Popover
                         content={
                           <>
@@ -72,20 +75,20 @@ export function TipsUserInfo() {
                   <>
                     <div className="text-muted">Remaining</div>
                     <div>
-                      {user.currentAllowance.remaining.toLocaleString()}{" "}
+                      {formatNum(user.currentAllowance.remaining)}{" "}
                       {user.currentAllowance.remaining > 0 && "✨"}
                     </div>
                   </>
                 )}
               </div>
-              <div className="mt-6 grid grid-cols-[100px_200px] gap-2 md:mt-0">
+              <div className="mt-6 grid grid-cols-2 w-full gap-2 md:mt-0">
                 <div className="text-muted font-bold md:text-lg">Received</div>
                 <div className="font-bold md:text-lg">
-                  {user.latestTipsReceived.amount.toLocaleString()}{" "}
+                  {numeral(user.latestTipsReceived.amount).format("0,0.[0]a")}{" "}
                   {user.latestTipsReceived.amount > 0 && "✨"}{" "}
                   {user.latestTipsReceived.number ? (
                     <div className="text-ghost text-sm">
-                      {user.latestTipsReceived.number} tips
+                      {formatNum(user.latestTipsReceived.number)} tips
                     </div>
                   ) : null}
                 </div>
@@ -94,28 +97,28 @@ export function TipsUserInfo() {
           </InfoCard>
           <h4 className="text-ghost mt-8 text-sm">TOTALS</h4>
           <InfoCard className="mt-0 w-full">
-            <div className="flex flex-col justify-between md:flex-row">
-              <div className="grid grid-cols-[100px_200px] gap-2">
+            <div className="flex flex-col justify-between md:flex-row md:gap-40">
+              <div className="grid grid-cols-2 w-full gap-2">
                 <div className="text-muted font-bold md:text-lg">Given</div>
                 <div className="font-bold md:text-lg">
-                  {user.totalTipsGiven.amount.toLocaleString()}{" "}
+                  {formatNum(user.totalTipsGiven.amount)}{" "}
                   {user.totalTipsGiven.amount > 0 && "✨"}{" "}
                   <div className="text-ghost text-sm">
-                    {user.totalTipsGiven.number} tips
+                    {formatNum(user.totalTipsGiven.number)} tips
                   </div>
                 </div>
               </div>
-              <div className="mt-2 grid grid-cols-[100px_200px] gap-2 md:mt-0">
+              <div className="mt-2 grid grid-cols-2 w-full gap-2 md:mt-0">
                 <div className="text-muted font-bold md:text-lg">Received</div>
                 <div className="font-bold md:text-lg">
                   <div>
-                    {user.totalTipsReceived.amount.toLocaleString()}{" "}
+                    {formatNum(user.totalTipsReceived.amount)}{" "}
                     {user.totalTipsReceived.amount > 0 && "✨"}{" "}
                   </div>
                   <div>
                     {user.totalTipsReceived.number ? (
                       <div className="text-ghost text-sm">
-                        {user.totalTipsReceived.number} tips
+                        {formatNum(user.totalTipsReceived.number)} tips
                       </div>
                     ) : null}
                   </div>

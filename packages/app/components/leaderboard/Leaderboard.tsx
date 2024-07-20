@@ -59,8 +59,8 @@ export function Leaderboard() {
   return data ? (
     <div className="space-y-4 ">
       <DataTableToolbar table={table} />
-      <div className="table-container overflow-auto rounded-md border border-muted lg:overflow-visible ">
-        <Table className=" w-full ">
+      <div className="table-container overflow-auto rounded-xl border border-ghost lg:overflow-visible ">
+        <Table className=" w-full">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
