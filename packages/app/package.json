@@ -50,6 +50,8 @@
     "@trpc/next": "11.0.0-next-beta.228",
     "@trpc/react-query": "11.0.0-next-beta.228",
     "@trpc/server": "11.0.0-next-beta.228",
+    "@upstash/ratelimit": "^2.0.1",
+    "@vercel/edge-config": "^1.2.1",
     "@vercel/kv": "^2.0.0",
     "@wagmi/core": "^2.6.9",
     "abitype": "^1.0.2",
