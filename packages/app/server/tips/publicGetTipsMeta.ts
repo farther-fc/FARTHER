@@ -43,7 +43,7 @@ export async function getTipMeta(date?: string) {
   } as const;
 
   if (date) {
-    return await prisma.tipMeta.findMany({
+    const tipMeta = await prisma.tipMeta.findMany({
       orderBy,
       where: {
         createdAt: {
@@ -52,11 +52,22 @@ export async function getTipMeta(date?: string) {
       },
       include,
     });
+    return tipMeta.map((meta) => ({
+      ...meta,
+      createdAt: meta.createdAt.toISOString(),
+      updatedAt: meta.updatedAt.toISOString(),
+    }));
   }
 
-  return await prisma.tipMeta.findMany({
+  const tipMeta = await prisma.tipMeta.findMany({
     orderBy,
     take: 1,
     include,
   });
+
+  return tipMeta.map((meta) => ({
+    ...meta,
+    createdAt: meta.createdAt.toISOString(),
+    updatedAt: meta.updatedAt.toISOString(),
+  }));
 }

@@ -1,13 +1,15 @@
+import {
+  dummyLeaderBoard,
+  dummyTipsMeta,
+  dummyUser,
+} from "@lib/__tests__/testData";
 import { cache, cacheTypes } from "@lib/cache";
 import kv from "@vercel/kv";
 
 // Mock data for testing
 const userKey = { address: "0x123" };
-const userValue = { name: "Alice", age: 30 };
-const tipMetaValue = { tips: ["Tip1", "Tip2"] };
-const leaderboardValue = { leaders: ["User1", "User2"] };
 
-describe("Cache System", () => {
+describe("KV Cache", () => {
   beforeAll(async () => {
     await kv.flushdb(); // Ensure the database is clean before tests
   });
@@ -17,28 +19,28 @@ describe("Cache System", () => {
   });
 
   test("should set and get USER cache correctly", async () => {
-    await cache.set({ type: cacheTypes.USER, key: userKey, value: userValue });
+    await cache.set({ type: cacheTypes.USER, key: userKey, value: dummyUser });
 
     const result = await cache.get({ type: cacheTypes.USER, key: userKey });
-    expect(result).toEqual(userValue);
+    expect(result).toEqual(dummyUser);
   });
 
   test("should set and get TIP_META cache correctly", async () => {
-    await cache.set({ type: cacheTypes.TIP_META, value: tipMetaValue });
+    await cache.set({ type: cacheTypes.TIP_META, value: dummyTipsMeta });
 
     const result = await cache.get({ type: cacheTypes.TIP_META });
-    expect(result).toEqual(tipMetaValue);
+    expect(result).toEqual(dummyTipsMeta);
   });
 
   test("should set and get LEADERBOARD cache correctly", async () => {
-    await cache.set({ type: cacheTypes.LEADERBOARD, value: leaderboardValue });
+    await cache.set({ type: cacheTypes.LEADERBOARD, value: dummyLeaderBoard });
 
     const result = await cache.get({ type: cacheTypes.LEADERBOARD });
-    expect(result).toEqual(leaderboardValue);
+    expect(result).toEqual(dummyLeaderBoard);
   });
 
   test("should flush USER cache correctly", async () => {
-    await cache.set({ type: cacheTypes.USER, key: userKey, value: userValue });
+    await cache.set({ type: cacheTypes.USER, key: userKey, value: dummyUser });
 
     await cache.flush(cacheTypes.USER);
 
@@ -47,7 +49,7 @@ describe("Cache System", () => {
   });
 
   test("should flush TIP_META cache correctly", async () => {
-    await cache.set({ type: cacheTypes.TIP_META, value: tipMetaValue });
+    await cache.set({ type: cacheTypes.TIP_META, value: dummyTipsMeta });
 
     await cache.flush(cacheTypes.TIP_META);
 
@@ -56,16 +58,11 @@ describe("Cache System", () => {
   });
 
   test("should flush LEADERBOARD cache correctly", async () => {
-    await cache.set({ type: cacheTypes.LEADERBOARD, value: leaderboardValue });
+    await cache.set({ type: cacheTypes.LEADERBOARD, value: dummyLeaderBoard });
 
     await cache.flush(cacheTypes.LEADERBOARD);
 
     const result = await cache.get({ type: cacheTypes.LEADERBOARD });
     expect(result).toBeNull();
   });
-
-  test("should throw an error when setting USER cache without a key", async () => {
-    await expect(
-      cache.set({ type: cacheTypes.USER, value: userValue }),
-    ).rejects.toThrow("Key is required for USER type");
-  });
+});

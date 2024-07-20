@@ -549,7 +549,9 @@ export async function getUncachedPublicUser({
         ),
       },
       currentCycle: {
-        startTime: currentTipMeta ? currentTipMeta.createdAt : null,
+        startTime: currentTipMeta
+          ? currentTipMeta.createdAt.toISOString()
+          : null,
         allowance: latestTipAllowance ? latestTipAllowance.amount : null,
         userBalance: latestTipAllowance ? latestTipAllowance.userBalance : null,
         givenCount: latestTipAllowance ? latestTipAllowance.tips.length : null,
@@ -562,7 +564,22 @@ export async function getUncachedPublicUser({
         eligibleTippers: currentTipMeta?._count.allowances,
       },
     },
-    allocations: dbUser.allocations,
+    allocations: dbUser.allocations.map((a) => ({
+      id: a.id,
+      amount: a.amount,
+      isClaimed: a.isClaimed,
+      index: a.index,
+      type: a.type,
+      address: a.address,
+      airdrop: a.airdrop
+        ? {
+            id: a.airdrop.id,
+            address: a.airdrop.address,
+            startTime: a.airdrop.startTime.toISOString(),
+            endTime: a.airdrop.endTime.toISOString(),
+          }
+        : null,
+    })),
   };
 }
 
