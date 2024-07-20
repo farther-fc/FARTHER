@@ -1,5 +1,5 @@
 import {
-  cacheTimes,
+  cacheKeys,
   fetchUserByAddress,
   fetchUserByFid,
   getPowerBadgeFids,
@@ -12,6 +12,7 @@ import { apiSchemas } from "@lib/types/apiSchemas";
 import { User as NeynarUser } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import * as Sentry from "@sentry/nextjs";
 import { TRPCError } from "@trpc/server";
+import { kv } from "@vercel/kv";
 import _ from "lodash";
 import { publicProcedure } from "server/trpc";
 import { Address, isAddress } from "viem";
@@ -182,52 +183,21 @@ export const getUser = publicProcedure
 export const publicGetUserByAddress = publicProcedure
   .input(apiSchemas.publicGetUserByAddress.input)
   .query(async (opts) => {
-    opts.ctx.res.setHeader(
-      "cache-control",
-      `s-maxage=${cacheTimes.USER}, stale-while-revalidate=1`,
-    );
-
     const address = opts.input.address.toLowerCase();
 
     if (!isAddress(address)) {
       throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid address" });
     }
 
-    const currentTipMeta = await getCurrentTipMeta();
-
-    const dbUser = await getPublicUser({
-      address,
-      currentTipMeta,
-    });
-
-    if (!dbUser) {
-      console.warn("User not found in database. address:", address);
-      return null;
-    }
-
-    return await prepPublicUser({ dbUser, currentTipMeta });
+    return await getPublicUser({ address });
   });
 
 export const publicGetUserByFid = publicProcedure
   .input(apiSchemas.publicGetUserByFid.input)
   .query(async (opts) => {
-    opts.ctx.res.setHeader(
-      "cache-control",
-      `s-maxage=${cacheTimes.USER}, stale-while-revalidate=1`,
-    );
-
     const fid = opts.input.fid;
 
-    const currentTipMeta = await getCurrentTipMeta();
-
-    const dbUser = await getPublicUser({ fid, currentTipMeta });
-
-    if (!dbUser) {
-      console.warn("User not found in database. fid:", fid);
-      return null;
-    }
-
-    return await prepPublicUser({ dbUser, currentTipMeta });
+    return await getPublicUser({ fid });
   });
 
 /********************************
@@ -396,7 +366,7 @@ async function getPrivateUser({
 }
 
 // DB call for public API data
-async function getPublicUser({
+async function getPublicUserFromDb({
   fid,
   address,
   currentTipMeta,
@@ -490,17 +460,52 @@ async function getPublicUser({
   return user;
 }
 
-async function prepPublicUser({
-  dbUser,
-  currentTipMeta,
+async function getPublicUser({
+  address,
+  fid,
 }: {
-  dbUser: Awaited<ReturnType<typeof getPublicUser>>;
-  currentTipMeta: Awaited<ReturnType<typeof getCurrentTipMeta>>;
+  address?: string;
+  fid?: number;
 }) {
+  const cachedData = await kv.get<
+    Awaited<ReturnType<typeof getUncachedPublicUser>>
+  >(cacheKeys.USER);
+
+  if (cachedData) {
+    console.info("Cache hit for tip meta data");
+
+    return cachedData;
+  }
+
+  console.info("Cache miss for tip meta data");
+
+  return await getUncachedPublicUser({ address, fid });
+}
+
+async function getUncachedPublicUser({
+  address,
+  fid,
+}: {
+  address?: string;
+  fid?: number;
+}) {
+  if (!address && !fid) {
+    throw new Error("Must provide either address or fid");
+  }
+
+  const leaderboard = await tipsLeaderboard();
+
+  const currentTipMeta = await getCurrentTipMeta();
+
+  const dbUser = await getPublicUserFromDb({
+    address,
+    currentTipMeta,
+  });
+
   if (!dbUser) {
+    console.warn("User not found in database. address:", address);
     return null;
   }
-  const leaderboard = await tipsLeaderboard();
 
   const latestTipsReceived =
     currentTipMeta && dbUser

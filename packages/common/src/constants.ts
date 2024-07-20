@@ -230,6 +230,7 @@ export const cacheTimes = {
 } as const;
 
 export const cacheKeys = {
+  USER: "USER",
   TIP_META: "TIP_META",
   LEADERBOARD: "LEADERBOARD",
 } as const;
