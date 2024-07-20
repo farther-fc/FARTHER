@@ -145,6 +145,7 @@ export const getUser = publicProcedure
         displayName: dbUser?.displayName,
         pfpUrl: dbUser?.pfpUrl,
         powerBadge: dbUser?.powerBadge,
+        tipperScore: dbUser?.tipScores[0]?.score || null,
         allocations,
         totalTipsReceived: {
           number: dbUser?.tipsReceived.length || 0,
@@ -336,6 +337,12 @@ async function getPrivateUser({
       displayName: true,
       followerCount: true,
       powerBadge: true,
+      tipScores: {
+        orderBy: {
+          createdAt: "desc",
+        },
+        take: 1,
+      },
       tipAllowances: {
         where: {
           createdAt: {
@@ -421,6 +428,12 @@ async function getPublicUser({
       displayName: true,
       followerCount: true,
       powerBadge: true,
+      tipScores: {
+        orderBy: {
+          createdAt: "desc",
+        },
+        take: 1,
+      },
       tipAllowances: {
         where: {
           createdAt: {
@@ -513,6 +526,8 @@ async function prepPublicUser({
       ? latestTipAllowance.amount - givenAmount
       : null;
 
+  const rankIndex = leaderboard.findIndex((u) => u.fid === dbUser.id);
+
   return {
     fid: dbUser.id,
     username: dbUser.username,
@@ -520,8 +535,9 @@ async function prepPublicUser({
     pfpUrl: dbUser.pfpUrl,
     followerCount: dbUser.followerCount,
     powerBadge: dbUser.powerBadge,
+    tipperScore: dbUser.tipScores[0]?.score || null,
     tips: {
-      rank: leaderboard.findIndex((u) => u.fid === dbUser.id) + 1,
+      rank: rankIndex > -1 ? rankIndex + 1 : null,
       totals: {
         givenCount: dbUser.tipsGiven.length,
         givenAmount: dbUser.tipsGiven.reduce((acc, t) => acc + t.amount, 0),
