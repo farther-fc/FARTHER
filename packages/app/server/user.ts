@@ -475,7 +475,15 @@ async function getPublicUser({
     return cachedUser;
   }
 
-  return await getUncachedPublicUser({ address, fid });
+  const user = await getUncachedPublicUser({ address, fid });
+
+  await cache.set({
+    key: { address, fid },
+    type: cacheTypes.USER,
+    value: user,
+  });
+
+  return user;
 }
 
 export async function getUncachedPublicUser({

@@ -1,7 +1,7 @@
 import { prisma } from "@farther/backend";
 import { ENVIRONMENT } from "@farther/common";
+import { dummyLeaderBoard } from "@lib/__tests__/testData";
 import { cache, cacheTypes } from "@lib/cache";
-import { leaderboardDummyData } from "../dummyData/leaderboard";
 
 export async function tipsLeaderboard() {
   const cachedLeaderboard = await cache.get({
@@ -9,12 +9,8 @@ export async function tipsLeaderboard() {
   });
 
   if (cachedLeaderboard) {
-    console.info("Cache hit for leaderboard data");
-
     return cachedLeaderboard;
   }
-
-  console.info("Cache miss for leaderboard data");
 
   const leaderboardData = await getLeaderboardData();
 
@@ -25,7 +21,7 @@ export async function tipsLeaderboard() {
 
 export async function getLeaderboardData() {
   if (ENVIRONMENT === "development") {
-    return leaderboardDummyData;
+    return dummyLeaderBoard;
   }
 
   const currentTipMeta = await prisma.tipMeta.findFirst({

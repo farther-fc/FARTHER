@@ -11,12 +11,8 @@ export const publicGetTipsMeta = publicProcedure
     });
 
     if (cachedData) {
-      console.info("Cache hit for tip meta data");
-
       return cachedData;
     }
-
-    console.info("Cache miss for tip meta data");
 
     const tipMetaData = await getTipMeta(opts.input?.date);
 
