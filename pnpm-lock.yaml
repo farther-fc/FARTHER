@@ -132,6 +132,12 @@ importers:
       '@trpc/server':
         specifier: 11.0.0-next-beta.228
         version: 11.0.0-next-beta.228
+      '@upstash/ratelimit':
+        specifier: ^2.0.1
+        version: 2.0.1
+      '@vercel/edge-config':
+        specifier: ^1.2.1
+        version: 1.2.1
       '@vercel/kv':
         specifier: ^2.0.0
         version: 2.0.0
@@ -12879,6 +12885,19 @@ packages:
       base64-sol: 1.0.1
     dev: false
 
+  /@upstash/core-analytics@0.0.10:
+    resolution: {integrity: sha512-7qJHGxpQgQr9/vmeS1PktEwvNAF7TI4iJDi8Pu2CFZ9YUGHZH4fOP5TfYlZ4aVxfopnELiE4BS4FBjyK7V1/xQ==}
+    engines: {node: '>=16.0.0'}
+    dependencies:
+      '@upstash/redis': 1.31.6
+    dev: false
+
+  /@upstash/ratelimit@2.0.1:
+    resolution: {integrity: sha512-J+0hlkvWUjlVrjcBQhWx7gbaUGsvFF59i+GAx7YQk8L0E0MQ93xzCPu02uaXhGDJGkxiar7nRRPqj3hs+CdAJg==}
+    dependencies:
+      '@upstash/core-analytics': 0.0.10
+    dev: false
+
   /@upstash/redis@1.31.6:
     resolution: {integrity: sha512-7sDQQqvVnnV+2PUVGjocITa34CULGLoWhmfSY/LtpxNYv24EsgOk9VXhmGXIyzJBcXxB614wOF6ccEN0Lr7fqQ==}
     dependencies:
@@ -12917,6 +12936,22 @@ packages:
       '@vanilla-extract/css': ^1.0.0
     dependencies:
       '@vanilla-extract/css': 1.14.0
+    dev: false
+
+  /@vercel/edge-config-fs@0.1.0:
+    resolution: {integrity: sha512-NRIBwfcS0bUoUbRWlNGetqjvLSwgYH/BqKqDN7vK1g32p7dN96k0712COgaz6VFizAm9b0g6IG6hR6+hc0KCPg==}
+    dev: false
+
+  /@vercel/edge-config@1.2.1:
+    resolution: {integrity: sha512-SsRHAe22GfVXsEVJggvTdwsvAWZTrLNuy6lqb4dNE4IibHKKZplnt2s5aCdeVpLTM45xvj/6xaTYkkXCZsqSrw==}
+    engines: {node: '>=14.6'}
+    peerDependencies:
+      '@opentelemetry/api': ^1.7.0
+    peerDependenciesMeta:
+      '@opentelemetry/api':
+        optional: true
+    dependencies:
+      '@vercel/edge-config-fs': 0.1.0
     dev: false
 
   /@vercel/kv@2.0.0:
