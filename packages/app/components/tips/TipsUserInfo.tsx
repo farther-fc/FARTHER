@@ -41,7 +41,7 @@ export function TipsUserInfo() {
                   {user.currentAllowance.amount > 0 && "✨"}
                 </div>
                 <div className="text-muted">Given</div>
-                <div>
+                <div className="flex space-x-2 items-center">
                   <div>
                     {formatNum(user.currentAllowance.spent)}{" "}
                     {user.currentAllowance.spent > 0 && "✨"}{" "}
@@ -84,13 +84,19 @@ export function TipsUserInfo() {
               <div className="mt-6 grid grid-cols-2 w-full gap-2 md:mt-0">
                 <div className="text-muted font-bold md:text-lg">Received</div>
                 <div className="font-bold md:text-lg">
-                  {numeral(user.latestTipsReceived.amount).format("0,0.[0]a")}{" "}
-                  {user.latestTipsReceived.amount > 0 && "✨"}{" "}
-                  {user.latestTipsReceived.number ? (
-                    <div className="text-ghost text-sm">
-                      {formatNum(user.latestTipsReceived.number)} tips
+                  <div className="flex space-x-2 items-center">
+                    <div>
+                      {numeral(user.latestTipsReceived.amount).format(
+                        "0,0.[0]a",
+                      )}{" "}
+                      {user.latestTipsReceived.amount > 0 && "✨"}{" "}
                     </div>
-                  ) : null}
+                    {user.latestTipsReceived.number ? (
+                      <div className="text-ghost text-sm">
+                        {formatNum(user.latestTipsReceived.number)} tips
+                      </div>
+                    ) : null}
+                  </div>
                 </div>
               </div>
             </div>
@@ -100,9 +106,11 @@ export function TipsUserInfo() {
             <div className="flex flex-col justify-between md:flex-row md:gap-40">
               <div className="grid grid-cols-2 w-full gap-2">
                 <div className="text-muted font-bold md:text-lg">Given</div>
-                <div className="font-bold md:text-lg">
-                  {formatNum(user.totalTipsGiven.amount)}{" "}
-                  {user.totalTipsGiven.amount > 0 && "✨"}{" "}
+                <div className="font-bold md:text-lg flex space-x-2 items-center">
+                  <div>
+                    {formatNum(user.totalTipsGiven.amount)}{" "}
+                    {user.totalTipsGiven.amount > 0 && "✨"}{" "}
+                  </div>
                   <div className="text-ghost text-sm">
                     {formatNum(user.totalTipsGiven.number)} tips
                   </div>
@@ -110,12 +118,12 @@ export function TipsUserInfo() {
               </div>
               <div className="mt-2 grid grid-cols-2 w-full gap-2 md:mt-0">
                 <div className="text-muted font-bold md:text-lg">Received</div>
-                <div className="font-bold md:text-lg">
+                <div className="font-bold md:text-lg flex space-x-2 items-center">
                   <div>
                     {formatNum(user.totalTipsReceived.amount)}{" "}
                     {user.totalTipsReceived.amount > 0 && "✨"}{" "}
                   </div>
-                  <div>
+                  <div className="flex space-x-2 items-center">
                     {user.totalTipsReceived.number ? (
                       <div className="text-ghost text-sm">
                         {formatNum(user.totalTipsReceived.number)} tips
