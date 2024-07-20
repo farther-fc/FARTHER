@@ -1,9 +1,9 @@
 import {
-  cacheKeys,
   fetchUserByAddress,
   fetchUserByFid,
   getPowerBadgeFids,
 } from "@farther/common";
+import { cache, cacheTypes } from "@lib/cache";
 import {
   PENDING_POWER_ALLOCATION_ID,
   PENDING_TIPS_ALLOCATION_ID,
@@ -12,12 +12,11 @@ import { apiSchemas } from "@lib/types/apiSchemas";
 import { User as NeynarUser } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import * as Sentry from "@sentry/nextjs";
 import { TRPCError } from "@trpc/server";
-import { kv } from "@vercel/kv";
 import _ from "lodash";
-import { publicProcedure } from "server/trpc";
 import { Address, isAddress } from "viem";
 import { AllocationType, TipMeta, prisma } from "../../backend/src/prisma";
 import { tipsLeaderboard } from "./tips/utils/tipsLeaderboard";
+import { publicProcedure } from "./trpc";
 
 export const getUser = publicProcedure
   .input(apiSchemas.getUser.input)
@@ -467,22 +466,19 @@ async function getPublicUser({
   address?: string;
   fid?: number;
 }) {
-  const cachedData = await kv.get<
-    Awaited<ReturnType<typeof getUncachedPublicUser>>
-  >(cacheKeys.USER);
+  const cachedUser = await cache.get({
+    key: { address, fid },
+    type: cacheTypes.USER,
+  });
 
-  if (cachedData) {
-    console.info("Cache hit for tip meta data");
-
-    return cachedData;
+  if (cachedUser) {
+    return cachedUser;
   }
-
-  console.info("Cache miss for tip meta data");
 
   return await getUncachedPublicUser({ address, fid });
 }
 
-async function getUncachedPublicUser({
+export async function getUncachedPublicUser({
   address,
   fid,
 }: {

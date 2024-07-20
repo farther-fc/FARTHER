@@ -229,12 +229,6 @@ export const cacheTimes = {
   LEADERBOARD: 43200, // 12 hours
 } as const;
 
-export const cacheKeys = {
-  USER: "USER",
-  TIP_META: "TIP_META",
-  LEADERBOARD: "LEADERBOARD",
-} as const;
-
 export const TIP_META_RESET_HOUR = 19;
 
 export const OPENRANK_URL =

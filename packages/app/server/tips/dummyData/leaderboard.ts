@@ -9,6 +9,7 @@ export const leaderboardDummyData = [
     totalAllowance: 350117,
     totalGivenCount: 2183,
     totalGivenAmount: 349432,
+    tipperScore: 0,
     rank: 1,
   },
   {
@@ -22,6 +23,7 @@ export const leaderboardDummyData = [
     totalAllowance: 339809,
     totalGivenCount: 1775,
     totalGivenAmount: 312951,
+    tipperScore: 0,
     rank: 2,
   },
   {
@@ -35,6 +37,7 @@ export const leaderboardDummyData = [
     totalAllowance: 247087,
     totalGivenCount: 1453,
     totalGivenAmount: 209980,
+    tipperScore: 0,
     rank: 3,
   },
   {
@@ -48,6 +51,7 @@ export const leaderboardDummyData = [
     totalAllowance: 184774,
     totalGivenCount: 1141,
     totalGivenAmount: 174217,
+    tipperScore: 0,
     rank: 4,
   },
   {
@@ -60,6 +64,7 @@ export const leaderboardDummyData = [
     totalAllowance: 171434,
     totalGivenCount: 1080,
     totalGivenAmount: 162280,
+    tipperScore: 0,
     rank: 5,
   },
   {
@@ -73,6 +78,7 @@ export const leaderboardDummyData = [
     totalAllowance: 170266,
     totalGivenCount: 1147,
     totalGivenAmount: 161713,
+    tipperScore: 0,
     rank: 6,
   },
   {
@@ -85,6 +91,7 @@ export const leaderboardDummyData = [
     totalAllowance: 175653,
     totalGivenCount: 1170,
     totalGivenAmount: 158489,
+    tipperScore: 0,
     rank: 7,
   },
   {
@@ -98,6 +105,7 @@ export const leaderboardDummyData = [
     totalAllowance: 153798,
     totalGivenCount: 1018,
     totalGivenAmount: 147928,
+    tipperScore: 0,
     rank: 8,
   },
   {
@@ -111,6 +119,7 @@ export const leaderboardDummyData = [
     totalAllowance: 150168,
     totalGivenCount: 991,
     totalGivenAmount: 145135,
+    tipperScore: 0,
     rank: 9,
   },
   {
@@ -124,6 +133,7 @@ export const leaderboardDummyData = [
     totalAllowance: 151892,
     totalGivenCount: 997,
     totalGivenAmount: 140163,
+    tipperScore: 0,
     rank: 10,
   },
   {
@@ -137,6 +147,7 @@ export const leaderboardDummyData = [
     totalAllowance: 138075,
     totalGivenCount: 653,
     totalGivenAmount: 130690,
+    tipperScore: 0,
     rank: 11,
   },
   {
@@ -150,6 +161,7 @@ export const leaderboardDummyData = [
     totalAllowance: 134944,
     totalGivenCount: 672,
     totalGivenAmount: 129587,
+    tipperScore: 0,
     rank: 12,
   },
   {
@@ -163,6 +175,7 @@ export const leaderboardDummyData = [
     totalAllowance: 130576,
     totalGivenCount: 634,
     totalGivenAmount: 128605,
+    tipperScore: 0,
     rank: 13,
   },
   {
@@ -176,6 +189,7 @@ export const leaderboardDummyData = [
     totalAllowance: 135523,
     totalGivenCount: 752,
     totalGivenAmount: 128524,
+    tipperScore: 0,
     rank: 14,
   },
   {
@@ -188,6 +202,7 @@ export const leaderboardDummyData = [
     totalAllowance: 128913,
     totalGivenCount: 600,
     totalGivenAmount: 128480,
+    tipperScore: 0,
     rank: 15,
   },
   {
@@ -200,6 +215,7 @@ export const leaderboardDummyData = [
     totalAllowance: 141958,
     totalGivenCount: 872,
     totalGivenAmount: 127838,
+    tipperScore: 0,
     rank: 16,
   },
   {
@@ -212,6 +228,7 @@ export const leaderboardDummyData = [
     totalAllowance: 126150,
     totalGivenCount: 676,
     totalGivenAmount: 125013,
+    tipperScore: 0,
     rank: 17,
   },
   {
@@ -224,6 +241,7 @@ export const leaderboardDummyData = [
     totalAllowance: 140168,
     totalGivenCount: 710,
     totalGivenAmount: 124321,
+    tipperScore: 0,
     rank: 18,
   },
   {
@@ -237,6 +255,7 @@ export const leaderboardDummyData = [
     totalAllowance: 168824,
     totalGivenCount: 768,
     totalGivenAmount: 123071,
+    tipperScore: 0,
     rank: 19,
   },
   {
@@ -250,6 +269,7 @@ export const leaderboardDummyData = [
     totalAllowance: 137150,
     totalGivenCount: 541,
     totalGivenAmount: 120527,
+    tipperScore: 0,
     rank: 20,
   },
   {
@@ -263,6 +283,7 @@ export const leaderboardDummyData = [
     totalAllowance: 123031,
     totalGivenCount: 602,
     totalGivenAmount: 118513,
+    tipperScore: 0,
     rank: 21,
   },
   {
@@ -276,6 +297,7 @@ export const leaderboardDummyData = [
     totalAllowance: 136473,
     totalGivenCount: 681,
     totalGivenAmount: 117798,
+    tipperScore: 0,
     rank: 22,
   },
   {
@@ -288,6 +310,7 @@ export const leaderboardDummyData = [
     totalAllowance: 117387,
     totalGivenCount: 631,
     totalGivenAmount: 116701,
+    tipperScore: 0,
     rank: 23,
   },
   {
@@ -300,6 +323,7 @@ export const leaderboardDummyData = [
     totalAllowance: 121911,
     totalGivenCount: 674,
     totalGivenAmount: 115038,
+    tipperScore: 0,
     rank: 24,
   },
   {
@@ -313,6 +337,7 @@ export const leaderboardDummyData = [
     totalAllowance: 118604,
     totalGivenCount: 617,
     totalGivenAmount: 114399,
+    tipperScore: 0,
     rank: 25,
   },
   {
@@ -326,6 +351,7 @@ export const leaderboardDummyData = [
     totalAllowance: 116364,
     totalGivenCount: 541,
     totalGivenAmount: 114272,
+    tipperScore: 0,
     rank: 26,
   },
   {
@@ -339,6 +365,7 @@ export const leaderboardDummyData = [
     totalAllowance: 111144,
     totalGivenCount: 451,
     totalGivenAmount: 110692,
+    tipperScore: 0,
     rank: 27,
   },
   {
@@ -351,6 +378,7 @@ export const leaderboardDummyData = [
     totalAllowance: 114699,
     totalGivenCount: 572,
     totalGivenAmount: 110325,
+    tipperScore: 0,
     rank: 28,
   },
   {
@@ -364,6 +392,7 @@ export const leaderboardDummyData = [
     totalAllowance: 110780,
     totalGivenCount: 442,
     totalGivenAmount: 109840,
+    tipperScore: 0,
     rank: 29,
   },
   {
@@ -376,6 +405,7 @@ export const leaderboardDummyData = [
     totalAllowance: 122335,
     totalGivenCount: 396,
     totalGivenAmount: 108715,
+    tipperScore: 0,
     rank: 30,
   },
   {
@@ -389,6 +419,7 @@ export const leaderboardDummyData = [
     totalAllowance: 107770,
     totalGivenCount: 731,
     totalGivenAmount: 107303,
+    tipperScore: 0,
     rank: 31,
   },
   {
@@ -401,6 +432,7 @@ export const leaderboardDummyData = [
     totalAllowance: 107805,
     totalGivenCount: 490,
     totalGivenAmount: 105922,
+    tipperScore: 0,
     rank: 32,
   },
   {
@@ -413,6 +445,7 @@ export const leaderboardDummyData = [
     totalAllowance: 109769,
     totalGivenCount: 462,
     totalGivenAmount: 105871,
+    tipperScore: 0,
     rank: 33,
   },
   {
@@ -425,6 +458,7 @@ export const leaderboardDummyData = [
     totalAllowance: 123495,
     totalGivenCount: 444,
     totalGivenAmount: 105422,
+    tipperScore: 0,
     rank: 34,
   },
   {
@@ -437,6 +471,7 @@ export const leaderboardDummyData = [
     totalAllowance: 108473,
     totalGivenCount: 550,
     totalGivenAmount: 105003,
+    tipperScore: 0,
     rank: 35,
   },
   {
@@ -450,6 +485,7 @@ export const leaderboardDummyData = [
     totalAllowance: 110543,
     totalGivenCount: 599,
     totalGivenAmount: 103182,
+    tipperScore: 0,
     rank: 36,
   },
   {
@@ -463,6 +499,7 @@ export const leaderboardDummyData = [
     totalAllowance: 105004,
     totalGivenCount: 621,
     totalGivenAmount: 102416,
+    tipperScore: 0,
     rank: 37,
   },
   {
@@ -475,6 +512,7 @@ export const leaderboardDummyData = [
     totalAllowance: 113469,
     totalGivenCount: 554,
     totalGivenAmount: 101055,
+    tipperScore: 0,
     rank: 38,
   },
   {
@@ -488,6 +526,7 @@ export const leaderboardDummyData = [
     totalAllowance: 113104,
     totalGivenCount: 499,
     totalGivenAmount: 100365,
+    tipperScore: 0,
     rank: 39,
   },
   {
@@ -500,6 +539,7 @@ export const leaderboardDummyData = [
     totalAllowance: 104690,
     totalGivenCount: 223,
     totalGivenAmount: 99819,
+    tipperScore: 0,
     rank: 40,
   },
   {
@@ -513,6 +553,7 @@ export const leaderboardDummyData = [
     totalAllowance: 103082,
     totalGivenCount: 465,
     totalGivenAmount: 99283,
+    tipperScore: 0,
     rank: 41,
   },
   {
@@ -526,6 +567,7 @@ export const leaderboardDummyData = [
     totalAllowance: 104536,
     totalGivenCount: 582,
     totalGivenAmount: 99125,
+    tipperScore: 0,
     rank: 42,
   },
   {
@@ -539,6 +581,7 @@ export const leaderboardDummyData = [
     totalAllowance: 117721,
     totalGivenCount: 517,
     totalGivenAmount: 98693,
+    tipperScore: 0,
     rank: 43,
   },
   {
@@ -552,6 +595,7 @@ export const leaderboardDummyData = [
     totalAllowance: 105416,
     totalGivenCount: 639,
     totalGivenAmount: 98691,
+    tipperScore: 0,
     rank: 44,
   },
   {
@@ -565,6 +609,7 @@ export const leaderboardDummyData = [
     totalAllowance: 106280,
     totalGivenCount: 403,
     totalGivenAmount: 96689,
+    tipperScore: 0,
     rank: 45,
   },
   {
@@ -578,6 +623,7 @@ export const leaderboardDummyData = [
     totalAllowance: 119756,
     totalGivenCount: 431,
     totalGivenAmount: 96215,
+    tipperScore: 0,
     rank: 46,
   },
   {
@@ -590,6 +636,7 @@ export const leaderboardDummyData = [
     totalAllowance: 104355,
     totalGivenCount: 545,
     totalGivenAmount: 96178,
+    tipperScore: 0,
     rank: 47,
   },
   {
@@ -602,6 +649,7 @@ export const leaderboardDummyData = [
     totalAllowance: 112929,
     totalGivenCount: 418,
     totalGivenAmount: 94850,
+    tipperScore: 0,
     rank: 48,
   },
   {
@@ -615,6 +663,7 @@ export const leaderboardDummyData = [
     totalAllowance: 93917,
     totalGivenCount: 597,
     totalGivenAmount: 91706,
+    tipperScore: 0,
     rank: 49,
   },
   {
@@ -628,6 +677,7 @@ export const leaderboardDummyData = [
     totalAllowance: 113132,
     totalGivenCount: 328,
     totalGivenAmount: 91136,
+    tipperScore: 0,
     rank: 50,
   },
   {
@@ -641,6 +691,7 @@ export const leaderboardDummyData = [
     totalAllowance: 101951,
     totalGivenCount: 188,
     totalGivenAmount: 90874,
+    tipperScore: 0,
     rank: 51,
   },
   {
@@ -654,6 +705,7 @@ export const leaderboardDummyData = [
     totalAllowance: 99906,
     totalGivenCount: 478,
     totalGivenAmount: 90808,
+    tipperScore: 0,
     rank: 52,
   },
   {
@@ -666,6 +718,7 @@ export const leaderboardDummyData = [
     totalAllowance: 93848,
     totalGivenCount: 142,
     totalGivenAmount: 90394,
+    tipperScore: 0,
     rank: 53,
   },
   {
@@ -679,6 +732,7 @@ export const leaderboardDummyData = [
     totalAllowance: 95013,
     totalGivenCount: 532,
     totalGivenAmount: 90315,
+    tipperScore: 0,
     rank: 54,
   },
   {
@@ -692,6 +746,7 @@ export const leaderboardDummyData = [
     totalAllowance: 96116,
     totalGivenCount: 242,
     totalGivenAmount: 89484,
+    tipperScore: 0,
     rank: 55,
   },
   {
@@ -705,6 +760,7 @@ export const leaderboardDummyData = [
     totalAllowance: 94807,
     totalGivenCount: 140,
     totalGivenAmount: 87001,
+    tipperScore: 0,
     rank: 56,
   },
   {
@@ -718,6 +774,7 @@ export const leaderboardDummyData = [
     totalAllowance: 90170,
     totalGivenCount: 469,
     totalGivenAmount: 86146,
+    tipperScore: 0,
     rank: 57,
   },
   {
@@ -731,6 +788,7 @@ export const leaderboardDummyData = [
     totalAllowance: 99833,
     totalGivenCount: 325,
     totalGivenAmount: 84901,
+    tipperScore: 0,
     rank: 58,
   },
   {
@@ -744,6 +802,7 @@ export const leaderboardDummyData = [
     totalAllowance: 92015,
     totalGivenCount: 536,
     totalGivenAmount: 84776,
+    tipperScore: 0,
     rank: 59,
   },
   {
@@ -757,6 +816,7 @@ export const leaderboardDummyData = [
     totalAllowance: 88121,
     totalGivenCount: 272,
     totalGivenAmount: 83212,
+    tipperScore: 0,
     rank: 60,
   },
   {
@@ -770,6 +830,7 @@ export const leaderboardDummyData = [
     totalAllowance: 102036,
     totalGivenCount: 220,
     totalGivenAmount: 80890,
+    tipperScore: 0,
     rank: 61,
   },
   {
@@ -782,6 +843,7 @@ export const leaderboardDummyData = [
     totalAllowance: 82775,
     totalGivenCount: 397,
     totalGivenAmount: 80536,
+    tipperScore: 0,
     rank: 62,
   },
   {
@@ -795,6 +857,7 @@ export const leaderboardDummyData = [
     totalAllowance: 95301,
     totalGivenCount: 248,
     totalGivenAmount: 80531,
+    tipperScore: 0,
     rank: 63,
   },
   {
@@ -808,6 +871,7 @@ export const leaderboardDummyData = [
     totalAllowance: 80603,
     totalGivenCount: 600,
     totalGivenAmount: 80458,
+    tipperScore: 0,
     rank: 64,
   },
   {
@@ -820,6 +884,7 @@ export const leaderboardDummyData = [
     totalAllowance: 81375,
     totalGivenCount: 399,
     totalGivenAmount: 79156,
+    tipperScore: 0,
     rank: 65,
   },
   {
@@ -832,6 +897,7 @@ export const leaderboardDummyData = [
     totalAllowance: 82867,
     totalGivenCount: 382,
     totalGivenAmount: 79087,
+    tipperScore: 0,
     rank: 66,
   },
   {
@@ -845,6 +911,7 @@ export const leaderboardDummyData = [
     totalAllowance: 107995,
     totalGivenCount: 307,
     totalGivenAmount: 78934,
+    tipperScore: 0,
     rank: 67,
   },
   {
@@ -858,6 +925,7 @@ export const leaderboardDummyData = [
     totalAllowance: 95485,
     totalGivenCount: 360,
     totalGivenAmount: 77924,
+    tipperScore: 0,
     rank: 68,
   },
   {
@@ -871,6 +939,7 @@ export const leaderboardDummyData = [
     totalAllowance: 86730,
     totalGivenCount: 416,
     totalGivenAmount: 77628,
+    tipperScore: 0,
     rank: 69,
   },
   {
@@ -883,6 +952,7 @@ export const leaderboardDummyData = [
     totalAllowance: 80564,
     totalGivenCount: 488,
     totalGivenAmount: 77423,
+    tipperScore: 0,
     rank: 70,
   },
   {
@@ -896,6 +966,7 @@ export const leaderboardDummyData = [
     totalAllowance: 81164,
     totalGivenCount: 180,
     totalGivenAmount: 76878,
+    tipperScore: 0,
     rank: 71,
   },
   {
@@ -909,6 +980,7 @@ export const leaderboardDummyData = [
     totalAllowance: 78830,
     totalGivenCount: 471,
     totalGivenAmount: 76140,
+    tipperScore: 0,
     rank: 72,
   },
   {
@@ -922,6 +994,7 @@ export const leaderboardDummyData = [
     totalAllowance: 86694,
     totalGivenCount: 235,
     totalGivenAmount: 75599,
+    tipperScore: 0,
     rank: 73,
   },
   {
@@ -935,6 +1008,7 @@ export const leaderboardDummyData = [
     totalAllowance: 81017,
     totalGivenCount: 454,
     totalGivenAmount: 75529,
+    tipperScore: 0,
     rank: 74,
   },
   {
@@ -948,6 +1022,7 @@ export const leaderboardDummyData = [
     totalAllowance: 90765,
     totalGivenCount: 182,
     totalGivenAmount: 74533,
+    tipperScore: 0,
     rank: 75,
   },
   {
@@ -961,6 +1036,7 @@ export const leaderboardDummyData = [
     totalAllowance: 77211,
     totalGivenCount: 464,
     totalGivenAmount: 74500,
+    tipperScore: 0,
     rank: 76,
   },
   {
@@ -974,6 +1050,7 @@ export const leaderboardDummyData = [
     totalAllowance: 105991,
     totalGivenCount: 270,
     totalGivenAmount: 74252,
+    tipperScore: 0,
     rank: 77,
   },
   {
@@ -987,6 +1064,7 @@ export const leaderboardDummyData = [
     totalAllowance: 79715,
     totalGivenCount: 403,
     totalGivenAmount: 73934,
+    tipperScore: 0,
     rank: 78,
   },
   {
@@ -1000,6 +1078,7 @@ export const leaderboardDummyData = [
     totalAllowance: 77180,
     totalGivenCount: 225,
     totalGivenAmount: 73463,
+    tipperScore: 0,
     rank: 79,
   },
   {
@@ -1012,6 +1091,7 @@ export const leaderboardDummyData = [
     totalAllowance: 80796,
     totalGivenCount: 400,
     totalGivenAmount: 73353,
+    tipperScore: 0,
     rank: 80,
   },
   {
@@ -1024,6 +1104,7 @@ export const leaderboardDummyData = [
     totalAllowance: 74851,
     totalGivenCount: 433,
     totalGivenAmount: 72219,
+    tipperScore: 0,
     rank: 81,
   },
   {
@@ -1037,6 +1118,7 @@ export const leaderboardDummyData = [
     totalAllowance: 73613,
     totalGivenCount: 429,
     totalGivenAmount: 71942,
+    tipperScore: 0,
     rank: 82,
   },
   {
@@ -1050,6 +1132,7 @@ export const leaderboardDummyData = [
     totalAllowance: 79195,
     totalGivenCount: 504,
     totalGivenAmount: 71260,
+    tipperScore: 0,
     rank: 83,
   },
   {
@@ -1063,6 +1146,7 @@ export const leaderboardDummyData = [
     totalAllowance: 73006,
     totalGivenCount: 484,
     totalGivenAmount: 71195,
+    tipperScore: 0,
     rank: 84,
   },
   {
@@ -1076,6 +1160,7 @@ export const leaderboardDummyData = [
     totalAllowance: 93168,
     totalGivenCount: 140,
     totalGivenAmount: 70566,
+    tipperScore: 0,
     rank: 85,
   },
   {
@@ -1088,6 +1173,7 @@ export const leaderboardDummyData = [
     totalAllowance: 83754,
     totalGivenCount: 123,
     totalGivenAmount: 70154,
+    tipperScore: 0,
     rank: 86,
   },
   {
@@ -1100,6 +1186,7 @@ export const leaderboardDummyData = [
     totalAllowance: 83817,
     totalGivenCount: 506,
     totalGivenAmount: 69717,
+    tipperScore: 0,
     rank: 87,
   },
   {
@@ -1112,6 +1199,7 @@ export const leaderboardDummyData = [
     totalAllowance: 74073,
     totalGivenCount: 234,
     totalGivenAmount: 69424,
+    tipperScore: 0,
     rank: 88,
   },
   {
@@ -1125,6 +1213,7 @@ export const leaderboardDummyData = [
     totalAllowance: 76578,
     totalGivenCount: 379,
     totalGivenAmount: 68458,
+    tipperScore: 0,
     rank: 89,
   },
   {
@@ -1138,6 +1227,7 @@ export const leaderboardDummyData = [
     totalAllowance: 70409,
     totalGivenCount: 412,
     totalGivenAmount: 67837,
+    tipperScore: 0,
     rank: 90,
   },
   {
@@ -1151,6 +1241,7 @@ export const leaderboardDummyData = [
     totalAllowance: 71353,
     totalGivenCount: 485,
     totalGivenAmount: 67485,
+    tipperScore: 0,
     rank: 91,
   },
   {
@@ -1164,6 +1255,7 @@ export const leaderboardDummyData = [
     totalAllowance: 67713,
     totalGivenCount: 485,
     totalGivenAmount: 66791,
+    tipperScore: 0,
     rank: 92,
   },
   {
@@ -1176,6 +1268,7 @@ export const leaderboardDummyData = [
     totalAllowance: 68619,
     totalGivenCount: 198,
     totalGivenAmount: 65898,
+    tipperScore: 0,
     rank: 93,
   },
   {
@@ -1188,6 +1281,7 @@ export const leaderboardDummyData = [
     totalAllowance: 70639,
     totalGivenCount: 265,
     totalGivenAmount: 65716,
+    tipperScore: 0,
     rank: 94,
   },
   {
@@ -1201,6 +1295,7 @@ export const leaderboardDummyData = [
     totalAllowance: 71866,
     totalGivenCount: 418,
     totalGivenAmount: 65597,
+    tipperScore: 0,
     rank: 95,
   },
   {
@@ -1213,6 +1308,7 @@ export const leaderboardDummyData = [
     totalAllowance: 72055,
     totalGivenCount: 115,
     totalGivenAmount: 64015,
+    tipperScore: 0,
     rank: 96,
   },
   {
@@ -1226,6 +1322,7 @@ export const leaderboardDummyData = [
     totalAllowance: 70154,
     totalGivenCount: 443,
     totalGivenAmount: 63206,
+    tipperScore: 0,
     rank: 97,
   },
   {
@@ -1238,6 +1335,7 @@ export const leaderboardDummyData = [
     totalAllowance: 69131,
     totalGivenCount: 404,
     totalGivenAmount: 62737,
+    tipperScore: 0,
     rank: 98,
   },
   {
@@ -1251,6 +1349,7 @@ export const leaderboardDummyData = [
     totalAllowance: 80555,
     totalGivenCount: 170,
     totalGivenAmount: 61976,
+    tipperScore: 0,
     rank: 99,
   },
   {
@@ -1264,6 +1363,7 @@ export const leaderboardDummyData = [
     totalAllowance: 66243,
     totalGivenCount: 376,
     totalGivenAmount: 61362,
+    tipperScore: 0,
     rank: 100,
   },
   {
@@ -1276,6 +1376,7 @@ export const leaderboardDummyData = [
     totalAllowance: 66098,
     totalGivenCount: 144,
     totalGivenAmount: 61274,
+    tipperScore: 0,
     rank: 101,
   },
   {
@@ -1289,6 +1390,7 @@ export const leaderboardDummyData = [
     totalAllowance: 66043,
     totalGivenCount: 312,
     totalGivenAmount: 60761,
+    tipperScore: 0,
     rank: 102,
   },
   {
@@ -1301,6 +1403,7 @@ export const leaderboardDummyData = [
     totalAllowance: 63874,
     totalGivenCount: 333,
     totalGivenAmount: 60713,
+    tipperScore: 0,
     rank: 103,
   },
   {
@@ -1314,6 +1417,7 @@ export const leaderboardDummyData = [
     totalAllowance: 100854,
     totalGivenCount: 178,
     totalGivenAmount: 60500,
+    tipperScore: 0,
     rank: 104,
   },
   {
@@ -1327,6 +1431,7 @@ export const leaderboardDummyData = [
     totalAllowance: 62890,
     totalGivenCount: 350,
     totalGivenAmount: 60117,
+    tipperScore: 0,
     rank: 105,
   },
   {
@@ -1340,6 +1445,7 @@ export const leaderboardDummyData = [
     totalAllowance: 61342,
     totalGivenCount: 298,
     totalGivenAmount: 60092,
+    tipperScore: 0,
     rank: 106,
   },
   {
@@ -1353,6 +1459,7 @@ export const leaderboardDummyData = [
     totalAllowance: 61718,
     totalGivenCount: 326,
     totalGivenAmount: 59597,
+    tipperScore: 0,
     rank: 107,
   },
   {
@@ -1365,6 +1472,7 @@ export const leaderboardDummyData = [
     totalAllowance: 65574,
     totalGivenCount: 354,
     totalGivenAmount: 59421,
+    tipperScore: 0,
     rank: 108,
   },
   {
@@ -1377,6 +1485,7 @@ export const leaderboardDummyData = [
     totalAllowance: 60571,
     totalGivenCount: 424,
     totalGivenAmount: 59258,
+    tipperScore: 0,
     rank: 109,
   },
   {
@@ -1389,6 +1498,7 @@ export const leaderboardDummyData = [
     totalAllowance: 61056,
     totalGivenCount: 178,
     totalGivenAmount: 58035,
+    tipperScore: 0,
     rank: 110,
   },
   {
@@ -1401,6 +1511,7 @@ export const leaderboardDummyData = [
     totalAllowance: 75543,
     totalGivenCount: 292,
     totalGivenAmount: 57700,
+    tipperScore: 0,
     rank: 111,
   },
   {
@@ -1414,6 +1525,7 @@ export const leaderboardDummyData = [
     totalAllowance: 59410,
     totalGivenCount: 333,
     totalGivenAmount: 57093,
+    tipperScore: 0,
     rank: 112,
   },
   {
@@ -1427,6 +1539,7 @@ export const leaderboardDummyData = [
     totalAllowance: 58529,
     totalGivenCount: 227,
     totalGivenAmount: 56770,
+    tipperScore: 0,
     rank: 113,
   },
   {
@@ -1440,6 +1553,7 @@ export const leaderboardDummyData = [
     totalAllowance: 62095,
     totalGivenCount: 358,
     totalGivenAmount: 56346,
+    tipperScore: 0,
     rank: 114,
   },
   {
@@ -1452,6 +1566,7 @@ export const leaderboardDummyData = [
     totalAllowance: 65256,
     totalGivenCount: 21,
     totalGivenAmount: 56302,
+    tipperScore: 0,
     rank: 115,
   },
   {
@@ -1464,6 +1579,7 @@ export const leaderboardDummyData = [
     totalAllowance: 56383,
     totalGivenCount: 176,
     totalGivenAmount: 54996,
+    tipperScore: 0,
     rank: 116,
   },
   {
@@ -1477,6 +1593,7 @@ export const leaderboardDummyData = [
     totalAllowance: 56234,
     totalGivenCount: 156,
     totalGivenAmount: 54232,
+    tipperScore: 0,
     rank: 117,
   },
   {
@@ -1489,6 +1606,7 @@ export const leaderboardDummyData = [
     totalAllowance: 96704,
     totalGivenCount: 286,
     totalGivenAmount: 54117,
+    tipperScore: 0,
     rank: 118,
   },
   {
@@ -1501,6 +1619,7 @@ export const leaderboardDummyData = [
     totalAllowance: 56447,
     totalGivenCount: 165,
     totalGivenAmount: 52777,
+    tipperScore: 0,
     rank: 119,
   },
   {
@@ -1514,6 +1633,7 @@ export const leaderboardDummyData = [
     totalAllowance: 56080,
     totalGivenCount: 175,
     totalGivenAmount: 52513,
+    tipperScore: 0,
     rank: 120,
   },
   {
@@ -1526,6 +1646,7 @@ export const leaderboardDummyData = [
     totalAllowance: 55662,
     totalGivenCount: 355,
     totalGivenAmount: 52204,
+    tipperScore: 0,
     rank: 121,
   },
   {
@@ -1539,6 +1660,7 @@ export const leaderboardDummyData = [
     totalAllowance: 53027,
     totalGivenCount: 275,
     totalGivenAmount: 52127,
+    tipperScore: 0,
     rank: 122,
   },
   {
@@ -1552,6 +1674,7 @@ export const leaderboardDummyData = [
     totalAllowance: 54371,
     totalGivenCount: 374,
     totalGivenAmount: 51680,
+    tipperScore: 0,
     rank: 123,
   },
   {
@@ -1565,6 +1688,7 @@ export const leaderboardDummyData = [
     totalAllowance: 55701,
     totalGivenCount: 238,
     totalGivenAmount: 51227,
+    tipperScore: 0,
     rank: 124,
   },
   {
@@ -1577,6 +1701,7 @@ export const leaderboardDummyData = [
     totalAllowance: 88050,
     totalGivenCount: 40,
     totalGivenAmount: 50921,
+    tipperScore: 0,
     rank: 125,
   },
   {
@@ -1590,6 +1715,7 @@ export const leaderboardDummyData = [
     totalAllowance: 55856,
     totalGivenCount: 246,
     totalGivenAmount: 49239,
+    tipperScore: 0,
     rank: 126,
   },
   {
@@ -1603,6 +1729,7 @@ export const leaderboardDummyData = [
     totalAllowance: 49605,
     totalGivenCount: 330,
     totalGivenAmount: 48800,
+    tipperScore: 0,
     rank: 127,
   },
   {
@@ -1615,6 +1742,7 @@ export const leaderboardDummyData = [
     totalAllowance: 73333,
     totalGivenCount: 179,
     totalGivenAmount: 48600,
+    tipperScore: 0,
     rank: 128,
   },
   {
@@ -1628,6 +1756,7 @@ export const leaderboardDummyData = [
     totalAllowance: 48565,
     totalGivenCount: 317,
     totalGivenAmount: 48565,
+    tipperScore: 0,
     rank: 129,
   },
   {
@@ -1640,6 +1769,7 @@ export const leaderboardDummyData = [
     totalAllowance: 71281,
     totalGivenCount: 109,
     totalGivenAmount: 48531,
+    tipperScore: 0,
     rank: 130,
   },
   {
@@ -1653,6 +1783,7 @@ export const leaderboardDummyData = [
     totalAllowance: 59894,
     totalGivenCount: 168,
     totalGivenAmount: 48007,
+    tipperScore: 0,
     rank: 131,
   },
   {
@@ -1666,6 +1797,7 @@ export const leaderboardDummyData = [
     totalAllowance: 69562,
     totalGivenCount: 171,
     totalGivenAmount: 47682,
+    tipperScore: 0,
     rank: 132,
   },
   {
@@ -1679,6 +1811,7 @@ export const leaderboardDummyData = [
     totalAllowance: 60502,
     totalGivenCount: 185,
     totalGivenAmount: 45527,
+    tipperScore: 0,
     rank: 133,
   },
   {
@@ -1691,6 +1824,7 @@ export const leaderboardDummyData = [
     totalAllowance: 85412,
     totalGivenCount: 296,
     totalGivenAmount: 45526,
+    tipperScore: 0,
     rank: 134,
   },
   {
@@ -1704,6 +1838,7 @@ export const leaderboardDummyData = [
     totalAllowance: 66502,
     totalGivenCount: 291,
     totalGivenAmount: 45518,
+    tipperScore: 0,
     rank: 135,
   },
   {
@@ -1717,6 +1852,7 @@ export const leaderboardDummyData = [
     totalAllowance: 47759,
     totalGivenCount: 290,
     totalGivenAmount: 45475,
+    tipperScore: 0,
     rank: 136,
   },
   {
@@ -1730,6 +1866,7 @@ export const leaderboardDummyData = [
     totalAllowance: 48524,
     totalGivenCount: 278,
     totalGivenAmount: 43711,
+    tipperScore: 0,
     rank: 137,
   },
   {
@@ -1743,6 +1880,7 @@ export const leaderboardDummyData = [
     totalAllowance: 72827,
     totalGivenCount: 52,
     totalGivenAmount: 43645,
+    tipperScore: 0,
     rank: 138,
   },
   {
@@ -1756,6 +1894,7 @@ export const leaderboardDummyData = [
     totalAllowance: 79027,
     totalGivenCount: 346,
     totalGivenAmount: 43600,
+    tipperScore: 0,
     rank: 139,
   },
   {
@@ -1768,6 +1907,7 @@ export const leaderboardDummyData = [
     totalAllowance: 50664,
     totalGivenCount: 230,
     totalGivenAmount: 43241,
+    tipperScore: 0,
     rank: 140,
   },
   {
@@ -1780,6 +1920,7 @@ export const leaderboardDummyData = [
     totalAllowance: 49155,
     totalGivenCount: 262,
     totalGivenAmount: 43186,
+    tipperScore: 0,
     rank: 141,
   },
   {
@@ -1792,6 +1933,7 @@ export const leaderboardDummyData = [
     totalAllowance: 44177,
     totalGivenCount: 227,
     totalGivenAmount: 42876,
+    tipperScore: 0,
     rank: 142,
   },
   {
@@ -1805,6 +1947,7 @@ export const leaderboardDummyData = [
     totalAllowance: 44696,
     totalGivenCount: 275,
     totalGivenAmount: 42023,
+    tipperScore: 0,
     rank: 143,
   },
   {
@@ -1817,6 +1960,7 @@ export const leaderboardDummyData = [
     totalAllowance: 58531,
     totalGivenCount: 267,
     totalGivenAmount: 41690,
+    tipperScore: 0,
     rank: 144,
   },
   {
@@ -1830,6 +1974,7 @@ export const leaderboardDummyData = [
     totalAllowance: 46221,
     totalGivenCount: 214,
     totalGivenAmount: 40608,
+    tipperScore: 0,
     rank: 145,
   },
   {
@@ -1842,6 +1987,7 @@ export const leaderboardDummyData = [
     totalAllowance: 44650,
     totalGivenCount: 120,
     totalGivenAmount: 40132,
+    tipperScore: 0,
     rank: 146,
   },
   {
@@ -1855,6 +2001,7 @@ export const leaderboardDummyData = [
     totalAllowance: 46862,
     totalGivenCount: 124,
     totalGivenAmount: 39342,
+    tipperScore: 0,
     rank: 147,
   },
   {
@@ -1868,6 +2015,7 @@ export const leaderboardDummyData = [
     totalAllowance: 92475,
     totalGivenCount: 84,
     totalGivenAmount: 38623,
+    tipperScore: 0,
     rank: 148,
   },
   {
@@ -1880,6 +2028,7 @@ export const leaderboardDummyData = [
     totalAllowance: 91734,
     totalGivenCount: 67,
     totalGivenAmount: 36517,
+    tipperScore: 0,
     rank: 149,
   },
   {
@@ -1893,6 +2042,7 @@ export const leaderboardDummyData = [
     totalAllowance: 71917,
     totalGivenCount: 230,
     totalGivenAmount: 36141,
+    tipperScore: 0,
     rank: 150,
   },
   {
@@ -1905,6 +2055,7 @@ export const leaderboardDummyData = [
     totalAllowance: 43309,
     totalGivenCount: 212,
     totalGivenAmount: 35565,
+    tipperScore: 0,
     rank: 151,
   },
   {
@@ -1917,6 +2068,7 @@ export const leaderboardDummyData = [
     totalAllowance: 49138,
     totalGivenCount: 185,
     totalGivenAmount: 35219,
+    tipperScore: 0,
     rank: 152,
   },
   {
@@ -1930,6 +2082,7 @@ export const leaderboardDummyData = [
     totalAllowance: 45781,
     totalGivenCount: 132,
     totalGivenAmount: 34203,
+    tipperScore: 0,
     rank: 153,
   },
   {
@@ -1943,6 +2096,7 @@ export const leaderboardDummyData = [
     totalAllowance: 48035,
     totalGivenCount: 109,
     totalGivenAmount: 33342,
+    tipperScore: 0,
     rank: 154,
   },
   {
@@ -1956,6 +2110,7 @@ export const leaderboardDummyData = [
     totalAllowance: 69555,
     totalGivenCount: 46,
     totalGivenAmount: 32200,
+    tipperScore: 0,
     rank: 155,
   },
   {
@@ -1969,6 +2124,7 @@ export const leaderboardDummyData = [
     totalAllowance: 68021,
     totalGivenCount: 166,
     totalGivenAmount: 30997,
+    tipperScore: 0,
     rank: 156,
   },
   {
@@ -1982,6 +2138,7 @@ export const leaderboardDummyData = [
     totalAllowance: 68145,
     totalGivenCount: 26,
     totalGivenAmount: 30724,
+    tipperScore: 0,
     rank: 157,
   },
   {
@@ -1994,6 +2151,7 @@ export const leaderboardDummyData = [
     totalAllowance: 56709,
     totalGivenCount: 37,
     totalGivenAmount: 29602,
+    tipperScore: 0,
     rank: 158,
   },
   {
@@ -2007,6 +2165,7 @@ export const leaderboardDummyData = [
     totalAllowance: 31689,
     totalGivenCount: 174,
     totalGivenAmount: 29165,
+    tipperScore: 0,
     rank: 159,
   },
   {
@@ -2019,6 +2178,7 @@ export const leaderboardDummyData = [
     totalAllowance: 47268,
     totalGivenCount: 135,
     totalGivenAmount: 28976,
+    tipperScore: 0,
     rank: 160,
   },
   {
@@ -2032,6 +2192,7 @@ export const leaderboardDummyData = [
     totalAllowance: 37237,
     totalGivenCount: 187,
     totalGivenAmount: 28334,
+    tipperScore: 0,
     rank: 161,
   },
   {
@@ -2045,6 +2206,7 @@ export const leaderboardDummyData = [
     totalAllowance: 59127,
     totalGivenCount: 9,
     totalGivenAmount: 24587,
+    tipperScore: 0,
     rank: 162,
   },
   {
@@ -2058,6 +2220,7 @@ export const leaderboardDummyData = [
     totalAllowance: 39549,
     totalGivenCount: 124,
     totalGivenAmount: 23991,
+    tipperScore: 0,
     rank: 163,
   },
   {
@@ -2071,6 +2234,7 @@ export const leaderboardDummyData = [
     totalAllowance: 32770,
     totalGivenCount: 59,
     totalGivenAmount: 23357,
+    tipperScore: 0,
     rank: 164,
   },
   {
@@ -2084,6 +2248,7 @@ export const leaderboardDummyData = [
     totalAllowance: 66888,
     totalGivenCount: 141,
     totalGivenAmount: 20846,
+    tipperScore: 0,
     rank: 165,
   },
   {
@@ -2097,6 +2262,7 @@ export const leaderboardDummyData = [
     totalAllowance: 28146,
     totalGivenCount: 70,
     totalGivenAmount: 20169,
+    tipperScore: 0,
     rank: 166,
   },
   {
@@ -2109,6 +2275,7 @@ export const leaderboardDummyData = [
     totalAllowance: 32505,
     totalGivenCount: 90,
     totalGivenAmount: 19945,
+    tipperScore: 0,
     rank: 167,
   },
   {
@@ -2122,6 +2289,7 @@ export const leaderboardDummyData = [
     totalAllowance: 87245,
     totalGivenCount: 29,
     totalGivenAmount: 19693,
+    tipperScore: 0,
     rank: 168,
   },
   {
@@ -2135,6 +2303,7 @@ export const leaderboardDummyData = [
     totalAllowance: 31653,
     totalGivenCount: 72,
     totalGivenAmount: 18842,
+    tipperScore: 0,
     rank: 169,
   },
   {
@@ -2148,6 +2317,7 @@ export const leaderboardDummyData = [
     totalAllowance: 44390,
     totalGivenCount: 79,
     totalGivenAmount: 18222,
+    tipperScore: 0,
     rank: 170,
   },
   {
@@ -2161,6 +2331,7 @@ export const leaderboardDummyData = [
     totalAllowance: 90382,
     totalGivenCount: 33,
     totalGivenAmount: 16865,
+    tipperScore: 0,
     rank: 171,
   },
   {
@@ -2174,6 +2345,7 @@ export const leaderboardDummyData = [
     totalAllowance: 22731,
     totalGivenCount: 10,
     totalGivenAmount: 15899,
+    tipperScore: 0,
     rank: 172,
   },
   {
@@ -2187,6 +2359,7 @@ export const leaderboardDummyData = [
     totalAllowance: 17507,
     totalGivenCount: 41,
     totalGivenAmount: 12389,
+    tipperScore: 0,
     rank: 173,
   },
   {
@@ -2200,6 +2373,7 @@ export const leaderboardDummyData = [
     totalAllowance: 27882,
     totalGivenCount: 27,
     totalGivenAmount: 11779,
+    tipperScore: 0,
     rank: 174,
   },
   {
@@ -2212,6 +2386,7 @@ export const leaderboardDummyData = [
     totalAllowance: 17783,
     totalGivenCount: 40,
     totalGivenAmount: 10561,
+    tipperScore: 0,
     rank: 175,
   },
   {
@@ -2225,6 +2400,7 @@ export const leaderboardDummyData = [
     totalAllowance: 40223,
     totalGivenCount: 81,
     totalGivenAmount: 9815,
+    tipperScore: 0,
     rank: 176,
   },
   {
@@ -2237,6 +2413,7 @@ export const leaderboardDummyData = [
     totalAllowance: 44258,
     totalGivenCount: 42,
     totalGivenAmount: 9102,
+    tipperScore: 0,
     rank: 177,
   },
   {
@@ -2249,6 +2426,7 @@ export const leaderboardDummyData = [
     totalAllowance: 64081,
     totalGivenCount: 31,
     totalGivenAmount: 8727,
+    tipperScore: 0,
     rank: 178,
   },
   {
@@ -2262,6 +2440,7 @@ export const leaderboardDummyData = [
     totalAllowance: 10803,
     totalGivenCount: 34,
     totalGivenAmount: 7990,
+    tipperScore: 0,
     rank: 179,
   },
   {
@@ -2275,6 +2454,7 @@ export const leaderboardDummyData = [
     totalAllowance: 5399,
     totalGivenCount: 29,
     totalGivenAmount: 5399,
+    tipperScore: 0,
     rank: 180,
   },
   {
@@ -2287,6 +2467,7 @@ export const leaderboardDummyData = [
     totalAllowance: 50105,
     totalGivenCount: 42,
     totalGivenAmount: 5360,
+    tipperScore: 0,
     rank: 181,
   },
   {
@@ -2299,6 +2480,7 @@ export const leaderboardDummyData = [
     totalAllowance: 40566,
     totalGivenCount: 17,
     totalGivenAmount: 5300,
+    tipperScore: 0,
     rank: 182,
   },
   {
@@ -2312,6 +2494,7 @@ export const leaderboardDummyData = [
     totalAllowance: 27271,
     totalGivenCount: 12,
     totalGivenAmount: 5296,
+    tipperScore: 0,
     rank: 183,
   },
   {
@@ -2325,6 +2508,7 @@ export const leaderboardDummyData = [
     totalAllowance: 10803,
     totalGivenCount: 20,
     totalGivenAmount: 5032,
+    tipperScore: 0,
     rank: 184,
   },
   {
@@ -2337,6 +2521,7 @@ export const leaderboardDummyData = [
     totalAllowance: 10843,
     totalGivenCount: 17,
     totalGivenAmount: 4262,
+    tipperScore: 0,
     rank: 185,
   },
   {
@@ -2350,6 +2535,7 @@ export const leaderboardDummyData = [
     totalAllowance: 89746,
     totalGivenCount: 28,
     totalGivenAmount: 4116,
+    tipperScore: 0,
     rank: 186,
   },
   {
@@ -2362,6 +2548,7 @@ export const leaderboardDummyData = [
     totalAllowance: 58979,
     totalGivenCount: 4,
     totalGivenAmount: 4000,
+    tipperScore: 0,
     rank: 187,
   },
   {
@@ -2374,6 +2561,7 @@ export const leaderboardDummyData = [
     totalAllowance: 31603,
     totalGivenCount: 21,
     totalGivenAmount: 3220,
+    tipperScore: 0,
     rank: 188,
   },
   {
@@ -2387,6 +2575,7 @@ export const leaderboardDummyData = [
     totalAllowance: 77930,
     totalGivenCount: 1,
     totalGivenAmount: 1000,
+    tipperScore: 0,
     rank: 189,
   },
   {
@@ -2400,6 +2589,7 @@ export const leaderboardDummyData = [
     totalAllowance: 35810,
     totalGivenCount: 1,
     totalGivenAmount: 350,
+    tipperScore: 0,
     rank: 190,
   },
 ];

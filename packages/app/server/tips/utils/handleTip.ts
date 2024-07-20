@@ -1,5 +1,6 @@
 import { prisma } from "@farther/backend";
 import { HANDLE_TIP_REGEX, getOpenRankScores } from "@farther/common";
+import { cache, cacheTypes } from "@lib/cache";
 import { Cast } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { InvalidTipReason } from "@prisma/client";
 import { getLatestTipAllowance } from "./getLatestTipAllowance";
@@ -130,8 +131,8 @@ async function storeTip({
   invalidTipReason?: InvalidTipReason;
   tippeeOpenRankScore: number | null;
 }) {
-  await prisma.$transaction([
-    prisma.tip.create({
+  await prisma.$transaction(async () => {
+    await prisma.tip.create({
       data: {
         hash: castHash,
         amount: tipAmount,
@@ -155,6 +156,8 @@ async function storeTip({
           },
         },
       },
-    }),
-  ]);
+    });
+
+    await cache.flush(cacheTypes.USER);
+  });
 }

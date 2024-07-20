@@ -1,15 +1,14 @@
 import { prisma } from "@farther/backend";
-import { cacheKeys, cacheTimes } from "@farther/common";
+import { cache, cacheTypes } from "@lib/cache";
 import { apiSchemas } from "@lib/types/apiSchemas";
-import { kv } from "@vercel/kv";
-import { publicProcedure } from "server/trpc";
+import { publicProcedure } from "../trpc";
 
 export const publicGetTipsMeta = publicProcedure
   .input(apiSchemas.publicGetTipsMeta.input)
   .query(async (opts) => {
-    const cachedData = await kv.get<Awaited<ReturnType<typeof getTipMeta>>>(
-      cacheKeys.TIP_META,
-    );
+    const cachedData = await cache.get({
+      type: cacheTypes.TIP_META,
+    });
 
     if (cachedData) {
       console.info("Cache hit for tip meta data");
@@ -21,12 +20,12 @@ export const publicGetTipsMeta = publicProcedure
 
     const tipMetaData = await getTipMeta(opts.input?.date);
 
-    kv.set(cacheKeys.TIP_META, tipMetaData, { ex: cacheTimes.TIP_META });
+    cache.set({ type: cacheTypes.TIP_META, value: tipMetaData });
 
     return tipMetaData;
   });
 
-async function getTipMeta(date?: string) {
+export async function getTipMeta(date?: string) {
   const orderBy = {
     createdAt: "desc",
   } as const;

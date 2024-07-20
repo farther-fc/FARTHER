@@ -1,6 +1,9 @@
+import { cache, cacheTypes } from "@lib/cache";
 import { adminProcedure, publicProcedure } from "../trpc";
-import { flushCache, tipsLeaderboard } from "./utils/tipsLeaderboard";
+import { tipsLeaderboard } from "./utils/tipsLeaderboard";
 
 export const publicTipsLeaderboard = publicProcedure.query(tipsLeaderboard);
 
-export const flushLeaderboard = adminProcedure.mutation(() => flushCache());
+export const flushLeaderboard = adminProcedure.mutation(() =>
+  cache.flush(cacheTypes.LEADERBOARD),
+);

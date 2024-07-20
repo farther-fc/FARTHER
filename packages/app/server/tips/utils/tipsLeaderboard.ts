@@ -1,12 +1,12 @@
 import { prisma } from "@farther/backend";
-import { ENVIRONMENT, cacheKeys, cacheTimes } from "@farther/common";
-import { kv } from "@vercel/kv";
+import { ENVIRONMENT } from "@farther/common";
+import { cache, cacheTypes } from "@lib/cache";
 import { leaderboardDummyData } from "../dummyData/leaderboard";
 
 export async function tipsLeaderboard() {
-  const cachedLeaderboard = await kv.get<
-    Awaited<ReturnType<typeof getLeaderboardData>>
-  >(cacheKeys.LEADERBOARD);
+  const cachedLeaderboard = await cache.get({
+    type: cacheTypes.LEADERBOARD,
+  });
 
   if (cachedLeaderboard) {
     console.info("Cache hit for leaderboard data");
@@ -18,14 +18,12 @@ export async function tipsLeaderboard() {
 
   const leaderboardData = await getLeaderboardData();
 
-  kv.set(cacheKeys.LEADERBOARD, leaderboardData, {
-    ex: cacheTimes.LEADERBOARD,
-  });
+  cache.set({ type: cacheTypes.LEADERBOARD, value: leaderboardData });
 
   return leaderboardData;
 }
 
-async function getLeaderboardData() {
+export async function getLeaderboardData() {
   if (ENVIRONMENT === "development") {
     return leaderboardDummyData;
   }
@@ -123,7 +121,3 @@ async function getLeaderboardData() {
 
   return rankedData;
 }
-
-export const flushCache = () => {
-  kv.flushall();
-};
