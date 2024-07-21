@@ -52,7 +52,7 @@ const NavLink = ({
 };
 
 const renderLinks = (routes: Route[]) => {
-  return routes.map((route, i) =>
+  return routes.map((route) =>
     route.subroutes && route.subroutes.length ? (
       <DropdownMenuSub key={route.path}>
         <DropdownMenuSubTrigger
