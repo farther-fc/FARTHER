@@ -9,11 +9,13 @@ import { cache } from "@lib/cache";
 import kv from "@vercel/kv";
 
 // Mock data for testing
-const user1Id = 123;
-const user1Data = { ...dummyUser, fid: user1Id };
-const user2Id = 456;
-const user2Data = { ...dummyUser, fid: user2Id };
-const userTipsId = 789;
+const user1Id = "123";
+const user1Data = { ...dummyUser, fid: parseInt(user1Id) };
+const user1TipsData = { ...dummyUserTips, fid: parseInt(user1Id) };
+const user2Id = "456";
+const user2Data = { ...dummyUser, fid: parseInt(user2Id) };
+const user2TipsData = { ...dummyUserTips, fid: parseInt(user2Id) };
+const userTipsId = "789";
 
 describe("KV Cache", () => {
   beforeAll(async () => {
@@ -125,21 +127,21 @@ describe("KV Cache", () => {
     await cache.set({
       type: cacheTypes.USER_TIPS,
       id: userTipsId,
-      value: dummyUserTips,
+      value: user1TipsData,
     });
 
     const result = await cache.get({
       type: cacheTypes.USER_TIPS,
       id: userTipsId,
     });
-    expect(result).toEqual(dummyUserTips);
+    expect(result).toEqual(user1TipsData);
   });
 
   test("should flush USER_TIPS cache correctly", async () => {
     await cache.set({
       type: cacheTypes.USER_TIPS,
       id: userTipsId,
-      value: dummyUserTips,
+      value: user1TipsData,
     });
 
     await cache.flush({ type: cacheTypes.USER_TIPS, id: userTipsId });
@@ -155,12 +157,12 @@ describe("KV Cache", () => {
     await cache.set({
       type: cacheTypes.USER_TIPS,
       id: userTipsId,
-      value: dummyUserTips,
+      value: user1TipsData,
     });
     await cache.set({
       type: cacheTypes.USER_TIPS,
       id: userTipsId + 1,
-      value: dummyUserTips,
+      value: user1TipsData,
     });
 
     await cache.flush({ type: cacheTypes.USER_TIPS });
@@ -173,6 +175,44 @@ describe("KV Cache", () => {
     const result2 = await cache.get({
       type: cacheTypes.USER_TIPS,
       id: userTipsId + 1,
+    });
+
+    expect(result1).toBeNull();
+    expect(result2).toBeNull();
+  });
+
+  test("should flush all USER_TIPS for a given FID correctly", async () => {
+    const alteredTipsData = {
+      fid: parseInt(user1Id),
+      tips: user1TipsData.tips.map((tip) => ({
+        ...tip,
+        createdAt: new Date().toISOString(),
+      })),
+      nextCursor: 197303,
+    };
+
+    await cache.set({
+      type: cacheTypes.USER_TIPS,
+      id: user1Id,
+      value: user1TipsData,
+    });
+
+    await cache.set({
+      type: cacheTypes.USER_TIPS,
+      id: user1Id,
+      value: alteredTipsData,
+    });
+
+    await cache.flush({ type: cacheTypes.USER_TIPS, id: user1Id });
+
+    const result1 = await cache.get({
+      type: cacheTypes.USER_TIPS,
+      id: user1Id,
+    });
+
+    const result2 = await cache.get({
+      type: cacheTypes.USER_TIPS,
+      id: `FID:${user1Id}${alteredTipsData.nextCursor}`,
     });
 
     expect(result1).toBeNull();

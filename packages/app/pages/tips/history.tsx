@@ -131,12 +131,6 @@ function TipHistoryPage() {
                 </div>
               ) : (
                 tips.map((tip) => {
-                  if (tip.invalidTipReason) {
-                    console.log(
-                      tip.hash,
-                      invalidTipReasons[tip.invalidTipReason],
-                    );
-                  }
                   return tip.invalidTipReason ? (
                     <Tooltip
                       key={tip.hash}

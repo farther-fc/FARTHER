@@ -14,16 +14,18 @@ type CacheTypeMap = {
   LEADERBOARD: Awaited<ReturnType<typeof getLeaderboardData>>;
 };
 
+type ID = string;
+
 type GetArgs<T extends CacheType> = T extends "USER"
-  ? { type: T; id: number }
+  ? { type: T; id: ID }
   : T extends "USER_TIPS"
-    ? { type: T; id: number }
+    ? { type: T; id: ID }
     : { type: T };
 
 type SetArgs<T extends CacheType> = T extends "USER"
-  ? { type: T; id: number; value: CacheTypeMap[T] }
+  ? { type: T; id: ID; value: CacheTypeMap[T] }
   : T extends "USER_TIPS"
-    ? { type: T; id: number; value: CacheTypeMap[T] }
+    ? { type: T; id: ID; value: CacheTypeMap[T] }
     : { type: T; value: CacheTypeMap[T] };
 
 async function set<T extends CacheType>(args: SetArgs<T>) {
@@ -32,15 +34,11 @@ async function set<T extends CacheType>(args: SetArgs<T>) {
   let fullKey: string;
   if (type === "USER") {
     const { id } = args;
-    if (typeof id !== "number") {
-      throw new Error("ID must be a number for USER type");
-    }
+
     fullKey = createKey({ type: "USER", id });
   } else if (type === "USER_TIPS") {
     const { id } = args;
-    if (typeof id !== "number") {
-      throw new Error("ID must be a number for USER_TIPS type");
-    }
+
     fullKey = createKey({ type: "USER_TIPS", id });
   } else {
     fullKey = createKey({ type });
@@ -76,8 +74,8 @@ async function get<T extends CacheType>(
 }
 
 type FlushArgs =
-  | { type: "USER"; id?: number }
-  | { type: "USER_TIPS"; id?: number }
+  | { type: "USER"; id?: ID }
+  | { type: "USER_TIPS"; id?: ID }
   | { type: Exclude<CacheType, "USER" | "USER_TIPS"> };
 
 async function flush(args: FlushArgs) {
@@ -93,6 +91,13 @@ async function flush(args: FlushArgs) {
   ) {
     const fullKey = createKey(args);
     keys = [fullKey];
+  } else if (
+    "id" in args &&
+    args.id !== undefined &&
+    /^fid:\d+$/.test(args.id)
+  ) {
+    const idPattern = `${args.id}*`;
+    keys = await kv.keys(idPattern);
   } else if (type === "USER" || type === "USER_TIPS") {
     keys = await kv.keys(`${type}:*`);
   } else {
@@ -111,8 +116,8 @@ async function flushAll() {
 
 function createKey(
   args:
-    | { type: "USER"; id?: number }
-    | { type: "USER_TIPS"; id?: number }
+    | { type: "USER"; id?: ID }
+    | { type: "USER_TIPS"; id?: ID }
     | { type: Exclude<CacheType, "USER" | "USER_TIPS"> },
 ): string {
   const { type } = args;
