@@ -9,9 +9,24 @@ export const publicTipsByTipper = publicProcedure
   .query(async (opts) => {
     const { cursor, from, order, limit } = opts.input;
 
+    let cacheId = `fid:${opts.input.fid}`;
+
+    if (cursor) {
+      cacheId += cursor;
+    }
+    if (from) {
+      cacheId += from;
+    }
+    if (order) {
+      cacheId += order;
+    }
+    if (limit) {
+      cacheId += limit;
+    }
+
     const tips = await cache.get({
       type: cacheTypes.USER_TIPS,
-      id: opts.input.fid,
+      id: cacheId,
     });
 
     if (tips) {
@@ -28,7 +43,7 @@ export const publicTipsByTipper = publicProcedure
 
     await cache.set({
       type: cacheTypes.USER_TIPS,
-      id: opts.input.fid,
+      id: cacheId,
       value: uncachedTips,
     });
 

@@ -118,8 +118,11 @@ function TipHistoryPage() {
               useWindow={false}
               threshold={600} // pixel threshold to trigger loadMore
               loader={
-                <div className="loader" key={0}>
-                  Loading ...
+                <div
+                  className="px-2 py-2 flex justify-center items-center"
+                  key={0}
+                >
+                  Loading more tips...
                 </div>
               }
             >
@@ -131,12 +134,6 @@ function TipHistoryPage() {
                 </div>
               ) : (
                 tips.map((tip) => {
-                  if (tip.invalidTipReason) {
-                    console.log(
-                      tip.hash,
-                      invalidTipReasons[tip.invalidTipReason],
-                    );
-                  }
                   return tip.invalidTipReason ? (
                     <Tooltip
                       key={tip.hash}
