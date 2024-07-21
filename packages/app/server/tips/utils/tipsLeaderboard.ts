@@ -55,7 +55,7 @@ export async function getLeaderboardData() {
       displayName: true,
       pfpUrl: true,
       powerBadge: true,
-      tipScores: {
+      tipperScores: {
         orderBy: {
           createdAt: "desc",
         },
@@ -87,7 +87,7 @@ export async function getLeaderboardData() {
       pfpUrl: tipper.pfpUrl,
       username: tipper.username,
       powerBadge: tipper.powerBadge,
-      tipperScore: tipper.tipScores[0]?.score ?? 0,
+      tipperScore: tipper.tipperScores[0]?.score ?? 0,
       currentAllowance: tipper.tipAllowances[0].amount,
       totalAllowance: Math.round(
         tipper.tipAllowances.reduce(

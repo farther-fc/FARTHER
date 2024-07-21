@@ -25,10 +25,6 @@ model User {
   tipsGiven           Tip[]          @relation(name: "tipper")
   tipsReceived        Tip[]          @relation(name: "tippee")
   openRankScores      OpenRankScore[]
-
-  // TODO: REMOVE
-  tipScores           TipScore[]
-
   tipperScores        TipperScore[]
 
   ethAccounts    UserEthAccount[]
@@ -82,9 +78,6 @@ model Allocation {
 
   tweets   Tweet[]
   tips     Tip[]
-
-  // TODO: REMOVE
-  tipScore TipScore?
 
   tipperScore TipperScore?
 
@@ -239,19 +232,6 @@ model OpenRankSnapshot {
   createdAt   DateTime @default(now())
   updatedAt   DateTime? @updatedAt
   scores      OpenRankScore[]
-}
-
-model TipScore {
-  id            String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-  userId        Int
-  user          User        @relation(fields: [userId], references: [id])
-  score         Float
-  allocationId  String?     @unique
-  allocation    Allocation? @relation(fields: [allocationId], references: [id])
-
-  @@unique([userId, allocationId])
 }
 
 model TipperScore {
