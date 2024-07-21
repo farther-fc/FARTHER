@@ -94,7 +94,7 @@ export async function updateTipperScores() {
       .sort((a, b) => a[1] - b[1])
       .map(([fid, score]) => ({ fid, score }));
 
-    await prisma.tipScore.createMany({
+    await prisma.tipperScore.createMany({
       data: sortedScores.map(({ fid, score }) => ({
         userId: parseInt(fid),
         score,
