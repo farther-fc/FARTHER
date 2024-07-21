@@ -485,7 +485,7 @@ async function getPublicUserFromDb({
 
 async function getPublicUser({ fid }: { fid: number }) {
   const cachedUser = await cache.get({
-    key: { fid },
+    id: fid,
     type: cacheTypes.USER,
   });
 
@@ -496,7 +496,7 @@ async function getPublicUser({ fid }: { fid: number }) {
   const user = await getUncachedPublicUser({ fid });
 
   await cache.set({
-    key: { fid },
+    id: fid,
     type: cacheTypes.USER,
     value: user,
   });

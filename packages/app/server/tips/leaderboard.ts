@@ -5,5 +5,5 @@ import { tipsLeaderboard } from "./utils/tipsLeaderboard";
 export const publicTipsLeaderboard = publicProcedure.query(tipsLeaderboard);
 
 export const flushLeaderboard = adminProcedure.mutation(() =>
-  cache.flush(cacheTypes.LEADERBOARD),
+  cache.flush({ type: cacheTypes.LEADERBOARD }),
 );

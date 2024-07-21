@@ -158,6 +158,6 @@ async function storeTip({
       },
     });
 
-    await cache.flush(cacheTypes.USER);
+    await cache.flush({ type: cacheTypes.USER, id: tipperFid });
   });
 }

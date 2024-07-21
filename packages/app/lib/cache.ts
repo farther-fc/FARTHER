@@ -23,20 +23,16 @@ type CacheTypeMap = {
   LEADERBOARD: Awaited<ReturnType<typeof getLeaderboardData>>;
 };
 
-type UserKeyType = {
-  fid: number;
-};
-
 type GetArgs<T extends CacheType> = T extends "USER"
-  ? { type: T; key: UserKeyType }
+  ? { type: T; id: number }
   : T extends "USER_TIPS"
-    ? { type: T; key: number }
+    ? { type: T; id: number }
     : { type: T };
 
 type SetArgs<T extends CacheType> = T extends "USER"
-  ? { type: T; key: UserKeyType; value: CacheTypeMap[T] }
+  ? { type: T; id: number; value: CacheTypeMap[T] }
   : T extends "USER_TIPS"
-    ? { type: T; key: number; value: CacheTypeMap[T] }
+    ? { type: T; id: number; value: CacheTypeMap[T] }
     : { type: T; value: CacheTypeMap[T] };
 
 async function set<T extends CacheType>(args: SetArgs<T>) {
@@ -44,17 +40,17 @@ async function set<T extends CacheType>(args: SetArgs<T>) {
 
   let fullKey: string;
   if (type === "USER") {
-    const { key } = args;
-    if (!key) {
-      throw new Error("Key is required for USER type");
+    const { id } = args;
+    if (typeof id !== "number") {
+      throw new Error("ID must be a number for USER type");
     }
-    fullKey = createKey({ type: "USER", key });
+    fullKey = createKey({ type: "USER", id });
   } else if (type === "USER_TIPS") {
-    const { key } = args;
-    if (typeof key !== "number") {
-      throw new Error("Key must be a number for USER_TIPS type");
+    const { id } = args;
+    if (typeof id !== "number") {
+      throw new Error("ID must be a number for USER_TIPS type");
     }
-    fullKey = createKey({ type: "USER_TIPS", key });
+    fullKey = createKey({ type: "USER_TIPS", id });
   } else {
     fullKey = createKey({ type });
   }
@@ -74,11 +70,11 @@ async function get<T extends CacheType>(
 
   let fullKey: string;
   if (type === "USER") {
-    const { key } = args;
-    fullKey = createKey({ type: "USER", key });
+    const { id } = args;
+    fullKey = createKey({ type: "USER", id });
   } else if (type === "USER_TIPS") {
-    const { key } = args;
-    fullKey = createKey({ type: "USER_TIPS", key });
+    const { id } = args;
+    fullKey = createKey({ type: "USER_TIPS", id });
   } else {
     fullKey = createKey({ type });
   }
@@ -89,8 +85,8 @@ async function get<T extends CacheType>(
 }
 
 type FlushArgs =
-  | { type: "USER"; key?: UserKeyType }
-  | { type: "USER_TIPS"; key?: number }
+  | { type: "USER"; id?: number }
+  | { type: "USER_TIPS"; id?: number }
   | { type: Exclude<CacheType, "USER" | "USER_TIPS"> };
 
 async function flush(args: FlushArgs) {
@@ -99,7 +95,11 @@ async function flush(args: FlushArgs) {
 
   let keys: string[];
 
-  if ((type === "USER" || type === "USER_TIPS") && "key" in args && args.key) {
+  if (
+    (type === "USER" || type === "USER_TIPS") &&
+    "id" in args &&
+    args.id !== undefined
+  ) {
     const fullKey = createKey(args);
     keys = [fullKey];
   } else if (type === "USER" || type === "USER_TIPS") {
@@ -116,26 +116,26 @@ async function flush(args: FlushArgs) {
 
 function createKey(
   args:
-    | { type: "USER"; key?: UserKeyType }
-    | { type: "USER_TIPS"; key?: number }
+    | { type: "USER"; id?: number }
+    | { type: "USER_TIPS"; id?: number }
     | { type: Exclude<CacheType, "USER" | "USER_TIPS"> },
 ): string {
   const { type } = args;
 
   if (type === "USER") {
-    const { key } = args;
-    if (!key || !key.fid) {
-      throw new Error("Must provide fid for USER key");
+    const { id } = args;
+    if (id === undefined) {
+      throw new Error("Must provide id for USER key");
     }
-    return `${type}:${key.fid}`;
+    return `${type}:${id}`;
   }
 
   if (type === "USER_TIPS") {
-    const { key } = args;
-    if (key === undefined) {
-      throw new Error("Must provide key for USER_TIPS key");
+    const { id } = args;
+    if (id === undefined) {
+      throw new Error("Must provide id for USER_TIPS key");
     }
-    return `${type}:${key}`;
+    return `${type}:${id}`;
   }
 
   return type;

@@ -8,11 +8,11 @@ import { cache, cacheTypes } from "@lib/cache";
 import kv from "@vercel/kv";
 
 // Mock data for testing
-const userKey1 = { fid: 123 };
-const dummyUser1 = { ...dummyUser, fid: 123 };
-const userKey2 = { fid: 456 };
-const dummyUser2 = { ...dummyUser, fid: 456 };
-const userTipsKey = 789;
+const user1Id = 123;
+const user1Data = { ...dummyUser, fid: user1Id };
+const user2Id = 456;
+const user2Data = { ...dummyUser, fid: user2Id };
+const userTipsId = 789;
 
 describe("KV Cache", () => {
   beforeAll(async () => {
@@ -26,12 +26,12 @@ describe("KV Cache", () => {
   test("should set and get USER cache correctly", async () => {
     await cache.set({
       type: cacheTypes.USER,
-      key: userKey1,
-      value: dummyUser1,
+      id: user1Id,
+      value: user1Data,
     });
 
-    const result = await cache.get({ type: cacheTypes.USER, key: userKey1 });
-    expect(result).toEqual(dummyUser1);
+    const result = await cache.get({ type: cacheTypes.USER, id: user1Id });
+    expect(result).toEqual(user1Data);
   });
 
   test("should set and get TIP_META cache correctly", async () => {
@@ -51,13 +51,13 @@ describe("KV Cache", () => {
   test("should flush USER cache correctly", async () => {
     await cache.set({
       type: cacheTypes.USER,
-      key: userKey1,
-      value: dummyUser1,
+      id: user1Id,
+      value: user1Data,
     });
 
-    await cache.flush({ type: cacheTypes.USER, key: userKey1 });
+    await cache.flush({ type: cacheTypes.USER, id: user1Id });
 
-    const result = await cache.get({ type: cacheTypes.USER, key: userKey1 });
+    const result = await cache.get({ type: cacheTypes.USER, id: user1Id });
     expect(result).toBeNull();
   });
 
@@ -82,19 +82,19 @@ describe("KV Cache", () => {
   test("should flush all USER cache correctly", async () => {
     await cache.set({
       type: cacheTypes.USER,
-      key: userKey1,
-      value: dummyUser1,
+      id: user1Id,
+      value: user1Data,
     });
     await cache.set({
       type: cacheTypes.USER,
-      key: userKey2,
-      value: dummyUser2,
+      id: user2Id,
+      value: user2Data,
     });
 
     await cache.flush({ type: cacheTypes.USER });
 
-    const result1 = await cache.get({ type: cacheTypes.USER, key: userKey1 });
-    const result2 = await cache.get({ type: cacheTypes.USER, key: userKey2 });
+    const result1 = await cache.get({ type: cacheTypes.USER, id: user1Id });
+    const result2 = await cache.get({ type: cacheTypes.USER, id: user2Id });
     expect(result1).toBeNull();
     expect(result2).toBeNull();
   });
@@ -102,34 +102,34 @@ describe("KV Cache", () => {
   test("should selectively flush USER cache correctly", async () => {
     await cache.set({
       type: cacheTypes.USER,
-      key: userKey1,
-      value: dummyUser1,
+      id: user1Id,
+      value: user1Data,
     });
     await cache.set({
       type: cacheTypes.USER,
-      key: userKey2,
-      value: dummyUser2,
+      id: user2Id,
+      value: user2Data,
     });
 
-    await cache.flush({ type: cacheTypes.USER, key: userKey1 });
+    await cache.flush({ type: cacheTypes.USER, id: user1Id });
 
-    const result1 = await cache.get({ type: cacheTypes.USER, key: userKey1 });
-    const result2 = await cache.get({ type: cacheTypes.USER, key: userKey2 });
+    const result1 = await cache.get({ type: cacheTypes.USER, id: user1Id });
+    const result2 = await cache.get({ type: cacheTypes.USER, id: user2Id });
 
     expect(result1).toBeNull();
-    expect(result2).toEqual(dummyUser2);
+    expect(result2).toEqual(user2Data);
   });
 
   test("should set and get USER_TIPS cache correctly", async () => {
     await cache.set({
       type: cacheTypes.USER_TIPS,
-      key: userTipsKey,
+      id: userTipsId,
       value: dummyUserTips,
     });
 
     const result = await cache.get({
       type: cacheTypes.USER_TIPS,
-      key: userTipsKey,
+      id: userTipsId,
     });
     expect(result).toEqual(dummyUserTips);
   });
@@ -137,15 +137,15 @@ describe("KV Cache", () => {
   test("should flush USER_TIPS cache correctly", async () => {
     await cache.set({
       type: cacheTypes.USER_TIPS,
-      key: userTipsKey,
+      id: userTipsId,
       value: dummyUserTips,
     });
 
-    await cache.flush({ type: cacheTypes.USER_TIPS, key: userTipsKey });
+    await cache.flush({ type: cacheTypes.USER_TIPS, id: userTipsId });
 
     const result = await cache.get({
       type: cacheTypes.USER_TIPS,
-      key: userTipsKey,
+      id: userTipsId,
     });
     expect(result).toBeNull();
   });
@@ -153,12 +153,12 @@ describe("KV Cache", () => {
   test("should flush all USER_TIPS cache correctly", async () => {
     await cache.set({
       type: cacheTypes.USER_TIPS,
-      key: userTipsKey,
+      id: userTipsId,
       value: dummyUserTips,
     });
     await cache.set({
       type: cacheTypes.USER_TIPS,
-      key: userTipsKey + 1,
+      id: userTipsId + 1,
       value: dummyUserTips,
     });
 
@@ -166,12 +166,12 @@ describe("KV Cache", () => {
 
     const result1 = await cache.get({
       type: cacheTypes.USER_TIPS,
-      key: userTipsKey,
+      id: userTipsId,
     });
 
     const result2 = await cache.get({
       type: cacheTypes.USER_TIPS,
-      key: userTipsKey + 1,
+      id: userTipsId + 1,
     });
 
     expect(result1).toBeNull();
