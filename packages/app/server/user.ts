@@ -53,8 +53,12 @@ export const getUser = publicProcedure
         }
 
         dbUser = await prisma.$transaction(async (tx) => {
-          await tx.user.create({
-            data: {
+          await tx.user.upsert({
+            where: {
+              id: user.fid,
+            },
+            update: {},
+            create: {
               id: user.fid,
               pfpUrl: user.pfpUrl,
               username: user.username,
