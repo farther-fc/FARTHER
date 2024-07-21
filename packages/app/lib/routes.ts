@@ -1,105 +1,93 @@
-enum RouteType {
-  User = "user",
-  Feature = "feature",
-  Info = "info",
-  Dev = "dev",
-}
+export const routeTypes = {
+  User: "User",
+  Feature: "Feature",
+  Info: "Info",
+  Dev: "Dev",
+} as const;
 
-interface Route {
+type RouteType = keyof typeof routeTypes;
+
+export type Route = {
   title: string;
   path: string;
   type: RouteType;
-  hidden: boolean;
+  hidden?: boolean;
   external?: boolean;
   seoTitle?: string;
   description?: string;
-}
+  subroutes?: Route[];
+};
 
 const createRoute = (
   title: string,
   path: string,
   type: RouteType,
-  {
-    hidden = false,
-    external = false,
-    seoTitle,
-    description,
-  }: {
-    hidden?: boolean;
-    external?: boolean;
-    seoTitle?: string;
-    description?: string;
-  } = { hidden: false, external: false },
+  options: Partial<Omit<Route, "title" | "path" | "type">> = {},
+  subroutes: Route[] = [],
 ): Route => ({
   title,
   path,
   type,
-  hidden,
-  external,
-  seoTitle,
-  description,
+  hidden: false,
+  external: false,
+  ...options,
+  subroutes,
 });
 
-export const routes = {
-  user: {
-    profile: createRoute("Profile", "/user/profile", RouteType.User),
-  },
-  tips: {
-    main: createRoute("Tips", "/tips", RouteType.Feature),
-    leaderboard: createRoute(
-      "Leaderboard",
-      "/tips/leaderboard",
-      RouteType.Feature,
-    ),
-    history: createRoute("History", "/tips/history", RouteType.Feature),
-  },
-  liquidity: {
-    main: createRoute("Liquidity", "/liquidity", RouteType.Feature),
-  },
-  airdrops: {
-    main: createRoute("Powerdrops", "/airdrops", RouteType.Feature),
-  },
-  evangelize: {
-    main: createRoute("Evangelize", "/evangelize", RouteType.Feature),
-  },
-  info: {
-    tokenomics: createRoute("Tokenomics", "/tokenomics", RouteType.Info),
-    resources: createRoute("Resources", "/resources", RouteType.Info),
-    community: createRoute(
-      "Community",
-      "https://warpcast.com/~/channel/farther",
-      RouteType.Info,
-      { external: true },
-    ),
-  },
-  dev: {
-    apiDocs: createRoute("API Docs", "/docs/api", RouteType.Dev),
-  },
-} as const;
+export const routesTree: Route[] = [
+  createRoute("User Profile", "/user/profile", routeTypes.User),
+  createRoute("Tips", "/tips", routeTypes.Feature, {}, [
+    createRoute("Leaderboard", "/tips/leaderboard", routeTypes.Feature),
+    createRoute("History", "/tips/history", routeTypes.Feature),
+  ]),
+  createRoute("Liquidity", "/liquidity", routeTypes.Feature),
+  createRoute("Powerdrops", "/airdrops", routeTypes.Feature, { hidden: true }),
+  createRoute("Evangelize", "/evangelize", routeTypes.Feature, {
+    hidden: true,
+  }),
+  createRoute("Tokenomics", "/tokenomics", routeTypes.Info),
+  createRoute("Resources", "/resources", routeTypes.Info),
+  createRoute(
+    "Community",
+    "https://warpcast.com/~/channel/farther",
+    routeTypes.Info,
+    { external: true },
+  ),
+  createRoute("API Docs", "/docs/api", routeTypes.Dev),
+];
 
-type RouteDefinition = { [key: string]: Route | RouteDefinition };
-
-interface FlatRoute extends Route {
-  key: string;
-}
-
-const flattenRoutes = (
-  routes: RouteDefinition,
-  parentKey = "",
-): FlatRoute[] => {
-  const flatRoutes: FlatRoute[] = [];
-
-  Object.entries(routes).forEach(([key, value]) => {
-    const currentKey = parentKey ? `${parentKey}.${key}` : key;
-
-    if ("path" in value) {
-      flatRoutes.push({ ...value, key: currentKey } as FlatRoute);
-    } else {
-      flatRoutes.push(...flattenRoutes(value as RouteDefinition, currentKey));
-    }
-  });
-
-  return flatRoutes;
+type RouteMap<T extends Route[]> = {
+  [K in T[number]["title"] as K extends string
+    ? K extends infer U
+      ? U extends string
+        ? U
+        : never
+      : never
+    : never]: Route & {
+    subroutes: RouteMap<
+      NonNullable<Extract<T[number], { title: K }>["subroutes"]>
+    >;
+  };
 };
 
-export const flatRoutes = flattenRoutes(routes);
+// Convert routes array to nested object
+const createRouteMap = <T extends Route[]>(routes: T): RouteMap<T> => {
+  const map = {} as any;
+
+  routes.forEach((route) => {
+    if (route.external) {
+      return;
+    }
+
+    const { path, subroutes = [], ...rest } = route;
+
+    const key = path.split("/").pop() || path;
+
+    map[key] = { ...rest, path, subroutes: createRouteMap(subroutes) };
+  });
+
+  return map;
+};
+
+// Create the nested routes object
+export const routes = createRouteMap(routesTree);

@@ -33,7 +33,7 @@ export type Position = FartherPositionsQuery["positions"][number] & {
 
 const sdk = getBuiltGraphSDK();
 
-const PATHS: string[] = [routes.liquidity.main.path, routes.user.profile.path];
+const PATHS: string[] = [routes.liquidity.path, routes.profile.path];
 
 const LiquidityContext = createContainer(function () {
   const router = useRouter();
@@ -215,8 +215,7 @@ const LiquidityContext = createContainer(function () {
   React.useEffect(() => {
     if (
       !indexerData?.positions.length ||
-      (pathname !== routes.liquidity.main.path &&
-        pathname !== routes.user.profile.path)
+      (pathname !== routes.liquidity.path && pathname !== routes.profile.path)
     )
       return;
 

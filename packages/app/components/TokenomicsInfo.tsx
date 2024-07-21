@@ -41,7 +41,7 @@ function TokenomicsInfo() {
       <ul>
         <li>
           {allocationRatios.POWER_DROPS * 100}%{" "}
-          <Link href={routes.airdrops.main.path}>airdrops to power users</Link>
+          <Link href={routes.airdrops.path}>airdrops to power users</Link>
           <ExternalLink
             href={`https://basescan.org/address/${fundCategoryAddresses.powerDrops}`}
           >
@@ -53,7 +53,7 @@ function TokenomicsInfo() {
             allocationRatios.LIQUIDITY_BACKSTOP) *
             100}
           %{" "}
-          <Link href={routes.liquidity.main.path}>
+          <Link href={routes.liquidity.path}>
             liquidity pool & mining rewards
           </Link>
           <ExternalLink
@@ -84,7 +84,7 @@ function TokenomicsInfo() {
         </li>
         <li>
           {allocationRatios.TIPS * 100}%{" "}
-          <Link href={routes.tips.main.path}>tip allocations</Link>
+          <Link href={routes.tips.path}>tip allocations</Link>
           <ExternalLink
             href={`https://basescan.org/address/${fundCategoryAddresses.tips}`}
           >

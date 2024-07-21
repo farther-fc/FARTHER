@@ -17,11 +17,11 @@ export const allocationTypeNames = {
 };
 
 export const allocationTypeLinks = {
-  [AllocationType.POWER_USER]: routes.airdrops.main.path,
-  [AllocationType.EVANGELIST]: routes.evangelize.main.path,
-  [AllocationType.LIQUIDITY]: routes.liquidity.main.path,
-  [AllocationType.TIPS]: routes.tips.main.path,
-  [AllocationType.TIPPER]: routes.tips.main.path,
+  [AllocationType.POWER_USER]: routes.airdrops.path,
+  [AllocationType.EVANGELIST]: routes.evangelize.path,
+  [AllocationType.LIQUIDITY]: routes.liquidity.path,
+  [AllocationType.TIPS]: routes.tips.path,
+  [AllocationType.TIPPER]: routes.tips.path,
 };
 
 export const PENDING_POWER_ALLOCATION_ID = "pending-power-drop-allocation";

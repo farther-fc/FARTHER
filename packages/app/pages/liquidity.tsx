@@ -165,7 +165,7 @@ export default function LiquidityPage() {
                     {/** Button link to profile page */}
                     {unclaimedBonusStartTime &&
                     unclaimedBonusStartTime < Date.now() ? (
-                      <Link href={routes.user.profile.path}>
+                      <Link href={routes.profile.path}>
                         <Button
                           className="ml-auto mt-2 w-full"
                           variant="secondary"
