@@ -58,11 +58,11 @@ const renderLinks = (routes: Route[]) => {
         <DropdownMenuSub key={route.path}>
           <DropdownMenuSubTrigger
             className={cn(
-              // navLinkStyles,
-              "data-[state=open]:bg-white/[.03] hover:data-[state=open]:bg-white/[0] text-right mb-[2px]",
+              navLinkStyles,
+              "data-[state=open]:bg-white/[.03] text-right mb-[2px]",
             )}
           >
-            <NavLink route={route} />
+            {route.title}
           </DropdownMenuSubTrigger>
           <DropdownMenuPortal>
             <DropdownMenuSubContent className="border-ghost" sideOffset={4}>
