@@ -24,8 +24,7 @@ type CacheTypeMap = {
 };
 
 type UserKeyType = {
-  address?: string;
-  fid?: number;
+  fid: number;
 };
 
 type GetArgs<T extends CacheType> = T extends "USER"
@@ -89,10 +88,26 @@ async function get<T extends CacheType>(
   return kv.get(fullKey);
 }
 
-async function flush(type: CacheType) {
+type FlushArgs =
+  | { type: "USER"; key?: UserKeyType }
+  | { type: "USER_TIPS"; key?: number }
+  | { type: Exclude<CacheType, "USER" | "USER_TIPS"> };
+
+async function flush(args: FlushArgs) {
+  const { type } = args;
   console.info(`Flushing cache for ${type}`);
 
-  const keys = await kv.smembers(`${type}-keys`);
+  let keys: string[];
+
+  if ((type === "USER" || type === "USER_TIPS") && "key" in args && args.key) {
+    const fullKey = createKey(args);
+    keys = [fullKey];
+  } else if (type === "USER" || type === "USER_TIPS") {
+    keys = await kv.keys(`${type}:*`);
+  } else {
+    keys = await kv.smembers(`${type}-keys`);
+  }
+
   if (keys.length > 0) {
     await kv.del(...keys);
     await kv.del(`${type}-keys`);
@@ -101,28 +116,26 @@ async function flush(type: CacheType) {
 
 function createKey(
   args:
-    | { type: "USER"; key: UserKeyType }
-    | { type: "USER_TIPS"; key: number }
+    | { type: "USER"; key?: UserKeyType }
+    | { type: "USER_TIPS"; key?: number }
     | { type: Exclude<CacheType, "USER" | "USER_TIPS"> },
 ): string {
   const { type } = args;
 
   if (type === "USER") {
     const { key } = args;
-    if (!key.address && !key.fid) {
-      throw new Error("Must provide address or fid");
+    if (!key || !key.fid) {
+      throw new Error("Must provide fid for USER key");
     }
-    if (key.address) {
-      return `${type}:${key.address}`;
-    }
-    if (key.fid) {
-      return `${type}:${key.fid}`;
-    }
-    throw new Error("Unexpected error: Neither address nor fid provided");
+    return `${type}:${key.fid}`;
   }
 
   if (type === "USER_TIPS") {
-    return `${type}:${args.key}`;
+    const { key } = args;
+    if (key === undefined) {
+      throw new Error("Must provide key for USER_TIPS key");
+    }
+    return `${type}:${key}`;
   }
 
   return type;

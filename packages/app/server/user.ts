@@ -1,4 +1,5 @@
 import {
+  cacheTimes,
   fetchUserByAddress,
   fetchUserByFid,
   getPowerBadgeFids,
@@ -17,6 +18,16 @@ import { Address, isAddress } from "viem";
 import { AllocationType, TipMeta, prisma } from "../../backend/src/prisma";
 import { tipsLeaderboard } from "./tips/utils/tipsLeaderboard";
 import { publicProcedure } from "./trpc";
+
+type KeyArgs =
+  | {
+      address: string;
+      fid?: undefined;
+    }
+  | {
+      fid: number;
+      address?: undefined;
+    };
 
 export const getUser = publicProcedure
   .input(apiSchemas.getUser.input)
@@ -46,6 +57,7 @@ export const getUser = publicProcedure
         const user = await getUserFromNeynar({ address });
 
         if (!user) {
+          console.warn("User not found in Neynar", address);
           return null;
         }
 
@@ -182,13 +194,25 @@ export const getUser = publicProcedure
 export const publicGetUserByAddress = publicProcedure
   .input(apiSchemas.publicGetUserByAddress.input)
   .query(async (opts) => {
+    opts.ctx.res.setHeader(
+      "cache-control",
+      `s-maxage=${cacheTimes.USER}, stale-while-revalidate=1`,
+    );
+
     const address = opts.input.address.toLowerCase();
 
     if (!isAddress(address)) {
       throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid address" });
     }
 
-    return await getPublicUser({ address });
+    const fid = await getFidFromAddress(address);
+
+    if (!fid) {
+      console.warn("User not found in database. address:", address);
+      return null;
+    }
+
+    return await getPublicUser({ fid });
   });
 
 export const publicGetUserByFid = publicProcedure
@@ -459,15 +483,9 @@ async function getPublicUserFromDb({
   return user;
 }
 
-async function getPublicUser({
-  address,
-  fid,
-}: {
-  address?: string;
-  fid?: number;
-}) {
+async function getPublicUser({ fid }: { fid: number }) {
   const cachedUser = await cache.get({
-    key: { address, fid },
+    key: { fid },
     type: cacheTypes.USER,
   });
 
@@ -475,10 +493,10 @@ async function getPublicUser({
     return cachedUser;
   }
 
-  const user = await getUncachedPublicUser({ address, fid });
+  const user = await getUncachedPublicUser({ fid });
 
   await cache.set({
-    key: { address, fid },
+    key: { fid },
     type: cacheTypes.USER,
     value: user,
   });
@@ -486,28 +504,18 @@ async function getPublicUser({
   return user;
 }
 
-export async function getUncachedPublicUser({
-  address,
-  fid,
-}: {
-  address?: string;
-  fid?: number;
-}) {
-  if (!address && !fid) {
-    throw new Error("Must provide either address or fid");
-  }
-
+export async function getUncachedPublicUser({ fid }: { fid: number }) {
   const leaderboard = await tipsLeaderboard();
 
   const currentTipMeta = await getCurrentTipMeta();
 
   const dbUser = await getPublicUserFromDb({
-    address,
+    fid,
     currentTipMeta,
   });
 
   if (!dbUser) {
-    console.warn("User not found in database. address:", address);
+    console.warn("User not found in database. fid:", fid);
     return null;
   }
 
@@ -605,4 +613,20 @@ async function getCurrentTipMeta() {
       },
     },
   });
+}
+
+async function getFidFromAddress(address: string) {
+  const user = await prisma.userEthAccount.findFirst({
+    where: {
+      ethAccountId: address,
+      user: {
+        powerBadge: true,
+      },
+    },
+    select: {
+      userId: true,
+    },
+  });
+
+  return user?.userId;
 }

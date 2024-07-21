@@ -55,7 +55,11 @@ export async function publicTipsByTipper({
   });
 
   return {
-    tips,
+    tips: tips.map((tip) => ({
+      ...tip,
+      createdAt: tip.createdAt.toISOString(),
+      updatedAt: tip.updatedAt.toISOString(),
+    })),
     nextCursor:
       tipCount > batchSize && !!tips.length
         ? tips[tips.length - 1]?.createdAt.getTime()

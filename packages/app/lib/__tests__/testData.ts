@@ -1,4 +1,4 @@
-import { AllocationType } from "@farther/backend";
+import { AllocationType, InvalidTipReason } from "@farther/backend";
 
 export const dummyLeaderBoard = [
   {
@@ -5170,7 +5170,7 @@ export const dummyUser = {
   ],
 };
 
-export const dummyTipsMeta = [
+export const dummyUserTipsMeta = [
   {
     id: "d6c401d6-0ff2-4c36-9574-b6c5eb641643",
     createdAt: "2024-07-20T16:03:27.521Z",
@@ -5184,3 +5184,51 @@ export const dummyTipsMeta = [
     },
   },
 ];
+
+export const dummyUserTips = {
+  tips: [
+    {
+      hash: "0xf3d3de8e1bb6a4e031f078da097134453ff3b180",
+      createdAt: "2024-07-20T19:01:02.124Z",
+      updatedAt: "2024-07-20T19:01:02.124Z",
+      tipperId: 246871,
+      tippeeId: 10123,
+      tipAllowanceId: "e03756f2-f039-4196-8ceb-5ac9731a5ddc",
+      amount: 236,
+      invalidTipReason: null,
+      allocationId: null,
+      openRankChange: null,
+      tippeeOpenRankScore: 0.00001114355472964235,
+      tippee: { username: "hilgi" },
+    },
+    {
+      hash: "0xb5cacaa03ff676de2ee983ebe56b695900773815",
+      createdAt: "2024-07-20T19:00:01.986Z",
+      updatedAt: "2024-07-20T19:00:01.986Z",
+      tipperId: 246871,
+      tippeeId: 395346,
+      tipAllowanceId: "e03756f2-f039-4196-8ceb-5ac9731a5ddc",
+      amount: 200,
+      invalidTipReason: null,
+      allocationId: null,
+      openRankChange: null,
+      tippeeOpenRankScore: 0.000127332954434678,
+      tippee: { username: "lambchop" },
+    },
+    {
+      hash: "0xf8641d570ada70820aecae5aacbc6180191e3173",
+      createdAt: "2024-07-20T18:53:01.465Z",
+      updatedAt: "2024-07-20T18:53:01.465Z",
+      tipperId: 246871,
+      tippeeId: 489165,
+      tipAllowanceId: "e03756f2-f039-4196-8ceb-5ac9731a5ddc",
+      amount: 500,
+      invalidTipReason: "INSUFFICIENT_ALLOWANCE" as InvalidTipReason,
+      allocationId: null,
+      openRankChange: null,
+      tippeeOpenRankScore: null,
+      tippee: { username: "emilybakerphoto" },
+    },
+  ],
+  nextCursor: null,
+};
