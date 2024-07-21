@@ -11,6 +11,8 @@ import {
 import {
   PENDING_POWER_ALLOCATION_ID,
   PENDING_TIPS_ALLOCATION_ID,
+  allocationTypeLinks,
+  allocationTypeNames,
   clickIds,
 } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
@@ -21,6 +23,7 @@ import dayjs from "dayjs";
 import { useLogError } from "hooks/useLogError";
 import { useToast } from "hooks/useToast";
 import { Info } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 import { Address } from "viem";
 import {
@@ -205,9 +208,9 @@ export function RewardsTableRow({
   return (
     <TableRow>
       <TableCell className="pl-0 font-medium">
-        {/* <Link href={allocationTypeLinks[allocation.type]}>
+        <Link href={allocationTypeLinks[allocation.type]}>
           {allocationTypeNames[allocation.type]}
-        </Link> */}
+        </Link>
       </TableCell>
       <TableCell className="text-right">
         {allocation.airdrop

@@ -35,13 +35,13 @@ const createRoute = (
 });
 
 export const routesTree: Route[] = [
-  createRoute("User Profile", "/user/profile", routeTypes.User),
+  createRoute("Profile", "/user/profile", routeTypes.User),
   createRoute("Tips", "/tips", routeTypes.Feature, {}, [
     createRoute("Leaderboard", "/tips/leaderboard", routeTypes.Feature),
     createRoute("History", "/tips/history", routeTypes.Feature),
   ]),
   createRoute("Liquidity", "/liquidity", routeTypes.Feature),
-  createRoute("Powerdrops", "/airdrops", routeTypes.Feature, { hidden: true }),
+  createRoute("Powerdrops", "/airdrops", routeTypes.Feature),
   createRoute("Evangelize", "/evangelize", routeTypes.Feature, {
     hidden: true,
   }),

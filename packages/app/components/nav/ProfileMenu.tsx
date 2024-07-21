@@ -36,7 +36,7 @@ export function ProfileMenu() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          className="max-w-[200px]"
+          className="max-w-[200px] border-ghost"
           sentryId={clickIds.openProfileMenu}
           variant="secondary"
         >
