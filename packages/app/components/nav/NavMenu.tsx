@@ -22,7 +22,7 @@ function closeMenu() {
 }
 
 const headingStyles =
-  "text-right pt-3 uppercase font-normal text-muted text-xs mt-0 mb-2 px-3 select-none";
+  "text-right pt-2 uppercase font-normal text-muted text-xs mt-0 mb-2 px-3 select-none";
 
 const navLinkStyles =
   "block w-full text-right no-underline hover:no-underline hover:bg-white/5 px-3 py-1 rounded-md text-lg text-link hover:text-link-hover";
@@ -90,12 +90,18 @@ export function NavMenu() {
           <Menu />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="flex w-40 flex-col pt-4" align="end">
-        <h4 className={cn(headingStyles, "border-none pt-0")}>User</h4>
-        {renderLinks(
-          routesTree.filter((r) => !!accountAddress && r.type === "User"),
+      <DropdownMenuContent className="flex w-40 flex-col pt-3" align="end">
+        {!!accountAddress && (
+          <>
+            {" "}
+            <h4 className={cn(headingStyles, "border-none pt-0")}>User</h4>
+            {renderLinks(
+              routesTree.filter((r) => !!accountAddress && r.type === "User"),
+            )}
+            <DropdownMenuSeparator />
+          </>
         )}
-        <DropdownMenuSeparator />
+
         <h4
           className={cn(
             headingStyles,
