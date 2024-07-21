@@ -167,7 +167,7 @@ export const getUser = publicProcedure
         displayName: dbUser?.displayName,
         pfpUrl: dbUser?.pfpUrl,
         powerBadge: dbUser?.powerBadge,
-        tipperScore: dbUser?.tipScores[0]?.score || null,
+        tipperScore: dbUser?.tipperScores[0]?.score || null,
         allocations,
         totalTipsReceived: {
           number: dbUser?.tipsReceived.length || 0,
@@ -340,7 +340,7 @@ async function getPrivateUser({
       displayName: true,
       followerCount: true,
       powerBadge: true,
-      tipScores: {
+      tipperScores: {
         orderBy: {
           createdAt: "desc",
         },
@@ -431,7 +431,7 @@ async function getPublicUserFromDb({
       displayName: true,
       followerCount: true,
       powerBadge: true,
-      tipScores: {
+      tipperScores: {
         orderBy: {
           createdAt: "desc",
         },
@@ -562,7 +562,7 @@ export async function getUncachedPublicUser({ fid }: { fid: number }) {
     pfpUrl: dbUser.pfpUrl,
     followerCount: dbUser.followerCount,
     powerBadge: dbUser.powerBadge,
-    tipperScore: dbUser.tipScores[0]?.score || null,
+    tipperScore: dbUser.tipperScores[0]?.score || null,
     tips: {
       rank: rankIndex > -1 ? rankIndex + 1 : null,
       totals: {
