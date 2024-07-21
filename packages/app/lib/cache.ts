@@ -1,4 +1,4 @@
-import { cacheTimes, cacheTypes } from "@farther/common";
+import { CacheType, cacheTimes } from "@farther/common";
 import kv from "@vercel/kv";
 import { getTipMeta } from "server/tips/publicGetTipsMeta";
 import { publicTipsByTipper } from "server/tips/utils/publicTipsByTipper";
@@ -6,8 +6,6 @@ import { getLeaderboardData } from "server/tips/utils/tipsLeaderboard";
 import { getUncachedPublicUser } from "server/user";
 
 // Maintains a set of cache keys for efficiently finding & flushing cache types (categories)
-
-export type CacheType = (typeof cacheTypes)[keyof typeof cacheTypes];
 
 type CacheTypeMap = {
   USER: Awaited<ReturnType<typeof getUncachedPublicUser>>;

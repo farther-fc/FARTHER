@@ -1,11 +1,12 @@
 import { cronSchedules, isProduction } from "@farther/common";
 import cron from "node-cron";
 import "../instrument";
+import { distributeAllowances } from "./lib/distributeAllowances";
 import { syncTipperData } from "./lib/syncTipperData";
 import { syncUserData } from "./lib/syncUserData";
 import { takeOpenRankSnapshot } from "./lib/takeOpenRankSnapshot";
+import { updateEligibleTippers } from "./lib/updateEligibleTippers";
 import { updateTipperScores } from "./lib/updateTipperScores";
-import { generateApiCallCron } from "./lib/utils/generateApiCallCron";
 
 /**
  * NOTE: This is currently not being used. The crons are scheduled in Railway directly.
@@ -29,13 +30,9 @@ cron.schedule(openrankSnapshotSchedule, takeOpenRankSnapshot, {
   timezone: "Etc/UTC",
 });
 
-cron.schedule(
-  cronSchedules.DISTRIBUTE_ALLOWANCES,
-  generateApiCallCron("admin.distributeAllowances"),
-  {
-    timezone: "Etc/UTC",
-  },
-);
+cron.schedule(cronSchedules.DISTRIBUTE_ALLOWANCES, distributeAllowances, {
+  timezone: "Etc/UTC",
+});
 
 // Eligibility is checked every hour, with a random delay to keep allowance farmers on their toes
 cron.schedule(
@@ -44,10 +41,6 @@ cron.schedule(
     : cronSchedules.NEVER_RUN,
   () => {
     const randomDelay = Math.floor(Math.random() * 3_600_000);
-
-    const updateEligibleTippers = generateApiCallCron(
-      "admin.updateEligibleTippers",
-    );
 
     setTimeout(updateEligibleTippers, isProduction ? randomDelay : 0);
   },
