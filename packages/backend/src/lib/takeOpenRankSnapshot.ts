@@ -1,4 +1,9 @@
-import { OpenRankError, cronSchedules, isProduction } from "@farther/common";
+import {
+  OpenRankError,
+  cronSchedules,
+  isProduction,
+  retryWithExponentialBackoff,
+} from "@farther/common";
 import {
   OpenRankData,
   getOpenRankScores,
@@ -47,43 +52,46 @@ async function storeScores(allScores: OpenRankData["result"]) {
   const scoreChunks = chunk(allScores, 100);
 
   for (const scores of scoreChunks) {
-    await prisma.$transaction(
-      scores.map((r) => {
-        const data = {
-          snapshot: {
-            connectOrCreate: {
-              where: {
-                id: snapshotTimeId,
+    await retryWithExponentialBackoff(
+      async () =>
+        await prisma.$transaction(
+          scores.map((r) => {
+            const data = {
+              snapshot: {
+                connectOrCreate: {
+                  where: {
+                    id: snapshotTimeId,
+                  },
+                  create: {
+                    id: snapshotTimeId,
+                  },
+                },
               },
-              create: {
-                id: snapshotTimeId,
+              user: {
+                connectOrCreate: {
+                  where: {
+                    id: r.fid,
+                  },
+                  create: {
+                    id: r.fid,
+                  },
+                },
               },
-            },
-          },
-          user: {
-            connectOrCreate: {
-              where: {
-                id: r.fid,
-              },
-              create: {
-                id: r.fid,
-              },
-            },
-          },
-          score: r.score,
-        } as const;
+              score: r.score,
+            } as const;
 
-        return prisma.openRankScore.upsert({
-          where: {
-            userId_snapshotId: {
-              snapshotId: snapshotTimeId,
-              userId: r.fid,
-            },
-          },
-          create: data,
-          update: data,
-        });
-      }),
+            return prisma.openRankScore.upsert({
+              where: {
+                userId_snapshotId: {
+                  snapshotId: snapshotTimeId,
+                  userId: r.fid,
+                },
+              },
+              create: data,
+              update: data,
+            });
+          }),
+        ),
     );
   }
 }

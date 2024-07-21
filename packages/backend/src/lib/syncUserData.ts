@@ -35,7 +35,7 @@ export async function syncUserDataBatch({
       throw new Error("Neynar data length does not match user data length");
     }
 
-    const transactions = neynarUserData.map((data, index) =>
+    const transactions = neynarUserData.map((data) =>
       scheduler.schedule(() =>
         retryWithExponentialBackoff(
           async () =>
