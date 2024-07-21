@@ -113,7 +113,7 @@ export function getLpBonusRewards({
 
 export async function retryWithExponentialBackoff(
   fn: Function,
-  { retries = 3, delay = 1000 },
+  { retries = 6, delay = 1000 } = {},
 ) {
   let attempt = 0;
   while (attempt < retries) {
