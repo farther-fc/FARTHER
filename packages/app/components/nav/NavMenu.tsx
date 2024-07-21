@@ -25,15 +25,25 @@ const headingStyles =
   "text-right pt-3 uppercase font-normal text-muted text-xs mt-0 mb-2 px-3 select-none";
 
 const navLinkStyles =
-  "block w-full text-right no-underline hover:no-underline hover:bg-white/5 px-3 py-1 rounded-md text-lg text-link hover:text-link-hover mb-[2px]";
+  "block w-full text-right no-underline hover:no-underline hover:bg-white/5 px-3 py-1 rounded-md text-lg text-link hover:text-link-hover";
 
-const NavLink = ({ route }: { route: Route }) => {
+const NavLink = ({
+  route,
+  className,
+}: {
+  route: Route;
+  className?: string;
+}) => {
   return route.external ? (
     <ExternalLink href={route.path} className={navLinkStyles}>
       {route.title}
     </ExternalLink>
   ) : (
-    <Link href={route.path} legacyBehavior className={navLinkStyles}>
+    <Link
+      href={route.path}
+      legacyBehavior
+      className={cn(navLinkStyles, className)}
+    >
       <a onClick={closeMenu} className={navLinkStyles}>
         {route.title}
       </a>
@@ -49,7 +59,7 @@ const renderLinks = (routes: Route[]) => {
           <DropdownMenuSubTrigger
             className={cn(
               // navLinkStyles,
-              "data-[state=open]:bg-white/[.03] hover:data-[state=open]:bg-white/[0] text-right",
+              "data-[state=open]:bg-white/[.03] hover:data-[state=open]:bg-white/[0] text-right mb-[2px]",
             )}
           >
             <NavLink route={route} />
@@ -62,7 +72,7 @@ const renderLinks = (routes: Route[]) => {
         </DropdownMenuSub>
       </>
     ) : (
-      <NavLink route={route} />
+      <NavLink route={route} className="mb-[2px]" />
     ),
   );
 };
