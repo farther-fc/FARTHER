@@ -52,27 +52,25 @@ const NavLink = ({
 };
 
 const renderLinks = (routes: Route[]) => {
-  return routes.map((route) =>
+  return routes.map((route, i) =>
     route.subroutes && route.subroutes.length ? (
-      <>
-        <DropdownMenuSub key={route.path}>
-          <DropdownMenuSubTrigger
-            className={cn(
-              navLinkStyles,
-              "data-[state=open]:bg-white/[.03] text-right mb-[2px]",
-            )}
-          >
-            {route.title}
-          </DropdownMenuSubTrigger>
-          <DropdownMenuPortal>
-            <DropdownMenuSubContent className="border-ghost" sideOffset={4}>
-              {renderLinks(route.subroutes)}
-            </DropdownMenuSubContent>
-          </DropdownMenuPortal>
-        </DropdownMenuSub>
-      </>
+      <DropdownMenuSub key={route.path}>
+        <DropdownMenuSubTrigger
+          className={cn(
+            navLinkStyles,
+            "data-[state=open]:bg-white/[.03] text-right mb-[2px]",
+          )}
+        >
+          {route.title}
+        </DropdownMenuSubTrigger>
+        <DropdownMenuPortal>
+          <DropdownMenuSubContent className="border-ghost" sideOffset={4}>
+            {renderLinks(route.subroutes)}
+          </DropdownMenuSubContent>
+        </DropdownMenuPortal>
+      </DropdownMenuSub>
     ) : (
-      <NavLink route={route} className="mb-[2px]" />
+      <NavLink key={route.path} route={route} className="mb-[2px]" />
     ),
   );
 };
