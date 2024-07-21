@@ -44,7 +44,7 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
     header: ({ column }) => (
       <Button
         variant="ghost"
-        className="h-auto backdrop-blur-none"
+        className="h-auto backdrop-blur-none px-2"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
         Amount Given
@@ -61,7 +61,7 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        className="h-auto backdrop-blur-none"
+        className="h-auto backdrop-blur-none px-2"
       >
         Tips Given
         <ArrowUpDown className="ml-2 size-4" />
@@ -77,7 +77,7 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        className="h-auto backdrop-blur-none"
+        className="h-auto backdrop-blur-none px-2"
       >
         Tipper Score
         <ArrowUpDown className="ml-2 size-4" />
