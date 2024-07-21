@@ -1,4 +1,4 @@
-import { cacheTimes } from "@farther/common";
+import { cacheTimes, cacheTypes } from "@farther/common";
 import kv from "@vercel/kv";
 import { getTipMeta } from "server/tips/publicGetTipsMeta";
 import { publicTipsByTipper } from "server/tips/utils/publicTipsByTipper";
@@ -6,13 +6,6 @@ import { getLeaderboardData } from "server/tips/utils/tipsLeaderboard";
 import { getUncachedPublicUser } from "server/user";
 
 // Maintains a set of cache keys for efficiently finding & flushing cache types (categories)
-
-export const cacheTypes = {
-  USER: "USER",
-  USER_TIPS: "USER_TIPS",
-  TIP_META: "TIP_META",
-  LEADERBOARD: "LEADERBOARD",
-} as const;
 
 export type CacheType = (typeof cacheTypes)[keyof typeof cacheTypes];
 

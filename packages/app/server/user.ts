@@ -1,10 +1,11 @@
 import {
   cacheTimes,
+  cacheTypes,
   fetchUserByAddress,
   fetchUserByFid,
   getPowerBadgeFids,
 } from "@farther/common";
-import { cache, cacheTypes } from "@lib/cache";
+import { cache } from "@lib/cache";
 import {
   PENDING_POWER_ALLOCATION_ID,
   PENDING_TIPS_ALLOCATION_ID,

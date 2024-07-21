@@ -1,6 +1,10 @@
 import { prisma } from "@farther/backend";
-import { HANDLE_TIP_REGEX, getOpenRankScores } from "@farther/common";
-import { cache, cacheTypes } from "@lib/cache";
+import {
+  HANDLE_TIP_REGEX,
+  cacheTypes,
+  getOpenRankScores,
+} from "@farther/common";
+import { cache } from "@lib/cache";
 import { Cast } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { InvalidTipReason } from "@prisma/client";
 import { getLatestTipAllowance } from "./getLatestTipAllowance";

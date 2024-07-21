@@ -230,6 +230,13 @@ export const cacheTimes = {
   LEADERBOARD: 86400,
 } as const;
 
+export const cacheTypes = {
+  USER: "USER",
+  USER_TIPS: "USER_TIPS",
+  TIP_META: "TIP_META",
+  LEADERBOARD: "LEADERBOARD",
+} as const;
+
 export const TIP_META_RESET_HOUR = 19;
 
 export const OPENRANK_URL =

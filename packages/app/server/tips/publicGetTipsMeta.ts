@@ -1,5 +1,6 @@
 import { prisma } from "@farther/backend";
-import { cache, cacheTypes } from "@lib/cache";
+import { cacheTypes } from "@farther/common";
+import { cache } from "@lib/cache";
 import { apiSchemas } from "@lib/types/apiSchemas";
 import { publicProcedure } from "../trpc";
 

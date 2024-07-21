@@ -1,7 +1,7 @@
 import { prisma } from "@farther/backend";
-import { ENVIRONMENT } from "@farther/common";
+import { ENVIRONMENT, cacheTypes } from "@farther/common";
 import { dummyLeaderBoard } from "@lib/__tests__/testData";
-import { cache, cacheTypes } from "@lib/cache";
+import { cache } from "@lib/cache";
 
 export async function tipsLeaderboard() {
   const cachedLeaderboard = await cache.get({

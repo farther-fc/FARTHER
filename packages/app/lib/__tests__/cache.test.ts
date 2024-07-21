@@ -1,10 +1,11 @@
+import { cacheTypes } from "@farther/common";
 import {
   dummyLeaderBoard,
   dummyUser,
   dummyUserTips,
   dummyUserTipsMeta,
 } from "@lib/__tests__/testData";
-import { cache, cacheTypes } from "@lib/cache";
+import { cache } from "@lib/cache";
 import kv from "@vercel/kv";
 
 // Mock data for testing
