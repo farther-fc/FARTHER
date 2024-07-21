@@ -107,6 +107,10 @@ async function flush(args: FlushArgs) {
   }
 }
 
+async function flushAll() {
+  await kv.flushall();
+}
+
 function createKey(
   args:
     | { type: "USER"; id?: number }
@@ -133,8 +137,10 @@ function createKey(
 
   return type;
 }
+
 export const cache = {
   get,
   set,
   flush,
+  flushAll,
 };

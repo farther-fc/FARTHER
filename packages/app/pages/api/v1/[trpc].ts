@@ -6,12 +6,10 @@ import { getAdminData } from "server/admin/getAdminData";
 import { invalidateStaleAllocations } from "server/admin/invalidateStaleAllocations";
 import { getMerkleProof } from "server/airdrop/getMerkleProof";
 import { setAllocationClaimed } from "server/airdrop/setAllocationClaimed";
+import { flushCacheAll, flushCacheType } from "server/cache";
 import { publicGetPrice } from "server/getPrice";
 import { handleTip } from "server/tips/handleTip";
-import {
-  flushLeaderboard,
-  publicTipsLeaderboard,
-} from "server/tips/leaderboard";
+import { publicTipsLeaderboard } from "server/tips/leaderboard";
 import { publicGetTipsMeta } from "server/tips/publicGetTipsMeta";
 import { publicTipsByTipper } from "server/tips/publicTipsByTipper";
 import { createContext, router } from "server/trpc";
@@ -29,7 +27,8 @@ export const appRouter = router({
   admin: router({
     getAdminData,
     invalidateStaleAllocations,
-    flushLeaderboard,
+    flushCacheAll,
+    flushCacheType,
   }),
   public: router({
     user: router({
