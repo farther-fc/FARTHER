@@ -237,6 +237,8 @@ export const cacheTypes = {
   LEADERBOARD: "LEADERBOARD",
 } as const;
 
+export type CacheType = (typeof cacheTypes)[keyof typeof cacheTypes];
+
 export const TIP_META_RESET_HOUR = 19;
 
 export const OPENRANK_URL =

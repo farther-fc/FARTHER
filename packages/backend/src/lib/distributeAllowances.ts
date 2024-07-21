@@ -1,21 +1,19 @@
 import {
   DistributeAllowancesError,
   ENVIRONMENT,
+  cacheTypes,
   getHoursAgo,
   isProduction,
 } from "@farther/common";
 import { scaleLinear } from "d3";
-import { requireEnv } from "require-env-variable";
 import { prisma } from "../prisma";
 import { getEligibleTippers, getExistingTippers } from "./getEligibleTippers";
 import { constrainWeights } from "./utils/constrainWeights";
 import { dailyTipDistribution } from "./utils/dailyTipDistribution";
-import { flushLeaderboard } from "./utils/flushLeaderboard";
+import { flushCacheType } from "./utils/flushCacheType";
 import { getPrice } from "./utils/getPrice";
 import { getTipMinimum } from "./utils/getTipMinimum";
 import { getUniqueTippees } from "./utils/getUniqueTippees";
-
-const { CRON_SECRET } = requireEnv("CRON_SECRET");
 
 // Recovery threshold is a multiplier of the previous tip minimum.
 // When the tipper's allowance is at or below the recovery threshold, they receive a boost
@@ -129,7 +127,10 @@ export async function distributeAllowances() {
     });
   });
 
-  await flushLeaderboard();
+  await Promise.all([
+    flushCacheType(cacheTypes.LEADERBOARD),
+    flushCacheType(cacheTypes.TIP_META),
+  ]);
 }
 
 async function getTipMetas() {
