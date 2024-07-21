@@ -95,6 +95,9 @@ function TipHistoryPage() {
   return (
     <Container variant="page">
       <h1>Tip History</h1>
+      <p className="text-muted mb-8">
+        These are all the tips you've given other Farcaster users.
+      </p>
       <div
         className={`${GRID_STYLES} md:px-8 py-2 text-ghost uppercase md:mr-3`}
       >
