@@ -1,4 +1,5 @@
-import { cacheTimes } from "@farther/common";
+import { cacheTypes } from "@farther/common";
+import { cache } from "@lib/cache";
 import { apiSchemas } from "@lib/types/apiSchemas";
 import { publicTipsByTipper as publicTipsByTipperUtil } from "server/tips/utils/publicTipsByTipper";
 import { publicProcedure } from "server/trpc";
@@ -8,16 +9,28 @@ export const publicTipsByTipper = publicProcedure
   .query(async (opts) => {
     const { cursor, from, order, limit } = opts.input;
 
-    opts.ctx.res.setHeader(
-      "cache-control",
-      `s-maxage=${cacheTimes.TIP_HISTORY}, stale-while-revalidate=${cacheTimes.TIP_HISTORY}`,
-    );
+    const tips = await cache.get({
+      type: cacheTypes.USER_TIPS,
+      id: opts.input.fid,
+    });
 
-    return publicTipsByTipperUtil({
+    if (tips) {
+      return tips;
+    }
+
+    const uncachedTips = await publicTipsByTipperUtil({
       tipperId: opts.input.fid,
       cursor,
       from,
       order,
       limit,
     });
+
+    await cache.set({
+      type: cacheTypes.USER_TIPS,
+      id: opts.input.fid,
+      value: uncachedTips,
+    });
+
+    return uncachedTips;
   });

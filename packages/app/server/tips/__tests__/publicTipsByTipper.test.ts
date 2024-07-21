@@ -73,7 +73,7 @@ describe("publicTipsByTipper", () => {
     const result = await publicTipsByTipper({ tipperId: TIPPER_ID });
     expect(result.tips).toHaveLength(100);
     expect(result.nextCursor).not.toBeNull();
-    expect(result.tips[0].createdAt.getTime()).toBe(
+    expect(new Date(result.tips[0].createdAt).getTime()).toBe(
       FIRST_TIP_TIMESTAMP.add(TIP_COUNT - 1)
         .toDate()
         .getTime(),
@@ -86,11 +86,11 @@ describe("publicTipsByTipper", () => {
       order: "asc",
     });
     expect(result.tips).toHaveLength(100);
-    expect(result.tips[0].createdAt.getTime()).toBe(
+    expect(new Date(result.tips[0].createdAt).getTime()).toBe(
       FIRST_TIP_TIMESTAMP.valueOf(),
     );
     expect(
-      result.tips[result.tips.length - 1].createdAt.getTime(),
+      new Date(result.tips[result.tips.length - 1].createdAt).getTime(),
     ).toBeGreaterThan(FIRST_TIP_TIMESTAMP.valueOf());
   });
 
@@ -113,8 +113,8 @@ describe("publicTipsByTipper", () => {
 
     // Make sure there are no duplicate timestamps with first batch
     const allTimeStamps = new Set([
-      ...result.tips.map((tip) => tip.createdAt.getTime()),
-      ...secondResult.tips.map((tip) => tip.createdAt.getTime()),
+      ...result.tips.map((tip) => new Date(tip.createdAt).getTime()),
+      ...secondResult.tips.map((tip) => new Date(tip.createdAt).getTime()),
     ]);
     expect(allTimeStamps.size).toBe(100);
   });
@@ -126,12 +126,12 @@ describe("publicTipsByTipper", () => {
     });
     expect(result.tips.length).toBe(51);
     expect(result.nextCursor).not.toBeNull();
-    expect(result.tips[0].createdAt.getTime()).toBe(
+    expect(new Date(result.tips[0].createdAt).getTime()).toBe(
       FIRST_TIP_TIMESTAMP.add(50).valueOf(),
     );
-    expect(result.tips[result.tips.length - 1].createdAt.getTime()).toBe(
-      FIRST_TIP_TIMESTAMP.valueOf(),
-    );
+    expect(
+      new Date(result.tips[result.tips.length - 1].createdAt).getTime(),
+    ).toBe(FIRST_TIP_TIMESTAMP.valueOf());
   });
 
   it("should respect the 'from' field when in ascending order", async () => {
@@ -142,12 +142,12 @@ describe("publicTipsByTipper", () => {
     });
     expect(result.tips.length).toBe(100);
     expect(result.nextCursor).not.toBeNull();
-    expect(result.tips[0].createdAt.getTime()).toBe(
+    expect(new Date(result.tips[0].createdAt).getTime()).toBe(
       FIRST_TIP_TIMESTAMP.add(50).valueOf(),
     );
-    expect(result.tips[result.tips.length - 1].createdAt.getTime()).toBe(
-      FIRST_TIP_TIMESTAMP.add(149).valueOf(),
-    );
+    expect(
+      new Date(result.tips[result.tips.length - 1].createdAt).getTime(),
+    ).toBe(FIRST_TIP_TIMESTAMP.add(149).valueOf());
   });
 
   it("should return an empty array if no tips are found", async () => {

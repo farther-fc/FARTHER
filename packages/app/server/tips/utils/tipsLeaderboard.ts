@@ -1,33 +1,27 @@
 import { prisma } from "@farther/backend";
-import { ENVIRONMENT, cacheKeys, cacheTimes } from "@farther/common";
-import { kv } from "@vercel/kv";
-import { leaderboardDummyData } from "../dummyData/leaderboard";
+import { ENVIRONMENT, cacheTypes } from "@farther/common";
+import { dummyLeaderBoard } from "@lib/__tests__/testData";
+import { cache } from "@lib/cache";
 
 export async function tipsLeaderboard() {
-  const cachedLeaderboard = await kv.get<
-    Awaited<ReturnType<typeof getLeaderboardData>>
-  >(cacheKeys.LEADERBOARD);
+  const cachedLeaderboard = await cache.get({
+    type: cacheTypes.LEADERBOARD,
+  });
 
   if (cachedLeaderboard) {
-    console.info("Cache hit for leaderboard data");
-
     return cachedLeaderboard;
   }
 
-  console.info("Cache miss for leaderboard data");
-
   const leaderboardData = await getLeaderboardData();
 
-  kv.set(cacheKeys.LEADERBOARD, leaderboardData, {
-    ex: cacheTimes.LEADERBOARD,
-  });
+  cache.set({ type: cacheTypes.LEADERBOARD, value: leaderboardData });
 
   return leaderboardData;
 }
 
-async function getLeaderboardData() {
+export async function getLeaderboardData() {
   if (ENVIRONMENT === "development") {
-    return leaderboardDummyData;
+    return dummyLeaderBoard;
   }
 
   const currentTipMeta = await prisma.tipMeta.findFirst({
@@ -123,7 +117,3 @@ async function getLeaderboardData() {
 
   return rankedData;
 }
-
-export const flushCache = () => {
-  kv.flushall();
-};

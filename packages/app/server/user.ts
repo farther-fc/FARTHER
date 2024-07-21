@@ -1,9 +1,11 @@
 import {
   cacheTimes,
+  cacheTypes,
   fetchUserByAddress,
   fetchUserByFid,
   getPowerBadgeFids,
 } from "@farther/common";
+import { cache } from "@lib/cache";
 import {
   PENDING_POWER_ALLOCATION_ID,
   PENDING_TIPS_ALLOCATION_ID,
@@ -13,10 +15,10 @@ import { User as NeynarUser } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import * as Sentry from "@sentry/nextjs";
 import { TRPCError } from "@trpc/server";
 import _ from "lodash";
-import { publicProcedure } from "server/trpc";
 import { Address, isAddress } from "viem";
 import { AllocationType, TipMeta, prisma } from "../../backend/src/prisma";
 import { tipsLeaderboard } from "./tips/utils/tipsLeaderboard";
+import { publicProcedure } from "./trpc";
 
 export const getUser = publicProcedure
   .input(apiSchemas.getUser.input)
@@ -46,6 +48,7 @@ export const getUser = publicProcedure
         const user = await getUserFromNeynar({ address });
 
         if (!user) {
+          console.warn("User not found in Neynar", address);
           return null;
         }
 
@@ -193,41 +196,22 @@ export const publicGetUserByAddress = publicProcedure
       throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid address" });
     }
 
-    const currentTipMeta = await getCurrentTipMeta();
+    const fid = await getFidFromAddress(address);
 
-    const dbUser = await getPublicUser({
-      address,
-      currentTipMeta,
-    });
-
-    if (!dbUser) {
+    if (!fid) {
       console.warn("User not found in database. address:", address);
       return null;
     }
 
-    return await prepPublicUser({ dbUser, currentTipMeta });
+    return await getPublicUser({ fid });
   });
 
 export const publicGetUserByFid = publicProcedure
   .input(apiSchemas.publicGetUserByFid.input)
   .query(async (opts) => {
-    opts.ctx.res.setHeader(
-      "cache-control",
-      `s-maxage=${cacheTimes.USER}, stale-while-revalidate=1`,
-    );
-
     const fid = opts.input.fid;
 
-    const currentTipMeta = await getCurrentTipMeta();
-
-    const dbUser = await getPublicUser({ fid, currentTipMeta });
-
-    if (!dbUser) {
-      console.warn("User not found in database. fid:", fid);
-      return null;
-    }
-
-    return await prepPublicUser({ dbUser, currentTipMeta });
+    return await getPublicUser({ fid });
   });
 
 /********************************
@@ -396,7 +380,7 @@ async function getPrivateUser({
 }
 
 // DB call for public API data
-async function getPublicUser({
+async function getPublicUserFromDb({
   fid,
   address,
   currentTipMeta,
@@ -490,17 +474,41 @@ async function getPublicUser({
   return user;
 }
 
-async function prepPublicUser({
-  dbUser,
-  currentTipMeta,
-}: {
-  dbUser: Awaited<ReturnType<typeof getPublicUser>>;
-  currentTipMeta: Awaited<ReturnType<typeof getCurrentTipMeta>>;
-}) {
+async function getPublicUser({ fid }: { fid: number }) {
+  const cachedUser = await cache.get({
+    id: fid,
+    type: cacheTypes.USER,
+  });
+
+  if (cachedUser) {
+    return cachedUser;
+  }
+
+  const user = await getUncachedPublicUser({ fid });
+
+  await cache.set({
+    id: fid,
+    type: cacheTypes.USER,
+    value: user,
+  });
+
+  return user;
+}
+
+export async function getUncachedPublicUser({ fid }: { fid: number }) {
+  const leaderboard = await tipsLeaderboard();
+
+  const currentTipMeta = await getCurrentTipMeta();
+
+  const dbUser = await getPublicUserFromDb({
+    fid,
+    currentTipMeta,
+  });
+
   if (!dbUser) {
+    console.warn("User not found in database. fid:", fid);
     return null;
   }
-  const leaderboard = await tipsLeaderboard();
 
   const latestTipsReceived =
     currentTipMeta && dbUser
@@ -548,7 +556,9 @@ async function prepPublicUser({
         ),
       },
       currentCycle: {
-        startTime: currentTipMeta ? currentTipMeta.createdAt : null,
+        startTime: currentTipMeta
+          ? currentTipMeta.createdAt.toISOString()
+          : null,
         allowance: latestTipAllowance ? latestTipAllowance.amount : null,
         userBalance: latestTipAllowance ? latestTipAllowance.userBalance : null,
         givenCount: latestTipAllowance ? latestTipAllowance.tips.length : null,
@@ -561,7 +571,22 @@ async function prepPublicUser({
         eligibleTippers: currentTipMeta?._count.allowances,
       },
     },
-    allocations: dbUser.allocations,
+    allocations: dbUser.allocations.map((a) => ({
+      id: a.id,
+      amount: a.amount,
+      isClaimed: a.isClaimed,
+      index: a.index,
+      type: a.type,
+      address: a.address,
+      airdrop: a.airdrop
+        ? {
+            id: a.airdrop.id,
+            address: a.airdrop.address,
+            startTime: a.airdrop.startTime.toISOString(),
+            endTime: a.airdrop.endTime.toISOString(),
+          }
+        : null,
+    })),
   };
 }
 
@@ -579,4 +604,20 @@ async function getCurrentTipMeta() {
       },
     },
   });
+}
+
+async function getFidFromAddress(address: string) {
+  const user = await prisma.userEthAccount.findFirst({
+    where: {
+      ethAccountId: address,
+      user: {
+        powerBadge: true,
+      },
+    },
+    select: {
+      userId: true,
+    },
+  });
+
+  return user?.userId;
 }

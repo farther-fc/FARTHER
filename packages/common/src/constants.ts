@@ -222,14 +222,17 @@ export const HANDLE_TIP_REGEX =
     : /\d+(\.\d+)?\s*(\$(f|F)(t|T)(e|E)(s|S)(t|T)|(f|F)(t|T)(e|E)(s|S)(t|T))/;
 
 export const cacheTimes = {
-  USER: 3,
+  USER: 86400,
+  USER_TIPS: 86400,
   TIP_HISTORY: 3,
   PRICE: 1200,
-  TIP_META: 43200, // 12 hours
-  LEADERBOARD: 43200, // 12 hours
+  TIP_META: 86400,
+  LEADERBOARD: 86400,
 } as const;
 
-export const cacheKeys = {
+export const cacheTypes = {
+  USER: "USER",
+  USER_TIPS: "USER_TIPS",
   TIP_META: "TIP_META",
   LEADERBOARD: "LEADERBOARD",
 } as const;

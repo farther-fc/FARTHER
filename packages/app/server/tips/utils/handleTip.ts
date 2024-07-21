@@ -1,5 +1,10 @@
 import { prisma } from "@farther/backend";
-import { HANDLE_TIP_REGEX, getOpenRankScores } from "@farther/common";
+import {
+  HANDLE_TIP_REGEX,
+  cacheTypes,
+  getOpenRankScores,
+} from "@farther/common";
+import { cache } from "@lib/cache";
 import { Cast } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { InvalidTipReason } from "@prisma/client";
 import { getLatestTipAllowance } from "./getLatestTipAllowance";
@@ -130,31 +135,32 @@ async function storeTip({
   invalidTipReason?: InvalidTipReason;
   tippeeOpenRankScore: number | null;
 }) {
-  await prisma.$transaction([
-    prisma.tip.create({
-      data: {
-        hash: castHash,
-        amount: tipAmount,
-        invalidTipReason,
-        tippeeOpenRankScore,
-        tipper: {
-          connectOrCreate: {
-            where: { id: tipperFid },
-            create: { id: tipperFid },
-          },
-        },
-        tipAllowance: {
-          connect: {
-            id: allowanceId,
-          },
-        },
-        tippee: {
-          connectOrCreate: {
-            where: { id: tippeeFid },
-            create: { id: tippeeFid },
-          },
+  await prisma.tip.create({
+    data: {
+      hash: castHash,
+      amount: tipAmount,
+      invalidTipReason,
+      tippeeOpenRankScore,
+      tipper: {
+        connectOrCreate: {
+          where: { id: tipperFid },
+          create: { id: tipperFid },
         },
       },
-    }),
-  ]);
+      tipAllowance: {
+        connect: {
+          id: allowanceId,
+        },
+      },
+      tippee: {
+        connectOrCreate: {
+          where: { id: tippeeFid },
+          create: { id: tippeeFid },
+        },
+      },
+    },
+  });
+
+  await cache.flush({ type: cacheTypes.USER, id: tipperFid });
+  await cache.flush({ type: cacheTypes.USER_TIPS, id: tipperFid });
 }

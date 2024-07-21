@@ -1,32 +1,28 @@
 import { prisma } from "@farther/backend";
-import { cacheKeys, cacheTimes } from "@farther/common";
+import { cacheTypes } from "@farther/common";
+import { cache } from "@lib/cache";
 import { apiSchemas } from "@lib/types/apiSchemas";
-import { kv } from "@vercel/kv";
-import { publicProcedure } from "server/trpc";
+import { publicProcedure } from "../trpc";
 
 export const publicGetTipsMeta = publicProcedure
   .input(apiSchemas.publicGetTipsMeta.input)
   .query(async (opts) => {
-    const cachedData = await kv.get<Awaited<ReturnType<typeof getTipMeta>>>(
-      cacheKeys.TIP_META,
-    );
+    const cachedData = await cache.get({
+      type: cacheTypes.TIP_META,
+    });
 
     if (cachedData) {
-      console.info("Cache hit for tip meta data");
-
       return cachedData;
     }
 
-    console.info("Cache miss for tip meta data");
-
     const tipMetaData = await getTipMeta(opts.input?.date);
 
-    kv.set(cacheKeys.TIP_META, tipMetaData, { ex: cacheTimes.TIP_META });
+    cache.set({ type: cacheTypes.TIP_META, value: tipMetaData });
 
     return tipMetaData;
   });
 
-async function getTipMeta(date?: string) {
+export async function getTipMeta(date?: string) {
   const orderBy = {
     createdAt: "desc",
   } as const;
@@ -44,7 +40,7 @@ async function getTipMeta(date?: string) {
   } as const;
 
   if (date) {
-    return await prisma.tipMeta.findMany({
+    const tipMeta = await prisma.tipMeta.findMany({
       orderBy,
       where: {
         createdAt: {
@@ -53,11 +49,22 @@ async function getTipMeta(date?: string) {
       },
       include,
     });
+    return tipMeta.map((meta) => ({
+      ...meta,
+      createdAt: meta.createdAt.toISOString(),
+      updatedAt: meta.updatedAt.toISOString(),
+    }));
   }
 
-  return await prisma.tipMeta.findMany({
+  const tipMeta = await prisma.tipMeta.findMany({
     orderBy,
     take: 1,
     include,
   });
+
+  return tipMeta.map((meta) => ({
+    ...meta,
+    createdAt: meta.createdAt.toISOString(),
+    updatedAt: meta.updatedAt.toISOString(),
+  }));
 }
