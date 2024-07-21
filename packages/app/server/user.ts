@@ -63,19 +63,34 @@ export const getUser = publicProcedure
             },
           });
 
-          await tx.ethAccount.createMany({
-            data: user.verifiedAddresses.map((address) => ({
-              address: address.toLowerCase(),
-            })),
-          });
+          for (const address of user.verifiedAddresses) {
+            await tx.ethAccount.upsert({
+              where: {
+                address: address.toLowerCase(),
+              },
+              update: {},
+              create: {
+                address: address.toLowerCase(),
+              },
+            });
 
-          await tx.userEthAccount.createMany({
-            data: user.verifiedAddresses.map((address) => ({
-              userId: user.fid,
-              ethAccountId: address.toLowerCase(),
-            })),
-          });
+            await tx.userEthAccount.upsert({
+              where: {
+                userId_ethAccountId: {
+                  userId: user.fid,
+                  ethAccountId: address.toLowerCase(),
+                },
+              },
+              update: {},
+              create: {
+                userId: user.fid,
+                ethAccountId: address.toLowerCase(),
+              },
+            });
+          }
 
+          // We upsert the user then retrieve it so we
+          // have the correct type sent to the client
           return await getPrivateUser({
             address: address,
             latestAllowanceDate: latestTipMeta?.createdAt,
