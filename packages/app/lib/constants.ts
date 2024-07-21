@@ -1,67 +1,5 @@
 import { AllocationType } from "@farther/backend";
-
-export const ROUTES = {
-  profile: {
-    title: "Profile",
-    path: "/user/profile",
-    type: "user",
-    hidden: false,
-  },
-  tips: {
-    title: "Tips",
-    path: "/tips",
-    type: "feature",
-    hidden: false,
-  },
-  tipsLeaderboard: {
-    title: "Tips Leaderboard",
-    path: "/tips/leaderboard",
-    type: "feature",
-    hidden: true,
-  },
-  tipsHistory: {
-    title: "Tips History",
-    path: "/tips/history",
-    type: "feature",
-    hidden: true,
-  },
-  liquidty: {
-    title: "Liquidity",
-    path: "/liquidity",
-    type: "feature",
-    hidden: false,
-  },
-  airdrop: {
-    title: "Powerdrops",
-    path: "/airdrops",
-    type: "feature",
-    hidden: false,
-  },
-  evangelize: {
-    title: "Evangelize",
-    path: "/evangelize",
-    type: "feature",
-    hidden: false,
-  },
-  tokenomics: {
-    title: "Tokenomics",
-    path: "/tokenomics",
-    type: "info",
-    hidden: false,
-  },
-  resources: {
-    title: "Resources",
-    path: "/resources",
-    type: "info",
-    hidden: false,
-  },
-  apiDocs: {
-    title: "API Docs",
-    path: "/docs/api",
-    type: "dev",
-    hidden: false,
-  },
-} as const;
+import { routes } from "@lib/routes";
 
 export const FARTHER_CHANNEL_URL = "https://warpcast.com/~/channel/farther";
 
@@ -79,11 +17,11 @@ export const allocationTypeNames = {
 };
 
 export const allocationTypeLinks = {
-  [AllocationType.POWER_USER]: ROUTES.airdrop.path,
-  [AllocationType.EVANGELIST]: ROUTES.evangelize.path,
-  [AllocationType.LIQUIDITY]: ROUTES.liquidty.path,
-  [AllocationType.TIPS]: ROUTES.tips.path,
-  [AllocationType.TIPPER]: ROUTES.tips.path,
+  [AllocationType.POWER_USER]: routes.airdrops.path,
+  [AllocationType.EVANGELIST]: routes.evangelize.path,
+  [AllocationType.LIQUIDITY]: routes.liquidity.path,
+  [AllocationType.TIPS]: routes.tips.path,
+  [AllocationType.TIPPER]: routes.tips.path,
 };
 
 export const PENDING_POWER_ALLOCATION_ID = "pending-power-drop-allocation";

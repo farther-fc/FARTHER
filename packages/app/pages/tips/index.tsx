@@ -9,7 +9,7 @@ import {
   TIPPER_REQUIRED_FARTHER_BALANCE,
   TIP_USD_MINIMUM,
 } from "@farther/common";
-import { ROUTES } from "@lib/constants";
+import { routes } from "@lib/routes";
 import dayjs from "dayjs";
 import { useTipsMeta } from "hooks/useTipsMeta";
 import { Info } from "lucide-react";
@@ -58,11 +58,15 @@ function TipsPage() {
           <Skeleton className="max-w-[300px]" />
         )}
         <div className="grid gap-8 grid-cols-2 mt-6">
-          <Link href={ROUTES.tipsLeaderboard.path}>
-            <Button className="mt-8 w-full">Leaderboard</Button>
+          <Link href={routes.tips.subroutes.leaderboard.path}>
+            <Button className="mt-8 w-full">
+              {routes.tips.subroutes.leaderboard.title}
+            </Button>
           </Link>
-          <Link href={ROUTES.tipsHistory.path}>
-            <Button className="mt-8 w-full">History</Button>
+          <Link href={routes.tips.subroutes.history.path}>
+            <Button className="mt-8 w-full">
+              {routes.tips.subroutes.history.title}
+            </Button>
           </Link>
         </div>
         <h3 className="mt-12">Your Stats</h3>

@@ -6,8 +6,9 @@ import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { Skeleton } from "@components/ui/Skeleton";
 import { getStartOfMonthUTC } from "@farther/common";
-import { POWER_BADGE_INFO_URL, ROUTES, clickIds } from "@lib/constants";
+import { POWER_BADGE_INFO_URL, clickIds } from "@lib/constants";
 import { useUser } from "@lib/context/UserContext";
+import { routes } from "@lib/routes";
 import { formatAirdropTime, formatWad } from "@lib/utils";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
@@ -31,12 +32,12 @@ export default function AirdropPage() {
               <p>
                 You have <strong>{formatWad(BigInt(powerDrop.amount))} </strong>
                 tokens ready to claim on your{" "}
-                <Link href={ROUTES.profile.path}>profile page</Link>!
+                <Link href={routes.profile.path}>profile page</Link>!
               </p>
             ) : (
               <p>
                 You are eligible for FARTHER tokens in the next airdrop! <br />
-                Check your <Link href={ROUTES.profile.path}>
+                Check your <Link href={routes.profile.path}>
                   profile page
                 </Link>{" "}
                 on {formatAirdropTime(getStartOfMonthUTC(1))} to claim your
@@ -83,7 +84,7 @@ export default function AirdropPage() {
             >
               connect your wallet
             </Button>{" "}
-            and visit the <Link href={ROUTES.profile.path}>profile</Link> page.
+            and visit the <Link href={routes.profile.path}>profile</Link> page.
           </InfoCard>
         )}
       </main>

@@ -17,9 +17,10 @@ import {
   TableRow,
 } from "@components/ui/Table";
 import { AllocationType } from "@farther/backend";
-import { ROUTES, clickIds } from "@lib/constants";
+import { clickIds } from "@lib/constants";
 import { useLiquidity } from "@lib/context/LiquidityContext";
 import { useUser } from "@lib/context/UserContext";
+import { routes } from "@lib/routes";
 import { formatWad, removeFalsyValues } from "@lib/utils";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useLiquidityHandlers } from "hooks/useLiquidityHandlers";
@@ -73,7 +74,7 @@ export default function ProfilePage() {
         <div className="border-ghost mt-12 rounded-xl">
           <h2 className="mt-0 border-none pl-0">Tips</h2>
           <p className="text-muted mb-4">
-            Visit the <Link href={ROUTES.tips.path}>tips page</Link> to learn
+            Visit the <Link href={routes.tips.path}>tips page</Link> to learn
             how tipping works.
           </p>
           <TipsUserInfo />
@@ -167,7 +168,7 @@ export default function ProfilePage() {
                       {claimableRewards > BigInt(0) && (
                         <TableRow>
                           <TableCell className="pl-0 font-medium">
-                            <Link href={ROUTES.liquidty.path}>
+                            <Link href={routes.liquidity.path}>
                               Liquidity (onchain rewards)
                             </Link>
                           </TableCell>
@@ -198,7 +199,7 @@ export default function ProfilePage() {
                       {pendingBonusAmount > BigInt(0) && (
                         <TableRow>
                           <TableCell className="pl-0 font-medium">
-                            <Link href={ROUTES.liquidty.path}>
+                            <Link href={routes.liquidity.path}>
                               Liquidity (bonus)
                             </Link>
                           </TableCell>
@@ -232,7 +233,7 @@ export default function ProfilePage() {
                       {rewardsClaimed && (
                         <TableRow>
                           <TableCell className="pl-0 font-medium">
-                            <Link href={ROUTES.liquidty.path}>
+                            <Link href={routes.liquidity.path}>
                               Liquidity (onchain)
                             </Link>
                           </TableCell>
