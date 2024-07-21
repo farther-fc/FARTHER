@@ -20,16 +20,6 @@ import { AllocationType, TipMeta, prisma } from "../../backend/src/prisma";
 import { tipsLeaderboard } from "./tips/utils/tipsLeaderboard";
 import { publicProcedure } from "./trpc";
 
-type KeyArgs =
-  | {
-      address: string;
-      fid?: undefined;
-    }
-  | {
-      fid: number;
-      address?: undefined;
-    };
-
 export const getUser = publicProcedure
   .input(apiSchemas.getUser.input)
   .query(async (opts) => {

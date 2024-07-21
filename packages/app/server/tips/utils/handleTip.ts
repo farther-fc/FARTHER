@@ -135,33 +135,32 @@ async function storeTip({
   invalidTipReason?: InvalidTipReason;
   tippeeOpenRankScore: number | null;
 }) {
-  await prisma.$transaction(async () => {
-    await prisma.tip.create({
-      data: {
-        hash: castHash,
-        amount: tipAmount,
-        invalidTipReason,
-        tippeeOpenRankScore,
-        tipper: {
-          connectOrCreate: {
-            where: { id: tipperFid },
-            create: { id: tipperFid },
-          },
-        },
-        tipAllowance: {
-          connect: {
-            id: allowanceId,
-          },
-        },
-        tippee: {
-          connectOrCreate: {
-            where: { id: tippeeFid },
-            create: { id: tippeeFid },
-          },
+  await prisma.tip.create({
+    data: {
+      hash: castHash,
+      amount: tipAmount,
+      invalidTipReason,
+      tippeeOpenRankScore,
+      tipper: {
+        connectOrCreate: {
+          where: { id: tipperFid },
+          create: { id: tipperFid },
         },
       },
-    });
-
-    await cache.flush({ type: cacheTypes.USER, id: tipperFid });
+      tipAllowance: {
+        connect: {
+          id: allowanceId,
+        },
+      },
+      tippee: {
+        connectOrCreate: {
+          where: { id: tippeeFid },
+          create: { id: tippeeFid },
+        },
+      },
+    },
   });
+
+  await cache.flush({ type: cacheTypes.USER, id: tipperFid });
+  await cache.flush({ type: cacheTypes.USER_TIPS, id: tipperFid });
 }
