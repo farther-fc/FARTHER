@@ -173,6 +173,7 @@ enum InvalidTipReason {
   SELF_TIPPING
   BANNED_TIPPER
   BANNED_TIPPEE
+  INELIGIBLE_TIPPEE
 }
 
 model TipMeta {
