@@ -1,5 +1,6 @@
 import { Address, encodeAbiParameters, keccak256 } from "viem";
 import {
+  BANNED_FIDS,
   DEV_USER_FID,
   LIQUIDITY_BONUS_MAX,
   LIQUIDITY_BONUS_MULTIPLIER,
@@ -134,4 +135,8 @@ export async function retryWithExponentialBackoff(
 // Returns how long ago the given time was in hours
 export function getHoursAgo(date: Date) {
   return (Date.now() - date.getTime()) / 1000 / 60 / 60;
+}
+
+export function isBanned(fid: number) {
+  return BANNED_FIDS.includes(fid);
 }

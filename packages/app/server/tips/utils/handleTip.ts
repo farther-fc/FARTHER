@@ -3,6 +3,7 @@ import {
   HANDLE_TIP_REGEX,
   cacheTypes,
   getOpenRankScores,
+  isBanned,
 } from "@farther/common";
 import { cache } from "@lib/cache";
 import { Cast } from "@neynar/nodejs-sdk/build/neynar-api/v2";
@@ -81,11 +82,15 @@ export async function handleTip({
     ? InvalidTipReason.SELF_TIPPING
     : !invalidTime
       ? InvalidTipReason.INVALID_TIME
-      : isBelowMinimum
-        ? InvalidTipReason.BELOW_MINIMUM
-        : exceedsAllowance
-          ? InvalidTipReason.INSUFFICIENT_ALLOWANCE
-          : null;
+      : isBanned(tippee.fid)
+        ? InvalidTipReason.BANNED_TIPPEE
+        : isBanned(tipper.fid)
+          ? InvalidTipReason.BANNED_TIPPER
+          : isBelowMinimum
+            ? InvalidTipReason.BELOW_MINIMUM
+            : exceedsAllowance
+              ? InvalidTipReason.INSUFFICIENT_ALLOWANCE
+              : null;
 
   if (invalidTipReason) {
     const tipData = {
