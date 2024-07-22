@@ -1,9 +1,11 @@
 import { prisma } from "@farther/backend";
 import {
   HANDLE_TIP_REGEX,
+  TIPPEE_FOLLOWERS_MIN,
   cacheTypes,
   getOpenRankScores,
   isBanned,
+  neynarLimiter,
 } from "@farther/common";
 import { cache } from "@lib/cache";
 import { Cast } from "@neynar/nodejs-sdk/build/neynar-api/v2";
@@ -24,14 +26,36 @@ export async function handleTip({
   }
 
   const tipper = castData.author;
-  const tippee = castData.parent_author;
+  const tippeeFid = castData.parent_author.fid;
 
-  const selfTip = tipper.fid === tippee.fid;
+  const selfTip = tipper.fid === tippeeFid;
 
-  if (tippee.fid === null) {
+  if (tippeeFid === null) {
     console.warn("No tippee found in cast", castData.hash);
     return;
   }
+
+  const tippee = await prisma.user.findFirst({
+    where: {
+      id: tippeeFid,
+    },
+  });
+
+  let tippeeFollowerCount = tippee?.followerCount;
+
+  if (typeof tippeeFollowerCount !== "number") {
+    // Get tippee from Neynar
+    const [tippeeNeynar] = await neynarLimiter.getUsersByFid([tippeeFid]);
+
+    if (!tippeeNeynar) {
+      throw new Error(`No tippee found in Neynar: ${tippeeFid}`);
+    }
+
+    tippeeFollowerCount = tippeeNeynar.follower_count;
+  }
+
+  const tippeeNotEnoughFollowers =
+    (tippeeFollowerCount || 0) < TIPPEE_FOLLOWERS_MIN;
 
   const tipAmount = parseFloat(matchingText[0]);
 
@@ -82,21 +106,23 @@ export async function handleTip({
     ? InvalidTipReason.SELF_TIPPING
     : !invalidTime
       ? InvalidTipReason.INVALID_TIME
-      : isBanned(tippee.fid)
+      : isBanned(tippeeFid)
         ? InvalidTipReason.BANNED_TIPPEE
         : isBanned(tipper.fid)
           ? InvalidTipReason.BANNED_TIPPER
-          : isBelowMinimum
-            ? InvalidTipReason.BELOW_MINIMUM
-            : exceedsAllowance
-              ? InvalidTipReason.INSUFFICIENT_ALLOWANCE
-              : null;
+          : tippeeNotEnoughFollowers
+            ? InvalidTipReason.INELIGIBLE_TIPPEE
+            : isBelowMinimum
+              ? InvalidTipReason.BELOW_MINIMUM
+              : exceedsAllowance
+                ? InvalidTipReason.INSUFFICIENT_ALLOWANCE
+                : null;
 
   if (invalidTipReason) {
     const tipData = {
       allowanceId: tipAllowance.id,
       tipperFid: tipper.fid,
-      tippeeFid: tippee.fid,
+      tippeeFid: tippeeFid,
       tipAmount,
       invalidTipReason,
       castHash: castData.hash,
@@ -108,7 +134,7 @@ export async function handleTip({
     return;
   }
 
-  const openRankScores = await getOpenRankScores([tippee.fid]);
+  const openRankScores = await getOpenRankScores([tippeeFid]);
 
   const tippeeOpenRankScore =
     openRankScores && openRankScores[0] ? openRankScores[0].score : null;
@@ -117,7 +143,7 @@ export async function handleTip({
     allowanceId: tipAllowance.id,
     castHash: castData.hash,
     tipperFid: tipper.fid,
-    tippeeFid: tippee.fid,
+    tippeeFid: tippeeFid,
     tipAmount,
     tippeeOpenRankScore,
   });
