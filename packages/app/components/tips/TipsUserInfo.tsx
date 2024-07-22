@@ -16,12 +16,12 @@ const formatNum = (num: number) => numeral(num).format("0,0.[0]a");
 
 export function TipsUserInfo() {
   const { createdAt } = useTipsMeta();
-  const { accountAddress, user, userIsLoading } = useUser();
+  const { accountAddress, user, userLoading } = useUser();
   const { openConnectModal } = useConnectModal();
 
   return (
     <div className="mb-14">
-      {userIsLoading ? (
+      {userLoading ? (
         <>
           <Skeleton className="mt-8 h-[140px]" />
           <Skeleton className="mt-8 h-[140px]" />

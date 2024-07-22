@@ -31,7 +31,7 @@ import { Info } from "lucide-react";
 import Link from "next/link";
 
 export default function LiquidityPage() {
-  const { accountAddress } = useUser();
+  const { accountAddress, userLoading } = useUser();
   const { openConnectModal } = useConnectModal();
   const { claimPending, handleClaimRewards, claimSuccess } =
     useLiquidityHandlers();
@@ -41,12 +41,15 @@ export default function LiquidityPage() {
     claimableRewards,
     claimableRewardsLoading,
     rewardsClaimed,
-    pendingBonusAmount,
+    pendingBonus,
     unclaimedBonusAllocations,
     unclaimedBonusStartTime,
     bonusLpRewardsDropDate,
     hasReachedMaxBonus,
   } = useLiquidity();
+
+  const pendingBonusLoading =
+    indexerDataLoading || claimableRewardsLoading || userLoading;
 
   const claimableBonusAmount =
     unclaimedBonusAllocations?.reduce(
@@ -136,15 +139,15 @@ export default function LiquidityPage() {
                   <div>
                     <div className="mb-4 flex flex-col">
                       Pending
-                      {indexerDataLoading ? (
+                      {pendingBonusLoading ? (
                         <Spinner className="mt-1" size="xs" />
                       ) : (
                         <div className="text-link">
-                          {formatWad(pendingBonusAmount)}
+                          {formatWad(pendingBonus)}
                         </div>
                       )}
                     </div>
-                    {pendingBonusAmount > BigInt(0) ? (
+                    {pendingBonus > BigInt(0) ? (
                       <Button
                         className="ml-auto mt-2 w-full"
                         variant="secondary"

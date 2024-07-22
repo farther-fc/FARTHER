@@ -16,7 +16,7 @@ import { useDisconnect } from "wagmi";
 export function ProfileMenu() {
   const { fartherUsdPrice, priceLoading } = useTokenInfo();
   const { disconnect } = useDisconnect();
-  const { user, accountAddress, balance, userIsLoading } = useUser();
+  const { user, accountAddress, balance, userLoading } = useUser();
 
   function closeMenu() {
     document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
@@ -40,7 +40,7 @@ export function ProfileMenu() {
           sentryId={clickIds.openProfileMenu}
           variant="secondary"
         >
-          {userIsLoading ? (
+          {userLoading ? (
             <div className="mr-2">
               <Spinner size="xs" />
             </div>

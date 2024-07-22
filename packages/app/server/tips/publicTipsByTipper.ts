@@ -12,6 +12,7 @@ export const publicTipsByTipper = publicProcedure
     const tips = await cache.get({
       type: cacheTypes.USER_TIPS,
       id: opts.input.fid,
+      context: [cursor, from, order, limit],
     });
 
     if (tips) {
@@ -28,8 +29,9 @@ export const publicTipsByTipper = publicProcedure
 
     await cache.set({
       type: cacheTypes.USER_TIPS,
-      id: opts.input.fid,
       value: uncachedTips,
+      id: opts.input.fid,
+      context: [cursor, from, order, limit],
     });
 
     return uncachedTips;

@@ -18,7 +18,7 @@ import {
 import { useUser } from "@lib/context/UserContext";
 import { trpcClient } from "@lib/trpcClient";
 import { GetUserOuput } from "@lib/types/apiTypes";
-import { formatAirdropTime, formatWad } from "@lib/utils";
+import { formatAirdropTime, formatWad, shortenHash } from "@lib/utils";
 import dayjs from "dayjs";
 import { useLogError } from "hooks/useLogError";
 import { useToast } from "hooks/useToast";
@@ -266,8 +266,8 @@ export function RewardsTableRow({
             content={
               <div className="max-w-[300px] rounded-2xl p-4 text-left">
                 Your connected address does not match the address your rewards
-                are airdropped to. Please connect to {allocation.address}{" "}
-                instead.
+                are airdropped to. Please connect to{" "}
+                {shortenHash(allocation.address as Address, 5, 5)} instead.
               </div>
             }
           >

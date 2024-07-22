@@ -4,6 +4,7 @@ import { getTipMeta } from "server/tips/publicGetTipsMeta";
 import { publicTipsByTipper } from "server/tips/utils/publicTipsByTipper";
 import { getLeaderboardData } from "server/tips/utils/tipsLeaderboard";
 import { getUncachedPublicUser } from "server/user";
+import { keccak256, toBytes } from "viem";
 
 // Maintains a set of cache keys for efficiently finding & flushing cache types (categories)
 
@@ -14,34 +15,35 @@ type CacheTypeMap = {
   LEADERBOARD: Awaited<ReturnType<typeof getLeaderboardData>>;
 };
 
+type ID = number;
+type Context = Array<number | string | undefined | null>;
+
 type GetArgs<T extends CacheType> = T extends "USER"
-  ? { type: T; id: number }
+  ? { type: T; id: ID; context?: Context }
   : T extends "USER_TIPS"
-    ? { type: T; id: number }
+    ? { type: T; id: ID; context?: Context }
     : { type: T };
 
 type SetArgs<T extends CacheType> = T extends "USER"
-  ? { type: T; id: number; value: CacheTypeMap[T] }
+  ? { type: T; id: ID; value: CacheTypeMap[T]; context?: Context }
   : T extends "USER_TIPS"
-    ? { type: T; id: number; value: CacheTypeMap[T] }
+    ? { type: T; id: ID; value: CacheTypeMap[T]; context?: Context }
     : { type: T; value: CacheTypeMap[T] };
+
+const FID_PREFIX = "fid-";
 
 async function set<T extends CacheType>(args: SetArgs<T>) {
   const { type, value } = args;
 
   let fullKey: string;
   if (type === "USER") {
-    const { id } = args;
-    if (typeof id !== "number") {
-      throw new Error("ID must be a number for USER type");
-    }
-    fullKey = createKey({ type: "USER", id });
+    const { id, context } = args;
+
+    fullKey = createKey({ type: "USER", id, context });
   } else if (type === "USER_TIPS") {
-    const { id } = args;
-    if (typeof id !== "number") {
-      throw new Error("ID must be a number for USER_TIPS type");
-    }
-    fullKey = createKey({ type: "USER_TIPS", id });
+    const { id, context } = args;
+
+    fullKey = createKey({ type: "USER_TIPS", id, context });
   } else {
     fullKey = createKey({ type });
   }
@@ -61,11 +63,11 @@ async function get<T extends CacheType>(
 
   let fullKey: string;
   if (type === "USER") {
-    const { id } = args;
-    fullKey = createKey({ type: "USER", id });
+    const { id, context } = args;
+    fullKey = createKey({ type: "USER", id, context });
   } else if (type === "USER_TIPS") {
-    const { id } = args;
-    fullKey = createKey({ type: "USER_TIPS", id });
+    const { id, context } = args;
+    fullKey = createKey({ type: "USER_TIPS", id, context });
   } else {
     fullKey = createKey({ type });
   }
@@ -76,32 +78,26 @@ async function get<T extends CacheType>(
 }
 
 type FlushArgs =
-  | { type: "USER"; id?: number }
-  | { type: "USER_TIPS"; id?: number }
+  | { type: "USER"; id?: ID; context?: Context }
+  | { type: "USER_TIPS"; id?: ID; context?: Context }
   | { type: Exclude<CacheType, "USER" | "USER_TIPS"> };
 
 async function flush(args: FlushArgs) {
   const { type } = args;
-  console.info(`Flushing cache for ${type}`);
 
-  let keys: string[];
+  const currentKey = createKey(args);
+  const keysToFlush = await kv.keys(`${currentKey}*`);
 
-  if (
-    (type === "USER" || type === "USER_TIPS") &&
-    "id" in args &&
-    args.id !== undefined
-  ) {
-    const fullKey = createKey(args);
-    keys = [fullKey];
-  } else if (type === "USER" || type === "USER_TIPS") {
-    keys = await kv.keys(`${type}:*`);
-  } else {
-    keys = await kv.smembers(`${type}-keys`);
-  }
+  console.info(`Flushing cache for keys: ${keysToFlush}`);
 
-  if (keys.length > 0) {
-    await kv.del(...keys);
-    await kv.del(`${type}-keys`);
+  if (keysToFlush.length > 0) {
+    await kv.del(...keysToFlush);
+    if (
+      (type !== "USER" && type !== "USER_TIPS") ||
+      ((type === "USER" || type === "USER_TIPS") && args.id === undefined)
+    ) {
+      await kv.del(`${type}-keys`);
+    }
   }
 }
 
@@ -111,30 +107,48 @@ async function flushAll() {
 
 function createKey(
   args:
-    | { type: "USER"; id?: number }
-    | { type: "USER_TIPS"; id?: number }
+    | { type: "USER"; id?: ID; context?: Context }
+    | { type: "USER_TIPS"; id?: ID; context?: Context }
     | { type: Exclude<CacheType, "USER" | "USER_TIPS"> },
 ): string {
   const { type } = args;
 
-  if (type === "USER") {
-    const { id } = args;
-    if (id === undefined) {
-      throw new Error("Must provide id for USER key");
+  if (type === "USER" || type === "USER_TIPS") {
+    const { id, context } = args;
+    if (!!context && !id) {
+      throw new Error(
+        "Cannot create a cache key for a USER or USER_TIPS with context but no ID",
+      );
     }
-    return `${type}:${id}`;
-  }
 
-  if (type === "USER_TIPS") {
-    const { id } = args;
-    if (id === undefined) {
-      throw new Error("Must provide id for USER_TIPS key");
+    if (!id) {
+      return type;
     }
-    return `${type}:${id}`;
+
+    let fullKey = `${type}:${FID_PREFIX}${id}`;
+
+    // Deterministically sorts & hashes whatever data is in the context array
+    if (context) {
+      fullKey += `:${keccak256(toBytes(JSON.stringify(context.sort(sortContext))))}`;
+    }
+
+    return fullKey;
   }
 
   return type;
 }
+
+const sortContext = (a: Context[number], b: Context[number]) => {
+  if (a === undefined) return 1;
+  if (b === undefined) return -1;
+  if (a === null) return 1;
+  if (b === null) return -1;
+  if (typeof a === "string" && typeof b === "string") return a.localeCompare(b);
+  if (typeof a === "number" && typeof b === "number") return a - b;
+  if (typeof a === "string") return -1;
+  if (typeof b === "string") return 1;
+  return 0;
+};
 
 export const cache = {
   get,
