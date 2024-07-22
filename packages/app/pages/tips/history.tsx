@@ -55,7 +55,7 @@ const Row = ({ tip, isTablet }: { tip: Tips[number]; isTablet: boolean }) => (
         <span>
           {tip.invalidTipReason
             ? "_"
-            : numeral(tip.openRankChange || 0).format("0,0.[000]")}
+            : numeral(tip.openRankChange || 0).format("0,0.[00]")}
         </span>
       </div>
       <div className="text-right py-1 flex justify-end self-stretch items-center">
@@ -124,7 +124,7 @@ function TipHistoryPage() {
       <LabelValue
         className="text-xl mb-4"
         label="Tipper Score*"
-        value={numeral(user?.tipperScore).format("0,0.[000]")}
+        value={numeral(user?.tipperScore).format("0,0.[00]")}
       />
       <div className="text-xs md:text-sm">
         <p className="text-muted mb-8">

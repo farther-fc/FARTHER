@@ -7,6 +7,7 @@ import { LeaderboardRow } from "@lib/types/apiTypes";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import Link from "next/link";
+import numeral from "numeral";
 
 export const columns: ColumnDef<LeaderboardRow>[] = [
   {
@@ -83,6 +84,8 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
         <ArrowUpDown className="ml-2 size-4" />
       </Button>
     ),
-    cell: ({ row }) => <span>{row.original.tipperScore.toLocaleString()}</span>,
+    cell: ({ row }) => (
+      <span>{numeral(row.original.tipperScore).format("0,0.[00]")}</span>
+    ),
   },
 ];

@@ -14,8 +14,13 @@ import { useAccount, useReadContract } from "wagmi";
 // Fetches data from backend (database & Neynar) when the user connects a wallet
 export const UserContext = createContainer(function () {
   const account = useAccount();
-  const accountAddress = "0x5e46a8ecd4f4f0737ad7b7d243e767861885ed06"; // russian_acai
   // const accountAddress = account?.address;
+  const accountAddress = "0x5e46a8ecd4f4f0737ad7b7d243e767861885ed06"; // russian_acai
+  // const accountAddress = "0x02ab6dd8bff3aa73a0c0e5de4647ebd0700e4802"; // juhn0512
+  // const accountAddress = "0x0aecfbcd36b15dfb73d9ccaaeac1ebc3f8ace5a0"; // jmggang
+  // const accountAddress = "0x0582f4770042113cc8a72101759e8f709c25cbe3"; // shokoon
+  // const accountAddress = "0x9fa1cc9e482f3759b1e4cd2d8bd750546413166d"; // pump1991
+
   const { data: balance, refetch: refetchBalance } = useReadContract({
     abi: FartherToken__factory.abi,
     address: contractAddresses.FARTHER,
