@@ -171,6 +171,8 @@ enum InvalidTipReason {
   NULL_ALLOWANCE
   INVALID_TIME
   SELF_TIPPING
+  BANNED_TIPPER
+  BANNED_TIPPEE
 }
 
 model TipMeta {
