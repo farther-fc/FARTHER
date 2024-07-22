@@ -1,4 +1,8 @@
-import { TIPPER_REQUIRED_FARTHER_BALANCE, WAD_SCALER } from "@farther/common";
+import {
+  TIPPER_REQUIRED_FARTHER_BALANCE,
+  WAD_SCALER,
+  isBanned,
+} from "@farther/common";
 import { prisma } from "../prisma";
 import { getHolders } from "./getHolders";
 
@@ -19,11 +23,18 @@ export async function getEligibleTippers() {
 
   const allHolders = await getHolders({ includeLPs: true });
 
-  const eligibleHolders = allHolders.filter(
-    (holder) =>
+  const eligibleHolders = allHolders.filter((holder) => {
+    const isHolderBanned = isBanned(holder.fid);
+
+    if (isHolderBanned) {
+      console.warn(`FID ${holder.fid} is banned`);
+    }
+
+    return (
       BigInt(holder.totalBalance) >=
-      BigInt(TIPPER_REQUIRED_FARTHER_BALANCE) * WAD_SCALER,
-  );
+        BigInt(TIPPER_REQUIRED_FARTHER_BALANCE) * WAD_SCALER && !isHolderBanned
+    );
+  });
 
   const existingHolders = await prisma.user.findMany({
     where: {
