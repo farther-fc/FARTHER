@@ -28,13 +28,13 @@ import { Info } from "lucide-react";
 import Link from "next/link";
 
 export default function ProfilePage() {
-  const { accountAddress, user, userIsLoading } = useUser();
+  const { accountAddress, user, userLoading } = useUser();
   const { handleClaimRewards, claimSuccess, claimPending } =
     useLiquidityHandlers();
   const {
     claimableRewards,
     rewardsClaimed,
-    pendingBonusAmount,
+    pendingBonus,
     bonusLpRewardsDropDate,
   } = useLiquidity();
 
@@ -83,7 +83,7 @@ export default function ProfilePage() {
           <h2 className="mt-0 border-none pl-0">
             Rewards <span className="font-thin">(Airdrops)</span>
           </h2>
-          {userIsLoading ? (
+          {userLoading ? (
             <Skeleton className="h-[200px]" />
           ) : (
             <>
@@ -196,7 +196,7 @@ export default function ProfilePage() {
                         </TableRow>
                       )}
                       {/** PENDING BONUS LIQUDITY REWARDS */}
-                      {pendingBonusAmount > BigInt(0) && (
+                      {pendingBonus > BigInt(0) && (
                         <TableRow>
                           <TableCell className="pl-0 font-medium">
                             <Link href={routes.liquidity.path}>
@@ -209,7 +209,7 @@ export default function ProfilePage() {
                           <TableCell className="pr-1 text-right">
                             <Popover content={<LiquidityBonusRewardsPopover />}>
                               <div className="flex items-center justify-end">
-                                {formatWad(pendingBonusAmount)}{" "}
+                                {formatWad(pendingBonus)}{" "}
                                 <Info className="ml-1 w-3" />
                               </div>
                             </Popover>

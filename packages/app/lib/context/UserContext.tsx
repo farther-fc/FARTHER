@@ -51,7 +51,7 @@ export const UserContext = createContainer(function () {
   return {
     isAdmin,
     user,
-    userIsLoading: isLoading,
+    userLoading: isLoading,
     accountAddress,
     chainId: account.chainId,
     refetchUser: refetch,
