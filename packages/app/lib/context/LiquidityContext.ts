@@ -39,7 +39,7 @@ const LiquidityContext = createContainer(function () {
   const router = useRouter();
   const isValidPath = PATHS.includes(router.pathname);
   const pollingTimer = React.useRef<NodeJS.Timeout>();
-  const { accountAddress, user } = useUser();
+  const { accountAddress, user, userLoading } = useUser();
   const [positions, setPositions] = React.useState<Position[]>();
   const logError = useLogError();
   const pathname = usePathname();
@@ -73,6 +73,12 @@ const LiquidityContext = createContainer(function () {
     },
     enabled: isValidPath && !!accountAddress,
   });
+
+  const hasLpRewardsOnDifferentAddress = user?.allocations.find(
+    (a) =>
+      a.type === AllocationType.LIQUIDITY &&
+      a.address?.toLowerCase() !== accountAddress,
+  );
 
   const indexerDataLoading =
     positionsLoading || (!!indexerData?.positions.length && !positions?.length);
@@ -261,7 +267,11 @@ const LiquidityContext = createContainer(function () {
   const pendingBonus = totalBonusRewards - airdroppedTotal;
 
   const hasReachedMaxBonus =
-    airdroppedTotal > BigInt(0) && pendingBonus < BigInt(0);
+    !positionsLoading &&
+    !userLoading &&
+    airdroppedTotal > BigInt(0) &&
+    pendingBonus < BigInt(0) &&
+    !hasLpRewardsOnDifferentAddress;
 
   const unclaimedBonusStartTime = getEarliestStart(unclaimedBonusAllocations);
 
