@@ -63,4 +63,6 @@ export const invalidTipReasons = {
   NULL_ALLOWANCE: "No allowance",
   INVALID_TIME: "Invalid time",
   SELF_TIPPING: "Self tipping",
+  BANNED_TIPPEE: "Banned tippee",
+  BANNED_TIPPER: "Banned tipper",
 };
