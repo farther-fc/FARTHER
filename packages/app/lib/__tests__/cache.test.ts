@@ -9,13 +9,13 @@ import { cache } from "@lib/cache";
 import kv from "@vercel/kv";
 
 // Mock data for testing
-const user1Id = "123";
-const user1Data = { ...dummyUser, fid: parseInt(user1Id) };
-const user1TipsData = { ...dummyUserTips, fid: parseInt(user1Id) };
-const user2Id = "456";
-const user2Data = { ...dummyUser, fid: parseInt(user2Id) };
-const user2TipsData = { ...dummyUserTips, fid: parseInt(user2Id) };
-const userTipsId = "789";
+const user1Id = 123;
+const user1Data = { ...dummyUser, fid: user1Id };
+const user1TipsData = { ...dummyUserTips, fid: user1Id };
+const user2Id = 456;
+const user2Data = { ...dummyUser, fid: user2Id };
+const user2TipsData = { ...dummyUserTips, fid: user2Id };
+const userTipsId = 789;
 
 describe("KV Cache", () => {
   beforeAll(async () => {
@@ -181,26 +181,73 @@ describe("KV Cache", () => {
     expect(result2).toBeNull();
   });
 
-  test("should flush all USER_TIPS for a given FID correctly", async () => {
-    const alteredTipsData = {
-      fid: parseInt(user1Id),
-      tips: user1TipsData.tips.map((tip) => ({
-        ...tip,
-        createdAt: new Date().toISOString(),
-      })),
-      nextCursor: 197303,
-    };
+  test("should selectively flush USER cache when context is supplied", async () => {
+    const context1 = [1, 5, null, "hello"];
+    const context2 = [3, "world"];
 
     await cache.set({
       type: cacheTypes.USER_TIPS,
       id: user1Id,
       value: user1TipsData,
+      context: context1,
     });
 
     await cache.set({
       type: cacheTypes.USER_TIPS,
       id: user1Id,
-      value: alteredTipsData,
+      value: user1TipsData,
+      context: context2,
+    });
+
+    // Flush the first context
+    await cache.flush({
+      type: cacheTypes.USER_TIPS,
+      id: user1Id,
+      context: context1,
+    });
+
+    const result1 = await cache.get({
+      type: cacheTypes.USER_TIPS,
+      id: user1Id,
+      context: context1,
+    });
+
+    const result2 = await cache.get({
+      type: cacheTypes.USER_TIPS,
+      id: user1Id,
+      context: context2,
+    });
+
+    expect(result1).toBeNull();
+
+    // Context 2 should still be present
+    expect(result2).toBeTruthy();
+  });
+
+  test("should flush all USER_TIPS for a given FID correctly", async () => {
+    const context1 = [1, 5, null, "hello"];
+    const context2 = [5, 1, "hello", null];
+    const context3 = [8, 3, null, "world"];
+
+    await cache.set({
+      type: cacheTypes.USER_TIPS,
+      id: user1Id,
+      value: user1TipsData,
+      context: context1,
+    });
+
+    await cache.set({
+      type: cacheTypes.USER_TIPS,
+      id: user1Id,
+      value: user1TipsData,
+      context: context2,
+    });
+
+    await cache.set({
+      type: cacheTypes.USER_TIPS,
+      id: user1Id,
+      value: user1TipsData,
+      context: context3,
     });
 
     await cache.flush({ type: cacheTypes.USER_TIPS, id: user1Id });
@@ -208,14 +255,23 @@ describe("KV Cache", () => {
     const result1 = await cache.get({
       type: cacheTypes.USER_TIPS,
       id: user1Id,
+      context: context1,
     });
 
     const result2 = await cache.get({
       type: cacheTypes.USER_TIPS,
-      id: `FID:${user1Id}${alteredTipsData.nextCursor}`,
+      id: user1Id,
+      context: context2,
+    });
+
+    const result3 = await cache.get({
+      type: cacheTypes.USER_TIPS,
+      id: user1Id,
+      context: context3,
     });
 
     expect(result1).toBeNull();
     expect(result2).toBeNull();
+    expect(result3).toBeNull();
   });
 });
