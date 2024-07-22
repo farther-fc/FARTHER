@@ -44,7 +44,7 @@ const Row = ({ tip, isTablet }: { tip: Tips[number]; isTablet: boolean }) => (
 );
 
 function TipHistoryPage() {
-  const { user, accountAddress, userIsLoading } = useUser();
+  const { user, accountAddress, userLoading } = useUser();
   const [cursor, setCursor] = React.useState<number | undefined>();
   const { isTablet } = useMediaQuery();
   const [isLoading, setIsLoading] = React.useState(false);
@@ -78,14 +78,14 @@ function TipHistoryPage() {
   }, [tipsFromServer.length, isLoading]);
 
   React.useEffect(() => {
-    if (!user && userIsLoading) {
+    if (!user && userLoading) {
       setIsLoading(true);
     }
-    if (user || userIsLoading) {
+    if (user || userLoading) {
       return;
     }
     setTips([]);
-  }, [user, userIsLoading]);
+  }, [user, userLoading]);
 
   const loadMore = () => {
     if (isLoading || tips.length < API_BATCH_LIMIT) return;
@@ -107,7 +107,7 @@ function TipHistoryPage() {
           </div>
         ))}
       </div>
-      {isLoading || userIsLoading ? (
+      {isLoading || userLoading ? (
         <Skeleton className="h-[500px] rounded-xl" />
       ) : (
         <div className="mb-14 border-ghost border rounded-xl overflow-hidden">
@@ -126,7 +126,7 @@ function TipHistoryPage() {
                 </div>
               }
             >
-              {!tips.length && !isLoading && !userIsLoading ? (
+              {!tips.length && !isLoading && !userLoading ? (
                 <div className="m-auto w-[200px] text-center h-[480px] justify-center flex items-center text-ghost">
                   {!accountAddress
                     ? "Please connect your wallet to view your tips"

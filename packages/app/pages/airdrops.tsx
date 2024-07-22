@@ -14,7 +14,7 @@ import { useConnectModal } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
 
 export default function AirdropPage() {
-  const { accountAddress, user, userIsLoading } = useUser();
+  const { accountAddress, user, userLoading } = useUser();
   const { openConnectModal } = useConnectModal();
   const powerDrop = user?.allocations?.filter(
     (a) => a.type === "POWER_USER",
@@ -68,9 +68,9 @@ export default function AirdropPage() {
               )}
             </InfoCard>
           ) : (
-            !user && !userIsLoading && <NoUserFoundCard />
+            !user && !userLoading && <NoUserFoundCard />
           ))}
-        {accountAddress && !user && userIsLoading && (
+        {accountAddress && !user && userLoading && (
           <Skeleton className="h-[120px]" />
         )}
         <AirdropInfo />

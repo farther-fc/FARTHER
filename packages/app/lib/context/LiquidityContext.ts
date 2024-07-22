@@ -60,7 +60,7 @@ const LiquidityContext = createContainer(function () {
   const {
     data: indexerData,
     error: positionsFetchError,
-    isLoading: _positionsLoading,
+    isLoading: positionsLoading,
     refetch: refetchIndexerData,
   } = useQuery({
     queryKey: [accountAddress],
@@ -75,8 +75,7 @@ const LiquidityContext = createContainer(function () {
   });
 
   const indexerDataLoading =
-    _positionsLoading ||
-    (!!indexerData?.positions.length && !positions?.length);
+    positionsLoading || (!!indexerData?.positions.length && !positions?.length);
 
   const getPendingRewards = React.useCallback(
     async (positions: FartherPositionsQuery["positions"]) => {
@@ -259,10 +258,10 @@ const LiquidityContext = createContainer(function () {
     pendingWad: pendingStakedLiqRewards,
   });
 
-  const pendingBonusAmount = totalBonusRewards - airdroppedTotal;
+  const pendingBonus = totalBonusRewards - airdroppedTotal;
 
   const hasReachedMaxBonus =
-    airdroppedTotal > BigInt(0) && pendingBonusAmount < BigInt(0);
+    airdroppedTotal > BigInt(0) && pendingBonus < BigInt(0);
 
   const unclaimedBonusStartTime = getEarliestStart(unclaimedBonusAllocations);
 
@@ -282,7 +281,7 @@ const LiquidityContext = createContainer(function () {
     refetchIndexerData,
     refetchClaimableRewards: refetchClaimableOnchainRewards,
     claimableRewardsLoading: claimableOnchainRewardsLoading,
-    pendingBonusAmount,
+    pendingBonus,
     hasReachedMaxBonus,
     unclaimedBonusAllocations,
     unclaimedBonusStartTime,
