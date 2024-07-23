@@ -53,7 +53,7 @@ export const UserContext = createContainer(function () {
     ].includes(accountAddress.toLowerCase());
 
   React.useEffect(() => {
-    if (!user && !isLoading) {
+    if (!user && !isLoading && accountAddress) {
       toast({
         variant: "error",
         msg: "A Farcaster user was not found for the connected wallet address.",
