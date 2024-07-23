@@ -44,6 +44,7 @@ cron.schedule(
 
     setTimeout(updateEligibleTippers, isProduction ? randomDelay : 0);
   },
+  { timezone: "Etc/UTC" },
 );
 
 cron.schedule(cronSchedules.UPDATE_TIPPER_SCORES, updateTipperScores, {
