@@ -7,6 +7,7 @@ import { API_BATCH_LIMIT } from "@farther/common";
 import { invalidTipReasons } from "@lib/constants";
 import { useMediaQuery } from "@lib/context/MediaQueryContext";
 import { useUser } from "@lib/context/UserContext";
+import { routes } from "@lib/routes";
 import { trpcClient } from "@lib/trpcClient";
 import { Tips } from "@lib/types/apiTypes";
 import dayjs from "dayjs";
@@ -72,21 +73,24 @@ function TipHistoryPage() {
   const [cursor, setCursor] = React.useState<number | undefined>();
   const { isTablet } = useMediaQuery();
   const [isLoading, setIsLoading] = React.useState(false);
-  const { data } = trpcClient.public.tips.byTipper.useQuery(
-    {
-      fid: user?.fid || Number.POSITIVE_INFINITY,
-      cursor: cursor,
-    },
-    { enabled: !!user?.fid },
-  );
-  const tipsFromServer = data?.tips || [];
+  const { data, isLoading: serverDataLoading } =
+    trpcClient.public.tips.byTipper.useQuery(
+      {
+        fid: user?.fid || Number.POSITIVE_INFINITY,
+        cursor: cursor,
+      },
+      { enabled: !!user?.fid },
+    );
+  const tipsFromServer = data?.tips;
   const [tips, setTips] = React.useState<Tips>([]);
 
   const hasMore =
-    tipsFromServer.length === API_BATCH_LIMIT && !!data?.nextCursor;
+    tipsFromServer?.length === API_BATCH_LIMIT && !!data?.nextCursor;
 
   React.useEffect(() => {
-    if (!tipsFromServer.length && isLoading) {
+    if (!tipsFromServer) return;
+
+    if (tipsFromServer?.length === 0 && !serverDataLoading && !userLoading) {
       setIsLoading(false);
       return;
     }
@@ -99,16 +103,16 @@ function TipHistoryPage() {
       return uniqueTips;
     });
     setIsLoading(false);
-  }, [tipsFromServer.length, isLoading]);
+  }, [tipsFromServer?.length, isLoading]);
 
   React.useEffect(() => {
-    if (!user && userLoading) {
+    if (userLoading) {
       setIsLoading(true);
+      setTips([]);
     }
-    if (user || userLoading) {
-      return;
+    if (!user) {
+      setTips([]);
     }
-    setTips([]);
   }, [user, userLoading]);
 
   const loadMore = () => {
@@ -127,9 +131,19 @@ function TipHistoryPage() {
         value={numeral(user?.tipperScore).format("0,0.[00]")}
       />
       <div className="text-xs md:text-sm">
-        <p className="text-muted mb-8">
-          These are all the tips you've given other Farcaster users.
-        </p>
+        {user && !isLoading && (
+          <p className="text-muted mb-8">
+            {tips.length ? (
+              "These are all the tips you've given other Farcaster users."
+            ) : (
+              <>
+                You haven't given any tips yet. Go{" "}
+                <ExternalLink href={routes.tips.path}>here</ExternalLink> to
+                learn how to get started.
+              </>
+            )}
+          </p>
+        )}
         <div className={`${GRID_STYLES} py-2 text-ghost uppercase md:mr-9`}>
           {colHeadings.map((text, i) => (
             <div
