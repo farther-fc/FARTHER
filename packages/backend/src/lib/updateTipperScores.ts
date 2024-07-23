@@ -106,6 +106,9 @@ export async function updateTipperScores() {
       type: cacheTypes.USER,
       ids: sortedScores.map(({ fid }) => parseInt(fid)),
     });
+    await flushCache({
+      type: cacheTypes.LEADERBOARD,
+    });
   } catch (error) {
     Sentry.captureException(error, {
       captureContext: {
