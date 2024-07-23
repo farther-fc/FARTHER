@@ -59,7 +59,7 @@ export const UserContext = createContainer(function () {
         msg: "A Farcaster user was not found for the connected wallet address.",
       });
     }
-  }, []);
+  }, [user, isLoading, accountAddress]);
 
   return {
     isAdmin,
