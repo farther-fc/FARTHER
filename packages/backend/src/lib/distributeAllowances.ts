@@ -8,7 +8,7 @@ import {
 } from "@farther/common";
 import { prisma } from "../prisma";
 import { getEligibleTippers, getExistingTippers } from "./getEligibleTippers";
-import { flushCacheType } from "./utils/flushCacheType";
+import { flushCache } from "./utils/flushCache";
 import { getPrice } from "./utils/getPrice";
 
 export async function distributeAllowances() {
@@ -90,8 +90,8 @@ export async function distributeAllowances() {
   });
 
   await Promise.all([
-    flushCacheType(cacheTypes.LEADERBOARD),
-    flushCacheType(cacheTypes.TIP_META),
+    flushCache({ type: cacheTypes.LEADERBOARD }),
+    flushCache({ type: cacheTypes.TIP_META }),
   ]);
 }
 

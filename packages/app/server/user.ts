@@ -195,6 +195,7 @@ export const getUser = publicProcedure
     } catch (error: any) {
       if (error.response && error.response.statusText === "Not Found") {
         console.warn("User not found in Neynar", address);
+        return null;
       } else {
         throw error;
       }
