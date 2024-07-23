@@ -14,8 +14,8 @@ export async function invalidateAllowance(allowance: TipAllowance) {
 
   const tipAmount = tips.reduce((acc, tip) => acc + tip.amount, 0);
 
-  await prisma.$transaction(async (tx) => {
-    await tx.tipAllowance.update({
+  return await prisma.$transaction(async (tx) => {
+    const update = await tx.tipAllowance.update({
       where: {
         id: allowance.id,
       },
@@ -25,5 +25,7 @@ export async function invalidateAllowance(allowance: TipAllowance) {
     });
 
     await flushCache({ type: cacheTypes.USER, ids: [allowance.userId] });
+
+    return update;
   });
 }

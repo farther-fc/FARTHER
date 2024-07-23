@@ -12,7 +12,7 @@ export const flushCache = adminProcedure
       if (!ids) {
         return cache.flush({ type });
       }
-      return cache.flush({ type, id });
+      return cache.flush({ type, ids });
     }
   });
 
