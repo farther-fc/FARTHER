@@ -166,6 +166,6 @@ async function storeTip({
     },
   });
 
-  await cache.flush({ type: cacheTypes.USER, id: tipperFid });
-  await cache.flush({ type: cacheTypes.USER_TIPS, id: tipperFid });
+  await cache.flush({ type: cacheTypes.USER, ids: [tipperFid] });
+  await cache.flush({ type: cacheTypes.USER_TIPS, ids: [tipperFid] });
 }

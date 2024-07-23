@@ -78,15 +78,25 @@ async function get<T extends CacheType>(
 }
 
 type FlushArgs =
-  | { type: "USER"; id?: ID; context?: Context }
-  | { type: "USER_TIPS"; id?: ID; context?: Context }
+  | { type: "USER"; ids?: ID[]; context?: Context }
+  | { type: "USER_TIPS"; ids?: ID[]; context?: Context }
   | { type: Exclude<CacheType, "USER" | "USER_TIPS"> };
 
 async function flush(args: FlushArgs) {
   const { type } = args;
+  let keysToFlush: string[] = [];
 
-  const currentKey = createKey(args);
-  const keysToFlush = await scanKeys(`${currentKey}*`);
+  if ((type === "USER" || type === "USER_TIPS") && args.ids) {
+    for (const id of args.ids) {
+      const currentKey = createKey({ type, id, context: args.context });
+      const foundKeys = await scanKeys(`${currentKey}*`);
+      keysToFlush = keysToFlush.concat(foundKeys);
+    }
+  } else {
+    const currentKey = createKey(args);
+    const foundKeys = await scanKeys(`${currentKey}*`);
+    keysToFlush = keysToFlush.concat(foundKeys);
+  }
 
   console.info(`Flushing cache for keys: ${keysToFlush}`);
 
@@ -94,7 +104,7 @@ async function flush(args: FlushArgs) {
     await kv.del(...keysToFlush);
     if (
       (type !== "USER" && type !== "USER_TIPS") ||
-      ((type === "USER" || type === "USER_TIPS") && args.id === undefined)
+      ((type === "USER" || type === "USER_TIPS") && args.ids === undefined)
     ) {
       await kv.del(`${type}-keys`);
     }

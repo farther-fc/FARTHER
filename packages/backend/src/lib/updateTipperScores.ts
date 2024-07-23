@@ -1,4 +1,4 @@
-import { OPENRANK_SNAPSHOT_INTERVAL } from "@farther/common";
+import { OPENRANK_SNAPSHOT_INTERVAL, cacheTypes } from "@farther/common";
 import * as Sentry from "@sentry/node";
 import dayjs from "dayjs";
 import Decimal from "decimal.js";
@@ -6,6 +6,7 @@ import { prisma } from "../prisma";
 import { getLatestOpenRankScores } from "./getLatestOpenRankScores";
 import { getLatestTipperAirdrop } from "./getLatestTipperAirdrop";
 import { getTippersByDate } from "./getTippersByDate";
+import { flushCache } from "./utils/flushCache";
 import { getTipScores } from "./utils/getTipScores";
 import { dbScheduler } from "./utils/helpers";
 
@@ -99,6 +100,14 @@ export async function updateTipperScores() {
         userId: parseInt(fid),
         score,
       })),
+    });
+
+    await flushCache({
+      type: cacheTypes.USER,
+      ids: sortedScores.map(({ fid }) => parseInt(fid)),
+    });
+    await flushCache({
+      type: cacheTypes.LEADERBOARD,
     });
   } catch (error) {
     Sentry.captureException(error, {
