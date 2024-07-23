@@ -114,13 +114,31 @@ describe("KV Cache", () => {
       value: user2Data,
     });
 
+    const preFlushResult1 = await cache.get({
+      type: cacheTypes.USER,
+      id: user1Id,
+    });
+    const preFlushResult2 = await cache.get({
+      type: cacheTypes.USER,
+      id: user2Id,
+    });
+
+    expect(preFlushResult1).toEqual(user1Data);
+    expect(preFlushResult2).toEqual(user2Data);
+
     await cache.flush({ type: cacheTypes.USER, id: user1Id });
 
-    const result1 = await cache.get({ type: cacheTypes.USER, id: user1Id });
-    const result2 = await cache.get({ type: cacheTypes.USER, id: user2Id });
+    const postFlushResult1 = await cache.get({
+      type: cacheTypes.USER,
+      id: user1Id,
+    });
+    const postFlushResult2 = await cache.get({
+      type: cacheTypes.USER,
+      id: user2Id,
+    });
 
-    expect(result1).toBeNull();
-    expect(result2).toEqual(user2Data);
+    expect(postFlushResult1).toBeNull();
+    expect(postFlushResult2).toEqual(user2Data);
   });
 
   test("should set and get USER_TIPS cache correctly", async () => {
@@ -274,4 +292,35 @@ describe("KV Cache", () => {
     expect(result2).toBeNull();
     expect(result3).toBeNull();
   });
+
+  test("should flush a large number of USER cache keys using SCAN correctly", async () => {
+    const largeNumberOfKeys = 1000;
+    const promises = [];
+
+    for (let i = 0; i < largeNumberOfKeys; i++) {
+      promises.push(
+        cache.set({
+          type: cacheTypes.USER,
+          id: i,
+          value: { ...user1Data, fid: i },
+        }),
+      );
+    }
+    await Promise.all(promises);
+
+    // Ensure the keys are set correctly
+    for (let i = 0; i < largeNumberOfKeys; i++) {
+      const result = await cache.get({ type: cacheTypes.USER, id: i });
+      expect(result).toEqual({ ...user1Data, fid: i });
+    }
+
+    // Flush all USER cache keys
+    await cache.flush({ type: cacheTypes.USER });
+
+    // Ensure all USER cache keys are flushed
+    for (let i = 0; i < largeNumberOfKeys; i++) {
+      const result = await cache.get({ type: cacheTypes.USER, id: i });
+      expect(result).toBeNull();
+    }
+  }, 30_000);
 });

@@ -86,7 +86,7 @@ async function flush(args: FlushArgs) {
   const { type } = args;
 
   const currentKey = createKey(args);
-  const keysToFlush = await kv.keys(`${currentKey}*`);
+  const keysToFlush = await scanKeys(`${currentKey}*`);
 
   console.info(`Flushing cache for keys: ${keysToFlush}`);
 
@@ -99,6 +99,23 @@ async function flush(args: FlushArgs) {
       await kv.del(`${type}-keys`);
     }
   }
+}
+
+async function scanKeys(pattern: string): Promise<string[]> {
+  let cursor = "0";
+  let keys: string[] = [];
+
+  do {
+    const [newCursor, foundKeys] = await kv.scan(cursor, {
+      match: pattern,
+      count: 1000, // Adjust the count based on your requirements
+    });
+
+    cursor = newCursor;
+    keys = keys.concat(foundKeys);
+  } while (cursor !== "0");
+
+  return keys;
 }
 
 async function flushAll() {
