@@ -1,3 +1,4 @@
+import FartherV2Announcement from "@components/FartherV2Announcement";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { LabelValue } from "@components/ui/LabelValue";
@@ -125,6 +126,7 @@ function TipHistoryPage() {
   return (
     <Container variant="page">
       <h1>Tip History</h1>
+      <FartherV2Announcement />
       <LabelValue
         className="text-xl mb-4"
         label="Tipper Score*"

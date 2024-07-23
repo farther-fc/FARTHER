@@ -1,4 +1,4 @@
-import { InfoCard } from "@components/InfoCard";
+import FartherV2Announcement from "@components/FartherV2Announcement";
 import { TipsUserInfo } from "@components/tips/TipsUserInfo";
 import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
@@ -24,19 +24,7 @@ function TipsPage() {
     <Container variant="page">
       <main className="content">
         <h1>Tips</h1>
-        <InfoCard variant="attention">
-          <h4 className="mt-0">Announcement!</h4>
-          Farther V2 will launch on August 1st with big changes to how tipping
-          works. Every tipper will become eligible for monthly rewards based on
-          how well they tip quality, underrated users.
-          <br />
-          <br />
-          <ExternalLink
-            href={"https://paragraph.xyz/@farther/preview/aoZ2MLPPKudSzC7ElPna"}
-          >
-            Learn more ✨✨✨
-          </ExternalLink>
-        </InfoCard>
+        <FartherV2Announcement />
         {!tipsMetaLoading && createdAt && (
           <>
             <span className="text-ghost text-sm">CYCLE START TIME</span>
