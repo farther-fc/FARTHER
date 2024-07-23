@@ -6,6 +6,7 @@ import { chunk } from "underscore";
 import { disconnectCron } from "../crons";
 import { prisma } from "../prisma";
 import { queueConnection, queueNames, syncUserDataQueue } from "./bullmq";
+import { flushCache } from "./utils/flushCache";
 
 const BATCH_SIZE = 1000;
 
@@ -100,6 +101,8 @@ export async function syncUserDataBatch({
         },
       },
     });
+
+    await flushCache({ type: "USER", ids: fids });
 
     return { jobName };
   } catch (error) {

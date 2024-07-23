@@ -10,7 +10,7 @@ import { prisma } from "../prisma";
 import { getEligibleTippers, getExistingTippers } from "./getEligibleTippers";
 import { constrainWeights } from "./utils/constrainWeights";
 import { dailyTipDistribution } from "./utils/dailyTipDistribution";
-import { flushCacheType } from "./utils/flushCacheType";
+import { flushCache } from "./utils/flushCache";
 import { getPrice } from "./utils/getPrice";
 import { getTipMinimum } from "./utils/getTipMinimum";
 import { getUniqueTippees } from "./utils/getUniqueTippees";
@@ -128,8 +128,8 @@ export async function distributeAllowances() {
   });
 
   await Promise.all([
-    flushCacheType(cacheTypes.LEADERBOARD),
-    flushCacheType(cacheTypes.TIP_META),
+    flushCache({ type: cacheTypes.LEADERBOARD }),
+    flushCache({ type: cacheTypes.TIP_META }),
   ]);
 }
 

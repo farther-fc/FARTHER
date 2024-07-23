@@ -6,7 +6,7 @@ import { getAdminData } from "server/admin/getAdminData";
 import { invalidateStaleAllocations } from "server/admin/invalidateStaleAllocations";
 import { getMerkleProof } from "server/airdrop/getMerkleProof";
 import { setAllocationClaimed } from "server/airdrop/setAllocationClaimed";
-import { flushCacheAll, flushCacheType } from "server/cache";
+import { flushCache, flushCacheAll } from "server/cache";
 import { publicGetPrice } from "server/getPrice";
 import { handleTip } from "server/tips/handleTip";
 import { publicTipsLeaderboard } from "server/tips/leaderboard";
@@ -28,7 +28,7 @@ export const appRouter = router({
     getAdminData,
     invalidateStaleAllocations,
     flushCacheAll,
-    flushCacheType,
+    flushCache,
   }),
   public: router({
     user: router({

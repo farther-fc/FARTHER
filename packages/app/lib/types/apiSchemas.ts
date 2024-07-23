@@ -54,14 +54,17 @@ export const apiSchemas = {
       limit: z.number().min(1).max(API_BATCH_LIMIT).optional(),
     }),
   },
-  flushCacheType: {
+  flushCache: {
     input: z.object({
-      type: z.enum([
-        cacheTypes.USER,
-        cacheTypes.USER_TIPS,
-        cacheTypes.TIP_META,
-        cacheTypes.LEADERBOARD,
-      ]),
+      type: z
+        .enum([
+          cacheTypes.USER,
+          cacheTypes.USER_TIPS,
+          cacheTypes.TIP_META,
+          cacheTypes.LEADERBOARD,
+        ])
+        .optional(),
+      ids: z.array(z.number()).optional(),
     }),
   },
 };

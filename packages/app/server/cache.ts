@@ -2,8 +2,18 @@ import { cache } from "@lib/cache";
 import { apiSchemas } from "@lib/types/apiSchemas";
 import { adminProcedure } from "server/trpc";
 
-export const flushCacheType = adminProcedure
-  .input(apiSchemas.flushCacheType.input)
-  .mutation((opts) => cache.flush({ type: opts.input.type }));
+export const flushCache = adminProcedure
+  .input(apiSchemas.flushCache.input)
+  .mutation((opts) => {
+    const { type, ids } = opts.input;
+    if (!type && !ids) {
+      return cache.flushAll();
+    } else if (type) {
+      if (!ids) {
+        return cache.flush({ type });
+      }
+      return cache.flush({ type, id });
+    }
+  });
 
 export const flushCacheAll = adminProcedure.mutation(() => cache.flushAll());

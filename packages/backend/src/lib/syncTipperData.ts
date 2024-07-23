@@ -1,4 +1,3 @@
-import Bottleneck from "bottleneck";
 import { Worker } from "bullmq";
 import { chunk } from "underscore";
 import { disconnectCron } from "../crons";
@@ -7,11 +6,6 @@ import { queueConnection, queueNames, syncTipperDataQueue } from "./bullmq";
 import { syncUserDataBatch } from "./syncUserData";
 
 const BATCH_SIZE = 1000;
-
-const scheduler = new Bottleneck({
-  maxConcurrent: 8,
-  minTime: 20,
-});
 
 const worker = new Worker(queueNames.SYNC_TIPPERS, syncUserDataBatch, {
   connection: queueConnection,
