@@ -58,7 +58,7 @@ describe("KV Cache", () => {
       value: user1Data,
     });
 
-    await cache.flush({ type: cacheTypes.USER, id: user1Id });
+    await cache.flush({ type: cacheTypes.USER, ids: [user1Id] });
 
     const result = await cache.get({ type: cacheTypes.USER, id: user1Id });
     expect(result).toBeNull();
@@ -126,7 +126,7 @@ describe("KV Cache", () => {
     expect(preFlushResult1).toEqual(user1Data);
     expect(preFlushResult2).toEqual(user2Data);
 
-    await cache.flush({ type: cacheTypes.USER, id: user1Id });
+    await cache.flush({ type: cacheTypes.USER, ids: [user1Id] });
 
     const postFlushResult1 = await cache.get({
       type: cacheTypes.USER,
@@ -162,7 +162,7 @@ describe("KV Cache", () => {
       value: user1TipsData,
     });
 
-    await cache.flush({ type: cacheTypes.USER_TIPS, id: userTipsId });
+    await cache.flush({ type: cacheTypes.USER_TIPS, ids: [userTipsId] });
 
     const result = await cache.get({
       type: cacheTypes.USER_TIPS,
@@ -220,7 +220,7 @@ describe("KV Cache", () => {
     // Flush the first context
     await cache.flush({
       type: cacheTypes.USER_TIPS,
-      id: user1Id,
+      ids: [user1Id],
       context: context1,
     });
 
@@ -268,7 +268,7 @@ describe("KV Cache", () => {
       context: context3,
     });
 
-    await cache.flush({ type: cacheTypes.USER_TIPS, id: user1Id });
+    await cache.flush({ type: cacheTypes.USER_TIPS, ids: [user1Id] });
 
     const result1 = await cache.get({
       type: cacheTypes.USER_TIPS,
@@ -323,4 +323,30 @@ describe("KV Cache", () => {
       expect(result).toBeNull();
     }
   }, 30_000);
+
+  test("should flush a list of ids", async () => {
+    await cache.set({
+      type: cacheTypes.USER,
+      id: user1Id,
+      value: user1Data,
+    });
+    await cache.set({
+      type: cacheTypes.USER,
+      id: user2Id,
+      value: user2Data,
+    });
+
+    await cache.flush({ type: cacheTypes.USER, ids: [user1Id, user2Id] });
+
+    const result1 = await cache.get({ type: cacheTypes.USER, id: user1Id });
+    const result2 = await cache.get({ type: cacheTypes.USER, id: user2Id });
+    expect(result1).toBeNull();
+    expect(result2).toBeNull();
+  });
+
+  test("flush doesn't throw error when no keys are present", async () => {
+    await expect(
+      cache.flush({ type: cacheTypes.USER, ids: [1309712] }),
+    ).resolves.not.toThrow();
+  });
 });
