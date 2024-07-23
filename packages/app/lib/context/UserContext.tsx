@@ -8,12 +8,15 @@ import {
 } from "@farther/common";
 import { createContainer } from "@lib/context/unstated";
 import { trpcClient } from "@lib/trpcClient";
+import { useToast } from "hooks/useToast";
+import React from "react";
 import { Address } from "viem";
 import { useAccount, useReadContract } from "wagmi";
 
 // Fetches data from backend (database & Neynar) when the user connects a wallet
 export const UserContext = createContainer(function () {
   const account = useAccount();
+  const { toast } = useToast();
   // const accountAddress = "0x5e46a8ecd4f4f0737ad7b7d243e767861885ed06"; // russian_acai
   const accountAddress = account?.address;
   const { data: balance, refetch: refetchBalance } = useReadContract({
@@ -36,6 +39,7 @@ export const UserContext = createContainer(function () {
     { address: accountAddress as Address },
     {
       enabled: !!accountAddress,
+      gcTime: 0,
     },
   );
 
@@ -47,6 +51,15 @@ export const UserContext = createContainer(function () {
       GIGAMESH_ADDRESS.toLowerCase(),
       DEV_DEPLOYER_ADDRESS.toLowerCase(),
     ].includes(accountAddress.toLowerCase());
+
+  React.useEffect(() => {
+    if (!user && !isLoading) {
+      toast({
+        variant: "error",
+        msg: "A Farcaster user was not found for the connected wallet address.",
+      });
+    }
+  }, []);
 
   return {
     isAdmin,
