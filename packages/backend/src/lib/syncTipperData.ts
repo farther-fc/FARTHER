@@ -1,13 +1,13 @@
-import { Worker } from "bullmq";
+import { QueueEvents, Worker } from "bullmq";
+import dayjs from "dayjs";
 import { chunk } from "underscore";
-import { disconnectCron } from "../crons";
 import { prisma } from "../prisma";
 import { queueConnection, queueNames, syncTipperDataQueue } from "./bullmq";
 import { syncUserDataBatch } from "./syncUserData";
 
 const BATCH_SIZE = 1000;
 
-const worker = new Worker(queueNames.SYNC_TIPPERS, syncUserDataBatch, {
+new Worker(queueNames.SYNC_TIPPERS, syncUserDataBatch, {
   connection: queueConnection,
   concurrency: 5,
 });
@@ -31,19 +31,23 @@ export async function syncTipperData() {
     `Syncing ${allFids.length} users in ${fidBatches.length} batches...`,
   );
 
+  // Putting the day in the job name to avoid collisions
+  const time = dayjs().format("YYYY-MM-DD");
+
   syncTipperDataQueue.addBulk(
     fidBatches.map((fids, i) => {
-      const jobId = `syncTipperDataBatch-${i * BATCH_SIZE + fids.length}`;
+      const jobId = `syncTipperDataBatch-${time}-${i * BATCH_SIZE + fids.length}`;
       return {
         name: jobId,
         data: { fids },
-        opts: { jobId },
+        opts: { jobId, attempts: 5 },
       };
     }),
   );
 }
 
-worker.on("completed", (_, { jobName }) => {
-  console.log(`Job ${jobName} completed.`);
-  disconnectCron();
+const queueEvents = new QueueEvents(queueNames.SYNC_TIPPERS);
+
+queueEvents.on("completed", (job) => {
+  console.log(`Job ${job.jobId} completed.`);
 });

@@ -28,11 +28,10 @@ export const queueConnection =
     ? { host: "localhost", port: 6379 }
     : getRedisConnection();
 
-// NOTE: There is a mysterious bug that causes workers
-// to not be called if the queue name is too long 🤷‍♂️
 export const queueNames = {
-  SYNC_USERS: "sync_users",
-  SYNC_TIPPERS: "sync_tippers",
+  SYNC_USERS: "SYNC_USERS",
+  SYNC_TIPPERS: "SYNC_TIPPERS",
+  TIPPER_SCORES: "TIPPER_SCORES",
 } as const;
 
 export const syncUserDataQueue = new Queue(queueNames.SYNC_USERS, {
@@ -40,5 +39,9 @@ export const syncUserDataQueue = new Queue(queueNames.SYNC_USERS, {
 });
 
 export const syncTipperDataQueue = new Queue(queueNames.SYNC_TIPPERS, {
+  connection: queueConnection,
+});
+
+export const updateTipperScoresQueue = new Queue(queueNames.TIPPER_SCORES, {
   connection: queueConnection,
 });
