@@ -1,6 +1,6 @@
 import { ENVIRONMENT } from "@farther/common";
 import { Queue } from "bullmq";
-import Redis from "ioredis";
+// import Redis from "ioredis";
 import { requireEnv } from "require-env-variable";
 
 const { KV_REST_API_URL, KV_REST_API_TOKEN } = requireEnv(
@@ -12,27 +12,29 @@ const host = KV_REST_API_URL.includes("https://")
   ? KV_REST_API_URL.split("https://")[1]
   : KV_REST_API_URL.split("https://")[1];
 
-const getRedisConnection = () => {
-  const connectionString = `redis://default:${KV_REST_API_TOKEN}@${host}:6379`;
+// const getRedisConnection = () => {
+//   const connectionString = `redis://default:${KV_REST_API_TOKEN}@${host}:6379`;
 
-  const redis = new Redis(connectionString, {
-    maxRetriesPerRequest: null,
-    tls: {
-      rejectUnauthorized: false,
-    },
-  });
+//   const redis = new Redis(connectionString, {
+//     maxRetriesPerRequest: null,
+//     tls: {
+//       rejectUnauthorized: false,
+//     },
+//   });
 
-  console.log(
-    `Redis connected to host: ${redis.options.host}, port: ${redis.options.port}, db: ${redis.options.db}`,
-  );
+//   console.log(
+//     `Redis connected to host: ${redis.options.host}, port: ${redis.options.port}, db: ${redis.options.db}`,
+//   );
 
-  return redis;
-};
+//   return redis;
+// };
 
-export const queueConnection =
-  ENVIRONMENT === "development"
-    ? { host: "localhost", port: 6379 }
-    : getRedisConnection();
+// export const queueConnection =
+//   ENVIRONMENT === "development"
+//     ? { host: "localhost", port: 6379 }
+//     : getRedisConnection();
+
+export const queueConnection = { host: "localhost", port: 6379 };
 
 export const queueNames = {
   SYNC_USERS: "SYNC_USERS",
