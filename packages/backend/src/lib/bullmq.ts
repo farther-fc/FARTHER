@@ -15,12 +15,18 @@ const host = KV_REST_API_URL.includes("https://")
 const getRedisConnection = () => {
   const connectionString = `redis://default:${KV_REST_API_TOKEN}@${host}:6379`;
 
-  return new Redis(connectionString, {
+  const redis = new Redis(connectionString, {
     maxRetriesPerRequest: null,
     tls: {
       rejectUnauthorized: false,
     },
   });
+
+  redis.hello().then((response) => {
+    console.info(`Connected to Redis: ${response}`);
+  });
+
+  return redis;
 };
 
 export const queueConnection =
