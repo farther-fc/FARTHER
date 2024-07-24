@@ -22,9 +22,9 @@ const getRedisConnection = () => {
     },
   });
 
-  redis.hello().then((response) => {
-    console.info(`Connected to Redis: ${response}`);
-  });
+  console.log(
+    `Redis connected to host: ${redis.options.host}, port: ${redis.options.port}, db: ${redis.options.db}`,
+  );
 
   return redis;
 };

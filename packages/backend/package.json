@@ -32,7 +32,7 @@
     "db:format": "prisma format",
     "db:view": "pnpm env:dev prisma studio",
     "dev": "pnpm db:push && pnpm generate",
-    "start": "pnpm env:dev pnpm ts-node src/server",
+    "start:dev": "pnpm env:dev pnpm ts-node src/server",
     "start:staging": "pnpm env:staging pnpm ts-node src/server --transpile-only",
     "start:prod": "pnpm env:prod pnpm ts-node src/server --transpile-only",
     "syncUserData:staging": "CRON=syncUserData pnpm env:staging ts-node src/crons.ts --transpile-only",
