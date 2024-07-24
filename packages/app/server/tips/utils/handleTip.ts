@@ -3,12 +3,12 @@ import {
   HANDLE_TIP_REGEX,
   cacheTypes,
   getOpenRankScores,
-  isBanned,
 } from "@farther/common";
 import { cache } from "@lib/cache";
 import { Cast } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { InvalidTipReason } from "@prisma/client";
 import { getLatestTipAllowance } from "./getLatestTipAllowance";
+import { isBanned } from "./isBanned";
 
 export async function handleTip({
   castData,
@@ -82,13 +82,18 @@ export async function handleTip({
 
   const exceedsAllowance = newTipTotal > availableAllowance;
 
+  const [tipperIsBanned, tippeeIsBanned] = await isBanned([
+    tipper.fid,
+    tippee.fid,
+  ]);
+
   const invalidTipReason = selfTip
     ? InvalidTipReason.SELF_TIPPING
     : !invalidTime
       ? InvalidTipReason.INVALID_TIME
-      : isBanned(tippee.fid)
+      : tipperIsBanned
         ? InvalidTipReason.BANNED_TIPPEE
-        : isBanned(tipper.fid)
+        : tippeeIsBanned
           ? InvalidTipReason.BANNED_TIPPER
           : hasAlreadyTippedTippee
             ? InvalidTipReason.TIPPEE_LIMIT_REACHED
