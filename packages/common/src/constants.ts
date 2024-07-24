@@ -273,8 +273,10 @@ export const WAD_SCALER = BigInt(10 ** 18);
 
 export const API_ENDPOINT_ROOT = `${ROOT_ENDPOINT}/api/v1` as const;
 
-export const BANNED_FIDS = [433756, 333165, 770214, 512251, 294499];
-
 export const DAILY_USD_TOTAL_ALLOWANCE = 3000;
 
 export const TIPPEE_FOLLOWERS_MIN = 100;
+
+export const BANNED_FIDS = [
+  433756, 333165, 770214, 512251, 294499, 435160, 511701, 511655, 636064,
+];

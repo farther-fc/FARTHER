@@ -92,6 +92,10 @@ export async function handleTip({
     0,
   );
 
+  const hasAlreadyTippedTippee = tipsThisCycle.some(
+    (tip) => tip.tippeeId === tippee.fid,
+  );
+
   const newTipTotal = amountTippedThisCycle + tipAmount;
   const availableAllowance =
     tipAllowance.amount - (tipAllowance.invalidatedAmount ?? 0);
@@ -112,11 +116,13 @@ export async function handleTip({
           ? InvalidTipReason.BANNED_TIPPER
           : tippeeNotEnoughFollowers
             ? InvalidTipReason.INELIGIBLE_TIPPEE
-            : isBelowMinimum
-              ? InvalidTipReason.BELOW_MINIMUM
-              : exceedsAllowance
-                ? InvalidTipReason.INSUFFICIENT_ALLOWANCE
-                : null;
+            : hasAlreadyTippedTippee
+              ? InvalidTipReason.TIPPEE_LIMIT_REACHED
+              : isBelowMinimum
+                ? InvalidTipReason.BELOW_MINIMUM
+                : exceedsAllowance
+                  ? InvalidTipReason.INSUFFICIENT_ALLOWANCE
+                  : null;
 
   if (invalidTipReason) {
     const tipData = {
