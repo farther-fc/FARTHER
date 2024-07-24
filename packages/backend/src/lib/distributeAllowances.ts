@@ -131,6 +131,8 @@ export async function distributeAllowances() {
     flushCache({ type: cacheTypes.LEADERBOARD }),
     flushCache({ type: cacheTypes.TIP_META }),
   ]);
+
+  console.info("Allowances distributed");
 }
 
 async function getTipMetas() {

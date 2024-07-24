@@ -140,7 +140,7 @@ export async function syncUserData() {
       return {
         name: jobId,
         data: { fids },
-        opts: { jobId },
+        opts: { jobId, attempts: 5 },
       };
     }),
   );
