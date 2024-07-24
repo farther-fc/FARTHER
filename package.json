@@ -9,6 +9,7 @@
     "dev:staging": "dotenvx run -f .env.staging -- turbo dev",
     "lint": "turbo lint --log-prefix=none",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "start:dev": "dotenvx run -f .env -- pnpm --filter=backend start:dev",
     "start:staging": "dotenvx run -f .env.staging -- pnpm --filter=backend start:staging",
     "start:prod": "dotenvx run -f .env.production -- pnpm --filter=backend start:prod"
   },
