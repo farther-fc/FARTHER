@@ -1,7 +1,7 @@
 import { neynarLimiter, retryWithExponentialBackoff } from "@farther/common";
 import * as Sentry from "@sentry/node";
 import Bottleneck from "bottleneck";
-import { Worker } from "bullmq";
+import { QueueEvents, Worker } from "bullmq";
 import dayjs from "dayjs";
 import { chunk } from "underscore";
 import { prisma } from "../prisma";
@@ -146,6 +146,10 @@ export async function syncUserData() {
   );
 }
 
-worker.on("completed", (_, { jobName }) => {
-  console.log(`Job ${jobName} completed.`);
+const queueEvents = new QueueEvents(queueNames.SYNC_USERS, {
+  connection: queueConnection,
+});
+
+queueEvents.on("completed", (job) => {
+  console.log(`${queueNames.SYNC_USERS} job ${job.jobId} completed.`);
 });
