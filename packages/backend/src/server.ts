@@ -50,3 +50,7 @@ cron.schedule(
 cron.schedule(cronSchedules.UPDATE_TIPPER_SCORES, updateTipperScores, {
   timezone: "Etc/UTC",
 });
+
+setInterval(() => {
+  console.log("health check");
+}, 60_000);
