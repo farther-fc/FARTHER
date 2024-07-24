@@ -9,8 +9,8 @@
     "dev:staging": "dotenvx run -f .env.staging -- turbo dev",
     "lint": "turbo lint --log-prefix=none",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "start:staging": "pnpm --filter=backend start:staging",
-    "start:prod": "pnpm --filter=backend start:prod"
+    "start:staging": "dotenvx run -f .env.staging -- pnpm --filter=backend start:staging",
+    "start:prod": "dotenvx run -f .env.production -- pnpm --filter=backend start:prod"
   },
   "devDependencies": {
     "@farther/typescript-config": "workspace:*",
