@@ -31,7 +31,7 @@ const getRedisConnection = () => {
 
 export const queueConnection =
   ENVIRONMENT === "development"
-    ? { host: "localhost", port: 6379, options: null }
+    ? { host: "localhost", port: 6379 }
     : getRedisConnection();
 
 export const queueNames = {
@@ -51,7 +51,3 @@ export const syncTipperDataQueue = new Queue(queueNames.SYNC_TIPPERS, {
 export const updateTipperScoresQueue = new Queue(queueNames.TIPPER_SCORES, {
   connection: queueConnection,
 });
-
-console.log(
-  `queueConnection host: ${queueConnection.options?.host}, port: ${queueConnection.options?.port}`,
-);

@@ -51,5 +51,5 @@ const queueEvents = new QueueEvents(queueNames.SYNC_TIPPERS, {
 });
 
 queueEvents.on("completed", (job) => {
-  console.log(`Job ${job.jobId} completed.`);
+  console.log(`${queueNames.SYNC_TIPPERS} job ${job.jobId} completed.`);
 });
