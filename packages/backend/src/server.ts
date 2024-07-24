@@ -1,4 +1,4 @@
-import { cronSchedules, isProduction } from "@farther/common";
+import { ENVIRONMENT, cronSchedules, isProduction } from "@farther/common";
 import cron from "node-cron";
 import "../instrument";
 import { distributeAllowances } from "./lib/distributeAllowances";
@@ -12,7 +12,7 @@ import { updateTipperScores } from "./lib/updateTipperScores";
  * NOTE: This is currently not being used. The crons are scheduled in Railway directly.
  */
 
-console.log("server running!");
+console.info(`server running on ${ENVIRONMENT}`);
 
 cron.schedule(cronSchedules.SYNC_USERS, syncUserData, {
   timezone: "Etc/UTC",

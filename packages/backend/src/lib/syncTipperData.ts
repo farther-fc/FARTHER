@@ -46,8 +46,10 @@ export async function syncTipperData() {
   );
 }
 
-const queueEvents = new QueueEvents(queueNames.SYNC_TIPPERS);
+const queueEvents = new QueueEvents(queueNames.SYNC_TIPPERS, {
+  connection: queueConnection,
+});
 
 queueEvents.on("completed", (job) => {
-  console.log(`Job ${job.jobId} completed.`);
+  console.log(`${queueNames.SYNC_TIPPERS} job ${job.jobId} completed.`);
 });
