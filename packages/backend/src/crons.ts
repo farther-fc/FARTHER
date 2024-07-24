@@ -1,11 +1,10 @@
 import { requireEnv } from "require-env-variable";
 import { distributeAllowances } from "./lib/distributeAllowances";
+import { openRankSnapshot } from "./lib/openRankSnapshot";
 import { syncTipperData } from "./lib/syncTipperData";
 import { syncUserData } from "./lib/syncUserData";
-import { takeOpenRankSnapshot } from "./lib/takeOpenRankSnapshot";
 import { updateEligibleTippers } from "./lib/updateEligibleTippers";
 import { updateTipperScores } from "./lib/updateTipperScores";
-import { prisma } from "./prisma";
 
 const { CRON } = requireEnv("CRON");
 
@@ -32,15 +31,15 @@ switch (CRON) {
       "Running updateTipperScores on",
       process.env.NEXT_PUBLIC_ENVIRONMENT,
     );
-    updateTipperScores().then(disconnectCron);
+    updateTipperScores();
     break;
   }
-  case "takeOpenRankSnapshot": {
+  case "openRankSnapshot": {
     console.log(
-      "Running takeOpenRankSnapshot on",
+      "Running openRankSnapshot on",
       process.env.NEXT_PUBLIC_ENVIRONMENT,
     );
-    takeOpenRankSnapshot().then(disconnectCron);
+    openRankSnapshot();
     break;
   }
   case "updateEligibleTippers": {
@@ -48,7 +47,7 @@ switch (CRON) {
       "Running updateEligibleTippers on",
       process.env.NEXT_PUBLIC_ENVIRONMENT,
     );
-    updateEligibleTippers().then(disconnectCron);
+    updateEligibleTippers();
     break;
   }
   case "distributeAllowances": {
@@ -56,15 +55,10 @@ switch (CRON) {
       "Running distributeAllowances on",
       process.env.NEXT_PUBLIC_ENVIRONMENT,
     );
-    distributeAllowances().then(disconnectCron);
+    distributeAllowances();
     break;
   }
   default: {
     console.error("Unknown cron");
   }
-}
-
-export async function disconnectCron() {
-  prisma.$disconnect();
-  process.exit(0);
 }
