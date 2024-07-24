@@ -65,4 +65,5 @@ export const invalidTipReasons = {
   SELF_TIPPING: "Self tipping",
   BANNED_TIPPEE: "Banned tippee",
   BANNED_TIPPER: "Banned tipper",
+  TIPPEE_LIMIT_REACHED: "Only one tip per recipient per cycle",
 };
