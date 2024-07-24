@@ -40,7 +40,7 @@ export async function syncTipperData() {
       return {
         name: jobId,
         data: { fids },
-        opts: { jobId },
+        opts: { jobId, attempts: 5 },
       };
     }),
   );
