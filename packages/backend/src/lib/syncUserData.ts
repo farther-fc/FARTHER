@@ -2,8 +2,8 @@ import { neynarLimiter, retryWithExponentialBackoff } from "@farther/common";
 import * as Sentry from "@sentry/node";
 import Bottleneck from "bottleneck";
 import { Worker } from "bullmq";
+import dayjs from "dayjs";
 import { chunk } from "underscore";
-import { disconnectCron } from "../crons";
 import { prisma } from "../prisma";
 import { queueConnection, queueNames, syncUserDataQueue } from "./bullmq";
 import { flushCache } from "./utils/flushCache";
@@ -132,13 +132,15 @@ export async function syncUserData() {
     `Syncing ${allFids.length} users in ${fidBatches.length} batches...`,
   );
 
+  const time = dayjs().format("YYYY-MM-DD");
+
   syncUserDataQueue.addBulk(
     fidBatches.map((fids, i) => {
-      const jobId = `syncUserDataBatch-${i * BATCH_SIZE + fids.length}`;
+      const jobId = `syncUserDataBatch-${time}-${i * BATCH_SIZE + fids.length}`;
       return {
         name: jobId,
         data: { fids },
-        opts: { jobId },
+        opts: { jobId, attempts: 5 },
       };
     }),
   );
@@ -146,5 +148,4 @@ export async function syncUserData() {
 
 worker.on("completed", (_, { jobName }) => {
   console.log(`Job ${jobName} completed.`);
-  disconnectCron();
 });

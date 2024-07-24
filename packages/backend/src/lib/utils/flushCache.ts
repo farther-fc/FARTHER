@@ -16,7 +16,7 @@ export async function flushCache({
   ids?: number[];
 }) {
   await retryWithExponentialBackoff(async () => {
-    await fetch(API_ENDPOINT_ROOT + "/admin.flushCacheType", {
+    await fetch(API_ENDPOINT_ROOT + "/admin.flushCache", {
       method: "POST",
       headers: { Authorization: CRON_SECRET },
       body: JSON.stringify({ type, ids }),
