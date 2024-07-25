@@ -30,10 +30,11 @@ import React from "react";
 import { DataTableToolbar } from "./LeaderboardToolbar";
 
 const columnStyles: { [key: string]: string } = {
-  rank: "w-[40px]",
-  totalGivenAmount: "text-right",
-  totalGivenCount: "text-right",
-  currentAllowance: "text-right",
+  rank: "w-[28px]",
+  username: "w-[150px]",
+  totalGivenAmount: "text-right w-[150px]",
+  totalGivenCount: "text-right w-[150px]",
+  tipperScore: "text-right w-[150px]",
 } as const;
 
 export function Leaderboard() {
@@ -59,8 +60,8 @@ export function Leaderboard() {
   return data ? (
     <div className="space-y-4 ">
       <DataTableToolbar table={table} />
-      <div className="table-container overflow-auto rounded-md border border-muted lg:overflow-visible ">
-        <Table className=" w-full ">
+      <div className="table-container overflow-auto rounded-xl border border-ghost lg:overflow-visible ">
+        <Table className=" w-full table-fixed">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -69,7 +70,7 @@ export function Leaderboard() {
                     <TableHead
                       key={header.id}
                       colSpan={header.colSpan}
-                      className={`table-head h-auto lg:h-[60px] ${columnStyles[header.id] ?? ""}`}
+                      className={`bg-background-dark table-head h-auto lg:h-[60px] ${columnStyles[header.id] ?? ""}`}
                     >
                       {header.isPlaceholder
                         ? null
@@ -94,7 +95,7 @@ export function Leaderboard() {
                     return (
                       <TableCell
                         key={cell.id}
-                        className={`table-cell px-4 ${columnStyles[cell.column.id] ?? ""}`}
+                        className={`table-cell px-2 md:px-5 ${columnStyles[cell.column.id] ?? ""}`}
                       >
                         {flexRender(
                           cell.column.columnDef.cell,

@@ -1,3 +1,4 @@
+import FartherV2Announcement from "@components/FartherV2Announcement";
 import { TipsUserInfo } from "@components/tips/TipsUserInfo";
 import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
@@ -23,6 +24,7 @@ function TipsPage() {
     <Container variant="page">
       <main className="content">
         <h1>Tips</h1>
+        <FartherV2Announcement />
         {!tipsMetaLoading && createdAt && (
           <>
             <span className="text-ghost text-sm">CYCLE START TIME</span>

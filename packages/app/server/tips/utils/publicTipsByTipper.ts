@@ -48,6 +48,7 @@ export async function publicTipsByTipper({
     include: {
       tippee: {
         select: {
+          id: true,
           username: true,
         },
       },

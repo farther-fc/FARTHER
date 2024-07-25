@@ -8,9 +8,9 @@ import { Tip, prisma } from "../prisma";
 import { queueConnection, queueNames, updateTipperScoresQueue } from "./bullmq";
 import { getLatestOpenRankScores } from "./getLatestOpenRankScores";
 import { getLatestTipperAirdrop } from "./getLatestTipperAirdrop";
-import { getTipScores } from "./getTipScores";
 import { getTippersByDate } from "./getTippersByDate";
 import { flushCache } from "./utils/flushCache";
+import { getTipScores } from "./utils/getTipScores";
 import { dbScheduler } from "./utils/helpers";
 
 const SCORE_START_DATE = new Date("2024-07-14T03:00:08.894Z");
@@ -208,5 +208,7 @@ queueEvents.on("completed", async (job) => {
       type: cacheTypes.LEADERBOARD,
     });
     console.info(`${queueNames.TIPPER_SCORES} all jobs complete!`);
+    totalJobs = 0;
+    completedJobs = 0;
   }
 });

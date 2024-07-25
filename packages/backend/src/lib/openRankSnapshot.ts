@@ -43,7 +43,7 @@ export async function openRankSnapshot() {
         },
       });
 
-  const tippeeFids = tippees.map((t) => t.id);
+  const tippeeFids = Array.from(new Set(tippees.map((t) => t.id)));
 
   const fidChunks = chunk(tippeeFids, BATCH_SIZE);
 
@@ -153,5 +153,7 @@ queueEvents.on("completed", (job) => {
   );
   if (completedJobs === totalJobs) {
     console.log(`${queueNames.OPENRANK_SNAPSHOT} All jobs completed!`);
+    totalJobs = 0;
+    completedJobs = 0;
   }
 });

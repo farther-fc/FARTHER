@@ -7,6 +7,7 @@ import { LeaderboardRow } from "@lib/types/apiTypes";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import Link from "next/link";
+import numeral from "numeral";
 
 export const columns: ColumnDef<LeaderboardRow>[] = [
   {
@@ -44,7 +45,7 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
     header: ({ column }) => (
       <Button
         variant="ghost"
-        className="h-auto backdrop-blur-none"
+        className="h-auto backdrop-blur-none px-2"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
         Amount Given
@@ -61,7 +62,7 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        className="h-auto backdrop-blur-none"
+        className="h-auto backdrop-blur-none px-2"
       >
         Tips Given
         <ArrowUpDown className="ml-2 size-4" />
@@ -72,19 +73,19 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
     ),
   },
   {
-    accessorKey: "currentAllowance",
+    accessorKey: "tipperScore",
     header: ({ column }) => (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        className="h-auto backdrop-blur-none"
+        className="h-auto backdrop-blur-none px-2"
       >
-        Current Allowance
+        Tipper Score
         <ArrowUpDown className="ml-2 size-4" />
       </Button>
     ),
     cell: ({ row }) => (
-      <span>{row.original.currentAllowance.toLocaleString()} ✨</span>
+      <span>{numeral(row.original.tipperScore).format("0,0.[00]")}</span>
     ),
   },
 ];
