@@ -10,9 +10,7 @@ function FartherV2Announcement() {
       well they tip quality, underrated users.
       <br />
       <br />
-      <ExternalLink
-        href={"https://paragraph.xyz/@farther/preview/aoZ2MLPPKudSzC7ElPna"}
-      >
+      <ExternalLink href={"https://paragraph.xyz/@farther/farther-v2"}>
         Learn more ✨✨✨
       </ExternalLink>
     </InfoCard>
