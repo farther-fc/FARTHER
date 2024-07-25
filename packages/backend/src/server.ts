@@ -2,9 +2,9 @@ import { ENVIRONMENT, cronSchedules, isProduction } from "@farther/common";
 import cron from "node-cron";
 import "../instrument";
 import { distributeAllowances } from "./lib/distributeAllowances";
+import { openRankSnapshot } from "./lib/openRankSnapshot";
 import { syncTipperData } from "./lib/syncTipperData";
 import { syncUserData } from "./lib/syncUserData";
-import { takeOpenRankSnapshot } from "./lib/takeOpenRankSnapshot";
 import { updateEligibleTippers } from "./lib/updateEligibleTippers";
 import { updateTipperScores } from "./lib/updateTipperScores";
 
@@ -26,7 +26,7 @@ const openrankSnapshotSchedule = isProduction
   ? cronSchedules.OPENRANK_SNAPSHOT
   : cronSchedules.NEVER_RUN;
 
-cron.schedule(openrankSnapshotSchedule, takeOpenRankSnapshot, {
+cron.schedule(openrankSnapshotSchedule, openRankSnapshot, {
   timezone: "Etc/UTC",
 });
 

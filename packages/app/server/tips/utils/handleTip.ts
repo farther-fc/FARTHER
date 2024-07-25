@@ -4,13 +4,13 @@ import {
   TIPPEE_FOLLOWERS_MIN,
   cacheTypes,
   getOpenRankScores,
-  isBanned,
   neynarLimiter,
 } from "@farther/common";
 import { cache } from "@lib/cache";
 import { Cast } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { InvalidTipReason } from "@prisma/client";
 import { getLatestTipAllowance } from "./getLatestTipAllowance";
+import { isBanned } from "./isBanned";
 
 export async function handleTip({
   castData,
@@ -43,7 +43,7 @@ export async function handleTip({
 
   let tippeeFollowerCount = tippee?.followerCount;
 
-  if (typeof tippeeFollowerCount !== "number") {
+  if (!tippee) {
     // Get tippee from Neynar
     const [tippeeNeynar] = await neynarLimiter.getUsersByFid([tippeeFid]);
 
@@ -93,7 +93,7 @@ export async function handleTip({
   );
 
   const hasAlreadyTippedTippee = tipsThisCycle.some(
-    (tip) => tip.tippeeId === tippee.fid,
+    (tip) => tip.tippeeId === tippeeFid,
   );
 
   const newTipTotal = amountTippedThisCycle + tipAmount;
@@ -106,13 +106,18 @@ export async function handleTip({
 
   const exceedsAllowance = newTipTotal > availableAllowance;
 
+  const [tipperIsBanned, tippeeIsBanned] = await isBanned([
+    tipper.fid,
+    tippeeFid,
+  ]);
+
   const invalidTipReason = selfTip
     ? InvalidTipReason.SELF_TIPPING
     : !invalidTime
       ? InvalidTipReason.INVALID_TIME
-      : isBanned(tippeeFid)
+      : tipperIsBanned
         ? InvalidTipReason.BANNED_TIPPEE
-        : isBanned(tipper.fid)
+        : tippeeIsBanned
           ? InvalidTipReason.BANNED_TIPPER
           : tippeeNotEnoughFollowers
             ? InvalidTipReason.INELIGIBLE_TIPPEE

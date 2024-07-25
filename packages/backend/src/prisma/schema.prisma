@@ -19,6 +19,7 @@ model User {
   displayName         String?
   followerCount       Int?
   powerBadge          Boolean?
+  isBanned            Boolean        @default(false)
 
   allocations         Allocation[]
   tipAllowances       TipAllowance[]

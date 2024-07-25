@@ -94,7 +94,7 @@ export async function updateTipperScores() {
   // Create jobs
   await updateTipperScoresQueue.addBulk(
     chunkedTippers.map((tippers, i) => {
-      const jobId = `updateTipperScoresBatch-${time}-${i * BATCH_SIZE + tippers.length}`;
+      const jobId = `updateTipperScores-${time}-batch:${i * BATCH_SIZE + tippers.length}`;
       return {
         name: jobId,
         data: { tippers },
@@ -127,7 +127,6 @@ async function updateTipperScoresBatch(job: Job) {
       new Decimal(0),
     );
 
-    console.info(`Adding ${tipScores.length} tip updates`);
     tipUpdates.push(
       ...tipScores.map((tip, index) =>
         dbScheduler.schedule(() =>
@@ -161,48 +160,43 @@ async function updateTipperScoresBatch(job: Job) {
   return tipperScores.map(({ fid }) => fid);
 }
 
-worker.on("active", (job) => {
-  console.info(`Current active job with id ${job.id}`);
-});
-
-worker.on("stalled", async (jobId) => {
-  console.error(`Job with id: ${jobId} stalled`);
-});
-
-worker.on("error", (error) => {
-  console.error(`Error in worker: ${error}`);
-  Sentry.captureException(error, {
-    captureContext: {
-      tags: {
-        method: "updateTipperScores",
-      },
-    },
-  });
-});
-
-worker.on("failed", (job, error) => {
-  console.error(`Job ${job?.id} failed with error: ${error}`);
-  Sentry.captureException(error, {
-    captureContext: {
-      tags: {
-        method: "updateTipperScores",
-        jobId: job?.id,
-      },
-    },
-  });
-});
-
 const queueEvents = new QueueEvents(queueNames.TIPPER_SCORES, {
   connection: queueConnection,
 });
 
-queueEvents.on("completed", async (job) => {
-  console.info(`${queueNames.TIPPER_SCORES} job ${job.jobId} completed.`);
+queueEvents.on("active", (job) => {
+  console.info(`${queueNames.TIPPER_SCORES} active job: ${job.jobId}`);
+});
 
+queueEvents.on("stalled", async (job) => {
+  console.error(`${queueNames.TIPPER_SCORES} stalled job: ${job.jobId}`);
+});
+
+queueEvents.on("failed", async (job) => {
+  const message = `${queueNames.TIPPER_SCORES} failed job: ${job.jobId}. Reason: ${job.failedReason}`;
+  console.error(message);
+  Sentry.captureException(message);
+});
+
+queueEvents.on("error", (error) => {
+  console.error(`Error in worker: ${error}`);
+  Sentry.captureException(error, {
+    captureContext: {
+      tags: {
+        jobQueue: queueNames.TIPPER_SCORES,
+      },
+    },
+  });
+});
+
+queueEvents.on("completed", async (job) => {
   completedJobs++;
 
+  console.info(
+    `${queueNames.TIPPER_SCORES} job ${job.jobId} completed (${completedJobs}/${totalJobs}).`,
+  );
+
   if (completedJobs === totalJobs) {
-    console.info(`Finished updateTipperScores`, new Date());
     await flushCache({
       type: cacheTypes.USER,
       ids: allTipperFids,
@@ -213,5 +207,6 @@ queueEvents.on("completed", async (job) => {
     await flushCache({
       type: cacheTypes.LEADERBOARD,
     });
+    console.info(`${queueNames.TIPPER_SCORES} all jobs complete!`);
   }
 });
