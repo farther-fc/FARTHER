@@ -12,7 +12,8 @@ import { useTipsMeta } from "hooks/useTipsMeta";
 import { AlertCircle } from "lucide-react";
 import numeral from "numeral";
 
-const formatNum = (num: number) => numeral(num).format("0,0.[0]a");
+const formatNum = (num: number) =>
+  numeral(num).format(num >= 10000 ? "0,0.[0]a" : "0,0.[0]");
 
 export function TipsUserInfo() {
   const { createdAt } = useTipsMeta();
@@ -33,16 +34,16 @@ export function TipsUserInfo() {
             &nbsp;Cycle
           </h4>
           <InfoCard className="mt-0 w-full">
-            <div className="flex flex-col justify-between md:flex-row md:gap-40">
-              <div className="grid grid-cols-2 w-full gap-2">
+            <div className="flex flex-col justify-between md:flex-row md:gap-36">
+              <div className="grid grid-cols-[120px_1fr] w-full gap-2">
                 <div className="text-muted font-bold md:text-lg">Allowance</div>
-                <div className="font-bold md:text-lg">
+                <div className="font-bold md:text-lg flex">
                   {formatNum(user.currentAllowance.amount)}{" "}
                   {user.currentAllowance.amount > 0 && "✨"}
                 </div>
                 <div className="text-muted">Given</div>
                 <div className="flex space-x-2 items-center">
-                  <div>
+                  <div className="flex">
                     {formatNum(user.currentAllowance.spent)}{" "}
                     {user.currentAllowance.spent > 0 && "✨"}{" "}
                   </div>
@@ -81,11 +82,11 @@ export function TipsUserInfo() {
                   </>
                 )}
               </div>
-              <div className="mt-6 grid grid-cols-2 w-full gap-2 md:mt-0">
+              <div className="mt-6 grid grid-cols-[120px_1fr] w-full gap-2 md:mt-0">
                 <div className="text-muted font-bold md:text-lg">Received</div>
                 <div className="font-bold md:text-lg">
                   <div className="flex space-x-2 items-center">
-                    <div>
+                    <div className="flex">
                       {numeral(user.latestTipsReceived.amount).format(
                         "0,0.[0]a",
                       )}{" "}
@@ -103,11 +104,11 @@ export function TipsUserInfo() {
           </InfoCard>
           <h4 className="text-ghost mt-8 text-sm">TOTALS</h4>
           <InfoCard className="mt-0 w-full">
-            <div className="flex flex-col justify-between md:flex-row md:gap-40">
-              <div className="grid grid-cols-2 w-full gap-2">
+            <div className="flex flex-col justify-between md:flex-row md:gap-36">
+              <div className="grid grid-cols-[120px_1fr] w-full gap-2">
                 <div className="text-muted font-bold md:text-lg">Given</div>
                 <div className="font-bold md:text-lg flex space-x-2 items-center">
-                  <div>
+                  <div className="flex">
                     {formatNum(user.totalTipsGiven.amount)}{" "}
                     {user.totalTipsGiven.amount > 0 && "✨"}{" "}
                   </div>
@@ -116,10 +117,10 @@ export function TipsUserInfo() {
                   </div>
                 </div>
               </div>
-              <div className="mt-2 grid grid-cols-2 w-full gap-2 md:mt-0">
+              <div className="mt-2 grid grid-cols-[120px_1fr] w-full gap-2 md:mt-0">
                 <div className="text-muted font-bold md:text-lg">Received</div>
                 <div className="font-bold md:text-lg flex space-x-2 items-center">
-                  <div>
+                  <div className="flex">
                     {formatNum(user.totalTipsReceived.amount)}{" "}
                     {user.totalTipsReceived.amount > 0 && "✨"}{" "}
                   </div>
