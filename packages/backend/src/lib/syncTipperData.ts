@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/node";
 import { QueueEvents, Worker } from "bullmq";
 import dayjs from "dayjs";
 import { chunk } from "underscore";
@@ -11,6 +12,9 @@ new Worker(queueNames.SYNC_TIPPERS, syncUserDataBatch, {
   connection: queueConnection,
   concurrency: 5,
 });
+
+let completedJobs = 0;
+let totalJobs: number;
 
 export async function syncTipperData() {
   await syncTipperDataQueue.drain();
@@ -31,12 +35,14 @@ export async function syncTipperData() {
     `Syncing ${allFids.length} users in ${fidBatches.length} batches...`,
   );
 
+  totalJobs = fidBatches.length;
+
   // Putting the day in the job name to avoid collisions
   const time = dayjs().format("YYYY-MM-DD");
 
   syncTipperDataQueue.addBulk(
     fidBatches.map((fids, i) => {
-      const jobId = `syncTipperDataBatch-${time}-${i * BATCH_SIZE + fids.length}`;
+      const jobId = `syncTipperData-${time}-batch:${i * BATCH_SIZE + fids.length}`;
       return {
         name: jobId,
         data: { fids },
@@ -50,6 +56,39 @@ const queueEvents = new QueueEvents(queueNames.SYNC_TIPPERS, {
   connection: queueConnection,
 });
 
+queueEvents.on("active", (job) => {
+  console.info(`${queueNames.SYNC_TIPPERS} active job: ${job.jobId}`);
+});
+
+queueEvents.on("stalled", async (job) => {
+  console.error(`${queueNames.SYNC_TIPPERS} stalled job: ${job.jobId}`);
+});
+
+queueEvents.on("failed", async (job) => {
+  const message = `${queueNames.SYNC_TIPPERS} failed job: ${job.jobId}. Reason: ${job.failedReason}`;
+  console.error(message);
+  Sentry.captureException(message);
+});
+
+queueEvents.on("error", async (error) => {
+  console.error(`${queueNames.SYNC_TIPPERS}, error: ${error}`);
+  Sentry.captureException(error, {
+    captureContext: {
+      tags: {
+        jobQueue: queueNames.SYNC_TIPPERS,
+      },
+    },
+  });
+});
+
 queueEvents.on("completed", (job) => {
-  console.log(`${queueNames.SYNC_TIPPERS} job ${job.jobId} completed.`);
+  completedJobs++;
+
+  console.info(
+    `${queueNames.SYNC_TIPPERS} job ${job.jobId} completed (${completedJobs}/${totalJobs}).`,
+  );
+
+  if (completedJobs === totalJobs) {
+    console.log(`${queueNames.SYNC_TIPPERS} all jobs completed!`);
+  }
 });
