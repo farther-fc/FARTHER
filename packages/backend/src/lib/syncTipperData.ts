@@ -90,5 +90,7 @@ queueEvents.on("completed", (job) => {
 
   if (completedJobs === totalJobs) {
     console.log(`${queueNames.SYNC_TIPPERS} all jobs completed!`);
+    totalJobs = 0;
+    completedJobs = 0;
   }
 });

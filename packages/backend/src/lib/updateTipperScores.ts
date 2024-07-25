@@ -208,5 +208,7 @@ queueEvents.on("completed", async (job) => {
       type: cacheTypes.LEADERBOARD,
     });
     console.info(`${queueNames.TIPPER_SCORES} all jobs complete!`);
+    totalJobs = 0;
+    completedJobs = 0;
   }
 });

@@ -153,5 +153,7 @@ queueEvents.on("completed", (job) => {
   );
   if (completedJobs === totalJobs) {
     console.log(`${queueNames.OPENRANK_SNAPSHOT} All jobs completed!`);
+    totalJobs = 0;
+    completedJobs = 0;
   }
 });
