@@ -43,7 +43,7 @@ export async function openRankSnapshot() {
         },
       });
 
-  const tippeeFids = tippees.map((t) => t.id);
+  const tippeeFids = Array.from(new Set(tippees.map((t) => t.id)));
 
   const fidChunks = chunk(tippeeFids, BATCH_SIZE);
 
