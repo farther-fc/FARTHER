@@ -5199,7 +5199,7 @@ export const dummyUserTips = {
       allocationId: null,
       openRankChange: null,
       tippeeOpenRankScore: 0.00001114355472964235,
-      tippee: { username: "hilgi" },
+      tippee: { id: 1, username: "hilgi" },
     },
     {
       hash: "0xb5cacaa03ff676de2ee983ebe56b695900773815",
@@ -5213,7 +5213,7 @@ export const dummyUserTips = {
       allocationId: null,
       openRankChange: null,
       tippeeOpenRankScore: 0.000127332954434678,
-      tippee: { username: "lambchop" },
+      tippee: { id: 2, username: "lambchop" },
     },
     {
       hash: "0xf8641d570ada70820aecae5aacbc6180191e3173",
@@ -5227,7 +5227,7 @@ export const dummyUserTips = {
       allocationId: null,
       openRankChange: null,
       tippeeOpenRankScore: null,
-      tippee: { username: "emilybakerphoto" },
+      tippee: { id: 3, username: "emilybakerphoto" },
     },
   ],
   nextCursor: null,

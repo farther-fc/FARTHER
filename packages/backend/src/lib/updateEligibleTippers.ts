@@ -30,10 +30,12 @@ export async function updateEligibleTippers() {
 
     // If no eligible tipper is found, invalidate the remaining allowance
     if (!tipper) {
-      console.log(
+      console.info(
         `Invalidating remaining allowance for user ${allowance.userId}`,
       );
       await invalidateAllowance(allowance);
     }
   }
+
+  console.info("updateEligibleTippers: Done");
 }

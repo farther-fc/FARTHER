@@ -341,27 +341,25 @@ h3 {
 }
 
 h1 {
-  @apply mt-20 mb-8;
-  font-size: 250%;
+  @apply mt-14 md:mt-20 mb-6 md:mb-8 text-[200%] md:text-[250%];
   line-height: 1.35;
   font-style: normal;
 }
 
 h2 {
-  @apply mt-14 mb-6;
+  @apply mt-10 md:mt-14 mb-4 md:mb-6 text-[160%] md:text-[200%];
   font-weight: normal;
-  font-size: 200%;
 }
 
 h3 {
-  @apply mt-8 mb-4;
+  @apply mt-6 md:mt-8 mb-4 text-[140%] md:text-[170%];
   font-weight: normal;
   font-size: 150%;
 }
 
 h4 {
+  @apply text-[120%] md:text-[140%];
   font-weight: normal;
-  font-size: 130%;
   margin: 1.5em 0 0.8em;
 }
 
