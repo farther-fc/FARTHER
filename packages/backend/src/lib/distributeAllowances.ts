@@ -6,10 +6,13 @@ import {
   getHoursAgo,
   isProduction,
 } from "@farther/common";
+import dayjs from "dayjs";
 import { prisma } from "../prisma";
 import { getEligibleTippers, getExistingTippers } from "./getEligibleTippers";
 import { flushCache } from "./utils/flushCache";
 import { getPrice } from "./utils/getPrice";
+
+const fartherV2LaunchDate = dayjs("2024-08-01T00:00:00.000Z");
 
 export async function distributeAllowances() {
   const tipsMetas = await getTipMetas();
@@ -34,16 +37,18 @@ export async function distributeAllowances() {
   // Get existing tippers to calculate the total unused allowance from the previous day
   const existingTippers = await getExistingTippers();
 
-  const prevUnusedAllowance = existingTippers.reduce(
-    (allTippersTotalSpent, user) => {
-      const tipperSpent = user.tipAllowances[0].tips
-        .filter((t) => !t.invalidTipReason)
-        .reduce((spent, tip) => tip.amount + spent, 0);
+  const prevUnusedAllowance =
+    Date.now() > fartherV2LaunchDate.add(1, "day").valueOf()
+      ? existingTippers.reduce((allTippersTotalSpent, user) => {
+          const tipperSpent = user.tipAllowances[0].tips
+            .filter((t) => !t.invalidTipReason)
+            .reduce((spent, tip) => tip.amount + spent, 0);
 
-      return user.tipAllowances[0].amount - tipperSpent + allTippersTotalSpent;
-    },
-    0,
-  );
+          return (
+            user.tipAllowances[0].amount - tipperSpent + allTippersTotalSpent
+          );
+        }, 0)
+      : 0;
 
   const availableTotalAllowance = baseTotalAllowance + prevUnusedAllowance;
 
@@ -94,7 +99,9 @@ export async function distributeAllowances() {
     flushCache({ type: cacheTypes.TIP_META }),
   ]);
 
-  console.info("Allowances distributed");
+  console.info(
+    `Allowances distributed: ${availableTotalAllowance.toLocaleString()} to ${eligibleTippers.length.toLocaleString()} tippers`,
+  );
 }
 
 async function getTipMetas() {
