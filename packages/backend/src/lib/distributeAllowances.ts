@@ -22,6 +22,8 @@ const RECOVERY_THRESHOLD = 10;
 const MAX_RECOVERY_ADJUSTMENT_FACTOR = 25;
 
 export async function distributeAllowances() {
+  console.info("STARTING distributeAllowances");
+
   const tipsMetas = await getTipMetas();
 
   const currentDay = tipsMetas.length + 1;
@@ -132,7 +134,9 @@ export async function distributeAllowances() {
     flushCache({ type: cacheTypes.TIP_META }),
   ]);
 
-  console.info("Allowances distributed");
+  console.info(
+    `FINISHED distributeAllowances: ${eligibleTippers.length} tippers`,
+  );
 }
 
 async function getTipMetas() {

@@ -30,7 +30,7 @@ type TipperChunk = [
   }[],
 ][];
 
-const worker = new Worker(queueNames.TIPPER_SCORES, updateTipperScoresBatch, {
+new Worker(queueNames.TIPPER_SCORES, updateTipperScoresBatch, {
   connection: queueConnection,
   concurrency: 5,
 });
@@ -40,7 +40,7 @@ let completedJobs = 0;
 const allTipperFids: number[] = [];
 
 export async function updateTipperScores() {
-  console.log(`Starting updateTipperScores`, new Date());
+  console.log(`STARTING updateTipperScores`, new Date());
 
   const latestAirdrop = await getLatestTipperAirdrop();
   const tippers = await getTippersByDate({
@@ -192,9 +192,7 @@ queueEvents.on("error", (error) => {
 queueEvents.on("completed", async (job) => {
   completedJobs++;
 
-  console.info(
-    `${queueNames.TIPPER_SCORES} job ${job.jobId} completed (${completedJobs}/${totalJobs}).`,
-  );
+  console.info(`${job.jobId} completed (${completedJobs}/${totalJobs}).`);
 
   if (completedJobs === totalJobs) {
     await flushCache({

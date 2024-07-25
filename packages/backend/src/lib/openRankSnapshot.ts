@@ -24,7 +24,7 @@ new Worker(queueNames.OPENRANK_SNAPSHOT, storeScores, {
 });
 
 export async function openRankSnapshot() {
-  console.log("Starting openRankSnapshot", new Date());
+  console.log(`STARTING ${queueNames.OPENRANK_SNAPSHOT}`, new Date());
 
   // await openRankSnapshotQueue.drain();
 
@@ -148,9 +148,7 @@ queueEvents.on("error", (error) => {
 queueEvents.on("completed", (job) => {
   completedJobs++;
 
-  console.info(
-    `${queueNames.OPENRANK_SNAPSHOT} job ${job.jobId} completed (${completedJobs}/${totalJobs}).`,
-  );
+  console.info(`${job.jobId} completed (${completedJobs}/${totalJobs}).`);
   if (completedJobs === totalJobs) {
     console.log(`${queueNames.OPENRANK_SNAPSHOT} All jobs completed!`);
     totalJobs = 0;
