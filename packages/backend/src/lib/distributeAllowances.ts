@@ -15,6 +15,8 @@ import { getPrice } from "./utils/getPrice";
 const fartherV2LaunchDate = dayjs("2024-08-01T00:00:00.000Z");
 
 export async function distributeAllowances() {
+  console.info("STARTING distributeAllowances");
+
   const tipsMetas = await getTipMetas();
 
   const previousMeta = tipsMetas[0];
@@ -100,7 +102,7 @@ export async function distributeAllowances() {
   ]);
 
   console.info(
-    `Allowances distributed: ${availableTotalAllowance.toLocaleString()} to ${eligibleTippers.length.toLocaleString()} tippers`,
+    `FINISHED distributeAllowances: ${availableTotalAllowance.toLocaleString()} to ${eligibleTippers.length.toLocaleString()} tippers`,
   );
 }
 

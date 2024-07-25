@@ -90,6 +90,7 @@ export function Leaderboard() {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className="bg-background-dark hover:bg-background"
                 >
                   {row.getVisibleCells().map((cell) => {
                     return (

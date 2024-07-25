@@ -3,6 +3,8 @@ import { getEligibleTippers } from "./getEligibleTippers";
 import { invalidateAllowance } from "./invalidateAllowance";
 
 export async function updateEligibleTippers() {
+  console.info("STARTING updateEligibleTippers");
+
   const tipMeta = await prisma.tipMeta.findFirst({
     orderBy: {
       createdAt: "desc",
@@ -30,10 +32,12 @@ export async function updateEligibleTippers() {
 
     // If no eligible tipper is found, invalidate the remaining allowance
     if (!tipper) {
-      console.log(
+      console.info(
         `Invalidating remaining allowance for user ${allowance.userId}`,
       );
       await invalidateAllowance(allowance);
     }
   }
+
+  console.info("FINISHED updateEligibleTippers");
 }

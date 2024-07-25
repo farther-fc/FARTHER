@@ -3,6 +3,7 @@ import {
   WAD_SCALER,
   isBanned,
 } from "@farther/common";
+import Decimal from "decimal.js";
 import { prisma } from "../prisma";
 import { getHolders } from "./getHolders";
 
@@ -31,8 +32,9 @@ export async function getEligibleTippers() {
     }
 
     return (
-      BigInt(holder.totalBalance) >=
-        BigInt(TIPPER_REQUIRED_FARTHER_BALANCE) * WAD_SCALER && !isHolderBanned
+      new Decimal(holder.totalBalance.toString()).gte(
+        new Decimal(TIPPER_REQUIRED_FARTHER_BALANCE).mul(WAD_SCALER.toString()),
+      ) && !isHolderBanned
     );
   });
 

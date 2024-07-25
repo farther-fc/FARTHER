@@ -15,7 +15,7 @@ const scheduler = new Bottleneck({
   minTime: 20,
 });
 
-const worker = new Worker(queueNames.SYNC_USERS, syncUserDataBatch, {
+new Worker(queueNames.SYNC_USERS, syncUserDataBatch, {
   connection: queueConnection,
   concurrency: 5,
 });
@@ -123,6 +123,8 @@ export async function syncUserDataBatch({
 }
 
 export async function syncUserData() {
+  console.info(`STARTING ${queueNames.SYNC_USERS}`);
+
   await syncUserDataQueue.drain();
 
   const users = await prisma.user.findMany();
@@ -183,11 +185,11 @@ queueEvents.on("error", (error) => {
 queueEvents.on("completed", (job) => {
   completedJobs++;
 
-  console.info(
-    `${queueNames.SYNC_USERS} job ${job.jobId} completed (${completedJobs}/${totalJobs}).`,
-  );
+  console.info(`${job.jobId} completed (${completedJobs}/${totalJobs}).`);
 
   if (completedJobs === totalJobs) {
     console.log(`${queueNames.SYNC_USERS} all jobs completed!`);
+    totalJobs = 0;
+    completedJobs = 0;
   }
 });
