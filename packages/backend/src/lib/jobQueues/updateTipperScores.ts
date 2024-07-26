@@ -1,17 +1,21 @@
 import { OPENRANK_SNAPSHOT_INTERVAL, cacheTypes } from "@farther/common";
-import * as Sentry from "@sentry/node";
 import { Job, QueueEvents, Worker } from "bullmq";
 import dayjs from "dayjs";
 import Decimal from "decimal.js";
 import { chunk } from "underscore";
-import { Tip, prisma } from "../prisma";
-import { queueConnection, queueNames, updateTipperScoresQueue } from "./bullmq";
-import { getLatestOpenRankScores } from "./getLatestOpenRankScores";
-import { getLatestTipperAirdrop } from "./getLatestTipperAirdrop";
-import { getTippersByDate } from "./getTippersByDate";
-import { flushCache } from "./utils/flushCache";
-import { getTipScores } from "./utils/getTipScores";
-import { dbScheduler } from "./utils/helpers";
+import { Tip, prisma } from "../../prisma";
+import {
+  logQueueEvents,
+  queueConnection,
+  queueNames,
+  updateTipperScoresQueue,
+} from "../bullmq";
+import { getLatestOpenRankScores } from "../getLatestOpenRankScores";
+import { getLatestTipperAirdrop } from "../getLatestTipperAirdrop";
+import { getTippersByDate } from "../getTippersByDate";
+import { flushCache } from "../utils/flushCache";
+import { getTipScores } from "../utils/getTipScores";
+import { dbScheduler } from "../utils/helpers";
 
 const SCORE_START_DATE = new Date("2024-07-14T03:00:08.894Z");
 
@@ -166,26 +170,7 @@ const queueEvents = new QueueEvents(queueNames.TIPPER_SCORES, {
   connection: queueConnection,
 });
 
-queueEvents.on("stalled", async (job) => {
-  console.error(`${queueNames.TIPPER_SCORES} stalled job: ${job.jobId}`);
-});
-
-queueEvents.on("failed", async (job) => {
-  const message = `${queueNames.TIPPER_SCORES} failed job: ${job.jobId}. Reason: ${job.failedReason}`;
-  console.error(message);
-  Sentry.captureException(message);
-});
-
-queueEvents.on("error", (error) => {
-  console.error(`Error in worker: ${error}`);
-  Sentry.captureException(error, {
-    captureContext: {
-      tags: {
-        jobQueue: queueNames.TIPPER_SCORES,
-      },
-    },
-  });
-});
+logQueueEvents({ queueEvents, queueName: queueNames.TIPPER_SCORES });
 
 queueEvents.on("completed", async (job) => {
   completedJobs++;

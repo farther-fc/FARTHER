@@ -1,5 +1,6 @@
 import { ENVIRONMENT } from "@farther/common";
-import { Queue } from "bullmq";
+import * as Sentry from "@sentry/node";
+import { Queue, QueueEvents } from "bullmq";
 import Redis from "ioredis";
 import { requireEnv } from "require-env-variable";
 
@@ -56,3 +57,36 @@ export const updateTipperScoresQueue = new Queue(queueNames.TIPPER_SCORES, {
 export const openRankSnapshotQueue = new Queue(queueNames.OPENRANK_SNAPSHOT, {
   connection: queueConnection,
 });
+
+export function logQueueEvents({
+  queueEvents,
+  queueName,
+}: {
+  queueEvents: QueueEvents;
+  queueName: keyof typeof queueNames;
+}) {
+  queueEvents.on("active", (job) => {
+    console.info(`ACTIVE: ${job.jobId}`);
+  });
+
+  queueEvents.on("stalled", async (job) => {
+    console.error(`STALLED: ${job.jobId}`);
+  });
+
+  queueEvents.on("failed", async (job) => {
+    const message = `FALED: ${job.jobId}. Reason: ${job.failedReason}`;
+    console.error(message);
+    Sentry.captureException(message);
+  });
+
+  queueEvents.on("error", (error) => {
+    console.error(`ERROR error: ${error}`);
+    Sentry.captureException(error, {
+      captureContext: {
+        tags: {
+          jobQueue: queueName,
+        },
+      },
+    });
+  });
+}

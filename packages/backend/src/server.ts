@@ -2,11 +2,11 @@ import { ENVIRONMENT, cronSchedules, isProduction } from "@farther/common";
 import cron from "node-cron";
 import "../instrument";
 import { distributeAllowances } from "./lib/distributeAllowances";
-import { openRankSnapshot } from "./lib/openRankSnapshot";
-import { syncTipperData } from "./lib/syncTipperData";
-import { syncUserData } from "./lib/syncUserData";
+import { openRankSnapshot } from "./lib/jobQueues/openRankSnapshot";
+import { syncTipperData } from "./lib/jobQueues/syncTipperData";
+import { syncUserData } from "./lib/jobQueues/syncUserData";
+import { updateTipperScores } from "./lib/jobQueues/updateTipperScores";
 import { updateEligibleTippers } from "./lib/updateEligibleTippers";
-import { updateTipperScores } from "./lib/updateTipperScores";
 
 /**
  * NOTE: This is currently not being used. The crons are scheduled in Railway directly.

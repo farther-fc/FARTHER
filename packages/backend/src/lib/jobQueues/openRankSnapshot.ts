@@ -4,14 +4,18 @@ import {
   retryWithExponentialBackoff,
 } from "@farther/common";
 import { getOpenRankScores } from "@farther/common/src/getOpenRankScore";
-import * as Sentry from "@sentry/node";
 import { Job, QueueEvents, Worker } from "bullmq";
 import dayjs from "dayjs";
 import { chunk } from "underscore";
-import { tippees as dummyTippees } from "../dummy-data/tippees";
-import { prisma } from "../prisma";
-import { openRankSnapshotQueue, queueConnection, queueNames } from "./bullmq";
-import { getLatestCronTime } from "./getLatestCronTime";
+import { tippees as dummyTippees } from "../../dummy-data/tippees";
+import { prisma } from "../../prisma";
+import {
+  logQueueEvents,
+  openRankSnapshotQueue,
+  queueConnection,
+  queueNames,
+} from "../bullmq";
+import { getLatestCronTime } from "../getLatestCronTime";
 
 const BATCH_SIZE = 100;
 
@@ -120,30 +124,7 @@ const queueEvents = new QueueEvents(queueNames.OPENRANK_SNAPSHOT, {
   connection: queueConnection,
 });
 
-queueEvents.on("active", (job) => {
-  console.info(`${queueNames.OPENRANK_SNAPSHOT} active job: ${job.jobId}`);
-});
-
-queueEvents.on("stalled", async (job) => {
-  console.error(`${queueNames.OPENRANK_SNAPSHOT} stalled job: ${job.jobId}`);
-});
-
-queueEvents.on("failed", async (job) => {
-  const message = `${queueNames.OPENRANK_SNAPSHOT} failed job: ${job.jobId}. Reason: ${job.failedReason}`;
-  console.error(message);
-  Sentry.captureException(message);
-});
-
-queueEvents.on("error", (error) => {
-  console.error(`${queueNames.OPENRANK_SNAPSHOT} error: ${error}`);
-  Sentry.captureException(error, {
-    captureContext: {
-      tags: {
-        jobQueue: queueNames.OPENRANK_SNAPSHOT,
-      },
-    },
-  });
-});
+logQueueEvents({ queueEvents, queueName: queueNames.OPENRANK_SNAPSHOT });
 
 queueEvents.on("completed", (job) => {
   completedJobs++;

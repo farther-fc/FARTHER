@@ -4,9 +4,14 @@ import Bottleneck from "bottleneck";
 import { QueueEvents, Worker } from "bullmq";
 import dayjs from "dayjs";
 import { chunk } from "underscore";
-import { prisma } from "../prisma";
-import { queueConnection, queueNames, syncUserDataQueue } from "./bullmq";
-import { flushCache } from "./utils/flushCache";
+import { prisma } from "../../prisma";
+import {
+  logQueueEvents,
+  queueConnection,
+  queueNames,
+  syncUserDataQueue,
+} from "../bullmq";
+import { flushCache } from "../utils/flushCache";
 
 const BATCH_SIZE = 1000;
 
@@ -155,30 +160,7 @@ const queueEvents = new QueueEvents(queueNames.SYNC_USERS, {
   connection: queueConnection,
 });
 
-queueEvents.on("active", (job) => {
-  console.info(`${queueNames.SYNC_USERS} active job: ${job.jobId}`);
-});
-
-queueEvents.on("failed", async (job) => {
-  const message = `${queueNames.SYNC_USERS} failed job: ${job.jobId}. Reason: ${job.failedReason}`;
-  console.error(message);
-  Sentry.captureException(message);
-});
-
-queueEvents.on("stalled", async (job) => {
-  console.error(`${queueNames.SYNC_USERS} stalled job: ${job.jobId}`);
-});
-
-queueEvents.on("error", (error) => {
-  console.error(`${queueNames.SYNC_USERS} error: ${error}`);
-  Sentry.captureException(error, {
-    captureContext: {
-      tags: {
-        jobQueue: queueNames.SYNC_USERS,
-      },
-    },
-  });
-});
+logQueueEvents({ queueEvents, queueName: queueNames.SYNC_USERS });
 
 queueEvents.on("completed", (job) => {
   completedJobs++;
