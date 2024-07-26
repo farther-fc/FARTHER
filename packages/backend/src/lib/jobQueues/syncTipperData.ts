@@ -46,7 +46,7 @@ export async function syncTipperData() {
 
   syncTipperDataQueue.addBulk(
     fidBatches.map((fids, i) => {
-      const jobId = `syncTipperData-${day}-batch:${i * BATCH_SIZE + fids.length}`;
+      const jobId = `${queueNames.SYNC_TIPPERS}-${day}-batch:${i * BATCH_SIZE + fids.length}`;
       return {
         name: jobId,
         data: { fids },

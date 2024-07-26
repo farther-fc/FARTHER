@@ -146,7 +146,7 @@ export async function syncUserData() {
 
   syncUserDataQueue.addBulk(
     fidBatches.map((fids, i) => {
-      const jobId = `syncUserData-${day}-batch:${i * BATCH_SIZE + fids.length}`;
+      const jobId = `${queueNames.SYNC_USERS}-${day}-batch:${i * BATCH_SIZE + fids.length}`;
       return {
         name: jobId,
         data: { fids },

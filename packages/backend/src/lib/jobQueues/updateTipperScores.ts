@@ -34,7 +34,7 @@ type TipperChunk = [
   }[],
 ][];
 
-new Worker(queueNames.TIPPER_SCORES, updateTipperScoresBatch, {
+new Worker(queueNames.CREATE_TIPPER_SCORES, updateTipperScoresBatch, {
   connection: queueConnection,
   concurrency: 5,
 });
@@ -100,7 +100,7 @@ export async function updateTipperScores() {
   // Create jobs
   await updateTipperScoresQueue.addBulk(
     chunkedTippers.map((tippers, i) => {
-      const jobId = `updateTipperScores-${day}-h${hour}-batch:${i * BATCH_SIZE + tippers.length}`;
+      const jobId = `${queueNames.CREATE_TIPPER_SCORES}-${day}-h${hour}-batch:${i * BATCH_SIZE + tippers.length}`;
       return {
         name: jobId,
         data: { tippers },
@@ -166,11 +166,11 @@ async function updateTipperScoresBatch(job: Job) {
   return tipperScores.map(({ fid }) => fid);
 }
 
-const queueEvents = new QueueEvents(queueNames.TIPPER_SCORES, {
+const queueEvents = new QueueEvents(queueNames.CREATE_TIPPER_SCORES, {
   connection: queueConnection,
 });
 
-logQueueEvents({ queueEvents, queueName: queueNames.TIPPER_SCORES });
+logQueueEvents({ queueEvents, queueName: queueNames.CREATE_TIPPER_SCORES });
 
 queueEvents.on("completed", async (job) => {
   completedJobs++;
@@ -188,7 +188,7 @@ queueEvents.on("completed", async (job) => {
     await flushCache({
       type: cacheTypes.LEADERBOARD,
     });
-    console.info(`FINISHED ${queueNames.TIPPER_SCORES}`);
+    console.info(`FINISHED ${queueNames.CREATE_TIPPER_SCORES}`);
     totalJobs = 0;
     completedJobs = 0;
   }

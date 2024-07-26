@@ -38,7 +38,7 @@ export const queueConnection =
 export const queueNames = {
   SYNC_USERS: "SYNC_USERS",
   SYNC_TIPPERS: "SYNC_TIPPERS",
-  TIPPER_SCORES: "TIPPER_SCORES",
+  CREATE_TIPPER_SCORES: "CREATE_TIPPER_SCORES",
   OPENRANK_SNAPSHOT: "OPENRANK_SNAPSHOT",
 } as const;
 
@@ -50,9 +50,12 @@ export const syncTipperDataQueue = new Queue(queueNames.SYNC_TIPPERS, {
   connection: queueConnection,
 });
 
-export const updateTipperScoresQueue = new Queue(queueNames.TIPPER_SCORES, {
-  connection: queueConnection,
-});
+export const updateTipperScoresQueue = new Queue(
+  queueNames.CREATE_TIPPER_SCORES,
+  {
+    connection: queueConnection,
+  },
+);
 
 export const openRankSnapshotQueue = new Queue(queueNames.OPENRANK_SNAPSHOT, {
   connection: queueConnection,
