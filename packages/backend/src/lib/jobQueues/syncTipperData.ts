@@ -21,7 +21,7 @@ let completedJobs = 0;
 let totalJobs: number;
 
 export async function syncTipperData() {
-  console.info(`STARTING ${queueNames.SYNC_TIPPERS}`);
+  console.info(`STARTING: ${queueNames.SYNC_TIPPERS}`);
 
   const tippers = await prisma.user.findMany({
     where: {
@@ -65,10 +65,10 @@ logQueueEvents({ queueEvents, queueName: queueNames.SYNC_TIPPERS });
 queueEvents.on("completed", (job) => {
   completedJobs++;
 
-  console.info(`${job.jobId} completed (${completedJobs}/${totalJobs}).`);
+  console.info(`DONE: ${job.jobId} (${completedJobs}/${totalJobs}).`);
 
   if (completedJobs === totalJobs) {
-    console.log(`${queueNames.SYNC_TIPPERS} all jobs completed!`);
+    console.log(`ALL DONE: ${queueNames.SYNC_TIPPERS} all jobs completed!`);
     totalJobs = 0;
     completedJobs = 0;
   }

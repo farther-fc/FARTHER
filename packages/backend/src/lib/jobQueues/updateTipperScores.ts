@@ -44,7 +44,7 @@ let completedJobs = 0;
 const allTipperFids: number[] = [];
 
 export async function updateTipperScores() {
-  console.log(`STARTING updateTipperScores`, new Date());
+  console.log(`STARTING: updateTipperScores`, new Date());
 
   const latestAirdrop = await getLatestTipperAirdrop();
   const tippers = await getTippersByDate({
@@ -175,7 +175,7 @@ logQueueEvents({ queueEvents, queueName: queueNames.CREATE_TIPPER_SCORES });
 queueEvents.on("completed", async (job) => {
   completedJobs++;
 
-  console.info(`${job.jobId} completed (${completedJobs}/${totalJobs}).`);
+  console.info(`DONE: ${job.jobId} (${completedJobs}/${totalJobs}).`);
 
   if (completedJobs === totalJobs) {
     await flushCache({
@@ -188,7 +188,7 @@ queueEvents.on("completed", async (job) => {
     await flushCache({
       type: cacheTypes.LEADERBOARD,
     });
-    console.info(`FINISHED ${queueNames.CREATE_TIPPER_SCORES}`);
+    console.info(`ALL DONE: ${queueNames.CREATE_TIPPER_SCORES}`);
     totalJobs = 0;
     completedJobs = 0;
   }

@@ -126,7 +126,7 @@ export async function syncUserDataBatch({
 }
 
 export async function syncUserData() {
-  console.info(`STARTING ${queueNames.SYNC_USERS}`);
+  console.info(`STARTING: ${queueNames.SYNC_USERS}`);
 
   await syncUserDataQueue.drain();
 
@@ -165,10 +165,10 @@ logQueueEvents({ queueEvents, queueName: queueNames.SYNC_USERS });
 queueEvents.on("completed", (job) => {
   completedJobs++;
 
-  console.info(`${job.jobId} completed (${completedJobs}/${totalJobs}).`);
+  console.info(`DONE: ${job.jobId} (${completedJobs}/${totalJobs}).`);
 
   if (completedJobs === totalJobs) {
-    console.log(`${queueNames.SYNC_USERS} all jobs completed!`);
+    console.log(`ALL DONE: ${queueNames.SYNC_USERS}`);
     totalJobs = 0;
     completedJobs = 0;
   }

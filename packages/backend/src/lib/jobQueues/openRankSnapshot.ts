@@ -28,7 +28,7 @@ new Worker(queueNames.OPENRANK_SNAPSHOT, storeScores, {
 });
 
 export async function openRankSnapshot() {
-  console.log(`STARTING ${queueNames.OPENRANK_SNAPSHOT}`, new Date());
+  console.log(`STARTING: ${queueNames.OPENRANK_SNAPSHOT}`, new Date());
 
   // await openRankSnapshotQueue.drain();
 
@@ -77,9 +77,9 @@ async function storeScores(job: Job) {
 
   const snapshotTimeId = getLatestCronTime(cronSchedules.OPENRANK_SNAPSHOT);
 
-  await retryWithExponentialBackoff(
-    async () =>
-      await prisma.$transaction(
+  await retryWithExponentialBackoff(async () => {
+    try {
+      return await prisma.$transaction(
         scores.map((r) => {
           const data = {
             snapshot: {
@@ -116,8 +116,15 @@ async function storeScores(job: Job) {
             update: data,
           });
         }),
-      ),
-  );
+      );
+    } catch (error) {
+      console.warn(
+        `ERROR: ${job.name}, tippeeFids: ${tippeeFids}`,
+        error.message,
+      );
+      throw error;
+    }
+  });
 }
 
 const queueEvents = new QueueEvents(queueNames.OPENRANK_SNAPSHOT, {
@@ -129,9 +136,11 @@ logQueueEvents({ queueEvents, queueName: queueNames.OPENRANK_SNAPSHOT });
 queueEvents.on("completed", (job) => {
   completedJobs++;
 
-  console.info(`${job.jobId} completed (${completedJobs}/${totalJobs}).`);
+  console.info(`DONE: ${job.jobId} (${completedJobs}/${totalJobs}).`);
   if (completedJobs === totalJobs) {
-    console.log(`${queueNames.OPENRANK_SNAPSHOT} All jobs completed!`);
+    console.log(
+      `ALL DONE: ${queueNames.OPENRANK_SNAPSHOT} All jobs completed!`,
+    );
     totalJobs = 0;
     completedJobs = 0;
   }

@@ -3,7 +3,7 @@ import { getEligibleTippers } from "./getEligibleTippers";
 import { invalidateAllowance } from "./invalidateAllowance";
 
 export async function updateEligibleTippers() {
-  console.info("STARTING updateEligibleTippers");
+  console.info(`STARTING: updateEligibleTippers`);
 
   const tipMeta = await prisma.tipMeta.findFirst({
     orderBy: {
