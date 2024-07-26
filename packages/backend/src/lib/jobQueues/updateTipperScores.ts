@@ -1,17 +1,21 @@
 import { OPENRANK_SNAPSHOT_INTERVAL, cacheTypes } from "@farther/common";
-import * as Sentry from "@sentry/node";
 import { Job, QueueEvents, Worker } from "bullmq";
 import dayjs from "dayjs";
 import Decimal from "decimal.js";
 import { chunk } from "underscore";
-import { Tip, prisma } from "../prisma";
-import { queueConnection, queueNames, updateTipperScoresQueue } from "./bullmq";
-import { getLatestOpenRankScores } from "./getLatestOpenRankScores";
-import { getLatestTipperAirdrop } from "./getLatestTipperAirdrop";
-import { getTippersByDate } from "./getTippersByDate";
-import { flushCache } from "./utils/flushCache";
-import { getTipScores } from "./utils/getTipScores";
-import { dbScheduler } from "./utils/helpers";
+import { Tip, prisma } from "../../prisma";
+import {
+  logQueueEvents,
+  queueConnection,
+  queueNames,
+  updateTipperScoresQueue,
+} from "../bullmq";
+import { getLatestOpenRankScores } from "../getLatestOpenRankScores";
+import { getLatestTipperAirdrop } from "../getLatestTipperAirdrop";
+import { getTippersByDate } from "../getTippersByDate";
+import { flushCache } from "../utils/flushCache";
+import { getTipScores } from "../utils/getTipScores";
+import { dbScheduler } from "../utils/helpers";
 
 const SCORE_START_DATE = new Date("2024-07-14T03:00:08.894Z");
 
@@ -30,7 +34,7 @@ type TipperChunk = [
   }[],
 ][];
 
-new Worker(queueNames.TIPPER_SCORES, updateTipperScoresBatch, {
+new Worker(queueNames.CREATE_TIPPER_SCORES, updateTipperScoresBatch, {
   connection: queueConnection,
   concurrency: 5,
 });
@@ -89,12 +93,14 @@ export async function updateTipperScores() {
   totalJobs = chunkedTippers.length;
 
   // Putting the hour in the job name to avoid collisions
-  const time = dayjs().format("YYYY-MM-DD-HH");
+  const date = dayjs();
+  const day = date.format("YYYY-MM-DD");
+  const hour = date.format("hh");
 
   // Create jobs
   await updateTipperScoresQueue.addBulk(
     chunkedTippers.map((tippers, i) => {
-      const jobId = `updateTipperScores-${time}-batch:${i * BATCH_SIZE + tippers.length}`;
+      const jobId = `${queueNames.CREATE_TIPPER_SCORES}-${day}-h${hour}-batch:${i * BATCH_SIZE + tippers.length}`;
       return {
         name: jobId,
         data: { tippers },
@@ -160,34 +166,11 @@ async function updateTipperScoresBatch(job: Job) {
   return tipperScores.map(({ fid }) => fid);
 }
 
-const queueEvents = new QueueEvents(queueNames.TIPPER_SCORES, {
+const queueEvents = new QueueEvents(queueNames.CREATE_TIPPER_SCORES, {
   connection: queueConnection,
 });
 
-queueEvents.on("active", (job) => {
-  console.info(`${queueNames.TIPPER_SCORES} active job: ${job.jobId}`);
-});
-
-queueEvents.on("stalled", async (job) => {
-  console.error(`${queueNames.TIPPER_SCORES} stalled job: ${job.jobId}`);
-});
-
-queueEvents.on("failed", async (job) => {
-  const message = `${queueNames.TIPPER_SCORES} failed job: ${job.jobId}. Reason: ${job.failedReason}`;
-  console.error(message);
-  Sentry.captureException(message);
-});
-
-queueEvents.on("error", (error) => {
-  console.error(`Error in worker: ${error}`);
-  Sentry.captureException(error, {
-    captureContext: {
-      tags: {
-        jobQueue: queueNames.TIPPER_SCORES,
-      },
-    },
-  });
-});
+logQueueEvents({ queueEvents, queueName: queueNames.CREATE_TIPPER_SCORES });
 
 queueEvents.on("completed", async (job) => {
   completedJobs++;
@@ -205,7 +188,7 @@ queueEvents.on("completed", async (job) => {
     await flushCache({
       type: cacheTypes.LEADERBOARD,
     });
-    console.info(`${queueNames.TIPPER_SCORES} all jobs complete!`);
+    console.info(`FINISHED ${queueNames.CREATE_TIPPER_SCORES}`);
     totalJobs = 0;
     completedJobs = 0;
   }

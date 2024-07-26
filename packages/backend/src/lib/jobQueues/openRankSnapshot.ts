@@ -4,14 +4,18 @@ import {
   retryWithExponentialBackoff,
 } from "@farther/common";
 import { getOpenRankScores } from "@farther/common/src/getOpenRankScore";
-import * as Sentry from "@sentry/node";
 import { Job, QueueEvents, Worker } from "bullmq";
 import dayjs from "dayjs";
 import { chunk } from "underscore";
-import { tippees as dummyTippees } from "../dummy-data/tippees";
-import { prisma } from "../prisma";
-import { openRankSnapshotQueue, queueConnection, queueNames } from "./bullmq";
-import { getLatestCronTime } from "./getLatestCronTime";
+import { tippees as dummyTippees } from "../../dummy-data/tippees";
+import { prisma } from "../../prisma";
+import {
+  logQueueEvents,
+  openRankSnapshotQueue,
+  queueConnection,
+  queueNames,
+} from "../bullmq";
+import { getLatestCronTime } from "../getLatestCronTime";
 
 const BATCH_SIZE = 100;
 
@@ -50,11 +54,13 @@ export async function openRankSnapshot() {
   totalJobs = fidChunks.length;
 
   // Putting the hour in the job name to avoid collisions
-  const time = dayjs().format("YYYY-MM-DD-hh");
+  const date = dayjs();
+  const day = date.format("YYYY-MM-DD");
+  const hour = date.format("hh");
 
   openRankSnapshotQueue.addBulk(
     fidChunks.map((fids, i) => {
-      const jobId = `openRankSnapshot-${time}-batch:${i * BATCH_SIZE + fids.length}`;
+      const jobId = `${queueNames.OPENRANK_SNAPSHOT}-${day}-h${hour}-batch:${i * BATCH_SIZE + fids.length}`;
       return {
         name: jobId,
         data: { fids },
@@ -66,8 +72,6 @@ export async function openRankSnapshot() {
 
 async function storeScores(job: Job) {
   const tippeeFids = job.data.fids as number[];
-
-  console.info(`Starting job ${job.id} with ${tippeeFids.length} tippees`);
 
   const scores = await getOpenRankScores(tippeeFids);
 
@@ -120,30 +124,7 @@ const queueEvents = new QueueEvents(queueNames.OPENRANK_SNAPSHOT, {
   connection: queueConnection,
 });
 
-queueEvents.on("active", (job) => {
-  console.info(`${queueNames.OPENRANK_SNAPSHOT} active job: ${job.jobId}`);
-});
-
-queueEvents.on("stalled", async (job) => {
-  console.error(`${queueNames.OPENRANK_SNAPSHOT} stalled job: ${job.jobId}`);
-});
-
-queueEvents.on("failed", async (job) => {
-  const message = `${queueNames.OPENRANK_SNAPSHOT} failed job: ${job.jobId}. Reason: ${job.failedReason}`;
-  console.error(message);
-  Sentry.captureException(message);
-});
-
-queueEvents.on("error", (error) => {
-  console.error(`${queueNames.OPENRANK_SNAPSHOT} error: ${error}`);
-  Sentry.captureException(error, {
-    captureContext: {
-      tags: {
-        jobQueue: queueNames.OPENRANK_SNAPSHOT,
-      },
-    },
-  });
-});
+logQueueEvents({ queueEvents, queueName: queueNames.OPENRANK_SNAPSHOT });
 
 queueEvents.on("completed", (job) => {
   completedJobs++;

@@ -1,5 +1,5 @@
 import { prisma } from "../../prisma";
-import { syncUserData } from "../syncUserData";
+import { syncUserData } from "../jobQueues/syncUserData";
 import { clearDatabase } from "../utils/testUtils";
 
 jest.mock("@farther/common", () => ({
