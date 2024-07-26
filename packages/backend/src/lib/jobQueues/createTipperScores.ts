@@ -5,14 +5,15 @@ import Decimal from "decimal.js";
 import { chunk } from "underscore";
 import { Tip, prisma } from "../../prisma";
 import {
+  createTipperScoresQueue,
   logQueueEvents,
   queueConnection,
   queueNames,
-  updateTipperScoresQueue,
 } from "../bullmq";
 import { getLatestOpenRankScores } from "../getLatestOpenRankScores";
 import { getLatestTipperAirdrop } from "../getLatestTipperAirdrop";
 import { getTippersByDate } from "../getTippersByDate";
+import { dayUTC } from "../utils/dayUTC";
 import { flushCache } from "../utils/flushCache";
 import { getTipScores } from "../utils/getTipScores";
 import { dbScheduler } from "../utils/helpers";
@@ -34,7 +35,7 @@ type TipperChunk = [
   }[],
 ][];
 
-new Worker(queueNames.CREATE_TIPPER_SCORES, updateTipperScoresBatch, {
+new Worker(queueNames.CREATE_TIPPER_SCORES, createTipperScoresBatch, {
   connection: queueConnection,
   concurrency: 5,
 });
@@ -43,14 +44,14 @@ let totalJobs: number;
 let completedJobs = 0;
 const allTipperFids: number[] = [];
 
-export async function updateTipperScores() {
-  console.log(`STARTING: updateTipperScores`, new Date());
+export async function createTipperScores() {
+  console.log(`STARTING: ${queueNames.CREATE_TIPPER_SCORES}`);
 
   const latestAirdrop = await getLatestTipperAirdrop();
   const tippers = await getTippersByDate({
     from: latestAirdrop ? latestAirdrop.createdAt : SCORE_START_DATE,
     // Recent tips won't have an OpenRank score change yet
-    to: dayjs().subtract(OPENRANK_SNAPSHOT_INTERVAL, "hours").toDate(),
+    to: dayUTC().subtract(OPENRANK_SNAPSHOT_INTERVAL, "hours").toDate(),
   });
 
   allTipperFids.push(...tippers.map((tipper) => tipper.id));
@@ -97,8 +98,10 @@ export async function updateTipperScores() {
   const day = date.format("YYYY-MM-DD");
   const hour = date.format("hh");
 
+  console.log(`Creating ${totalJobs} jobs for ${tippers.length} tippers`);
+
   // Create jobs
-  await updateTipperScoresQueue.addBulk(
+  await createTipperScoresQueue.addBulk(
     chunkedTippers.map((tippers, i) => {
       const jobId = `${queueNames.CREATE_TIPPER_SCORES}-${day}-h${hour}-batch:${i * BATCH_SIZE + tippers.length}`;
       return {
@@ -110,7 +113,7 @@ export async function updateTipperScores() {
   );
 }
 
-async function updateTipperScoresBatch(job: Job) {
+async function createTipperScoresBatch(job: Job) {
   const tippers = job.data.tippers as TipperChunk;
 
   console.info(`Starting job ${job.id} with ${tippers.length} tippers`);
@@ -175,7 +178,7 @@ logQueueEvents({ queueEvents, queueName: queueNames.CREATE_TIPPER_SCORES });
 queueEvents.on("completed", async (job) => {
   completedJobs++;
 
-  console.info(`DONE: ${job.jobId} (${completedJobs}/${totalJobs}).`);
+  console.info(`done: ${job.jobId} (${completedJobs}/${totalJobs}).`);
 
   if (completedJobs === totalJobs) {
     await flushCache({

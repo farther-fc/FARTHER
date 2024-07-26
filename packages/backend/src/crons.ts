@@ -1,9 +1,9 @@
 import { requireEnv } from "require-env-variable";
 import { distributeAllowances } from "./lib/distributeAllowances";
+import { createTipperScores } from "./lib/jobQueues/createTipperScores";
 import { openRankSnapshot } from "./lib/jobQueues/openRankSnapshot";
 import { syncTipperData } from "./lib/jobQueues/syncTipperData";
 import { syncUserData } from "./lib/jobQueues/syncUserData";
-import { updateTipperScores } from "./lib/jobQueues/updateTipperScores";
 import { updateEligibleTippers } from "./lib/updateEligibleTippers";
 
 const { CRON } = requireEnv("CRON");
@@ -26,12 +26,12 @@ switch (CRON) {
     syncTipperData();
     break;
   }
-  case "updateTipperScores": {
+  case "createTipperScores": {
     console.log(
-      "Running updateTipperScores on",
+      "Running createTipperScores on",
       process.env.NEXT_PUBLIC_ENVIRONMENT,
     );
-    updateTipperScores();
+    createTipperScores();
     break;
   }
   case "openRankSnapshot": {

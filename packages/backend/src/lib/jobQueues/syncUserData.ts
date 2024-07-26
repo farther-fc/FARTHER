@@ -2,7 +2,6 @@ import { neynarLimiter, retryWithExponentialBackoff } from "@farther/common";
 import * as Sentry from "@sentry/node";
 import Bottleneck from "bottleneck";
 import { QueueEvents, Worker } from "bullmq";
-import dayjs from "dayjs";
 import { chunk } from "underscore";
 import { prisma } from "../../prisma";
 import {
@@ -11,6 +10,7 @@ import {
   queueNames,
   syncUserDataQueue,
 } from "../bullmq";
+import { dayUTC } from "../utils/dayUTC";
 import { flushCache } from "../utils/flushCache";
 
 const BATCH_SIZE = 1000;
@@ -142,7 +142,7 @@ export async function syncUserData() {
 
   totalJobs = fidBatches.length;
 
-  const day = dayjs().format("YYYY-MM-DD");
+  const day = dayUTC().format("YYYY-MM-DD");
 
   syncUserDataQueue.addBulk(
     fidBatches.map((fids, i) => {
@@ -165,7 +165,7 @@ logQueueEvents({ queueEvents, queueName: queueNames.SYNC_USERS });
 queueEvents.on("completed", (job) => {
   completedJobs++;
 
-  console.info(`DONE: ${job.jobId} (${completedJobs}/${totalJobs}).`);
+  console.info(`done: ${job.jobId} (${completedJobs}/${totalJobs}).`);
 
   if (completedJobs === totalJobs) {
     console.log(`ALL DONE: ${queueNames.SYNC_USERS}`);

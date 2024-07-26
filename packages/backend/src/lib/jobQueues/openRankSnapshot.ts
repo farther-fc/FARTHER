@@ -5,7 +5,6 @@ import {
 } from "@farther/common";
 import { getOpenRankScores } from "@farther/common/src/getOpenRankScore";
 import { Job, QueueEvents, Worker } from "bullmq";
-import dayjs from "dayjs";
 import { chunk } from "underscore";
 import { tippees as dummyTippees } from "../../dummy-data/tippees";
 import { prisma } from "../../prisma";
@@ -16,6 +15,7 @@ import {
   queueNames,
 } from "../bullmq";
 import { getLatestCronTime } from "../getLatestCronTime";
+import { dayUTC } from "../utils/dayUTC";
 
 const BATCH_SIZE = 100;
 
@@ -28,7 +28,7 @@ new Worker(queueNames.OPENRANK_SNAPSHOT, storeScores, {
 });
 
 export async function openRankSnapshot() {
-  console.log(`STARTING: ${queueNames.OPENRANK_SNAPSHOT}`, new Date());
+  console.log(`STARTING: ${queueNames.OPENRANK_SNAPSHOT}`);
 
   // await openRankSnapshotQueue.drain();
 
@@ -49,12 +49,16 @@ export async function openRankSnapshot() {
 
   const tippeeFids = Array.from(new Set(tippees.map((t) => t.id)));
 
+  console.log(
+    `${queueNames.OPENRANK_SNAPSHOT} total to process: ${tippeeFids.length}`,
+  );
+
   const fidChunks = chunk(tippeeFids, BATCH_SIZE);
 
   totalJobs = fidChunks.length;
 
   // Putting the hour in the job name to avoid collisions
-  const date = dayjs();
+  const date = dayUTC();
   const day = date.format("YYYY-MM-DD");
   const hour = date.format("hh");
 
@@ -136,7 +140,7 @@ logQueueEvents({ queueEvents, queueName: queueNames.OPENRANK_SNAPSHOT });
 queueEvents.on("completed", (job) => {
   completedJobs++;
 
-  console.info(`DONE: ${job.jobId} (${completedJobs}/${totalJobs}).`);
+  console.info(`done: ${job.jobId} (${completedJobs}/${totalJobs}).`);
   if (completedJobs === totalJobs) {
     console.log(
       `ALL DONE: ${queueNames.OPENRANK_SNAPSHOT} All jobs completed!`,
