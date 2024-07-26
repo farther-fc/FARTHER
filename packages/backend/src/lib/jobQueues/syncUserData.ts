@@ -142,7 +142,7 @@ export async function syncUserData() {
 
   totalJobs = fidBatches.length;
 
-  const day = dayjs().format("YYYY-MM-DD");
+  const day = dayjs.utc().format("YYYY-MM-DD");
 
   syncUserDataQueue.addBulk(
     fidBatches.map((fids, i) => {

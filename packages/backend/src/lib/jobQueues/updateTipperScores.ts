@@ -50,7 +50,7 @@ export async function updateTipperScores() {
   const tippers = await getTippersByDate({
     from: latestAirdrop ? latestAirdrop.createdAt : SCORE_START_DATE,
     // Recent tips won't have an OpenRank score change yet
-    to: dayjs().subtract(OPENRANK_SNAPSHOT_INTERVAL, "hours").toDate(),
+    to: dayjs.utc().subtract(OPENRANK_SNAPSHOT_INTERVAL, "hours").toDate(),
   });
 
   allTipperFids.push(...tippers.map((tipper) => tipper.id));

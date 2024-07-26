@@ -1,4 +1,6 @@
 import { ENVIRONMENT, cronSchedules, isProduction } from "@farther/common";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import cron from "node-cron";
 import "../instrument";
 import { distributeAllowances } from "./lib/distributeAllowances";
@@ -7,6 +9,8 @@ import { syncTipperData } from "./lib/jobQueues/syncTipperData";
 import { syncUserData } from "./lib/jobQueues/syncUserData";
 import { updateTipperScores } from "./lib/jobQueues/updateTipperScores";
 import { updateEligibleTippers } from "./lib/updateEligibleTippers";
+
+dayjs.extend(utc);
 
 /**
  * NOTE: This is currently not being used. The crons are scheduled in Railway directly.
