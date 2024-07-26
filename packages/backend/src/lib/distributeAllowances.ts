@@ -22,7 +22,7 @@ const RECOVERY_THRESHOLD = 10;
 const MAX_RECOVERY_ADJUSTMENT_FACTOR = 25;
 
 export async function distributeAllowances() {
-  console.info("STARTING distributeAllowances");
+  console.info("STARTING: distributeAllowances");
 
   const tipsMetas = await getTipMetas();
 

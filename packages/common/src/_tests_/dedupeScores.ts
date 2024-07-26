@@ -1,4 +1,4 @@
-import { dedupeScores } from "@farther/common";
+import { dedupeScores } from "src/getOpenRankScore";
 
 describe("dedupeScores", () => {
   it("should remove duplicate scores", () => {
