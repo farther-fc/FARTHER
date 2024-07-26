@@ -26,7 +26,7 @@ export async function getTipScores({
     const latestScore = new Decimal(endScores[tip.tippeeId]);
 
     // Change in OpenRank score per day
-    const daysSinceTip = dayjs(endTime).diff(tip.createdAt, "day", true);
+    const daysSinceTip = dayjs.utc(endTime).diff(tip.createdAt, "day", true);
     const openRankChange = latestScore.div(startScore).mul(100).sub(100);
     const openRankChangePerDay = openRankChange.div(daysSinceTip);
 

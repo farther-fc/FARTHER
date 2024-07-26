@@ -42,7 +42,7 @@ export async function syncTipperData() {
   totalJobs = fidBatches.length;
 
   // Putting the day in the job name to avoid collisions
-  const day = dayjs().format("YYYY-MM-DD");
+  const day = dayjs.utc().format("YYYY-MM-DD");
 
   syncTipperDataQueue.addBulk(
     fidBatches.map((fids, i) => {

@@ -28,7 +28,7 @@ new Worker(queueNames.OPENRANK_SNAPSHOT, storeScores, {
 });
 
 export async function openRankSnapshot() {
-  console.log(`STARTING: ${queueNames.OPENRANK_SNAPSHOT}`, new Date());
+  console.log(`STARTING: ${queueNames.OPENRANK_SNAPSHOT}`);
 
   // await openRankSnapshotQueue.drain();
 
@@ -49,12 +49,16 @@ export async function openRankSnapshot() {
 
   const tippeeFids = Array.from(new Set(tippees.map((t) => t.id)));
 
+  console.log(
+    `${queueNames.OPENRANK_SNAPSHOT} total to process: ${tippeeFids.length}`,
+  );
+
   const fidChunks = chunk(tippeeFids, BATCH_SIZE);
 
   totalJobs = fidChunks.length;
 
   // Putting the hour in the job name to avoid collisions
-  const date = dayjs();
+  const date = dayjs.utc();
   const day = date.format("YYYY-MM-DD");
   const hour = date.format("hh");
 
