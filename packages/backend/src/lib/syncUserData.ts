@@ -30,8 +30,6 @@ export async function syncUserDataBatch({
   name: string;
   data: { fids: number[] };
 }) {
-  console.log(`Processing ${jobName}`);
-
   try {
     const neynarUserData = await neynarLimiter.getUsersByFid(fids);
 
@@ -139,11 +137,11 @@ export async function syncUserData() {
 
   totalJobs = fidBatches.length;
 
-  const time = dayjs().format("YYYY-MM-DD");
+  const day = dayjs().format("YYYY-MM-DD");
 
   syncUserDataQueue.addBulk(
     fidBatches.map((fids, i) => {
-      const jobId = `syncUserData-${time}-batch:${i * BATCH_SIZE + fids.length}`;
+      const jobId = `syncUserData-${day}-batch:${i * BATCH_SIZE + fids.length}`;
       return {
         name: jobId,
         data: { fids },
@@ -157,14 +155,14 @@ const queueEvents = new QueueEvents(queueNames.SYNC_USERS, {
   connection: queueConnection,
 });
 
+queueEvents.on("active", (job) => {
+  console.info(`${queueNames.SYNC_USERS} active job: ${job.jobId}`);
+});
+
 queueEvents.on("failed", async (job) => {
   const message = `${queueNames.SYNC_USERS} failed job: ${job.jobId}. Reason: ${job.failedReason}`;
   console.error(message);
   Sentry.captureException(message);
-});
-
-queueEvents.on("active", (job) => {
-  console.info(`${queueNames.SYNC_USERS} active job: ${job.jobId}`);
 });
 
 queueEvents.on("stalled", async (job) => {

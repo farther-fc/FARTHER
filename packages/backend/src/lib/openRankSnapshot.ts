@@ -50,11 +50,13 @@ export async function openRankSnapshot() {
   totalJobs = fidChunks.length;
 
   // Putting the hour in the job name to avoid collisions
-  const time = dayjs().format("YYYY-MM-DD-hh");
+  const date = dayjs();
+  const day = date.format("YYYY-MM-DD");
+  const hour = date.format("hh");
 
   openRankSnapshotQueue.addBulk(
     fidChunks.map((fids, i) => {
-      const jobId = `openRankSnapshot-${time}-batch:${i * BATCH_SIZE + fids.length}`;
+      const jobId = `openRankSnapshot-${day}-h${hour}-batch:${i * BATCH_SIZE + fids.length}`;
       return {
         name: jobId,
         data: { fids },
@@ -66,8 +68,6 @@ export async function openRankSnapshot() {
 
 async function storeScores(job: Job) {
   const tippeeFids = job.data.fids as number[];
-
-  console.info(`Starting job ${job.id} with ${tippeeFids.length} tippees`);
 
   const scores = await getOpenRankScores(tippeeFids);
 

@@ -89,12 +89,14 @@ export async function updateTipperScores() {
   totalJobs = chunkedTippers.length;
 
   // Putting the hour in the job name to avoid collisions
-  const time = dayjs().format("YYYY-MM-DD-HH");
+  const date = dayjs();
+  const day = date.format("YYYY-MM-DD");
+  const hour = date.format("hh");
 
   // Create jobs
   await updateTipperScoresQueue.addBulk(
     chunkedTippers.map((tippers, i) => {
-      const jobId = `updateTipperScores-${time}-batch:${i * BATCH_SIZE + tippers.length}`;
+      const jobId = `updateTipperScores-${day}-h${hour}-batch:${i * BATCH_SIZE + tippers.length}`;
       return {
         name: jobId,
         data: { tippers },
@@ -164,10 +166,6 @@ const queueEvents = new QueueEvents(queueNames.TIPPER_SCORES, {
   connection: queueConnection,
 });
 
-queueEvents.on("active", (job) => {
-  console.info(`${queueNames.TIPPER_SCORES} active job: ${job.jobId}`);
-});
-
 queueEvents.on("stalled", async (job) => {
   console.error(`${queueNames.TIPPER_SCORES} stalled job: ${job.jobId}`);
 });
@@ -205,7 +203,7 @@ queueEvents.on("completed", async (job) => {
     await flushCache({
       type: cacheTypes.LEADERBOARD,
     });
-    console.info(`${queueNames.TIPPER_SCORES} all jobs complete!`);
+    console.info(`FINISHED ${queueNames.TIPPER_SCORES}`);
     totalJobs = 0;
     completedJobs = 0;
   }

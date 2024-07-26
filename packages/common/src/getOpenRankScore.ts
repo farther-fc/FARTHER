@@ -45,9 +45,9 @@ export const getOpenRankScores = async (fids: number[]) => {
     const allResults = responses.map((response) => response.data.result);
     const allScores: OpenRankData["result"] = [];
     for (const result of allResults) {
-      allScores.push(...dedupeScores(result));
+      allScores.push(...result);
     }
-    return allScores;
+    return dedupeScores(allScores);
   });
 };
 
