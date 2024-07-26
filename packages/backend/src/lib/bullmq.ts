@@ -50,7 +50,7 @@ export const syncTipperDataQueue = new Queue(queueNames.SYNC_TIPPERS, {
   connection: queueConnection,
 });
 
-export const updateTipperScoresQueue = new Queue(
+export const createTipperScoresQueue = new Queue(
   queueNames.CREATE_TIPPER_SCORES,
   {
     connection: queueConnection,
@@ -69,21 +69,21 @@ export function logQueueEvents({
   queueName: keyof typeof queueNames;
 }) {
   queueEvents.on("active", (job) => {
-    console.info(`ACTIVE: ${job.jobId}`);
+    console.info(`active: ${job.jobId}`);
   });
 
   queueEvents.on("stalled", async (job) => {
-    console.error(`STALLED: ${job.jobId}`);
+    console.error(`stalled: ${job.jobId}`);
   });
 
   queueEvents.on("failed", async (job) => {
-    const message = `FALED: ${job.jobId}. Reason: ${job.failedReason}`;
+    const message = `failed: ${job.jobId}. Reason: ${job.failedReason}`;
     console.error(message);
     Sentry.captureException(message);
   });
 
   queueEvents.on("error", (error) => {
-    console.error(`ERROR error: ${error}`);
+    console.error(`error: ${error}`);
     Sentry.captureException(error, {
       captureContext: {
         tags: {

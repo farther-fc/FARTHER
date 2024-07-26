@@ -4,10 +4,10 @@ import utc from "dayjs/plugin/utc";
 import cron from "node-cron";
 import "../instrument";
 import { distributeAllowances } from "./lib/distributeAllowances";
+import { createTipperScores } from "./lib/jobQueues/createTipperScores";
 import { openRankSnapshot } from "./lib/jobQueues/openRankSnapshot";
 import { syncTipperData } from "./lib/jobQueues/syncTipperData";
 import { syncUserData } from "./lib/jobQueues/syncUserData";
-import { updateTipperScores } from "./lib/jobQueues/updateTipperScores";
 import { updateEligibleTippers } from "./lib/updateEligibleTippers";
 
 dayjs.extend(utc);
@@ -51,6 +51,6 @@ cron.schedule(
   { timezone: "Etc/UTC" },
 );
 
-cron.schedule(cronSchedules.UPDATE_TIPPER_SCORES, updateTipperScores, {
+cron.schedule(cronSchedules.UPDATE_TIPPER_SCORES, createTipperScores, {
   timezone: "Etc/UTC",
 });

@@ -1,5 +1,4 @@
 import { QueueEvents, Worker } from "bullmq";
-import dayjs from "dayjs";
 import { chunk } from "underscore";
 import { prisma } from "../../prisma";
 import {
@@ -8,6 +7,7 @@ import {
   queueNames,
   syncTipperDataQueue,
 } from "../bullmq";
+import { dayUTC } from "../utils/dayUTC";
 import { syncUserDataBatch } from "./syncUserData";
 
 const BATCH_SIZE = 1000;
@@ -42,7 +42,7 @@ export async function syncTipperData() {
   totalJobs = fidBatches.length;
 
   // Putting the day in the job name to avoid collisions
-  const day = dayjs.utc().format("YYYY-MM-DD");
+  const day = dayUTC().format("YYYY-MM-DD");
 
   syncTipperDataQueue.addBulk(
     fidBatches.map((fids, i) => {
@@ -65,7 +65,7 @@ logQueueEvents({ queueEvents, queueName: queueNames.SYNC_TIPPERS });
 queueEvents.on("completed", (job) => {
   completedJobs++;
 
-  console.info(`DONE: ${job.jobId} (${completedJobs}/${totalJobs}).`);
+  console.info(`done: ${job.jobId} (${completedJobs}/${totalJobs}).`);
 
   if (completedJobs === totalJobs) {
     console.log(`ALL DONE: ${queueNames.SYNC_TIPPERS} all jobs completed!`);
