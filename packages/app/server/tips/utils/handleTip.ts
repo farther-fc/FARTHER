@@ -92,9 +92,9 @@ export async function handleTip({
     : !invalidTime
       ? InvalidTipReason.INVALID_TIME
       : tipperIsBanned
-        ? InvalidTipReason.BANNED_TIPPEE
+        ? InvalidTipReason.BANNED_TIPPER
         : tippeeIsBanned
-          ? InvalidTipReason.BANNED_TIPPER
+          ? InvalidTipReason.BANNED_TIPPEE
           : hasAlreadyTippedTippee
             ? InvalidTipReason.TIPPEE_LIMIT_REACHED
             : isBelowMinimum
