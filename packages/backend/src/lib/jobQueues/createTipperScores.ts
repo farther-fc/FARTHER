@@ -21,7 +21,7 @@ import { dbScheduler } from "../utils/helpers";
 const SCORE_START_DATE = new Date("2024-07-14T03:00:08.894Z");
 
 // NOTE this can't be very big because of vercel/kv memory limit (10265353)
-const BATCH_SIZE = 30;
+const BATCH_SIZE = 10;
 
 type TipperChunk = [
   string,
@@ -46,6 +46,8 @@ const allTipperFids: number[] = [];
 
 export async function createTipperScores() {
   console.log(`STARTING: ${queueNames.CREATE_TIPPER_SCORES}`);
+
+  createTipperScoresQueue.drain();
 
   const latestAirdrop = await getLatestTipperAirdrop();
   const tippers = await getTippersByDate({
@@ -194,5 +196,6 @@ queueEvents.on("completed", async (job) => {
     console.info(`ALL DONE: ${queueNames.CREATE_TIPPER_SCORES}`);
     totalJobs = 0;
     completedJobs = 0;
+    createTipperScoresQueue.drain();
   }
 });
