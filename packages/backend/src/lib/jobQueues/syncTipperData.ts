@@ -71,5 +71,6 @@ queueEvents.on("completed", (job) => {
     console.log(`ALL DONE: ${queueNames.SYNC_TIPPERS} all jobs completed!`);
     totalJobs = 0;
     completedJobs = 0;
+    syncTipperDataQueue.drain();
   }
 });

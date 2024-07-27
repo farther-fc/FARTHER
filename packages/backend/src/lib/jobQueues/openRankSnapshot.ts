@@ -50,13 +50,13 @@ export async function openRankSnapshot() {
 
   const tippeeFids = Array.from(new Set(tippees.map((t) => t.id)));
 
-  console.log(
-    `${queueNames.OPENRANK_SNAPSHOT} total to process: ${tippeeFids.length}`,
-  );
-
   const fidChunks = chunk(tippeeFids, BATCH_SIZE);
 
   totalJobs = fidChunks.length;
+
+  console.log(
+    `${queueNames.OPENRANK_SNAPSHOT} fids to process: ${tippeeFids.length}. Total jobs: ${totalJobs}`,
+  );
 
   // Putting the hour in the job name to avoid collisions
   const date = dayUTC();
@@ -152,5 +152,6 @@ queueEvents.on("completed", (job) => {
     );
     totalJobs = 0;
     completedJobs = 0;
+    openRankSnapshotQueue.drain();
   }
 });

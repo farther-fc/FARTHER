@@ -171,5 +171,6 @@ queueEvents.on("completed", (job) => {
     console.log(`ALL DONE: ${queueNames.SYNC_USERS}`);
     totalJobs = 0;
     completedJobs = 0;
+    syncUserDataQueue.drain();
   }
 });
