@@ -4,6 +4,7 @@ import {
   retryWithExponentialBackoff,
 } from "@farther/common";
 import { getOpenRankScores } from "@farther/common/src/getOpenRankScore";
+import * as Sentry from "@sentry/node";
 import { Job, QueueEvents, Worker } from "bullmq";
 import { chunk } from "underscore";
 import { tippees as dummyTippees } from "../../dummy-data/tippees";
@@ -122,10 +123,14 @@ async function storeScores(job: Job) {
         }),
       );
     } catch (error) {
-      console.warn(
-        `ERROR: ${job.name}, tippeeFids: ${tippeeFids}`,
-        error.message,
-      );
+      Sentry.captureException(error.message, {
+        contexts: {
+          tags: {
+            jobQueue: queueNames.OPENRANK_SNAPSHOT,
+            tippeeFids: tippeeFids.join(","),
+          },
+        },
+      });
       throw error;
     }
   });
