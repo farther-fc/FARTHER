@@ -52,7 +52,7 @@ export async function handleTip({
   });
 
   if (!tipAllowance) {
-    console.warn(`No tip allowance found for user ${tipper}`);
+    console.warn(`No tip allowance found for user ${tipper.fid}`);
     return;
   }
 
