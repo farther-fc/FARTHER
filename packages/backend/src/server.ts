@@ -4,6 +4,7 @@ import utc from "dayjs/plugin/utc";
 import cron from "node-cron";
 import "../instrument";
 import { distributeAllowances } from "./lib/distributeAllowances";
+import { createTipperScores } from "./lib/jobQueues/createTipperScores";
 import { openRankSnapshot } from "./lib/jobQueues/openRankSnapshot";
 import { syncTipperData } from "./lib/jobQueues/syncTipperData";
 import { syncUserData } from "./lib/jobQueues/syncUserData";
@@ -50,6 +51,6 @@ cron.schedule(
   { timezone: "Etc/UTC" },
 );
 
-// cron.schedule(cronSchedules.UPDATE_TIPPER_SCORES, createTipperScores, {
-//   timezone: "Etc/UTC",
-// });
+cron.schedule(cronSchedules.UPDATE_TIPPER_SCORES, createTipperScores, {
+  timezone: "Etc/UTC",
+});
