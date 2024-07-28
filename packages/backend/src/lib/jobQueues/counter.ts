@@ -26,11 +26,17 @@ async function init({
     );
 
     Sentry.captureException(error);
-    throw error;
+
+    if (counterKey) {
+      await kv.del(counterKey);
+    }
+    if (totalKey) {
+      await kv.del(totalKey);
+    }
   }
 
   await kv.set(counterKey, 0, { ex: ex || DEFAULT_EXPIRATION });
-  await kv.set(getTotalKey(queueName), total);
+  await kv.set(getTotalKey(queueName), total, { ex: ex || DEFAULT_EXPIRATION });
 }
 
 async function increment(queueName: QueueName) {
