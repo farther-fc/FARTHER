@@ -145,7 +145,7 @@ export async function syncUserData() {
 
   const day = dayUTC().format("YYYY-MM-DD");
 
-  syncUserDataQueue.addBulk(
+  await syncUserDataQueue.addBulk(
     fidBatches.map((fids, i) => {
       const jobId = `${queueNames.SYNC_USERS}-${day}-batch:${i * BATCH_SIZE + fids.length}`;
       return {

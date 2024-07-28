@@ -45,7 +45,7 @@ export async function syncTipperData() {
   // Putting the day in the job name to avoid collisions
   const day = dayUTC().format("YYYY-MM-DD");
 
-  syncTipperDataQueue.addBulk(
+  await syncTipperDataQueue.addBulk(
     fidBatches.map((fids, i) => {
       const jobId = `${queueNames.SYNC_TIPPERS}-${day}-batch:${i * BATCH_SIZE + fids.length}`;
       return {

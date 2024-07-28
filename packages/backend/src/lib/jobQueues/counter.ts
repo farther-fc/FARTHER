@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/node";
 import { kv } from "@vercel/kv";
 import { QueueName } from "../bullmq";
 
@@ -17,12 +18,15 @@ async function init({
   const totalKey = getTotalKey(queueName);
 
   const existingCounter = await kv.get(counterKey);
-  const exstingTotal = await kv.get(totalKey);
+  const existingTotal = await kv.get(totalKey);
 
-  if (existingCounter || exstingTotal) {
-    throw new Error(
-      `Counter data already exists for ${queueName}. existingCounter: ${existingCounter}, exstingTotal: ${exstingTotal}`,
+  if (existingCounter || existingTotal) {
+    const error = new Error(
+      `Counter data already exists for ${queueName}. existingCounter: ${existingCounter}, existingTotal: ${existingTotal}`,
     );
+
+    Sentry.captureException(error);
+    throw error;
   }
 
   await kv.set(counterKey, 0, { ex: ex || DEFAULT_EXPIRATION });
