@@ -9,7 +9,7 @@ const rateLimitWebsite = new Ratelimit({
 
 const rateLimitDefault = new Ratelimit({
   redis: kv,
-  limiter: Ratelimit.slidingWindow(2, "10 s"),
+  limiter: Ratelimit.slidingWindow(10, "10 s"),
 });
 
 export const config = {
