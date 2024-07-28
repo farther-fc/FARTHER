@@ -17,11 +17,9 @@ import {
 } from "../bullmq";
 import { getLatestCronTime } from "../getLatestCronTime";
 import { dayUTC } from "../utils/dayUTC";
+import { counter } from "./counter";
 
 const BATCH_SIZE = 100;
-
-let completedJobs = 0;
-let totalJobs: number;
 
 new Worker(queueNames.OPENRANK_SNAPSHOT, storeScores, {
   connection: queueConnection,
@@ -30,8 +28,6 @@ new Worker(queueNames.OPENRANK_SNAPSHOT, storeScores, {
 
 export async function openRankSnapshot() {
   console.log(`STARTING: ${queueNames.OPENRANK_SNAPSHOT}`);
-
-  // await openRankSnapshotQueue.drain();
 
   const tippees = !isProduction
     ? dummyTippees
@@ -52,10 +48,13 @@ export async function openRankSnapshot() {
 
   const fidChunks = chunk(tippeeFids, BATCH_SIZE);
 
-  totalJobs = fidChunks.length;
+  await counter.init({
+    queueName: queueNames.OPENRANK_SNAPSHOT,
+    total: fidChunks.length,
+  });
 
   console.log(
-    `${queueNames.OPENRANK_SNAPSHOT} fids to process: ${tippeeFids.length}. Total jobs: ${totalJobs}`,
+    `${queueNames.OPENRANK_SNAPSHOT} fids to process: ${tippeeFids.length}. Total jobs: ${fidChunks.length}`,
   );
 
   // Putting the hour in the job name to avoid collisions
@@ -142,16 +141,17 @@ const queueEvents = new QueueEvents(queueNames.OPENRANK_SNAPSHOT, {
 
 logQueueEvents({ queueEvents, queueName: queueNames.OPENRANK_SNAPSHOT });
 
-queueEvents.on("completed", (job) => {
-  completedJobs++;
+queueEvents.on("completed", async (job) => {
+  const { count, total } = await counter.increment(
+    queueNames.OPENRANK_SNAPSHOT,
+  );
 
-  console.info(`done: ${job.jobId} (${completedJobs}/${totalJobs}).`);
-  if (completedJobs === totalJobs) {
+  console.info(`done: ${job.jobId} (${count}/${total}).`);
+  if (count === total) {
     console.log(
       `ALL DONE: ${queueNames.OPENRANK_SNAPSHOT} All jobs completed!`,
     );
-    totalJobs = 0;
-    completedJobs = 0;
-    openRankSnapshotQueue.drain();
+    await openRankSnapshotQueue.drain();
+    await counter.remove(queueNames.OPENRANK_SNAPSHOT);
   }
 });

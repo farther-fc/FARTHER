@@ -12,6 +12,7 @@ import {
 } from "../bullmq";
 import { dayUTC } from "../utils/dayUTC";
 import { flushCache } from "../utils/flushCache";
+import { counter } from "./counter";
 
 const BATCH_SIZE = 1000;
 
@@ -24,9 +25,6 @@ new Worker(queueNames.SYNC_USERS, syncUserDataBatch, {
   connection: queueConnection,
   concurrency: 5,
 });
-
-let completedJobs = 0;
-let totalJobs: number;
 
 export async function syncUserDataBatch({
   name: jobName,
@@ -140,7 +138,10 @@ export async function syncUserData() {
     `Syncing ${allFids.length} users in ${fidBatches.length} batches...`,
   );
 
-  totalJobs = fidBatches.length;
+  await counter.init({
+    queueName: queueNames.SYNC_USERS,
+    total: fidBatches.length,
+  });
 
   const day = dayUTC().format("YYYY-MM-DD");
 
@@ -162,15 +163,15 @@ const queueEvents = new QueueEvents(queueNames.SYNC_USERS, {
 
 logQueueEvents({ queueEvents, queueName: queueNames.SYNC_USERS });
 
-queueEvents.on("completed", (job) => {
-  completedJobs++;
+queueEvents.on("completed", async (job) => {
+  const { count, total } = await counter.increment(queueNames.SYNC_USERS);
 
-  console.info(`done: ${job.jobId} (${completedJobs}/${totalJobs}).`);
+  console.info(`done: ${job.jobId} (${count}/${total}).`);
 
-  if (completedJobs === totalJobs) {
+  if (count === total) {
     console.log(`ALL DONE: ${queueNames.SYNC_USERS}`);
-    totalJobs = 0;
-    completedJobs = 0;
-    syncUserDataQueue.drain();
+
+    await syncUserDataQueue.drain();
+    await counter.remove(queueNames.SYNC_USERS);
   }
 });

@@ -42,6 +42,8 @@ export const queueNames = {
   OPENRANK_SNAPSHOT: "OPENRANK_SNAPSHOT",
 } as const;
 
+export type QueueName = keyof typeof queueNames;
+
 export const syncUserDataQueue = new Queue(queueNames.SYNC_USERS, {
   connection: queueConnection,
 });

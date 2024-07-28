@@ -8,6 +8,7 @@ import {
   syncTipperDataQueue,
 } from "../bullmq";
 import { dayUTC } from "../utils/dayUTC";
+import { counter } from "./counter";
 import { syncUserDataBatch } from "./syncUserData";
 
 const BATCH_SIZE = 1000;
@@ -16,9 +17,6 @@ new Worker(queueNames.SYNC_TIPPERS, syncUserDataBatch, {
   connection: queueConnection,
   concurrency: 5,
 });
-
-let completedJobs = 0;
-let totalJobs: number;
 
 export async function syncTipperData() {
   console.info(`STARTING: ${queueNames.SYNC_TIPPERS}`);
@@ -39,7 +37,10 @@ export async function syncTipperData() {
     `Syncing ${allFids.length} users in ${fidBatches.length} batches...`,
   );
 
-  totalJobs = fidBatches.length;
+  await counter.init({
+    queueName: queueNames.SYNC_TIPPERS,
+    total: fidBatches.length,
+  });
 
   // Putting the day in the job name to avoid collisions
   const day = dayUTC().format("YYYY-MM-DD");
@@ -62,15 +63,14 @@ const queueEvents = new QueueEvents(queueNames.SYNC_TIPPERS, {
 
 logQueueEvents({ queueEvents, queueName: queueNames.SYNC_TIPPERS });
 
-queueEvents.on("completed", (job) => {
-  completedJobs++;
+queueEvents.on("completed", async (job) => {
+  const { count, total } = await counter.increment(queueNames.SYNC_TIPPERS);
 
-  console.info(`done: ${job.jobId} (${completedJobs}/${totalJobs}).`);
+  console.info(`done: ${job.jobId} (${count}/${total}).`);
 
-  if (completedJobs === totalJobs) {
+  if (count === total) {
     console.log(`ALL DONE: ${queueNames.SYNC_TIPPERS} all jobs completed!`);
-    totalJobs = 0;
-    completedJobs = 0;
-    syncTipperDataQueue.drain();
+    await syncTipperDataQueue.drain();
+    await counter.remove(queueNames.SYNC_TIPPERS);
   }
 });
