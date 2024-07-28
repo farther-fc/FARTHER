@@ -34,7 +34,7 @@ export default async function middleware(request: NextRequest) {
     ({ success, limit, reset, remaining } = await rateLimitDefault.limit(ip));
   }
 
-  console.log({ referer });
+  console.log({ referrer: request.referrer, ip });
 
   return success
     ? NextResponse.next()

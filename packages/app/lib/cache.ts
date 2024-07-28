@@ -72,7 +72,7 @@ async function get<T extends CacheType>(
     fullKey = createKey({ type });
   }
 
-  console.info(`Getting cache for ${fullKey}`);
+  // console.info(`Getting cache for ${fullKey}`);
 
   return kv.get(fullKey);
 }
@@ -98,9 +98,8 @@ async function flush(args: FlushArgs) {
     keysToFlush = keysToFlush.concat(foundKeys);
   }
 
-  console.info(`Flushing cache for keys: ${keysToFlush}`);
-
   if (keysToFlush.length > 0) {
+    console.info(`Flushing cache for keys: ${keysToFlush}`);
     await kv.del(...keysToFlush);
     if (
       (type !== "USER" && type !== "USER_TIPS") ||
