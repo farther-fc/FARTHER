@@ -12,7 +12,7 @@ contract DeployAirdrop is Script {
     // uint constant AIRDROP_AMOUNT = 3188624000000000000000000;
 
     bytes32 constant ROOT =
-        0xb32e72ed8a8b0d78ad41af7de985e2e6222a92ab7c417ba95f5c18abb2b96023;
+        0x37bfa6c97ccdf447200379524a7e7b825a3fceff212e23b9a13a1856ce3fc483;
 
     address OWNER = 0x97e3B75B2eebCC722B504851416e1410B32180a3;
 

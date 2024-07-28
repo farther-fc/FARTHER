@@ -14,14 +14,32 @@ import { writeFile } from "../lib/utils/helpers";
 import { AllocationType, prisma } from "../prisma";
 import { airdropSanityCheck } from "./airdropSanityCheck";
 
-/// TODO: MAKE SURE THIS WORKS CORRECTLY IN AUGUST!!!
-
 async function prepareTipsDrop() {
   await airdropSanityCheck({
     date: NEXT_AIRDROP_START_TIME,
     network: NETWORK,
     environment: ENVIRONMENT,
   });
+
+  const latestTipsAirdrop = await prisma.airdrop.findFirst({
+    where: {
+      allocations: {
+        some: {
+          type: AllocationType.TIPS,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 1,
+  });
+
+  if (!latestTipsAirdrop) {
+    throw new Error("No previous airdrop found");
+  }
+
+  const lastAirdropSnapshotTime = latestTipsAirdrop?.createdAt;
 
   // Get all users who have received tips that haven't been allocated an airdrop
   const users = await prisma.user.findMany({
@@ -30,6 +48,9 @@ async function prepareTipsDrop() {
         some: {
           allocationId: null,
           invalidTipReason: null,
+          createdAt: {
+            gte: lastAirdropSnapshotTime,
+          },
         },
       },
     },
@@ -38,6 +59,9 @@ async function prepareTipsDrop() {
       tipsReceived: {
         where: {
           invalidTipReason: null,
+          createdAt: {
+            gte: lastAirdropSnapshotTime,
+          },
         },
       },
     },
