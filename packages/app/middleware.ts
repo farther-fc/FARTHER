@@ -7,6 +7,11 @@ const rateLimitDefault = new Ratelimit({
   limiter: Ratelimit.slidingWindow(20, "10 s"),
 });
 
+const rateLimitGenerous = new Ratelimit({
+  redis: kv,
+  limiter: Ratelimit.slidingWindow(50, "10 s"),
+});
+
 const rateLimitRestricted = new Ratelimit({
   redis: kv,
   limiter: Ratelimit.slidingWindow(5, "10 s"),
@@ -23,11 +28,12 @@ export default async function middleware(request: NextRequest) {
 
   let success, limit, reset, remaining;
 
-  if (
-    (referer &&
-      (referer.includes("farther.social") ||
-        referer.includes("localhost:3000"))) ||
-    request.url.includes("handleTip")
+  if (request.url.includes("handleTip")) {
+    // Apply rate limiting for the handleTip endpoint
+    ({ success, limit, reset, remaining } = await rateLimitGenerous.limit(ip));
+  } else if (
+    referer &&
+    (referer.includes("farther.social") || referer.includes("localhost:3000"))
   ) {
     // Apply website-specific rate limiting
     ({ success, limit, reset, remaining } = await rateLimitDefault.limit(ip));
