@@ -70,6 +70,10 @@ export function logQueueEvents({
   queueEvents: QueueEvents;
   queueName: keyof typeof queueNames;
 }) {
+  queueEvents.on("added", (job) => {
+    console.info(`added: ${job.jobId}`);
+  });
+
   queueEvents.on("active", (job) => {
     console.info(`active: ${job.jobId}`);
   });
