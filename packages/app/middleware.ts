@@ -9,7 +9,7 @@ const rateLimitDefault = new Ratelimit({
 
 const rateLimitRestricted = new Ratelimit({
   redis: kv,
-  limiter: Ratelimit.slidingWindow(10, "10 s"),
+  limiter: Ratelimit.slidingWindow(5, "10 s"),
 });
 
 export const config = {
@@ -32,7 +32,6 @@ export default async function middleware(request: NextRequest) {
     // Apply website-specific rate limiting
     ({ success, limit, reset, remaining } = await rateLimitDefault.limit(ip));
   } else {
-    console.info("Restricted rate limit", request.url);
     // Apply default rate limiting for other sources
     ({ success, limit, reset, remaining } =
       await rateLimitRestricted.limit(ip));
