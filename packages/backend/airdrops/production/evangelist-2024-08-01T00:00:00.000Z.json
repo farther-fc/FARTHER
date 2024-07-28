@@ -1,0 +1,170 @@
+{
+  "root": "0xb32e72ed8a8b0d78ad41af7de985e2e6222a92ab7c417ba95f5c18abb2b96023",
+  "amount": "366051000000000000000000",
+  "numberOfRecipients": 32,
+  "minUserAllocation": 948,
+  "maxUserAllocation": 37102,
+  "startTime": 1722470400,
+  "rawLeafData": [
+    {
+      "index": 0,
+      "address": "0xc0e89289d179151768748297395294fbf3cb8d0a",
+      "amount": "11520000000000000000000"
+    },
+    {
+      "index": 1,
+      "address": "0x96ac4a8925288b224972a007ca91c99b46a02d1d",
+      "amount": "15370000000000000000000"
+    },
+    {
+      "index": 2,
+      "address": "0xbdddfb2ff21efcc00a2ca5a7d1fdc5798c98f07b",
+      "amount": "2966000000000000000000"
+    },
+    {
+      "index": 3,
+      "address": "0x4076eca4db9684fa1d9bfac231cb516889a33e5a",
+      "amount": "19140000000000000000000"
+    },
+    {
+      "index": 4,
+      "address": "0xfcfdf5cf7573cb8467a5d371419b024005bc70b2",
+      "amount": "5276000000000000000000"
+    },
+    {
+      "index": 5,
+      "address": "0x6e786fcfcb98da9df87ab0b7a2d64067c90daba9",
+      "amount": "32004000000000000000000"
+    },
+    {
+      "index": 6,
+      "address": "0xd5ced726dc5145edf5168fe11650c5a4eb747b69",
+      "amount": "3776000000000000000000"
+    },
+    {
+      "index": 7,
+      "address": "0x8c24b09b35857479fd32acb278d40fc0cd54f925",
+      "amount": "7935000000000000000000"
+    },
+    {
+      "index": 8,
+      "address": "0xbec00274dc8b2775ba887d18b980a95e4898ad6d",
+      "amount": "11069000000000000000000"
+    },
+    {
+      "index": 9,
+      "address": "0x05f761aacd63e4e96bf98f0fe5614de5ba90856c",
+      "amount": "10698000000000000000000"
+    },
+    {
+      "index": 10,
+      "address": "0x9f327969a2aead18c7d0424c537a05c597080261",
+      "amount": "2946000000000000000000"
+    },
+    {
+      "index": 11,
+      "address": "0xab6eb54fad4b9cd2d62057e4c4ef187bd42da7eb",
+      "amount": "2314000000000000000000"
+    },
+    {
+      "index": 12,
+      "address": "0x512920dc1a33a89b3ab74f166f25cf2e5362b0c4",
+      "amount": "19720000000000000000000"
+    },
+    {
+      "index": 13,
+      "address": "0xec9bb5ee2b8458613f0a6a764ef6a9c5da0ebe70",
+      "amount": "32132000000000000000000"
+    },
+    {
+      "index": 14,
+      "address": "0x63e0e1312a693a3e113574060c424d1411ab4d55",
+      "amount": "15632000000000000000000"
+    },
+    {
+      "index": 15,
+      "address": "0x49bd3fdd5fdf30124dd77c137b178de74fe8649b",
+      "amount": "30017000000000000000000"
+    },
+    {
+      "index": 16,
+      "address": "0x28a33a73c2ebd848aeda3792be629ae1addb4e7a",
+      "amount": "3608000000000000000000"
+    },
+    {
+      "index": 17,
+      "address": "0xcdce6ad76143a42c14ebdac67c199af57cebc565",
+      "amount": "1951000000000000000000"
+    },
+    {
+      "index": 18,
+      "address": "0x63f257b7578931b055e15bc2b3e9b2420aff1295",
+      "amount": "3124000000000000000000"
+    },
+    {
+      "index": 19,
+      "address": "0xd8fe942c2bd17c3b73892eee55934308e9463e62",
+      "amount": "37102000000000000000000"
+    },
+    {
+      "index": 20,
+      "address": "0xe88d4c9c5dbbfe9554145134dfa97a4e5dbc6cec",
+      "amount": "1446000000000000000000"
+    },
+    {
+      "index": 21,
+      "address": "0xe8cb7d33f18c3d2b265d9c47e02d8ab67f1a116b",
+      "amount": "22469000000000000000000"
+    },
+    {
+      "index": 22,
+      "address": "0xddcffade622fa032021f823be481636f2e56ff38",
+      "amount": "1516000000000000000000"
+    },
+    {
+      "index": 23,
+      "address": "0x3b073a8d0ce0589eef40dd5015a27526260b2c38",
+      "amount": "2449000000000000000000"
+    },
+    {
+      "index": 24,
+      "address": "0x447fe6db1ee3194660e98a1041aac7a651849bda",
+      "amount": "13493000000000000000000"
+    },
+    {
+      "index": 25,
+      "address": "0x8138f25429504a6b1a9d6bbf6a6d3bca9d5dba4c",
+      "amount": "3246000000000000000000"
+    },
+    {
+      "index": 26,
+      "address": "0x790681392ca048891507dbec8a6025f4bc75fb67",
+      "amount": "948000000000000000000"
+    },
+    {
+      "index": 27,
+      "address": "0x1fba9dff384ce1158ac4a7e4c53b77b585f29d3e",
+      "amount": "15095000000000000000000"
+    },
+    {
+      "index": 28,
+      "address": "0x3d9b334d02060a872b37b7e44b182059ae908161",
+      "amount": "17546000000000000000000"
+    },
+    {
+      "index": 29,
+      "address": "0xe895eb79ff949f4ee735c0a98aa131fdd4820ecc",
+      "amount": "2854000000000000000000"
+    },
+    {
+      "index": 30,
+      "address": "0x0b5fa155785fcb3ded40e6e138bededc9df1cfe9",
+      "amount": "2651000000000000000000"
+    },
+    {
+      "index": 31,
+      "address": "0x7add4d977a701a83a51a3d6101fd72e54d6ea6b6",
+      "amount": "14038000000000000000000"
+    }
+  ]
+}

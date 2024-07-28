@@ -72,7 +72,7 @@ export const ONE_YEAR_IN_MS = 31_536_000_000;
 /**
  * IMPORTANT: UPDATE THESE VALUES RIGHT AFTER A NEW AIRDROP IS DEPLOYED!
  */
-export const NEXT_AIRDROP_START_TIME = new Date("2024-07-01T00:00:00Z");
+export const NEXT_AIRDROP_START_TIME = new Date("2024-08-01T00:00:00Z");
 export const NEXT_AIRDROP_END_TIME = new Date(
   NEXT_AIRDROP_START_TIME.getTime() + ONE_YEAR_IN_MS,
 );
@@ -81,7 +81,7 @@ export const NEXT_AIRDROP_END_TIME = new Date(
 // for the second airdrop match the first.
 // This allows for more growth later rather than evenly splitting the allocation between
 // every month over 3 years. Also creates more equitable distribution.
-export const POWER_USER_AIRDROP_RATIO = 0.01;
+export const POWER_USER_AIRDROP_RATIO = 0.005;
 
 export const baseContractAddresses = {
   production: {
