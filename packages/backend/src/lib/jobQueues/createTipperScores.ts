@@ -2,7 +2,6 @@ import { OPENRANK_SNAPSHOT_INTERVAL, cacheTypes } from "@farther/common";
 import { Job, QueueEvents, Worker } from "bullmq";
 import dayjs from "dayjs";
 import Decimal from "decimal.js";
-import { chunk } from "underscore";
 import { Tip, prisma } from "../../prisma";
 import {
   createTipperScoresQueue,
@@ -17,98 +16,57 @@ import { dayUTC } from "../utils/dayUTC";
 import { flushCache } from "../utils/flushCache";
 import { getTipScores } from "../utils/getTipScores";
 import { dbScheduler } from "../utils/helpers";
+import { counter } from "./counter";
 
 const SCORE_START_DATE = new Date("2024-07-14T03:00:08.894Z");
 
-// NOTE this can't be very big because of vercel/kv memory limit (10265353)
-const BATCH_SIZE = 10;
-
-type TipperChunk = [
-  string,
-  {
-    hash: string;
-    tipperId: number;
-    tippeeId: number;
-    createdAt: Date;
-    amount: number;
-    startScore: number;
-  }[],
-][];
+type JobData = {
+  fid: number;
+  from: Date;
+  to: Date;
+};
 
 new Worker(queueNames.CREATE_TIPPER_SCORES, createTipperScoresBatch, {
   connection: queueConnection,
   concurrency: 5,
 });
 
-let totalJobs: number;
-let completedJobs = 0;
-const allTipperFids: number[] = [];
-
 export async function createTipperScores() {
   console.log(`STARTING: ${queueNames.CREATE_TIPPER_SCORES}`);
 
-  createTipperScoresQueue.drain();
-
   const latestAirdrop = await getLatestTipperAirdrop();
+
+  const from = latestAirdrop ? latestAirdrop.createdAt : SCORE_START_DATE;
+
+  // Recent tips won't have an OpenRank score change yet
+  const to = dayUTC().subtract(OPENRANK_SNAPSHOT_INTERVAL, "hours").toDate();
+
   const tippers = await getTippersByDate({
-    from: latestAirdrop ? latestAirdrop.createdAt : SCORE_START_DATE,
-    // Recent tips won't have an OpenRank score change yet
-    to: dayUTC().subtract(OPENRANK_SNAPSHOT_INTERVAL, "hours").toDate(),
+    from,
+    to,
   });
 
-  allTipperFids.push(...tippers.map((tipper) => tipper.id));
-
-  const tips = tippers.map((tipper) => tipper.tipsGiven).flat();
-
-  // Tips grouped by tipper
-  const tipSnapshots: {
-    [tipperId: number]: {
-      hash: string;
-      tipperId: number;
-      tippeeId: number;
-      createdAt: Date;
-      amount: number;
-      startScore: number;
-    }[];
-  } = {};
-
-  tips.forEach((tip) => {
-    if (!tipSnapshots[tip.tipperId]) {
-      tipSnapshots[tip.tipperId] = [];
-    }
-    if (tip.tippeeOpenRankScore === null) {
-      throw new Error(
-        `Tipper ${tip.tipperId} has a tip with no tippeeOpenRankScore`,
-      );
-    }
-    tipSnapshots[tip.tipperId].push({
-      hash: tip.hash,
-      tipperId: tip.tipperId,
-      tippeeId: tip.tippeeId,
-      createdAt: tip.createdAt,
-      amount: tip.amount,
-      startScore: tip.tippeeOpenRankScore,
-    });
+  await counter.init({
+    queueName: queueNames.CREATE_TIPPER_SCORES,
+    total: tippers.length,
   });
-
-  const chunkedTippers = chunk(Object.entries(tipSnapshots), BATCH_SIZE);
-
-  totalJobs = chunkedTippers.length;
 
   // Putting the hour in the job name to avoid collisions
   const date = dayjs();
   const day = date.format("YYYY-MM-DD");
   const hour = date.format("hh");
 
-  console.log(`Creating ${totalJobs} jobs for ${tippers.length} tippers`);
+  console.log(
+    `${queueNames.CREATE_TIPPER_SCORES}: Creating ${tippers.length}jobs`,
+  );
 
   // Create jobs
   await createTipperScoresQueue.addBulk(
-    chunkedTippers.map((tippers, i) => {
-      const jobId = `${queueNames.CREATE_TIPPER_SCORES}-${day}-h${hour}-batch:${i * BATCH_SIZE + tippers.length}`;
+    tippers.map((tipper, i) => {
+      const jobId = `${queueNames.CREATE_TIPPER_SCORES}-${day}-h${hour}-fid:${tipper.id}`;
       return {
         name: jobId,
-        data: { tippers },
+        data: { fid: tipper.id, from, to },
         opts: { jobId, attempts: 5 },
       };
     }),
@@ -116,59 +74,76 @@ export async function createTipperScores() {
 }
 
 async function createTipperScoresBatch(job: Job) {
-  const tippers = job.data.tippers as TipperChunk;
+  const { fid, from, to } = job.data as JobData;
 
-  console.info(`Starting job ${job.id} with ${tippers.length} tippers`);
+  const tipperData = await prisma.user.findUnique({
+    where: { id: fid },
+    include: {
+      tipsGiven: {
+        where: {
+          invalidTipReason: null,
+          tippeeOpenRankScore: {
+            not: null,
+          },
+          createdAt: {
+            gte: from,
+            lt: to,
+          },
+        },
+      },
+    },
+  });
 
-  const tipperScores: { fid: string; score: number }[] = [];
+  if (!tipperData) {
+    throw new Error(`No tipper data found for fid: ${fid}`);
+  }
+
+  const tips = tipperData.tipsGiven;
+
+  const tipees = new Set(tips.map((tip) => tip.tippeeId));
+  const endScores = await getLatestOpenRankScores(Array.from(tipees));
+
+  const tipScores = await getTipScores({
+    tips,
+    endScores,
+  });
+
+  const totalScore = tipScores.reduce(
+    (acc, score) => acc.add(score.changePerToken),
+    new Decimal(0),
+  );
 
   const tipUpdates: Promise<Tip>[] = [];
 
-  for (const [fid, tips] of tippers) {
-    const tipees = new Set(tips.map((tip) => tip.tippeeId));
-    const endScores = await getLatestOpenRankScores(Array.from(tipees));
-
-    const tipScores = await getTipScores({
-      tips,
-      endScores,
-    });
-
-    const totalScore = tipScores.reduce(
-      (acc, score) => acc.add(score.changePerToken),
-      new Decimal(0),
-    );
-
-    tipUpdates.push(
-      ...tipScores.map((tip, index) =>
-        dbScheduler.schedule(() =>
-          prisma.tip.update({
-            where: { hash: tip.hash },
-            data: {
-              openRankChange: tipScores[index].changePerToken.toNumber(),
-            },
-          }),
-        ),
+  tipUpdates.push(
+    ...tipScores.map((tip, index) =>
+      dbScheduler.schedule(() =>
+        prisma.tip.update({
+          where: { hash: tip.hash },
+          data: {
+            openRankChange: tipScores[index].changePerToken.toNumber(),
+          },
+        }),
       ),
-    );
-
-    // Return average
-    const tipperScore = totalScore.div(tips.length);
-
-    tipperScores.push({ fid, score: tipperScore.toNumber() });
-  }
+    ),
+  );
 
   await Promise.all(tipUpdates);
 
-  console.info(`Creating ${tipperScores.length} tipper scores`);
+  // Return average
+  const tipperScore = totalScore.div(tips.length);
 
-  await prisma.tipperScore.createMany({
-    data: tipperScores.map(({ fid, score }) => ({
-      userId: parseInt(fid),
-      score,
-    })),
+  await prisma.tipperScore.create({
+    data: {
+      userId: fid,
+      score: tipperScore.toNumber(),
+    },
   });
 
-  return tipperScores.map(({ fid }) => fid);
+  await flushCache({
+    type: cacheTypes.USER,
+    ids: [fid],
+  });
 }
 
 const queueEvents = new QueueEvents(queueNames.CREATE_TIPPER_SCORES, {
@@ -178,15 +153,13 @@ const queueEvents = new QueueEvents(queueNames.CREATE_TIPPER_SCORES, {
 logQueueEvents({ queueEvents, queueName: queueNames.CREATE_TIPPER_SCORES });
 
 queueEvents.on("completed", async (job) => {
-  completedJobs++;
+  const { count, total } = await counter.increment(
+    queueNames.CREATE_TIPPER_SCORES,
+  );
 
-  console.info(`done: ${job.jobId} (${completedJobs}/${totalJobs}).`);
+  console.info(`done: ${job.jobId} (${count}/${total}).`);
 
-  if (completedJobs === totalJobs) {
-    await flushCache({
-      type: cacheTypes.USER,
-      ids: allTipperFids,
-    });
+  if (count === total) {
     await flushCache({
       type: cacheTypes.USER_TIPS,
     });
@@ -194,8 +167,8 @@ queueEvents.on("completed", async (job) => {
       type: cacheTypes.LEADERBOARD,
     });
     console.info(`ALL DONE: ${queueNames.CREATE_TIPPER_SCORES}`);
-    totalJobs = 0;
-    completedJobs = 0;
-    createTipperScoresQueue.drain();
+
+    await createTipperScoresQueue.drain();
+    await counter.remove(queueNames.CREATE_TIPPER_SCORES);
   }
 });

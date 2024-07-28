@@ -16,13 +16,13 @@ export async function getTipScores({
     tippeeId: number;
     createdAt: Date;
     amount: number;
-    startScore: number;
+    tippeeOpenRankScore: number | null;
   }[];
   endScores: { [fid: number]: number };
   endTime?: Date;
 }) {
   return tips.map((tip) => {
-    const startScore = new Decimal(tip.startScore || 0);
+    const startScore = new Decimal(tip.tippeeOpenRankScore || 0);
     const latestScore = new Decimal(endScores[tip.tippeeId]);
 
     // Change in OpenRank score per day
