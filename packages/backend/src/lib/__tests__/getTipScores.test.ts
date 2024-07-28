@@ -21,7 +21,7 @@ describe("getTipScores", () => {
         tippeeId: 2,
         createdAt: new Date("2023-07-10"),
         amount: 100,
-        startScore: 50,
+        tippeeOpenRankScore: 50,
       },
       {
         hash: "hash2",
@@ -29,7 +29,7 @@ describe("getTipScores", () => {
         tippeeId: 3,
         createdAt: new Date("2023-07-11"),
         amount: 200,
-        startScore: 100,
+        tippeeOpenRankScore: 100,
       },
     ];
 
@@ -76,7 +76,7 @@ describe("getTipScores", () => {
         tippeeId: 2,
         createdAt: new Date("2023-07-10"),
         amount: 100,
-        startScore: 50,
+        tippeeOpenRankScore: 50,
       },
     ];
 
