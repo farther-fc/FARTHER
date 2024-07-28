@@ -1,20 +1,16 @@
 import {
-  ANVIL_AIRDROP_ADDRESS,
-  CHAIN_ID,
   DEV_USER_ADDRESS,
   DEV_USER_FID,
   ENVIRONMENT,
   NETWORK,
-  NEXT_AIRDROP_END_TIME,
   NEXT_AIRDROP_START_TIME,
   getLpBonusRewards,
   getMerkleRoot,
   isProduction,
   neynarLimiter,
 } from "@farther/common";
-import { v4 as uuidv4 } from "uuid";
 import { getLpAccounts } from "../../../app/server/liquidity/getLpAccounts";
-import { formatNum, writeFile } from "../lib/utils/helpers";
+import { formatNum } from "../lib/utils/helpers";
 import { AllocationType, prisma } from "../prisma";
 import { airdropSanityCheck } from "./airdropSanityCheck";
 
@@ -109,12 +105,21 @@ async function prepareLpBonusDrop() {
           pendingWad: account.rewardsUnclaimed,
         });
 
+        const prevAllocated =
+          previouslyAllocated[account.id]?.amount || BigInt(0);
+        const amount = totalRewards - prevAllocated;
+
+        console.log({
+          totalRewards,
+          prevAllocated,
+          amount,
+        });
+
         return {
           address: account.id,
           fid: u.fid,
           // TODO: verify this is correct
-          amount:
-            totalRewards - previouslyAllocated[account.id]?.amount || BigInt(0),
+          amount,
         };
       })
       .filter((a) => a.amount > BigInt(0));
@@ -138,46 +143,46 @@ async function prepareLpBonusDrop() {
       throw new Error("Merkle root is 0x");
     }
 
-    await prisma.$transaction(async (tx) => {
-      // Create Airdrop
-      const airdrop = await tx.airdrop.create({
-        data: {
-          chainId: CHAIN_ID,
-          amount: allocationSum.toString(),
-          root,
-          address:
-            ENVIRONMENT === "development" ? ANVIL_AIRDROP_ADDRESS : undefined,
-          startTime: NEXT_AIRDROP_START_TIME,
-          endTime: NEXT_AIRDROP_END_TIME,
-        },
-      });
+    // await prisma.$transaction(async (tx) => {
+    //   // Create Airdrop
+    //   const airdrop = await tx.airdrop.create({
+    //     data: {
+    //       chainId: CHAIN_ID,
+    //       amount: allocationSum.toString(),
+    //       root,
+    //       address:
+    //         ENVIRONMENT === "development" ? ANVIL_AIRDROP_ADDRESS : undefined,
+    //       startTime: NEXT_AIRDROP_START_TIME,
+    //       endTime: NEXT_AIRDROP_END_TIME,
+    //     },
+    //   });
 
-      // Save allocations
-      await tx.allocation.createMany({
-        data: allocationData.map((r, i) => ({
-          id: uuidv4(),
-          userId: r.fid,
-          index: i,
-          airdropId: airdrop.id,
-          type: AllocationType.LIQUIDITY,
-          address: r.address.toLowerCase(),
-          amount: r.amount.toString(),
-        })),
-      });
+    //   // Save allocations
+    //   await tx.allocation.createMany({
+    //     data: allocationData.map((r, i) => ({
+    //       id: uuidv4(),
+    //       userId: r.fid,
+    //       index: i,
+    //       airdropId: airdrop.id,
+    //       type: AllocationType.LIQUIDITY,
+    //       address: r.address.toLowerCase(),
+    //       amount: r.amount.toString(),
+    //     })),
+    //   });
 
-      await writeFile(
-        `airdrops/${ENVIRONMENT}/${AllocationType.LIQUIDITY.toLowerCase()}-${NEXT_AIRDROP_START_TIME.toISOString()}.json`,
-        JSON.stringify(
-          {
-            root,
-            amount: allocationSum.toString(),
-            rawLeafData,
-          },
-          null,
-          2,
-        ),
-      );
-    });
+    //   await writeFile(
+    //     `airdrops/${ENVIRONMENT}/${AllocationType.LIQUIDITY.toLowerCase()}-${NEXT_AIRDROP_START_TIME.toISOString()}.json`,
+    //     JSON.stringify(
+    //       {
+    //         root,
+    //         amount: allocationSum.toString(),
+    //         rawLeafData,
+    //       },
+    //       null,
+    //       2,
+    //     ),
+    //   );
+    // });
 
     const sortedallocations = allocationData.sort((a, b) => {
       if (BigInt(a.amount) < BigInt(b.amount)) {
