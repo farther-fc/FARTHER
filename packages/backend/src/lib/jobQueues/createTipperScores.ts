@@ -11,14 +11,12 @@ import {
   queueNames,
 } from "../bullmq";
 import { getLatestOpenRankScores } from "../getLatestOpenRankScores";
-import { getLatestTipperAirdrop } from "../getLatestTipperAirdrop";
 import { getTippersByDate } from "../getTippersByDate";
+import { getTipsFromDate } from "../getTipsFromDate";
 import { dayUTC } from "../utils/dayUTC";
 import { flushCache } from "../utils/flushCache";
 import { getTipScores } from "../utils/getTipScores";
 import { dbScheduler } from "../utils/helpers";
-
-const SCORE_START_DATE = new Date("2024-07-14T03:00:08.894Z");
 
 type JobData = {
   fid: number;
@@ -36,9 +34,7 @@ export async function createTipperScores() {
 
   await createTipperScoresQueue.drain();
 
-  const latestAirdrop = await getLatestTipperAirdrop();
-
-  const from = latestAirdrop ? latestAirdrop.createdAt : SCORE_START_DATE;
+  const from = await getTipsFromDate();
 
   // Recent tips won't have an OpenRank score change yet
   const to = dayUTC().subtract(OPENRANK_SNAPSHOT_INTERVAL, "hours").toDate();
