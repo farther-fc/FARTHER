@@ -1,8 +1,4 @@
-import {
-  cronSchedules,
-  isProduction,
-  retryWithExponentialBackoff,
-} from "@farther/common";
+import { cronSchedules, isProduction } from "@farther/common";
 import { getOpenRankScores } from "@farther/common/src/getOpenRankScore";
 import * as Sentry from "@sentry/node";
 import { Job, QueueEvents, Worker } from "bullmq";
@@ -77,62 +73,58 @@ export async function openRankSnapshot() {
 async function storeScores(job: Job) {
   const tippeeFids = job.data.fids as number[];
 
-  const scores = await getOpenRankScores(tippeeFids);
+  const scoresData = await getOpenRankScores(tippeeFids);
 
   const snapshotTimeId = getLatestCronTime(cronSchedules.OPENRANK_SNAPSHOT);
 
-  await retryWithExponentialBackoff(async () => {
-    try {
-      return await prisma.$transaction(
-        scores.map((r) => {
-          const data = {
-            snapshot: {
-              connectOrCreate: {
-                where: {
-                  id: snapshotTimeId,
-                },
-                create: {
-                  id: snapshotTimeId,
-                },
-              },
-            },
-            user: {
-              connectOrCreate: {
-                where: {
-                  id: r.fid,
-                },
-                create: {
-                  id: r.fid,
-                },
-              },
-            },
-            score: r.score,
-          } as const;
+  for (const scoreData of scoresData) {
+    const data = {
+      snapshot: {
+        connectOrCreate: {
+          where: {
+            id: snapshotTimeId,
+          },
+          create: {
+            id: snapshotTimeId,
+          },
+        },
+      },
+      user: {
+        connectOrCreate: {
+          where: {
+            id: scoreData.fid,
+          },
+          create: {
+            id: scoreData.fid,
+          },
+        },
+      },
+      score: scoreData.score,
+    } as const;
 
-          return prisma.openRankScore.upsert({
-            where: {
-              userId_snapshotId: {
-                snapshotId: snapshotTimeId,
-                userId: r.fid,
-              },
-            },
-            create: data,
-            update: data,
-          });
-        }),
-      );
+    try {
+      await prisma.openRankScore.upsert({
+        where: {
+          userId_snapshotId: {
+            snapshotId: snapshotTimeId,
+            userId: scoreData.fid,
+          },
+        },
+        create: data,
+        update: data,
+      });
     } catch (error) {
       Sentry.captureException(error.message, {
         contexts: {
           tags: {
             jobQueue: queueNames.OPENRANK_SNAPSHOT,
-            tippeeFids: tippeeFids.join(","),
+            snapshotTimeId,
+            fid: scoreData.fid,
           },
         },
       });
-      throw error;
     }
-  });
+  }
 }
 
 const queueEvents = new QueueEvents(queueNames.OPENRANK_SNAPSHOT, {
