@@ -42,7 +42,9 @@ export const queueNames = {
   OPENRANK_SNAPSHOT: "OPENRANK_SNAPSHOT",
 } as const;
 
-export type QueueName = keyof typeof queueNames;
+type ValueOf<T> = T[keyof T];
+
+export type QueueName = ValueOf<typeof queueNames>;
 
 export const syncUserDataQueue = new Queue(queueNames.SYNC_USERS, {
   connection: queueConnection,
@@ -68,7 +70,7 @@ export function logQueueEvents({
   queueName,
 }: {
   queueEvents: QueueEvents;
-  queueName: keyof typeof queueNames;
+  queueName: QueueName;
 }) {
   queueEvents.on("added", (job) => {
     console.info(`added: ${job.jobId}`);
