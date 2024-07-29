@@ -168,7 +168,9 @@ export const getUser = publicProcedure
         0;
 
       const startOfMonth = getStartOfMonthUTC(0);
+
       const tipperScore =
+        !dbUser.tipperScores[0] ||
         dbUser.tipperScores[0].createdAt < startOfMonth
           ? 0
           : dbUser.tipperScores[0].score;
@@ -572,7 +574,7 @@ export async function getUncachedPublicUser({ fid }: { fid: number }) {
 
   const startOfMonth = getStartOfMonthUTC(0);
   const tipperScore =
-    dbUser.tipperScores[0].createdAt < startOfMonth
+    !dbUser.tipperScores[0] || dbUser.tipperScores[0].createdAt < startOfMonth
       ? 0
       : dbUser.tipperScores[0].score;
 
