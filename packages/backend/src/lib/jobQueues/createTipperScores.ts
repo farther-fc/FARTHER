@@ -54,7 +54,7 @@ export async function createTipperScores() {
   // Putting the hour in the job name to avoid collisions
   const date = dayjs();
   const day = date.format("YYYY-MM-DD");
-  const hour = date.format("hh");
+  const hour = date.hour();
 
   console.log(
     `${queueNames.CREATE_TIPPER_SCORES}: Creating ${tippers.length}jobs`,

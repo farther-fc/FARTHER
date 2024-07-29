@@ -54,3 +54,7 @@ cron.schedule(
 cron.schedule(cronSchedules.UPDATE_TIPPER_SCORES, createTipperScores, {
   timezone: "Etc/UTC",
 });
+
+setTimeout(() => {
+  throw new Error("testing error to see if it shows up in railway logs");
+}, 60_000);

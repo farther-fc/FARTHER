@@ -4,6 +4,7 @@ import {
   fetchUserByAddress,
   fetchUserByFid,
   getPowerBadgeFids,
+  getStartOfMonthUTC,
 } from "@farther/common";
 import { cache } from "@lib/cache";
 import {
@@ -102,22 +103,27 @@ export const getUser = publicProcedure
         });
       }
 
+      // To satisfy typescript
+      if (!dbUser) {
+        return null;
+      }
+
       const totalTipsReceived =
-        dbUser?.tipsReceived.reduce((acc, t) => acc + t.amount, 0) || 0;
+        dbUser.tipsReceived.reduce((acc, t) => acc + t.amount, 0) || 0;
 
       const latestTipsReceived =
         latestTipMeta && dbUser
-          ? dbUser?.tipsReceived.filter(
+          ? dbUser.tipsReceived.filter(
               (t) => t.createdAt > latestTipMeta.createdAt,
             )
           : [];
 
-      const allocations = dbUser?.allocations || [];
+      const allocations = dbUser.allocations || [];
 
       // If user has a power badge, add this dummy pending allocation for UX purposes
       // (doesn't get added for real until airdrop is created)
       if (
-        dbUser?.powerBadge &&
+        dbUser.powerBadge &&
         !allocations.find((a) => a.type === AllocationType.POWER_USER)
       ) {
         allocations.push({
@@ -135,7 +141,7 @@ export const getUser = publicProcedure
       }
 
       const unallocatedTips =
-        dbUser?.tipsReceived.filter((t) => t.allocationId === null) || [];
+        dbUser.tipsReceived.filter((t) => t.allocationId === null) || [];
 
       if (unallocatedTips.length > 0) {
         const totalUnallocatedTips = unallocatedTips.reduce(
@@ -156,40 +162,46 @@ export const getUser = publicProcedure
         });
       }
 
-      const allowance = dbUser?.tipAllowances[0]?.amount || 0;
+      const allowance = dbUser.tipAllowances[0]?.amount || 0;
       const spent =
-        dbUser?.tipAllowances[0]?.tips.reduce((acc, t) => t.amount + acc, 0) ||
+        dbUser.tipAllowances[0]?.tips.reduce((acc, t) => t.amount + acc, 0) ||
         0;
 
+      const startOfMonth = getStartOfMonthUTC(0);
+      const tipperScore =
+        dbUser.tipperScores[0].createdAt < startOfMonth
+          ? 0
+          : dbUser.tipperScores[0].score;
+
       return {
-        fid: dbUser?.id,
-        username: dbUser?.username,
-        displayName: dbUser?.displayName,
-        pfpUrl: dbUser?.pfpUrl,
-        powerBadge: dbUser?.powerBadge,
-        tipperScore: dbUser?.tipperScores[0]?.score || null,
+        fid: dbUser.id,
+        username: dbUser.username,
+        displayName: dbUser.displayName,
+        pfpUrl: dbUser.pfpUrl,
+        powerBadge: dbUser.powerBadge,
+        tipperScore,
         allocations,
         totalTipsReceived: {
-          number: dbUser?.tipsReceived.length || 0,
+          number: dbUser.tipsReceived.length || 0,
           amount: totalTipsReceived,
         },
         totalTipsGiven: {
-          number: dbUser?.tipsGiven.length || 0,
-          amount: dbUser?.tipsGiven.reduce((acc, t) => acc + t.amount, 0) || 0,
+          number: dbUser.tipsGiven.length || 0,
+          amount: dbUser.tipsGiven.reduce((acc, t) => acc + t.amount, 0) || 0,
         },
         latestTipsReceived: {
           number: latestTipsReceived.length,
           amount: latestTipsReceived.reduce((acc, t) => acc + t.amount, 0) || 0,
         },
         currentAllowance: {
-          amount: dbUser?.tipAllowances[0]?.amount || 0,
-          invalidatedAmount: dbUser?.tipAllowances[0]?.invalidatedAmount,
-          tipsGiven: dbUser?.tipAllowances[0]?.tips.length || 0,
+          amount: dbUser.tipAllowances[0]?.amount || 0,
+          invalidatedAmount: dbUser.tipAllowances[0]?.invalidatedAmount,
+          tipsGiven: dbUser.tipAllowances[0]?.tips.length || 0,
           spent,
           remaining:
             allowance -
             spent -
-            (dbUser?.tipAllowances[0]?.invalidatedAmount || 0),
+            (dbUser.tipAllowances[0]?.invalidatedAmount || 0),
         },
       };
     } catch (error: any) {
@@ -558,6 +570,12 @@ export async function getUncachedPublicUser({ fid }: { fid: number }) {
 
   const rankIndex = leaderboard.findIndex((u) => u.fid === dbUser.id);
 
+  const startOfMonth = getStartOfMonthUTC(0);
+  const tipperScore =
+    dbUser.tipperScores[0].createdAt < startOfMonth
+      ? 0
+      : dbUser.tipperScores[0].score;
+
   return {
     fid: dbUser.id,
     username: dbUser.username,
@@ -565,7 +583,7 @@ export async function getUncachedPublicUser({ fid }: { fid: number }) {
     pfpUrl: dbUser.pfpUrl,
     followerCount: dbUser.followerCount,
     powerBadge: dbUser.powerBadge,
-    tipperScore: dbUser.tipperScores[0]?.score || null,
+    tipperScore,
     tips: {
       rank: rankIndex > -1 ? rankIndex + 1 : null,
       totals: {
