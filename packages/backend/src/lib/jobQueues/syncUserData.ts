@@ -5,6 +5,7 @@ import { QueueEvents, Worker } from "bullmq";
 import { chunk } from "underscore";
 import { prisma } from "../../prisma";
 import {
+  getJobCounts,
   logQueueEvents,
   queueConnection,
   queueNames,
@@ -12,7 +13,6 @@ import {
 } from "../bullmq";
 import { dayUTC } from "../utils/dayUTC";
 import { flushCache } from "../utils/flushCache";
-import { counter } from "./counter";
 
 const BATCH_SIZE = 1000;
 
@@ -138,11 +138,6 @@ export async function syncUserData() {
     `Syncing ${allFids.length} users in ${fidBatches.length} batches...`,
   );
 
-  await counter.init({
-    queueName: queueNames.SYNC_USERS,
-    total: fidBatches.length,
-  });
-
   const day = dayUTC().format("YYYY-MM-DD");
 
   await syncUserDataQueue.addBulk(
@@ -164,14 +159,15 @@ const queueEvents = new QueueEvents(queueNames.SYNC_USERS, {
 logQueueEvents({ queueEvents, queueName: queueNames.SYNC_USERS });
 
 queueEvents.on("completed", async (job) => {
-  const { count, total } = await counter.increment(queueNames.SYNC_USERS);
+  const { completed, failed, total } = await getJobCounts(syncUserDataQueue);
 
-  console.info(`done: ${job.jobId} (${count}/${total}).`);
+  console.info(`done: ${job.jobId} (${completed}/${total}).`);
 
-  if (count === total) {
-    console.log(`ALL DONE: ${queueNames.SYNC_USERS}`);
+  if (completed + failed === total) {
+    console.log(
+      `ALL DONE: ${queueNames.SYNC_USERS} Completed: ${completed}. Failed: ${failed}`,
+    );
 
     await syncUserDataQueue.drain();
-    await counter.remove(queueNames.SYNC_USERS);
   }
 });

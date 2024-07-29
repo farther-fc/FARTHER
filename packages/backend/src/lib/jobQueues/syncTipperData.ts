@@ -2,13 +2,13 @@ import { QueueEvents, Worker } from "bullmq";
 import { chunk } from "underscore";
 import { prisma } from "../../prisma";
 import {
+  getJobCounts,
   logQueueEvents,
   queueConnection,
   queueNames,
   syncTipperDataQueue,
 } from "../bullmq";
 import { dayUTC } from "../utils/dayUTC";
-import { counter } from "./counter";
 import { syncUserDataBatch } from "./syncUserData";
 
 const BATCH_SIZE = 1000;
@@ -37,11 +37,6 @@ export async function syncTipperData() {
     `Syncing ${allFids.length} users in ${fidBatches.length} batches...`,
   );
 
-  await counter.init({
-    queueName: queueNames.SYNC_TIPPERS,
-    total: fidBatches.length,
-  });
-
   // Putting the day in the job name to avoid collisions
   const day = dayUTC().format("YYYY-MM-DD");
 
@@ -64,13 +59,14 @@ const queueEvents = new QueueEvents(queueNames.SYNC_TIPPERS, {
 logQueueEvents({ queueEvents, queueName: queueNames.SYNC_TIPPERS });
 
 queueEvents.on("completed", async (job) => {
-  const { count, total } = await counter.increment(queueNames.SYNC_TIPPERS);
+  const { completed, failed, total } = await getJobCounts(syncTipperDataQueue);
 
-  console.info(`done: ${job.jobId} (${count}/${total}).`);
+  console.info(`done: ${job.jobId} (${completed}/${total}).`);
 
-  if (count === total) {
-    console.log(`ALL DONE: ${queueNames.SYNC_TIPPERS} all jobs completed!`);
+  if (total === completed + failed) {
+    console.log(
+      `ALL DONE: ${queueNames.SYNC_TIPPERS} Completed: ${completed}. Failed: ${failed}`,
+    );
     await syncTipperDataQueue.drain();
-    await counter.remove(queueNames.SYNC_TIPPERS);
   }
 });
