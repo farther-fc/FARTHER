@@ -56,7 +56,7 @@ export async function openRankSnapshot() {
   // Putting the hour in the job name to avoid collisions
   const date = dayUTC();
   const day = date.format("YYYY-MM-DD");
-  const hour = date.format("hh");
+  const hour = date.hour();
 
   await openRankSnapshotQueue.addBulk(
     fidChunks.map((fids, i) => {
