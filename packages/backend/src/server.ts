@@ -51,6 +51,6 @@ cron.schedule(
   { timezone: "Etc/UTC" },
 );
 
-cron.schedule(cronSchedules.UPDATE_TIPPER_SCORES, createTipperScores, {
+cron.schedule(cronSchedules.CREATE_TIPPER_SCORES, createTipperScores, {
   timezone: "Etc/UTC",
 });
