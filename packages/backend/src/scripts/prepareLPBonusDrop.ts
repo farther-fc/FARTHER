@@ -1,14 +1,19 @@
 import {
+  ANVIL_AIRDROP_ADDRESS,
+  CHAIN_ID,
   DEV_USER_ADDRESS,
   DEV_USER_FID,
   ENVIRONMENT,
   NETWORK,
+  NEXT_AIRDROP_END_TIME,
   NEXT_AIRDROP_START_TIME,
   getLpBonusRewards,
   getMerkleRoot,
   isProduction,
   neynarLimiter,
 } from "@farther/common";
+import { writeFileSync } from "fs";
+import { v4 as uuidv4 } from "uuid";
 import { getLpAccounts } from "../../../app/server/liquidity/getLpAccounts";
 import { formatNum } from "../lib/utils/helpers";
 import { AllocationType, prisma } from "../prisma";
@@ -143,46 +148,46 @@ async function prepareLpBonusDrop() {
       throw new Error("Merkle root is 0x");
     }
 
-    // await prisma.$transaction(async (tx) => {
-    //   // Create Airdrop
-    //   const airdrop = await tx.airdrop.create({
-    //     data: {
-    //       chainId: CHAIN_ID,
-    //       amount: allocationSum.toString(),
-    //       root,
-    //       address:
-    //         ENVIRONMENT === "development" ? ANVIL_AIRDROP_ADDRESS : undefined,
-    //       startTime: NEXT_AIRDROP_START_TIME,
-    //       endTime: NEXT_AIRDROP_END_TIME,
-    //     },
-    //   });
+    await prisma.$transaction(async (tx) => {
+      // Create Airdrop
+      const airdrop = await tx.airdrop.create({
+        data: {
+          chainId: CHAIN_ID,
+          amount: allocationSum.toString(),
+          root,
+          address:
+            ENVIRONMENT === "development" ? ANVIL_AIRDROP_ADDRESS : undefined,
+          startTime: NEXT_AIRDROP_START_TIME,
+          endTime: NEXT_AIRDROP_END_TIME,
+        },
+      });
 
-    //   // Save allocations
-    //   await tx.allocation.createMany({
-    //     data: allocationData.map((r, i) => ({
-    //       id: uuidv4(),
-    //       userId: r.fid,
-    //       index: i,
-    //       airdropId: airdrop.id,
-    //       type: AllocationType.LIQUIDITY,
-    //       address: r.address.toLowerCase(),
-    //       amount: r.amount.toString(),
-    //     })),
-    //   });
+      // Save allocations
+      await tx.allocation.createMany({
+        data: allocationData.map((r, i) => ({
+          id: uuidv4(),
+          userId: r.fid,
+          index: i,
+          airdropId: airdrop.id,
+          type: AllocationType.LIQUIDITY,
+          address: r.address.toLowerCase(),
+          amount: r.amount.toString(),
+        })),
+      });
 
-    //   await writeFile(
-    //     `airdrops/${ENVIRONMENT}/${AllocationType.LIQUIDITY.toLowerCase()}-${NEXT_AIRDROP_START_TIME.toISOString()}.json`,
-    //     JSON.stringify(
-    //       {
-    //         root,
-    //         amount: allocationSum.toString(),
-    //         rawLeafData,
-    //       },
-    //       null,
-    //       2,
-    //     ),
-    //   );
-    // });
+      await writeFileSync(
+        `airdrops/${ENVIRONMENT}/${AllocationType.LIQUIDITY.toLowerCase()}-${NEXT_AIRDROP_START_TIME.toISOString()}.json`,
+        JSON.stringify(
+          {
+            root,
+            amount: allocationSum.toString(),
+            rawLeafData,
+          },
+          null,
+          2,
+        ),
+      );
+    });
 
     const sortedallocations = allocationData.sort((a, b) => {
       if (BigInt(a.amount) < BigInt(b.amount)) {

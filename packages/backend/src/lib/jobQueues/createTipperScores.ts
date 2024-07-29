@@ -32,7 +32,7 @@ new Worker(queueNames.CREATE_TIPPER_SCORES, createTipperScoresBatch, {
 });
 
 export async function createTipperScores() {
-  console.log(`STARTING: ${queueNames.CREATE_TIPPER_SCORES}`);
+  console.info(`STARTING: ${queueNames.CREATE_TIPPER_SCORES}`);
 
   const latestAirdrop = await getLatestTipperAirdrop();
 

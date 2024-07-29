@@ -40,11 +40,31 @@ async function init({
 }
 
 async function increment(queueName: QueueName) {
-  const [count, total] = await Promise.all([
-    kv.incr(getCounterKey(queueName)),
-    kv.get(getTotalKey(queueName)),
-  ]);
-  return { count, total: total as number };
+  const counterKey = getCounterKey(queueName);
+  const totalKey = getTotalKey(queueName);
+
+  // Lua script for atomic increment and check
+  const luaScript = `
+    local total = tonumber(redis.call('GET', KEYS[2]))
+    local count = tonumber(redis.call('GET', KEYS[1]) or '0')
+    if count < total then
+      count = count + 1
+      redis.call('SET', KEYS[1], count)
+    end
+    return {count, total}
+  `;
+
+  // Execute the Lua script
+  const result = (await kv.eval(luaScript, [counterKey, totalKey], [])) as [
+    number,
+    number,
+  ];
+
+  // Extract the results
+  const count = result[0];
+  const total = result[1];
+
+  return { count, total };
 }
 
 async function get(queueName: QueueName) {
