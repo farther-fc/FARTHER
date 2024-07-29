@@ -6,6 +6,7 @@ import { chunk } from "underscore";
 import { tippees as dummyTippees } from "../../dummy-data/tippees";
 import { prisma } from "../../prisma";
 import {
+  getJobCounts,
   logQueueEvents,
   openRankSnapshotQueue,
   queueConnection,
@@ -13,7 +14,6 @@ import {
 } from "../bullmq";
 import { getLatestCronTime } from "../getLatestCronTime";
 import { dayUTC } from "../utils/dayUTC";
-import { counter } from "./counter";
 
 const BATCH_SIZE = 100;
 
@@ -24,6 +24,8 @@ new Worker(queueNames.OPENRANK_SNAPSHOT, storeScores, {
 
 export async function openRankSnapshot() {
   console.log(`STARTING: ${queueNames.OPENRANK_SNAPSHOT}`);
+
+  await openRankSnapshotQueue.drain();
 
   const tippees = !isProduction
     ? dummyTippees
@@ -44,11 +46,6 @@ export async function openRankSnapshot() {
 
   const fidChunks = chunk(tippeeFids, BATCH_SIZE);
 
-  await counter.init({
-    queueName: queueNames.OPENRANK_SNAPSHOT,
-    total: fidChunks.length,
-  });
-
   console.log(
     `${queueNames.OPENRANK_SNAPSHOT} fids to process: ${tippeeFids.length}. Total jobs: ${fidChunks.length}`,
   );
@@ -61,6 +58,7 @@ export async function openRankSnapshot() {
   await openRankSnapshotQueue.addBulk(
     fidChunks.map((fids, i) => {
       const jobId = `${queueNames.OPENRANK_SNAPSHOT}-${day}-h${hour}-batch:${i * BATCH_SIZE + fids.length}`;
+      console.log(`Adding job: ${jobId}`);
       return {
         name: jobId,
         data: { fids },
@@ -134,16 +132,16 @@ const queueEvents = new QueueEvents(queueNames.OPENRANK_SNAPSHOT, {
 logQueueEvents({ queueEvents, queueName: queueNames.OPENRANK_SNAPSHOT });
 
 queueEvents.on("completed", async (job) => {
-  const { count, total } = await counter.increment(
-    queueNames.OPENRANK_SNAPSHOT,
+  const { total, completed, failed } = await getJobCounts(
+    openRankSnapshotQueue,
   );
 
-  console.info(`done: ${job.jobId} (${count}/${total}).`);
-  if (count === total) {
+  console.info(`done: ${job.jobId}. (${completed}/${total})`);
+
+  if (total === completed + failed) {
     console.log(
-      `ALL DONE: ${queueNames.OPENRANK_SNAPSHOT} All jobs completed!`,
+      `DONE: ${queueNames.OPENRANK_SNAPSHOT}. Completed: ${completed}. Failed: ${failed}`,
     );
     await openRankSnapshotQueue.drain();
-    await counter.remove(queueNames.OPENRANK_SNAPSHOT);
   }
 });
