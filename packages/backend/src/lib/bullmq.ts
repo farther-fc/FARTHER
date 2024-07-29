@@ -101,3 +101,19 @@ export function logQueueEvents({
     });
   });
 }
+
+export async function getJobCounts(queue: Queue) {
+  const jobCounts = await queue.getJobCounts();
+  const total = Object.values(jobCounts).reduce(
+    (total, count) => total + count,
+    0,
+  );
+  return {
+    total,
+    completed: jobCounts.completed,
+    failed: jobCounts.failed,
+    active: jobCounts.active,
+    stalled: jobCounts.stalled,
+    delayed: jobCounts.delayed,
+  };
+}
