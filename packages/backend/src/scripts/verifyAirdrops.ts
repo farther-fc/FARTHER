@@ -6,6 +6,7 @@ async function verifyAirdrop() {
     AllocationType.POWER_USER,
     AllocationType.EVANGELIST,
     AllocationType.LIQUIDITY,
+    AllocationType.TIPS,
   ]) {
     const allocations = await prisma.allocation.findMany({
       where: {

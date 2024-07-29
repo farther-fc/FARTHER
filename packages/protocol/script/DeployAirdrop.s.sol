@@ -12,11 +12,11 @@ contract DeployAirdrop is Script {
     // uint constant AIRDROP_AMOUNT = 3188624000000000000000000;
 
     bytes32 constant ROOT =
-        0xe6fc94ca84c300b31b22f592633ac1d25f4d9185a7ae68939ced51b2bf79aa33;
+        0x37bfa6c97ccdf447200379524a7e7b825a3fceff212e23b9a13a1856ce3fc483;
 
     address OWNER = 0x97e3B75B2eebCC722B504851416e1410B32180a3;
 
-    uint START_TIME = 1719792000;
+    uint START_TIME = 1722470400;
     uint DURATION = 365 days;
 
     function run() public {

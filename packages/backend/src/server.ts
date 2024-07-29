@@ -1,12 +1,16 @@
 import { ENVIRONMENT, cronSchedules, isProduction } from "@farther/common";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import cron from "node-cron";
 import "../instrument";
 import { distributeAllowances } from "./lib/distributeAllowances";
-import { openRankSnapshot } from "./lib/openRankSnapshot";
-import { syncTipperData } from "./lib/syncTipperData";
-import { syncUserData } from "./lib/syncUserData";
+import { createTipperScores } from "./lib/jobQueues/createTipperScores";
+import { openRankSnapshot } from "./lib/jobQueues/openRankSnapshot";
+import { syncTipperData } from "./lib/jobQueues/syncTipperData";
+import { syncUserData } from "./lib/jobQueues/syncUserData";
 import { updateEligibleTippers } from "./lib/updateEligibleTippers";
-import { updateTipperScores } from "./lib/updateTipperScores";
+
+dayjs.extend(utc);
 
 /**
  * NOTE: This is currently not being used. The crons are scheduled in Railway directly.
@@ -47,6 +51,6 @@ cron.schedule(
   { timezone: "Etc/UTC" },
 );
 
-cron.schedule(cronSchedules.UPDATE_TIPPER_SCORES, updateTipperScores, {
+cron.schedule(cronSchedules.UPDATE_TIPPER_SCORES, createTipperScores, {
   timezone: "Etc/UTC",
 });

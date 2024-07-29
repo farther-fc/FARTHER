@@ -2,11 +2,17 @@ import { neynarLimiter, retryWithExponentialBackoff } from "@farther/common";
 import * as Sentry from "@sentry/node";
 import Bottleneck from "bottleneck";
 import { QueueEvents, Worker } from "bullmq";
-import dayjs from "dayjs";
 import { chunk } from "underscore";
-import { prisma } from "../prisma";
-import { queueConnection, queueNames, syncUserDataQueue } from "./bullmq";
-import { flushCache } from "./utils/flushCache";
+import { prisma } from "../../prisma";
+import {
+  getJobCounts,
+  logQueueEvents,
+  queueConnection,
+  queueNames,
+  syncUserDataQueue,
+} from "../bullmq";
+import { dayUTC } from "../utils/dayUTC";
+import { flushCache } from "../utils/flushCache";
 
 const BATCH_SIZE = 1000;
 
@@ -20,9 +26,6 @@ new Worker(queueNames.SYNC_USERS, syncUserDataBatch, {
   concurrency: 5,
 });
 
-let completedJobs = 0;
-let totalJobs: number;
-
 export async function syncUserDataBatch({
   name: jobName,
   data: { fids },
@@ -30,8 +33,6 @@ export async function syncUserDataBatch({
   name: string;
   data: { fids: number[] };
 }) {
-  console.log(`Processing ${jobName}`);
-
   try {
     const neynarUserData = await neynarLimiter.getUsersByFid(fids);
 
@@ -123,7 +124,7 @@ export async function syncUserDataBatch({
 }
 
 export async function syncUserData() {
-  console.info(`STARTING ${queueNames.SYNC_USERS}`);
+  console.info(`STARTING: ${queueNames.SYNC_USERS}`);
 
   await syncUserDataQueue.drain();
 
@@ -137,13 +138,11 @@ export async function syncUserData() {
     `Syncing ${allFids.length} users in ${fidBatches.length} batches...`,
   );
 
-  totalJobs = fidBatches.length;
+  const day = dayUTC().format("YYYY-MM-DD");
 
-  const time = dayjs().format("YYYY-MM-DD");
-
-  syncUserDataQueue.addBulk(
+  await syncUserDataQueue.addBulk(
     fidBatches.map((fids, i) => {
-      const jobId = `syncUserData-${time}-batch:${i * BATCH_SIZE + fids.length}`;
+      const jobId = `${queueNames.SYNC_USERS}-${day}-batch:${i * BATCH_SIZE + fids.length}`;
       return {
         name: jobId,
         data: { fids },
@@ -157,39 +156,18 @@ const queueEvents = new QueueEvents(queueNames.SYNC_USERS, {
   connection: queueConnection,
 });
 
-queueEvents.on("failed", async (job) => {
-  const message = `${queueNames.SYNC_USERS} failed job: ${job.jobId}. Reason: ${job.failedReason}`;
-  console.error(message);
-  Sentry.captureException(message);
-});
+logQueueEvents({ queueEvents, queueName: queueNames.SYNC_USERS });
 
-queueEvents.on("active", (job) => {
-  console.info(`${queueNames.SYNC_USERS} active job: ${job.jobId}`);
-});
+queueEvents.on("completed", async (job) => {
+  const { completed, failed, total } = await getJobCounts(syncUserDataQueue);
 
-queueEvents.on("stalled", async (job) => {
-  console.error(`${queueNames.SYNC_USERS} stalled job: ${job.jobId}`);
-});
+  console.info(`done: ${job.jobId} (${completed}/${total}).`);
 
-queueEvents.on("error", (error) => {
-  console.error(`${queueNames.SYNC_USERS} error: ${error}`);
-  Sentry.captureException(error, {
-    captureContext: {
-      tags: {
-        jobQueue: queueNames.SYNC_USERS,
-      },
-    },
-  });
-});
+  if (completed + failed === total) {
+    console.log(
+      `ALL DONE: ${queueNames.SYNC_USERS} Completed: ${completed}. Failed: ${failed}`,
+    );
 
-queueEvents.on("completed", (job) => {
-  completedJobs++;
-
-  console.info(`${job.jobId} completed (${completedJobs}/${totalJobs}).`);
-
-  if (completedJobs === totalJobs) {
-    console.log(`${queueNames.SYNC_USERS} all jobs completed!`);
-    totalJobs = 0;
-    completedJobs = 0;
+    await syncUserDataQueue.drain();
   }
 });

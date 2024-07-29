@@ -76,7 +76,7 @@ export async function handleTip({
   });
 
   if (!tipAllowance) {
-    console.warn(`No tip allowance found for user ${tipper}`);
+    console.warn(`No tip allowance found for user ${tipper.fid}`);
     return;
   }
 
@@ -116,9 +116,9 @@ export async function handleTip({
     : !invalidTime
       ? InvalidTipReason.INVALID_TIME
       : tipperIsBanned
-        ? InvalidTipReason.BANNED_TIPPEE
+        ? InvalidTipReason.BANNED_TIPPER
         : tippeeIsBanned
-          ? InvalidTipReason.BANNED_TIPPER
+          ? InvalidTipReason.BANNED_TIPPEE
           : tippeeNotEnoughFollowers
             ? InvalidTipReason.INELIGIBLE_TIPPEE
             : hasAlreadyTippedTippee

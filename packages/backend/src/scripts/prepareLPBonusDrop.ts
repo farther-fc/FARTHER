@@ -12,9 +12,10 @@ import {
   isProduction,
   neynarLimiter,
 } from "@farther/common";
+import { writeFileSync } from "fs";
 import { v4 as uuidv4 } from "uuid";
 import { getLpAccounts } from "../../../app/server/liquidity/getLpAccounts";
-import { formatNum, writeFile } from "../lib/utils/helpers";
+import { formatNum } from "../lib/utils/helpers";
 import { AllocationType, prisma } from "../prisma";
 import { airdropSanityCheck } from "./airdropSanityCheck";
 
@@ -109,12 +110,21 @@ async function prepareLpBonusDrop() {
           pendingWad: account.rewardsUnclaimed,
         });
 
+        const prevAllocated =
+          previouslyAllocated[account.id]?.amount || BigInt(0);
+        const amount = totalRewards - prevAllocated;
+
+        console.log({
+          totalRewards,
+          prevAllocated,
+          amount,
+        });
+
         return {
           address: account.id,
           fid: u.fid,
           // TODO: verify this is correct
-          amount:
-            totalRewards - previouslyAllocated[account.id]?.amount || BigInt(0),
+          amount,
         };
       })
       .filter((a) => a.amount > BigInt(0));
@@ -165,7 +175,7 @@ async function prepareLpBonusDrop() {
         })),
       });
 
-      await writeFile(
+      await writeFileSync(
         `airdrops/${ENVIRONMENT}/${AllocationType.LIQUIDITY.toLowerCase()}-${NEXT_AIRDROP_START_TIME.toISOString()}.json`,
         JSON.stringify(
           {
