@@ -140,7 +140,7 @@ queueEvents.on("completed", async (job) => {
 
   if (total === completed + failed) {
     console.log(
-      `DONE: ${queueNames.OPENRANK_SNAPSHOT}. Completed: ${completed}. Failed: ${failed}`,
+      `ALL DONE: ${queueNames.OPENRANK_SNAPSHOT}. Completed: ${completed}. Failed: ${failed}`,
     );
     await openRankSnapshotQueue.drain();
   }

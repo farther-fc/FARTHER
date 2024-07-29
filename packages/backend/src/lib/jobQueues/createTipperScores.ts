@@ -5,6 +5,7 @@ import Decimal from "decimal.js";
 import { Tip, prisma } from "../../prisma";
 import {
   createTipperScoresQueue,
+  getJobCounts,
   logQueueEvents,
   queueConnection,
   queueNames,
@@ -16,7 +17,6 @@ import { dayUTC } from "../utils/dayUTC";
 import { flushCache } from "../utils/flushCache";
 import { getTipScores } from "../utils/getTipScores";
 import { dbScheduler } from "../utils/helpers";
-import { counter } from "./counter";
 
 const SCORE_START_DATE = new Date("2024-07-14T03:00:08.894Z");
 
@@ -34,6 +34,8 @@ new Worker(queueNames.CREATE_TIPPER_SCORES, createTipperScoresBatch, {
 export async function createTipperScores() {
   console.info(`STARTING: ${queueNames.CREATE_TIPPER_SCORES}`);
 
+  await createTipperScoresQueue.drain();
+
   const latestAirdrop = await getLatestTipperAirdrop();
 
   const from = latestAirdrop ? latestAirdrop.createdAt : SCORE_START_DATE;
@@ -44,11 +46,6 @@ export async function createTipperScores() {
   const tippers = await getTippersByDate({
     from,
     to,
-  });
-
-  await counter.init({
-    queueName: queueNames.CREATE_TIPPER_SCORES,
-    total: tippers.length,
   });
 
   // Putting the hour in the job name to avoid collisions
@@ -153,13 +150,13 @@ const queueEvents = new QueueEvents(queueNames.CREATE_TIPPER_SCORES, {
 logQueueEvents({ queueEvents, queueName: queueNames.CREATE_TIPPER_SCORES });
 
 queueEvents.on("completed", async (job) => {
-  const { count, total } = await counter.increment(
-    queueNames.CREATE_TIPPER_SCORES,
+  const { total, completed, failed } = await getJobCounts(
+    createTipperScoresQueue,
   );
 
-  console.info(`done: ${job.jobId} (${count}/${total}).`);
+  console.info(`done: ${job.jobId} (${completed}/${total}).`);
 
-  if (count === total) {
+  if (total === completed + failed) {
     await flushCache({
       type: cacheTypes.USER_TIPS,
     });
@@ -169,6 +166,5 @@ queueEvents.on("completed", async (job) => {
     console.info(`ALL DONE: ${queueNames.CREATE_TIPPER_SCORES}`);
 
     await createTipperScoresQueue.drain();
-    await counter.remove(queueNames.CREATE_TIPPER_SCORES);
   }
 });
