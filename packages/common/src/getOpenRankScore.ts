@@ -15,13 +15,15 @@ export type OpenRankData = {
   }[];
 };
 
-const OPENRANK_API_KEY = process.env.OPENRANK_API_KEY;
+const NEXT_PUBLIC_OPENRANK_API_KEY = process.env.NEXT_PUBLIC_OPENRANK_API_KEY;
 
-if (!OPENRANK_API_KEY) {
-  console.warn("No OPENRANK_API_KEY set! Rate limit will be 10 req/sec.");
+if (!NEXT_PUBLIC_OPENRANK_API_KEY) {
+  console.warn(
+    "No NEXT_PUBLIC_OPENRANK_API_KEY set! Rate limit will be 10 req/sec.",
+  );
 }
-// const RATE_LIMIT = OPENRANK_API_KEY ? 100 : 10;
-const RATE_LIMIT = 10;
+
+const RATE_LIMIT = NEXT_PUBLIC_OPENRANK_API_KEY ? 50 : 10;
 
 const scheduler = new Bottleneck({
   maxConcurrent: 30,
@@ -36,7 +38,7 @@ export const getOpenRankScores = async (fids: number[]) => {
       scheduler.schedule(() =>
         axios.post(OPENRANK_URL, fids, {
           headers: {
-            "API-Key": OPENRANK_API_KEY,
+            "API-Key": NEXT_PUBLIC_OPENRANK_API_KEY,
           },
         }),
       ),
