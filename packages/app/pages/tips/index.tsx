@@ -1,8 +1,8 @@
-import FartherV2Announcement from "@components/FartherV2Announcement";
 import { TipsUserInfo } from "@components/tips/TipsUserInfo";
 import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
+import { LabelValue } from "@components/ui/LabelValue";
 import { Popover } from "@components/ui/Popover";
 import { Skeleton } from "@components/ui/Skeleton";
 import Spinner from "@components/ui/Spinner";
@@ -10,13 +10,16 @@ import {
   TIPPER_REQUIRED_FARTHER_BALANCE,
   TIP_USD_MINIMUM,
 } from "@farther/common";
+import { useUser } from "@lib/context/UserContext";
 import { routes } from "@lib/routes";
 import dayjs from "dayjs";
 import { useTipsMeta } from "hooks/useTipsMeta";
 import { Info } from "lucide-react";
 import Link from "next/link";
+import numeral from "numeral";
 
 function TipsPage() {
+  const { user } = useUser();
   const { createdAt, tipsMetaLoading, tipMinimum, eligibleTippers } =
     useTipsMeta();
 
@@ -24,7 +27,6 @@ function TipsPage() {
     <Container variant="page">
       <main className="content">
         <h1>Tips</h1>
-        <FartherV2Announcement />
         {!tipsMetaLoading && createdAt && (
           <>
             <span className="text-ghost text-sm">CYCLE START TIME</span>
@@ -36,15 +38,6 @@ function TipsPage() {
         {!tipsMetaLoading && createdAt ? (
           <div className="grid grid-cols-[120px_1fr] gap-2">
             <>
-              <span className="text-muted">Tip minimum:</span>
-              <span className="flex items-center">
-                {tipMinimum} ✨{" "}
-                <Popover
-                  content={`The tip minimum changes daily based on the current equivalent of $${TIP_USD_MINIMUM.toFixed(2)}`}
-                >
-                  <Info className="text-muted ml-2 size-3" />
-                </Popover>
-              </span>
               <span className="text-muted">Eligible tippers:</span>
               <span className="flex items-center">
                 {eligibleTippers}
@@ -72,6 +65,11 @@ function TipsPage() {
           </Link>
         </div>
         <h3 className="mt-12">Your Stats</h3>
+        <LabelValue
+          className="text-xl mb-4"
+          label="Tipper Score*"
+          value={numeral(user?.tipperScore).format("0,0.[00]")}
+        />
         <TipsUserInfo />
         <h3 className="mt-12">How to tip</h3>
         <p>
