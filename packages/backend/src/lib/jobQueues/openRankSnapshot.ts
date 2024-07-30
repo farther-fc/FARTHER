@@ -2,6 +2,7 @@ import { cronSchedules, isProduction } from "@farther/common";
 import { getOpenRankScores } from "@farther/common/src/getOpenRankScore";
 import * as Sentry from "@sentry/node";
 import { Job, QueueEvents, Worker } from "bullmq";
+import Decimal from "decimal.js";
 import { chunk } from "underscore";
 import { tippees as dummyTippees } from "../../dummy-data/tippees";
 import { prisma } from "../../prisma";
@@ -25,7 +26,7 @@ new Worker(queueNames.OPENRANK_SNAPSHOT, storeScores, {
 export async function openRankSnapshot() {
   console.log(`STARTING: ${queueNames.OPENRANK_SNAPSHOT}`);
 
-  await openRankSnapshotQueue.drain();
+  await openRankSnapshotQueue.obliterate();
 
   const tippees = !isProduction
     ? dummyTippees
@@ -98,6 +99,7 @@ async function storeScores(job: Job) {
         },
       },
       score: scoreData.score,
+      scoreNew: new Decimal(scoreData.score),
     } as const;
 
     try {

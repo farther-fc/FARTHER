@@ -80,6 +80,7 @@ async function prepareTipsDrop() {
     return {
       fid: u.fid,
       username: u.username,
+      // TODO: figure out if this should be selecting using different criteria rather than just the first in the list
       address: u.verified_addresses.eth_addresses[0],
       amount: (
         BigInt(
