@@ -216,14 +216,15 @@ model TokenPrice {
 }
 
 model OpenRankScore {
-  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime? @updatedAt
-  userId      Int
-  user        User     @relation(fields: [userId], references: [id])
-  score       Float
-  snapshotId  String
-  snapshot    OpenRankSnapshot @relation(fields: [snapshotId], references: [id])
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime? @updatedAt
+  userId          Int
+  user            User     @relation(fields: [userId], references: [id])
+  score           Float
+  scoreNew        Decimal?
+  snapshotId      String
+  snapshot        OpenRankSnapshot @relation(fields: [snapshotId], references: [id])
 
   @@index([userId])
   @@index([createdAt])
