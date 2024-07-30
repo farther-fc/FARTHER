@@ -126,7 +126,7 @@ export async function syncUserDataBatch({
 export async function syncUserData() {
   console.info(`STARTING: ${queueNames.SYNC_USERS}`);
 
-  await syncUserDataQueue.drain();
+  await syncUserDataQueue.obliterate();
 
   const users = await prisma.user.findMany();
 
