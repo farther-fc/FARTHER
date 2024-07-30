@@ -18,7 +18,7 @@ const gzippedFilePath = path.resolve(
 const csvFilePath = path.resolve(__dirname, OPENRANK_HISTORY_FILE_NAME);
 
 // Function to download and unzip the CSV file
-async function downloadAndUnzipCsv(): Promise<void> {
+export async function downloadAndUnzipCsv(): Promise<void> {
   try {
     console.info("Downloading and unzipping the CSV file...");
     // Download the gzipped file
@@ -77,5 +77,3 @@ export function cleanupFiles(): void {
     console.error("Error deleting files:", error);
   }
 }
-
-cleanupFiles();

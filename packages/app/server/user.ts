@@ -604,6 +604,9 @@ export async function getUncachedPublicUser({ fid }: { fid: number }) {
         allowance: latestTipAllowance ? latestTipAllowance.amount : null,
         userBalance: latestTipAllowance ? latestTipAllowance.userBalance : null,
         givenCount: latestTipAllowance ? latestTipAllowance.tips.length : null,
+        tippeeFids: latestTipAllowance
+          ? latestTipAllowance.tips.map((t) => t.tippeeId)
+          : [],
         givenAmount,
         remainingAllowance,
         invalidatedAmount: latestTipAllowance?.invalidatedAmount,
