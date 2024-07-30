@@ -73,6 +73,7 @@
     "decimal.js": "^10.4.3",
     "enquirer": "^2.4.1",
     "ethers": "^6.11.1",
+    "fast-csv": "^5.0.1",
     "ioredis": "^5.4.1",
     "jest": "^29.7.0",
     "later": "^1.2.0",

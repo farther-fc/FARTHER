@@ -32,7 +32,7 @@ new Worker(queueNames.CREATE_TIPPER_SCORES, createTipperScoresBatch, {
 export async function createTipperScores() {
   console.info(`STARTING: ${queueNames.CREATE_TIPPER_SCORES}`);
 
-  await createTipperScoresQueue.drain();
+  await createTipperScoresQueue.obliterate();
 
   const from = await getTipsFromDate();
 

@@ -251,7 +251,7 @@ export const OPENRANK_SNAPSHOT_INTERVAL = 6;
 export const cronSchedules = {
   OPENRANK_SNAPSHOT: "0 3,9,15,21 * * *",
   // 1 hour after openrank snapshot
-  UPDATE_TIPPER_SCORES: "0 4,10,16,22 * * *",
+  CREATE_TIPPER_SCORES: "0 4,10,16,22 * * *",
   DISTRIBUTE_ALLOWANCES: "0 16 * * *",
   UPDATE_ELIGIBLE_TIPPERS: "0 * * * *",
   // 12:00 AM UTC on sunday
@@ -276,3 +276,8 @@ export const API_ENDPOINT_ROOT = `${ROOT_ENDPOINT}/api/v1` as const;
 export const BANNED_FIDS = [
   433756, 333165, 770214, 512251, 294499, 435160, 511701, 511655, 636064,
 ];
+
+export const OPENRANK_HISTORY_FILE_NAME = "k3l_cast_globaltrust.csv";
+
+export const OPENRANK_HISTORY_FILE_URL =
+  `https://k3l-cast-to-dune.s3.eu-central-1.amazonaws.com/constant/${OPENRANK_HISTORY_FILE_NAME}.gz` as const;

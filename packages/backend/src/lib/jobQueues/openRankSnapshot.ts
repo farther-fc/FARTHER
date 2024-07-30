@@ -25,7 +25,7 @@ new Worker(queueNames.OPENRANK_SNAPSHOT, storeScores, {
 export async function openRankSnapshot() {
   console.log(`STARTING: ${queueNames.OPENRANK_SNAPSHOT}`);
 
-  await openRankSnapshotQueue.drain();
+  await openRankSnapshotQueue.obliterate();
 
   const tippees = !isProduction
     ? dummyTippees
