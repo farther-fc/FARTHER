@@ -72,13 +72,13 @@ export function logQueueEvents({
   queueEvents: QueueEvents;
   queueName: QueueName;
 }) {
-  queueEvents.on("added", (job) => {
-    console.info(`added: ${job.jobId}`);
-  });
+  // queueEvents.on("added", (job) => {
+  //   console.info(`added: ${job.jobId}`);
+  // });
 
-  queueEvents.on("active", (job) => {
-    console.info(`active: ${job.jobId}`);
-  });
+  // queueEvents.on("active", (job) => {
+  //   console.info(`active: ${job.jobId}`);
+  // });
 
   queueEvents.on("stalled", async (job) => {
     console.error(`stalled: ${job.jobId}`);
