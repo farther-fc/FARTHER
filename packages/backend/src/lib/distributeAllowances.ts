@@ -132,6 +132,10 @@ export async function distributeAllowances() {
   await Promise.all([
     flushCache({ type: cacheTypes.LEADERBOARD }),
     flushCache({ type: cacheTypes.TIP_META }),
+    flushCache({
+      type: cacheTypes.USER,
+      ids: eligibleTippers.map((t) => t.id),
+    }),
   ]);
 
   console.info(

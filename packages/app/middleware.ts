@@ -32,8 +32,11 @@ export default async function middleware(request: NextRequest) {
     // Apply rate limiting for the handleTip endpoint
     ({ success, limit, reset, remaining } = await rateLimitGenerous.limit(ip));
   } else if (
-    referer &&
-    (referer.includes("farther.social") || referer.includes("localhost:3000"))
+    (referer &&
+      (referer.includes("farther.social") ||
+        referer.includes("localhost:3000"))) ||
+    // TODO: This is downshift's IP address. Remove this after the tip bot is moved in house.
+    ip === "136.49.88.62"
   ) {
     // Apply website-specific rate limiting
     ({ success, limit, reset, remaining } = await rateLimitDefault.limit(ip));
