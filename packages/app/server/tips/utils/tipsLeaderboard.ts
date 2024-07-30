@@ -109,7 +109,7 @@ export async function getLeaderboardData() {
   });
 
   const rankedData = leaderboardData
-    .sort((a, b) => b.totalGivenAmount - a.totalGivenAmount)
+    .sort((a, b) => b.tipperScore - a.tipperScore)
     .map((d, i) => ({
       ...d,
       rank: i + 1,

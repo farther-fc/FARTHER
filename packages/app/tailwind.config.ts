@@ -98,6 +98,7 @@ const config = {
       width: {
         tableButton: "100px",
         tableButtonWide: "150px",
+        dropdownTrigger: "var(--radix-dropdown-menu-trigger-width)",
       },
     },
   },
