@@ -59,7 +59,6 @@ export async function openRankSnapshot() {
   await openRankSnapshotQueue.addBulk(
     fidChunks.map((fids, i) => {
       const jobId = `${queueNames.OPENRANK_SNAPSHOT}-${day}-h${hour}-batch:${i * BATCH_SIZE + fids.length}`;
-      console.log(`Adding job: ${jobId}`);
       return {
         name: jobId,
         data: { fids },

@@ -37,6 +37,17 @@ export async function getHolders({
 
     if (error) throw error;
 
+    if (
+      !data ||
+      !data.TokenBalances ||
+      !data.TokenBalances.TokenBalance ||
+      !data.TokenBalances.TokenBalance.length
+    ) {
+      throw new Error(
+        `Bad data from airstack response: ${JSON.stringify(data)}`,
+      );
+    }
+
     hasNextPage = data.TokenBalances.pageInfo.hasNextPage;
     cursor = data.TokenBalances.pageInfo.nextCursor;
 
