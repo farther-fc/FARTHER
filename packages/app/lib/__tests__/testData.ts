@@ -5108,6 +5108,7 @@ export const dummyUser = {
       receivedAmount: 0,
       tipMinimum: 157,
       eligibleTippers: 391,
+      tippedFids: [437433, 318589, 272116],
     },
   },
   allocations: [
