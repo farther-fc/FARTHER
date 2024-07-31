@@ -21,7 +21,7 @@ const GRID_STYLES =
 
 const Row = ({ tip, isTablet }: { tip: Tips[number]; isTablet: boolean }) => (
   <div
-    className={`pr-2 md:pr-5 block hover:bg-background group cursor-default`}
+    className={`pr-2 md:pr-5 block ${tip.invalidTipReason ? "bg-background-800" : ""} hover:bg-background group cursor-default`}
   >
     <div className={GRID_STYLES}>
       <div
@@ -55,8 +55,10 @@ const Row = ({ tip, isTablet }: { tip: Tips[number]; isTablet: boolean }) => (
       <div className="flex justify-end text-right self-stretch items-center">
         <span>
           {tip.invalidTipReason
-            ? "_"
-            : numeral(tip.openRankChange || 0).format("0,0.[00]")}
+            ? "x"
+            : tip.openRankChange
+              ? numeral(tip.openRankChange).format("0,0.[00]")
+              : "..."}
         </span>
       </div>
       <div className="text-right py-1 flex justify-end self-stretch items-center">
@@ -156,7 +158,7 @@ function TipHistoryPage() {
           <Skeleton className="h-[400px] md:h-[500px] rounded-xl" />
         ) : (
           <div className="border-ghost border rounded-xl overflow-hidden">
-            <div className="h-[400px] md:h-[500px] overflow-y-auto bg-background-dark rounded-xl">
+            <div className="h-[400px] md:h-[500px] overflow-y-auto bg-background-700 rounded-xl">
               <InfiniteScroll
                 loadMore={loadMore}
                 hasMore={hasMore}

@@ -38,8 +38,8 @@ export const routesTree: Route[] = [
   createRoute("Profile", "/user/profile", routeTypes.User),
   createRoute("Tips", "/tips", routeTypes.Feature, {}, [
     createRoute("About", "/tips", routeTypes.Feature),
-    createRoute("Tips Leaderboard", "/tips/leaderboard", routeTypes.Feature),
-    createRoute("Tips History", "/tips/history", routeTypes.Feature),
+    createRoute("Leaderboard", "/tips/leaderboard", routeTypes.Feature),
+    createRoute("History", "/tips/history", routeTypes.Feature),
   ]),
   createRoute("Liquidity", "/liquidity", routeTypes.Feature),
   createRoute("Powerdrops", "/airdrops", routeTypes.Feature),

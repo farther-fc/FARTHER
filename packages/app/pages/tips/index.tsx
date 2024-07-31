@@ -53,14 +53,10 @@ function TipsPage() {
         )}
         <div className="grid gap-x-8 grid-cols-1 md:grid-cols-2 mt-6">
           <Link href={routes.tips.subroutes.leaderboard.path}>
-            <Button className="mt-6 w-full">
-              {routes.tips.subroutes.leaderboard.title}
-            </Button>
+            <Button className="mt-6 w-full">Tips Leaderboard</Button>
           </Link>
           <Link href={routes.tips.subroutes.history.path}>
-            <Button className="mt-6 w-full">
-              {routes.tips.subroutes.history.title}
-            </Button>
+            <Button className="mt-6 w-full">Tips History</Button>
           </Link>
         </div>
         <h3 className="mt-12 mb-8">Your Stats</h3>

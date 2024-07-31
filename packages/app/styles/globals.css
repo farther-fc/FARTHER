@@ -12,11 +12,6 @@
   }
 
   :root {
-    --background: 217, 58%, 38%;
-    --foreground: 255 100% 100%;
-
-    --background-dark: 217, 58%, 33%;
-
     --muted: 210 40% 75.1%;
     --muted-foreground: 215.4 16.3% 70%;
 
@@ -44,6 +39,21 @@
     --ring: 215 20.2% 65.1%;
 
     --radius: 0.5rem;
+
+    --background: 217 58% 38%;
+    --foreground: 255 100% 100%;
+
+    --background-50: 217 30% 96%;
+    --background-100: 217 35% 88%;
+    --background-200: 217 40% 76%;
+    --background-300: 217 45% 64%;
+    --background-400: 217 50% 52%;
+    --background-500: 217 58% 38%;
+    --background-600: 217 60% 34%;
+    --background-700: 217 65% 30%;
+    --background-800: 217 70% 25%;
+    --background-900: 217 75% 20%;
+    --background-950: 217 85% 15%;
 
     /** Tailwind default colors */
     /* Slate */
@@ -426,7 +436,7 @@ body {
     "rlig" 1,
     "calt" 1;
 
-  scrollbar-color: hsl(var(--background)) hsl(var(--background-dark));
+  scrollbar-color: hsl(var(--background)) hsl(var(--background-800));
 }
 
 label {
