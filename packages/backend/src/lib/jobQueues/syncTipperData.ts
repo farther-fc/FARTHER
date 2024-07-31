@@ -1,3 +1,4 @@
+import { dayUTC } from "@farther/common";
 import { QueueEvents, Worker } from "bullmq";
 import { chunk } from "underscore";
 import { prisma } from "../../prisma";
@@ -8,7 +9,6 @@ import {
   queueNames,
   syncTipperDataQueue,
 } from "../bullmq";
-import { dayUTC } from "../utils/dayUTC";
 import { syncUserDataBatch } from "./syncUserData";
 
 const BATCH_SIZE = 1000;

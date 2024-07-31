@@ -1,3 +1,4 @@
+import { InfoCard } from "@components/InfoCard";
 import { TipperScore } from "@components/tips/TipperScore";
 import { TipsUserInfo } from "@components/tips/TipsUserInfo";
 import { Button } from "@components/ui/Button";
@@ -8,60 +9,91 @@ import { Skeleton } from "@components/ui/Skeleton";
 import {
   TIPPEE_FOLLOWERS_MIN,
   TIPPER_REQUIRED_FARTHER_BALANCE,
+  TIPPER_REWARDS_POOL,
+  dayUTC,
 } from "@farther/common";
 import { OPENRANK_ENGAGEMENT_DOCS_URL } from "@lib/constants";
-import { useUser } from "@lib/context/UserContext";
 import { routes } from "@lib/routes";
 import dayjs from "dayjs";
 import { useTipsMeta } from "hooks/useTipsMeta";
 import { HelpCircle } from "lucide-react";
 import Link from "next/link";
+import numeral from "numeral";
 
 function TipsPage() {
-  const { user } = useUser();
-  const { createdAt, tipsMetaLoading, tipMinimum, eligibleTippers } =
-    useTipsMeta();
+  const { createdAt, tipsMetaLoading, eligibleTippers } = useTipsMeta();
 
   return (
     <Container variant="page">
       <main className="content">
         <h1>Tips</h1>
-        {!tipsMetaLoading && createdAt && (
-          <>
-            <span className="text-ghost text-sm">CYCLE START TIME</span>
-            <h4 className="mt-2">
-              {dayjs(new Date(createdAt)).format("MMM D, YYYY h:mm A")}
-            </h4>
-          </>
-        )}
+        <div className="flex justify-center flex-col items-center">
+          <span className="text-ghost text-sm uppercase">
+            {dayUTC().format("MMMM")} Rewards Pool
+          </span>
+          <span className="mt-2 mb-0 text-3xl">
+            <Popover
+              content={`The rewards pool is distributed at the end of the month, pro rata to all tippers who have a positive tipper score. Each score is like a weight, and the tipper's portion of the pool is based on their score relative to the sum of all positive scores.`}
+            >
+              <div className="flex items-center justify-end">
+                {numeral(TIPPER_REWARDS_POOL).format("0,0")} ✨{" "}
+                <HelpCircle className="text-muted ml-2 size-4" />
+              </div>
+            </Popover>
+          </span>
+        </div>
+        <h4 className="text-ghost mt-8 text-sm uppercase">Current Cycle</h4>
         {!tipsMetaLoading && createdAt ? (
-          <div className="grid grid-cols-[120px_1fr] gap-2">
-            <>
-              <span className="text-muted">Eligible tippers:</span>
-              <span className="flex items-center">
-                {eligibleTippers}
-                <Popover
-                  content={`You must currently have a total balance of ${TIPPER_REQUIRED_FARTHER_BALANCE.toLocaleString()} FARTHER to receive a tip allowance. This number will adjust over time. If you are providing liquidity in the Uniswap 0.3% pool, that will be included.`}
-                >
-                  <HelpCircle className="text-muted ml-2 size-3" />
-                </Popover>
-              </span>
-            </>
-          </div>
+          <InfoCard className="grid grid-cols-2 mt-0">
+            <div>
+              {!tipsMetaLoading && createdAt && (
+                <>
+                  <span className="text-ghost text-sm uppercase">
+                    Start Time
+                  </span>
+                  <h5 className="mt-2 mb-0">
+                    {dayjs(new Date(createdAt)).format("MMM D ha")}
+                  </h5>
+                </>
+              )}
+            </div>
+
+            <div className="text-right">
+              <div className="">
+                <span className="text-ghost text-sm uppercase">
+                  Eligible Tippers
+                </span>
+                <h5 className="flex items-center mt-2 mb-0 justify-end">
+                  {eligibleTippers}
+                  <Popover
+                    content={`You must currently have a total balance of ${TIPPER_REQUIRED_FARTHER_BALANCE.toLocaleString()} FARTHER to receive a tip allowance. This number will adjust over time. If you are providing liquidity in the Uniswap 0.3% pool, that will be included.`}
+                  >
+                    <HelpCircle className="text-muted ml-2 size-3" />
+                  </Popover>
+                </h5>
+              </div>
+            </div>
+          </InfoCard>
         ) : (
-          <Skeleton className="max-w-[300px]" />
+          <Skeleton />
         )}
-        <div className="grid gap-x-8 grid-cols-1 md:grid-cols-2 mt-6">
+        <div className="grid gap-x-8 grid-cols-1 md:grid-cols-2 mb-10">
           <Link href={routes.tips.subroutes.leaderboard.path}>
-            <Button className="mt-6 w-full">Tips Leaderboard</Button>
+            <Button variant="secondary" className="mt-6 w-full">
+              Tips Leaderboard
+            </Button>
           </Link>
           <Link href={routes.tips.subroutes.history.path}>
-            <Button className="mt-6 w-full">Tips History</Button>
+            <Button variant="secondary" className="mt-6 w-full">
+              Tips History
+            </Button>
           </Link>
         </div>
-        <h3 className="mt-12 mb-8">Your Stats</h3>
+
+        <h2 className="mt-20 mb-8">Your Stats</h2>
         <TipperScore />
         <TipsUserInfo />
+        <h2 className="mt-20">Tipping Info</h2>
         <h3 className="mt-12">Overview</h3>
         <p>
           Unlike most other tipping tokens on Farcaster, Farther tips are

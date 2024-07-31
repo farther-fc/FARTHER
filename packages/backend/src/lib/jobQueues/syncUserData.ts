@@ -1,4 +1,8 @@
-import { neynarLimiter, retryWithExponentialBackoff } from "@farther/common";
+import {
+  dayUTC,
+  neynarLimiter,
+  retryWithExponentialBackoff,
+} from "@farther/common";
 import * as Sentry from "@sentry/node";
 import Bottleneck from "bottleneck";
 import { QueueEvents, Worker } from "bullmq";
@@ -11,7 +15,6 @@ import {
   queueNames,
   syncUserDataQueue,
 } from "../bullmq";
-import { dayUTC } from "../utils/dayUTC";
 import { flushCache } from "../utils/flushCache";
 
 const BATCH_SIZE = 1000;

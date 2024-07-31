@@ -1,12 +1,9 @@
 import { InfoCard } from "@components/InfoCard";
-import LiquidityBonusRewardsPopover from "@components/LiquidityBonusRewardsPopover";
-import { PendingRewardButton } from "@components/PendingRewardButton";
 import { RewardsTableRow } from "@components/RewardsTableRow";
 import { FartherAccountLink } from "@components/nav/FartherLinks";
 import { TipsUserInfo } from "@components/tips/TipsUserInfo";
 import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
-import { Popover } from "@components/ui/Popover";
 import { Skeleton } from "@components/ui/Skeleton";
 import {
   Table,
@@ -24,7 +21,6 @@ import { routes } from "@lib/routes";
 import { formatWad, removeFalsyValues } from "@lib/utils";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useLiquidityHandlers } from "hooks/useLiquidityHandlers";
-import { Info } from "lucide-react";
 import Link from "next/link";
 
 export default function ProfilePage() {
@@ -39,6 +35,22 @@ export default function ProfilePage() {
   } = useLiquidity();
 
   const rows = removeFalsyValues(user?.allocations || []);
+
+  if (pendingBonus > BigInt(0)) {
+    rows.push({
+      id: "PENDING_POWER_ALLOCATION_ID",
+      type: AllocationType.LIQUIDITY,
+      isClaimed: false,
+      createdAt: bonusLpRewardsDropDate,
+      amount: pendingBonus.toString(),
+      address: accountAddress,
+      index: null,
+      airdrop: null,
+      baseAmount: "",
+      referenceAmount: null,
+      tweets: [],
+    });
+  }
 
   const { openConnectModal } = useConnectModal();
 
@@ -124,46 +136,6 @@ export default function ProfilePage() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {rows
-                        .filter((a) => a.type === AllocationType.POWER_USER)
-                        .map((a) => (
-                          <RewardsTableRow
-                            key={a.id}
-                            allocation={a}
-                            allocTypeHasUpcomingAirdrop={
-                              powerdropHasUpcomingAirdrop
-                            }
-                          />
-                        ))}
-                      {rows
-                        .filter((a) => a.type === AllocationType.TIPS)
-                        .map((a) => (
-                          <RewardsTableRow
-                            key={a.id}
-                            allocation={a}
-                            allocTypeHasUpcomingAirdrop={tipsHasUpcomingAirdrop}
-                          />
-                        ))}
-                      {rows
-                        .filter((a) => a.type === AllocationType.EVANGELIST)
-                        .map((a) => (
-                          <RewardsTableRow
-                            key={a.id}
-                            allocation={a}
-                            allocTypeHasUpcomingAirdrop={
-                              evangelistHasUpcomingAirdrop
-                            }
-                          />
-                        ))}
-                      {rows
-                        .filter((a) => a.type === AllocationType.LIQUIDITY)
-                        .map((a) => (
-                          <RewardsTableRow
-                            key={a.id}
-                            allocation={a}
-                            allocTypeHasUpcomingAirdrop={lpHasUpcomingAirdrop}
-                          />
-                        ))}
                       {/** CLAIMABLE ONCHAIN LIQUDITY REWARDS */}
                       {claimableRewards > BigInt(0) && (
                         <TableRow>
@@ -195,40 +167,33 @@ export default function ProfilePage() {
                           </TableCell>
                         </TableRow>
                       )}
-                      {/** PENDING BONUS LIQUDITY REWARDS */}
-                      {pendingBonus > BigInt(0) && (
-                        <TableRow>
-                          <TableCell className="pl-0 font-medium">
-                            <Link href={routes.liquidity.path}>
-                              Liquidity (bonus)
-                            </Link>
-                          </TableCell>
-                          <TableCell className="text-right">
-                            {bonusLpRewardsDropDate}
-                          </TableCell>
-                          <TableCell className="pr-1 text-right">
-                            <Popover content={<LiquidityBonusRewardsPopover />}>
-                              <div className="flex items-center justify-end">
-                                {formatWad(pendingBonus)}{" "}
-                                <Info className="ml-1 w-3" />
-                              </div>
-                            </Popover>
-                          </TableCell>
-                          <TableCell className="pr-0 text-right">
-                            {user?.powerBadge ? (
-                              <Button
-                                sentryId={clickIds.profilePageClaimedRewards}
-                                className="w-tableButton md:w-tableButtonWide"
-                                disabled={true}
-                              >
-                                Avail. {bonusLpRewardsDropDate}
-                              </Button>
-                            ) : (
-                              <PendingRewardButton />
-                            )}
-                          </TableCell>
-                        </TableRow>
-                      )}
+                      {rows
+                        .sort((a, b) => {
+                          if (a.isClaimed && !b.isClaimed) return 1;
+                          if (!a.isClaimed && b.isClaimed) return -1;
+                          return (
+                            new Date(b.createdAt).getTime() -
+                            new Date(a.createdAt).getTime()
+                          );
+                        })
+                        .map((a) => (
+                          <RewardsTableRow
+                            key={a.id}
+                            allocation={a}
+                            allocTypeHasUpcomingAirdrop={
+                              a.type === AllocationType.POWER_USER
+                                ? powerdropHasUpcomingAirdrop
+                                : a.type === AllocationType.TIPS
+                                  ? tipsHasUpcomingAirdrop
+                                  : a.type === AllocationType.EVANGELIST
+                                    ? evangelistHasUpcomingAirdrop
+                                    : a.type === AllocationType.LIQUIDITY
+                                      ? lpHasUpcomingAirdrop
+                                      : false
+                            }
+                          />
+                        ))}
+
                       {/** CLAIMED ONCHAIN LIQUDITY REWARDS */}
                       {rewardsClaimed && (
                         <TableRow>
