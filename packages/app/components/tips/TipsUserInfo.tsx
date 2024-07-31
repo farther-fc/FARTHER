@@ -1,5 +1,6 @@
 import { InfoCard } from "@components/InfoCard";
 import { NoUserFoundCard } from "@components/NoUserFoundCard";
+import { TipperScore } from "@components/tips/TipperScore";
 import { Button } from "@components/ui/Button";
 import { Popover } from "@components/ui/Popover";
 import { Skeleton } from "@components/ui/Skeleton";
@@ -21,7 +22,8 @@ export function TipsUserInfo() {
   const { openConnectModal } = useConnectModal();
 
   return (
-    <div className="mb-14">
+    <div className="mb-14 mt-10">
+      <TipperScore />
       {userLoading ? (
         <>
           <Skeleton className="mt-8 h-[140px]" />
@@ -29,7 +31,7 @@ export function TipsUserInfo() {
         </>
       ) : user ? (
         <>
-          <h4 className="text-ghost mt-8 text-sm uppercase">
+          <h4 className="text-ghost mt-5 text-sm uppercase">
             {createdAt ? dayjs(new Date(createdAt)).format("MMM D") : ""}
             &nbsp;Cycle
           </h4>
@@ -102,7 +104,7 @@ export function TipsUserInfo() {
               </div>
             </div>
           </InfoCard>
-          <h4 className="text-ghost mt-8 text-sm">TOTALS</h4>
+          <h4 className="text-ghost mt-5 text-sm">TOTALS</h4>
           <InfoCard className="mt-0 w-full">
             <div className="flex flex-col justify-between md:flex-row md:gap-36">
               <div className="grid grid-cols-[120px_1fr] w-full gap-2">

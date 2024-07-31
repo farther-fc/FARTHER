@@ -14,7 +14,6 @@ const user1Data = { ...dummyUser, fid: user1Id };
 const user1TipsData = { ...dummyUserTips, fid: user1Id };
 const user2Id = 456;
 const user2Data = { ...dummyUser, fid: user2Id };
-const user2TipsData = { ...dummyUserTips, fid: user2Id };
 const userTipsId = 789;
 
 describe("KV Cache", () => {

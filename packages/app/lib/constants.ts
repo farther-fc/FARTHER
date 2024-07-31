@@ -26,6 +26,8 @@ export const allocationTypeLinks = {
 
 export const PENDING_POWER_ALLOCATION_ID = "pending-power-drop-allocation";
 export const PENDING_TIPS_ALLOCATION_ID = "pending-tips-allocation";
+export const PENDING_TIPPER_REWARDS_ALLOCATION_ID =
+  "pending-tipper-rewards-allocation";
 
 export const clickIds = {
   liqInfoConnect: "liquidity-info-connect-wallet",

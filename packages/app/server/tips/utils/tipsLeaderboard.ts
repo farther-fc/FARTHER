@@ -1,5 +1,5 @@
 import { prisma } from "@farther/backend";
-import { ENVIRONMENT, cacheTypes } from "@farther/common";
+import { ENVIRONMENT, TIPPER_REWARDS_POOL, cacheTypes } from "@farther/common";
 import { dummyLeaderBoard } from "@lib/__tests__/testData";
 import { cache } from "@lib/cache";
 
@@ -80,14 +80,23 @@ export async function getLeaderboardData() {
     },
   });
 
+  const totalTipperScore = tippers
+    .map((tipper) => tipper.tipperScores[0]?.score ?? 0)
+    .reduce((acc, score) => acc + score, 0);
+
   const leaderboardData = tippers.map((tipper, i) => {
+    const tipperScore = tipper.tipperScores[0]?.score ?? 0;
+    const tipperRewards =
+      (tipperScore / totalTipperScore) * TIPPER_REWARDS_POOL;
+
     return {
       fid: tipper.id,
       displayName: tipper.displayName,
       pfpUrl: tipper.pfpUrl,
       username: tipper.username,
       powerBadge: tipper.powerBadge,
-      tipperScore: tipper.tipperScores[0]?.score ?? 0,
+      tipperScore,
+      tipperRewards,
       currentAllowance: tipper.tipAllowances[0].amount,
       totalAllowance: Math.round(
         tipper.tipAllowances.reduce(
@@ -109,7 +118,7 @@ export async function getLeaderboardData() {
   });
 
   const rankedData = leaderboardData
-    .sort((a, b) => b.totalGivenAmount - a.totalGivenAmount)
+    .sort((a, b) => b.tipperScore - a.tipperScore)
     .map((d, i) => ({
       ...d,
       rank: i + 1,

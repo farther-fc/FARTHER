@@ -1,78 +1,126 @@
-import FartherV2Announcement from "@components/FartherV2Announcement";
+import { InfoCard } from "@components/InfoCard";
 import { TipsUserInfo } from "@components/tips/TipsUserInfo";
 import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { Popover } from "@components/ui/Popover";
 import { Skeleton } from "@components/ui/Skeleton";
-import Spinner from "@components/ui/Spinner";
 import {
+  TIPPEE_FOLLOWERS_MIN,
   TIPPER_REQUIRED_FARTHER_BALANCE,
-  TIP_USD_MINIMUM,
+  TIPPER_REWARDS_POOL,
+  dayUTC,
 } from "@farther/common";
+import { OPENRANK_ENGAGEMENT_DOCS_URL } from "@lib/constants";
+import { useTokenInfo } from "@lib/context/TokenContext";
 import { routes } from "@lib/routes";
 import dayjs from "dayjs";
 import { useTipsMeta } from "hooks/useTipsMeta";
-import { Info } from "lucide-react";
+import { HelpCircle } from "lucide-react";
 import Link from "next/link";
+import numeral from "numeral";
 
 function TipsPage() {
-  const { createdAt, tipsMetaLoading, tipMinimum, eligibleTippers } =
-    useTipsMeta();
+  const { createdAt, tipsMetaLoading, eligibleTippers } = useTipsMeta();
+
+  const { fartherUsdPrice } = useTokenInfo();
 
   return (
     <Container variant="page">
       <main className="content">
         <h1>Tips</h1>
-        <FartherV2Announcement />
-        {!tipsMetaLoading && createdAt && (
-          <>
-            <span className="text-ghost text-sm">CYCLE START TIME</span>
-            <h4 className="mt-2">
-              {dayjs(new Date(createdAt)).format("MMM D, YYYY h:mm A")}
-            </h4>
-          </>
-        )}
+        <div className="flex justify-center flex-col items-center">
+          <span className="text-ghost text-sm uppercase">
+            {dayUTC().format("MMMM")} Rewards Pool
+          </span>
+          <span className="mt-2 mb-0 text-3xl">
+            <Popover
+              content={`The rewards pool is distributed at the end of the month, pro rata to all tippers who have a positive tipper score.`}
+            >
+              <div className="flex items-center justify-end">
+                {numeral(TIPPER_REWARDS_POOL).format("0,0")} ✨{" "}
+                <HelpCircle className="text-muted ml-2 size-4" />
+              </div>
+            </Popover>
+          </span>
+          {fartherUsdPrice && (
+            <span className="text-ghost mt-2">
+              ${numeral(TIPPER_REWARDS_POOL * fartherUsdPrice).format("0,0")}
+            </span>
+          )}
+        </div>
+        <h4 className="text-ghost mt-8 text-sm uppercase">Current Cycle</h4>
         {!tipsMetaLoading && createdAt ? (
-          <div className="grid grid-cols-[120px_1fr] gap-2">
-            <>
-              <span className="text-muted">Tip minimum:</span>
-              <span className="flex items-center">
-                {tipMinimum} ✨{" "}
-                <Popover
-                  content={`The tip minimum changes daily based on the current equivalent of $${TIP_USD_MINIMUM.toFixed(2)}`}
-                >
-                  <Info className="text-muted ml-2 size-3" />
-                </Popover>
-              </span>
-              <span className="text-muted">Eligible tippers:</span>
-              <span className="flex items-center">
-                {eligibleTippers}
-                <Popover
-                  content={`You must currently have a total balance of ${TIPPER_REQUIRED_FARTHER_BALANCE.toLocaleString()} FARTHER to receive a tip allowance. This number will adjust over time. If you are providing liquidity in the Uniswap 0.3% pool, that will be included.`}
-                >
-                  <Info className="text-muted ml-2 size-3" />
-                </Popover>
-              </span>
-            </>
-          </div>
+          <InfoCard className="grid grid-cols-2 mt-0">
+            <div>
+              {!tipsMetaLoading && createdAt && (
+                <>
+                  <span className="text-ghost text-sm uppercase">
+                    Start Time
+                  </span>
+                  <h5 className="mt-2 mb-0">
+                    {dayjs(new Date(createdAt)).format("MMM D ha")}
+                  </h5>
+                </>
+              )}
+            </div>
+
+            <div className="text-right">
+              <div className="">
+                <span className="text-ghost text-sm uppercase">
+                  Eligible Tippers
+                </span>
+                <h5 className="flex items-center mt-2 mb-0 justify-end">
+                  {eligibleTippers}
+                  <Popover
+                    content={`You must currently have a total balance of ${TIPPER_REQUIRED_FARTHER_BALANCE.toLocaleString()} FARTHER to receive a tip allowance. This number will adjust over time. If you are providing liquidity in the Uniswap 0.3% pool, that will be included.`}
+                  >
+                    <HelpCircle className="text-muted ml-2 size-3" />
+                  </Popover>
+                </h5>
+              </div>
+            </div>
+          </InfoCard>
         ) : (
-          <Skeleton className="max-w-[300px]" />
+          <Skeleton />
         )}
-        <div className="grid gap-8 grid-cols-2 mt-6">
+        <div className="grid gap-x-8 grid-cols-1 md:grid-cols-2 mb-10">
           <Link href={routes.tips.subroutes.leaderboard.path}>
-            <Button className="mt-8 w-full">
-              {routes.tips.subroutes.leaderboard.title}
+            <Button variant="secondary" className="mt-6 w-full">
+              Tips Leaderboard
             </Button>
           </Link>
           <Link href={routes.tips.subroutes.history.path}>
-            <Button className="mt-8 w-full">
-              {routes.tips.subroutes.history.title}
+            <Button variant="secondary" className="mt-6 w-full">
+              Tips History
             </Button>
           </Link>
         </div>
-        <h3 className="mt-12">Your Stats</h3>
+
+        <h2 className="mt-20 mb-8">Your Stats</h2>
         <TipsUserInfo />
+        <h2 className="mt-20">Tipping Info</h2>
+        <h3 className="mt-12">Overview</h3>
+        <p>
+          Unlike most other tipping tokens on Farcaster, Farther tips are
+          designed to boost quality daily active users. This is acheived by{" "}
+          <Link href={routes.tips.subroutes.history.path}>scoring tips</Link>{" "}
+          based on how much the recipients' engagement increases throughout each
+          month. The engagement is measured by{" "}
+          <ExternalLink href={OPENRANK_ENGAGEMENT_DOCS_URL}>
+            OpenRank
+          </ExternalLink>
+          , and all the tip scores combine to form a score for each tipper. At
+          the end of the month, a rewards pool is distributed pro rata based on
+          each tipper's score.
+        </p>
+        <br />
+        <p>
+          You can see all your tip scores on the{" "}
+          <Link href={routes.tips.subroutes.history.path}>
+            tip history page
+          </Link>
+        </p>
         <h3 className="mt-12">How to tip</h3>
         <p>
           Send tips by including text like this in replies to casts
@@ -81,41 +129,6 @@ function TipsPage() {
         <ul>
           <li>{`42069 farther`}</li>
           <li>{`42069 $farther`}</li>
-        </ul>
-        <h4>Maximum distribution ➡️ Greater allowance</h4>
-        <p>
-          Tippers who distribute their daily allowance to the greatest number of
-          accounts{" "}
-          <em className="font-bold">that aren't also receiving an allowance</em>{" "}
-          will receive larger share of the daily allowance pool over time. The
-          aim of this is to maximize the number of users receiving tips and
-          mitigate bot account manipulation.
-        </p>
-        <h4>Daily tip minimum</h4>
-        <p className="whitespace-pre-line">
-          Given that the allowance calculation incentivizes broad distribution,
-          a floor is set to make each tip meaningful and prevent Farther from
-          becoming spammy. This amount may change over time but targets the
-          equivalent of ${TIP_USD_MINIMUM.toFixed(2)} (currently{" "}
-          {tipsMetaLoading ? <Spinner size="xs" /> : tipMinimum} FARTHER).
-        </p>
-        <h4>Additional rules</h4>
-        <ul>
-          <li>Self-tips are rejected</li>
-          <li>
-            Any account tipping below the minimum more than 3 times per day on a
-            consistent basis is assumed to be intentionally fake tipping. A
-            warning will be issued, then a ban.
-          </li>
-          <li>
-            Accounts that tip frequently without an allowance will also be
-            warned and banned if it continues.
-          </li>
-          <li>
-            High-volume tip trading will result in a warning and ban if it
-            continues. High volume is defined as 5 or more tip trades per day on
-            a consistent basis.
-          </li>
         </ul>
         <div className="mt-12">
           <h3>Eligibility</h3>
@@ -127,21 +140,19 @@ function TipsPage() {
             current price. This ensures the allowance for each tipper remains
             valuable enough to make tipping worthwhile.{" "}
           </p>
-          <p>
-            After a token holder starts receiving allowances, their daily
-            allowance will never drop below the tip minimum as long as they
-            remain within the top holder threshold. If inactivity results in
-            their allowance dropping to the minimum, they can still recover
-            their allowance by consistently spending all of it every day.
-          </p>
         </div>
-        <p className="mt-6">
-          If you're interested in more details, check out the{" "}
-          <ExternalLink href="https://spice-nova-190.notion.site/Farther-Tips-Deep-Dive-6f955b57ca5847229187ba22bf9b7eef">
-            Farther Tips Deep Dive
-          </ExternalLink>
-          .
-        </p>
+        <h4>Additional rules</h4>
+        <ul>
+          <li>Self-tips are rejected</li>
+          <li>
+            Tip recipients must have at least{" "}
+            <strong>{TIPPEE_FOLLOWERS_MIN} followers</strong>.
+          </li>
+          <li>
+            You can only tip the same user once per cycle (cycles are usually 24
+            hours but sometimes longer).
+          </li>
+        </ul>
       </main>
     </Container>
   );

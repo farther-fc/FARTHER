@@ -1,6 +1,5 @@
-import { TIP_SCORE_SCALER } from "@farther/common";
+import { TIP_SCORE_SCALER, dayUTC } from "@farther/common";
 import Decimal from "decimal.js";
-import { dayUTC } from "./dayUTC";
 
 /**
  * For each tip, this calculates the OpenRank score change of the recipient per token tipped

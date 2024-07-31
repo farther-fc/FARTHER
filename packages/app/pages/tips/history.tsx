@@ -1,4 +1,3 @@
-import FartherV2Announcement from "@components/FartherV2Announcement";
 import { TipperScore } from "@components/tips/TipperScore";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
@@ -128,7 +127,6 @@ function TipHistoryPage() {
   return (
     <Container variant="page">
       <h1>Tip History</h1>
-      <FartherV2Announcement />
       {(user || userLoading) && <TipperScore />}
       <div className="text-xs md:text-sm">
         {user && !isLoading && (
@@ -160,7 +158,7 @@ function TipHistoryPage() {
           <Skeleton className="h-[400px] md:h-[500px] rounded-xl" />
         ) : (
           <div className="border-ghost border rounded-xl overflow-hidden">
-            <div className="h-[400px] md:h-[500px] overflow-y-auto bg-background-700 rounded-xl">
+            <div className="h-[400px] md:h-[500px] overflow-y-auto bg-background-600 rounded-xl">
               <InfiniteScroll
                 loadMore={loadMore}
                 hasMore={hasMore}

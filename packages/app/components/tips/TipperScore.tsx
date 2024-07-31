@@ -10,17 +10,17 @@ export function TipperScore() {
   const { user, userLoading } = useUser();
   return user || userLoading ? (
     <LabelValue
-      className="text-xl mb-4"
+      className="text-xl"
       label={"Tipper Score"}
       value={
         <Popover content={<TipperScoreInfo />}>
-          <div className="flex group">
+          <div className="flex group items-center">
             {userLoading ? (
-              <Spinner size="xs" className="mr-1" />
+              <Spinner size="xs" className="mr-2" />
             ) : (
               numeral(user?.tipperScore).format("0,0.[00]")
             )}
-            <HelpCircle className="ml-1 size-4 group-hover:text-white" />
+            <HelpCircle className="ml-2 size-4 text-muted" />
           </div>
         </Popover>
       }
