@@ -7,8 +7,8 @@ export function LabelValue({
   className,
   align = "start",
 }: {
-  label: string;
-  value?: string | number;
+  label: React.ReactNode;
+  value?: React.ReactNode;
   variant?: "chill";
   className?: string;
   align?: "start" | "end";

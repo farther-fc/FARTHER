@@ -1,7 +1,7 @@
 import FartherV2Announcement from "@components/FartherV2Announcement";
+import { TipperScore } from "@components/tips/TipperScore";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
-import { LabelValue } from "@components/ui/LabelValue";
 import { Skeleton } from "@components/ui/Skeleton";
 import { Tooltip } from "@components/ui/Tooltip";
 import { API_BATCH_LIMIT } from "@farther/common";
@@ -22,7 +22,7 @@ const GRID_STYLES =
 
 const Row = ({ tip, isTablet }: { tip: Tips[number]; isTablet: boolean }) => (
   <div
-    className={`pr-2 md:pr-5 block hover:bg-background group cursor-default`}
+    className={`pr-2 md:pr-5 block ${tip.invalidTipReason ? "bg-background-800" : ""} hover:bg-background group cursor-default`}
   >
     <div className={GRID_STYLES}>
       <div
@@ -56,8 +56,10 @@ const Row = ({ tip, isTablet }: { tip: Tips[number]; isTablet: boolean }) => (
       <div className="flex justify-end text-right self-stretch items-center">
         <span>
           {tip.invalidTipReason
-            ? "_"
-            : numeral(tip.openRankChange || 0).format("0,0.[00]")}
+            ? "x"
+            : tip.openRankChange
+              ? numeral(tip.openRankChange).format("0,0.[00]")
+              : "..."}
         </span>
       </div>
       <div className="text-right py-1 flex justify-end self-stretch items-center">
@@ -127,11 +129,7 @@ function TipHistoryPage() {
     <Container variant="page">
       <h1>Tip History</h1>
       <FartherV2Announcement />
-      <LabelValue
-        className="text-xl mb-4"
-        label="Tipper Score*"
-        value={numeral(user?.tipperScore).format("0,0.[00]")}
-      />
+      {(user || userLoading) && <TipperScore />}
       <div className="text-xs md:text-sm">
         {user && !isLoading && (
           <p className="text-muted mb-8">
@@ -162,7 +160,7 @@ function TipHistoryPage() {
           <Skeleton className="h-[400px] md:h-[500px] rounded-xl" />
         ) : (
           <div className="border-ghost border rounded-xl overflow-hidden">
-            <div className="h-[400px] md:h-[500px] overflow-y-auto bg-background-dark rounded-xl">
+            <div className="h-[400px] md:h-[500px] overflow-y-auto bg-background-700 rounded-xl">
               <InfiniteScroll
                 loadMore={loadMore}
                 hasMore={hasMore}
@@ -203,23 +201,6 @@ function TipHistoryPage() {
             </div>
           </div>
         )}
-      </div>
-      <div className="text-muted text-sm mt-6">
-        <p>
-          <span className="text-white">
-            <strong>*Tipper Score</strong>
-          </span>{" "}
-          is an average of all tip scores. Tip scores are derived from the
-          percentage change in the tip receipient's Farcaster engagement
-          (determined by{" "}
-          <ExternalLink href="https://docs.openrank.com/integrations/farcaster/ranking-strategies-on-farcaster#strategy-engagement">
-            OpenRank
-          </ExternalLink>
-          ) since the time the tip was made. The percentage change of each
-          recipient's engagement score is multiplied by the tip amount, then
-          scaled up by 10k to be easier to read.
-        </p>
-        <p>OpenRank data is synced every six hours.</p>
       </div>
     </Container>
   );

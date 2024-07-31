@@ -70,7 +70,7 @@ export function Leaderboard() {
                     <TableHead
                       key={header.id}
                       colSpan={header.colSpan}
-                      className={`bg-background-dark table-head h-auto lg:h-[60px] ${columnStyles[header.id] ?? ""}`}
+                      className={`bg-background-600 table-head h-auto lg:h-[60px] ${columnStyles[header.id] ?? ""}`}
                     >
                       {header.isPlaceholder
                         ? null
@@ -90,7 +90,7 @@ export function Leaderboard() {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="bg-background-dark hover:bg-background"
+                  className="bg-background-600 hover:bg-background"
                 >
                   {row.getVisibleCells().map((cell) => {
                     return (
