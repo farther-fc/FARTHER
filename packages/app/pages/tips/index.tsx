@@ -1,8 +1,8 @@
+import { TipperScore } from "@components/tips/TipperScore";
 import { TipsUserInfo } from "@components/tips/TipsUserInfo";
 import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
-import { LabelValue } from "@components/ui/LabelValue";
 import { Popover } from "@components/ui/Popover";
 import { Skeleton } from "@components/ui/Skeleton";
 import {
@@ -16,7 +16,6 @@ import dayjs from "dayjs";
 import { useTipsMeta } from "hooks/useTipsMeta";
 import { Info } from "lucide-react";
 import Link from "next/link";
-import numeral from "numeral";
 
 function TipsPage() {
   const { user } = useUser();
@@ -52,24 +51,20 @@ function TipsPage() {
         ) : (
           <Skeleton className="max-w-[300px]" />
         )}
-        <div className="grid gap-8 grid-cols-2 mt-6">
+        <div className="grid gap-x-8 grid-cols-1 md:grid-cols-2 mt-6">
           <Link href={routes.tips.subroutes.leaderboard.path}>
-            <Button className="mt-8 w-full">
+            <Button className="mt-6 w-full">
               {routes.tips.subroutes.leaderboard.title}
             </Button>
           </Link>
           <Link href={routes.tips.subroutes.history.path}>
-            <Button className="mt-8 w-full">
+            <Button className="mt-6 w-full">
               {routes.tips.subroutes.history.title}
             </Button>
           </Link>
         </div>
-        <h3 className="mt-12">Your Stats</h3>
-        <LabelValue
-          className="text-xl mb-4"
-          label="Tipper Score*"
-          value={numeral(user?.tipperScore).format("0,0.[00]")}
-        />
+        <h3 className="mt-12 mb-8">Your Stats</h3>
+        <TipperScore />
         <TipsUserInfo />
         <h3 className="mt-12">Overview</h3>
         <p>
@@ -81,7 +76,7 @@ function TipsPage() {
             OpenRank
           </ExternalLink>
           , and all the tip scores combine to form a score for each tipper. At
-          the end of the month, a rewwards pool is distributed pro rata based on
+          the end of the month, a rewards pool is distributed pro rata based on
           each tipper's score.
         </p>
         <br />

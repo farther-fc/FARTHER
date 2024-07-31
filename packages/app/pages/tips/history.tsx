@@ -1,13 +1,10 @@
+import { TipperScore } from "@components/tips/TipperScore";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
-import { LabelValue } from "@components/ui/LabelValue";
 import { Skeleton } from "@components/ui/Skeleton";
 import { Tooltip } from "@components/ui/Tooltip";
 import { API_BATCH_LIMIT } from "@farther/common";
-import {
-  OPENRANK_ENGAGEMENT_DOCS_URL,
-  invalidTipReasons,
-} from "@lib/constants";
+import { invalidTipReasons } from "@lib/constants";
 import { useMediaQuery } from "@lib/context/MediaQueryContext";
 import { useUser } from "@lib/context/UserContext";
 import { routes } from "@lib/routes";
@@ -128,11 +125,7 @@ function TipHistoryPage() {
   return (
     <Container variant="page">
       <h1>Tip History</h1>
-      <LabelValue
-        className="text-xl mb-4"
-        label="Tipper Score*"
-        value={numeral(user?.tipperScore).format("0,0.[00]")}
-      />
+      {(user || userLoading) && <TipperScore />}
       <div className="text-xs md:text-sm">
         {user && !isLoading && (
           <p className="text-muted mb-8">
@@ -204,23 +197,6 @@ function TipHistoryPage() {
             </div>
           </div>
         )}
-      </div>
-      <div className="text-muted text-sm mt-6">
-        <p>
-          <span className="text-white">
-            <strong>*Tipper Score</strong>
-          </span>{" "}
-          is an average of all tip scores. Tip scores are derived from the
-          percentage change in the tip receipient's Farcaster engagement
-          (determined by{" "}
-          <ExternalLink href={OPENRANK_ENGAGEMENT_DOCS_URL}>
-            OpenRank
-          </ExternalLink>
-          ) since the time the tip was made. The percentage change of each
-          recipient's engagement score is multiplied by the tip amount, then
-          scaled up by 10k to be easier to read.
-        </p>
-        <p>OpenRank data is synced every six hours.</p>
       </div>
     </Container>
   );
