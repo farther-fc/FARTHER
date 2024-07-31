@@ -129,6 +129,7 @@ export const getUser = publicProcedure
         allocations.push({
           type: AllocationType.POWER_USER,
           id: PENDING_POWER_ALLOCATION_ID,
+          createdAt: new Date(0),
           isClaimed: false,
           amount: "0",
           referenceAmount: "0",
@@ -151,6 +152,7 @@ export const getUser = publicProcedure
         allocations.push({
           type: AllocationType.TIPS,
           id: PENDING_TIPS_ALLOCATION_ID,
+          createdAt: new Date(0),
           isClaimed: false,
           amount: BigInt(totalUnallocatedTips * 10 ** 18).toString(),
           referenceAmount: "0",
@@ -388,6 +390,7 @@ async function getPrivateUser({
         },
         select: {
           id: true,
+          createdAt: true,
           amount: true,
           baseAmount: true,
           referenceAmount: true,
@@ -479,6 +482,7 @@ async function getPublicUserFromDb({
         },
         select: {
           id: true,
+          createdAt: true,
           amount: true,
           isClaimed: true,
           index: true,
@@ -614,6 +618,7 @@ export async function getUncachedPublicUser({ fid }: { fid: number }) {
     },
     allocations: dbUser.allocations.map((a) => ({
       id: a.id,
+      createdAt: a.createdAt,
       amount: a.amount,
       isClaimed: a.isClaimed,
       index: a.index,
