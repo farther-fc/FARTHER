@@ -4,7 +4,10 @@ import { LabelValue } from "@components/ui/LabelValue";
 import { Skeleton } from "@components/ui/Skeleton";
 import { Tooltip } from "@components/ui/Tooltip";
 import { API_BATCH_LIMIT } from "@farther/common";
-import { invalidTipReasons } from "@lib/constants";
+import {
+  OPENRANK_ENGAGEMENT_DOCS_URL,
+  invalidTipReasons,
+} from "@lib/constants";
 import { useMediaQuery } from "@lib/context/MediaQueryContext";
 import { useUser } from "@lib/context/UserContext";
 import { routes } from "@lib/routes";
@@ -210,7 +213,7 @@ function TipHistoryPage() {
           is an average of all tip scores. Tip scores are derived from the
           percentage change in the tip receipient's Farcaster engagement
           (determined by{" "}
-          <ExternalLink href="https://docs.openrank.com/integrations/farcaster/ranking-strategies-on-farcaster#strategy-engagement">
+          <ExternalLink href={OPENRANK_ENGAGEMENT_DOCS_URL}>
             OpenRank
           </ExternalLink>
           ) since the time the tip was made. The percentage change of each

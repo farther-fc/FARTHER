@@ -1,20 +1,19 @@
 import { prisma } from "@farther/backend";
-import { ENVIRONMENT, cacheTypes } from "@farther/common";
+import { ENVIRONMENT, TIPPER_REWARDS_POOL } from "@farther/common";
 import { dummyLeaderBoard } from "@lib/__tests__/testData";
-import { cache } from "@lib/cache";
 
 export async function tipsLeaderboard() {
-  const cachedLeaderboard = await cache.get({
-    type: cacheTypes.LEADERBOARD,
-  });
+  // const cachedLeaderboard = await cache.get({
+  //   type: cacheTypes.LEADERBOARD,
+  // });
 
-  if (cachedLeaderboard) {
-    return cachedLeaderboard;
-  }
+  // if (cachedLeaderboard) {
+  //   return cachedLeaderboard;
+  // }
 
   const leaderboardData = await getLeaderboardData();
 
-  cache.set({ type: cacheTypes.LEADERBOARD, value: leaderboardData });
+  // cache.set({ type: cacheTypes.LEADERBOARD, value: leaderboardData });
 
   return leaderboardData;
 }
@@ -80,14 +79,23 @@ export async function getLeaderboardData() {
     },
   });
 
+  const totalTipperScore = tippers
+    .map((tipper) => tipper.tipperScores[0]?.score ?? 0)
+    .reduce((acc, score) => acc + score, 0);
+
   const leaderboardData = tippers.map((tipper, i) => {
+    const tipperScore = tipper.tipperScores[0]?.score ?? 0;
+    const tipperRewards =
+      (tipperScore / totalTipperScore) * TIPPER_REWARDS_POOL;
+
     return {
       fid: tipper.id,
       displayName: tipper.displayName,
       pfpUrl: tipper.pfpUrl,
       username: tipper.username,
       powerBadge: tipper.powerBadge,
-      tipperScore: tipper.tipperScores[0]?.score ?? 0,
+      tipperScore,
+      tipperRewards,
       currentAllowance: tipper.tipAllowances[0].amount,
       totalAllowance: Math.round(
         tipper.tipAllowances.reduce(

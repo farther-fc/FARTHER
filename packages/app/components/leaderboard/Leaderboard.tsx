@@ -32,9 +32,10 @@ import { DataTableToolbar } from "./LeaderboardToolbar";
 const columnStyles: { [key: string]: string } = {
   rank: "w-[28px]",
   username: "w-[150px]",
+  tipperScore: "text-right w-[150px]",
+  tipperRewards: "text-right w-[150px]",
   totalGivenAmount: "text-right w-[150px]",
   totalGivenCount: "text-right w-[150px]",
-  tipperScore: "text-right w-[150px]",
 } as const;
 
 export function Leaderboard() {

@@ -69,3 +69,6 @@ export const invalidTipReasons = {
   INELIGIBLE_TIPPEE:
     "Tip recipient must have at least 100 followers at the time of the tip",
 };
+
+export const OPENRANK_ENGAGEMENT_DOCS_URL =
+  "https://docs.openrank.com/integrations/farcaster/ranking-strategies-on-farcaster#strategy-engagement";
