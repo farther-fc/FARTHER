@@ -158,7 +158,7 @@ function TipHistoryPage() {
           <Skeleton className="h-[400px] md:h-[500px] rounded-xl" />
         ) : (
           <div className="border-ghost border rounded-xl overflow-hidden">
-            <div className="h-[400px] md:h-[500px] overflow-y-auto bg-background-700 rounded-xl">
+            <div className="h-[400px] md:h-[500px] overflow-y-auto bg-background-600 rounded-xl">
               <InfiniteScroll
                 loadMore={loadMore}
                 hasMore={hasMore}

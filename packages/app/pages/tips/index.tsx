@@ -14,7 +14,7 @@ import { useUser } from "@lib/context/UserContext";
 import { routes } from "@lib/routes";
 import dayjs from "dayjs";
 import { useTipsMeta } from "hooks/useTipsMeta";
-import { Info } from "lucide-react";
+import { HelpCircle } from "lucide-react";
 import Link from "next/link";
 
 function TipsPage() {
@@ -43,7 +43,7 @@ function TipsPage() {
                 <Popover
                   content={`You must currently have a total balance of ${TIPPER_REQUIRED_FARTHER_BALANCE.toLocaleString()} FARTHER to receive a tip allowance. This number will adjust over time. If you are providing liquidity in the Uniswap 0.3% pool, that will be included.`}
                 >
-                  <Info className="text-muted ml-2 size-3" />
+                  <HelpCircle className="text-muted ml-2 size-3" />
                 </Popover>
               </span>
             </>

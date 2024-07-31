@@ -57,24 +57,24 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
       <span>{numeral(row.original.tipperScore).format("0,0.[00]")}</span>
     ),
   },
-  {
-    accessorKey: "tipperRewards",
-    header: ({ column }) => (
-      <Button
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        className="h-auto backdrop-blur-none pl-4 pr-2"
-      >
-        Pending
-        <br />
-        Rewards
-        <ArrowUpDown className="ml-2 size-4" />
-      </Button>
-    ),
-    cell: ({ row }) => (
-      <span>{numeral(row.original.tipperRewards).format("0,0")} ✨</span>
-    ),
-  },
+  // {
+  //   accessorKey: "tipperRewards",
+  //   header: ({ column }) => (
+  //     <Button
+  //       variant="ghost"
+  //       onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //       className="h-auto backdrop-blur-none pl-4 pr-2"
+  //     >
+  //       Pending
+  //       <br />
+  //       Rewards
+  //       <ArrowUpDown className="ml-2 size-4" />
+  //     </Button>
+  //   ),
+  //   cell: ({ row }) => (
+  //     <span>{numeral(row.original.tipperRewards).format("0,0")} ✨</span>
+  //   ),
+  // },
   {
     accessorKey: "totalGivenAmount",
     header: ({ column }) => (

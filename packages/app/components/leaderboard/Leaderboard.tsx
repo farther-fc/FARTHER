@@ -33,7 +33,7 @@ const columnStyles: { [key: string]: string } = {
   rank: "w-[28px]",
   username: "w-[150px]",
   tipperScore: "text-right w-[150px]",
-  tipperRewards: "text-right w-[150px]",
+  // tipperRewards: "text-right w-[150px]",
   totalGivenAmount: "text-right w-[150px]",
   totalGivenCount: "text-right w-[150px]",
 } as const;
@@ -71,7 +71,7 @@ export function Leaderboard() {
                     <TableHead
                       key={header.id}
                       colSpan={header.colSpan}
-                      className={`bg-background-700 table-head h-auto lg:h-[60px] ${columnStyles[header.id] ?? ""}`}
+                      className={`bg-background-600 table-head h-auto lg:h-[60px] ${columnStyles[header.id] ?? ""}`}
                     >
                       {header.isPlaceholder
                         ? null
@@ -91,7 +91,7 @@ export function Leaderboard() {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="bg-background-700 hover:bg-background"
+                  className="bg-background-600 hover:bg-background"
                 >
                   {row.getVisibleCells().map((cell) => {
                     return (

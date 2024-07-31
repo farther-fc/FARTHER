@@ -1,19 +1,20 @@
 import { prisma } from "@farther/backend";
-import { ENVIRONMENT, TIPPER_REWARDS_POOL } from "@farther/common";
+import { ENVIRONMENT, TIPPER_REWARDS_POOL, cacheTypes } from "@farther/common";
 import { dummyLeaderBoard } from "@lib/__tests__/testData";
+import { cache } from "@lib/cache";
 
 export async function tipsLeaderboard() {
-  // const cachedLeaderboard = await cache.get({
-  //   type: cacheTypes.LEADERBOARD,
-  // });
+  const cachedLeaderboard = await cache.get({
+    type: cacheTypes.LEADERBOARD,
+  });
 
-  // if (cachedLeaderboard) {
-  //   return cachedLeaderboard;
-  // }
+  if (cachedLeaderboard) {
+    return cachedLeaderboard;
+  }
 
   const leaderboardData = await getLeaderboardData();
 
-  // cache.set({ type: cacheTypes.LEADERBOARD, value: leaderboardData });
+  cache.set({ type: cacheTypes.LEADERBOARD, value: leaderboardData });
 
   return leaderboardData;
 }
