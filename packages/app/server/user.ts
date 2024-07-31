@@ -167,13 +167,10 @@ export const getUser = publicProcedure
         dbUser.tipAllowances[0]?.tips.reduce((acc, t) => t.amount + acc, 0) ||
         0;
 
-      const startOfMonth = getStartOfMonthUTC(0);
-
-      const tipperScore =
-        !dbUser.tipperScores[0] ||
-        dbUser.tipperScores[0].createdAt < startOfMonth
-          ? 0
-          : dbUser.tipperScores[0].score;
+      const tipperScore = getTipperScore({
+        createdAt: dbUser.tipperScores[0]?.createdAt,
+        score: dbUser.tipperScores[0]?.score || 0,
+      });
 
       return {
         fid: dbUser.id,
@@ -572,11 +569,10 @@ export async function getUncachedPublicUser({ fid }: { fid: number }) {
 
   const rankIndex = leaderboard.findIndex((u) => u.fid === dbUser.id);
 
-  const startOfMonth = getStartOfMonthUTC(0);
-  const tipperScore =
-    !dbUser.tipperScores[0] || dbUser.tipperScores[0].createdAt < startOfMonth
-      ? 0
-      : dbUser.tipperScores[0].score;
+  const tipperScore = getTipperScore({
+    createdAt: dbUser.tipperScores[0]?.createdAt,
+    score: dbUser.tipperScores[0]?.score || 0,
+  });
 
   return {
     fid: dbUser.id,
@@ -665,4 +661,16 @@ async function getFidFromAddress(address: string) {
   });
 
   return user?.userId;
+}
+
+function getTipperScore({
+  createdAt,
+  score,
+}: {
+  createdAt: Date;
+  score: number;
+}) {
+  const startOfMonth = getStartOfMonthUTC(0);
+
+  return !createdAt || createdAt < startOfMonth ? 0 : score;
 }
