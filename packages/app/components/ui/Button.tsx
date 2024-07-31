@@ -13,7 +13,7 @@ const buttonVariants = cva(
         error:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         secondary:
-          "backdrop-blur-md text-link border border-muted hover:bg-accent hover:bg-white/5",
+          "backdrop-blur-md text-link border border-ghost hover:bg-accent hover:bg-white/5",
         ghost: "backdrop-blur-md text-link hover:bg-white/5 ",
         link: "hover:underline !p-0 transition-colors font-normal !h-auto font-normal text-link hover:text-link-hover",
         outline:

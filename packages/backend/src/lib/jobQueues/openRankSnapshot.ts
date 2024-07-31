@@ -1,4 +1,4 @@
-import { cronSchedules, isProduction } from "@farther/common";
+import { cronSchedules, isProduction, dayUTC } from "@farther/common";
 import { getOpenRankScores } from "@farther/common/src/getOpenRankScore";
 import * as Sentry from "@sentry/node";
 import { Job, QueueEvents, Worker } from "bullmq";
@@ -14,7 +14,6 @@ import {
   queueNames,
 } from "../bullmq";
 import { getLatestCronTime } from "../getLatestCronTime";
-import { dayUTC } from "../utils/dayUTC";
 
 const BATCH_SIZE = 100;
 

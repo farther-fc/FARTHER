@@ -164,15 +164,87 @@ export const getUser = publicProcedure
         });
       }
 
-      const allowance = dbUser.tipAllowances[0]?.amount || 0;
-      const spent =
-        dbUser.tipAllowances[0]?.tips.reduce((acc, t) => t.amount + acc, 0) ||
-        0;
-
       const tipperScore = getTipperScore({
         createdAt: dbUser.tipperScores[0]?.createdAt,
         score: dbUser.tipperScores[0]?.score || 0,
       });
+
+      // if (tipperScore > 0) {
+      //   const lastTipperAllocation = await prisma.allocation.findMany({
+      //     where: {
+      //       type: AllocationType.TIPPER,
+      //       userId: dbUser.id,
+      //     },
+      //     orderBy: {
+      //       createdAt: "desc",
+      //     },
+      //     take: 1,
+      //     include: {
+      //       airdrop: {
+      //         select: {
+      //           createdAt: true,
+      //         },
+      //       },
+      //     },
+      //   });
+
+      //   const latestTipperAirdrop = lastTipperAllocation[0]?.airdrop?.createdAt;
+
+      //   const thisSeasonTippers = await prisma.user.findMany({
+      //     where: {
+      //       tipperScores: {
+      //         some: {
+      //           score: {
+      //             gt: 0,
+      //           },
+      //           createdAt: {
+      //             gt: latestTipperAirdrop,
+      //           },
+      //         },
+      //       },
+      //     },
+      //     select: {
+      //       tipperScores: {
+      //         orderBy: {
+      //           createdAt: "desc",
+      //         },
+      //         take: 1,
+      //         select: {
+      //           score: true,
+      //         },
+      //       },
+      //     },
+      //   });
+
+      //   const sumOfAllTipperScores = thisSeasonTippers.reduce(
+      //     (acc, t) => acc + t.tipperScores[0].score,
+      //     0,
+      //   );
+
+      //   const ratio = tipperScore / sumOfAllTipperScores;
+
+      //   allocations.push({
+      //     type: AllocationType.TIPPER,
+      //     id: PENDING_TIPPER_REWARDS_ALLOCATION_ID,
+      //     createdAt: new Date(0),
+      //     isClaimed: false,
+      //     amount: new Decimal(TIPPER_REWARDS_POOL * ratio)
+      //       .mul(10 ** 18)
+      //       .round()
+      //       .toFixed(),
+      //     referenceAmount: "0",
+      //     baseAmount: "0",
+      //     airdrop: null,
+      //     index: null,
+      //     tweets: [],
+      //     address: "",
+      //   });
+      // }
+
+      const allowance = dbUser.tipAllowances[0]?.amount || 0;
+      const spent =
+        dbUser.tipAllowances[0]?.tips.reduce((acc, t) => t.amount + acc, 0) ||
+        0;
 
       return {
         fid: dbUser.id,

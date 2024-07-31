@@ -6,7 +6,7 @@ export const TokenInfoContext = createContainer(function () {
     trpcClient.public.token.price.useQuery();
 
   return {
-    fartherUsdPrice: data?.usd || 0,
+    fartherUsdPrice: data?.usd,
     priceLoading,
   };
 });

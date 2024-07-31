@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import { Address, encodeAbiParameters, keccak256 } from "viem";
 import {
   BANNED_FIDS,
@@ -140,3 +142,7 @@ export function getHoursAgo(date: Date) {
 export function isBanned(fid: number) {
   return BANNED_FIDS.includes(fid);
 }
+
+dayjs.extend(utc);
+
+export const dayUTC = dayjs.utc;

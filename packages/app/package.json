@@ -63,6 +63,7 @@
     "cookie": "^0.6.0",
     "d3": "^6.7",
     "dayjs": "^1.11.11",
+    "decimal.js": "^10.4.3",
     "dns": "file:./mock/dns",
     "graphql-tag": "^2.12.6",
     "lodash": "^4.17.21",

@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "InvalidTipReason" ADD VALUE 'INELIGIBLE_TIPPEE';

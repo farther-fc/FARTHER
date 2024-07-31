@@ -1,4 +1,8 @@
-import { OPENRANK_SNAPSHOT_INTERVAL, cacheTypes } from "@farther/common";
+import {
+  OPENRANK_SNAPSHOT_INTERVAL,
+  cacheTypes,
+  dayUTC,
+} from "@farther/common";
 import { Job, QueueEvents, Worker } from "bullmq";
 import dayjs from "dayjs";
 import Decimal from "decimal.js";
@@ -13,7 +17,6 @@ import {
 import { getLatestOpenRankScores } from "../getLatestOpenRankScores";
 import { getTippersByDate } from "../getTippersByDate";
 import { getTipsFromDate } from "../getTipsFromDate";
-import { dayUTC } from "../utils/dayUTC";
 import { flushCache } from "../utils/flushCache";
 import { getTipScores } from "../utils/getTipScores";
 import { dbScheduler } from "../utils/helpers";
