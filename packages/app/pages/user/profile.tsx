@@ -43,7 +43,7 @@ export default function ProfilePage() {
       isClaimed: false,
       createdAt: bonusLpRewardsDropDate,
       amount: pendingBonus.toString(),
-      address: accountAddress,
+      address: accountAddress || "",
       index: null,
       airdrop: null,
       baseAmount: "",
@@ -78,6 +78,36 @@ export default function ProfilePage() {
       a.airdrop &&
       new Date(a.airdrop.startTime) > new Date(),
   );
+
+  const now = new Date();
+
+  const unclaimedRewards = rows
+    .filter((a) => !a.isClaimed && a.airdrop)
+    .sort((a, b) => {
+      if (
+        new Date(a.airdrop?.startTime || 0) < now &&
+        new Date(b.airdrop?.startTime || 0) > now
+      ) {
+        return -1;
+      }
+      if (
+        new Date(a.airdrop?.startTime || 0) > now &&
+        new Date(b.airdrop?.startTime || 0) < now
+      ) {
+        return 1;
+      }
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
+  const pendingRewards = rows
+    .filter((a) => !a.isClaimed && !a.airdrop)
+    .sort((a, b) => {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
+  const claimedRewards = rows
+    .filter((a) => a.isClaimed)
+    .sort((a, b) => {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
 
   return (
     <Container variant="page">
@@ -167,33 +197,47 @@ export default function ProfilePage() {
                           </TableCell>
                         </TableRow>
                       )}
-                      {rows
-                        .sort((a, b) => {
-                          if (a.isClaimed && !b.isClaimed) return 1;
-                          if (!a.isClaimed && b.isClaimed) return -1;
-                          return (
-                            new Date(b.createdAt).getTime() -
-                            new Date(a.createdAt).getTime()
-                          );
-                        })
-                        .map((a) => (
-                          <RewardsTableRow
-                            key={a.id}
-                            allocation={a}
-                            allocTypeHasUpcomingAirdrop={
-                              a.type === AllocationType.POWER_USER
-                                ? powerdropHasUpcomingAirdrop
-                                : a.type === AllocationType.TIPS
-                                  ? tipsHasUpcomingAirdrop
-                                  : a.type === AllocationType.EVANGELIST
-                                    ? evangelistHasUpcomingAirdrop
-                                    : a.type === AllocationType.LIQUIDITY
-                                      ? lpHasUpcomingAirdrop
-                                      : false
-                            }
-                          />
-                        ))}
-
+                      {unclaimedRewards.map((a) => (
+                        <RewardsTableRow
+                          key={a.id}
+                          allocation={a}
+                          allocTypeHasUpcomingAirdrop={
+                            a.type === AllocationType.POWER_USER
+                              ? powerdropHasUpcomingAirdrop
+                              : a.type === AllocationType.TIPS
+                                ? tipsHasUpcomingAirdrop
+                                : a.type === AllocationType.EVANGELIST
+                                  ? evangelistHasUpcomingAirdrop
+                                  : a.type === AllocationType.LIQUIDITY
+                                    ? lpHasUpcomingAirdrop
+                                    : false
+                          }
+                        />
+                      ))}
+                      {pendingRewards.map((a) => (
+                        <RewardsTableRow
+                          key={a.id}
+                          allocation={a}
+                          allocTypeHasUpcomingAirdrop={
+                            a.type === AllocationType.POWER_USER
+                              ? powerdropHasUpcomingAirdrop
+                              : a.type === AllocationType.TIPS
+                                ? tipsHasUpcomingAirdrop
+                                : a.type === AllocationType.EVANGELIST
+                                  ? evangelistHasUpcomingAirdrop
+                                  : a.type === AllocationType.LIQUIDITY
+                                    ? lpHasUpcomingAirdrop
+                                    : false
+                          }
+                        />
+                      ))}
+                      {claimedRewards.map((a) => (
+                        <RewardsTableRow
+                          key={a.id}
+                          allocation={a}
+                          allocTypeHasUpcomingAirdrop={false}
+                        />
+                      ))}
                       {/** CLAIMED ONCHAIN LIQUDITY REWARDS */}
                       {rewardsClaimed && (
                         <TableRow>
