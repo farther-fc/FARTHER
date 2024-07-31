@@ -593,6 +593,8 @@ async function getPublicUser({ fid }: { fid: number }) {
 
   const user = await getUncachedPublicUser({ fid });
 
+  console.log(user);
+
   if (user) {
     await cache.set({
       id: fid,

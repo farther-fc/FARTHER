@@ -1,4 +1,4 @@
-import { AllocationType, InvalidTipReason } from "@farther/backend";
+import { InvalidTipReason } from "@farther/backend";
 
 export const dummyLeaderBoard = [
   {
@@ -5359,95 +5359,38 @@ export const dummyLeaderBoard = [
 ];
 
 export const dummyUser = {
-  fid: 271878,
-  username: "hyp",
-  displayName: "Metaphorical Leo 🎩🔵 🧾",
+  fid: 429188,
+  username: "farther",
+  displayName: "Farther✨",
   pfpUrl:
-    "https://i.seadn.io/gae/xOZoZxiDhZdqNHUeueqzczHzJbqOjfBKqA9wEIetCP-RjkLrn4VPPkOHyucQIDdjG4EJqA8MdkovgDdwEPehM0zhlO2oJDQTYLPNDA?w=500&auto=format",
-  followerCount: 3453,
+    "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/54e5fe29-73b3-4bb9-da86-4149dcfeac00/original",
+  followerCount: 6456,
   powerBadge: true,
-  tipperScore: 0.04447489463005058,
+  tipperScore: 0,
   tips: {
-    rank: 44,
+    rank: 1,
     totals: {
-      givenCount: 482,
-      givenAmount: 193045.04499999998,
-      receivedCount: 113,
-      receivedAmount: 23233,
+      givenCount: 1,
+      givenAmount: 1000,
+      receivedCount: 0,
+      receivedAmount: 0,
     },
     currentCycle: {
-      startTime: "2024-07-20T16:03:27.521Z",
-      allowance: 3924,
-      userBalance: "439385611216173152789104",
-      givenCount: 3,
-      givenAmount: 999,
-      remainingAllowance: 2925,
+      startTime: "2024-07-31T16:01:01.640Z",
+      allowance: 67698,
+      userBalance: "26649142760399447445733376",
+      givenCount: 0,
+      tippedFids: [],
+      givenAmount: 0,
+      remainingAllowance: null,
       invalidatedAmount: null,
       receivedCount: 0,
       receivedAmount: 0,
-      tipMinimum: 157,
-      eligibleTippers: 391,
-      tippedFids: [437433, 318589, 272116],
+      tipMinimum: 279,
+      eligibleTippers: 343,
     },
   },
-  allocations: [
-    {
-      id: "c17164720b388a826599d83d7a87aa436d7f22e27693a610376433677a7f56d9",
-      amount: "8626238177766773953948",
-      isClaimed: true,
-      index: 3897,
-      type: "POWER_USER" as AllocationType,
-      address: "0xdde09e93ecf5f9bc71a2423f61133dbdb8a25113",
-      airdrop: {
-        id: "56322d93-ad88-402d-9bd4-2ad440fd321e",
-        address: "0x938ace415cdb9c5cb31af9c57370b21500f7d4d1",
-        startTime: "2024-05-01T00:00:00.000Z",
-        endTime: "2025-05-01T00:00:00.000Z",
-      },
-    },
-    {
-      id: "c2a9d40b-27f0-481b-b36c-40fb0269a2e9",
-      amount: "50774600017770561193215",
-      isClaimed: true,
-      index: 21,
-      type: "LIQUIDITY" as AllocationType,
-      address: "0x8cf7f8a2eb9cbf7a01dfb89f45951de4fb421d27",
-      airdrop: {
-        id: "7d45fc2e-26fa-47be-9e34-0eeed4f6cddb",
-        address: "0xc7eb0f4299eaf97b38caccf63581279acf9a1dc1",
-        startTime: "2024-06-01T00:00:00.000Z",
-        endTime: "2025-06-01T00:00:00.000Z",
-      },
-    },
-    {
-      id: "b3ac8a8e-26ef-4db2-abf8-f21bbbe0623f",
-      amount: "16610000000000000000000",
-      isClaimed: true,
-      index: 1501,
-      type: "TIPS" as AllocationType,
-      address: "0xdde09e93ecf5f9bc71a2423f61133dbdb8a25113",
-      airdrop: {
-        id: "96624a75-f902-4663-b07f-ec3f84826009",
-        address: "0x916cec9ac8a641ab1f13ec231a153199e7a7df97",
-        startTime: "2024-07-01T00:00:00.000Z",
-        endTime: "2025-07-01T00:00:00.000Z",
-      },
-    },
-    {
-      id: "87bde2d6-8805-4332-8854-ce6f02300702",
-      amount: "106092773826478489423080",
-      isClaimed: true,
-      index: 103,
-      type: "LIQUIDITY" as AllocationType,
-      address: "0x8cf7f8a2eb9cbf7a01dfb89f45951de4fb421d27",
-      airdrop: {
-        id: "a1862ddc-f6af-4409-9610-cb26830a93e6",
-        address: "0x7d5ad0ad6cd850b729d56448e53cb2ac92ade13f",
-        startTime: "2024-07-01T00:00:00.000Z",
-        endTime: "2025-07-01T00:00:00.000Z",
-      },
-    },
-  ],
+  allocations: [],
 };
 
 export const dummyUserTipsMeta = [
