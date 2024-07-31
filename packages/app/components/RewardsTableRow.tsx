@@ -193,6 +193,8 @@ export function RewardsTableRow({
         ? "Claim"
         : `Avail. ${formatAirdropTime(new Date(allocation.airdrop.startTime as string))}`;
 
+  console.log(allocation);
+
   const amountContent = (
     <>
       {formatWad(BigInt(allocation.amount))}{" "}

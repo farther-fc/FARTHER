@@ -1,5 +1,4 @@
 import { InfoCard } from "@components/InfoCard";
-import { TipperScore } from "@components/tips/TipperScore";
 import { TipsUserInfo } from "@components/tips/TipsUserInfo";
 import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
@@ -13,6 +12,7 @@ import {
   dayUTC,
 } from "@farther/common";
 import { OPENRANK_ENGAGEMENT_DOCS_URL } from "@lib/constants";
+import { useTokenInfo } from "@lib/context/TokenContext";
 import { routes } from "@lib/routes";
 import dayjs from "dayjs";
 import { useTipsMeta } from "hooks/useTipsMeta";
@@ -22,6 +22,8 @@ import numeral from "numeral";
 
 function TipsPage() {
   const { createdAt, tipsMetaLoading, eligibleTippers } = useTipsMeta();
+
+  const { fartherUsdPrice } = useTokenInfo();
 
   return (
     <Container variant="page">
@@ -33,7 +35,7 @@ function TipsPage() {
           </span>
           <span className="mt-2 mb-0 text-3xl">
             <Popover
-              content={`The rewards pool is distributed at the end of the month, pro rata to all tippers who have a positive tipper score. Each score is like a weight, and the tipper's portion of the pool is based on their score relative to the sum of all positive scores.`}
+              content={`The rewards pool is distributed at the end of the month, pro rata to all tippers who have a positive tipper score.`}
             >
               <div className="flex items-center justify-end">
                 {numeral(TIPPER_REWARDS_POOL).format("0,0")} ✨{" "}
@@ -41,6 +43,11 @@ function TipsPage() {
               </div>
             </Popover>
           </span>
+          {fartherUsdPrice && (
+            <span className="text-ghost mt-2">
+              ${numeral(TIPPER_REWARDS_POOL * fartherUsdPrice).format("0,0")}
+            </span>
+          )}
         </div>
         <h4 className="text-ghost mt-8 text-sm uppercase">Current Cycle</h4>
         {!tipsMetaLoading && createdAt ? (
@@ -91,15 +98,15 @@ function TipsPage() {
         </div>
 
         <h2 className="mt-20 mb-8">Your Stats</h2>
-        <TipperScore />
         <TipsUserInfo />
         <h2 className="mt-20">Tipping Info</h2>
         <h3 className="mt-12">Overview</h3>
         <p>
           Unlike most other tipping tokens on Farcaster, Farther tips are
-          designed to boost quality daily active users. This is acheived by
-          scoring tips based on how much the recipients' engagement increases
-          throughout each month. The engagement is measured by{" "}
+          designed to boost quality daily active users. This is acheived by{" "}
+          <Link href={routes.tips.subroutes.history.path}>scoring tips</Link>{" "}
+          based on how much the recipients' engagement increases throughout each
+          month. The engagement is measured by{" "}
           <ExternalLink href={OPENRANK_ENGAGEMENT_DOCS_URL}>
             OpenRank
           </ExternalLink>
@@ -146,13 +153,6 @@ function TipsPage() {
             hours but sometimes longer).
           </li>
         </ul>
-        <p className="mt-6">
-          If you're interested in more details, check out the{" "}
-          <ExternalLink href="https://spice-nova-190.notion.site/Farther-Tips-Deep-Dive-6f955b57ca5847229187ba22bf9b7eef">
-            Farther Tips Deep Dive
-          </ExternalLink>
-          .
-        </p>
       </main>
     </Container>
   );

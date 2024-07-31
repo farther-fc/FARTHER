@@ -10,7 +10,7 @@ export function TipperScore() {
   const { user, userLoading } = useUser();
   return user || userLoading ? (
     <LabelValue
-      className="text-xl mb-4"
+      className="text-xl"
       label={"Tipper Score"}
       value={
         <Popover content={<TipperScoreInfo />}>
