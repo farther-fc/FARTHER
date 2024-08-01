@@ -1,11 +1,13 @@
 "use client";
 
+import { TipperScoreInfo } from "@components/tips/TipperScoreInfo";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/Avatar"; // Adjust the import path if needed
 import { Button } from "@components/ui/Button";
+import { Popover } from "@components/ui/Popover";
 import { Skeleton } from "@components/ui/Skeleton";
 import { LeaderboardRow } from "@lib/types/apiTypes";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, HelpCircle } from "lucide-react";
 import Link from "next/link";
 import numeral from "numeral";
 
@@ -43,15 +45,17 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
   {
     accessorKey: "tipperScore",
     header: ({ column }) => (
-      <Button
-        variant="ghost"
+      <ColumnHeaderButton
+        buttonText={
+          <>
+            Tipper
+            <br />
+            Score
+          </>
+        }
+        description={<TipperScoreInfo />}
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        className="h-auto backdrop-blur-none pl-4 pr-2"
-      >
-        Tipper <br />
-        Score
-        <ArrowUpDown className="ml-2 size-4" />
-      </Button>
+      />
     ),
     cell: ({ row }) => (
       <span>{numeral(row.original.tipperScore).format("0,0.[00]")}</span>
@@ -60,17 +64,19 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
   // {
   //   accessorKey: "tipperRewards",
   //   header: ({ column }) => (
-  //     <Button
-  //       variant="ghost"
+  //     <ColumnHeaderButton
+  //       buttonText={
+  //         <>
+  //           Pending
+  //           <br />
+  //           Rewards
+  //         </>
+  //       }
+  //       description={`Pending rewards based on the tipper score. The current rewards pool is ${numeral(TIPPER_REWARDS_POOL).format("0,0a")} $farther, which is distributed pro rata at the end of the month.`}
   //       onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-  //       className="h-auto backdrop-blur-none pl-4 pr-2"
-  //     >
-  //       Pending
-  //       <br />
-  //       Rewards
-  //       <ArrowUpDown className="ml-2 size-4" />
-  //     </Button>
+  //     />
   //   ),
+
   //   cell: ({ row }) => (
   //     <span>{numeral(row.original.tipperRewards).format("0,0")} ✨</span>
   //   ),
@@ -78,16 +84,17 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
   {
     accessorKey: "seasonGivenAmount",
     header: ({ column }) => (
-      <Button
-        variant="ghost"
-        className="h-auto backdrop-blur-none pl-4 pr-2"
+      <ColumnHeaderButton
+        buttonText={
+          <>
+            Amount
+            <br />
+            Given
+          </>
+        }
+        description="Total amount of tips given this season"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        Amount
-        <br />
-        Given
-        <ArrowUpDown className="ml-2 size-4" />
-      </Button>
+      />
     ),
     cell: ({ row }) => (
       <span>{row.original.seasonGivenAmount.toLocaleString()} ✨</span>
@@ -96,18 +103,46 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
   {
     accessorKey: "seasonGivenCount",
     header: ({ column }) => (
-      <Button
-        variant="ghost"
+      <ColumnHeaderButton
+        buttonText={
+          <>
+            Count
+            <br />
+            Given
+          </>
+        }
+        description="Total number of tips given this season"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        className="h-auto backdrop-blur-none pl-4 pr-2"
-      >
-        Tips <br />
-        Given
-        <ArrowUpDown className="ml-2 size-4" />
-      </Button>
+      />
     ),
     cell: ({ row }) => (
       <span>{row.original.seasonGivenCount.toLocaleString()}</span>
     ),
   },
 ];
+
+function ColumnHeaderButton({
+  onClick,
+  description,
+  buttonText,
+}: {
+  onClick: () => void;
+  description: React.ReactNode;
+  buttonText: React.ReactNode;
+}) {
+  return (
+    <div className="flex justify-end">
+      <Popover content={description}>
+        <HelpCircle className="mr-0 mt-3 size-4 text-ghost" />
+      </Popover>
+      <Button
+        variant="ghost"
+        className="h-auto backdrop-blur-none pl-2 pr-1 hover:bg-transparent"
+        onClick={onClick}
+      >
+        {buttonText}
+        <ArrowUpDown className="ml-1 size-4" />
+      </Button>
+    </div>
+  );
+}

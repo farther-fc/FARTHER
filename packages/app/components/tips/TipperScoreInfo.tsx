@@ -5,7 +5,7 @@ export function TipperScoreInfo() {
   return (
     <div className="text-muted text-sm">
       <p>
-        Your <span className="text-white">tipper score</span> is an average of
+        The <span className="text-white">tipper score</span> is an average of
         all tip scores. Tip scores are derived from the percentage change in the
         tip receipient's Farcaster engagement (determined by{" "}
         <ExternalLink href={OPENRANK_ENGAGEMENT_DOCS_URL}>
