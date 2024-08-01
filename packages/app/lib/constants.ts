@@ -74,3 +74,6 @@ export const invalidTipReasons = {
 
 export const OPENRANK_ENGAGEMENT_DOCS_URL =
   "https://docs.openrank.com/integrations/farcaster/ranking-strategies-on-farcaster#strategy-engagement";
+
+export const FARTHER_V2_PARAGRAPH_URL =
+  "https://paragraph.xyz/@farther/farther-v2";
