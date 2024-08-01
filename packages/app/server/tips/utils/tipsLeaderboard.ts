@@ -70,6 +70,14 @@ export async function getLeaderboardData() {
         },
         take: 1,
       },
+      tipsGiven: {
+        where: {
+          invalidTipReason: null,
+          createdAt: {
+            gte: getStartOfMonthUTC(0),
+          },
+        },
+      },
       tipAllowances: {
         orderBy: {
           createdAt: "desc",
@@ -107,15 +115,9 @@ export async function getLeaderboardData() {
     const tipperRewards =
       (tipperScore / totalTipperScore) * TIPPER_REWARDS_POOL;
 
-    const seasonalAllowances = tipper.tipAllowances.filter(
-      (a) => a.createdAt >= getStartOfMonthUTC(0),
-    );
-    const seasonGivenCount = seasonalAllowances.reduce(
-      (acc, a) => acc + a.tips.length,
-      0,
-    );
-    const seasonGivenAmount = seasonalAllowances.reduce(
-      (acc, a) => acc + a.tips.reduce((acc, t) => acc + t.amount, 0),
+    const seasonGivenCount = tipper.tipsGiven.length;
+    const seasonGivenAmount = tipper.tipsGiven.reduce(
+      (acc, t) => acc + t.amount,
       0,
     );
 
