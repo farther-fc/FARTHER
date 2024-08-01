@@ -1,23 +1,28 @@
 import { TipperScore } from "@components/tips/TipperScore";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
+import { Popover } from "@components/ui/Popover";
 import { Skeleton } from "@components/ui/Skeleton";
 import { Tooltip } from "@components/ui/Tooltip";
 import { API_BATCH_LIMIT } from "@farther/common";
-import { invalidTipReasons } from "@lib/constants";
+import {
+  FARTHER_V2_PARAGRAPH_URL,
+  OPENRANK_ENGAGEMENT_DOCS_URL,
+  invalidTipReasons,
+} from "@lib/constants";
 import { useMediaQuery } from "@lib/context/MediaQueryContext";
 import { useUser } from "@lib/context/UserContext";
 import { routes } from "@lib/routes";
 import { trpcClient } from "@lib/trpcClient";
 import { Tips } from "@lib/types/apiTypes";
 import dayjs from "dayjs";
-import { ExternalLinkIcon } from "lucide-react";
+import { ExternalLinkIcon, HelpCircle } from "lucide-react";
 import numeral from "numeral";
 import React from "react";
 import InfiniteScroll from "react-infinite-scroller";
 
 const GRID_STYLES =
-  "grid grid-cols-[4px_25px_35px_minmax(100px,1fr)_minmax(50px,200px)_70px] md:grid-cols-[8px_50px_minmax(60px,200px)_minmax(140px,1fr)_minmax(80px,1fr)_minmax(80px,1fr)] gap-1 relative";
+  "grid grid-cols-[4px_25px_35px_minmax(90px,1fr)_minmax(70px,200px)_80px] md:grid-cols-[8px_50px_minmax(60px,200px)_minmax(140px,1fr)_minmax(80px,1fr)_minmax(80px,1fr)] gap-1 relative";
 
 const Row = ({ tip, isTablet }: { tip: Tips[number]; isTablet: boolean }) => (
   <div
@@ -122,7 +127,38 @@ function TipHistoryPage() {
     setCursor(new Date(tips[tips.length - 1].createdAt).getTime());
   };
 
-  const colHeadings = ["", "", "Date", "Recipient", "Score*", "Amount"];
+  const colHeadings = [
+    "",
+    "",
+    "Date",
+    "Recipient",
+    <Popover
+      content={
+        <>
+          <p>
+            Each tip score represents the change in the recipient's engagement
+            (as measured by{" "}
+            <ExternalLink href={OPENRANK_ENGAGEMENT_DOCS_URL}>
+              OpenRank
+            </ExternalLink>
+            ) since the time the tip was made. It is updated daily up until the
+            end of the month. All tip scores during the month combine to form a
+            tipper score, which ranks each tipper's performance.
+          </p>
+          <p>
+            Learn more{" "}
+            <ExternalLink href={FARTHER_V2_PARAGRAPH_URL}>here</ExternalLink>
+          </p>
+        </>
+      }
+    >
+      <div className="flex justify-end left-3 relative">
+        Score
+        <HelpCircle className="ml-1 size-3" />
+      </div>
+    </Popover>,
+    "Amount",
+  ];
 
   return (
     <Container variant="page">

@@ -92,7 +92,7 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
             Given
           </>
         }
-        description="Total amount of tips given this season"
+        description="Total amount of tips given this month"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       />
     ),
@@ -111,7 +111,7 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
             Given
           </>
         }
-        description="Total number of tips given this season"
+        description="Total number of tips given this month"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       />
     ),

@@ -2,6 +2,7 @@ import { StarLoop } from "@components/StarLoop";
 import TokenomicsInfo from "@components/TokenomicsInfo";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
+import { FARTHER_V2_PARAGRAPH_URL } from "@lib/constants";
 import { useModal } from "@lib/context/ModalContext";
 import { routes } from "@lib/routes";
 import Link from "next/link";
@@ -55,7 +56,7 @@ export default function Home() {
           social media networks. However it has since pivoted to innovating on
           tipping as a means to increase quality content on the platform and
           reduce user churn. This began on August 1 with the launch of{" "}
-          <ExternalLink href="https://paragraph.xyz/@farther/farther-v2">
+          <ExternalLink href={FARTHER_V2_PARAGRAPH_URL}>
             Farther V2
           </ExternalLink>
           .
