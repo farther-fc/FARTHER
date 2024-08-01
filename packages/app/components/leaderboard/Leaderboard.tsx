@@ -34,14 +34,14 @@ const columnStyles: { [key: string]: string } = {
   username: "w-[150px]",
   tipperScore: "text-right w-[150px]",
   // tipperRewards: "text-right w-[150px]",
-  totalGivenAmount: "text-right w-[150px]",
-  totalGivenCount: "text-right w-[150px]",
+  seasonGivenAmount: "text-right w-[150px]",
+  seasonGivenCount: "text-right w-[150px]",
 } as const;
 
 export function Leaderboard() {
   const { data } = trpcClient.public.tips.leaderboard.useQuery();
   const [sorting, setSorting] = React.useState<SortingState>([
-    { id: "totalAllowance", desc: true },
+    { id: "tipperScore", desc: true },
   ]);
 
   const table = useReactTable({

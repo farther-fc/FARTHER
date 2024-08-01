@@ -4,13 +4,13 @@ import {
   fetchUserByAddress,
   fetchUserByFid,
   getPowerBadgeFids,
-  getStartOfMonthUTC,
 } from "@farther/common";
 import { cache } from "@lib/cache";
 import {
   PENDING_POWER_ALLOCATION_ID,
   PENDING_TIPS_ALLOCATION_ID,
 } from "@lib/constants";
+import { getTipperScore } from "@lib/getTipperScore";
 import { apiSchemas } from "@lib/types/apiSchemas";
 import { User as NeynarUser } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import * as Sentry from "@sentry/nextjs";
@@ -738,16 +738,4 @@ async function getFidFromAddress(address: string) {
   });
 
   return user?.userId;
-}
-
-function getTipperScore({
-  createdAt,
-  score,
-}: {
-  createdAt: Date;
-  score: number;
-}) {
-  const startOfMonth = getStartOfMonthUTC(0);
-
-  return !createdAt || createdAt < startOfMonth ? 0 : score;
 }
