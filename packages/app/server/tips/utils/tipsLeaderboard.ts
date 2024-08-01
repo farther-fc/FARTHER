@@ -103,14 +103,8 @@ export async function getLeaderboardData() {
     .map((tipper) => tipper.tipperScores[0]?.score ?? 0)
     .reduce((acc, score) => acc + score, 0);
 
-  const doAllCurrentTippersHaveScore = tippers
-    .filter((t) => t.tipAllowances[0].tipMetaId === currentTipMeta.id)
-    .every((t) => t.tipperScores.length > 0);
-
   const leaderboardData = tippers.map((tipper, i) => {
-    const tipperScore = doAllCurrentTippersHaveScore
-      ? tipper.tipperScores[0]?.score
-      : 0;
+    const tipperScore = tipper.tipperScores[0]?.score ?? 0;
 
     const tipperRewards =
       (tipperScore / totalTipperScore) * TIPPER_REWARDS_POOL;
