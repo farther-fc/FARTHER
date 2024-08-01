@@ -100,8 +100,6 @@ export async function handleTip({
   const availableAllowance =
     tipAllowance.amount - (tipAllowance.invalidatedAmount ?? 0);
 
-  const isBelowMinimum = tipAmount < tipMeta.tipMinimum;
-
   const invalidTime = createdAtMs >= tipMeta.createdAt.getTime();
 
   const exceedsAllowance = newTipTotal > availableAllowance;
@@ -123,11 +121,9 @@ export async function handleTip({
             ? InvalidTipReason.INELIGIBLE_TIPPEE
             : hasAlreadyTippedTippee
               ? InvalidTipReason.TIPPEE_LIMIT_REACHED
-              : isBelowMinimum
-                ? InvalidTipReason.BELOW_MINIMUM
-                : exceedsAllowance
-                  ? InvalidTipReason.INSUFFICIENT_ALLOWANCE
-                  : null;
+              : exceedsAllowance
+                ? InvalidTipReason.INSUFFICIENT_ALLOWANCE
+                : null;
 
   if (invalidTipReason) {
     const tipData = {
