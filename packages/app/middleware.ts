@@ -12,38 +12,25 @@ const rateLimitGenerous = new Ratelimit({
   limiter: Ratelimit.slidingWindow(50, "10 s"),
 });
 
-const rateLimitRestricted = new Ratelimit({
-  redis: kv,
-  limiter: Ratelimit.slidingWindow(5, "10 s"),
-});
-
 export const config = {
   matcher: "/api/:path*",
 };
 
 export default async function middleware(request: NextRequest) {
   // Determine the source of the request
-  const referer = request.headers.get("referer");
+
   const ip = request.ip ?? "127.0.0.1";
+
+  request.referrer;
 
   let success, limit, reset, remaining;
 
   if (request.url.includes("handleTip")) {
     // Apply rate limiting for the handleTip endpoint
     ({ success, limit, reset, remaining } = await rateLimitGenerous.limit(ip));
-  } else if (
-    (referer &&
-      (referer.includes("farther.social") ||
-        referer.includes("localhost:3000"))) ||
-    // TODO: This is downshift's IP address. Remove this after the tip bot is moved in house.
-    ip === "136.49.88.62"
-  ) {
-    // Apply website-specific rate limiting
-    ({ success, limit, reset, remaining } = await rateLimitDefault.limit(ip));
   } else {
     // Apply default rate limiting for other sources
-    ({ success, limit, reset, remaining } =
-      await rateLimitRestricted.limit(ip));
+    ({ success, limit, reset, remaining } = await rateLimitDefault.limit(ip));
   }
 
   return success
