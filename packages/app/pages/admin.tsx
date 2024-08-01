@@ -2,7 +2,6 @@ import { Container } from "@components/ui/Container";
 import { LabelValue } from "@components/ui/LabelValue";
 import { useUser } from "@lib/context/UserContext";
 import { trpcClient } from "@lib/trpcClient";
-import { formatWad } from "@lib/utils";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -23,65 +22,65 @@ function AdminPage() {
     },
   );
 
-  const { powerUserAllocations, evangelistAllocations } = data || {};
+  // const { powerUserAllocations, evangelistAllocations } = data || {};
 
-  const evangelistTotalAllocated =
-    evangelistAllocations?.reduce(
-      (acc, cur) => acc + BigInt(cur.amount),
-      BigInt(0),
-    ) || BigInt(0);
+  // // const evangelistTotalAllocated =
+  // //   evangelistAllocations?.reduce(
+  // //     (acc, cur) => acc + BigInt(cur.amount),
+  // //     BigInt(0),
+  // //   ) || BigInt(0);
 
-  const powerUserTotalAllocated =
-    evangelistAllocations
-      ?.filter((a) => a.hasPowerBadge)
-      .reduce((acc, cur) => acc + BigInt(cur.amount), BigInt(0)) || BigInt(0);
+  // // const powerUserTotalAllocated =
+  // //   evangelistAllocations
+  // //     ?.filter((a) => a.hasPowerBadge)
+  // //     .reduce((acc, cur) => acc + BigInt(cur.amount), BigInt(0)) || BigInt(0);
 
-  const tweetCount = evangelistAllocations?.reduce(
-    (acc, cur) => cur.tweets.length + acc,
-    0,
-  );
+  // // const tweetCount = evangelistAllocations?.reduce(
+  // //   (acc, cur) => cur.tweets.length + acc,
+  // //   0,
+  // // );
 
-  const mostTweetsPerAllocation = evangelistAllocations?.reduce(
-    (acc, cur) => (acc > cur.tweets.length ? acc : cur.tweets.length),
-    0,
-  );
+  // // const mostTweetsPerAllocation = evangelistAllocations?.reduce(
+  // //   (acc, cur) => (acc > cur.tweets.length ? acc : cur.tweets.length),
+  // //   0,
+  // // );
 
-  const avgTweetsPerAllocation =
-    tweetCount && evangelistAllocations
-      ? tweetCount / evangelistAllocations.length
-      : 0;
+  // // const avgTweetsPerAllocation =
+  // //   tweetCount && evangelistAllocations
+  // //     ? tweetCount / evangelistAllocations.length
+  // //     : 0;
 
-  const allTweets = evangelistAllocations
-    ? evangelistAllocations.reduce(
-        (allTweets, cur) => [...allTweets, ...cur.tweets],
+  // // const allTweets = evangelistAllocations
+  // //   ? evangelistAllocations.reduce(
+  // //       (allTweets, cur) => [...allTweets, ...cur.tweets],
 
-        evangelistAllocations[0]?.tweets,
-      )
-    : [];
+  // //       evangelistAllocations[0]?.tweets,
+  // //     )
+  // //   : [];
 
-  const avgFollowerCount =
-    allTweets.reduce((total, tweet) => total + tweet.followerCount, 0) /
-    allTweets.length;
+  // const avgFollowerCount =
+  //   allTweets.reduce((total, tweet) => total + tweet.followerCount, 0) /
+  //   allTweets.length;
 
-  const sortedPowerUserAllocations = powerUserAllocations?.sort((a, b) => {
-    if (BigInt(a.amount) < BigInt(b.amount)) {
-      return 1;
-    } else if (BigInt(a.amount) > BigInt(b.amount)) {
-      return -1;
-    } else {
-      return 0;
-    }
-  });
+  // const sortedPowerUserAllocations = powerUserAllocations?.sort((a, b) => {
+  //   if (BigInt(a.amount) < BigInt(b.amount)) {
+  //     return 1;
+  //   } else if (BigInt(a.amount) > BigInt(b.amount)) {
+  //     return -1;
+  //   } else {
+  //     return 0;
+  //   }
+  // });
 
   return accountAddress && isAdmin ? (
     <Container variant="page">
       <div className="content">
         <h1>Admin</h1>
-        {isLoading || !sortedPowerUserAllocations ? (
+        {isLoading ? (
           <p>Loading...</p>
         ) : (
           <>
-            <div>
+            {/* <div>
               <h3>Power users</h3>
               <LabelValue
                 label="Recipients"
@@ -143,16 +142,16 @@ function AdminPage() {
                 label="Average follower count"
                 value={avgFollowerCount.toFixed(2)}
               />
-            </div>
+            </div> */}
             <div>
               <h3>Tips</h3>
               <LabelValue
-                label="Total tips"
-                value={data?.tipCount.toLocaleString()}
+                label="Valid tips"
+                value={data?.validTipCount.toLocaleString()}
               />
               <LabelValue
-                label="Total amount"
-                value={data?.tipTotal.toLocaleString()}
+                label="Average amount (since V2 launch)"
+                value={data?.averageTipAmount?.toLocaleString()}
               />
               <LabelValue
                 label="Invalid tips"
