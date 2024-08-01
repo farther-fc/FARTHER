@@ -1,5 +1,10 @@
 import { prisma } from "@farther/backend";
-import { ENVIRONMENT, TIPPER_REWARDS_POOL, cacheTypes } from "@farther/common";
+import {
+  ENVIRONMENT,
+  TIPPER_REWARDS_POOL,
+  cacheTypes,
+  getStartOfMonthUTC,
+} from "@farther/common";
 import { dummyLeaderBoard } from "@lib/__tests__/testData";
 import { cache } from "@lib/cache";
 
@@ -37,17 +42,30 @@ export async function getLeaderboardData() {
 
   const tippers = await prisma.user.findMany({
     where: {
-      tipsGiven: {
-        some: {
-          invalidTipReason: null,
+      OR: [
+        {
+          tipsGiven: {
+            some: {
+              invalidTipReason: null,
+              createdAt: {
+                // TODO: change this to whenever snapshot happens!
+                gte: getStartOfMonthUTC(0),
+              },
+            },
+          },
         },
-      },
-      tipAllowances: {
-        some: {
-          tipMetaId: currentTipMeta.id,
-          invalidatedAmount: null,
+        {
+          tipAllowances: {
+            some: {
+              invalidatedAmount: null,
+              createdAt: {
+                // TODO: change this to whenever snapshot happens!
+                gte: getStartOfMonthUTC(0),
+              },
+            },
+          },
         },
-      },
+      ],
     },
     select: {
       id: true,
@@ -66,6 +84,7 @@ export async function getLeaderboardData() {
           createdAt: "desc",
         },
         select: {
+          createdAt: true,
           amount: true,
           tips: {
             where: {
@@ -85,7 +104,10 @@ export async function getLeaderboardData() {
     .reduce((acc, score) => acc + score, 0);
 
   const leaderboardData = tippers.map((tipper, i) => {
-    const tipperScore = tipper.tipperScores[0]?.score ?? 0;
+    const tipperScore =
+      tipper.tipAllowances[0].createdAt >= getStartOfMonthUTC(0)
+        ? tipper.tipperScores[0]?.score ?? 0
+        : 0;
     const tipperRewards =
       (tipperScore / totalTipperScore) * TIPPER_REWARDS_POOL;
 
@@ -103,6 +125,10 @@ export async function getLeaderboardData() {
           (acc, allowance) => acc + allowance.amount,
           0,
         ),
+      ),
+      seasonGivenCount: tipper.tipAllowances[0].tips.length,
+      seasonGivenAmount: Math.round(
+        tipper.tipAllowances[0].tips.reduce((acc, tip) => acc + tip.amount, 0),
       ),
       totalGivenCount: tipper.tipAllowances.reduce(
         (acc, ta) => acc + ta.tips.length,

@@ -76,7 +76,7 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
   //   ),
   // },
   {
-    accessorKey: "totalGivenAmount",
+    accessorKey: "seasonGivenAmount",
     header: ({ column }) => (
       <Button
         variant="ghost"
@@ -90,11 +90,11 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
       </Button>
     ),
     cell: ({ row }) => (
-      <span>{row.original.totalGivenAmount.toLocaleString()} ✨</span>
+      <span>{row.original.seasonGivenAmount.toLocaleString()} ✨</span>
     ),
   },
   {
-    accessorKey: "totalGivenCount",
+    accessorKey: "seasonGivenCount",
     header: ({ column }) => (
       <Button
         variant="ghost"
@@ -107,7 +107,7 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
       </Button>
     ),
     cell: ({ row }) => (
-      <span>{row.original.totalGivenCount.toLocaleString()}</span>
+      <span>{row.original.seasonGivenCount.toLocaleString()}</span>
     ),
   },
 ];
