@@ -21,7 +21,9 @@ export default async function middleware(request: NextRequest) {
 
   const ip = request.ip ?? "127.0.0.1";
 
-  request.referrer;
+  if (request.url.includes("/admin")) {
+    return NextResponse.next();
+  }
 
   let success, limit, reset, remaining;
 

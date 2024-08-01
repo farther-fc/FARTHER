@@ -102,7 +102,7 @@ export const getUser = publicProcedure
               latestAllowanceDate: latestTipMeta?.createdAt,
             });
           },
-          { timeout: 60_000 },
+          { timeout: 10_000 },
         );
       }
 
