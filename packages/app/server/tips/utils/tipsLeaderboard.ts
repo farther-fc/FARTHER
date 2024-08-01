@@ -42,30 +42,15 @@ export async function getLeaderboardData() {
 
   const tippers = await prisma.user.findMany({
     where: {
-      OR: [
-        {
-          tipsGiven: {
-            some: {
-              invalidTipReason: null,
-              createdAt: {
-                // TODO: change this to whenever snapshot happens!
-                gte: getStartOfMonthUTC(0),
-              },
-            },
+      tipsGiven: {
+        some: {
+          invalidTipReason: null,
+          createdAt: {
+            // TODO: change this to whenever snapshot happens!
+            gte: getStartOfMonthUTC(0),
           },
         },
-        {
-          tipAllowances: {
-            some: {
-              invalidatedAmount: null,
-              createdAt: {
-                // TODO: change this to whenever snapshot happens!
-                gte: getStartOfMonthUTC(0),
-              },
-            },
-          },
-        },
-      ],
+      },
     },
     select: {
       id: true,
@@ -74,6 +59,12 @@ export async function getLeaderboardData() {
       pfpUrl: true,
       powerBadge: true,
       tipperScores: {
+        where: {
+          createdAt: {
+            // TODO: change this to whenever snapshot happens!
+            gte: getStartOfMonthUTC(0),
+          },
+        },
         orderBy: {
           createdAt: "desc",
         },
@@ -86,6 +77,7 @@ export async function getLeaderboardData() {
         select: {
           createdAt: true,
           amount: true,
+          tipMetaId: true,
           tips: {
             where: {
               invalidTipReason: null,
@@ -103,13 +95,29 @@ export async function getLeaderboardData() {
     .map((tipper) => tipper.tipperScores[0]?.score ?? 0)
     .reduce((acc, score) => acc + score, 0);
 
+  const doAllCurrentTippersHaveScore = tippers
+    .filter((t) => t.tipAllowances[0].tipMetaId === currentTipMeta.id)
+    .every((t) => t.tipperScores.length > 0);
+
   const leaderboardData = tippers.map((tipper, i) => {
-    const tipperScore =
-      tipper.tipAllowances[0].createdAt >= getStartOfMonthUTC(0)
-        ? tipper.tipperScores[0]?.score ?? 0
-        : 0;
+    const tipperScore = doAllCurrentTippersHaveScore
+      ? tipper.tipperScores[0]?.score
+      : 0;
+
     const tipperRewards =
       (tipperScore / totalTipperScore) * TIPPER_REWARDS_POOL;
+
+    const seasonalAllowances = tipper.tipAllowances.filter(
+      (a) => a.createdAt >= getStartOfMonthUTC(0),
+    );
+    const seasonGivenCount = seasonalAllowances.reduce(
+      (acc, a) => acc + a.tips.length,
+      0,
+    );
+    const seasonGivenAmount = seasonalAllowances.reduce(
+      (acc, a) => acc + a.tips.reduce((acc, t) => acc + t.amount, 0),
+      0,
+    );
 
     return {
       fid: tipper.id,
@@ -119,17 +127,18 @@ export async function getLeaderboardData() {
       powerBadge: tipper.powerBadge,
       tipperScore,
       tipperRewards,
-      currentAllowance: tipper.tipAllowances[0].amount,
+      currentAllowance:
+        tipper.tipAllowances[0].tipMetaId === currentTipMeta.id
+          ? tipper.tipAllowances[0].amount
+          : 0,
       totalAllowance: Math.round(
         tipper.tipAllowances.reduce(
           (acc, allowance) => acc + allowance.amount,
           0,
         ),
       ),
-      seasonGivenCount: tipper.tipAllowances[0].tips.length,
-      seasonGivenAmount: Math.round(
-        tipper.tipAllowances[0].tips.reduce((acc, tip) => acc + tip.amount, 0),
-      ),
+      seasonGivenCount,
+      seasonGivenAmount,
       totalGivenCount: tipper.tipAllowances.reduce(
         (acc, ta) => acc + ta.tips.length,
         0,

@@ -249,9 +249,9 @@ export const OPENRANK_BATCH_LIMIT = 100;
 export const OPENRANK_SNAPSHOT_INTERVAL = 6;
 
 export const cronSchedules = {
-  OPENRANK_SNAPSHOT: "0 3,15 * * *",
+  OPENRANK_SNAPSHOT: "0 3,9,15,21 * * *",
   // 1 hour after openrank snapshot
-  CREATE_TIPPER_SCORES: "0 4,16 * * *",
+  CREATE_TIPPER_SCORES: "0 4,10,16,22 * * *",
   DISTRIBUTE_ALLOWANCES: "0 16 * * *",
   UPDATE_ELIGIBLE_TIPPERS: "0 * * * *",
   // 12:00 AM UTC on sunday
