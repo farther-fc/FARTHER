@@ -106,8 +106,10 @@ export async function getLeaderboardData() {
   const leaderboardData = tippers.map((tipper, i) => {
     const tipperScore = tipper.tipperScores[0]?.score ?? 0;
 
-    const tipperRewards =
-      (tipperScore / totalTipperScore) * TIPPER_REWARDS_POOL;
+    const tipperRewards = Math.max(
+      0,
+      (tipperScore / totalTipperScore) * TIPPER_REWARDS_POOL,
+    );
 
     const seasonGivenCount = tipper.tipsGiven.length;
     const seasonGivenAmount = tipper.tipsGiven.reduce(

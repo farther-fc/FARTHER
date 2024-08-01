@@ -97,7 +97,7 @@ export function Leaderboard() {
                     return (
                       <TableCell
                         key={cell.id}
-                        className={`table-cell px-2 md:px-5 ${columnStyles[cell.column.id] ?? ""}`}
+                        className={`table-cell px-2 md:px-5 ${columnStyles[cell.column.id] ?? ""} ${cell.column.getIndex() === columns.length - 1 ? "pr-8 md:pr-10" : ""}`}
                       >
                         {flexRender(
                           cell.column.columnDef.cell,

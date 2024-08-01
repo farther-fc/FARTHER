@@ -1,11 +1,7 @@
 import { StarLoop } from "@components/StarLoop";
 import TokenomicsInfo from "@components/TokenomicsInfo";
-import { EcosystemFundModal } from "@components/modals/EcosystemFundModal";
-import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
-import { contractAddresses } from "@farther/common";
-import { clickIds } from "@lib/constants";
 import { useModal } from "@lib/context/ModalContext";
 import { routes } from "@lib/routes";
 import Link from "next/link";
@@ -55,43 +51,20 @@ export default function Home() {
         </p>
         <h2>How</h2>
         <p>
-          Farther aims to fund any creative media and tools devoted to growing
-          Farcaster. Several ideas are being explored, all of which will involve
-          the{" "}
-          <ExternalLink
-            href={`https://basescan.org/token/${contractAddresses.FARTHER}`}
-          >
-            FARTHER token, deployed on Base
+          Farther was initially focused on evangelizing Farcaster on other
+          social media networks. However it has since pivoted to innovating on
+          tipping as a means to increase quality content on the platform and
+          reduce user churn. This began on August 1 with the launch of{" "}
+          <ExternalLink href="https://paragraph.xyz/@farther/farther-v2">
+            Farther V2
           </ExternalLink>
-          . To bootstrap these efforts, it is being rewarded to active users and
-          builders within the ecosystem in the following ways:
+          .
         </p>
-        <ul>
-          <li>
-            <Link href={routes.airdrops.path}>Airdrops</Link> to Farcaster power
-            users spanning 3 years, beginning May 1, 2024.
-          </li>
-          <li>
-            <Link href={routes.liquidity.path}>Onchain liquidity rewards</Link>
-          </li>
-          <li>
-            <Link href={routes.tips.path}>Tip allocations</Link>
-          </li>
-          <li>
-            <Button
-              sentryId={clickIds.ecosystemFundOpenModal}
-              variant="link"
-              onClick={() =>
-                openModal({
-                  headerText: "Ecosystem fund",
-                  body: <EcosystemFundModal />,
-                })
-              }
-            >
-              Partnerships & ecosystem fund
-            </Button>
-          </li>
-        </ul>
+        <p>
+          In addition to being a tipping token, Farther has been airdropping
+          tokens to Farcaster power users and rewarding liquidity providers. It
+          also has an ecosystem fund for partnerships and future initiatives.
+        </p>
 
         <h2>Tokenomics</h2>
         <TokenomicsInfo />
