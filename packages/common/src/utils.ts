@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import minMax from "dayjs/plugin/minMax";
 import utc from "dayjs/plugin/utc";
 import { Address, encodeAbiParameters, keccak256 } from "viem";
 import {
@@ -144,5 +145,6 @@ export function isBanned(fid: number) {
 }
 
 dayjs.extend(utc);
+dayjs.extend(minMax);
 
 export const dayUTC = dayjs.utc;
