@@ -53,54 +53,57 @@ export const getUser = publicProcedure
           return null;
         }
 
-        dbUser = await prisma.$transaction(async (tx) => {
-          await tx.user.upsert({
-            where: {
-              id: user.fid,
-            },
-            update: {},
-            create: {
-              id: user.fid,
-              pfpUrl: user.pfpUrl,
-              username: user.username,
-              displayName: user.displayName,
-              followerCount: user.followerCount,
-            },
-          });
-
-          for (const address of user.verifiedAddresses) {
-            await tx.ethAccount.upsert({
+        dbUser = await prisma.$transaction(
+          async (tx) => {
+            await tx.user.upsert({
               where: {
-                address: address.toLowerCase(),
+                id: user.fid,
               },
               update: {},
               create: {
-                address: address.toLowerCase(),
+                id: user.fid,
+                pfpUrl: user.pfpUrl,
+                username: user.username,
+                displayName: user.displayName,
+                followerCount: user.followerCount,
               },
             });
 
-            await tx.userEthAccount.upsert({
-              where: {
-                userId_ethAccountId: {
+            for (const address of user.verifiedAddresses) {
+              await tx.ethAccount.upsert({
+                where: {
+                  address: address.toLowerCase(),
+                },
+                update: {},
+                create: {
+                  address: address.toLowerCase(),
+                },
+              });
+
+              await tx.userEthAccount.upsert({
+                where: {
+                  userId_ethAccountId: {
+                    userId: user.fid,
+                    ethAccountId: address.toLowerCase(),
+                  },
+                },
+                update: {},
+                create: {
                   userId: user.fid,
                   ethAccountId: address.toLowerCase(),
                 },
-              },
-              update: {},
-              create: {
-                userId: user.fid,
-                ethAccountId: address.toLowerCase(),
-              },
-            });
-          }
+              });
+            }
 
-          // We upsert the user then retrieve it so we
-          // have the correct type sent to the client
-          return await getPrivateUser({
-            address: address,
-            latestAllowanceDate: latestTipMeta?.createdAt,
-          });
-        });
+            // We upsert the user then retrieve it so we
+            // have the correct type sent to the client
+            return await getPrivateUser({
+              address: address,
+              latestAllowanceDate: latestTipMeta?.createdAt,
+            });
+          },
+          { timeout: 60_000 },
+        );
       }
 
       // To satisfy typescript
