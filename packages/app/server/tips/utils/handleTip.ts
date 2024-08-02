@@ -10,6 +10,7 @@ import {
 import { cache } from "@lib/cache";
 import { Cast } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { InvalidTipReason } from "@prisma/client";
+import * as Sentry from "@sentry/nextjs";
 import { getLatestTipAllowance } from "./getLatestTipAllowance";
 import { isBanned } from "./isBanned";
 
@@ -139,10 +140,14 @@ export async function handleTip({
     return;
   }
 
-  const openRankScores = await getOpenRankScores([tippeeFid]);
-
-  const tippeeOpenRankScore =
-    openRankScores && openRankScores[0] ? openRankScores[0].score : null;
+  let tippeeOpenRankScore: number | null = null;
+  try {
+    const openRankScores = await getOpenRankScores([tippeeFid]);
+    tippeeOpenRankScore =
+      openRankScores && openRankScores[0] ? openRankScores[0].score : null;
+  } catch (error) {
+    Sentry.captureException(error);
+  }
 
   await storeTip({
     allowanceId: tipAllowance.id,
