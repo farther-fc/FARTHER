@@ -17,13 +17,11 @@ const fartherV2LaunchDate = dayjs("2024-08-01T00:00:00.000Z");
 export async function distributeAllowances() {
   console.info("STARTING: distributeAllowances");
 
-  const tipsMetas = await getTipMetas();
-
-  const previousMeta = tipsMetas[0];
+  const latestTipMeta = await getLatestTipMeta();
 
   // Using dayjs, verify that the previous distribution was over 23 hours ago
   if (isProduction) {
-    const hoursSinceLastDistribution = getHoursAgo(previousMeta.createdAt);
+    const hoursSinceLastDistribution = getHoursAgo(latestTipMeta.createdAt);
 
     if (hoursSinceLastDistribution < 23) {
       throw new DistributeAllowancesError({
@@ -59,7 +57,7 @@ export async function distributeAllowances() {
 
   if (process.env.NODE_ENV === "development" || ENVIRONMENT === "development") {
     printDevLogs({
-      previousMeta,
+      latestTipMeta,
       eligibleTippers,
       prevUnusedAllowance,
       availableTotalAllowance,
@@ -110,11 +108,12 @@ export async function distributeAllowances() {
   );
 }
 
-async function getTipMetas() {
-  return await prisma.tipMeta.findMany({
+async function getLatestTipMeta() {
+  const metas = await prisma.tipMeta.findMany({
     orderBy: {
       createdAt: "desc",
     },
+    take: 1,
     include: {
       allowances: {
         select: {
@@ -124,26 +123,30 @@ async function getTipMetas() {
       },
     },
   });
+  return metas[0];
 }
 
 function printDevLogs({
-  previousMeta,
+  latestTipMeta,
   eligibleTippers,
   prevUnusedAllowance,
   availableTotalAllowance,
   fartherUsdPrice,
 }: {
-  previousMeta: Awaited<ReturnType<typeof getTipMetas>>[0];
+  latestTipMeta: Awaited<ReturnType<typeof getLatestTipMeta>>[0];
   eligibleTippers: Awaited<ReturnType<typeof getEligibleTippers>>;
   prevUnusedAllowance: number;
   availableTotalAllowance: number;
   fartherUsdPrice: number;
 }) {
-  if (previousMeta) {
-    console.info("Previous tip min:", previousMeta.tipMinimum.toLocaleString());
+  if (latestTipMeta) {
+    console.info(
+      "Previous tip min:",
+      latestTipMeta.tipMinimum.toLocaleString(),
+    );
     console.info(
       "Previous total allowance:",
-      previousMeta.totalAllowance.toLocaleString(),
+      latestTipMeta.totalAllowance.toLocaleString(),
     );
   }
 

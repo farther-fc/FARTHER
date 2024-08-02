@@ -2,6 +2,7 @@ import { prisma } from "@farther/backend";
 import {
   HANDLE_TIP_REGEX,
   TIPPEE_FOLLOWERS_MIN,
+  TIP_MINIMUM,
   cacheTypes,
   getOpenRankScores,
   neynarLimiter,
@@ -100,6 +101,11 @@ export async function handleTip({
   const availableAllowance =
     tipAllowance.amount - (tipAllowance.invalidatedAmount ?? 0);
 
+  const isBelowMinimum =
+    tipAmount < TIP_MINIMUM &&
+    // TODO: remove this clause after Aug 3
+    tipMeta.id !== "a8b63c87-1d52-4769-ac0c-74d3312541f0";
+
   const invalidTime = createdAtMs >= tipMeta.createdAt.getTime();
 
   const exceedsAllowance = newTipTotal > availableAllowance;
@@ -121,9 +127,11 @@ export async function handleTip({
             ? InvalidTipReason.INELIGIBLE_TIPPEE
             : hasAlreadyTippedTippee
               ? InvalidTipReason.TIPPEE_LIMIT_REACHED
-              : exceedsAllowance
-                ? InvalidTipReason.INSUFFICIENT_ALLOWANCE
-                : null;
+              : isBelowMinimum
+                ? InvalidTipReason.BELOW_MINIMUM
+                : exceedsAllowance
+                  ? InvalidTipReason.INSUFFICIENT_ALLOWANCE
+                  : null;
 
   if (invalidTipReason) {
     const tipData = {
