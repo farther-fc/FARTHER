@@ -1,4 +1,4 @@
-import { cronSchedules, isProduction, dayUTC } from "@farther/common";
+import { cronSchedules, dayUTC, isProduction } from "@farther/common";
 import { getOpenRankScores } from "@farther/common/src/getOpenRankScore";
 import * as Sentry from "@sentry/node";
 import { Job, QueueEvents, Worker } from "bullmq";
@@ -117,6 +117,7 @@ async function storeScores(job: Job) {
           tags: {
             jobQueue: queueNames.OPENRANK_SNAPSHOT,
             snapshotTimeId,
+            job: job.id,
             fid: scoreData.fid,
           },
         },
