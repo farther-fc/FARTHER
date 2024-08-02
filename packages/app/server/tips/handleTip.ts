@@ -7,14 +7,14 @@ export const handleTip = publicProcedure.mutation(async (opts) => {
   const body = opts.ctx.req.body;
   const bodyString = JSON.stringify(body);
 
-  const { isValid, sig } = isSignatureValid({
-    rawHeaders: opts.ctx.req.rawHeaders,
-    bodyString,
-  });
+  // const { isValid, sig } = isSignatureValid({
+  //   rawHeaders: opts.ctx.req.rawHeaders,
+  //   bodyString,
+  // });
 
-  if (!isValid) {
-    throw new Error(`Invalid webhook signature: ${sig}.`);
-  }
+  // if (!isValid) {
+  //   throw new Error(`Invalid webhook signature: ${sig}.`);
+  // }
 
   const castData = body.data;
   const createdAtMs = body.created_at * 1000;

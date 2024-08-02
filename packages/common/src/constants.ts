@@ -216,10 +216,14 @@ export const ROOT_ENDPOINTS = {
 
 export const ROOT_ENDPOINT = ROOT_ENDPOINTS[ENVIRONMENT];
 
+export const HANDLE_TIP_REGEX_PROD =
+  /\d+(\.\d+)?\s*(\$(f|F)(a|A)(r|R)(t|T)(h|H)(e|E)(r|R)|((f|F)(a|A)(r|R)(t|T)(h|H)(e|E)(r|R)))/;
+
+export const HANDLE_TIP_REGEX_DEV =
+  /\d+(\.\d+)?\s*(\$(f|F)(t|T)(e|E)(s|S)(t|T)|(f|F)(t|T)(e|E)(s|S)(t|T))/;
+
 export const HANDLE_TIP_REGEX =
-  ENVIRONMENT === "production"
-    ? /\d+(\.\d+)?\s*(\$(f|F)(a|A)(r|R)(t|T)(h|H)(e|E)(r|R)|((f|F)(a|A)(r|R)(t|T)(h|H)(e|E)(r|R))|✨)/
-    : /\d+(\.\d+)?\s*(\$(f|F)(t|T)(e|E)(s|S)(t|T)|(f|F)(t|T)(e|E)(s|S)(t|T))/;
+  ENVIRONMENT === "production" ? HANDLE_TIP_REGEX_PROD : HANDLE_TIP_REGEX_DEV;
 
 export const cacheTimes = {
   USER: 86400,
