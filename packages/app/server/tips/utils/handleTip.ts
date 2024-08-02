@@ -36,24 +36,14 @@ export async function handleTip({
     return;
   }
 
-  const tippee = await prisma.user.findFirst({
-    where: {
-      id: tippeeFid,
-    },
-  });
+  // Get tippee from Neynar
+  const [tippeeNeynar] = await neynarLimiter.getUsersByFid([tippeeFid]);
 
-  let tippeeFollowerCount = tippee?.followerCount;
-
-  if (!tippee) {
-    // Get tippee from Neynar
-    const [tippeeNeynar] = await neynarLimiter.getUsersByFid([tippeeFid]);
-
-    if (!tippeeNeynar) {
-      throw new Error(`No tippee found in Neynar: ${tippeeFid}`);
-    }
-
-    tippeeFollowerCount = tippeeNeynar.follower_count;
+  if (!tippeeNeynar) {
+    throw new Error(`No tippee found in Neynar: ${tippeeFid}`);
   }
+
+  const tippeeFollowerCount = tippeeNeynar.follower_count;
 
   const tippeeNotEnoughFollowers =
     (tippeeFollowerCount || 0) < TIPPEE_FOLLOWERS_MIN;
