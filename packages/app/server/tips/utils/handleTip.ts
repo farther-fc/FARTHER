@@ -123,8 +123,6 @@ export async function handleTip({
                   ? InvalidTipReason.INSUFFICIENT_ALLOWANCE
                   : null;
 
-  console.log({ invalidTipReason });
-
   if (invalidTipReason) {
     const tipData = {
       allowanceId: tipAllowance.id,
@@ -173,16 +171,6 @@ async function storeTip({
   invalidTipReason?: InvalidTipReason;
   tippeeOpenRankScore: number | null;
 }) {
-  console.log({
-    allowanceId,
-    castHash,
-    tipperFid,
-    tippeeFid,
-    tipAmount,
-    invalidTipReason,
-    tippeeOpenRankScore,
-  });
-  return;
   await prisma.tip.create({
     data: {
       hash: castHash,

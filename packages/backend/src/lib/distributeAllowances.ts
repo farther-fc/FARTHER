@@ -133,7 +133,7 @@ function printDevLogs({
   availableTotalAllowance,
   fartherUsdPrice,
 }: {
-  latestTipMeta: Awaited<ReturnType<typeof getLatestTipMeta>>[0];
+  latestTipMeta: Awaited<ReturnType<typeof getLatestTipMeta>>;
   eligibleTippers: Awaited<ReturnType<typeof getEligibleTippers>>;
   prevUnusedAllowance: number;
   availableTotalAllowance: number;
