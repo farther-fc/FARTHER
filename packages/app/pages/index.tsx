@@ -3,13 +3,10 @@ import TokenomicsInfo from "@components/TokenomicsInfo";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { FARTHER_V2_PARAGRAPH_URL } from "@lib/constants";
-import { useModal } from "@lib/context/ModalContext";
 import { routes } from "@lib/routes";
 import Link from "next/link";
 
 export default function Home() {
-  const { openModal } = useModal();
-
   return (
     <Container variant="page">
       <StarLoop />

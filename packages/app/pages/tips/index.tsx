@@ -44,7 +44,7 @@ function TipsPage() {
             </Popover>
           </span>
           {fartherUsdPrice && (
-            <span className="text-ghost mt-2">
+            <span className="text-ghost mt-2 text-xl">
               ${numeral(TIPPER_REWARDS_POOL * fartherUsdPrice).format("0,0")}
             </span>
           )}
