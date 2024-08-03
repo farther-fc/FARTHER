@@ -3,6 +3,8 @@ import { routes } from "@lib/routes";
 
 export const FARTHER_CHANNEL_URL = "https://warpcast.com/~/channel/farther";
 
+export const GODFARTHER_URL = "https://warpcast.com/farther";
+
 export const ASSETS_URL =
   "https://www.dropbox.com/scl/fo/ekstm3uwi5fnzot62yzut/AGcz-W2MnCit4ZnBaPfK-90?rlkey=mqbvk5i4hou5u1likn1u3ebyr&st=h1kqaxku&dl=0";
 
