@@ -11,8 +11,19 @@ import { cache } from "@lib/cache";
 import { Cast } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { InvalidTipReason } from "@prisma/client";
 import * as Sentry from "@sentry/nextjs";
+// import { tipBot } from "server/tips/tipBot";
 import { getLatestTipAllowance } from "./getLatestTipAllowance";
 import { isBanned } from "./isBanned";
+
+type TipData = {
+  allowanceId: string;
+  castHash: string;
+  tipperFid: number;
+  tippeeFid: number;
+  tipAmount: number;
+  invalidTipReason?: InvalidTipReason;
+  tippeeOpenRankScore: number | null;
+};
 
 export async function handleTip({
   castData,
@@ -124,8 +135,10 @@ export async function handleTip({
                   ? InvalidTipReason.INSUFFICIENT_ALLOWANCE
                   : null;
 
+  let tipData: TipData;
+
   if (invalidTipReason) {
-    const tipData = {
+    tipData = {
       allowanceId: tipAllowance.id,
       tipperFid: tipper.fid,
       tippeeFid: tippeeFid,
@@ -134,29 +147,27 @@ export async function handleTip({
       castHash: castData.hash,
       tippeeOpenRankScore: null,
     };
-
-    await storeTip(tipData);
-
-    return;
+  } else {
+    let tippeeOpenRankScore: number | null = null;
+    try {
+      const openRankScores = await getOpenRankScores([tippeeFid]);
+      tippeeOpenRankScore =
+        openRankScores && openRankScores[0] ? openRankScores[0].score : null;
+    } catch (error) {
+      Sentry.captureException(error);
+    }
+    tipData = {
+      allowanceId: tipAllowance.id,
+      castHash: castData.hash,
+      tipperFid: tipper.fid,
+      tippeeFid: tippeeFid,
+      tipAmount,
+      tippeeOpenRankScore,
+    };
   }
 
-  let tippeeOpenRankScore: number | null = null;
-  try {
-    const openRankScores = await getOpenRankScores([tippeeFid]);
-    tippeeOpenRankScore =
-      openRankScores && openRankScores[0] ? openRankScores[0].score : null;
-  } catch (error) {
-    Sentry.captureException(error);
-  }
-
-  await storeTip({
-    allowanceId: tipAllowance.id,
-    castHash: castData.hash,
-    tipperFid: tipper.fid,
-    tippeeFid: tippeeFid,
-    tipAmount,
-    tippeeOpenRankScore,
-  });
+  await storeTip(tipData);
+  // tipBot();
 }
 
 async function storeTip({
