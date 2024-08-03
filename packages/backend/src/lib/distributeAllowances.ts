@@ -2,6 +2,7 @@ import {
   DAILY_USD_TOTAL_ALLOWANCE,
   DistributeAllowancesError,
   ENVIRONMENT,
+  TIP_MINIMUM,
   cacheTypes,
   getHoursAgo,
   isProduction,
@@ -68,7 +69,7 @@ export async function distributeAllowances() {
   await prisma.$transaction(async (tx) => {
     const tipMeta = await tx.tipMeta.create({
       data: {
-        tipMinimum: 0,
+        tipMinimum: TIP_MINIMUM,
         totalAllowance: availableTotalAllowance,
         carriedOver: prevUnusedAllowance,
         usdPrice: fartherUsdPrice,

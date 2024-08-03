@@ -11,7 +11,7 @@ import {
   TIPPER_REWARDS_POOL,
   dayUTC,
 } from "@farther/common";
-import { OPENRANK_ENGAGEMENT_DOCS_URL } from "@lib/constants";
+import { GODFARTHER_URL, OPENRANK_ENGAGEMENT_DOCS_URL } from "@lib/constants";
 import { useTokenInfo } from "@lib/context/TokenContext";
 import { routes } from "@lib/routes";
 import dayjs from "dayjs";
@@ -21,7 +21,8 @@ import Link from "next/link";
 import numeral from "numeral";
 
 function TipsPage() {
-  const { createdAt, tipsMetaLoading, eligibleTippers } = useTipsMeta();
+  const { tipMinimum, createdAt, tipsMetaLoading, eligibleTippers } =
+    useTipsMeta();
 
   const { fartherUsdPrice } = useTokenInfo();
 
@@ -51,34 +52,41 @@ function TipsPage() {
         </div>
         <h4 className="text-ghost mt-8 text-sm uppercase">Current Cycle</h4>
         {!tipsMetaLoading && createdAt ? (
-          <InfoCard className="grid grid-cols-2 mt-0">
-            <div>
-              {!tipsMetaLoading && createdAt && (
-                <>
-                  <span className="text-ghost text-sm uppercase">
-                    Start Time
-                  </span>
-                  <h5 className="mt-2 mb-0">
-                    {dayjs(new Date(createdAt)).format("MMM D ha")}
-                  </h5>
-                </>
-              )}
+          <InfoCard className="grid grid-cols-3 mt-0">
+            <div className="flex flex-col">
+              <span className="text-ghost text-sm uppercase">Start Time</span>
+              <h5 className="mt-2 mb-0">
+                {dayjs(new Date(createdAt)).format("MMM D ha")}
+              </h5>
             </div>
-
-            <div className="text-right">
-              <div className="">
-                <span className="text-ghost text-sm uppercase">
-                  Eligible Tippers
-                </span>
+            <div className="flex flex-col items-center">
+              <span className="text-ghost text-sm uppercase">Tip minimum</span>
+              <Popover
+                content={
+                  <>
+                    This is the current minimum tip amount required to tip. It
+                    may adjust in the future. Follow{" "}
+                    <ExternalLink href={GODFARTHER_URL}>@farther</ExternalLink>{" "}
+                    for updates.
+                  </>
+                }
+              >
+                <h5 className="flex items-center mt-2 mb-0">
+                  {tipMinimum} ✨
+                  <HelpCircle className="text-muted ml-2 size-3" />
+                </h5>
+              </Popover>
+            </div>
+            <div className="flex flex-col text-right">
+              <span className="text-ghost text-sm uppercase">Tippers</span>
+              <Popover
+                content={`You must currently have a total balance of ${TIPPER_REQUIRED_FARTHER_BALANCE.toLocaleString()} FARTHER to receive a tip allowance. This number will adjust over time. If you are providing liquidity in the Uniswap 0.3% pool, that will be included.`}
+              >
                 <h5 className="flex items-center mt-2 mb-0 justify-end">
                   {eligibleTippers}
-                  <Popover
-                    content={`You must currently have a total balance of ${TIPPER_REQUIRED_FARTHER_BALANCE.toLocaleString()} FARTHER to receive a tip allowance. This number will adjust over time. If you are providing liquidity in the Uniswap 0.3% pool, that will be included.`}
-                  >
-                    <HelpCircle className="text-muted ml-2 size-3" />
-                  </Popover>
+                  <HelpCircle className="text-muted ml-2 size-3" />
                 </h5>
-              </div>
+              </Popover>
             </div>
           </InfoCard>
         ) : (

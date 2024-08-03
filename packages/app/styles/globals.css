@@ -368,8 +368,8 @@ h4 {
 }
 
 h5 {
+  @apply text-[100%] md:text-[120%];
   font-weight: normal;
-  font-size: 120%;
   margin: 1.5em 0 0.8em;
 }
 
