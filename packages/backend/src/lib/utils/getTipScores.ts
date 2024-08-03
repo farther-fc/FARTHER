@@ -1,4 +1,4 @@
-import { TIP_SCORE_SCALER, dayUTC } from "@farther/common";
+import { dayUTC } from "@farther/common";
 import Decimal from "decimal.js";
 
 /**
@@ -30,12 +30,12 @@ export async function getTipScores({
     const openRankChangePerDay = openRankChange.div(daysSinceTip);
 
     // Change per token
-    const changePerToken = openRankChangePerDay.div(tip.amount);
+    const changePerToken = openRankChangePerDay.mul(tip.amount);
 
     // Scale up to human readable numbers
     return {
       hash: tip.hash,
-      changePerToken: changePerToken.mul(TIP_SCORE_SCALER),
+      changePerToken: changePerToken,
     };
   });
 }

@@ -13,7 +13,7 @@ export function TipperScoreInfo() {
         </ExternalLink>
         ) since the time the tip was made until the end of the month. The
         percentage change of each recipient's engagement score is multiplied by
-        the tip amount, then scaled up by 100k to be easier to read.
+        the tip amount.
       </p>
       <p>OpenRank data is synced at least once per day.</p>
     </div>
