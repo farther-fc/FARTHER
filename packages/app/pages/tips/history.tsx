@@ -26,7 +26,7 @@ const GRID_STYLES =
 
 const Row = ({ tip, isTablet }: { tip: Tips[number]; isTablet: boolean }) => (
   <div
-    className={`pr-2 md:pr-5 block ${tip.invalidTipReason ? "bg-background-800" : ""} hover:bg-background group cursor-default`}
+    className={`pr-2 md:pr-5 block ${tip.invalidTipReason ? "bg-background-800 hover:bg-background-700" : ""} hover:bg-background group cursor-default`}
   >
     <div className={GRID_STYLES}>
       <div

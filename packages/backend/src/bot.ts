@@ -3,6 +3,8 @@ import { NeynarAPIClient } from "@neynar/nodejs-sdk";
 import express from "express";
 import { requireEnv } from "require-env-variable";
 
+// TODO: DELETE THIS AFTER tipBot.ts is live
+
 const { NEYNAR_TIP_BOT_API_KEY, TIP_BOT_UUID } = requireEnv(
   "NEYNAR_TIP_BOT_API_KEY",
   "TIP_BOT_UUID",
