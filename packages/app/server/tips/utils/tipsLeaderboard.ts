@@ -1,6 +1,7 @@
 import { prisma } from "@farther/backend";
 import {
   ENVIRONMENT,
+  FARTHER_OWNER_FID,
   TIPPER_REWARDS_POOL,
   cacheTypes,
   getStartOfMonthUTC,
@@ -42,6 +43,9 @@ export async function getLeaderboardData() {
 
   const tippers = await prisma.user.findMany({
     where: {
+      id: {
+        not: FARTHER_OWNER_FID,
+      },
       tipsGiven: {
         some: {
           invalidTipReason: null,

@@ -271,8 +271,6 @@ export const TOTAL_DAILY_TIP_ALLOCATION = 500_000;
 
 export const TOTAL_MONTHLY_TIP_REWARDS = 4.25e6;
 
-export const TIP_SCORE_SCALER = 100_000;
-
 export const WAD_SCALER = BigInt(10 ** 18);
 
 export const API_ENDPOINT_ROOT = `${ROOT_ENDPOINT}/api/v1` as const;
