@@ -24,9 +24,16 @@ import InfiniteScroll from "react-infinite-scroller";
 const GRID_STYLES =
   "grid grid-cols-[4px_25px_35px_minmax(90px,1fr)_minmax(70px,200px)_80px] md:grid-cols-[8px_50px_minmax(60px,200px)_minmax(140px,1fr)_minmax(80px,1fr)_minmax(80px,1fr)] gap-1 relative";
 
+const CycleHeaderRow = ({ cycleStartTime }: { cycleStartTime: string }) => (
+  <div className="bg-background-500 text-md uppercase text-muted py-2 px-2 border-t-2 border-ghost flex justify-center border-b-ghost-light border-b">
+    <span className="text-ghost mr-1">Cycle start:</span>{" "}
+    {dayjs(cycleStartTime).format("MMM D Ha")}
+  </div>
+);
+
 const Row = ({ tip, isTablet }: { tip: Tips[number]; isTablet: boolean }) => (
   <div
-    className={`pr-2 md:pr-5 block ${tip.invalidTipReason ? "bg-background-800 hover:bg-background-700" : ""} hover:bg-background group cursor-default`}
+    className={`pr-2 md:pr-5 block ${tip.invalidTipReason ? "hover:bg-background-700" : ""} hover:bg-background group cursor-default`}
   >
     <div className={GRID_STYLES}>
       <div
@@ -142,8 +149,8 @@ function TipHistoryPage() {
               OpenRank
             </ExternalLink>
             ) since the time the tip was made. It is updated daily up until the
-            end of the month. All tip scores during the month combine to form a
-            tipper score, which ranks each tipper's performance.
+            end of the month. Your tipper score is an average of all the tip
+            scores.
           </p>
           <p>
             Learn more{" "}
@@ -159,6 +166,24 @@ function TipHistoryPage() {
     </Popover>,
     "Amount",
   ];
+
+  const tipGroupsObj = tips.reduce(
+    (acc, tip) => {
+      const { cycleStartTime } = tip;
+
+      if (!acc[cycleStartTime]) {
+        acc[cycleStartTime] = [];
+      }
+
+      acc[cycleStartTime].push(tip);
+
+      return acc;
+    },
+    {} as { [cycleStartTime: string]: Tips },
+  );
+
+  console.log(tipGroupsObj);
+  const tipsGroupedByCycle = Object.values(tipGroupsObj);
 
   return (
     <Container variant="page">
@@ -216,20 +241,30 @@ function TipHistoryPage() {
                       : "No tips found"}
                   </div>
                 ) : (
-                  tips.map((tip) => {
-                    return tip.invalidTipReason ? (
-                      <Tooltip
-                        key={tip.hash}
-                        content={invalidTipReasons[tip.invalidTipReason]}
-                      >
-                        <div>
-                          <Row tip={tip} isTablet={isTablet} />
-                        </div>
-                      </Tooltip>
-                    ) : (
-                      <Row tip={tip} isTablet={isTablet} />
-                    );
-                  })
+                  tipsGroupedByCycle.map((cycleTips, i) => (
+                    <>
+                      <CycleHeaderRow
+                        key={i}
+                        cycleStartTime={cycleTips[0].cycleStartTime}
+                      />
+                      <div className="mt-1 mb-2">
+                        {cycleTips.map((tip) => {
+                          return tip.invalidTipReason ? (
+                            <Tooltip
+                              key={tip.hash}
+                              content={invalidTipReasons[tip.invalidTipReason]}
+                            >
+                              <div>
+                                <Row tip={tip} isTablet={isTablet} />
+                              </div>
+                            </Tooltip>
+                          ) : (
+                            <Row tip={tip} isTablet={isTablet} />
+                          );
+                        })}
+                      </div>
+                    </>
+                  ))
                 )}
               </InfiniteScroll>
             </div>
