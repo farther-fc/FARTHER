@@ -45,7 +45,7 @@ describe("getTipScores", () => {
       },
       {
         hash: "hash2",
-        changePerToken: new Decimal("175"),
+        changePerToken: new Decimal("700"),
       },
     ];
 

@@ -53,7 +53,7 @@ export async function createTipperScores() {
   const hour = date.hour();
 
   console.log(
-    `${queueNames.CREATE_TIPPER_SCORES}: Creating ${tippers.length}jobs`,
+    `${queueNames.CREATE_TIPPER_SCORES}: Creating ${tippers.length} jobs`,
   );
 
   // Create jobs
