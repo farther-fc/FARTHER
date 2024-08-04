@@ -118,9 +118,9 @@ function TipsPage() {
           <ExternalLink href={OPENRANK_ENGAGEMENT_DOCS_URL}>
             OpenRank
           </ExternalLink>
-          , and all the tip scores combine to form a score for each tipper. At
-          the end of the month, a rewards pool is distributed pro rata based on
-          each tipper's score.
+          , and all the tip scores are averaged to form a tipper score. At the
+          end of the month, a rewards pool is distributed pro rata based on each
+          tipper's score.
         </p>
         <br />
         <p>

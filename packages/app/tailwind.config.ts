@@ -55,6 +55,7 @@ const config = {
         },
         ghost: {
           DEFAULT: "hsl(var(--ghost))",
+          light: "hsl(var(--ghost-light))",
         },
         accent: {
           DEFAULT: "hsl(var(--accent))",

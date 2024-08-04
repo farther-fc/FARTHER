@@ -46,6 +46,15 @@ export async function publicTipsByTipper({
     },
     take: batchSize,
     include: {
+      tipAllowance: {
+        select: {
+          tipMeta: {
+            select: {
+              createdAt: true,
+            },
+          },
+        },
+      },
       tippee: {
         select: {
           id: true,
@@ -56,10 +65,11 @@ export async function publicTipsByTipper({
   });
 
   return {
-    tips: tips.map((tip) => ({
-      ...tip,
-      createdAt: tip.createdAt.toISOString(),
-      updatedAt: tip.updatedAt.toISOString(),
+    tips: tips.map(({ createdAt, updatedAt, tipAllowance, ...rest }) => ({
+      ...rest,
+      cycleStartTime: tipAllowance.tipMeta.createdAt.toISOString(),
+      createdAt: createdAt.toISOString(),
+      updatedAt: updatedAt.toISOString(),
     })),
     nextCursor:
       tipCount > batchSize && !!tips.length
