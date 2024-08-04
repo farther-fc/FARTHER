@@ -9,15 +9,15 @@ export const publicTipsByTipper = publicProcedure
   .query(async (opts) => {
     const { cursor, from, order, limit } = opts.input;
 
-    // const tips = await cache.get({
-    //   type: cacheTypes.USER_TIPS,
-    //   id: opts.input.fid,
-    //   context: [cursor, from, order, limit],
-    // });
+    const tips = await cache.get({
+      type: cacheTypes.USER_TIPS,
+      id: opts.input.fid,
+      context: [cursor, from, order, limit],
+    });
 
-    // if (tips) {
-    //   return tips;
-    // }
+    if (tips) {
+      return tips;
+    }
 
     const uncachedTips = await publicTipsByTipperUtil({
       tipperId: opts.input.fid,

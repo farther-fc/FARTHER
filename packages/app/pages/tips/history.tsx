@@ -182,7 +182,6 @@ function TipHistoryPage() {
     {} as { [cycleStartTime: string]: Tips },
   );
 
-  console.log(tipGroupsObj);
   const tipsGroupedByCycle = Object.values(tipGroupsObj);
 
   return (
