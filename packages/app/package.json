@@ -80,6 +80,7 @@
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.49.3",
     "react-infinite-scroller": "^1.2.6",
+    "require-env-variable": "^4.0.2",
     "sharp": "^0.31.3",
     "tailwind-merge": "^1.13.2",
     "tailwindcss-animate": "^1.0.6",

@@ -1,6 +1,8 @@
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import * as React from "react";
 
+import { Popover } from "@components/ui/Popover";
+import { useMediaQuery } from "@lib/context/MediaQueryContext";
 import { cn } from "@lib/utils";
 
 const TooltipProvider = TooltipPrimitive.Provider;
@@ -32,13 +34,17 @@ export function Tooltip({
   content: React.ReactNode;
   children: React.ReactNode;
 }) {
-  return (
+  const { isTablet } = useMediaQuery();
+  return isTablet ? (
     <TooltipProvider delayDuration={0}>
       <TooltipRoot>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
         <TooltipContent>{content}</TooltipContent>
       </TooltipRoot>
     </TooltipProvider>
+  ) : (
+    // Need to use popover on mobile because tooltip relies on hover
+    <Popover content={content}>{children}</Popover>
   );
 }
 
