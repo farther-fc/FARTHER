@@ -110,7 +110,7 @@ export async function getLeaderboardData() {
   const leaderboardData = tippers.map((tipper, i) => {
     const tipperScore = tipper.tipperScores[0]?.score ?? 0;
 
-    const tipperRewards = Math.max(
+    const potentialTipperRewards = Math.max(
       0,
       (tipperScore / totalTipperScore) * TIPPER_REWARDS_POOL,
     );
@@ -128,7 +128,7 @@ export async function getLeaderboardData() {
       username: tipper.username,
       powerBadge: tipper.powerBadge,
       tipperScore,
-      tipperRewards,
+      potentialTipperRewards,
       currentAllowance:
         tipper.tipAllowances[0].tipMetaId === currentTipMeta.id
           ? tipper.tipAllowances[0].amount

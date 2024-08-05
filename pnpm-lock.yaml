@@ -589,33 +589,6 @@ importers:
         specifier: ^2.5.11
         version: 2.5.20(@tanstack/react-query@5.40.1)(esbuild@0.19.12)(react-native@0.74.2)(react@18.3.1)(typescript@5.5.4)(viem@2.10.2)
 
-  packages/tipbot:
-    dependencies:
-      '@neynar/nodejs-sdk':
-        specifier: ^1.38.1
-        version: 1.40.0(typescript@5.5.4)
-      '@types/express':
-        specifier: ^4.17.21
-        version: 4.17.21
-      '@types/node':
-        specifier: ^20.14.11
-        version: 20.14.14
-      axios:
-        specifier: ^1.7.2
-        version: 1.7.2
-      dotenv:
-        specifier: ^16.4.5
-        version: 16.4.5
-      express:
-        specifier: ^4.19.2
-        version: 4.19.2
-      ts-node:
-        specifier: ^10.9.2
-        version: 10.9.2(@types/node@20.14.14)(typescript@5.5.4)
-      typescript:
-        specifier: ^5.5.3
-        version: 5.5.4
-
   packages/typescript-config: {}
 
   packages/uniswapv3-staker:
@@ -7913,29 +7886,6 @@ packages:
       '@openapitools/openapi-generator-cli': 2.13.2
       axios: 1.7.2
       viem: 1.21.4(typescript@5.4.5)(zod@3.22.5)
-    transitivePeerDependencies:
-      - '@nestjs/microservices'
-      - '@nestjs/platform-express'
-      - '@nestjs/websockets'
-      - bufferutil
-      - class-transformer
-      - class-validator
-      - debug
-      - encoding
-      - supports-color
-      - typescript
-      - utf-8-validate
-      - zod
-    dev: false
-
-  /@neynar/nodejs-sdk@1.40.0(typescript@5.5.4):
-    resolution: {integrity: sha512-UjdiC7VVICFjWFpkGs18bAkx+arK+gb2Nqz5VV2Znl+ypao2FIDoZQjPtt9rPCAxJ/LlDMripmv10pSvbSsUyw==}
-    engines: {node: '>=19.9.0'}
-    dependencies:
-      '@openapitools/openapi-generator-cli': 2.13.2
-      axios: 1.7.2
-      semver: 7.6.2
-      viem: 1.21.4(typescript@5.5.4)
     transitivePeerDependencies:
       - '@nestjs/microservices'
       - '@nestjs/platform-express'
@@ -29131,37 +29081,6 @@ packages:
       diff: 4.0.2
       make-error: 1.3.6
       typescript: 5.4.5
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
-    dev: false
-
-  /ts-node@10.9.2(@types/node@20.14.14)(typescript@5.5.4):
-    resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
-    hasBin: true
-    peerDependencies:
-      '@swc/core': '>=1.2.50'
-      '@swc/wasm': '>=1.2.50'
-      '@types/node': '*'
-      typescript: '>=2.7'
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      '@swc/wasm':
-        optional: true
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@tsconfig/node10': 1.0.11
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.4
-      '@types/node': 20.14.14
-      acorn: 8.11.3
-      acorn-walk: 8.3.2
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 5.5.4
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
     dev: false
