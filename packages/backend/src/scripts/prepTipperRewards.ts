@@ -3,7 +3,7 @@ import { prisma } from "../prisma";
 
 const currentPrice = 0.0025;
 
-async function prepTipperRewards() {
+async function preppotentialTipperRewards() {
   const tippers = await prisma.user.findMany({
     where: {
       AND: [
@@ -65,4 +65,4 @@ async function prepTipperRewards() {
   console.log(`medianReward: ${medianReward}`);
 }
 
-prepTipperRewards();
+preppotentialTipperRewards();

@@ -33,7 +33,7 @@ const columnStyles: { [key: string]: string } = {
   rank: "w-[28px]",
   username: "w-[150px]",
   tipperScore: "text-right w-[150px]",
-  // tipperRewards: "text-right w-[150px]",
+  potentialTipperRewards: "text-right w-[150px]",
   seasonGivenAmount: "text-right w-[150px]",
   seasonGivenCount: "text-right w-[150px]",
 } as const;

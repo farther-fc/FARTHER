@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/Avatar"; // 
 import { Button } from "@components/ui/Button";
 import { Popover } from "@components/ui/Popover";
 import { Skeleton } from "@components/ui/Skeleton";
+import { TIPPER_REWARDS_POOL } from "@farther/common";
 import { LeaderboardRow } from "@lib/types/apiTypes";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, HelpCircle } from "lucide-react";
@@ -61,26 +62,28 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
       <span>{numeral(row.original.tipperScore).format("0,0.[00]")}</span>
     ),
   },
-  // {
-  //   accessorKey: "tipperRewards",
-  //   header: ({ column }) => (
-  //     <ColumnHeaderButton
-  //       buttonText={
-  //         <>
-  //           Pending
-  //           <br />
-  //           Rewards
-  //         </>
-  //       }
-  //       description={`Pending rewards based on the tipper score. The current rewards pool is ${numeral(TIPPER_REWARDS_POOL).format("0,0a")} $farther, which is distributed pro rata at the end of the month.`}
-  //       onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-  //     />
-  //   ),
+  {
+    accessorKey: "potentialTipperRewards",
+    header: ({ column }) => (
+      <ColumnHeaderButton
+        buttonText={
+          <>
+            Potential
+            <br />
+            Rewards
+          </>
+        }
+        description={`Potential rewards based on the current tipper scores. The rewards pool is currently ${numeral(TIPPER_REWARDS_POOL).format("0,0a")} $farther, which is distributed pro rata at the end of the month.`}
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      />
+    ),
 
-  //   cell: ({ row }) => (
-  //     <span>{numeral(row.original.tipperRewards).format("0,0")} ✨</span>
-  //   ),
-  // },
+    cell: ({ row }) => (
+      <span>
+        {numeral(row.original.potentialTipperRewards).format("0,0")} ✨
+      </span>
+    ),
+  },
   {
     accessorKey: "seasonGivenAmount",
     header: ({ column }) => (
