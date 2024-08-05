@@ -1,3 +1,5 @@
+import { InvalidTipReason } from "@farther/backend";
+import { invalidTipReasons } from "@lib/constants";
 import { NeynarAPIClient } from "@neynar/nodejs-sdk";
 import { requireEnv } from "require-env-variable";
 
@@ -77,14 +79,23 @@ async function fartherByFid(fid: number) {
   // }
 }
 
-function createProgressBar(progress: number, total: number, barLength = 10) {
+const BAR_LENGTH = 10;
+
+function createProgressBar({
+  progress,
+  total,
+}: {
+  progress: number;
+  total: number;
+  barLength?: number;
+}) {
   if (total === 0 || progress > total) {
     progress = 100;
     total = 100;
   }
 
-  const completedLength = Math.round((barLength * progress) / total);
-  const remainingLength = barLength - completedLength;
+  const completedLength = Math.round((BAR_LENGTH * progress) / total);
+  const remainingLength = BAR_LENGTH - completedLength;
 
   let completedEmoji = "🟩";
   if (completedLength >= 8) {
@@ -101,68 +112,75 @@ function createProgressBar(progress: number, total: number, barLength = 10) {
   return progressBar;
 }
 
-async function sendReply(replyData: any) {
-  console.log(replyData);
+export async function tipBot({
+  tipper,
+  tippee,
+  tipAmount,
+  allowance,
+  invalidTipReason,
+  amountTippedThisCycle,
+}: {
+  tipper: string;
+  tippee: string;
+  tipAmount: number;
+  allowance: number;
+  invalidTipReason: InvalidTipReason | null;
+  amountTippedThisCycle: number;
+}) {
+  const remainingAllowance = allowance - amountTippedThisCycle;
 
-  const percentage = Math.round(
-    (replyData.tippedAllowance / replyData.allowance) * 100,
-  );
+  let message = ``;
 
-  let reply;
+  if (invalidTipReason) {
+    message += `🚫 Invalid tip from @${tipper} to @${tippee}\n\nAmount: ${strikeThrough(tipAmount)} ✨\nRemaining: ${remainingAllowance} ✨`;
 
-  if (replyData.meetsMinimum) {
-    if (replyData.isValid) {
-      reply = `✅ ${replyData.tipData.tipAmount}`;
-    } else {
-      reply = "🚫 0";
-    }
-    reply += ` tipped ✨ ${replyData.remainingAllowance} remaining`;
+    const invalidMessage = invalidTipReasons[invalidTipReason];
+
+    message += `\n\n🚫 ${invalidMessage}`;
   } else {
-    reply = `🚫 tip does not meet minumum of ${replyData.tipMinimum}`;
+    message += `✅ Valid tip from @${tipper} to @${tippee}\n\nAmount: ${tipAmount} ✨\nRemaining: ${remainingAllowance} ✨`;
   }
 
-  reply += `
+  const percentage = Math.round((amountTippedThisCycle / allowance) * 100);
 
-${replyData.tippedAllowance} / ${replyData.allowance} (${percentage}%)
+  message += `
+
+${amountTippedThisCycle.toLocaleString()} / ${allowance.toLocaleString()} (${percentage}%)
 `;
 
   // progress bar
   let progressBar;
-  if (replyData.remainingAllowance === 0) {
-    if (replyData.isValid) {
-      progressBar = "✅✅✅✅✅✅✅✅✅✅";
-    } else {
+  if (remainingAllowance === 0) {
+    if (invalidTipReason) {
       progressBar = "🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑";
+    } else {
+      progressBar = "✅✅✅✅✅✅✅✅✅✅";
     }
   } else {
-    progressBar = createProgressBar(
-      replyData.tippedAllowance,
-      replyData.allowance,
-    );
-  }
-
-  reply += progressBar;
-
-  reply += `\n\nMinimum tip amount: ${replyData.tipMinimum}`;
-
-  console.log(reply);
-
-  if (
-    replyData.tipData.fromFid == 243719 ||
-    replyData.tipData.fromFid == 4378 ||
-    replyData.tipData.fromFid == 429188
-  ) {
-    // @downshift.eth
-    console.log("send...");
-    await neynarClient.publishCast(TIP_BOT_UUID, reply, {
-      replyTo: replyData.tipData.hash,
-      embeds: [
-        {
-          url: "https://farther.social",
-        },
-      ],
+    progressBar = createProgressBar({
+      progress: amountTippedThisCycle,
+      total: allowance,
     });
   }
+
+  message += progressBar;
+
+  console.log(message);
+
+  await neynarClient.publishCast(TIP_BOT_UUID, message, {
+    // replyTo: replyData.tipData.hash,
+    // embeds: [
+    //   {
+    //     url: "https://farther.social",
+    //   },
+    // ],
+  });
 }
 
-export async function tipBot() {}
+function strikeThrough(text: string | number) {
+  return text
+    .toString()
+    .split("")
+    .map((char) => char + "\u0336")
+    .join("");
+}

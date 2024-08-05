@@ -69,10 +69,9 @@ export const invalidTipReasons = {
   SELF_TIPPING: "Self tipping",
   BANNED_TIPPEE: "Banned tippee",
   BANNED_TIPPER: "Banned tipper",
-  TIPPEE_LIMIT_REACHED: "Only one tip per recipient per cycle",
-  INELIGIBLE_TIPPEE:
-    "Tip recipient must have at least 100 followers at the time of the tip",
-};
+  TIPPEE_LIMIT_REACHED: "Already tipped recipient during this cycle",
+  INELIGIBLE_TIPPEE: "Recipient must have at least 100 followers",
+} as const;
 
 export const OPENRANK_ENGAGEMENT_DOCS_URL =
   "https://docs.openrank.com/integrations/farcaster/ranking-strategies-on-farcaster#strategy-engagement";

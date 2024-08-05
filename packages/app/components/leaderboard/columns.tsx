@@ -59,7 +59,7 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
       />
     ),
     cell: ({ row }) => (
-      <span>{numeral(row.original.tipperScore).format("0,0.[00]")}</span>
+      <span>{numeral(row.original.tipperScore).format("0,0")}</span>
     ),
   },
   {

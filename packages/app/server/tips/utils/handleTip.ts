@@ -90,7 +90,7 @@ export async function handleTip({
     },
   });
 
-  const amountTippedThisCycle = tipsThisCycle.reduce(
+  const amountTippedSoFar = tipsThisCycle.reduce(
     (acc, tip) => acc + tip.amount,
     0,
   );
@@ -99,7 +99,7 @@ export async function handleTip({
     (tip) => tip.tippeeId === tippeeFid,
   );
 
-  const newTipTotal = amountTippedThisCycle + tipAmount;
+  const amountTippedThisCycle = amountTippedSoFar + tipAmount;
   const availableAllowance =
     tipAllowance.amount - (tipAllowance.invalidatedAmount ?? 0);
 
@@ -110,7 +110,7 @@ export async function handleTip({
 
   const invalidTime = createdAtMs >= tipMeta.createdAt.getTime();
 
-  const exceedsAllowance = newTipTotal > availableAllowance;
+  const exceedsAllowance = amountTippedThisCycle > availableAllowance;
 
   const [tipperIsBanned, tippeeIsBanned] = await isBanned([
     tipper.fid,
@@ -167,7 +167,17 @@ export async function handleTip({
   }
 
   await storeTip(tipData);
-  // tipBot();
+
+  // tipBot({
+  //   amountTippedThisCycle: invalidTipReason
+  //     ? amountTippedSoFar
+  //     : amountTippedThisCycle,
+  //   invalidTipReason,
+  //   tipAmount,
+  //   tipper: tipper.username,
+  //   tippee: tippeeNeynar.username,
+  //   allowance: tipAllowance.amount,
+  // });
 }
 
 async function storeTip({
