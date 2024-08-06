@@ -1,4 +1,5 @@
 import { InvalidTipReason } from "@farther/backend";
+import { ENVIRONMENT } from "@farther/common";
 import { invalidTipReasons } from "@lib/constants";
 import { NeynarAPIClient } from "@neynar/nodejs-sdk";
 import { requireEnv } from "require-env-variable";
@@ -19,35 +20,6 @@ interface CastData {
 }
 
 const neynarClient = new NeynarAPIClient(NEYNAR_TIP_BOT_API_KEY);
-
-function parseCastData(cast: CastData) {
-  if (!cast.data.parent_hash || !cast.data.parent_author) {
-    return null;
-  }
-
-  const hash = cast.data.hash;
-
-  const toFid = cast.data.parent_author.fid;
-  const fromFid = cast.data.author.fid;
-
-  const tipRegex =
-    /(\d+(?:\.\d+)?)\s*(?:\$(f|F)(a|A)(r|R)(t|T)(h|H)(e|E)(r|R)|((f|F)(a|A)(r|R)(t|T)(h|H)(e|E)(r|R)))/;
-  const match = cast.data.text.match(tipRegex);
-  console.log(cast.data.text);
-
-  if (!match) {
-    return null;
-  }
-
-  const tipAmount = Math.round(parseFloat(match[1]));
-
-  return {
-    toFid,
-    fromFid,
-    tipAmount,
-    hash,
-  };
-}
 
 const BAR_LENGTH = 10;
 
@@ -99,6 +71,11 @@ export async function tipBot({
   invalidTipReason: InvalidTipReason | null;
   amountTippedThisCycle: number;
 }) {
+  if (ENVIRONMENT !== "production") {
+    console.error("TipBot is disabled in non-production environments");
+    return;
+  }
+
   const remainingAllowance = allowance - amountTippedThisCycle;
 
   let message = ``;
@@ -126,8 +103,6 @@ export async function tipBot({
     message += `\n\n${amountTippedThisCycle.toLocaleString()} ✨ / ${allowance.toLocaleString()} ✨ (${percentage}%)\n`;
     message += progressBar;
   }
-
-  console.log(message);
 
   await neynarClient.publishCast(TIP_BOT_UUID, message, {
     embeds: [

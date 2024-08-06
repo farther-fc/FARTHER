@@ -64,7 +64,7 @@ export const JULY_ANNOUCEMENT_LINK =
 export const invalidTipReasons = {
   BELOW_MINIMUM: "Below tip minimum",
   INSUFFICIENT_ALLOWANCE: "Insufficient allowance",
-  NULL_ALLOWANCE: "No allowance",
+  NULL_ALLOWANCE: "Sender has no tip allowance",
   INVALID_TIME: "Invalid time",
   SELF_TIPPING: "Self tipping",
   BANNED_TIPPEE: "Banned tippee",
