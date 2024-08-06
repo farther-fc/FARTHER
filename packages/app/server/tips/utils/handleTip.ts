@@ -87,6 +87,7 @@ export async function handleTip({
       tipper: tipper.username,
       tippee: tippeeNeynar.username,
       allowance: 0,
+      tipHash: castData.hash,
     });
     return;
   }
@@ -185,6 +186,7 @@ export async function handleTip({
     tipper: tipper.username,
     tippee: tippeeNeynar.username,
     allowance: tipAllowance.amount,
+    tipHash: castData.hash,
   });
 }
 
