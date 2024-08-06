@@ -4,7 +4,11 @@ async function tipRecipientsInvestigation() {
   const tipRecipients = await prisma.user.findMany({
     where: {
       tipsReceived: {
-        some: {},
+        every: {
+          createdAt: {
+            gte: new Date("2024-08-01"),
+          },
+        },
       },
     },
     select: {
@@ -40,9 +44,9 @@ async function tipRecipientsInvestigation() {
     topRecipients.map((tr) => {
       return {
         tippeeId: tr.id,
-        uniqueTippees: tr.tipsReceived
+        uniqueTippers: tr.tipsReceived
           .map((t) => t.tipper.id)
-          .filter((value, index, self) => self.indexOf(value) === index).length,
+          .filter((id, index, self) => self.indexOf(id) === index).length,
         totalRecevied: tr.totalReceived,
         meanPerTipper: tr.totalReceived / tr.tipsReceived.length,
         medianPerTipper: tr.tipsReceived.sort((a, b) => a.amount - b.amount)[
