@@ -11,7 +11,7 @@ import { cache } from "@lib/cache";
 import { Cast } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { InvalidTipReason } from "@prisma/client";
 import * as Sentry from "@sentry/nextjs";
-// import { tipBot } from "server/tips/tipBot";
+import { tipBot } from "server/tips/tipBot";
 import { getLatestTipAllowance } from "./getLatestTipAllowance";
 import { isBanned } from "./isBanned";
 
@@ -80,6 +80,14 @@ export async function handleTip({
 
   if (!tipAllowance) {
     console.warn(`No tip allowance found for user ${tipper.fid}`);
+    tipBot({
+      amountTippedThisCycle: 0,
+      tipAmount,
+      invalidTipReason: InvalidTipReason.NULL_ALLOWANCE,
+      tipper: tipper.username,
+      tippee: tippeeNeynar.username,
+      allowance: 0,
+    });
     return;
   }
 
@@ -168,16 +176,16 @@ export async function handleTip({
 
   await storeTip(tipData);
 
-  // tipBot({
-  //   amountTippedThisCycle: invalidTipReason
-  //     ? amountTippedSoFar
-  //     : amountTippedThisCycle,
-  //   invalidTipReason,
-  //   tipAmount,
-  //   tipper: tipper.username,
-  //   tippee: tippeeNeynar.username,
-  //   allowance: tipAllowance.amount,
-  // });
+  tipBot({
+    amountTippedThisCycle: invalidTipReason
+      ? amountTippedSoFar
+      : amountTippedThisCycle,
+    invalidTipReason,
+    tipAmount,
+    tipper: tipper.username,
+    tippee: tippeeNeynar.username,
+    allowance: tipAllowance.amount,
+  });
 }
 
 async function storeTip({
