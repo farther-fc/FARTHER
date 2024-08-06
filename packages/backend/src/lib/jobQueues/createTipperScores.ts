@@ -1,4 +1,5 @@
 import {
+  ENVIRONMENT,
   OPENRANK_SNAPSHOT_INTERVAL,
   cacheTypes,
   dayUTC,
@@ -116,6 +117,15 @@ async function createTipperScoresBatch(job: Job) {
     new Decimal(0),
   );
 
+  if (fid === 21941) {
+    tipScores.forEach((tip) => {
+      console.info(
+        `hash: ${tip.hash}, score: ${tip.changePerToken.toNumber()}`,
+      );
+    });
+    console.info(`totalScore: ${totalScore.toNumber()}`);
+  }
+
   const tipUpdates: Promise<Tip>[] = [];
 
   tipUpdates.push(
@@ -148,16 +158,8 @@ async function createTipperScoresBatch(job: Job) {
       extra: {
         fid,
         tipperScore,
+        env: ENVIRONMENT,
       },
-    });
-  }
-
-  if (fid === 21941) {
-    console.info(`fid: ${fid}, score: ${tipperScore.toNumber()}`);
-    tipScores.forEach((tip) => {
-      console.info(
-        `hash: ${tip.hash}, score: ${tip.changePerToken.toNumber()}`,
-      );
     });
   }
 
@@ -202,7 +204,11 @@ queueEvents.on("completed", async (job) => {
     await flushCache({
       type: cacheTypes.LEADERBOARD,
     });
-    console.info(`ALL DONE: ${queueNames.CREATE_TIPPER_SCORES}`);
+
+    console.info(
+      `ALL DONE: ${queueNames.CREATE_TIPPER_SCORES}`,
+      failed > 0 ? `- FAILED JOBS: ${failed}` : "",
+    );
 
     await createTipperScoresQueue.drain();
   }
