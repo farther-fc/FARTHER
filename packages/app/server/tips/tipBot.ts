@@ -49,36 +49,6 @@ function parseCastData(cast: CastData) {
   };
 }
 
-async function fartherByFid(fid: number) {
-  // const baseUrl = "https://farther.social/api/v1/public.user.byFid";
-  // const params = { fid: fid };
-  // const queryString = encodeURIComponent(JSON.stringify(params));
-  // const url = `${baseUrl}?input=${queryString}`;
-  // try {
-  //   const response = await axios.get(url);
-  //   const data = response.data;
-  //   console.log(`data fetched from farther api for fid ${fid}:`);
-  //   const allowance = data.result.data.tips.currentCycle.allowance;
-  //   let remainingAllowance =
-  //     data.result.data.tips.currentCycle.remainingAllowance;
-  //   if (
-  //     remainingAllowance === null &&
-  //     data.result.data.tips.currentCycle.givenAmount === 0
-  //   ) {
-  //     remainingAllowance = allowance;
-  //   }
-  //   const tipMinimum = data.result.data.tips.currentCycle.tipMinimum;
-  //   return {
-  //     allowance,
-  //     remainingAllowance,
-  //     tipMinimum,
-  //   };
-  // } catch (error) {
-  //   console.error("Error fetching data:", error);
-  //   return null;
-  // }
-}
-
 const BAR_LENGTH = 10;
 
 function createProgressBar({
@@ -98,7 +68,9 @@ function createProgressBar({
   const remainingLength = BAR_LENGTH - completedLength;
 
   let completedEmoji = "🟩";
-  if (completedLength >= 8) {
+  if (completedLength === BAR_LENGTH) {
+    completedEmoji = "🟩";
+  } else if (completedLength >= 8) {
     completedEmoji = "🟧";
   } else if (completedLength > 6) {
     completedEmoji = "🟨";
@@ -131,56 +103,37 @@ export async function tipBot({
 
   let message = ``;
 
+  const amountAndRemaining = `\n\nTip amount: ${tipAmount} ✨\nRemaining: ${remainingAllowance} ✨`;
+
   if (invalidTipReason) {
-    message += `🚫 Invalid tip from @${tipper} to @${tippee}\n\nAmount: ${strikeThrough(tipAmount)} ✨\nRemaining: ${remainingAllowance} ✨`;
+    message += `🚫 Invalid tip from @${tipper} to @${tippee}`;
 
     const invalidMessage = invalidTipReasons[invalidTipReason];
 
-    message += `\n\n🚫 ${invalidMessage}`;
+    message += `\n\nReason: ${invalidMessage}${amountAndRemaining}`;
   } else {
-    message += `✅ Valid tip from @${tipper} to @${tippee}\n\nAmount: ${tipAmount} ✨\nRemaining: ${remainingAllowance} ✨`;
+    message += `✅ Valid tip from @${tipper} to @${tippee}${amountAndRemaining}`;
   }
 
   const percentage = Math.round((amountTippedThisCycle / allowance) * 100);
 
-  message += `
-
-${amountTippedThisCycle.toLocaleString()} / ${allowance.toLocaleString()} (${percentage}%)
-`;
-
-  // progress bar
-  let progressBar;
-  if (remainingAllowance === 0) {
-    if (invalidTipReason) {
-      progressBar = "🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑";
-    } else {
-      progressBar = "✅✅✅✅✅✅✅✅✅✅";
-    }
-  } else {
-    progressBar = createProgressBar({
+  if (!invalidTipReason) {
+    const progressBar = createProgressBar({
       progress: amountTippedThisCycle,
       total: allowance,
     });
-  }
 
-  message += progressBar;
+    message += `\n\n${amountTippedThisCycle.toLocaleString()} ✨ / ${allowance.toLocaleString()} ✨ (${percentage}%)\n`;
+    message += progressBar;
+  }
 
   console.log(message);
 
   await neynarClient.publishCast(TIP_BOT_UUID, message, {
-    // replyTo: replyData.tipData.hash,
-    // embeds: [
-    //   {
-    //     url: "https://farther.social",
-    //   },
-    // ],
+    embeds: [
+      {
+        url: "https://farther.social/tips",
+      },
+    ],
   });
-}
-
-function strikeThrough(text: string | number) {
-  return text
-    .toString()
-    .split("")
-    .map((char) => char + "\u0336")
-    .join("");
 }
