@@ -1,5 +1,0 @@
-# This tells Heroku which files to ignore
-
-packages/app
-packages/protocol
-packages/uniswapv3-staker
