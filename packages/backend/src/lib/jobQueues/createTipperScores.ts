@@ -3,6 +3,7 @@ import {
   cacheTypes,
   dayUTC,
 } from "@farther/common";
+import * as Sentry from "@sentry/node";
 import { Job, QueueEvents, Worker } from "bullmq";
 import dayjs from "dayjs";
 import Decimal from "decimal.js";
@@ -20,6 +21,12 @@ import { getTipsFromDate } from "../getTipsFromDate";
 import { flushCache } from "../utils/flushCache";
 import { getTipScores } from "../utils/getTipScores";
 import { dbScheduler } from "../utils/helpers";
+
+// const allScores: {
+//   username: string | null;
+//   fid: number;
+//   score: number;
+// }[] = [];
 
 type JobData = {
   fid: number;
@@ -129,12 +136,27 @@ async function createTipperScoresBatch(job: Job) {
   // Return average
   const tipperScore = totalScore.div(tips.length);
 
-  await prisma.tipperScore.create({
-    data: {
-      userId: fid,
-      score: tipperScore.toNumber(),
-    },
-  });
+  try {
+    await prisma.tipperScore.create({
+      data: {
+        userId: fid,
+        score: tipperScore.toNumber(),
+      },
+    });
+  } catch (error) {
+    Sentry.captureException(error, {
+      extra: {
+        fid,
+        tipperScore,
+      },
+    });
+  }
+
+  // allScores.push({
+  //   username: tipperData.username,
+  //   fid: fid,
+  //   score: tipperScore.toNumber(),
+  // });
 
   await flushCache({
     type: cacheTypes.USER,
@@ -156,6 +178,15 @@ queueEvents.on("completed", async (job) => {
   console.info(`done: ${job.jobId} (${completed}/${total}).`);
 
   if (total === completed + failed) {
+    // await writeFile(
+    //   `tipperScores.json`,
+    //   JSON.stringify(
+    //     allScores.sort((a, b) => b.score - a.score),
+    //     null,
+    //     2,
+    //   ),
+    // );
+
     await flushCache({
       type: cacheTypes.USER_TIPS,
     });
