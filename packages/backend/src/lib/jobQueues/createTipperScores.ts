@@ -152,6 +152,15 @@ async function createTipperScoresBatch(job: Job) {
     });
   }
 
+  if (fid === 21941) {
+    console.info(`fid: ${fid}, score: ${tipperScore.toNumber()}`);
+    tipScores.forEach((tip) => {
+      console.info(
+        `hash: ${tip.hash}, score: ${tip.changePerToken.toNumber()}`,
+      );
+    });
+  }
+
   // allScores.push({
   //   username: tipperData.username,
   //   fid: fid,
