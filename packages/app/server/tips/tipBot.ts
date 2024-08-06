@@ -63,6 +63,7 @@ export async function tipBot({
   allowance,
   invalidTipReason,
   amountTippedThisCycle,
+  tipHash,
 }: {
   tipper: string;
   tippee: string;
@@ -70,6 +71,7 @@ export async function tipBot({
   allowance: number;
   invalidTipReason: InvalidTipReason | null;
   amountTippedThisCycle: number;
+  tipHash: string;
 }) {
   if (ENVIRONMENT !== "production") {
     console.error("TipBot is disabled in non-production environments");
@@ -105,10 +107,11 @@ export async function tipBot({
   }
 
   await neynarClient.publishCast(TIP_BOT_UUID, message, {
-    embeds: [
-      {
-        url: "https://farther.social/tips",
-      },
-    ],
+    replyTo: tipHash,
+    // embeds: [
+    //   {
+    //     url: "https://farther.social/tips",
+    //   },
+    // ],
   });
 }
