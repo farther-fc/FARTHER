@@ -21,10 +21,10 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
     accessorKey: "username",
     header: "User",
     cell: ({ row }) => {
-      const { pfpUrl, username } = row.original;
+      const { pfpUrl, username, fid } = row.original;
       return (
         <Link
-          href={`https://warpcast.com/${username}`}
+          href={`https://warpcast.com/~/profiles/${fid}`}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center space-x-2"
