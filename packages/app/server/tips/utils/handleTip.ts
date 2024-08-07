@@ -188,7 +188,7 @@ export async function handleTip({
     tipAmount,
     tipper: tipper.username,
     tippee: tippeeNeynar.username,
-    allowance: tipAllowance.amount,
+    availableAllowance: availableAllowance,
     tipHash: castData.hash,
   });
 }

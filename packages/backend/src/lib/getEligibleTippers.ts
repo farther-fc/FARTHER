@@ -10,7 +10,7 @@ import { prisma } from "../prisma";
 import { getHolders } from "./getHolders";
 
 export async function getEligibleTippers() {
-  const prevTipMeta = await prisma.tipMeta.findFirst({
+  const latestTipMeta = await prisma.tipMeta.findFirst({
     orderBy: {
       createdAt: "desc",
     },
@@ -20,8 +20,8 @@ export async function getEligibleTippers() {
     },
   });
 
-  const previousDistributionTime = prevTipMeta
-    ? prevTipMeta.createdAt
+  const previousDistributionTime = latestTipMeta
+    ? latestTipMeta.createdAt
     : new Date(0);
 
   const allHolders = await getHolders({ includeLPs: true });
@@ -47,7 +47,12 @@ export async function getEligibleTippers() {
       rateLimit: 10,
     })
   )
-    .filter((score) => score.rank < TIPPER_OPENRANK_THRESHOLD_REQUIREMENT)
+    .filter((score) =>
+      // TODO: remove ID check after the 8/8/2024 cycle begins
+      latestTipMeta?.id !== "360c5838-e21a-497e-848c-8f9d9d0ca067"
+        ? score.rank < TIPPER_OPENRANK_THRESHOLD_REQUIREMENT
+        : true,
+    )
     .map((score) => score.fid);
 
   const filteredHolders = eligibleHolders.filter((holder) =>

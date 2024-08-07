@@ -60,7 +60,7 @@ export async function tipBot({
   tipper,
   tippee,
   tipAmount,
-  allowance,
+  availableAllowance,
   invalidTipReason,
   amountTippedThisCycle,
   tipHash,
@@ -68,7 +68,7 @@ export async function tipBot({
   tipper: string;
   tippee: string;
   tipAmount: number;
-  allowance: number;
+  availableAllowance: number;
   invalidTipReason: InvalidTipReason | null;
   amountTippedThisCycle: number;
   tipHash: string;
@@ -78,7 +78,7 @@ export async function tipBot({
     return;
   }
 
-  const remainingAllowance = allowance - amountTippedThisCycle;
+  const remainingAllowance = availableAllowance - amountTippedThisCycle;
 
   let message = ``;
 
