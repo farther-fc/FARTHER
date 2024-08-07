@@ -3,7 +3,7 @@ export * from "./axios";
 export * from "./constants";
 export * from "./env";
 export * from "./errors";
-export * from "./getOpenRankScore";
+export * from "./getOpenRankScores";
 export * from "./intToBigInt";
 export * from "./merkle";
 export * from "./neynar";

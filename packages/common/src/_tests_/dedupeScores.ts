@@ -1,4 +1,4 @@
-import { dedupeScores } from "src/getOpenRankScore";
+import { dedupeScores } from "src/getOpenRankScores";
 
 describe("dedupeScores", () => {
   it("should remove duplicate scores", () => {

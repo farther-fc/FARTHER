@@ -13,7 +13,7 @@
   },
   "include": [
     "src/**/*.ts",
-    "../common/src/getOpenRankScore.ts",
+    "../common/src/getOpenRankScores.ts",
     "../common/src/axios.ts",
     "src/lib/updateEligibleTippers.ts",
     "src/lib/invalidateAllowance.ts",

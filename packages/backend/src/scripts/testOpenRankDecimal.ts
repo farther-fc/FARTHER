@@ -1,9 +1,9 @@
-import { OPENRANK_URL, axios } from "@farther/common";
+import { OPENRANK_ENGAGEMENT_URL, axios } from "@farther/common";
 import Decimal from "decimal.js";
 import { prisma } from "../prisma";
 
 async function testOpenRankDecimal() {
-  const response = await axios.post(OPENRANK_URL, [4378]);
+  const response = await axios.post(OPENRANK_ENGAGEMENT_URL, [4378]);
 
   const score = response.data.result[0].score;
 

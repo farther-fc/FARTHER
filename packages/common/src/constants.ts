@@ -245,8 +245,11 @@ export type CacheType = (typeof cacheTypes)[keyof typeof cacheTypes];
 
 export const TIP_META_RESET_HOUR = 19;
 
-export const OPENRANK_URL =
+export const OPENRANK_ENGAGEMENT_URL =
   "https://graph.cast.k3l.io/scores/global/engagement/fids";
+
+export const OPENRANK_FOLLOWING_URL =
+  "https://graph.cast.k3l.io/scores/global/following/fids";
 
 export const OPENRANK_BATCH_LIMIT = 100;
 
@@ -293,3 +296,5 @@ export const OPENRANK_HISTORY_FILE_URL =
   `https://k3l-cast-to-dune.s3.eu-central-1.amazonaws.com/constant/${OPENRANK_HISTORY_FILE_NAME}.gz` as const;
 
 export const ACTIVE_TIP_DAYS_REQUIRED = 5;
+
+export const TIPPER_OPENRANK_THRESHOLD_REQUIREMENT = 100_000;
