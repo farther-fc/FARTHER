@@ -103,5 +103,25 @@ export function getFilteredTippers(
 
 export async function getTippersForLeaderboard() {
   const rawTippers = await getRawLeaderboard();
-  return getFilteredTippers(rawTippers);
+  const tippers = getFilteredTippers(rawTippers);
+
+  // const diff = rawTippers.filter((t) => !tippers.includes(t));
+
+  // diff.forEach((t) => {
+  //   const firstTip = t.tipsGiven.reduce((acc, t) => {
+  //     if (t.createdAt < acc) {
+  //       return t.createdAt;
+  //     }
+  //     return acc;
+  //   }, t.tipsGiven[0].createdAt);
+
+  //   console.log({
+  //     id: t.id,
+  //     firstTip,
+  //     totalActiveDays: new Set(t.tipsGiven.map((t) => t.tipAllowanceId)).size,
+  //   });
+  // });
+
+  // console.log("tippers", tippers.length);
+  return tippers;
 }

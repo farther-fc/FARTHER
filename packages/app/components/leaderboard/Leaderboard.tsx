@@ -13,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@components/ui/Table";
+import { ACTIVE_TIP_DAYS_REQUIRED } from "@farther/common";
 import { trpcClient } from "@lib/trpcClient";
 import { LeaderboardRow } from "@lib/types/apiTypes";
 import {
@@ -114,7 +115,12 @@ export function Leaderboard() {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  <h3>No results</h3>
+                  <p className="max-w-[250px] m-auto mb-8 text-muted">
+                    <strong>NOTE:</strong> Tippers must be active for at least{" "}
+                    {ACTIVE_TIP_DAYS_REQUIRED} days during the month to be
+                    eligible for tipper rewards and appear on the leaderboard.
+                  </p>
                 </TableCell>
               </TableRow>
             )}
