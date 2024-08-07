@@ -1,6 +1,8 @@
 import {
+  TIPPER_OPENRANK_THRESHOLD_REQUIREMENT,
   TIPPER_REQUIRED_FARTHER_BALANCE,
   WAD_SCALER,
+  getOpenRankScores,
   isBanned,
 } from "@farther/common";
 import Decimal from "decimal.js";
@@ -38,10 +40,24 @@ export async function getEligibleTippers() {
     );
   });
 
+  const eligibleFidsBasedOnOpenRank = (
+    await getOpenRankScores({
+      fids: eligibleHolders.map((eh) => eh.fid),
+      type: "FOLLOWING",
+      rateLimit: 10,
+    })
+  )
+    .filter((score) => score.rank < TIPPER_OPENRANK_THRESHOLD_REQUIREMENT)
+    .map((score) => score.fid);
+
+  const filteredHolders = eligibleHolders.filter((holder) =>
+    eligibleFidsBasedOnOpenRank.includes(holder.fid),
+  );
+
   const existingHolders = await prisma.user.findMany({
     where: {
       id: {
-        in: eligibleHolders.map((eh) => eh.fid),
+        in: filteredHolders.map((eh) => eh.fid),
       },
     },
     include: tipperInclude(previousDistributionTime),
@@ -49,12 +65,12 @@ export async function getEligibleTippers() {
 
   const existingHolderFids = existingHolders.map((eh) => eh.id);
 
-  const newHolderFids = eligibleHolders.filter(
+  const newHolderFids = filteredHolders.filter(
     (eh) => !existingHolderFids.includes(eh.fid),
   );
 
   const newHolders = await prisma.$transaction(
-    newHolderFids.map((user, i) =>
+    newHolderFids.map((user) =>
       prisma.user.create({
         data: {
           id: user.fid,
@@ -65,10 +81,10 @@ export async function getEligibleTippers() {
   );
 
   return [...existingHolders, ...newHolders].map((holder) => {
-    const foundHolder = eligibleHolders.find((eh) => eh.fid === holder.id);
+    const foundHolder = filteredHolders.find((eh) => eh.fid === holder.id);
     // This is mainly to silence typescript
     if (!foundHolder) {
-      throw new Error(`Holder ${holder.id} not found in eligibleHolders`);
+      throw new Error(`Holder ${holder.id} not found in filteredHolders`);
     }
     return {
       ...holder,

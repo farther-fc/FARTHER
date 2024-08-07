@@ -159,7 +159,10 @@ export async function handleTip({
   } else {
     let tippeeOpenRankScore: number | null = null;
     try {
-      const openRankScores = await getOpenRankScores([tippeeFid]);
+      const openRankScores = await getOpenRankScores({
+        fids: [tippeeFid],
+        type: "ENGAGEMENT",
+      });
       tippeeOpenRankScore =
         openRankScores && openRankScores[0] ? openRankScores[0].score : null;
     } catch (error) {

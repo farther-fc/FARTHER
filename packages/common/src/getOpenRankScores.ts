@@ -2,7 +2,11 @@ import { AxiosResponse } from "axios";
 import Bottleneck from "bottleneck";
 import { chunk } from "underscore";
 import { axios } from "./axios";
-import { OPENRANK_BATCH_LIMIT, OPENRANK_URL } from "./constants";
+import {
+  OPENRANK_BATCH_LIMIT,
+  OPENRANK_ENGAGEMENT_URL,
+  OPENRANK_FOLLOWING_URL,
+} from "./constants";
 
 export type OpenRankData = {
   result: {
@@ -23,20 +27,29 @@ if (!NEXT_PUBLIC_OPENRANK_API_KEY) {
   );
 }
 
-const RATE_LIMIT = NEXT_PUBLIC_OPENRANK_API_KEY ? 50 : 10;
+export const getOpenRankScores = async ({
+  fids,
+  type,
+  rateLimit = NEXT_PUBLIC_OPENRANK_API_KEY ? 50 : 10,
+}: {
+  fids: number[];
+  type: "FOLLOWING" | "ENGAGEMENT";
+  rateLimit?: number;
+}) => {
+  const scheduler = new Bottleneck({
+    maxConcurrent: 30,
+    minTime: 1000 / rateLimit,
+  });
 
-const scheduler = new Bottleneck({
-  maxConcurrent: 30,
-  minTime: 1000 / RATE_LIMIT,
-});
-
-export const getOpenRankScores = async (fids: number[]) => {
   const fidChunks = chunk(fids, OPENRANK_BATCH_LIMIT);
+
+  const url =
+    type === "FOLLOWING" ? OPENRANK_FOLLOWING_URL : OPENRANK_ENGAGEMENT_URL;
 
   return await Promise.all(
     fidChunks.map((fids) =>
       scheduler.schedule(() =>
-        axios.post(OPENRANK_URL, fids, {
+        axios.post(url, fids, {
           headers: {
             "API-Key": NEXT_PUBLIC_OPENRANK_API_KEY,
           },

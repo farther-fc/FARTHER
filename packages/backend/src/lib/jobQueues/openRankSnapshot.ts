@@ -1,5 +1,9 @@
-import { cronSchedules, dayUTC, isProduction } from "@farther/common";
-import { getOpenRankScores } from "@farther/common/src/getOpenRankScore";
+import {
+  cronSchedules,
+  dayUTC,
+  getOpenRankScores,
+  isProduction,
+} from "@farther/common";
 import * as Sentry from "@sentry/node";
 import { Job, QueueEvents, Worker } from "bullmq";
 import Decimal from "decimal.js";
@@ -70,7 +74,10 @@ export async function openRankSnapshot() {
 async function storeScores(job: Job) {
   const tippeeFids = job.data.fids as number[];
 
-  const scoresData = await getOpenRankScores(tippeeFids);
+  const scoresData = await getOpenRankScores({
+    fids: tippeeFids,
+    type: "ENGAGEMENT",
+  });
 
   const snapshotTimeId = getLatestCronTime(cronSchedules.OPENRANK_SNAPSHOT);
 
