@@ -6,6 +6,8 @@ import { ExternalLink } from "@components/ui/ExternalLink";
 import { Popover } from "@components/ui/Popover";
 import { Skeleton } from "@components/ui/Skeleton";
 import {
+  ACTIVE_TIP_DAYS_REQUIRED,
+  DAILY_USD_TOTAL_ALLOWANCE,
   TIPPEE_FOLLOWERS_MIN,
   TIPPER_REQUIRED_FARTHER_BALANCE,
   TIPPER_REWARDS_POOL,
@@ -107,14 +109,13 @@ function TipsPage() {
 
         <h2 className="mt-20 mb-8">Your Stats</h2>
         <TipsUserInfo />
-        <h2 className="mt-20">Tipping Info</h2>
-        <h3 className="mt-12">Overview</h3>
+        <h2>Tipping Info</h2>
+        <h3>Overview</h3>
         <p>
           Unlike most other tipping tokens on Farcaster, Farther tips are
           designed to boost quality daily active users. This is acheived by{" "}
-          <Link href={routes.tips.subroutes.history.path}>scoring tips</Link>{" "}
-          based on how much the recipients' engagement increases throughout each
-          month. The engagement is measured by{" "}
+          scoring tips based on how much the recipients' engagement increases
+          throughout each month. The engagement is measured by{" "}
           <ExternalLink href={OPENRANK_ENGAGEMENT_DOCS_URL}>
             OpenRank
           </ExternalLink>
@@ -122,14 +123,33 @@ function TipsPage() {
           end of the month, a rewards pool is distributed pro rata based on each
           tipper's score.
         </p>
-        <br />
         <p>
           You can see all your tip scores on the{" "}
           <Link href={routes.tips.subroutes.history.path}>
             tip history page
           </Link>
         </p>
-        <h3 className="mt-12">How to tip</h3>
+        <div>
+          <h3>Eligibility</h3>
+          <p>
+            To become eligible for an allowance, tippers must currently be
+            holding {TIPPER_REQUIRED_FARTHER_BALANCE.toLocaleString()} Farther
+            tokens in a wallet they've verified on Warpcast. This threshold will
+            adjust to include more holders over time, based on the token's
+            current price. This ensures the allowance for each tipper remains
+            valuable enough to make tipping worthwhile. The total daily
+            allowance pool is targets $
+            {numeral(DAILY_USD_TOTAL_ALLOWANCE).format("0,0")} of Farther per
+            day plus any unused amount from the previous day, which is equally
+            distributed to all tippers.
+          </p>
+          <p>
+            Before becoming eligible for tipper rewards and appearing on the
+            leaderboard, tippers must send a tip on at least{" "}
+            {ACTIVE_TIP_DAYS_REQUIRED} days during the month.
+          </p>
+        </div>
+        <h3>How to tip</h3>
         <p>
           Send tips by including text like this in replies to casts
           (capitalization and spaces are ignored):
@@ -138,18 +158,7 @@ function TipsPage() {
           <li>{`42069 farther`}</li>
           <li>{`42069 $farther`}</li>
         </ul>
-        <div className="mt-12">
-          <h3>Eligibility</h3>
-          <p>
-            To become eligible for an allowance, tippers must currently be
-            holding {TIPPER_REQUIRED_FARTHER_BALANCE.toLocaleString()} Farther
-            tokens in a wallet they've verified on Warpcast. This threshold will
-            adjust to include more holders over time, based on the token's
-            current price. This ensures the allowance for each tipper remains
-            valuable enough to make tipping worthwhile.{" "}
-          </p>
-        </div>
-        <h4>Additional rules</h4>
+        <h3>Additional rules</h3>
         <ul>
           <li>Self-tips are rejected</li>
           <li>

@@ -1,13 +1,8 @@
 import { prisma } from "@farther/backend";
-import {
-  ENVIRONMENT,
-  FARTHER_OWNER_FID,
-  TIPPER_REWARDS_POOL,
-  cacheTypes,
-  getStartOfMonthUTC,
-} from "@farther/common";
+import { ENVIRONMENT, TIPPER_REWARDS_POOL, cacheTypes } from "@farther/common";
 import { dummyLeaderBoard } from "@lib/__tests__/testData";
 import { cache } from "@lib/cache";
+import { getTippersForLeaderboard } from "server/tips/utils/getTippersForLeaderboard";
 
 export async function tipsLeaderboard() {
   const cachedLeaderboard = await cache.get({
@@ -41,67 +36,7 @@ export async function getLeaderboardData() {
     return [];
   }
 
-  const tippers = await prisma.user.findMany({
-    where: {
-      id: {
-        not: FARTHER_OWNER_FID,
-      },
-      tipsGiven: {
-        some: {
-          invalidTipReason: null,
-          createdAt: {
-            // TODO: change this to whenever snapshot happens!
-            gte: getStartOfMonthUTC(0),
-          },
-        },
-      },
-    },
-    select: {
-      id: true,
-      username: true,
-      displayName: true,
-      pfpUrl: true,
-      powerBadge: true,
-      tipperScores: {
-        where: {
-          createdAt: {
-            // TODO: change this to whenever snapshot happens!
-            gte: getStartOfMonthUTC(0),
-          },
-        },
-        orderBy: {
-          createdAt: "desc",
-        },
-        take: 1,
-      },
-      tipsGiven: {
-        where: {
-          invalidTipReason: null,
-          createdAt: {
-            gte: getStartOfMonthUTC(0),
-          },
-        },
-      },
-      tipAllowances: {
-        orderBy: {
-          createdAt: "desc",
-        },
-        select: {
-          createdAt: true,
-          amount: true,
-          tipMetaId: true,
-          tips: {
-            where: {
-              invalidTipReason: null,
-            },
-            select: {
-              amount: true,
-            },
-          },
-        },
-      },
-    },
-  });
+  const tippers = await getTippersForLeaderboard();
 
   const totalTipperScore = tippers
     .map((tipper) => tipper.tipperScores[0]?.score ?? 0)

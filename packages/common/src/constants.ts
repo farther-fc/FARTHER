@@ -291,3 +291,5 @@ export const OPENRANK_HISTORY_FILE_NAME = "k3l_cast_globaltrust.csv";
 
 export const OPENRANK_HISTORY_FILE_URL =
   `https://k3l-cast-to-dune.s3.eu-central-1.amazonaws.com/constant/${OPENRANK_HISTORY_FILE_NAME}.gz` as const;
+
+export const ACTIVE_TIP_DAYS_REQUIRED = 5;
