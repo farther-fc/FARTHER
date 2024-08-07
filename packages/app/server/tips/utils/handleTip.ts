@@ -86,7 +86,7 @@ export async function handleTip({
       invalidTipReason: InvalidTipReason.NULL_ALLOWANCE,
       tipper: tipper.username,
       tippee: tippeeNeynar.username,
-      allowance: 0,
+      availableAllowance: 0,
       tipHash: castData.hash,
     });
     return;

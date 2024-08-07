@@ -94,15 +94,17 @@ export async function tipBot({
     message += `✅ Valid tip from @${tipper} to @${tippee}${amountAndRemaining}`;
   }
 
-  const percentage = Math.round((amountTippedThisCycle / allowance) * 100);
+  const percentage = Math.round(
+    (amountTippedThisCycle / availableAllowance) * 100,
+  );
 
   if (!invalidTipReason) {
     const progressBar = createProgressBar({
       progress: amountTippedThisCycle,
-      total: allowance,
+      total: availableAllowance,
     });
 
-    message += `\n\n${amountTippedThisCycle.toLocaleString()} ✨ / ${allowance.toLocaleString()} ✨ (${percentage}%)\n`;
+    message += `\n\n${amountTippedThisCycle.toLocaleString()} ✨ / ${availableAllowance.toLocaleString()} ✨ (${percentage}%)\n`;
     message += progressBar;
   }
 
