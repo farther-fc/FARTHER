@@ -166,18 +166,23 @@ function TipsPage() {
               in a wallet verified on Warpcast. This threshold will adjust to
               include more holders over time, based on the token's current
               price. This ensures the allowance for each tipper remains valuable
-              enough to make tipping worthwhile. The total daily allowance pool
-              is targets ${numeral(DAILY_USD_TOTAL_ALLOWANCE).format("0,0")} of
-              Farther per day plus any unused amount from the previous day,
-              which is equally distributed to all tippers.
+              enough to make tipping worthwhile.
             </li>
           </ol>
+          <h4>Tipper rewards eligibility</h4>
           <p>
             Before becoming eligible for tipper rewards and appearing on the
             leaderboard, tippers must send a tip on at least{" "}
             {ACTIVE_TIP_DAYS_REQUIRED} days during the month.
           </p>
         </div>
+        <h3>Allowance</h3>
+        <p>
+          The total daily allowance pool is targets $
+          {numeral(DAILY_USD_TOTAL_ALLOWANCE).format("0,0")} of Farther per day
+          plus any unused amount from the previous day, which is equally
+          distributed to all tippers.
+        </p>
         <h3>How to tip</h3>
         <p>
           Send tips by including text like this in replies to casts
