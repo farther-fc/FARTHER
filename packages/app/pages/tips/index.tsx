@@ -9,6 +9,7 @@ import {
   ACTIVE_TIP_DAYS_REQUIRED,
   DAILY_USD_TOTAL_ALLOWANCE,
   TIPPEE_FOLLOWERS_MIN,
+  TIPPER_OPENRANK_THRESHOLD_REQUIREMENT,
   TIPPER_REQUIRED_FARTHER_BALANCE,
   TIPPER_REWARDS_POOL,
   dayUTC,
@@ -82,7 +83,21 @@ function TipsPage() {
             <div className="flex flex-col text-right">
               <span className="text-ghost text-sm uppercase">Tippers</span>
               <Popover
-                content={`You must currently have a total balance of ${TIPPER_REQUIRED_FARTHER_BALANCE.toLocaleString()} FARTHER to receive a tip allowance. This number will adjust over time. If you are providing liquidity in the Uniswap 0.3% pool, that will be included.`}
+                content={
+                  <>
+                    You must currently have a total balance of $
+                    {TIPPER_REQUIRED_FARTHER_BALANCE.toLocaleString()} FARTHER
+                    and an{" "}
+                    <ExternalLink href={OPENRANK_ENGAGEMENT_DOCS_URL}>
+                      OpenRank following rank
+                    </ExternalLink>{" "}
+                    below{" "}
+                    {TIPPER_OPENRANK_THRESHOLD_REQUIREMENT.toLocaleString()} to
+                    receive a tip allowance. This number will adjust over time.
+                    If you are providing liquidity in the Uniswap 0.3% pool,
+                    that will be included.
+                  </>
+                }
               >
                 <h5 className="flex items-center mt-2 mb-0 justify-end">
                   {eligibleTippers}
@@ -131,24 +146,43 @@ function TipsPage() {
         </p>
         <div>
           <h3>Eligibility</h3>
-          <p>
-            To become eligible for an allowance, tippers must currently be
-            holding {TIPPER_REQUIRED_FARTHER_BALANCE.toLocaleString()} Farther
-            tokens in a wallet they've verified on Warpcast. This threshold will
-            adjust to include more holders over time, based on the token's
-            current price. This ensures the allowance for each tipper remains
-            valuable enough to make tipping worthwhile. The total daily
-            allowance pool is targets $
-            {numeral(DAILY_USD_TOTAL_ALLOWANCE).format("0,0")} of Farther per
-            day plus any unused amount from the previous day, which is equally
-            distributed to all tippers.
-          </p>
+          <p>To become eligible for an allowance, tippers must:</p>
+          <ol>
+            <li>
+              Have an{" "}
+              <ExternalLink href={OPENRANK_ENGAGEMENT_DOCS_URL}>
+                OpenRank following rank
+              </ExternalLink>{" "}
+              below {TIPPER_OPENRANK_THRESHOLD_REQUIREMENT.toLocaleString()}.
+              You can check your rank{" "}
+              <ExternalLink href={"https://warpcast.com/farther/0xc810c5c7"}>
+                here
+              </ExternalLink>
+              .
+            </li>
+            <li>
+              Currently be holding{" "}
+              {TIPPER_REQUIRED_FARTHER_BALANCE.toLocaleString()} Farther tokens
+              in a wallet verified on Warpcast. This threshold will adjust to
+              include more holders over time, based on the token's current
+              price. This ensures the allowance for each tipper remains valuable
+              enough to make tipping worthwhile.
+            </li>
+          </ol>
+          <h4>Tipper rewards eligibility</h4>
           <p>
             Before becoming eligible for tipper rewards and appearing on the
             leaderboard, tippers must send a tip on at least{" "}
             {ACTIVE_TIP_DAYS_REQUIRED} days during the month.
           </p>
         </div>
+        <h3>Allowance</h3>
+        <p>
+          The total daily allowance pool is targets $
+          {numeral(DAILY_USD_TOTAL_ALLOWANCE).format("0,0")} of Farther per day
+          plus any unused amount from the previous day, which is equally
+          distributed to all tippers.
+        </p>
         <h3>How to tip</h3>
         <p>
           Send tips by including text like this in replies to casts

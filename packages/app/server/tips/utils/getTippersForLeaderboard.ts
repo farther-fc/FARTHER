@@ -2,7 +2,9 @@ import { prisma } from "@farther/backend";
 import {
   ACTIVE_TIP_DAYS_REQUIRED,
   FARTHER_OWNER_FID,
+  TIPPER_OPENRANK_THRESHOLD_REQUIREMENT,
   dayUTC,
+  getOpenRankScores,
   getStartOfMonthUTC,
 } from "@farther/common";
 
@@ -75,10 +77,21 @@ export async function getRawLeaderboard(now = dayUTC()) {
   });
 }
 
-export function getFilteredTippers(
+export async function getFilteredTippers(
   tippers: Awaited<ReturnType<typeof getRawLeaderboard>>,
   now = dayUTC(),
 ) {
+  // TODO: Remove after 8/13/2024 (will no longer be needed then)
+  const openRankScores = (
+    await getOpenRankScores({
+      fids: tippers.map((t) => t.id),
+      type: "FOLLOWING",
+      rateLimit: 10,
+    })
+  )
+    .filter((score) => score.rank < TIPPER_OPENRANK_THRESHOLD_REQUIREMENT)
+    .map((score) => score.fid);
+
   return tippers.filter((tipper) => {
     const totalActiveDays = new Set(
       tipper.tipsGiven.map((t) => t.tipAllowanceId),
@@ -93,7 +106,9 @@ export function getFilteredTippers(
 
     // Must meet threshold if they started tipping more than ACTIVE_TIP_DAYS_REQUIRED days ago
     const requireActiveDaysThreshold =
-      dayUTC(now).diff(firstTip, "day", true) > ACTIVE_TIP_DAYS_REQUIRED;
+      dayUTC(now).diff(firstTip, "day", true) > ACTIVE_TIP_DAYS_REQUIRED ||
+      /// TODO: Remove after 8/13/2024 (will no longer be needed then)
+      !openRankScores.includes(tipper.id);
 
     return requireActiveDaysThreshold
       ? totalActiveDays >= ACTIVE_TIP_DAYS_REQUIRED
@@ -103,25 +118,7 @@ export function getFilteredTippers(
 
 export async function getTippersForLeaderboard() {
   const rawTippers = await getRawLeaderboard();
-  const tippers = getFilteredTippers(rawTippers);
+  const tippers = await getFilteredTippers(rawTippers);
 
-  // const diff = rawTippers.filter((t) => !tippers.includes(t));
-
-  // diff.forEach((t) => {
-  //   const firstTip = t.tipsGiven.reduce((acc, t) => {
-  //     if (t.createdAt < acc) {
-  //       return t.createdAt;
-  //     }
-  //     return acc;
-  //   }, t.tipsGiven[0].createdAt);
-
-  //   console.log({
-  //     id: t.id,
-  //     firstTip,
-  //     totalActiveDays: new Set(t.tipsGiven.map((t) => t.tipAllowanceId)).size,
-  //   });
-  // });
-
-  // console.log("tippers", tippers.length);
   return tippers;
 }
