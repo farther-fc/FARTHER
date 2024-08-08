@@ -3,13 +3,13 @@ import { syncUserData } from "../jobQueues/syncUserData";
 import { clearDatabase } from "../utils/testUtils";
 
 jest.mock("@farther/common", () => ({
-  neynarLimiter: {
+  neynar: {
     getUsersByFid: jest.fn(),
     getUsersByAddress: jest.fn(),
   },
 }));
 
-const { neynarLimiter } = require("@farther/common");
+const { neynar } = require("@farther/common");
 
 describe("syncUserData", () => {
   beforeAll(async () => {
@@ -71,7 +71,7 @@ describe("syncUserData", () => {
     ];
 
     await prisma.user.createMany({ data: users });
-    neynarLimiter.getUsersByFid.mockResolvedValue(neynarUserData);
+    neynar.getUsersByFid.mockResolvedValue(neynarUserData);
 
     // Act
     await syncUserData();
@@ -99,7 +99,7 @@ describe("syncUserData", () => {
 
   it("should handle empty user data gracefully", async () => {
     // Arrange
-    neynarLimiter.getUsersByFid.mockResolvedValue([]);
+    neynar.getUsersByFid.mockResolvedValue([]);
 
     // Act
     await syncUserData();
@@ -137,7 +137,7 @@ describe("syncUserData", () => {
     ];
 
     await prisma.user.createMany({ data: users });
-    neynarLimiter.getUsersByFid.mockResolvedValue(neynarUserData);
+    neynar.getUsersByFid.mockResolvedValue(neynarUserData);
 
     // Act
     await syncUserData();
@@ -198,7 +198,7 @@ describe("syncUserData", () => {
     ];
 
     await prisma.user.createMany({ data: users });
-    neynarLimiter.getUsersByFid.mockResolvedValue(neynarUserData);
+    neynar.getUsersByFid.mockResolvedValue(neynarUserData);
 
     await expect(syncUserData()).rejects.toThrow();
   });
@@ -303,7 +303,7 @@ describe("syncUserData", () => {
       ],
     });
 
-    neynarLimiter.getUsersByFid.mockResolvedValue(neynarUserData);
+    neynar.getUsersByFid.mockResolvedValue(neynarUserData);
 
     // Act
     await syncUserData();
@@ -390,7 +390,7 @@ describe("syncUserData", () => {
       },
     ];
 
-    neynarLimiter.getUsersByFid.mockResolvedValue(neynarUserData);
+    neynar.getUsersByFid.mockResolvedValue(neynarUserData);
 
     const dbUsersBefore = await prisma.user.findMany({
       include: { ethAccounts: true },

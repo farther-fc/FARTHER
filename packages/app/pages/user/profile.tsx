@@ -49,6 +49,7 @@ export default function ProfilePage() {
       baseAmount: "",
       referenceAmount: null,
       tweets: [],
+      isInvalidated: false,
     });
   }
 

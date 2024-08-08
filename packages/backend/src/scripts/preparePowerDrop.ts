@@ -11,7 +11,7 @@ import {
   WARPCAST_API_BASE_URL,
   getMerkleRoot,
   isProduction,
-  neynarLimiter,
+  neynar,
   tokenAllocations,
 } from "@farther/common";
 import { v4 as uuidv4 } from "uuid";
@@ -251,7 +251,7 @@ async function getPowerUsers() {
   const powerUserFids = warpcastResponse.result.fids;
 
   // 2. Get user data from Neynar
-  const latestUserData = await neynarLimiter.getUsersByFid(powerUserFids);
+  const latestUserData = await neynar.getUsersByFid(powerUserFids);
 
   // 2. Filter the ones who have a power badge & verified address
   const data = latestUserData

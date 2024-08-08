@@ -36,7 +36,7 @@ try {
   }
 }
 
-export const neynarLimiter = {
+export const neynar = {
   async getUsersByFid(fids: number[]) {
     const fidChunks = chunk(fids, NEYNAR_BATCH_LIMIT);
 
@@ -69,6 +69,20 @@ export const neynarLimiter = {
         }
       }
     }
+
+    return users;
+  },
+
+  async fetchPowerUsers() {
+    let cursor: string | null = null;
+    let users: User[] = [];
+    do {
+      const response = await neynarClient.fetchPowerUsers(
+        cursor ? { cursor } : {},
+      );
+      users = users.concat(response.users);
+      cursor = response.next.cursor;
+    } while (cursor);
 
     return users;
   },

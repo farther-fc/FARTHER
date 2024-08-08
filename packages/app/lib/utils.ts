@@ -74,3 +74,11 @@ export function removeFalsyValues<T>(list: readonly T[]): NonNullable<T>[] {
     (item): item is NonNullable<T> => item != null,
   ) as NonNullable<T>[];
 }
+
+export function strikeThrough(input: string | number): string {
+  const str = input.toString();
+  return str
+    .split("")
+    .map((char) => char + "\u0336")
+    .join("");
+}

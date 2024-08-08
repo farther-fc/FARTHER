@@ -1,4 +1,4 @@
-import { neynarLimiter } from "@farther/common";
+import { neynar } from "@farther/common";
 import { AllocationType, prisma } from "../prisma";
 
 async function testTipDrop() {
@@ -29,9 +29,7 @@ async function testTipDrop() {
     },
   });
 
-  const userData = await neynarLimiter.getUsersByFid(
-    users.map((user) => user.id),
-  );
+  const userData = await neynar.getUsersByFid(users.map((user) => user.id));
 
   const usersWithAddresses = userData.filter(
     (user) => user.verified_addresses.eth_addresses[0],

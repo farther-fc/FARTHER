@@ -1,8 +1,4 @@
-import {
-  dayUTC,
-  neynarLimiter,
-  retryWithExponentialBackoff,
-} from "@farther/common";
+import { dayUTC, neynar, retryWithExponentialBackoff } from "@farther/common";
 import * as Sentry from "@sentry/node";
 import Bottleneck from "bottleneck";
 import { QueueEvents, Worker } from "bullmq";
@@ -37,7 +33,7 @@ export async function syncUserDataBatch({
   data: { fids: number[] };
 }) {
   try {
-    const neynarUserData = await neynarLimiter.getUsersByFid(fids);
+    const neynarUserData = await neynar.getUsersByFid(fids);
 
     if (neynarUserData.length !== fids.length) {
       throw new Error("Neynar data length does not match user data length");

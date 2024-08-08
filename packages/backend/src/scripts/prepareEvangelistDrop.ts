@@ -12,7 +12,7 @@ import {
   WAD_SCALER,
   getMerkleRoot,
   isProduction,
-  neynarLimiter,
+  neynar,
 } from "@farther/common";
 import { writeFile } from "../lib/utils/helpers";
 import { AllocationType, prisma } from "../prisma";
@@ -227,7 +227,7 @@ async function prepareEvangelistDrop() {
 
 async function getUserData(fids: number[]) {
   if (isProduction) {
-    const userData = await neynarLimiter.getUsersByFid(fids);
+    const userData = await neynar.getUsersByFid(fids);
 
     return userData.map((u) => ({
       fid: u.fid,

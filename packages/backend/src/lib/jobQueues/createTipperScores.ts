@@ -117,15 +117,6 @@ async function createTipperScoresBatch(job: Job) {
     new Decimal(0),
   );
 
-  if (fid === 21941) {
-    tipScores.forEach((tip) => {
-      console.info(
-        `hash: ${tip.hash}, score: ${tip.changePerToken.toNumber()}`,
-      );
-    });
-    console.info(`totalScore: ${totalScore.toNumber()}`);
-  }
-
   const tipUpdates: Promise<Tip>[] = [];
 
   tipUpdates.push(

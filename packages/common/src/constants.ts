@@ -265,6 +265,8 @@ export const cronSchedules = {
   SYNC_USERS: "0 0 * * 0",
   // 12:00 AM UTC every day but sunday
   SYNC_TIPPERS: "0 0 * * 1,2,3,4,5,6",
+  // oncer per day
+  INVALIDATE_EVANGELISTS_WITHOUT_PB: "0 0 * * *",
   NEVER_RUN: "0 0 31 2 *",
 } as const;
 
