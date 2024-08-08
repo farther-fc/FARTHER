@@ -141,6 +141,7 @@ export const getUser = publicProcedure
           index: null,
           tweets: [],
           address: "",
+          isInvalidated: false,
         });
       }
 
@@ -164,6 +165,7 @@ export const getUser = publicProcedure
           index: null,
           tweets: [],
           address: "",
+          isInvalidated: false,
         });
       }
 
@@ -460,9 +462,6 @@ async function getPrivateUser({
         },
       },
       allocations: {
-        where: {
-          isInvalidated: false,
-        },
         select: {
           id: true,
           createdAt: true,
@@ -474,6 +473,7 @@ async function getPrivateUser({
           type: true,
           tweets: true,
           address: true,
+          isInvalidated: true,
           airdrop: {
             select: {
               id: true,

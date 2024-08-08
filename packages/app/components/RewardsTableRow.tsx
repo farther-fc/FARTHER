@@ -1,4 +1,4 @@
-import { PendingRewardButton } from "@components/PendingRewardButton";
+import { ButtonWithPopover } from "@components/buttons/ButtonWithPopover";
 import { Button } from "@components/ui/Button";
 import { Popover } from "@components/ui/Popover";
 import { TableCell, TableRow } from "@components/ui/Table";
@@ -18,7 +18,12 @@ import {
 import { useUser } from "@lib/context/UserContext";
 import { trpcClient } from "@lib/trpcClient";
 import { GetUserOuput } from "@lib/types/apiTypes";
-import { formatAirdropTime, formatWad, shortenHash } from "@lib/utils";
+import {
+  formatAirdropTime,
+  formatWad,
+  shortenHash,
+  strikeThrough,
+} from "@lib/utils";
 import dayjs from "dayjs";
 import { useLogError } from "hooks/useLogError";
 import { useToast } from "hooks/useToast";
@@ -193,9 +198,15 @@ export function RewardsTableRow({
         ? "Claim"
         : `Avail. ${formatAirdropTime(new Date(allocation.airdrop.startTime as string))}`;
 
+  const formattedAmount = formatWad(BigInt(allocation.amount));
+
   const amountContent = (
     <>
-      {formatWad(BigInt(allocation.amount))}{" "}
+      {allocation.isInvalidated ? (
+        <span className="text-muted">{strikeThrough(formattedAmount)}</span>
+      ) : (
+        formattedAmount
+      )}{" "}
       {allocation.tweets?.length ? (
         <>
           ({allocation.tweets.length} tweet
@@ -259,9 +270,7 @@ export function RewardsTableRow({
         )}
       </TableCell>
       <TableCell className="pr-0 text-right">
-        {allocation.type === AllocationType.EVANGELIST && !user?.powerBadge ? (
-          <PendingRewardButton />
-        ) : addressMismatch ? (
+        {addressMismatch ? (
           <Popover
             content={
               <div className="max-w-[300px] rounded-2xl p-4 text-left">
@@ -281,6 +290,21 @@ export function RewardsTableRow({
               </Button>
             </div>
           </Popover>
+        ) : allocation.type === AllocationType.EVANGELIST &&
+          allocation.isInvalidated ? (
+          <ButtonWithPopover
+            text="Expired"
+            content="You didn't earn a power badge within three months after your first evangelist tweet. Note: The original requirement was two months but was extended due to Warpcast purging some power badge holders in the first month."
+            variant="danger"
+          />
+        ) : allocation.type === AllocationType.EVANGELIST &&
+          !user?.powerBadge ? (
+          <ButtonWithPopover
+            text="Pending"
+            content="Your rewards will remain pending until you earn a Warpcast Power
+          Badge. If not earned within two months from your first submission, the
+          rewards will expire."
+          />
         ) : (
           <Button
             sentryId={clickIds.rewardsTableRowStakeUnstake}

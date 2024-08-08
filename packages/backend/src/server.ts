@@ -4,6 +4,7 @@ import utc from "dayjs/plugin/utc";
 import cron from "node-cron";
 import "../instrument";
 import { distributeAllowances } from "./lib/distributeAllowances";
+import { invalidateEvangelistAllocations } from "./lib/invalidateEvangelistAllocations";
 import { createTipperScores } from "./lib/jobQueues/createTipperScores";
 import { openRankSnapshot } from "./lib/jobQueues/openRankSnapshot";
 import { syncTipperData } from "./lib/jobQueues/syncTipperData";
@@ -54,3 +55,11 @@ cron.schedule(
 cron.schedule(cronSchedules.CREATE_TIPPER_SCORES, createTipperScores, {
   timezone: "Etc/UTC",
 });
+
+cron.schedule(
+  cronSchedules.INVALIDATE_EVANGELISTS_WITHOUT_PB,
+  invalidateEvangelistAllocations,
+  {
+    timezone: "Etc/UTC",
+  },
+);

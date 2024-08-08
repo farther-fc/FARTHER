@@ -25,7 +25,7 @@ export const getAdminData = publicProcedure.query(async () => {
 
   // const evangelistFids = evangelistAllocations.map((a) => a.userId);
 
-  // const neynarData = await neynarLimiter.getUsersByFid(evangelistFids);
+  // const neynarData = await neynar.getUsersByFid(evangelistFids);
 
   // const powerUserAllocations = await prisma.allocation.findMany({
   //   where: {

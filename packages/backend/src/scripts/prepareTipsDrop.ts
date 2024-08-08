@@ -6,7 +6,7 @@ import {
   NEXT_AIRDROP_START_TIME,
   WAD_SCALER,
   getMerkleRoot,
-  neynarLimiter,
+  neynar,
 } from "@farther/common";
 import { v4 as uuidv4 } from "uuid";
 import { Address } from "viem";
@@ -67,7 +67,7 @@ async function prepareTipsDrop() {
     },
   });
 
-  const userData = await neynarLimiter.getUsersByFid(users.map((u) => u.id));
+  const userData = await neynar.getUsersByFid(users.map((u) => u.id));
 
   // Create leafs with amount tally for each recipient
   const combinedData = userData.map((u) => {

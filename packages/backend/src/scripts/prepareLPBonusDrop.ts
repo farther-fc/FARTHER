@@ -10,7 +10,7 @@ import {
   getLpBonusRewards,
   getMerkleRoot,
   isProduction,
-  neynarLimiter,
+  neynar,
 } from "@farther/common";
 import { writeFileSync } from "fs";
 import { v4 as uuidv4 } from "uuid";
@@ -217,7 +217,7 @@ async function prepareLpBonusDrop() {
 
 async function getUserData(addresses: string[]) {
   if (isProduction) {
-    const userData = await neynarLimiter.getUsersByAddress(addresses);
+    const userData = await neynar.getUsersByAddress(addresses);
 
     return Object.entries(userData).map(([address, users]) => {
       // If multiple users, choose the first one with a power badge (same logic as in the frontend)

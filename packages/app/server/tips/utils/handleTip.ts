@@ -5,7 +5,7 @@ import {
   TIP_MINIMUM,
   cacheTypes,
   getOpenRankScores,
-  neynarLimiter,
+  neynar,
 } from "@farther/common";
 import { cache } from "@lib/cache";
 import { Cast } from "@neynar/nodejs-sdk/build/neynar-api/v2";
@@ -49,7 +49,7 @@ export async function handleTip({
   }
 
   // Get tippee from Neynar
-  const [tippeeNeynar] = await neynarLimiter.getUsersByFid([tippeeFid]);
+  const [tippeeNeynar] = await neynar.getUsersByFid([tippeeFid]);
 
   if (!tippeeNeynar) {
     throw new Error(`No tippee found in Neynar: ${tippeeFid}`);
