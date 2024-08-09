@@ -46,7 +46,7 @@ function TokenomicsInfo() {
             variant="link"
             onClick={() =>
               openModal({
-                headerText: "Founder Allocation",
+                headerText: "Powerdrops",
                 body: (
                   <>
                     At launch, 25% of the FARTHER supply was reserved for

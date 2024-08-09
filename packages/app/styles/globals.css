@@ -345,6 +345,15 @@
   }
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  scroll-margin-top: 64px;
+}
+
 h1 {
   @apply mt-14 md:mt-20 mb-6 md:mb-8 text-[200%] md:text-[250%];
   line-height: 1.35;

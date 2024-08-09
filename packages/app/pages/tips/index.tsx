@@ -124,13 +124,12 @@ function TipsPage() {
 
         <h2 className="mt-20 mb-8">Your Stats</h2>
         <TipsUserInfo />
-        <h2>Tipping Info</h2>
+        <h2 id="tipping-info">Tipping Info</h2>
         <h3>Overview</h3>
         <p>
-          Unlike most other tipping tokens on Farcaster, Farther tips are
-          designed to boost quality daily active users. This is acheived by{" "}
-          scoring tips based on how much the recipients' engagement increases
-          throughout each month. The engagement is measured by{" "}
+          Farther tips are designed to boost quality daily active users. This is
+          acheived by scoring tips based on how much the recipients' engagement
+          increases throughout each month. The engagement is measured by{" "}
           <ExternalLink href={OPENRANK_ENGAGEMENT_DOCS_URL}>
             OpenRank
           </ExternalLink>
@@ -165,8 +164,7 @@ function TipsPage() {
               {TIPPER_REQUIRED_FARTHER_BALANCE.toLocaleString()} Farther tokens
               in a wallet verified on Warpcast. This threshold will adjust to
               include more holders over time, based on the token's current
-              price. This ensures the allowance for each tipper remains valuable
-              enough to make tipping worthwhile.
+              price.
             </li>
           </ol>
           <h4>Tipper rewards eligibility</h4>
