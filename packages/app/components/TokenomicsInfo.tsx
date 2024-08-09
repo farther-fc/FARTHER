@@ -40,8 +40,27 @@ function TokenomicsInfo() {
       </p>
       <ul>
         <li>
-          {allocationRatios.POWER_DROPS * 100}%{" "}
-          <Link href={routes.airdrops.path}>airdrops to power users</Link>
+          {numeral(allocationRatios.POWER_DROPS * 100).format("0,0.[0]")}%{" "}
+          <Button
+            sentryId={clickIds.founderAllocationOpenModal}
+            variant="link"
+            onClick={() =>
+              openModal({
+                headerText: "Founder Allocation",
+                body: (
+                  <>
+                    At launch, 25% of the FARTHER supply was reserved for
+                    monthly airdrops to users with Warpcast's power badge.
+                    However this program was discontinued in August 2024 in
+                    favor of reallocating remaining tokens to the tipping
+                    program.
+                  </>
+                ),
+              })
+            }
+          >
+            airdrops to power users
+          </Button>
           <ExternalLink
             href={`https://basescan.org/address/${fundCategoryAddresses.powerDrops}`}
           >
@@ -83,7 +102,7 @@ function TokenomicsInfo() {
           </ExternalLink>
         </li>
         <li>
-          {allocationRatios.TIPS * 100}%{" "}
+          {numeral(allocationRatios.TIPS * 100).format("0,0.[0]")}%{" "}
           <Link href={routes.tips.path}>tip allocations</Link>
           <ExternalLink
             href={`https://basescan.org/address/${fundCategoryAddresses.tips}`}
@@ -103,8 +122,8 @@ function TokenomicsInfo() {
                   <>
                     {allocationRatios.DEV_FUND * 100}% of the FARTHER supply is
                     reserved for the founding team. After launch, it will be put
-                    in a vesting contract that unlocks 25% after a year and
-                    continually unlocks the remaining 75% over two years.
+                    in a vesting contract that begins linearly vesting on
+                    November 1 2024 and continues for two years.
                   </>
                 ),
               })
