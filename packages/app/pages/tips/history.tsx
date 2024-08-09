@@ -17,6 +17,7 @@ import { trpcClient } from "@lib/trpcClient";
 import { Tips } from "@lib/types/apiTypes";
 import dayjs from "dayjs";
 import { ExternalLinkIcon, HelpCircle } from "lucide-react";
+import Link from "next/link";
 import numeral from "numeral";
 import React from "react";
 import InfiniteScroll from "react-infinite-scroller";
@@ -196,8 +197,8 @@ function TipHistoryPage() {
             ) : (
               <>
                 You haven't given any tips yet. Go{" "}
-                <ExternalLink href={routes.tips.path}>here</ExternalLink> to
-                learn how to get started.
+                <Link href={routes.tips.path}>here</Link> to learn how to get
+                started.
               </>
             )}
           </p>
