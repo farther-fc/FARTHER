@@ -4,11 +4,11 @@ import { ENVIRONMENT } from "./env";
 export const TOTAL_TOKEN_SUPPLY = 1_000_000_000;
 
 export const allocationRatios = {
-  POWER_DROPS: 0.25,
+  POWER_DROPS: 0.04375,
   LIQUIDITY_REWARDS: 0.15,
   LIQUIDITY_BACKSTOP: 0.1,
   ECOSYSTEM_FUND: 0.3,
-  TIPS: 0.15,
+  TIPS: 0.35625,
   DEV_FUND: 0.05,
 } as const;
 
