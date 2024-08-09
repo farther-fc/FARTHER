@@ -2,7 +2,6 @@ import { StarLoop } from "@components/StarLoop";
 import TokenomicsInfo from "@components/TokenomicsInfo";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
-import { FARTHER_V2_PARAGRAPH_URL } from "@lib/constants";
 import { routes } from "@lib/routes";
 import Link from "next/link";
 
@@ -49,21 +48,16 @@ export default function Home() {
         </p>
         <h2>How</h2>
         <p>
-          Farther was initially focused on evangelizing Farcaster on other
-          social media networks. However it has since pivoted to innovating on
-          tipping as a means to increase quality content on the platform and
-          reduce user churn. This began on August 1 with the launch of{" "}
-          <ExternalLink href={FARTHER_V2_PARAGRAPH_URL}>
-            Farther V2
-          </ExternalLink>
-          .
+          Farther is primarily used as a tipping token with a prediction market
+          mechanism to increase quality content and reduce user churn on
+          Farcaster. Learn more about how it works{" "}
+          <Link href={`${routes.tips.path}#tipping-info`}>here</Link>.
         </p>
         <p>
-          In addition to being a tipping token, Farther has been airdropping
-          tokens to Farcaster power users and rewarding liquidity providers. It
-          also has an ecosystem fund for partnerships and future initiatives.
+          In addition to tip allowances and rewards, Farther has a liquidity
+          rewards program and ecosystem fund for partnerships and future
+          initiatives.
         </p>
-
         <h2>Tokenomics</h2>
         <TokenomicsInfo />
       </main>
