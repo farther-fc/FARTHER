@@ -1,92 +1,21 @@
-import { AirdropInfo } from "@components/AirdropInfo";
 import { InfoCard } from "@components/InfoCard";
-import { NoUserFoundCard } from "@components/NoUserFoundCard";
-import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
-import { Skeleton } from "@components/ui/Skeleton";
-import { getStartOfMonthUTC } from "@farther/common";
-import { POWER_BADGE_INFO_URL, clickIds } from "@lib/constants";
-import { useUser } from "@lib/context/UserContext";
-import { routes } from "@lib/routes";
-import { formatAirdropTime, formatWad } from "@lib/utils";
-import { useConnectModal } from "@rainbow-me/rainbowkit";
-import Link from "next/link";
 
 export default function AirdropPage() {
-  const { accountAddress, user, userLoading } = useUser();
-  const { openConnectModal } = useConnectModal();
-  const powerDrop = user?.allocations?.filter(
-    (a) => a.type === "POWER_USER",
-  )[0];
-
   return (
     <Container variant="page">
       <main className="content">
         <h1>Powerdrops</h1>
-        {powerDrop && !powerDrop.isClaimed && (
-          <InfoCard className="text-center">
-            <h3 className="mt-0 border-none">Congratulations 🎉</h3>
-            {powerDrop.airdrop?.address &&
-            new Date(powerDrop.airdrop.startTime) <= new Date() ? (
-              <p>
-                You have <strong>{formatWad(BigInt(powerDrop.amount))} </strong>
-                tokens ready to claim on your{" "}
-                <Link href={routes.profile.path}>profile page</Link>!
-              </p>
-            ) : (
-              <p>
-                You are eligible for FARTHER tokens in the next airdrop! <br />
-                Check your <Link href={routes.profile.path}>
-                  profile page
-                </Link>{" "}
-                on {formatAirdropTime(getStartOfMonthUTC(1))} to claim your
-                rewards.
-              </p>
-            )}
-          </InfoCard>
-        )}
-        {accountAddress &&
-          (powerDrop && powerDrop?.isClaimed ? (
-            <InfoCard variant="ghost" className="text-center">
-              You have already claimed your airdrop. ✨
-            </InfoCard>
-          ) : user && !powerDrop ? (
-            <InfoCard variant="ghost">
-              You are not currently eligible for an airdrop.{" "}
-              {!user.powerBadge ? (
-                <>
-                  This is likely because you don't have a{" "}
-                  <ExternalLink href={POWER_BADGE_INFO_URL}>
-                    Warpcast Power Badge
-                  </ExternalLink>
-                  . As soon as you earn it, you'll become eligible for an
-                  airdrop at the end of that month.
-                </>
-              ) : (
-                ""
-              )}
-            </InfoCard>
-          ) : (
-            !user && !userLoading && <NoUserFoundCard />
-          ))}
-        {accountAddress && !user && userLoading && (
-          <Skeleton className="h-[120px]" />
-        )}
-        <AirdropInfo />
-        {!accountAddress && (
-          <InfoCard className="text-center">
-            If you think you are eligible for an airdrop,{" "}
-            <Button
-              sentryId={clickIds.airdropPageConnectWallet}
-              variant="link"
-              onClick={openConnectModal}
-            >
-              connect your wallet
-            </Button>{" "}
-            and visit the <Link href={routes.profile.path}>profile</Link> page.
-          </InfoCard>
-        )}
+        <InfoCard className="mx-auto text-center mt-12 ">
+          <p className="max-w-[500px] mx-auto">
+            The powerdrops program has concluded and all its remaining tokens
+            have been reallocated to tipping.{" "}
+            <ExternalLink href="https://warpcast.com/farther/0x8f2fa9e4">
+              Learn more here.
+            </ExternalLink>
+          </p>
+        </InfoCard>
       </main>
     </Container>
   );

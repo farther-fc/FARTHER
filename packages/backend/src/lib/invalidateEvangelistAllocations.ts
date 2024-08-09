@@ -2,6 +2,8 @@ import { dayUTC, neynar } from "@farther/common";
 import { AllocationType, prisma } from "../prisma";
 
 export async function invalidateEvangelistAllocations() {
+  console.info(`Invalidating evangelist allocations without a power badge...`);
+
   const now = dayUTC();
 
   const threeMonthsAgo = now.subtract(3, "month").toDate();
@@ -43,4 +45,8 @@ export async function invalidateEvangelistAllocations() {
       isInvalidated: true,
     },
   });
+
+  console.info(
+    `Invalidated ${allocationsToInvalidate.length} evangelist allocations`,
+  );
 }
