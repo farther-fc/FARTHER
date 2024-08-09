@@ -6,10 +6,7 @@ import {
   getPowerBadgeFids,
 } from "@farther/common";
 import { cache } from "@lib/cache";
-import {
-  PENDING_POWER_ALLOCATION_ID,
-  PENDING_TIPS_ALLOCATION_ID,
-} from "@lib/constants";
+import { PENDING_TIPS_ALLOCATION_ID } from "@lib/constants";
 import { getTipperScore } from "@lib/getTipperScore";
 import { apiSchemas } from "@lib/types/apiSchemas";
 import { User as NeynarUser } from "@neynar/nodejs-sdk/build/neynar-api/v2";
@@ -122,28 +119,6 @@ export const getUser = publicProcedure
           : [];
 
       const allocations = dbUser.allocations || [];
-
-      // If user has a power badge, add this dummy pending allocation for UX purposes
-      // (doesn't get added for real until airdrop is created)
-      if (
-        dbUser.powerBadge &&
-        !allocations.find((a) => a.type === AllocationType.POWER_USER)
-      ) {
-        allocations.push({
-          type: AllocationType.POWER_USER,
-          id: PENDING_POWER_ALLOCATION_ID,
-          createdAt: new Date(0),
-          isClaimed: false,
-          amount: "0",
-          referenceAmount: "0",
-          baseAmount: "0",
-          airdrop: null,
-          index: null,
-          tweets: [],
-          address: "",
-          isInvalidated: false,
-        });
-      }
 
       const unallocatedTips =
         dbUser.tipsReceived.filter((t) => t.allocationId === null) || [];

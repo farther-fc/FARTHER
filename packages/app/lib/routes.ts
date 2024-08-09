@@ -42,7 +42,7 @@ export const routesTree: Route[] = [
     createRoute("History", "/tips/history", routeTypes.Feature),
   ]),
   createRoute("Liquidity", "/liquidity", routeTypes.Feature),
-  createRoute("Powerdrops", "/airdrops", routeTypes.Feature),
+  createRoute("Powerdrops", "/airdrops", routeTypes.Feature, { hidden: true }),
   createRoute("Evangelize", "/evangelize", routeTypes.Feature, {
     hidden: true,
   }),
