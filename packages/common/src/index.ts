@@ -1,5 +1,7 @@
 export * from "./abis";
 export * from "./axios";
+export * from "./clusteringDetection/getAllClusterCoefficients";
+export * from "./clusteringDetection/graphUtils";
 export * from "./constants";
 export * from "./env";
 export * from "./errors";
