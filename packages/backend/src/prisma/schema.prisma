@@ -29,6 +29,9 @@ model User {
   tipperScores        TipperScore[]
 
   ethAccounts    UserEthAccount[]
+
+  // Measure of how much the user's tips are clustered around a few users
+  clusterCoef    Float?
 }
 
 model EthAccount {
