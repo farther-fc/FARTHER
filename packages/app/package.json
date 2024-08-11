@@ -19,7 +19,8 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
     "tipsAgentModeling": "pnpm db:reset && pnpm env:dev ts-node server/tips/agentModeling",
     "db:reset": "cd ../backend && pnpm env:dev pnpm db:reset && cd ../app",
-    "test": "pnpm db:reset && pnpm env:dev jest"
+    "test:db": "pnpm db:reset && pnpm env:dev jest",
+    "test": "pnpm env:dev jest"
   },
   "dependencies": {
     "@airstack/node": "^0.0.7",
@@ -65,6 +66,9 @@
     "dayjs": "^1.11.11",
     "decimal.js": "^10.4.3",
     "dns": "file:./mock/dns",
+    "graphology": "^0.25.4",
+    "graphology-components": "^1.5.4",
+    "graphology-metrics": "^2.3.1",
     "graphql-tag": "^2.12.6",
     "lodash": "^4.17.21",
     "lucide-react": "0.105.0-alpha.4",
