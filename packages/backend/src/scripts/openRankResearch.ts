@@ -74,29 +74,25 @@ async function followingScoresOfTippers() {
     rateLimit: RATE_LIMIT,
   });
 
-  const sortedScores = scores.sort((a, b) => b.score - a.score);
-
-  const median = sortedScores[Math.floor(sortedScores.length / 2)].score;
-
-  const withMedianDeviations = sortedScores.map((s) => ({
-    username: s.username,
-    score: s.score,
-    rank: s.rank,
-    medianDeviation: s.score - median,
+  const tippersWithRanks = tippers.map((t) => ({
+    id: t.id,
+    username: t.username,
+    followerCount: t.followerCount || 0,
+    rank: scores.find((s) => s.fid === t.id)?.rank || Number.POSITIVE_INFINITY,
   }));
 
-  const largestMedianDeviation = Math.max(
-    ...withMedianDeviations.map((score) => Math.abs(score.medianDeviation)),
+  const tippersAboveThreshold = tippersWithRanks
+    .filter((s) => s.rank >= 70000)
+    .sort((a, b) => b.followerCount - a.followerCount);
+
+  console.log(
+    `Tippers with rank above threshold: ${tippersAboveThreshold.length}`,
   );
 
-  const finalValues = withMedianDeviations.map((s) => ({
-    username: s.username,
-    score: s.score,
-    rank: s.rank,
-    medianDeviation: `${((s.medianDeviation / largestMedianDeviation) * 100).toLocaleString()}%`,
-  }));
-
-  writeFile("sortedScores.json", JSON.stringify(finalValues, null, 2));
+  writeFile(
+    "sortedScores.json",
+    JSON.stringify(tippersAboveThreshold, null, 2),
+  );
 
   // const highestOpenRankScore = sortedScores[0];
   // const lowestOpenRankScore = sortedScores[scores.length - 1];

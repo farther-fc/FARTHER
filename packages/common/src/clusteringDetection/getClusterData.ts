@@ -1,12 +1,13 @@
+import { degreeCentrality } from "graphology-metrics/centrality/degree";
 import { TipRelation, createGraph, getClusterCoefficient } from "./graphUtils";
 
-export function getAllClusterCoefficients({
+export function getClusterData({
   tips,
   minTips,
 }: {
   tips: TipRelation[];
   minTips: number;
-}): { userId: number; clusterCoef: number }[] {
+}) {
   const graph = createGraph({ tips, minTips });
 
   // Calculate the clustering coefficient for each user
@@ -19,5 +20,10 @@ export function getAllClusterCoefficients({
     });
   });
 
-  return clusterCoefficients;
+  const centrality = degreeCentrality(graph);
+
+  return clusterCoefficients.map((cluster) => ({
+    ...cluster,
+    degreeCentrality: centrality[cluster.userId],
+  }));
 }

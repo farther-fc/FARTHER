@@ -1,4 +1,4 @@
-import { getAllClusterCoefficients } from "../clusteringDetection/getAllClusterCoefficients";
+import { getAllClusterCoefficients } from "../clusteringDetection/getClusterData";
 import { TipRelation } from "../clusteringDetection/graphUtils";
 
 describe("getAllClusterCoefficients", () => {

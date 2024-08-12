@@ -5,6 +5,40 @@ export type TipRelation = {
   tippeeId: number;
 };
 
+export function createGraph({
+  tips,
+  minTips,
+}: {
+  tips: TipRelation[];
+  minTips: number;
+}) {
+  const graph = new UndirectedGraph();
+
+  // Add edges to the graph
+  tips.forEach((tip) => {
+    if (!graph.hasNode(tip.tipperId)) graph.addNode(tip.tipperId);
+    if (!graph.hasNode(tip.tippeeId)) graph.addNode(tip.tippeeId);
+    if (!graph.hasEdge(tip.tipperId, tip.tippeeId)) {
+      graph.addEdge(tip.tipperId, tip.tippeeId, { tipCount: 0 });
+    }
+    graph.setEdgeAttribute(
+      tip.tipperId,
+      tip.tippeeId,
+      "tipCount",
+      graph.getEdgeAttribute(tip.tipperId, tip.tippeeId, "tipCount") + 1,
+    );
+  });
+
+  // Filter out edges with weights below the threshold
+  graph.forEachEdge((edge, attributes) => {
+    if (attributes.tipCount < minTips) {
+      graph.dropEdge(edge);
+    }
+  });
+
+  return graph;
+}
+
 // Function to calculate the local clustering coefficient for a node
 export function getClusterCoefficient(
   graph: UndirectedGraph,
@@ -32,36 +66,21 @@ export function getClusterCoefficient(
   return actualEdges / possibleEdges;
 }
 
-export function createGraph({
-  tips,
-  minTips,
-}: {
-  tips: TipRelation[];
-  minTips: number;
-}) {
-  const graph = new UndirectedGraph();
+export function calculateInteractionDiversity(
+  graph: UndirectedGraph,
+  node: string,
+  clusterNodes: Set<string>,
+): number {
+  let internalInteractions = 0;
+  let externalInteractions = 0;
 
-  // Add edges to the graph
-  tips.forEach((tip) => {
-    if (!graph.hasNode(tip.tipperId)) graph.addNode(tip.tipperId);
-    if (!graph.hasNode(tip.tippeeId)) graph.addNode(tip.tippeeId);
-    if (!graph.hasEdge(tip.tipperId, tip.tippeeId)) {
-      graph.addEdge(tip.tipperId, tip.tippeeId, { tipCount: 0 });
-    }
-    graph.setEdgeAttribute(
-      tip.tipperId,
-      tip.tippeeId,
-      "tipCount",
-      graph.getEdgeAttribute(tip.tipperId, tip.tippeeId, "tipCount") + 1,
-    );
-  });
-
-  // Filter out edges with weights below the threshold
-  graph.forEachEdge((edge, attributes, source, target) => {
-    if (attributes.tipCount < minTips) {
-      graph.dropEdge(edge);
+  graph.forEachNeighbor(node, (neighbor) => {
+    if (clusterNodes.has(neighbor)) {
+      internalInteractions++;
+    } else {
+      externalInteractions++;
     }
   });
 
-  return graph;
+  return externalInteractions / (internalInteractions + externalInteractions);
 }
