@@ -29,7 +29,10 @@ model User {
   openRankScores      OpenRankScore[]
   tipperScores        TipperScore[]
 
-  ethAccounts    UserEthAccount[]
+  ethAccounts         UserEthAccount[]
+
+  // Measures how widely tipper is tipping
+  breadthRatio        Float?
 }
 
 enum UserStatus {
