@@ -1,4 +1,5 @@
 import {
+  TIP_MINIMUM,
   dayUTC,
   detectNefariousClusters,
   getOpenRankScores,
@@ -116,19 +117,34 @@ async function uniqueToTotalRatio() {
   });
 
   const tippers = rawTipperData
+    .filter((tipper) => tipper.tipsGiven.length > 10)
     .map((tipper) => {
       const uniqueRecipients = new Set(
         tipper.tipsGiven.map((tip) => tip.tippeeId),
       ).size;
+      const totalAmount = tipper.tipsGiven.reduce(
+        (acc, tip) => acc + tip.amount,
+        0,
+      );
+
+      const maxBreadthTipAmount = totalAmount / TIP_MINIMUM;
+      const avgTipPerUniqueRecipient = totalAmount / uniqueRecipients;
+
+      const breadthScore =
+        (maxBreadthTipAmount / avgTipPerUniqueRecipient +
+          uniqueRecipients / tipper.tipsGiven.length) /
+        2;
+
       return {
         id: tipper.id,
         username: tipper.username,
         uniqueRecipients,
         totalTips: tipper.tipsGiven.length,
-        ratio: uniqueRecipients / tipper.tipsGiven.length,
+        totalAmount: tipper.tipsGiven.reduce((acc, tip) => acc + tip.amount, 0),
+        breadthScore,
       };
     })
-    .sort((a, b) => b.ratio - a.ratio);
+    .sort((a, b) => b.breadthScore - a.breadthScore);
 
   await writeFile("uniqueToTotalRatio.json", JSON.stringify(tippers, null, 2));
 }

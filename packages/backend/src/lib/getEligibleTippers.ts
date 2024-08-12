@@ -25,9 +25,23 @@ export async function getEligibleTippers() {
 
   const allHolders = await getHolders({ includeLPs: true });
 
+  const bannedFids = (
+    await prisma.user.findMany({
+      where: {
+        isBanned: true,
+      },
+      select: {
+        id: true,
+      },
+    })
+  ).map((user) => user.id);
+
   const eligibleHolders = allHolders.filter((holder) => {
-    return new Decimal(holder.totalBalance.toString()).gte(
-      new Decimal(TIPPER_REQUIRED_FARTHER_BALANCE).mul(WAD_SCALER.toString()),
+    return (
+      !bannedFids.includes(holder.fid) &&
+      new Decimal(holder.totalBalance.toString()).gte(
+        new Decimal(TIPPER_REQUIRED_FARTHER_BALANCE).mul(WAD_SCALER.toString()),
+      )
     );
   });
 
@@ -38,12 +52,7 @@ export async function getEligibleTippers() {
       rateLimit: 10,
     })
   )
-    .filter((score) =>
-      // TODO: remove ID check after the 8/8/2024 cycle begins
-      latestTipMeta?.id !== "360c5838-e21a-497e-848c-8f9d9d0ca067"
-        ? score.rank < TIPPER_OPENRANK_THRESHOLD_REQUIREMENT
-        : true,
-    )
+    .filter((score) => score.rank < TIPPER_OPENRANK_THRESHOLD_REQUIREMENT)
     .map((score) => score.fid);
 
   const filteredHolders = eligibleHolders.filter((holder) =>
