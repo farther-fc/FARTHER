@@ -19,7 +19,8 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
     "tipsAgentModeling": "pnpm db:reset && pnpm env:dev ts-node server/tips/agentModeling",
     "db:reset": "cd ../backend && pnpm env:dev pnpm db:reset && cd ../app",
-    "test": "pnpm db:reset && pnpm env:dev jest"
+    "test:db": "pnpm db:reset && pnpm env:dev jest",
+    "test": "pnpm env:dev jest"
   },
   "dependencies": {
     "@airstack/node": "^0.0.7",

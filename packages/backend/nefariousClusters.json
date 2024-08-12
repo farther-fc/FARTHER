@@ -1,0 +1,294 @@
+[
+  [
+    {
+      "id": 500235,
+      "clusterCoef": 0.3741935483870968,
+      "username": "dibo",
+      "tipsGiven": 146,
+      "openRank": 15166,
+      "uniqueRecipients": 53,
+      "uniqueRecipientsPerTip": 0.363013698630137
+    },
+    {
+      "id": 784949,
+      "clusterCoef": 0.9934640522875817,
+      "username": "hipercat",
+      "tipsGiven": 53,
+      "openRank": 183888,
+      "uniqueRecipients": 19,
+      "uniqueRecipientsPerTip": 0.3584905660377358
+    },
+    {
+      "id": 503286,
+      "clusterCoef": 0.4472934472934473,
+      "username": "realfishboy",
+      "tipsGiven": 154,
+      "openRank": 23213,
+      "uniqueRecipients": 53,
+      "uniqueRecipientsPerTip": 0.34415584415584416
+    },
+    {
+      "id": 779772,
+      "clusterCoef": 0.9122807017543859,
+      "username": "hobbang",
+      "tipsGiven": 98,
+      "openRank": 122787,
+      "uniqueRecipients": 32,
+      "uniqueRecipientsPerTip": 0.32653061224489793
+    },
+    {
+      "id": 484256,
+      "clusterCoef": 0.46296296296296297,
+      "username": "puffmommy",
+      "tipsGiven": 162,
+      "openRank": 21819,
+      "uniqueRecipients": 50,
+      "uniqueRecipientsPerTip": 0.30864197530864196
+    },
+    {
+      "id": 783764,
+      "clusterCoef": 0.9122807017543859,
+      "username": "trickboy",
+      "tipsGiven": 117,
+      "openRank": 94851,
+      "uniqueRecipients": 36,
+      "uniqueRecipientsPerTip": 0.3076923076923077
+    },
+    {
+      "id": 391341,
+      "clusterCoef": 0.5466666666666666,
+      "username": "howon",
+      "tipsGiven": 134,
+      "openRank": 39572,
+      "uniqueRecipients": 39,
+      "uniqueRecipientsPerTip": 0.291044776119403
+    },
+    {
+      "id": 500988,
+      "clusterCoef": 0.4843304843304843,
+      "username": "evee",
+      "tipsGiven": 164,
+      "openRank": 17133,
+      "uniqueRecipients": 47,
+      "uniqueRecipientsPerTip": 0.2865853658536585
+    },
+    {
+      "id": 419168,
+      "clusterCoef": 0.4700854700854701,
+      "username": "radfishman",
+      "tipsGiven": 144,
+      "openRank": 48637,
+      "uniqueRecipients": 38,
+      "uniqueRecipientsPerTip": 0.2638888888888889
+    },
+    {
+      "id": 500690,
+      "clusterCoef": 0.6679841897233202,
+      "username": "joohowon98",
+      "tipsGiven": 139,
+      "openRank": 27648,
+      "uniqueRecipients": 35,
+      "uniqueRecipientsPerTip": 0.2517985611510791
+    },
+    {
+      "id": 404804,
+      "clusterCoef": 0.8888888888888888,
+      "username": "jjumonk",
+      "tipsGiven": 99,
+      "openRank": 18407,
+      "uniqueRecipients": 23,
+      "uniqueRecipientsPerTip": 0.23232323232323232
+    },
+    {
+      "id": 445864,
+      "clusterCoef": 0.7012987012987013,
+      "username": "5959fam",
+      "tipsGiven": 139,
+      "openRank": 42658,
+      "uniqueRecipients": 31,
+      "uniqueRecipientsPerTip": 0.22302158273381295
+    },
+    {
+      "id": 323201,
+      "clusterCoef": 0.8263157894736842,
+      "username": "bakkah",
+      "tipsGiven": 118,
+      "openRank": 43468,
+      "uniqueRecipients": 26,
+      "uniqueRecipientsPerTip": 0.22033898305084745
+    },
+    {
+      "id": 509369,
+      "clusterCoef": 0.8578947368421053,
+      "username": "covid-19",
+      "tipsGiven": 100,
+      "openRank": 91589,
+      "uniqueRecipients": 22,
+      "uniqueRecipientsPerTip": 0.22
+    },
+    {
+      "id": 404215,
+      "clusterCoef": 0.7761904761904762,
+      "username": "kingco88",
+      "tipsGiven": 159,
+      "openRank": 45914,
+      "uniqueRecipients": 32,
+      "uniqueRecipientsPerTip": 0.20125786163522014
+    },
+    {
+      "id": 408838,
+      "clusterCoef": 0.7619047619047619,
+      "username": "idearule",
+      "tipsGiven": 164,
+      "openRank": 26274,
+      "uniqueRecipients": 33,
+      "uniqueRecipientsPerTip": 0.20121951219512196
+    },
+    {
+      "id": 783285,
+      "clusterCoef": 0.9934640522875817,
+      "username": "jutee",
+      "tipsGiven": 106,
+      "openRank": 98571,
+      "uniqueRecipients": 21,
+      "uniqueRecipientsPerTip": 0.19811320754716982
+    },
+    {
+      "id": 432605,
+      "clusterCoef": 0.9934640522875817,
+      "username": "youngbak",
+      "tipsGiven": 96,
+      "openRank": 143416,
+      "uniqueRecipients": 19,
+      "uniqueRecipientsPerTip": 0.19791666666666666
+    },
+    {
+      "id": 432581,
+      "clusterCoef": 0.9934640522875817,
+      "username": "gotomillion",
+      "tipsGiven": 113,
+      "openRank": 57614,
+      "uniqueRecipients": 20,
+      "uniqueRecipientsPerTip": 0.17699115044247787
+    }
+  ],
+  [
+    {
+      "id": 820161,
+      "clusterCoef": 1,
+      "username": "melliflous",
+      "tipsGiven": 26,
+      "openRank": 93507,
+      "uniqueRecipients": 14,
+      "uniqueRecipientsPerTip": 0.5384615384615384
+    },
+    {
+      "id": 815069,
+      "clusterCoef": 0.8974358974358975,
+      "username": "!815069",
+      "tipsGiven": 26,
+      "openRank": 118983,
+      "uniqueRecipients": 14,
+      "uniqueRecipientsPerTip": 0.5384615384615384
+    },
+    {
+      "id": 733071,
+      "clusterCoef": 0.6285714285714286,
+      "username": "sinek",
+      "tipsGiven": 127,
+      "openRank": 71727,
+      "uniqueRecipients": 39,
+      "uniqueRecipientsPerTip": 0.30708661417322836
+    },
+    {
+      "id": 815090,
+      "clusterCoef": 0.7142857142857143,
+      "username": "!815090",
+      "tipsGiven": 70,
+      "openRank": 119862,
+      "uniqueRecipients": 20,
+      "uniqueRecipientsPerTip": 0.2857142857142857
+    },
+    {
+      "id": 779916,
+      "clusterCoef": 0.5808823529411765,
+      "username": "agnaagnes",
+      "tipsGiven": 71,
+      "openRank": 127674,
+      "uniqueRecipients": 18,
+      "uniqueRecipientsPerTip": 0.2535211267605634
+    },
+    {
+      "id": 570151,
+      "clusterCoef": 0.5578947368421052,
+      "username": "ichbinmbc",
+      "tipsGiven": 146,
+      "openRank": 17953,
+      "uniqueRecipients": 36,
+      "uniqueRecipientsPerTip": 0.2465753424657534
+    },
+    {
+      "id": 723940,
+      "clusterCoef": 0.6761904761904762,
+      "username": "uniquecrypto",
+      "tipsGiven": 150,
+      "openRank": 76550,
+      "uniqueRecipients": 34,
+      "uniqueRecipientsPerTip": 0.22666666666666666
+    },
+    {
+      "id": 680659,
+      "clusterCoef": 0.6405228758169934,
+      "username": "nicofish",
+      "tipsGiven": 144,
+      "openRank": 73873,
+      "uniqueRecipients": 32,
+      "uniqueRecipientsPerTip": 0.2222222222222222
+    },
+    {
+      "id": 728543,
+      "clusterCoef": 0.4458874458874459,
+      "username": "gizemerve",
+      "tipsGiven": 146,
+      "openRank": 73721,
+      "uniqueRecipients": 30,
+      "uniqueRecipientsPerTip": 0.2054794520547945
+    },
+    {
+      "id": 739028,
+      "clusterCoef": 0.47058823529411764,
+      "username": "jakspell",
+      "tipsGiven": 138,
+      "openRank": 68078,
+      "uniqueRecipients": 26,
+      "uniqueRecipientsPerTip": 0.18840579710144928
+    },
+    {
+      "id": 656205,
+      "clusterCoef": 0.6405228758169934,
+      "username": "erada",
+      "tipsGiven": 107,
+      "openRank": 71339,
+      "uniqueRecipients": 20,
+      "uniqueRecipientsPerTip": 0.18691588785046728
+    },
+    {
+      "id": 773774,
+      "clusterCoef": 0.5032679738562091,
+      "username": "arwenn",
+      "tipsGiven": 154,
+      "openRank": 73365,
+      "uniqueRecipients": 24,
+      "uniqueRecipientsPerTip": 0.15584415584415584
+    },
+    {
+      "id": 773771,
+      "clusterCoef": 0.47368421052631576,
+      "username": "lettyortiz87",
+      "tipsGiven": 149,
+      "openRank": 58361,
+      "uniqueRecipients": 23,
+      "uniqueRecipientsPerTip": 0.15436241610738255
+    }
+  ]
+]
