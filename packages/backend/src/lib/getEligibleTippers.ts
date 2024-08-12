@@ -3,7 +3,6 @@ import {
   TIPPER_REQUIRED_FARTHER_BALANCE,
   WAD_SCALER,
   getOpenRankScores,
-  isBanned,
 } from "@farther/common";
 import Decimal from "decimal.js";
 import { prisma } from "../prisma";
@@ -27,16 +26,8 @@ export async function getEligibleTippers() {
   const allHolders = await getHolders({ includeLPs: true });
 
   const eligibleHolders = allHolders.filter((holder) => {
-    const isHolderBanned = isBanned(holder.fid);
-
-    if (isHolderBanned) {
-      console.warn(`FID ${holder.fid} is banned`);
-    }
-
-    return (
-      new Decimal(holder.totalBalance.toString()).gte(
-        new Decimal(TIPPER_REQUIRED_FARTHER_BALANCE).mul(WAD_SCALER.toString()),
-      ) && !isHolderBanned
+    return new Decimal(holder.totalBalance.toString()).gte(
+      new Decimal(TIPPER_REQUIRED_FARTHER_BALANCE).mul(WAD_SCALER.toString()),
     );
   });
 
@@ -64,6 +55,7 @@ export async function getEligibleTippers() {
       id: {
         in: filteredHolders.map((eh) => eh.fid),
       },
+      isBanned: false,
     },
     include: tipperInclude(previousDistributionTime),
   });
