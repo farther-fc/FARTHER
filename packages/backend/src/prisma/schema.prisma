@@ -20,6 +20,7 @@ model User {
   followerCount       Int?
   powerBadge          Boolean?
   isBanned            Boolean        @default(false)
+  status              UserStatus?
 
   allocations         Allocation[]
   tipAllowances       TipAllowance[]
@@ -29,6 +30,11 @@ model User {
   tipperScores        TipperScore[]
 
   ethAccounts    UserEthAccount[]
+}
+
+enum UserStatus {
+  BANNED
+  SUSPENDED
 }
 
 model EthAccount {

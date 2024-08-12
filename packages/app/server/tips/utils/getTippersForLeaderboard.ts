@@ -26,6 +26,7 @@ export async function getRawLeaderboard(now = dayUTC()) {
           },
         },
       },
+      isBanned: false,
     },
     select: {
       id: true,

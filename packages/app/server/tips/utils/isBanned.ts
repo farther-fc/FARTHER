@@ -1,5 +1,4 @@
 import { prisma } from "@farther/backend";
-import { isBanned as isBannedCommon } from "@farther/common";
 
 export async function isBanned(fids: number[]) {
   const users = await prisma.user.findMany({
@@ -12,6 +11,6 @@ export async function isBanned(fids: number[]) {
 
   return fids.map((fid) => {
     const user = users.find((u) => u.id === fid);
-    return user?.isBanned || isBannedCommon(fid);
+    return user?.isBanned;
   });
 }

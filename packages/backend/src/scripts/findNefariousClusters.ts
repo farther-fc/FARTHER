@@ -91,4 +91,48 @@ async function findNefariousClusters() {
   console.log(`Finished in ${secondsTaken} seconds`);
 }
 
-findNefariousClusters();
+async function uniqueToTotalRatio() {
+  const rawTipperData = await prisma.user.findMany({
+    where: {
+      tipsGiven: {
+        some: {
+          invalidTipReason: null,
+          createdAt: {
+            gte: getStartOfMonthUTC(0),
+          },
+        },
+      },
+    },
+    include: {
+      tipsGiven: {
+        where: {
+          invalidTipReason: null,
+          createdAt: {
+            gte: getStartOfMonthUTC(0),
+          },
+        },
+      },
+    },
+  });
+
+  const tippers = rawTipperData
+    .map((tipper) => {
+      const uniqueRecipients = new Set(
+        tipper.tipsGiven.map((tip) => tip.tippeeId),
+      ).size;
+      return {
+        id: tipper.id,
+        username: tipper.username,
+        uniqueRecipients,
+        totalTips: tipper.tipsGiven.length,
+        ratio: uniqueRecipients / tipper.tipsGiven.length,
+      };
+    })
+    .sort((a, b) => b.ratio - a.ratio);
+
+  await writeFile("uniqueToTotalRatio.json", JSON.stringify(tippers, null, 2));
+}
+
+uniqueToTotalRatio();
+
+// findNefariousClusters();
