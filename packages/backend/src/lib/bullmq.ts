@@ -39,7 +39,7 @@ export const queueNames = {
   SYNC_USERS: `SYNC_USERS`,
   SYNC_TIPPERS: `SYNC_TIPPERS`,
   CREATE_TIPPER_SCORES: `CREATE_TIPPER_SCORES`,
-  OPENRANK_SNAPSHOT: `OPENRANK_SNAPSHOT`,
+  TIPPEE_OPENRANK_SYNC: `TIPPEE_OPENRANK_SYNC`,
 } as const;
 
 type ValueOf<T> = T[keyof T];
@@ -61,9 +61,12 @@ export const createTipperScoresQueue = new Queue(
   },
 );
 
-export const openRankSnapshotQueue = new Queue(queueNames.OPENRANK_SNAPSHOT, {
-  connection: queueConnection,
-});
+export const tippeeOpenRankSyncQueue = new Queue(
+  queueNames.TIPPEE_OPENRANK_SYNC,
+  {
+    connection: queueConnection,
+  },
+);
 
 export function logQueueEvents({
   queueEvents,

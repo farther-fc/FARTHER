@@ -45,8 +45,10 @@
     "updateEligibleTippers:prod": "CRON=updateEligibleTippers pnpm env:prod ts-node src/crons.ts --transpile-only",
     "distributeAllowances:staging": "CRON=distributeAllowances pnpm env:staging ts-node src/crons.ts --transpile-only",
     "distributeAllowances:prod": "CRON=distributeAllowances pnpm env:prod ts-node src/crons.ts --transpile-only",
-    "openRankSnapshot:staging": "CRON=openRankSnapshot pnpm env:staging ts-node src/crons.ts --transpile-only",
-    "openRankSnapshot:prod": "CRON=openRankSnapshot pnpm env:prod ts-node src/crons.ts --transpile-only",
+    "tippeeOpenRankSync:staging": "CRON=tippeeOpenRankSync pnpm env:staging ts-node src/crons.ts --transpile-only",
+    "tippeeOpenRankSync:prod": "CRON=tippeeOpenRankSync pnpm env:prod ts-node src/crons.ts --transpile-only",
+    "tipperOpenRankSync:staging": "CRON=tipperOpenRankSync pnpm env:staging ts-node src/crons.ts --transpile-only",
+    "tipperOpenRankSync:prod": "CRON=tipperOpenRankSync pnpm env:prod ts-node src/crons.ts --transpile-only",
     "typecheck": "tsc --noEmit",
     "test": "pnpm db:reset && pnpm env:dev jest"
   },

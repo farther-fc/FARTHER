@@ -30,6 +30,9 @@ model User {
   tipperScores        TipperScore[]
 
   ethAccounts    UserEthAccount[]
+
+  // OpenRank following rank (used for tippers)
+  orFollowingRank     Int?
 }
 
 enum UserStatus {
