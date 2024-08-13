@@ -24,7 +24,10 @@ export async function getLatestOpenRankScores(fids: number[]) {
   const scores: { [fid: number]: number } = {};
 
   data.forEach((user) => {
-    scores[user.id] = user.openRankScores[0] ? user.openRankScores[0].score : 0;
+    // Only returns a score for a FID if one exists
+    if (!user.openRankScores[0]) return;
+
+    scores[user.id] = user.openRankScores[0].score;
   });
 
   return scores;

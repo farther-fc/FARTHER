@@ -149,6 +149,6 @@ async function uniqueToTotalRatio() {
   await writeFile("uniqueToTotalRatio.json", JSON.stringify(tippers, null, 2));
 }
 
-uniqueToTotalRatio();
+// uniqueToTotalRatio();
 
-// findNefariousClusters();
+findNefariousClusters();

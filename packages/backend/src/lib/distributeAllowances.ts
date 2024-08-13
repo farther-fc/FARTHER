@@ -21,6 +21,8 @@ export async function distributeAllowances() {
 
   const latestTipMeta = await getLatestTipMeta();
 
+  console.info("latestTipMeta", latestTipMeta.createdAt);
+
   // Using dayjs, verify that the previous distribution was over 23 hours ago
   if (isProduction) {
     const hoursSinceLastDistribution = getHoursAgo(latestTipMeta.createdAt);
@@ -109,7 +111,9 @@ export async function distributeAllowances() {
 
     await tx.tipAllowance.createMany({
       data: newAllowances.map((a) => ({
-        ...a,
+        userId: a.userId,
+        userBalance: a.userBalance,
+        amount: a.amount,
         tipMetaId: tipMeta.id,
       })),
     });
