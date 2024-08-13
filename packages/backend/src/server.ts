@@ -9,7 +9,6 @@ import { createTipperScores } from "./lib/jobQueues/createTipperScores";
 import { syncTipperData } from "./lib/jobQueues/syncTipperData";
 import { syncUserData } from "./lib/jobQueues/syncUserData";
 import { tippeeOpenRankSync } from "./lib/jobQueues/tippeeOpenRankSync";
-import { tipperOpenRankSync } from "./lib/tipperOpenRankSync";
 import { updateEligibleTippers } from "./lib/updateEligibleTippers";
 
 dayjs.extend(utc);
@@ -29,10 +28,6 @@ const tippeeOpenRankSchedule = isProduction
   : cronSchedules.NEVER_RUN;
 
 cron.schedule(tippeeOpenRankSchedule, tippeeOpenRankSync, {
-  timezone: "Etc/UTC",
-});
-
-cron.schedule(cronSchedules.TIPPER_OPENRANK_SYNC, tipperOpenRankSync, {
   timezone: "Etc/UTC",
 });
 

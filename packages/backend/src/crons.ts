@@ -4,7 +4,6 @@ import { createTipperScores } from "./lib/jobQueues/createTipperScores";
 import { syncTipperData } from "./lib/jobQueues/syncTipperData";
 import { syncUserData } from "./lib/jobQueues/syncUserData";
 import { tippeeOpenRankSync } from "./lib/jobQueues/tippeeOpenRankSync";
-import { tipperOpenRankSync } from "./lib/tipperOpenRankSync";
 import { updateEligibleTippers } from "./lib/updateEligibleTippers";
 
 const { CRON } = requireEnv("CRON");
@@ -57,14 +56,6 @@ switch (CRON) {
       process.env.NEXT_PUBLIC_ENVIRONMENT,
     );
     distributeAllowances();
-    break;
-  }
-  case "tipperOpenRankSync": {
-    console.log(
-      "Running tipperOpenRankSync on",
-      process.env.NEXT_PUBLIC_ENVIRONMENT,
-    );
-    tipperOpenRankSync();
     break;
   }
   default: {

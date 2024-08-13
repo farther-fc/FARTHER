@@ -4,6 +4,7 @@ import {
   TIP_MINIMUM,
   cacheTypes,
   getHoursAgo,
+  getOpenRankScores,
   isProduction,
 } from "@farther/common";
 import { scaleLinear } from "d3";
@@ -58,17 +59,36 @@ export async function distributeAllowances() {
     .domain([minBreadthRatio, maxBreadthRatio])
     .range([TIP_MINIMUM * 3, maxAllowancePerTipper]);
 
-  // const getOpenRankAdjustment = scaleLinear().domain([]).range([0.5, 1.5]);
+  const orFollowingRanks = (
+    await getOpenRankScores({
+      fids: eligibleTippers.map((t) => t.id),
+      type: "FOLLOWING",
+    })
+  ).sort((a, b) => a.rank - b.rank);
+
+  const orFollowingRanksMap = new Map(orFollowingRanks.map((r) => [r.fid, r]));
+
+  const bestRank = orFollowingRanks[0].rank;
+  const worstRank = orFollowingRanks[orFollowingRanks.length - 1].rank;
+
+  const openRankAdjustment = scaleLinear()
+    .domain([worstRank, bestRank])
+    .range([0.75, 1.25]);
 
   const newAllowances = eligibleTippers.map((tipper) => {
-    const amount =
+    let amount =
       tipper.breadthRatio === null
         ? maxAllowancePerTipper * NEW_TIPPER_MULTIPLIER
         : getAllowance(tipper.breadthRatio);
+
+    const tipperRank = orFollowingRanksMap.get(tipper.id)?.rank;
+
+    if (tipperRank) {
+      amount = amount * openRankAdjustment(tipperRank);
+    }
+
     return {
       userId: tipper.id,
-      // If the tipper doesn't have a breadth ratio it means they haven't tipped enough yet
-      // So they get the max allowance
       amount,
       breadthRatio: tipper.breadthRatio,
       userBalance: tipper.totalBalance.toString(),

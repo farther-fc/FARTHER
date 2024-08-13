@@ -27,9 +27,6 @@ export async function getRawLeaderboard(now = dayUTC()) {
         },
       },
       isBanned: false,
-      orFollowingRank: {
-        lt: TIPPER_OPENRANK_THRESHOLD_REQUIREMENT,
-      },
     },
     select: {
       id: true,
@@ -37,7 +34,6 @@ export async function getRawLeaderboard(now = dayUTC()) {
       displayName: true,
       pfpUrl: true,
       powerBadge: true,
-      orFollowingRank: true,
       tipperScores: {
         where: {
           createdAt: {
@@ -111,11 +107,9 @@ export async function getFilteredTippers(
 
     // Must meet threshold if they started tipping more than ACTIVE_TIP_DAYS_REQUIRED days ago
     const requireActiveDaysThreshold =
-      dayUTC(now).diff(firstTip, "day", true) > ACTIVE_TIP_DAYS_REQUIRED ||
-      /// TODO: Remove after 8/13/2024 (will no longer be needed then)
-      !openRankScores.includes(tipper.id);
+      dayUTC(now).diff(firstTip, "day", true) > ACTIVE_TIP_DAYS_REQUIRED;
 
-    return requireActiveDaysThreshold
+    return openRankScores.includes(tipper.id) && requireActiveDaysThreshold
       ? totalActiveDays >= ACTIVE_TIP_DAYS_REQUIRED
       : true;
   });
