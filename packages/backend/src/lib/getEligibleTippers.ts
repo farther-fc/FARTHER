@@ -1,28 +1,17 @@
 import {
+  BREADTH_RATIO_TIP_COUNT_THRESHOLD,
   TIPPER_OPENRANK_THRESHOLD_REQUIREMENT,
   TIPPER_REQUIRED_FARTHER_BALANCE,
+  TIP_MINIMUM,
   WAD_SCALER,
   getOpenRankScores,
+  getStartOfMonthUTC,
 } from "@farther/common";
 import Decimal from "decimal.js";
 import { prisma } from "../prisma";
 import { getHolders } from "./getHolders";
 
 export async function getEligibleTippers() {
-  const latestTipMeta = await prisma.tipMeta.findFirst({
-    orderBy: {
-      createdAt: "desc",
-    },
-    take: 1,
-    include: {
-      allowances: true,
-    },
-  });
-
-  const previousDistributionTime = latestTipMeta
-    ? latestTipMeta.createdAt
-    : new Date(0);
-
   const allHolders = await getHolders({ includeLPs: true });
 
   const bannedFids = (
@@ -59,6 +48,17 @@ export async function getEligibleTippers() {
     eligibleFidsBasedOnOpenRank.includes(holder.fid),
   );
 
+  const include = {
+    tipsGiven: {
+      where: {
+        createdAt: {
+          // TODO: change this if snapshot doesn't happen at start of month
+          gte: getStartOfMonthUTC(0),
+        },
+      },
+    },
+  };
+
   const existingHolders = await prisma.user.findMany({
     where: {
       id: {
@@ -66,7 +66,7 @@ export async function getEligibleTippers() {
       },
       isBanned: false,
     },
-    include: tipperInclude(previousDistributionTime),
+    include,
   });
 
   const existingHolderFids = existingHolders.map((eh) => eh.id);
@@ -81,7 +81,7 @@ export async function getEligibleTippers() {
         data: {
           id: user.fid,
         },
-        include: tipperInclude(previousDistributionTime),
+        include,
       }),
     ),
   );
@@ -92,67 +92,30 @@ export async function getEligibleTippers() {
     if (!foundHolder) {
       throw new Error(`Holder ${holder.id} not found in filteredHolders`);
     }
+
+    let breadthRatio: null | number = null;
+
+    if (holder.tipsGiven.length >= BREADTH_RATIO_TIP_COUNT_THRESHOLD) {
+      const uniqueRecipients = new Set(
+        holder.tipsGiven.map((tip) => tip.tippeeId),
+      ).size;
+      const totalAmount = holder.tipsGiven.reduce(
+        (acc, tip) => acc + tip.amount,
+        0,
+      );
+
+      const maxBreadthTipAmount = totalAmount / TIP_MINIMUM;
+      const avgTipPerUniqueRecipient = totalAmount / uniqueRecipients;
+
+      breadthRatio =
+        (maxBreadthTipAmount / avgTipPerUniqueRecipient +
+          uniqueRecipients / holder.tipsGiven.length) /
+        2;
+    }
     return {
-      ...holder,
+      id: holder.id,
       totalBalance: foundHolder.totalBalance,
+      breadthRatio,
     };
   });
-}
-
-export async function getExistingTippers() {
-  const prevTipMeta = await prisma.tipMeta.findFirst({
-    orderBy: {
-      createdAt: "desc",
-    },
-    take: 1,
-  });
-
-  const previousDistributionTime = prevTipMeta
-    ? prevTipMeta.createdAt
-    : new Date(0);
-
-  return prisma.user.findMany({
-    where: {
-      tipAllowances: {
-        // Will return users that have at least one tip allowance
-        some: {},
-      },
-    },
-    include: tipperInclude(previousDistributionTime),
-  });
-}
-
-export function tipperInclude(previousDistributionTime: Date) {
-  return {
-    tipAllowances: {
-      include: {
-        tips: true,
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-      take: 1,
-    },
-    tipsGiven: {
-      where: {
-        createdAt: {
-          gte: previousDistributionTime,
-        },
-        invalidTipReason: null,
-      },
-      include: {
-        tippee: {
-          select: {
-            tipAllowances: {
-              where: {
-                createdAt: {
-                  gte: previousDistributionTime,
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  } as const;
 }
