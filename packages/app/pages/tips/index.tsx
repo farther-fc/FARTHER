@@ -7,6 +7,7 @@ import { Popover } from "@components/ui/Popover";
 import { Skeleton } from "@components/ui/Skeleton";
 import {
   ACTIVE_TIP_DAYS_REQUIRED,
+  BREADTH_RATIO_TIP_COUNT_THRESHOLD,
   DAILY_USD_TOTAL_ALLOWANCE,
   TIPPEE_FOLLOWERS_MIN,
   TIPPER_OPENRANK_THRESHOLD_REQUIREMENT,
@@ -178,8 +179,15 @@ function TipsPage() {
         <p>
           The total daily allowance pool is targets $
           {numeral(DAILY_USD_TOTAL_ALLOWANCE).format("0,0")} of Farther per day
-          plus any unused amount from the previous day, which is equally
-          distributed to all tippers.
+          plus any unused amount from the previous day. A multiplier is applied
+          based on their{" "}
+          <ExternalLink href={OPENRANK_ENGAGEMENT_DOCS_URL}>
+            OpenRank following rank
+          </ExternalLink>
+          , and when a tipper has tipped at least{" "}
+          {BREADTH_RATIO_TIP_COUNT_THRESHOLD} times, an additional adjustment is
+          made based on how broadly they're distributing their allowance
+          throughout the month.
         </p>
         <h3>How to tip</h3>
         <p>

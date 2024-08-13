@@ -8,7 +8,6 @@ import {
   isProduction,
 } from "@farther/common";
 import { scaleLinear } from "d3";
-import { writeFile } from "fs/promises";
 import { prisma } from "../prisma";
 import { getEligibleTippers } from "./getEligibleTippers";
 import { getPrevUnusedAllowance } from "./getPrevUnusedAllowance";
@@ -85,7 +84,7 @@ export async function distributeAllowances() {
     const tipperRank = orFollowingRanksMap.get(tipper.id)?.rank;
 
     if (tipperRank) {
-      amount = amount * openRankAdjustment(tipperRank);
+      amount = Math.floor(amount * openRankAdjustment(tipperRank));
     }
 
     return {
@@ -135,14 +134,14 @@ export async function distributeAllowances() {
     minBreadthRatio,
   });
 
-  await writeFile(
-    "newAllowances.json",
-    JSON.stringify(
-      newAllowances.sort((a, b) => b.amount - a.amount),
-      null,
-      2,
-    ),
-  );
+  // await writeFile(
+  //   "newAllowances.json",
+  //   JSON.stringify(
+  //     newAllowances.sort((a, b) => b.amount - a.amount),
+  //     null,
+  //     2,
+  //   ),
+  // );
 
   console.info(
     `FINISHED distributeAllowances: ${amountDistributed.toLocaleString()} to ${eligibleTippers.length.toLocaleString()} tippers`,
