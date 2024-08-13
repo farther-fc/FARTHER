@@ -1,19 +1,20 @@
 import {
   DAILY_USD_TOTAL_ALLOWANCE,
   DistributeAllowancesError,
-  ENVIRONMENT,
   TIP_MINIMUM,
   cacheTypes,
   getHoursAgo,
+  getOpenRankScores,
   isProduction,
 } from "@farther/common";
-import dayjs from "dayjs";
+import { scaleLinear } from "d3";
 import { prisma } from "../prisma";
-import { getEligibleTippers, getExistingTippers } from "./getEligibleTippers";
+import { getEligibleTippers } from "./getEligibleTippers";
+import { getPrevUnusedAllowance } from "./getPrevUnusedAllowance";
 import { flushCache } from "./utils/flushCache";
 import { getPrice } from "./utils/getPrice";
 
-const fartherV2LaunchDate = dayjs("2024-08-01T00:00:00.000Z");
+const NEW_TIPPER_MULTIPLIER = 0.8;
 
 export async function distributeAllowances() {
   console.info("STARTING: distributeAllowances");
@@ -35,36 +36,66 @@ export async function distributeAllowances() {
 
   const baseTotalAllowance = DAILY_USD_TOTAL_ALLOWANCE / fartherUsdPrice;
 
-  // Get existing tippers to calculate the total unused allowance from the previous day
-  const existingTippers = await getExistingTippers();
-
-  const prevUnusedAllowance =
-    Date.now() > fartherV2LaunchDate.add(1, "day").valueOf()
-      ? existingTippers.reduce((allTippersTotalSpent, user) => {
-          const tipperSpent = user.tipAllowances[0].tips
-            .filter((t) => !t.invalidTipReason)
-            .reduce((spent, tip) => tip.amount + spent, 0);
-
-          return (
-            user.tipAllowances[0].amount - tipperSpent + allTippersTotalSpent
-          );
-        }, 0)
-      : 0;
+  const prevUnusedAllowance = await getPrevUnusedAllowance();
 
   const availableTotalAllowance = baseTotalAllowance + prevUnusedAllowance;
 
   // Eligible tippers for new tip cycle
   const eligibleTippers = await getEligibleTippers();
 
-  if (process.env.NODE_ENV === "development" || ENVIRONMENT === "development") {
-    printDevLogs({
-      latestTipMeta,
-      eligibleTippers,
-      prevUnusedAllowance,
-      availableTotalAllowance,
-      fartherUsdPrice,
-    });
-  }
+  const maxAllowancePerTipper = Math.floor(
+    availableTotalAllowance / eligibleTippers.length,
+  );
+
+  const sortedBreadthRatios = eligibleTippers
+    .map((t) => t.breadthRatio)
+    .filter((breadthRatio): breadthRatio is number => breadthRatio !== null)
+    .sort((a, b) => a - b);
+
+  const minBreadthRatio = sortedBreadthRatios[0];
+  const maxBreadthRatio = sortedBreadthRatios[sortedBreadthRatios.length - 1];
+
+  const getAllowance = scaleLinear()
+    .domain([minBreadthRatio, maxBreadthRatio])
+    .range([TIP_MINIMUM * 3, maxAllowancePerTipper]);
+
+  const orFollowingRanks = (
+    await getOpenRankScores({
+      fids: eligibleTippers.map((t) => t.id),
+      type: "FOLLOWING",
+    })
+  ).sort((a, b) => a.rank - b.rank);
+
+  const orFollowingRanksMap = new Map(orFollowingRanks.map((r) => [r.fid, r]));
+
+  const bestRank = orFollowingRanks[0].rank;
+  const worstRank = orFollowingRanks[orFollowingRanks.length - 1].rank;
+
+  const openRankAdjustment = scaleLinear()
+    .domain([worstRank, bestRank])
+    .range([0.75, 1.25]);
+
+  const newAllowances = eligibleTippers.map((tipper) => {
+    let amount =
+      tipper.breadthRatio === null
+        ? maxAllowancePerTipper * NEW_TIPPER_MULTIPLIER
+        : getAllowance(tipper.breadthRatio);
+
+    const tipperRank = orFollowingRanksMap.get(tipper.id)?.rank;
+
+    if (tipperRank) {
+      amount = Math.floor(amount * openRankAdjustment(tipperRank));
+    }
+
+    return {
+      userId: tipper.id,
+      amount,
+      breadthRatio: tipper.breadthRatio,
+      userBalance: tipper.totalBalance.toString(),
+    };
+  });
+
+  const amountDistributed = newAllowances.reduce((acc, a) => acc + a.amount, 0);
 
   await prisma.$transaction(async (tx) => {
     const tipMeta = await tx.tipMeta.create({
@@ -76,22 +107,11 @@ export async function distributeAllowances() {
       },
     });
 
-    const allowancePerTipper = Math.floor(
-      availableTotalAllowance / eligibleTippers.length,
-    );
-
-    // Distribute
-    const newAllowances = eligibleTippers.map((tipper, i) => {
-      return {
-        userId: tipper.id,
-        tipMetaId: tipMeta.id,
-        amount: allowancePerTipper,
-        userBalance: tipper.totalBalance.toString(),
-      };
-    });
-
     await tx.tipAllowance.createMany({
-      data: newAllowances,
+      data: newAllowances.map((a) => ({
+        ...a,
+        tipMetaId: tipMeta.id,
+      })),
     });
   });
 
@@ -104,8 +124,27 @@ export async function distributeAllowances() {
     }),
   ]);
 
+  printDevLogs({
+    latestTipMeta,
+    eligibleTippers,
+    prevUnusedAllowance,
+    amountDistributed,
+    fartherUsdPrice,
+    maxAllowancePerTipper,
+    minBreadthRatio,
+  });
+
+  // await writeFile(
+  //   "newAllowances.json",
+  //   JSON.stringify(
+  //     newAllowances.sort((a, b) => b.amount - a.amount),
+  //     null,
+  //     2,
+  //   ),
+  // );
+
   console.info(
-    `FINISHED distributeAllowances: ${availableTotalAllowance.toLocaleString()} to ${eligibleTippers.length.toLocaleString()} tippers`,
+    `FINISHED distributeAllowances: ${amountDistributed.toLocaleString()} to ${eligibleTippers.length.toLocaleString()} tippers`,
   );
 }
 
@@ -131,14 +170,18 @@ function printDevLogs({
   latestTipMeta,
   eligibleTippers,
   prevUnusedAllowance,
-  availableTotalAllowance,
+  amountDistributed,
   fartherUsdPrice,
+  maxAllowancePerTipper,
+  minBreadthRatio,
 }: {
   latestTipMeta: Awaited<ReturnType<typeof getLatestTipMeta>>;
   eligibleTippers: Awaited<ReturnType<typeof getEligibleTippers>>;
   prevUnusedAllowance: number;
-  availableTotalAllowance: number;
+  amountDistributed: number;
   fartherUsdPrice: number;
+  maxAllowancePerTipper: number;
+  minBreadthRatio: number;
 }) {
   if (latestTipMeta) {
     console.info(
@@ -153,10 +196,9 @@ function printDevLogs({
 
   console.info(`Eligible tippers: ${eligibleTippers.length}`);
   console.info(`Previous unused allowance: ${prevUnusedAllowance}`);
-  console.info(
-    "Available total allowance:",
-    availableTotalAllowance.toLocaleString(),
-  );
+  console.info("Amount distributed:", amountDistributed.toLocaleString());
 
   console.info(`Current price: $${fartherUsdPrice}`);
+  console.info(`Max allowance per tipper: ${maxAllowancePerTipper}`);
+  console.info(`Min breadth ratio: ${minBreadthRatio}`);
 }

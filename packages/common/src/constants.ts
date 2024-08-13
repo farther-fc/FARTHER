@@ -256,7 +256,7 @@ export const OPENRANK_BATCH_LIMIT = 100;
 export const OPENRANK_SNAPSHOT_INTERVAL = 6;
 
 export const cronSchedules = {
-  OPENRANK_SNAPSHOT: "0 3,9,15,21 * * *",
+  TIPPEE_OPENRANK_SYNC: "0 3,9,15,21 * * *",
   // 1 hour after openrank snapshot
   CREATE_TIPPER_SCORES: "0 4,10,16,22 * * *",
   DISTRIBUTE_ALLOWANCES: "0 16 * * *",
@@ -280,7 +280,7 @@ export const WAD_SCALER = BigInt(10 ** 18);
 
 export const API_ENDPOINT_ROOT = `${ROOT_ENDPOINT}/api/v1` as const;
 
-export const DAILY_USD_TOTAL_ALLOWANCE = 1400;
+export const DAILY_USD_TOTAL_ALLOWANCE = 2000;
 
 export const TIPPER_REWARDS_POOL = 3_000_000;
 
@@ -296,3 +296,9 @@ export const OPENRANK_HISTORY_FILE_URL =
 export const ACTIVE_TIP_DAYS_REQUIRED = 5;
 
 export const TIPPER_OPENRANK_THRESHOLD_REQUIREMENT = 100_000;
+
+// The minimimum breadth ratio to receive the max possible allowance
+export const BREADTH_RATIO_THRESHOLD = 0.3;
+
+// After this many tips, the breadth ratio will be calculated
+export const BREADTH_RATIO_TIP_COUNT_THRESHOLD = 6;

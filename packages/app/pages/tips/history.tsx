@@ -259,7 +259,7 @@ function TipHistoryPage() {
                               </div>
                             </Tooltip>
                           ) : (
-                            <Row tip={tip} isTablet={isTablet} />
+                            <Row key={tip.hash} tip={tip} isTablet={isTablet} />
                           );
                         })}
                       </div>

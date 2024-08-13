@@ -6,16 +6,12 @@ import "../instrument";
 import { distributeAllowances } from "./lib/distributeAllowances";
 import { invalidateEvangelistAllocations } from "./lib/invalidateEvangelistAllocations";
 import { createTipperScores } from "./lib/jobQueues/createTipperScores";
-import { openRankSnapshot } from "./lib/jobQueues/openRankSnapshot";
 import { syncTipperData } from "./lib/jobQueues/syncTipperData";
 import { syncUserData } from "./lib/jobQueues/syncUserData";
+import { tippeeOpenRankSync } from "./lib/jobQueues/tippeeOpenRankSync";
 import { updateEligibleTippers } from "./lib/updateEligibleTippers";
 
 dayjs.extend(utc);
-
-/**
- * NOTE: This is currently not being used. The crons are scheduled in Railway directly.
- */
 
 console.info(`server running on ${ENVIRONMENT}`);
 
@@ -27,11 +23,11 @@ cron.schedule(cronSchedules.SYNC_TIPPERS, syncTipperData, {
   timezone: "Etc/UTC",
 });
 
-const openrankSnapshotSchedule = isProduction
-  ? cronSchedules.OPENRANK_SNAPSHOT
+const tippeeOpenRankSchedule = isProduction
+  ? cronSchedules.TIPPEE_OPENRANK_SYNC
   : cronSchedules.NEVER_RUN;
 
-cron.schedule(openrankSnapshotSchedule, openRankSnapshot, {
+cron.schedule(tippeeOpenRankSchedule, tippeeOpenRankSync, {
   timezone: "Etc/UTC",
 });
 

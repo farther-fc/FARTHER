@@ -1,11 +1,5 @@
 import { prisma } from "@farther/backend";
-import {
-  ENVIRONMENT,
-  TIPPER_OPENRANK_THRESHOLD_REQUIREMENT,
-  TIPPER_REWARDS_POOL,
-  cacheTypes,
-  getOpenRankScores,
-} from "@farther/common";
+import { ENVIRONMENT, TIPPER_REWARDS_POOL, cacheTypes } from "@farther/common";
 import { dummyLeaderBoard } from "@lib/__tests__/testData";
 import { cache } from "@lib/cache";
 import { getTippersForLeaderboard } from "server/tips/utils/getTippersForLeaderboard";
@@ -44,29 +38,11 @@ export async function getLeaderboardData() {
 
   const tippers = await getTippersForLeaderboard();
 
-  // TODO: Get this data from DB after we start syncing it
-  const openRankStatsArr = await getOpenRankScores({
-    fids: tippers.map((t) => t.id),
-    type: "FOLLOWING",
-  });
-
-  const ranks = openRankStatsArr.reduce(
-    (acc, d) => {
-      acc[d.fid] = d.rank;
-      return acc;
-    },
-    {} as Record<string, number>,
-  );
-
-  const filteredTippers = tippers.filter(
-    (t) => ranks[t.id] < TIPPER_OPENRANK_THRESHOLD_REQUIREMENT,
-  );
-
-  const totalTipperScore = filteredTippers
+  const totalTipperScore = tippers
     .map((tipper) => tipper.tipperScores[0]?.score ?? 0)
     .reduce((acc, score) => acc + score, 0);
 
-  const leaderboardData = filteredTippers.map((tipper, i) => {
+  const leaderboardData = tippers.map((tipper, i) => {
     const tipperScore = tipper.tipperScores[0]?.score ?? 0;
 
     const potentialTipperRewards = Math.max(

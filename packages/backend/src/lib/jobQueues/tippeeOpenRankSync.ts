@@ -13,23 +13,23 @@ import { prisma } from "../../prisma";
 import {
   getJobCounts,
   logQueueEvents,
-  openRankSnapshotQueue,
   queueConnection,
   queueNames,
+  tippeeOpenRankSyncQueue,
 } from "../bullmq";
 import { getLatestCronTime } from "../getLatestCronTime";
 
 const BATCH_SIZE = 100;
 
-new Worker(queueNames.OPENRANK_SNAPSHOT, storeScores, {
+new Worker(queueNames.TIPPEE_OPENRANK_SYNC, storeScores, {
   connection: queueConnection,
   concurrency: 3,
 });
 
-export async function openRankSnapshot() {
-  console.log(`STARTING: ${queueNames.OPENRANK_SNAPSHOT}`);
+export async function tippeeOpenRankSync() {
+  console.log(`STARTING: ${queueNames.TIPPEE_OPENRANK_SYNC}`);
 
-  await openRankSnapshotQueue.obliterate();
+  await tippeeOpenRankSyncQueue.obliterate();
 
   const tippees = !isProduction
     ? dummyTippees
@@ -51,7 +51,7 @@ export async function openRankSnapshot() {
   const fidChunks = chunk(tippeeFids, BATCH_SIZE);
 
   console.log(
-    `${queueNames.OPENRANK_SNAPSHOT} fids to process: ${tippeeFids.length}. Total jobs: ${fidChunks.length}`,
+    `${queueNames.TIPPEE_OPENRANK_SYNC} fids to process: ${tippeeFids.length}. Total jobs: ${fidChunks.length}`,
   );
 
   // Putting the hour in the job name to avoid collisions
@@ -59,9 +59,9 @@ export async function openRankSnapshot() {
   const day = date.format("YYYY-MM-DD");
   const hour = date.hour();
 
-  await openRankSnapshotQueue.addBulk(
+  await tippeeOpenRankSyncQueue.addBulk(
     fidChunks.map((fids, i) => {
-      const jobId = `${queueNames.OPENRANK_SNAPSHOT}-${day}-h${hour}-batch:${i * BATCH_SIZE + fids.length}`;
+      const jobId = `${queueNames.TIPPEE_OPENRANK_SYNC}-${day}-h${hour}-batch:${i * BATCH_SIZE + fids.length}`;
       return {
         name: jobId,
         data: { fids },
@@ -79,7 +79,7 @@ async function storeScores(job: Job) {
     type: "ENGAGEMENT",
   });
 
-  const snapshotTimeId = getLatestCronTime(cronSchedules.OPENRANK_SNAPSHOT);
+  const snapshotTimeId = getLatestCronTime(cronSchedules.TIPPEE_OPENRANK_SYNC);
 
   for (const scoreData of scoresData) {
     const data = {
@@ -122,7 +122,7 @@ async function storeScores(job: Job) {
       Sentry.captureException(error.message, {
         contexts: {
           tags: {
-            jobQueue: queueNames.OPENRANK_SNAPSHOT,
+            jobQueue: queueNames.TIPPEE_OPENRANK_SYNC,
             snapshotTimeId,
             job: job.id,
             fid: scoreData.fid,
@@ -133,23 +133,23 @@ async function storeScores(job: Job) {
   }
 }
 
-const queueEvents = new QueueEvents(queueNames.OPENRANK_SNAPSHOT, {
+const queueEvents = new QueueEvents(queueNames.TIPPEE_OPENRANK_SYNC, {
   connection: queueConnection,
 });
 
-logQueueEvents({ queueEvents, queueName: queueNames.OPENRANK_SNAPSHOT });
+logQueueEvents({ queueEvents, queueName: queueNames.TIPPEE_OPENRANK_SYNC });
 
 queueEvents.on("completed", async (job) => {
   const { total, completed, failed } = await getJobCounts(
-    openRankSnapshotQueue,
+    tippeeOpenRankSyncQueue,
   );
 
   console.info(`done: ${job.jobId}. (${completed}/${total})`);
 
   if (total === completed + failed) {
     console.log(
-      `ALL DONE: ${queueNames.OPENRANK_SNAPSHOT}. Completed: ${completed}. Failed: ${failed}`,
+      `ALL DONE: ${queueNames.TIPPEE_OPENRANK_SYNC}. Completed: ${completed}. Failed: ${failed}`,
     );
-    await openRankSnapshotQueue.drain();
+    await tippeeOpenRankSyncQueue.drain();
   }
 });

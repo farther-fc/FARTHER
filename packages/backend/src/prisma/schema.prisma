@@ -231,7 +231,6 @@ model OpenRankScore {
   userId          Int
   user            User     @relation(fields: [userId], references: [id])
   score           Float
-  scoreNew        Decimal?
   snapshotId      String
   snapshot        OpenRankSnapshot @relation(fields: [snapshotId], references: [id])
 
