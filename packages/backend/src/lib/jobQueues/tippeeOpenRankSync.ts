@@ -6,7 +6,6 @@ import {
 } from "@farther/common";
 import * as Sentry from "@sentry/node";
 import { Job, QueueEvents, Worker } from "bullmq";
-import Decimal from "decimal.js";
 import { chunk } from "underscore";
 import { tippees as dummyTippees } from "../../dummy-data/tippees";
 import { prisma } from "../../prisma";
@@ -104,7 +103,6 @@ async function storeScores(job: Job) {
         },
       },
       score: scoreData.score,
-      scoreNew: new Decimal(scoreData.score),
     } as const;
 
     try {
