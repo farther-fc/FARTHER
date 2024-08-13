@@ -109,9 +109,12 @@ export async function getFilteredTippers(
     const requireActiveDaysThreshold =
       dayUTC(now).diff(firstTip, "day", true) > ACTIVE_TIP_DAYS_REQUIRED;
 
-    return openRankScores.includes(tipper.id) && requireActiveDaysThreshold
-      ? totalActiveDays >= ACTIVE_TIP_DAYS_REQUIRED
-      : true;
+    return (
+      openRankScores.includes(tipper.id) &&
+      (requireActiveDaysThreshold
+        ? totalActiveDays >= ACTIVE_TIP_DAYS_REQUIRED
+        : true)
+    );
   });
 }
 
