@@ -9,6 +9,7 @@ export async function getTippersByDate({
 }) {
   return await prisma.user.findMany({
     where: {
+      isBanned: false,
       tipsGiven: {
         some: {
           invalidTipReason: null,
