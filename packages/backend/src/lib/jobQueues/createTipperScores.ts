@@ -81,7 +81,7 @@ async function createTipperScoresBatch(job: Job) {
   const { fid, from, to } = job.data as JobData;
 
   const tipperData = await prisma.user.findUnique({
-    where: { id: fid, isBanned: false },
+    where: { id: fid },
     include: {
       tipsGiven: {
         where: {

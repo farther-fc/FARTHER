@@ -22,7 +22,7 @@ const BATCH_SIZE = 100;
 
 new Worker(queueNames.TIPPEE_OPENRANK_SYNC, storeScores, {
   connection: queueConnection,
-  concurrency: 3,
+  concurrency: 5,
 });
 
 export async function tippeeOpenRankSync() {
