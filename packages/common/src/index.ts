@@ -11,6 +11,7 @@ export * from "./intToBigInt";
 export * from "./merkle";
 export * from "./neynar";
 export * from "./onchain";
+export * from "./tips/getBreadthRatio";
 export * from "./typechain";
 export * from "./utils";
 export * from "./viem";

@@ -1,18 +1,21 @@
+import TipRewardsHeader from "@components/TipRewardsHeader";
 import { Leaderboard } from "@components/leaderboard/Leaderboard";
 import { Container } from "@components/ui/Container";
-import { ACTIVE_TIP_DAYS_REQUIRED, TIPPER_REWARDS_POOL } from "@farther/common";
-import numeral from "numeral";
+import { ACTIVE_TIP_DAYS_REQUIRED } from "@farther/common";
+import { routes } from "@lib/routes";
+import Link from "next/link";
 
 function TipsLeaderboardPage() {
   return (
     <Container variant="page">
-      <h1>Tips Leaderboard</h1>
+      <h1 className="text-center lg:text-left mb-8 lg:mb-0">
+        Tips Leaderboard
+      </h1>
+      <TipRewardsHeader />
       <p className="text-muted mb-6">
         The leaderboard includes everyone who tipped in the current season
-        (month) for at least {ACTIVE_TIP_DAYS_REQUIRED} days. The current
-        rewards pool is {numeral(TIPPER_REWARDS_POOL).format("0,0a")} $farther,
-        which is distributed pro rata to tippers with a postive tipper score at
-        the end of the month.
+        (month) for at least {ACTIVE_TIP_DAYS_REQUIRED} days.{" "}
+        <Link href={`${routes.tips.path}#tipping-info`}>Learn more here</Link>.
       </p>
       <Leaderboard />
     </Container>

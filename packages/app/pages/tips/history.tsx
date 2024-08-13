@@ -7,7 +7,7 @@ import { Tooltip } from "@components/ui/Tooltip";
 import { API_BATCH_LIMIT } from "@farther/common";
 import {
   FARTHER_V2_PARAGRAPH_URL,
-  OPENRANK_ENGAGEMENT_DOCS_URL,
+  OPENRANK_DOCS_URL,
   invalidTipReasons,
 } from "@lib/constants";
 import { useMediaQuery } from "@lib/context/MediaQueryContext";
@@ -146,10 +146,8 @@ function TipHistoryPage() {
           <p>
             Each tip score represents the change in the recipient's engagement
             (as measured by{" "}
-            <ExternalLink href={OPENRANK_ENGAGEMENT_DOCS_URL}>
-              OpenRank
-            </ExternalLink>
-            ) since the time the tip was made. It is updated daily up until the
+            <ExternalLink href={OPENRANK_DOCS_URL}>OpenRank</ExternalLink>)
+            since the time the tip was made. It is updated daily up until the
             end of the month. Your tipper score is an average of all the tip
             scores.
           </p>

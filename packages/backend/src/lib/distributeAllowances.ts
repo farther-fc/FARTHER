@@ -1,7 +1,9 @@
 import {
   DAILY_USD_TOTAL_ALLOWANCE,
   DistributeAllowancesError,
+  ROOT_ENDPOINT,
   TIP_MINIMUM,
+  axios,
   cacheTypes,
   getHoursAgo,
   getOpenRankScores,
@@ -126,6 +128,9 @@ export async function distributeAllowances() {
       type: cacheTypes.USER,
       ids: eligibleTippers.map((t) => t.id),
     }),
+
+    // Load the leaderboard to update the cache
+    await axios.get(`${ROOT_ENDPOINT}/tips/leaderboard`),
   ]);
 
   printDevLogs({
