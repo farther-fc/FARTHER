@@ -3,22 +3,22 @@ import { ENVIRONMENT, dummyHolders } from "@farther/common";
 import { prisma } from "../prisma";
 import { getAllLiqProviderBalances } from "./getAllLiqProviderBalances";
 
-/**
- *
- * @returns all holders in descending order of their balance
- */
+export async function getDummyHolders(_props: { includeLPs?: boolean } = {}) {
+  return dummyHolders.map((h) => ({
+    fid: h.fid,
+    totalBalance: BigInt(h.totalBalance),
+    balances: h.balances.map((b) => ({
+      address: b.address,
+      balance: BigInt(b.balance),
+    })),
+  }));
+}
+
 export async function getHolders({
   includeLPs,
 }: { includeLPs?: boolean } = {}) {
   if (ENVIRONMENT === "development") {
-    return dummyHolders.map((h) => ({
-      fid: h.fid,
-      totalBalance: BigInt(h.totalBalance),
-      balances: h.balances.map((b) => ({
-        address: b.address,
-        balance: BigInt(b.balance),
-      })),
-    }));
+    return getDummyHolders();
   }
 
   if (!process.env.NEXT_PUBLIC_AIRSTACK_API_KEY) {
