@@ -31,7 +31,8 @@ model User {
 
   ethAccounts    UserEthAccount[]
 
-  // OpenRank following rank (used for tippers)
+  // OpenRank following rank. This is only used for tippers, so we 
+  // don't need a model & time series data.
   orFollowingRank     Int?
 }
 
@@ -234,7 +235,6 @@ model OpenRankScore {
   userId          Int
   user            User     @relation(fields: [userId], references: [id])
   score           Float
-  scoreNew        Decimal?
   snapshotId      String
   snapshot        OpenRankSnapshot @relation(fields: [snapshotId], references: [id])
 

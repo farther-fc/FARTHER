@@ -257,8 +257,8 @@ export const OPENRANK_SNAPSHOT_INTERVAL = 6;
 
 export const cronSchedules = {
   TIPPEE_OPENRANK_SYNC: "0 3,9,15,21 * * *",
-  // Once per day at 1am
-  TIPPER_OPENRANK_SYNC: "0 1 * * *",
+  // Once per day an hour before distribute allowances
+  TIPPER_OPENRANK_SYNC: "0 15 * * *",
   // 1 hour after openrank snapshot
   CREATE_TIPPER_SCORES: "0 4,10,16,22 * * *",
   DISTRIBUTE_ALLOWANCES: "0 16 * * *",

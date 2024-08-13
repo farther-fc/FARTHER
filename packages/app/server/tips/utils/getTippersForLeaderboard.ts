@@ -27,6 +27,9 @@ export async function getRawLeaderboard(now = dayUTC()) {
         },
       },
       isBanned: false,
+      orFollowingRank: {
+        lt: TIPPER_OPENRANK_THRESHOLD_REQUIREMENT,
+      },
     },
     select: {
       id: true,
@@ -34,6 +37,7 @@ export async function getRawLeaderboard(now = dayUTC()) {
       displayName: true,
       pfpUrl: true,
       powerBadge: true,
+      orFollowingRank: true,
       tipperScores: {
         where: {
           createdAt: {
