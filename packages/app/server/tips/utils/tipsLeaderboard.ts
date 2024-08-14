@@ -1,5 +1,10 @@
 import { prisma } from "@farther/backend";
-import { ENVIRONMENT, TIPPER_REWARDS_POOL, cacheTypes } from "@farther/common";
+import {
+  ENVIRONMENT,
+  TIPPER_REWARDS_POOL,
+  cacheTypes,
+  getBreadthRatio,
+} from "@farther/common";
 import { dummyLeaderBoard } from "@lib/__tests__/testData";
 import { cache } from "@lib/cache";
 import { getTippersForLeaderboard } from "server/tips/utils/getTippersForLeaderboard";
@@ -39,49 +44,57 @@ export async function getLeaderboardData() {
   const tippers = await getTippersForLeaderboard();
 
   const totalTipperScore = tippers
-    .map((tipper) => tipper.tipperScores[0]?.score ?? 0)
+    .map((tipper) => tipper.user.tipperScores[0]?.score ?? 0)
     .reduce((acc, score) => acc + score, 0);
 
   const leaderboardData = tippers.map((tipper, i) => {
-    const tipperScore = tipper.tipperScores[0]?.score ?? 0;
+    const user = tipper.user;
+
+    const tipperScore = user.tipperScores[0]?.score ?? 0;
 
     const potentialTipperRewards = Math.max(
       0,
       (tipperScore / totalTipperScore) * TIPPER_REWARDS_POOL,
     );
 
-    const seasonGivenCount = tipper.tipsGiven.length;
-    const seasonGivenAmount = tipper.tipsGiven.reduce(
+    const seasonGivenCount = user.tipsGiven.length;
+    const seasonGivenAmount = user.tipsGiven.reduce(
       (acc, t) => acc + t.amount,
       0,
     );
 
+    const breadthRatio = getBreadthRatio(
+      user.tipsGiven.map(({ tippeeId, amount }) => ({ tippeeId, amount })),
+    );
+
     return {
-      fid: tipper.id,
-      displayName: tipper.displayName,
-      pfpUrl: tipper.pfpUrl,
-      username: tipper.username,
-      powerBadge: tipper.powerBadge,
+      fid: user.id,
+      displayName: user.displayName,
+      pfpUrl: user.pfpUrl,
+      username: user.username,
+      powerBadge: user.powerBadge,
       tipperScore,
+      orFollowingRank: tipper.orFollowingRank,
+      breadthRatio,
       potentialTipperRewards,
       currentAllowance:
-        tipper.tipAllowances[0].tipMetaId === currentTipMeta.id
-          ? tipper.tipAllowances[0].amount
+        user.tipAllowances[0].tipMetaId === currentTipMeta.id
+          ? user.tipAllowances[0].amount
           : 0,
       totalAllowance: Math.round(
-        tipper.tipAllowances.reduce(
+        user.tipAllowances.reduce(
           (acc, allowance) => acc + allowance.amount,
           0,
         ),
       ),
       seasonGivenCount,
       seasonGivenAmount,
-      totalGivenCount: tipper.tipAllowances.reduce(
+      totalGivenCount: user.tipAllowances.reduce(
         (acc, ta) => acc + ta.tips.length,
         0,
       ),
       totalGivenAmount: Math.round(
-        tipper.tipAllowances.reduce(
+        user.tipAllowances.reduce(
           (acc, ta) => acc + ta.tips.reduce((acc, tip) => acc + tip.amount, 0),
           0,
         ),

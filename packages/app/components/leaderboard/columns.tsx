@@ -3,9 +3,11 @@
 import { TipperScoreInfo } from "@components/tips/TipperScoreInfo";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/Avatar"; // Adjust the import path if needed
 import { Button } from "@components/ui/Button";
+import { ExternalLink } from "@components/ui/ExternalLink";
 import { Popover } from "@components/ui/Popover";
 import { Skeleton } from "@components/ui/Skeleton";
 import { TIPPER_REWARDS_POOL } from "@farther/common";
+import { OPENRANK_DOCS_URL } from "@lib/constants";
 import { LeaderboardRow } from "@lib/types/apiTypes";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, HelpCircle } from "lucide-react";
@@ -48,18 +50,20 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
     header: ({ column }) => (
       <ColumnHeaderButton
         buttonText={
-          <>
+          <span className="font-bold">
             Tipper
             <br />
             Score
-          </>
+          </span>
         }
         description={<TipperScoreInfo />}
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       />
     ),
     cell: ({ row }) => (
-      <span>{numeral(row.original.tipperScore).format("0,0")}</span>
+      <span className="font-bold">
+        {numeral(row.original.tipperScore).format("0,0")}
+      </span>
     ),
   },
   {
@@ -85,41 +89,120 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
     ),
   },
   {
-    accessorKey: "seasonGivenAmount",
+    accessorKey: "currentAllowance",
     header: ({ column }) => (
       <ColumnHeaderButton
         buttonText={
           <>
-            Amount
+            Current
             <br />
-            Given
+            Allowance
           </>
         }
-        description="Total amount of tips given this month"
+        description={
+          <>
+            <p>
+              Each tipper's allowance is calculated by weighing their{" "}
+              <ExternalLink href={OPENRANK_DOCS_URL}>
+                OpenRank following rank
+              </ExternalLink>{" "}
+              in addition to how widely they distribute to unique users.
+            </p>
+            <p>
+              An amount of zero indicates this user is currently not eligible to
+              receive an allowance.
+            </p>
+          </>
+        }
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       />
     ),
     cell: ({ row }) => (
-      <span>{row.original.seasonGivenAmount.toLocaleString()} ✨</span>
+      <span>{row.original.currentAllowance.toLocaleString()} ✨</span>
+    ),
+  },
+
+  {
+    accessorKey: "orFollowingRank",
+    header: ({ column }) => (
+      <ColumnHeaderButton
+        buttonText={
+          <>
+            Following
+            <br />
+            Rank
+          </>
+        }
+        description={
+          <>
+            This is the tipper's current{" "}
+            <ExternalLink href={OPENRANK_DOCS_URL}>
+              OpenRank Following Rank
+            </ExternalLink>
+            , which is used as a weight in the allowance calculation.
+          </>
+        }
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      />
+    ),
+    cell: ({ row }) => (
+      <span>
+        {row.original.orFollowingRank
+          ? `${row.original.orFollowingRank.toLocaleString()} ✨`
+          : "_"}
+      </span>
     ),
   },
   {
-    accessorKey: "seasonGivenCount",
+    accessorKey: "breadthRatio",
     header: ({ column }) => (
       <ColumnHeaderButton
         buttonText={
           <>
-            Count
+            Breadth
             <br />
-            Given
+            Ratio
           </>
         }
-        description="Total number of tips given this month"
+        description={
+          <>
+            <p>
+              This is how widely the tipper distributes their tips to unique
+              users. 100% means they've tipped a different user for every tip,
+              and they spread their allowance as widely as possible (tip minimum
+              every time).{" "}
+            </p>
+            <p>
+              This is used as a weight in the allowance calculation (to mitigate
+              coordinate tip trading), however it is not recommnded tippers aim
+              for 100%. A healthy breadth ratio is 50-70%.{" "}
+            </p>
+          </>
+        }
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       />
     ),
     cell: ({ row }) => (
-      <span>{row.original.seasonGivenCount.toLocaleString()}</span>
+      <span>{numeral(row.original.breadthRatio * 100).format("0.0")}%</span>
+    ),
+  },
+  {
+    accessorKey: "totalGivenAmount",
+    header: ({ column }) => (
+      <ColumnHeaderButton
+        buttonText={
+          <>
+            Lifetime
+            <br />
+            Tipped
+          </>
+        }
+        description="Total amount of $farther this tipper has given other users."
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      />
+    ),
+    cell: ({ row }) => (
+      <span>{row.original.totalGivenAmount.toLocaleString()} ✨</span>
     ),
   },
 ];

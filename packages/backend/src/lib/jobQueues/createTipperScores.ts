@@ -1,6 +1,8 @@
 import {
   ENVIRONMENT,
   OPENRANK_SNAPSHOT_INTERVAL,
+  ROOT_ENDPOINT,
+  axios,
   cacheTypes,
   dayUTC,
 } from "@farther/common";
@@ -202,5 +204,8 @@ queueEvents.on("completed", async (job) => {
     );
 
     await createTipperScoresQueue.drain();
+
+    // Load the leaderboard to update the cache
+    await axios.get(`${ROOT_ENDPOINT}/tips/leaderboard`);
   }
 });

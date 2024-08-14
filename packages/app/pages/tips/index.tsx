@@ -1,4 +1,5 @@
 import { InfoCard } from "@components/InfoCard";
+import TipRewardsHeader from "@components/TipRewardsHeader";
 import { TipsUserInfo } from "@components/tips/TipsUserInfo";
 import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
@@ -12,11 +13,8 @@ import {
   TIPPEE_FOLLOWERS_MIN,
   TIPPER_OPENRANK_THRESHOLD_REQUIREMENT,
   TIPPER_REQUIRED_FARTHER_BALANCE,
-  TIPPER_REWARDS_POOL,
-  dayUTC,
 } from "@farther/common";
-import { GODFARTHER_URL, OPENRANK_ENGAGEMENT_DOCS_URL } from "@lib/constants";
-import { useTokenInfo } from "@lib/context/TokenContext";
+import { GODFARTHER_URL, OPENRANK_DOCS_URL } from "@lib/constants";
 import { routes } from "@lib/routes";
 import dayjs from "dayjs";
 import { useTipsMeta } from "hooks/useTipsMeta";
@@ -28,32 +26,11 @@ function TipsPage() {
   const { tipMinimum, createdAt, tipsMetaLoading, eligibleTippers } =
     useTipsMeta();
 
-  const { fartherUsdPrice } = useTokenInfo();
-
   return (
     <Container variant="page">
       <main className="content">
         <h1>Tips</h1>
-        <div className="flex justify-center flex-col items-center">
-          <span className="text-ghost text-sm uppercase">
-            {dayUTC().format("MMMM")} Rewards Pool
-          </span>
-          <span className="mt-2 mb-0 text-3xl">
-            <Popover
-              content={`The rewards pool is distributed at the end of the month, pro rata to all tippers who have a positive tipper score.`}
-            >
-              <div className="flex items-center justify-end">
-                {numeral(TIPPER_REWARDS_POOL).format("0,0")} ✨{" "}
-                <HelpCircle className="text-muted ml-2 size-4" />
-              </div>
-            </Popover>
-          </span>
-          {fartherUsdPrice && (
-            <span className="text-ghost mt-2 text-xl">
-              ${numeral(TIPPER_REWARDS_POOL * fartherUsdPrice).format("0,0")}
-            </span>
-          )}
-        </div>
+        <TipRewardsHeader />
         <h4 className="text-ghost mt-8 text-sm uppercase">Current Cycle</h4>
         {!tipsMetaLoading && createdAt ? (
           <InfoCard className="grid grid-cols-3 mt-0">
@@ -89,7 +66,7 @@ function TipsPage() {
                     You must currently have a total balance of $
                     {TIPPER_REQUIRED_FARTHER_BALANCE.toLocaleString()} FARTHER
                     and an{" "}
-                    <ExternalLink href={OPENRANK_ENGAGEMENT_DOCS_URL}>
+                    <ExternalLink href={OPENRANK_DOCS_URL}>
                       OpenRank following rank
                     </ExternalLink>{" "}
                     below{" "}
@@ -131,11 +108,9 @@ function TipsPage() {
           Farther tips are designed to boost quality daily active users. This is
           acheived by scoring tips based on how much the recipients' engagement
           increases throughout each month. The engagement is measured by{" "}
-          <ExternalLink href={OPENRANK_ENGAGEMENT_DOCS_URL}>
-            OpenRank
-          </ExternalLink>
-          , and all the tip scores are averaged to form a tipper score. At the
-          end of the month, a rewards pool is distributed pro rata based on each
+          <ExternalLink href={OPENRANK_DOCS_URL}>OpenRank</ExternalLink>, and
+          all the tip scores are averaged to form a tipper score. At the end of
+          the month, a rewards pool is distributed pro rata based on each
           tipper's score.
         </p>
         <p>
@@ -150,7 +125,7 @@ function TipsPage() {
           <ol>
             <li>
               Have an{" "}
-              <ExternalLink href={OPENRANK_ENGAGEMENT_DOCS_URL}>
+              <ExternalLink href={OPENRANK_DOCS_URL}>
                 OpenRank following rank
               </ExternalLink>{" "}
               below {TIPPER_OPENRANK_THRESHOLD_REQUIREMENT.toLocaleString()}.
@@ -181,7 +156,7 @@ function TipsPage() {
           {numeral(DAILY_USD_TOTAL_ALLOWANCE).format("0,0")} of Farther per day
           plus any unused amount from the previous day. A multiplier is applied
           based on their{" "}
-          <ExternalLink href={OPENRANK_ENGAGEMENT_DOCS_URL}>
+          <ExternalLink href={OPENRANK_DOCS_URL}>
             OpenRank following rank
           </ExternalLink>
           , and when a tipper has tipped at least{" "}

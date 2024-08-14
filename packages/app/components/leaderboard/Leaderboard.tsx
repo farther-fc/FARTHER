@@ -32,11 +32,13 @@ import { DataTableToolbar } from "./LeaderboardToolbar";
 
 const columnStyles: { [key: string]: string } = {
   rank: "w-[28px]",
-  username: "w-[150px]",
-  tipperScore: "text-right w-[150px]",
-  potentialTipperRewards: "text-right w-[150px]",
-  seasonGivenAmount: "text-right w-[150px]",
-  seasonGivenCount: "text-right w-[150px]",
+  username: "w-[110px]",
+  tipperScore: "text-right w-[110px]",
+  potentialTipperRewards: "text-right w-[110px]",
+  currentAllowance: "text-right w-[110px]",
+  orFollowingRank: "text-right w-[110px]",
+  breadthRatio: "text-right w-[110px]",
+  totalGivenAmount: "text-right w-[110px] pr-4",
 } as const;
 
 export function Leaderboard() {
@@ -98,7 +100,7 @@ export function Leaderboard() {
                     return (
                       <TableCell
                         key={cell.id}
-                        className={`table-cell px-2 md:px-5 ${columnStyles[cell.column.id] ?? ""} ${cell.column.getIndex() === columns.length - 1 ? "pr-8 md:pr-10" : ""}`}
+                        className={`table-cell px-2 md:px-5 ${columnStyles[cell.column.id] ?? ""} ${cell.column.getIndex() === columns.length - 1 ? "pr-4" : ""}`}
                       >
                         {flexRender(
                           cell.column.columnDef.cell,

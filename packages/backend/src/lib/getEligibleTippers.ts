@@ -2,8 +2,8 @@ import {
   BREADTH_RATIO_TIP_COUNT_THRESHOLD,
   TIPPER_OPENRANK_THRESHOLD_REQUIREMENT,
   TIPPER_REQUIRED_FARTHER_BALANCE,
-  TIP_MINIMUM,
   WAD_SCALER,
+  getBreadthRatio,
   getOpenRankScores,
   getStartOfMonthUTC,
 } from "@farther/common";
@@ -96,21 +96,12 @@ export async function getEligibleTippers() {
     let breadthRatio: null | number = null;
 
     if (holder.tipsGiven.length >= BREADTH_RATIO_TIP_COUNT_THRESHOLD) {
-      const uniqueRecipients = new Set(
-        holder.tipsGiven.map((tip) => tip.tippeeId),
-      ).size;
-      const totalAmount = holder.tipsGiven.reduce(
-        (acc, tip) => acc + tip.amount,
-        0,
+      breadthRatio = getBreadthRatio(
+        holder.tipsGiven.map(({ tippeeId, amount }) => ({
+          tippeeId,
+          amount,
+        })),
       );
-
-      const maxBreadthTipAmount = totalAmount / TIP_MINIMUM;
-      const avgTipPerUniqueRecipient = totalAmount / uniqueRecipients;
-
-      breadthRatio =
-        (maxBreadthTipAmount / avgTipPerUniqueRecipient +
-          uniqueRecipients / holder.tipsGiven.length) /
-        2;
     }
     return {
       id: holder.id,

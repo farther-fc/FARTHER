@@ -83,39 +83,48 @@ export async function getFilteredTippers(
   now = dayUTC(),
 ) {
   // TODO: Remove after 8/13/2024 (will no longer be needed then)
-  const openRankScores = (
+  const openRankData = (
     await getOpenRankScores({
       fids: tippers.map((t) => t.id),
       type: "FOLLOWING",
       rateLimit: 10,
     })
-  )
-    .filter((score) => score.rank < TIPPER_OPENRANK_THRESHOLD_REQUIREMENT)
-    .map((score) => score.fid);
+  ).filter((score) => score.rank < TIPPER_OPENRANK_THRESHOLD_REQUIREMENT);
 
-  return tippers.filter((tipper) => {
-    const totalActiveDays = new Set(
-      tipper.tipsGiven.map((t) => t.tipAllowanceId),
-    ).size;
+  const openRankFids = openRankData.map((data) => data.fid);
 
-    const firstTip = tipper.tipsGiven.reduce((acc, t) => {
-      if (t.createdAt < acc) {
-        return t.createdAt;
-      }
-      return acc;
-    }, tipper.tipsGiven[0].createdAt);
+  const orFollowingRankMap = new Map(
+    openRankData.map((data) => [data.fid, data.rank]),
+  );
 
-    // Must meet threshold if they started tipping more than ACTIVE_TIP_DAYS_REQUIRED days ago
-    const requireActiveDaysThreshold =
-      dayUTC(now).diff(firstTip, "day", true) > ACTIVE_TIP_DAYS_REQUIRED;
+  return tippers
+    .map((user) => ({
+      user,
+      orFollowingRank: orFollowingRankMap.get(user.id),
+    }))
+    .filter((tipper) => {
+      const totalActiveDays = new Set(
+        tipper.user.tipsGiven.map((t) => t.tipAllowanceId),
+      ).size;
 
-    return (
-      openRankScores.includes(tipper.id) &&
-      (requireActiveDaysThreshold
-        ? totalActiveDays >= ACTIVE_TIP_DAYS_REQUIRED
-        : true)
-    );
-  });
+      const firstTip = tipper.user.tipsGiven.reduce((acc, t) => {
+        if (t.createdAt < acc) {
+          return t.createdAt;
+        }
+        return acc;
+      }, tipper.user.tipsGiven[0].createdAt);
+
+      // Must meet threshold if they started tipping more than ACTIVE_TIP_DAYS_REQUIRED days ago
+      const requireActiveDaysThreshold =
+        dayUTC(now).diff(firstTip, "day", true) > ACTIVE_TIP_DAYS_REQUIRED;
+
+      return (
+        openRankFids.includes(tipper.user.id) &&
+        (requireActiveDaysThreshold
+          ? totalActiveDays >= ACTIVE_TIP_DAYS_REQUIRED
+          : true)
+      );
+    });
 }
 
 export async function getTippersForLeaderboard() {

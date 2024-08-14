@@ -73,7 +73,7 @@ export const invalidTipReasons = {
   INELIGIBLE_TIPPEE: "Recipient must have at least 100 followers",
 } as const;
 
-export const OPENRANK_ENGAGEMENT_DOCS_URL =
+export const OPENRANK_DOCS_URL =
   "https://docs.openrank.com/integrations/farcaster/ranking-strategies-on-farcaster";
 
 export const FARTHER_V2_PARAGRAPH_URL =

@@ -47,8 +47,8 @@
     --background-50: 217 30% 96%;
     --background-100: 217 35% 88%;
     --background-200: 217 40% 76%;
-    --background-300: 217 45% 64%;
-    --background-400: 217 50% 52%;
+    --background-300: 217 45% 55%;
+    --background-400: 217 50% 43%;
     --background-500: 217 58% 38%;
     --background-600: 217 60% 34%;
     --background-700: 217 65% 30%;
@@ -355,13 +355,13 @@ h6 {
 }
 
 h1 {
-  @apply mt-14 md:mt-20 mb-6 md:mb-8 text-[200%] md:text-[250%];
+  @apply mt-10 md:mt-16 mb-6 md:mb-8 text-[200%] md:text-[250%];
   line-height: 1.35;
   font-style: normal;
 }
 
 h2 {
-  @apply mt-10 md:mt-14 mb-4 md:mb-6 text-[160%] md:text-[200%];
+  @apply mt-8 md:mt-14 mb-4 md:mb-6 text-[160%] md:text-[200%];
   font-weight: normal;
 }
 

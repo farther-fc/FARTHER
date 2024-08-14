@@ -1,5 +1,5 @@
 import { ExternalLink } from "@components/ui/ExternalLink";
-import { OPENRANK_ENGAGEMENT_DOCS_URL } from "@lib/constants";
+import { OPENRANK_DOCS_URL } from "@lib/constants";
 
 export function TipperScoreInfo() {
   return (
@@ -8,12 +8,10 @@ export function TipperScoreInfo() {
         The <span className="text-white">tipper score</span> is an average of
         all tip scores. Tip scores are derived from the percentage change in the
         tip receipient's Farcaster engagement (determined by{" "}
-        <ExternalLink href={OPENRANK_ENGAGEMENT_DOCS_URL}>
-          OpenRank
-        </ExternalLink>
-        ) since the time the tip was made until the end of the month. The
-        percentage change of each recipient's engagement score is multiplied by
-        the tip amount.
+        <ExternalLink href={OPENRANK_DOCS_URL}>OpenRank</ExternalLink>) since
+        the time the tip was made until the end of the month. The percentage
+        change of each recipient's engagement score is multiplied by the tip
+        amount.
       </p>
       <p>OpenRank data is synced at least once per day.</p>
     </div>
