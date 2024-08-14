@@ -148,7 +148,7 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
     cell: ({ row }) => (
       <span>
         {row.original.orFollowingRank
-          ? `${row.original.orFollowingRank.toLocaleString()} ✨`
+          ? row.original.orFollowingRank.toLocaleString()
           : "_"}
       </span>
     ),
