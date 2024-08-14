@@ -151,7 +151,7 @@ describe("getFilteredTippers", () => {
     const filteredTippers = await getFilteredTippers(tippers, now);
 
     expect(filteredTippers).toHaveLength(1);
-    expect(filteredTippers.map((t) => t.id)).toEqual([2]);
+    expect(filteredTippers.map((t) => t.user.id)).toEqual([2]);
   });
 
   test("should return correct tippers the day after the rule becomes active", async () => {
@@ -166,7 +166,7 @@ describe("getFilteredTippers", () => {
     expect(filteredTippers).toHaveLength(2);
 
     filteredTippers.forEach((t) => {
-      expect([2, 3]).toContain(t.id);
+      expect([2, 3]).toContain(t.user.id);
     });
   });
 
@@ -183,7 +183,7 @@ describe("getFilteredTippers", () => {
 
     // Only users 3 and 4 tip the total required days
     filteredTippers.forEach((t) => {
-      expect([3, 4]).toContain(t.id);
+      expect([3, 4]).toContain(t.user.id);
     });
   });
 });
