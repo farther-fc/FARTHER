@@ -1,6 +1,7 @@
 import { prisma } from "../prisma";
 import { getEligibleTippers } from "./getEligibleTippers";
 import { invalidateAllowance } from "./invalidateAllowance";
+import { flushCache } from "./utils/flushCache";
 
 export async function updateEligibleTippers() {
   console.info(`STARTING: updateEligibleTippers`);
@@ -38,6 +39,8 @@ export async function updateEligibleTippers() {
       await invalidateAllowance(allowance);
     }
   }
+
+  await flushCache({ type: "TIP_META" });
 
   console.info("FINISHED updateEligibleTippers");
 }

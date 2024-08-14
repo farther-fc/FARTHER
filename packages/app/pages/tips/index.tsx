@@ -152,7 +152,7 @@ function TipsPage() {
         </div>
         <h3>Allowance</h3>
         <p>
-          The total daily allowance pool is targets $
+          The total daily allowance pool currently targets $
           {numeral(DAILY_USD_TOTAL_ALLOWANCE).format("0,0")} of Farther per day
           plus any unused amount from the previous day. A multiplier is applied
           based on their{" "}
