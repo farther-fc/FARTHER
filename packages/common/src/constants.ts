@@ -282,7 +282,7 @@ export const API_ENDPOINT_ROOT = `${ROOT_ENDPOINT}/api/v1` as const;
 
 export const DAILY_USD_TOTAL_ALLOWANCE = 2000;
 
-export const TIPPER_REWARDS_POOL = 3_000_000;
+export const TIPPER_REWARDS_POOL = 5_000_000;
 
 export const TIPPEE_FOLLOWERS_MIN = 100;
 
