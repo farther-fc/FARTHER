@@ -280,7 +280,7 @@ export const WAD_SCALER = BigInt(10 ** 18);
 
 export const API_ENDPOINT_ROOT = `${ROOT_ENDPOINT}/api/v1` as const;
 
-export const DAILY_USD_TOTAL_ALLOWANCE = 2000;
+export const DAILY_USD_TOTAL_ALLOWANCE = 1600;
 
 export const TIPPER_REWARDS_POOL = 5_000_000;
 

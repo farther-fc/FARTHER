@@ -1,4 +1,7 @@
-import { getLiqTokenAmounts } from "@farther/common";
+import {
+  getLiqTokenAmounts,
+  retryWithExponentialBackoff,
+} from "@farther/common";
 import { NFTPositionMngrAbi, UniswapV3PoolAbi } from "@farther/common/src/abis";
 import { baseContractAddresses } from "@farther/common/src/constants";
 import { viemPublicClient } from "@farther/common/src/viem";
@@ -13,6 +16,21 @@ type ResponseData = {
     };
   };
 };
+
+type Postions = [
+  bigint,
+  `0x${string}`,
+  `0x${string}`,
+  `0x${string}`,
+  number,
+  number,
+  number,
+  bigint,
+  bigint,
+  bigint,
+  bigint,
+  bigint,
+];
 
 export async function getAllLiqProviderBalances() {
   const positionOwners: Map<string, { id: string; liquidity: number }[]> =
@@ -58,22 +76,28 @@ export async function getAllLiqProviderBalances() {
     }
   }
 
-  const [sqrtPriceX96]: [bigint] = (await viemPublicClient.readContract({
-    abi: UniswapV3PoolAbi,
-    address: baseContractAddresses.production.UNIV3_FARTHER_ETH_30BPS_POOL,
-    functionName: "slot0",
-  })) as any;
+  const [sqrtPriceX96]: [bigint] = (await retryWithExponentialBackoff(
+    async () =>
+      await viemPublicClient.readContract({
+        abi: UniswapV3PoolAbi,
+        address: baseContractAddresses.production.UNIV3_FARTHER_ETH_30BPS_POOL,
+        functionName: "slot0",
+      }),
+  )) as any;
 
   for (const [owner, positions] of positionOwners) {
     let totalFartherBalance = BigInt(0);
     for (const { id, liquidity } of positions) {
       const [, , , , , tickLower, tickUpper] =
-        await viemPublicClient.readContract({
-          abi: NFTPositionMngrAbi,
-          address: baseContractAddresses.production.NFT_POSITION_MANAGER,
-          functionName: "positions",
-          args: [BigInt(id)],
-        });
+        (await retryWithExponentialBackoff(async () => {
+          const response = await viemPublicClient.readContract({
+            abi: NFTPositionMngrAbi,
+            address: baseContractAddresses.production.NFT_POSITION_MANAGER,
+            functionName: "positions",
+            args: [BigInt(id)],
+          });
+          return response;
+        })) as Postions;
 
       const [, fartherBalance] = getLiqTokenAmounts({
         tickLow: Number(tickLower),
