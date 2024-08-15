@@ -109,18 +109,13 @@ async function createTipperScoresBatch(job: Job) {
   const tipees = new Set(tips.map((tip) => tip.tippeeId));
   const endScores = await getLatestOpenRankScores(Array.from(tipees));
 
-  const tipScores = await getTipScores({
+  const tipScores = getTipScores({
     tips,
     endScores,
   });
 
   const totalScore = tipScores.reduce(
     (acc, score) => acc.add(score.changePerToken),
-    new Decimal(0),
-  );
-
-  const totalScoreAlt = tipScores.reduce(
-    (acc, score) => acc.add(score.altChangePerToken),
     new Decimal(0),
   );
 
@@ -144,14 +139,11 @@ async function createTipperScoresBatch(job: Job) {
   // Return average
   const tipperScore = totalScore.div(tips.length);
 
-  const tipperScoreAlt = totalScoreAlt.div(tips.length);
-
   try {
     await prisma.tipperScore.create({
       data: {
         userId: fid,
         score: tipperScore.toNumber(),
-        altScore: tipperScoreAlt.toNumber(),
       },
     });
   } catch (error) {

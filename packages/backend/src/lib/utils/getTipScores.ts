@@ -1,5 +1,5 @@
 import { dayUTC } from "@farther/common";
-import { scaleLinear } from "d3";
+import { scaleSymlog } from "d3";
 import Decimal from "decimal.js";
 
 // @dwr.eth == 0.188
@@ -7,14 +7,14 @@ const CURRENT_MAX_ENGAGEMENT_SCORE = 0.2;
 
 // OpenRank engagement score has much bigger % gains when it starts low, so this
 // counters it by increasing the impact of tips to users with higher engagement scores
-const getDampener = scaleLinear()
+const getAdjustment = scaleSymlog()
   .domain([0, CURRENT_MAX_ENGAGEMENT_SCORE])
-  .range([1, 3]);
+  .range([0.5, 5000]);
 
 /**
  * For each tip, this calculates the OpenRank score change of the recipient per token tipped
  */
-export async function getTipScores({
+export function getTipScores({
   tips,
   endScores,
   endTime = new Date(),
@@ -40,19 +40,17 @@ export async function getTipScores({
     const openRankChange = latestScore.div(startScore).mul(100).sub(100);
     const openRankChangePerDay = openRankChange.div(daysSinceTip);
 
-    const dampenedChange = openRankChangePerDay.mul(
-      getDampener(startScore.toNumber()),
-    );
+    const adjustment = getAdjustment(startScore.toNumber());
+
+    const adjustedChange = openRankChangePerDay.mul(adjustment);
 
     // Change per token
-    const changePerToken = openRankChangePerDay.mul(tip.amount);
-    const altChangePerToken = dampenedChange.mul(tip.amount);
+    const changePerToken = adjustedChange.mul(tip.amount);
 
     // Scale up to human readable numbers
     return {
       hash: tip.hash,
       changePerToken,
-      altChangePerToken,
     };
   });
 }
