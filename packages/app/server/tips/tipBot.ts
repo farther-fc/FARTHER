@@ -108,6 +108,9 @@ export async function tipBot({
     message += progressBar;
   }
 
+  console.log(message);
+  return;
+
   await neynarClient.publishCast(TIP_BOT_UUID, message, {
     replyTo: tipHash,
     // embeds: [

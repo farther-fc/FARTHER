@@ -34,6 +34,7 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
             <AvatarImage
               src={`https://res.cloudinary.com/merkle-manufactory/image/fetch/c_fill,f_png,h_30,w_30/${pfpUrl}`}
               alt={username || ""}
+              loading="lazy"
             />
             <AvatarFallback>
               <Skeleton className="rounded-full" />
