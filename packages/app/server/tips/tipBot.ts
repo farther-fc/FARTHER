@@ -64,6 +64,7 @@ export async function tipBot({
   invalidTipReason,
   amountTippedThisCycle,
   tipHash,
+  allowableAmount,
 }: {
   tipper: string;
   tippee: string;
@@ -72,6 +73,8 @@ export async function tipBot({
   invalidTipReason: InvalidTipReason | null;
   amountTippedThisCycle: number;
   tipHash: string;
+  // Used for invalid tips where a smaller amount would make the current tip valid
+  allowableAmount?: number;
 }) {
   if (ENVIRONMENT !== "production") {
     console.error("TipBot is disabled in non-production environments");
@@ -89,7 +92,13 @@ export async function tipBot({
 
     const invalidMessage = invalidTipReasons[invalidTipReason];
 
-    message += `\n\nReason: ${invalidMessage}${amountAndRemaining}`;
+    message += `\n\n${invalidMessage}`;
+
+    if (allowableAmount) {
+      message += `. Reduce the amount to ${allowableAmount} for this tip to be valid.`;
+    }
+
+    message += amountAndRemaining;
   } else {
     message += `✅ Valid tip from @${tipper} to @${tippee}${amountAndRemaining}`;
   }

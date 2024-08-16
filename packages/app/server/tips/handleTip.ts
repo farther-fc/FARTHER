@@ -112,14 +112,18 @@ export const handleTip = publicProcedure.mutation(async (opts) => {
     createdAtMs,
   });
 
-  const exceededThresholdToTippee = getExceededThresholdToTippee({
-    tippeeFid,
-    tipsThisWeek,
-  });
+  const { exceededThresholdToTippee, validAmount: tippeeValidAmount } =
+    getExceededThresholdToTippee({
+      tippeeFid,
+      tipsThisWeek,
+      currentAmount: tipAmount,
+    });
 
-  const exceededThresholdToTippers = getExceededThresholdToTippers({
-    tipsThisWeek,
-  });
+  const { exceededThresholdToTippers, validAmount: tippersValidAmount } =
+    getExceededThresholdToTippers({
+      tipsThisWeek,
+      currentAmount: tipAmount,
+    });
 
   const tipsThisCycle = tipsThisWeek.filter(
     (t) => t.allocationId === tipAllowance.id,
@@ -168,6 +172,13 @@ export const handleTip = publicProcedure.mutation(async (opts) => {
                     : exceededThresholdToTippers
                       ? InvalidTipReason.RECIPROCATION_THRESHOLD_REACHED
                       : null;
+
+  const allowableAmount =
+    invalidTipReason === InvalidTipReason.TIPPEE_WEEKLY_THRESHOLD_REACHED
+      ? tippeeValidAmount
+      : invalidTipReason === InvalidTipReason.RECIPROCATION_THRESHOLD_REACHED
+        ? tippersValidAmount
+        : 0;
 
   console.log({
     invalidTime,
@@ -228,6 +239,7 @@ export const handleTip = publicProcedure.mutation(async (opts) => {
     tippee: tippeeNeynar.username,
     availableAllowance: availableAllowance,
     tipHash: castData.hash,
+    allowableAmount,
   });
 });
 
@@ -279,18 +291,14 @@ async function storeTip({
   await cache.flush({ type: cacheTypes.USER_TIPS, ids: [tipperFid] });
 }
 
-async function getTipsThisWeek({
+export async function getTipsThisWeek({
   tipperFid,
   createdAtMs,
 }: {
   tipperFid: number;
   createdAtMs: number;
 }) {
-  const createdAt = dayUTC(createdAtMs).toDate();
   const sevenDaysAgo = dayUTC(createdAtMs).subtract(7, "day").toDate();
-
-  console.log("createdAt", createdAt);
-  console.log("sevenDaysAgo", sevenDaysAgo);
 
   return await prisma.tip.findMany({
     where: {
@@ -319,36 +327,41 @@ async function getTipsThisWeek({
   });
 }
 
-function getExceededThresholdToTippee({
+export function getExceededThresholdToTippee({
   tippeeFid,
   tipsThisWeek,
+  currentAmount,
 }: {
   tippeeFid: number;
   tipsThisWeek: Awaited<ReturnType<typeof getTipsThisWeek>>;
+  currentAmount: number;
 }) {
   const totalWeeklyAmount = tipsThisWeek.reduce(
     (acc, tip) => acc + tip.amount,
     0,
   );
+
   const tipsToTippee = tipsThisWeek.filter((t) => t.tippeeId === tippeeFid);
 
-  const totalAmountToTippee = tipsToTippee.reduce(
+  const totalWeeklyToTippee = tipsToTippee.reduce(
     (acc, tip) => acc + tip.amount,
     0,
   );
 
-  console.log("totalWeeklyAmount", totalWeeklyAmount);
-  console.log("totalAmountToTippee", totalAmountToTippee);
-
-  return (
-    totalAmountToTippee / totalWeeklyAmount > TIPPEE_WEEKLY_THRESHOLD_RATIO
-  );
+  return {
+    exceededThresholdToTippee:
+      (totalWeeklyToTippee + currentAmount) / totalWeeklyAmount >
+      TIPPEE_WEEKLY_THRESHOLD_RATIO,
+    validAmount: totalWeeklyAmount - totalWeeklyToTippee,
+  };
 }
 
-function getExceededThresholdToTippers({
+export function getExceededThresholdToTippers({
   tipsThisWeek,
+  currentAmount,
 }: {
   tipsThisWeek: Awaited<ReturnType<typeof getTipsThisWeek>>;
+  currentAmount: number;
 }) {
   const totalWeeklyAmount = tipsThisWeek.reduce(
     (acc, tip) => acc + tip.amount,
@@ -358,9 +371,16 @@ function getExceededThresholdToTippers({
   const tipsToTippers = tipsThisWeek.filter(
     (t) => t.tippee.tipsGiven.length > 0,
   );
-  const totalTipsToTippers = tipsToTippers.reduce(
+
+  const totalWeeklyToTippers = tipsToTippers.reduce(
     (acc, tip) => acc + tip.amount,
     0,
   );
-  return totalTipsToTippers / totalWeeklyAmount > RECIPROCATION_THRESHOLD;
+
+  return {
+    exceededThresholdToTippers:
+      (totalWeeklyToTippers + currentAmount) / totalWeeklyAmount >
+      RECIPROCATION_THRESHOLD,
+    validAmount: totalWeeklyAmount - totalWeeklyToTippers,
+  };
 }
