@@ -254,7 +254,6 @@ model TipperScore {
   userId        Int
   user          User        @relation(fields: [userId], references: [id])
   score         Float
-  altScore      Float?
   allocationId  String?     @unique
   allocation    Allocation? @relation(fields: [allocationId], references: [id])
 
