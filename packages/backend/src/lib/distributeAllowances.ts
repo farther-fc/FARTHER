@@ -16,7 +16,7 @@ import { getPrevUnusedAllowance } from "./getPrevUnusedAllowance";
 import { flushCache } from "./utils/flushCache";
 import { getPrice } from "./utils/getPrice";
 
-const NEW_TIPPER_MULTIPLIER = 0.8;
+const NEW_TIPPER_MULTIPLIER = 0.7;
 
 export async function distributeAllowances() {
   console.info("STARTING: distributeAllowances");
@@ -77,7 +77,7 @@ export async function distributeAllowances() {
 
   const openRankAdjustment = scaleLinear()
     .domain([worstRank, bestRank])
-    .range([0.75, 1.25]);
+    .range([0.7, 1.3]);
 
   const newAllowances = eligibleTippers.map((tipper) => {
     let amount =

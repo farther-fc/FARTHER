@@ -23,5 +23,19 @@ export async function getTippersByDate({
         },
       },
     },
+    include: {
+      tipsGiven: {
+        where: {
+          invalidTipReason: null,
+          tippeeOpenRankScore: {
+            not: null,
+          },
+          createdAt: {
+            gte: from,
+            lt: to,
+          },
+        },
+      },
+    },
   });
 }
