@@ -1,2846 +1,1904 @@
 [
   {
-    "username": "ehcarpenter",
-    "fid": 19783,
-    "score": 6897.294412303511,
+    "username": "wahoo",
+    "fid": 3741,
+    "score": 207889.8829534587,
     "rank": 1
   },
   {
-    "username": "kingofwarpscast",
-    "fid": 468087,
-    "score": 6153.430139892211,
+    "username": "ehcarpenter",
+    "fid": 19783,
+    "score": 169236.04478694344,
     "rank": 2
+  },
+  {
+    "username": "deftony",
+    "fid": 296315,
+    "score": 122138.32765691646,
+    "rank": 3
   },
   {
     "username": "dexxcuyy.eth",
     "fid": 394023,
-    "score": 6054.167889901439,
-    "rank": 3
-  },
-  {
-    "username": "wahoo",
-    "fid": 3741,
-    "score": 5472.309394276182,
+    "score": 107873.82363149752,
     "rank": 4
   },
   {
-    "username": "maretus.eth",
-    "fid": 403619,
-    "score": 4524.105116778798,
+    "username": "koomitra",
+    "fid": 250664,
+    "score": 107110.0909391581,
     "rank": 5
-  },
-  {
-    "username": "flexasaurusrex",
-    "fid": 7418,
-    "score": 4014.946596010583,
-    "rank": 6
-  },
-  {
-    "username": "prosocialise",
-    "fid": 262566,
-    "score": 3812.1430712998217,
-    "rank": 7
-  },
-  {
-    "username": "!815069",
-    "fid": 815069,
-    "score": 3461.277103985012,
-    "rank": 8
-  },
-  {
-    "username": "nftits00",
-    "fid": 389066,
-    "score": 3371.2442598208295,
-    "rank": 9
-  },
-  {
-    "username": "wenedy",
-    "fid": 509971,
-    "score": 3339.8812900972907,
-    "rank": 10
-  },
-  {
-    "username": "inkboy",
-    "fid": 463779,
-    "score": 3307.3596386431454,
-    "rank": 11
   },
   {
     "username": "foreigngods",
     "fid": 540412,
-    "score": 3193.5987272874822,
+    "score": 90593.5076283623,
+    "rank": 6
+  },
+  {
+    "username": "pretlove",
+    "fid": 382384,
+    "score": 87504.94948189413,
+    "rank": 7
+  },
+  {
+    "username": "joshisdeas",
+    "fid": 350139,
+    "score": 70043.95467749763,
+    "rank": 8
+  },
+  {
+    "username": "nato-san",
+    "fid": 597941,
+    "score": 69361.60705857814,
+    "rank": 9
+  },
+  {
+    "username": "traguy.eth",
+    "fid": 471309,
+    "score": 66129.37609189546,
+    "rank": 10
+  },
+  {
+    "username": "goldie",
+    "fid": 7472,
+    "score": 65731.58575945384,
+    "rank": 11
+  },
+  {
+    "username": "hyp",
+    "fid": 271878,
+    "score": 65502.422664167374,
     "rank": 12
   },
   {
-    "username": "brainn",
-    "fid": 469243,
-    "score": 2975.82460856878,
+    "username": "gdragon",
+    "fid": 402682,
+    "score": 65265.84968491832,
     "rank": 13
   },
   {
     "username": "femcash",
     "fid": 357596,
-    "score": 2941.0108214416114,
+    "score": 65163.27212432312,
     "rank": 14
-  },
-  {
-    "username": "baeshy",
-    "fid": 542351,
-    "score": 2904.1682211064167,
-    "rank": 15
-  },
-  {
-    "username": "fwkiraa",
-    "fid": 508409,
-    "score": 2881.052721650472,
-    "rank": 16
-  },
-  {
-    "username": "thekeystar.eth",
-    "fid": 397963,
-    "score": 2836.385576977501,
-    "rank": 17
-  },
-  {
-    "username": "jiya",
-    "fid": 458337,
-    "score": 2745.2358386583965,
-    "rank": 18
-  },
-  {
-    "username": "lostsolx",
-    "fid": 628195,
-    "score": 2710.1488721907795,
-    "rank": 19
-  },
-  {
-    "username": "traguy.eth",
-    "fid": 471309,
-    "score": 2627.9214917707895,
-    "rank": 20
-  },
-  {
-    "username": "themuyideen",
-    "fid": 510330,
-    "score": 2469.8753190208618,
-    "rank": 21
-  },
-  {
-    "username": "boothang",
-    "fid": 467312,
-    "score": 2449.651051153288,
-    "rank": 22
-  },
-  {
-    "username": "kylepatrick.eth",
-    "fid": 247143,
-    "score": 2384.729752388218,
-    "rank": 23
-  },
-  {
-    "username": "0xsusu",
-    "fid": 508548,
-    "score": 2281.54773653128,
-    "rank": 24
-  },
-  {
-    "username": "dummie.eth",
-    "fid": 277952,
-    "score": 2272.644760286069,
-    "rank": 25
-  },
-  {
-    "username": "tekus",
-    "fid": 646093,
-    "score": 2264.61827201561,
-    "rank": 26
-  },
-  {
-    "username": "kreept",
-    "fid": 467347,
-    "score": 2262.412910189487,
-    "rank": 27
-  },
-  {
-    "username": "fredha.eth",
-    "fid": 444929,
-    "score": 2218.540604881399,
-    "rank": 28
-  },
-  {
-    "username": "hyp",
-    "fid": 271878,
-    "score": 2188.3339339076883,
-    "rank": 29
-  },
-  {
-    "username": "pretlove",
-    "fid": 382384,
-    "score": 2179.2430353912887,
-    "rank": 30
-  },
-  {
-    "username": "izzykid",
-    "fid": 511666,
-    "score": 2116.071887512853,
-    "rank": 31
-  },
-  {
-    "username": "0xmelanin",
-    "fid": 420493,
-    "score": 2063.406121323807,
-    "rank": 32
-  },
-  {
-    "username": "2034",
-    "fid": 492067,
-    "score": 2021.9671322976233,
-    "rank": 33
-  },
-  {
-    "username": "zeuzc",
-    "fid": 509624,
-    "score": 1990.8648291238421,
-    "rank": 34
-  },
-  {
-    "username": "arif1122",
-    "fid": 308094,
-    "score": 1928.4683548973658,
-    "rank": 35
-  },
-  {
-    "username": "miranalyn",
-    "fid": 490760,
-    "score": 1909.9566615819904,
-    "rank": 36
-  },
-  {
-    "username": "degenlady1",
-    "fid": 420958,
-    "score": 1879.3442510552109,
-    "rank": 37
-  },
-  {
-    "username": "freymon",
-    "fid": 665530,
-    "score": 1828.8802735435722,
-    "rank": 38
-  },
-  {
-    "username": "xbased",
-    "fid": 398824,
-    "score": 1809.1032545071146,
-    "rank": 39
-  },
-  {
-    "username": "blackkhammer.eth",
-    "fid": 385766,
-    "score": 1783.1756305493866,
-    "rank": 40
-  },
-  {
-    "username": "elvismilz",
-    "fid": 613980,
-    "score": 1773.226072194057,
-    "rank": 41
-  },
-  {
-    "username": "vjeco.eth",
-    "fid": 294370,
-    "score": 1748.9405587537299,
-    "rank": 42
-  },
-  {
-    "username": "kib",
-    "fid": 438835,
-    "score": 1719.8736205217385,
-    "rank": 43
-  },
-  {
-    "username": "sanyahsimi",
-    "fid": 511348,
-    "score": 1639.084401249179,
-    "rank": 44
-  },
-  {
-    "username": "staraptor.eth",
-    "fid": 417418,
-    "score": 1626.2422497609318,
-    "rank": 45
-  },
-  {
-    "username": "jaythe11th",
-    "fid": 508334,
-    "score": 1611.4511749544556,
-    "rank": 46
-  },
-  {
-    "username": "tooni",
-    "fid": 420246,
-    "score": 1603.5697754155276,
-    "rank": 47
-  },
-  {
-    "username": "sgbaby.eth",
-    "fid": 474514,
-    "score": 1590.98927847969,
-    "rank": 48
-  },
-  {
-    "username": "jdotfinn",
-    "fid": 375536,
-    "score": 1556.7357022963456,
-    "rank": 49
-  },
-  {
-    "username": "rafaello12",
-    "fid": 391793,
-    "score": 1508.750475272667,
-    "rank": 50
-  },
-  {
-    "username": "zuuye.eth",
-    "fid": 447195,
-    "score": 1467.6029443091852,
-    "rank": 51
-  },
-  {
-    "username": "archilles",
-    "fid": 441632,
-    "score": 1460.2312206353229,
-    "rank": 52
-  },
-  {
-    "username": "k3llogs",
-    "fid": 535208,
-    "score": 1450.845049557263,
-    "rank": 53
-  },
-  {
-    "username": "mantine.eth",
-    "fid": 237884,
-    "score": 1448.528007741227,
-    "rank": 54
-  },
-  {
-    "username": "deftony",
-    "fid": 296315,
-    "score": 1384.3728063324213,
-    "rank": 55
-  },
-  {
-    "username": "adminbrit.eth",
-    "fid": 383360,
-    "score": 1375.7630926284057,
-    "rank": 56
-  },
-  {
-    "username": "qat",
-    "fid": 440176,
-    "score": 1357.9876511275365,
-    "rank": 57
-  },
-  {
-    "username": "sleepypenguin.eth",
-    "fid": 403090,
-    "score": 1317.612875349899,
-    "rank": 58
-  },
-  {
-    "username": "janicka",
-    "fid": 483462,
-    "score": 1310.2329728130394,
-    "rank": 59
-  },
-  {
-    "username": "collectorscanyon.eth",
-    "fid": 466926,
-    "score": 1300.5343657422222,
-    "rank": 60
-  },
-  {
-    "username": "sassycassie",
-    "fid": 672303,
-    "score": 1289.3368152008898,
-    "rank": 61
-  },
-  {
-    "username": "ifewasabi",
-    "fid": 403399,
-    "score": 1237.8476978565263,
-    "rank": 62
-  },
-  {
-    "username": "podom.eth",
-    "fid": 416401,
-    "score": 1237.6517758240066,
-    "rank": 63
-  },
-  {
-    "username": "melikapooya",
-    "fid": 422334,
-    "score": 1219.9001749843526,
-    "rank": 64
-  },
-  {
-    "username": "danfaje",
-    "fid": 518129,
-    "score": 1209.863743976673,
-    "rank": 65
-  },
-  {
-    "username": "skillven",
-    "fid": 512482,
-    "score": 1202.9918210205979,
-    "rank": 66
-  },
-  {
-    "username": "imduna.eth",
-    "fid": 483365,
-    "score": 1192.0959563084741,
-    "rank": 67
-  },
-  {
-    "username": "joshisdeas",
-    "fid": 350139,
-    "score": 1191.756648478825,
-    "rank": 68
-  },
-  {
-    "username": "anco",
-    "fid": 378285,
-    "score": 1151.0103155067084,
-    "rank": 69
-  },
-  {
-    "username": "mafia9",
-    "fid": 510029,
-    "score": 1146.969681188812,
-    "rank": 70
-  },
-  {
-    "username": "dollypy",
-    "fid": 707086,
-    "score": 1131.8258764712843,
-    "rank": 71
-  },
-  {
-    "username": "seydrango",
-    "fid": 324741,
-    "score": 1105.0826716377255,
-    "rank": 72
-  },
-  {
-    "username": "arob1000",
-    "fid": 440747,
-    "score": 1100.7621667634658,
-    "rank": 73
-  },
-  {
-    "username": "mubaranky",
-    "fid": 255500,
-    "score": 1094.8090538427607,
-    "rank": 74
-  },
-  {
-    "username": "imzzi",
-    "fid": 548867,
-    "score": 1040.1111346351342,
-    "rank": 75
-  },
-  {
-    "username": "gdragon",
-    "fid": 402682,
-    "score": 1034.549418255772,
-    "rank": 76
-  },
-  {
-    "username": "odogwupete",
-    "fid": 535238,
-    "score": 1017.5497288588929,
-    "rank": 77
-  },
-  {
-    "username": "chinemelum.eth",
-    "fid": 431085,
-    "score": 1001.7835052978058,
-    "rank": 78
-  },
-  {
-    "username": "thompson",
-    "fid": 270138,
-    "score": 999.2015342521505,
-    "rank": 79
-  },
-  {
-    "username": "joellelb",
-    "fid": 278406,
-    "score": 988.2593851035148,
-    "rank": 80
-  },
-  {
-    "username": "kel66.eth",
-    "fid": 482953,
-    "score": 980.1311793635363,
-    "rank": 81
-  },
-  {
-    "username": "kkkjjj12",
-    "fid": 418681,
-    "score": 979.2442238800992,
-    "rank": 82
-  },
-  {
-    "username": "milesx.eth",
-    "fid": 485965,
-    "score": 977.0245384831627,
-    "rank": 83
-  },
-  {
-    "username": "charlesac",
-    "fid": 421068,
-    "score": 961.6482365410525,
-    "rank": 84
-  },
-  {
-    "username": "suisui",
-    "fid": 276506,
-    "score": 939.9248847142544,
-    "rank": 85
-  },
-  {
-    "username": "zoovie",
-    "fid": 388361,
-    "score": 930.0945389033748,
-    "rank": 86
-  },
-  {
-    "username": "valhalla1",
-    "fid": 346080,
-    "score": 906.689794572136,
-    "rank": 87
-  },
-  {
-    "username": "koomitra",
-    "fid": 250664,
-    "score": 905.4968203304301,
-    "rank": 88
-  },
-  {
-    "username": "saxophone55.eth",
-    "fid": 415368,
-    "score": 895.4533048718886,
-    "rank": 89
-  },
-  {
-    "username": "hodlceo.eth",
-    "fid": 15513,
-    "score": 886.7020435381762,
-    "rank": 90
   },
   {
     "username": "michaelasensio",
     "fid": 528242,
-    "score": 885.7266136878067,
-    "rank": 91
-  },
-  {
-    "username": "tomorrowluck",
-    "fid": 500429,
-    "score": 868.2848500286432,
-    "rank": 92
-  },
-  {
-    "username": "hnwcrypto.eth",
-    "fid": 402888,
-    "score": 865.2395931563467,
-    "rank": 93
-  },
-  {
-    "username": "itsai",
-    "fid": 418671,
-    "score": 862.6245965347712,
-    "rank": 94
-  },
-  {
-    "username": "skrim",
-    "fid": 296241,
-    "score": 859.7549330892118,
-    "rank": 95
-  },
-  {
-    "username": "swim",
-    "fid": 268455,
-    "score": 859.3405094299983,
-    "rank": 96
-  },
-  {
-    "username": "luca1111",
-    "fid": 585995,
-    "score": 851.7788397189496,
-    "rank": 97
-  },
-  {
-    "username": "0xashley.eth",
-    "fid": 256500,
-    "score": 839.3716538416302,
-    "rank": 98
-  },
-  {
-    "username": "jinbearwoong",
-    "fid": 424006,
-    "score": 832.121414214108,
-    "rank": 99
-  },
-  {
-    "username": "tushar12",
-    "fid": 308284,
-    "score": 829.9824642688733,
-    "rank": 100
-  },
-  {
-    "username": "marcelonada",
-    "fid": 330083,
-    "score": 815.5348325270494,
-    "rank": 101
-  },
-  {
-    "username": "lumxy",
-    "fid": 329309,
-    "score": 815.0733388711576,
-    "rank": 102
-  },
-  {
-    "username": "lukaa",
-    "fid": 362962,
-    "score": 814.3738182276857,
-    "rank": 103
-  },
-  {
-    "username": "clutch351",
-    "fid": 787340,
-    "score": 804.1873268958784,
-    "rank": 104
-  },
-  {
-    "username": "khentoysarad",
-    "fid": 435501,
-    "score": 800.1179939221491,
-    "rank": 105
-  },
-  {
-    "username": "mide",
-    "fid": 265298,
-    "score": 799.9263720652301,
-    "rank": 106
-  },
-  {
-    "username": "spring12",
-    "fid": 493452,
-    "score": 793.7083841496204,
-    "rank": 107
-  },
-  {
-    "username": "mizuiro",
-    "fid": 497567,
-    "score": 786.2286631275587,
-    "rank": 108
-  },
-  {
-    "username": "orange2024",
-    "fid": 529314,
-    "score": 774.5650250417165,
-    "rank": 109
-  },
-  {
-    "username": "garnizzy",
-    "fid": 787250,
-    "score": 767.0014907778224,
-    "rank": 110
-  },
-  {
-    "username": "flooooooo.eth",
-    "fid": 331948,
-    "score": 764.6169911887852,
-    "rank": 111
-  },
-  {
-    "username": "roguehax.eth",
-    "fid": 377111,
-    "score": 761.6195890704925,
-    "rank": 112
-  },
-  {
-    "username": "ercel",
-    "fid": 528550,
-    "score": 754.8318572393255,
-    "rank": 113
-  },
-  {
-    "username": "disemino",
-    "fid": 340034,
-    "score": 752.1367338292148,
-    "rank": 114
-  },
-  {
-    "username": "lemontea",
-    "fid": 437666,
-    "score": 746.8975813680904,
-    "rank": 115
-  },
-  {
-    "username": "mugi0526",
-    "fid": 508261,
-    "score": 744.4176208894054,
-    "rank": 116
-  },
-  {
-    "username": "sohe",
-    "fid": 627302,
-    "score": 741.9731850159233,
-    "rank": 117
-  },
-  {
-    "username": "zenxosa",
-    "fid": 441048,
-    "score": 741.7739992205762,
-    "rank": 118
-  },
-  {
-    "username": "meatpie",
-    "fid": 553958,
-    "score": 733.878040200787,
-    "rank": 119
-  },
-  {
-    "username": "trillobyte",
-    "fid": 340986,
-    "score": 720.3752667593242,
-    "rank": 120
-  },
-  {
-    "username": "godtina",
-    "fid": 392597,
-    "score": 717.1500188581516,
-    "rank": 121
-  },
-  {
-    "username": "jiwoozoo",
-    "fid": 459170,
-    "score": 715.5258144798898,
-    "rank": 122
-  },
-  {
-    "username": "fluffheadchaser",
-    "fid": 306610,
-    "score": 706.8267499786709,
-    "rank": 123
-  },
-  {
-    "username": "ryanhube",
-    "fid": 368013,
-    "score": 703.9036965397871,
-    "rank": 124
-  },
-  {
-    "username": "altagers.eth",
-    "fid": 217261,
-    "score": 701.676224103369,
-    "rank": 125
-  },
-  {
-    "username": "xerx",
-    "fid": 422438,
-    "score": 700.1596038226875,
-    "rank": 126
-  },
-  {
-    "username": "skantyy.eth",
-    "fid": 389059,
-    "score": 699.8131155343397,
-    "rank": 127
-  },
-  {
-    "username": "perfumevv",
-    "fid": 462883,
-    "score": 697.9188574626527,
-    "rank": 128
-  },
-  {
-    "username": "psydeffects",
-    "fid": 364953,
-    "score": 697.6827930564004,
-    "rank": 129
-  },
-  {
-    "username": "wakkin",
-    "fid": 301385,
-    "score": 677.1827468140845,
-    "rank": 130
-  },
-  {
-    "username": "susa",
-    "fid": 445226,
-    "score": 673.5706617996904,
-    "rank": 131
-  },
-  {
-    "username": "pohe",
-    "fid": 385627,
-    "score": 672.6061751350519,
-    "rank": 132
-  },
-  {
-    "username": "bryceckc",
-    "fid": 272116,
-    "score": 669.5812146322362,
-    "rank": 133
-  },
-  {
-    "username": "happyforyou",
-    "fid": 512773,
-    "score": 669.5550078816124,
-    "rank": 134
-  },
-  {
-    "username": "arrotu",
-    "fid": 441956,
-    "score": 669.1693049155992,
-    "rank": 135
-  },
-  {
-    "username": "michii",
-    "fid": 486142,
-    "score": 665.0218259587481,
-    "rank": 136
-  },
-  {
-    "username": "3irka",
-    "fid": 511972,
-    "score": 663.3664046790983,
-    "rank": 137
-  },
-  {
-    "username": "shokoon",
-    "fid": 537379,
-    "score": 661.170506075238,
-    "rank": 138
-  },
-  {
-    "username": "ypuyouyou",
-    "fid": 410948,
-    "score": 658.0592500340944,
-    "rank": 139
-  },
-  {
-    "username": "goldie",
-    "fid": 7472,
-    "score": 657.6750385267434,
-    "rank": 140
-  },
-  {
-    "username": "seanwince",
-    "fid": 8405,
-    "score": 655.5937634370813,
-    "rank": 141
-  },
-  {
-    "username": "birtcorn",
-    "fid": 421001,
-    "score": 653.8101556099231,
-    "rank": 142
-  },
-  {
-    "username": "leovv",
-    "fid": 513240,
-    "score": 652.9655575868609,
-    "rank": 143
-  },
-  {
-    "username": "nikdmello.eth",
-    "fid": 488178,
-    "score": 645.6707048249625,
-    "rank": 144
-  },
-  {
-    "username": "justin926",
-    "fid": 245579,
-    "score": 639.7603671834667,
-    "rank": 145
-  },
-  {
-    "username": "fuckcoolpussy.eth",
-    "fid": 409573,
-    "score": 639.6848886921832,
-    "rank": 146
-  },
-  {
-    "username": "tanvir6.eth",
-    "fid": 456675,
-    "score": 629.5918322343699,
-    "rank": 147
-  },
-  {
-    "username": "ghost0",
-    "fid": 13404,
-    "score": 623.6047159507868,
-    "rank": 148
-  },
-  {
-    "username": "thatdevguy3",
-    "fid": 457536,
-    "score": 623.5476950116852,
-    "rank": 149
-  },
-  {
-    "username": "manuwilliams",
-    "fid": 308410,
-    "score": 619.6891806478138,
-    "rank": 150
-  },
-  {
-    "username": "gnarking",
-    "fid": 419861,
-    "score": 618.4802922326177,
-    "rank": 151
-  },
-  {
-    "username": "haruta",
-    "fid": 401174,
-    "score": 616.7326517424316,
-    "rank": 152
-  },
-  {
-    "username": "ako1988",
-    "fid": 397392,
-    "score": 608.3251025243238,
-    "rank": 153
-  },
-  {
-    "username": "yeomks",
-    "fid": 406493,
-    "score": 599.5779778925946,
-    "rank": 154
-  },
-  {
-    "username": "mahla",
-    "fid": 422233,
-    "score": 598.7296162901255,
-    "rank": 155
-  },
-  {
-    "username": "bilabong",
-    "fid": 548711,
-    "score": 593.3532485937803,
-    "rank": 156
-  },
-  {
-    "username": "bluebubble",
-    "fid": 513581,
-    "score": 587.4097529574254,
-    "rank": 157
-  },
-  {
-    "username": "charles2000",
-    "fid": 786482,
-    "score": 581.5762818416198,
-    "rank": 158
-  },
-  {
-    "username": "leovido.eth",
-    "fid": 203666,
-    "score": 580.7803781244286,
-    "rank": 159
-  },
-  {
-    "username": "tonyminh",
-    "fid": 263574,
-    "score": 579.2993363066488,
-    "rank": 160
-  },
-  {
-    "username": "pigdegen",
-    "fid": 512856,
-    "score": 577.6588808678944,
-    "rank": 161
-  },
-  {
-    "username": "dh302928",
-    "fid": 404330,
-    "score": 576.1697390351015,
-    "rank": 162
-  },
-  {
-    "username": "smashthunderston",
-    "fid": 218142,
-    "score": 573.393023228567,
-    "rank": 163
-  },
-  {
-    "username": "wongturn",
-    "fid": 501095,
-    "score": 573.3826793171241,
-    "rank": 164
+    "score": 62020.18871515185,
+    "rank": 15
   },
   {
     "username": "biggerman21",
     "fid": 445210,
-    "score": 570.4270719416927,
-    "rank": 165
+    "score": 59444.04021244824,
+    "rank": 16
   },
   {
-    "username": "nhp",
-    "fid": 455965,
-    "score": 569.7621128250912,
-    "rank": 166
+    "username": "maretus.eth",
+    "fid": 403619,
+    "score": 59291.76159948039,
+    "rank": 17
   },
   {
-    "username": "activis",
-    "fid": 391861,
-    "score": 566.7379607718458,
-    "rank": 167
+    "username": "melikapooya",
+    "fid": 422334,
+    "score": 53562.40766894458,
+    "rank": 18
   },
   {
-    "username": "mappii",
-    "fid": 644667,
-    "score": 560.6335519151269,
-    "rank": 168
+    "username": "wenedy",
+    "fid": 509971,
+    "score": 52013.79559105999,
+    "rank": 19
   },
   {
-    "username": "agnaagnes",
-    "fid": 779916,
-    "score": 559.6016751284455,
-    "rank": 169
-  },
-  {
-    "username": "hamong",
-    "fid": 512499,
-    "score": 553.2840512643389,
-    "rank": 170
-  },
-  {
-    "username": "leehanhee",
-    "fid": 483960,
-    "score": 553.0271598934736,
-    "rank": 171
-  },
-  {
-    "username": "0xtest",
-    "fid": 194604,
-    "score": 551.707671126492,
-    "rank": 172
-  },
-  {
-    "username": "vavava0",
-    "fid": 397262,
-    "score": 545.1033022722427,
-    "rank": 173
-  },
-  {
-    "username": "meeshuno",
-    "fid": 352787,
-    "score": 542.6726082153948,
-    "rank": 174
-  },
-  {
-    "username": "bonjocallmit",
-    "fid": 434862,
-    "score": 541.1960113169783,
-    "rank": 175
-  },
-  {
-    "username": "wetsocks.eth",
-    "fid": 473065,
-    "score": 535.1910238376306,
-    "rank": 176
-  },
-  {
-    "username": "darcris.eth",
-    "fid": 343855,
-    "score": 533.2880649482507,
-    "rank": 177
-  },
-  {
-    "username": "eiteengo",
-    "fid": 396484,
-    "score": 531.8653759035692,
-    "rank": 178
-  },
-  {
-    "username": "baybjack",
-    "fid": 784277,
-    "score": 530.0877711327847,
-    "rank": 179
-  },
-  {
-    "username": "zeronftt.eth",
-    "fid": 236636,
-    "score": 524.2771080604989,
-    "rank": 180
-  },
-  {
-    "username": "greatgambino",
-    "fid": 477292,
-    "score": 524.237787093851,
-    "rank": 181
-  },
-  {
-    "username": "pump1991",
-    "fid": 429539,
-    "score": 522.3723095295377,
-    "rank": 182
-  },
-  {
-    "username": "evee",
-    "fid": 500988,
-    "score": 521.2551337628634,
-    "rank": 183
-  },
-  {
-    "username": "herojik",
-    "fid": 444323,
-    "score": 520.12646529405,
-    "rank": 184
-  },
-  {
-    "username": "aj4real",
-    "fid": 802776,
-    "score": 520.1071742366744,
-    "rank": 185
-  },
-  {
-    "username": "khfrhn.eth",
-    "fid": 279037,
-    "score": 517.216060447215,
-    "rank": 186
-  },
-  {
-    "username": "nato-san",
-    "fid": 597941,
-    "score": 511.3392754259281,
-    "rank": 187
-  },
-  {
-    "username": "chillyazz.eth",
-    "fid": 376177,
-    "score": 509.6819004666695,
-    "rank": 188
-  },
-  {
-    "username": "doryaaa",
-    "fid": 590111,
-    "score": 508.7433216318205,
-    "rank": 189
-  },
-  {
-    "username": "zamaco",
-    "fid": 475295,
-    "score": 507.6112170423081,
-    "rank": 190
-  },
-  {
-    "username": "demang.eth",
-    "fid": 260433,
-    "score": 507.2702885566475,
-    "rank": 191
-  },
-  {
-    "username": "akmalthoriq",
-    "fid": 509022,
-    "score": 506.81503086197597,
-    "rank": 192
-  },
-  {
-    "username": "crpdaddy.eth",
-    "fid": 386213,
-    "score": 503.42187853608215,
-    "rank": 193
-  },
-  {
-    "username": "ppking",
-    "fid": 501832,
-    "score": 500.05501692655133,
-    "rank": 194
-  },
-  {
-    "username": "mikkolagerstedt",
-    "fid": 302556,
-    "score": 498.24604435838216,
-    "rank": 195
-  },
-  {
-    "username": "gajagoyolo",
-    "fid": 414401,
-    "score": 496.2884112985989,
-    "rank": 196
-  },
-  {
-    "username": "skuyyy.eth",
-    "fid": 380762,
-    "score": 491.1283406271279,
-    "rank": 197
-  },
-  {
-    "username": "girl-ua",
-    "fid": 528914,
-    "score": 490.1032545027613,
-    "rank": 198
-  },
-  {
-    "username": "nxt1995vn",
-    "fid": 306729,
-    "score": 486.72489223339574,
-    "rank": 199
-  },
-  {
-    "username": "mehrad",
-    "fid": 270228,
-    "score": 477.62805374102265,
-    "rank": 200
-  },
-  {
-    "username": "sorashido",
-    "fid": 385793,
-    "score": 476.9042974840284,
-    "rank": 201
-  },
-  {
-    "username": "mosodae777",
-    "fid": 478311,
-    "score": 476.61441149216836,
-    "rank": 202
-  },
-  {
-    "username": "imran1452",
-    "fid": 528149,
-    "score": 474.63775928004924,
-    "rank": 203
-  },
-  {
-    "username": "chocochoco",
-    "fid": 500986,
-    "score": 474.5160833890711,
-    "rank": 204
-  },
-  {
-    "username": "ddongguri",
-    "fid": 407704,
-    "score": 473.46090755187856,
-    "rank": 205
-  },
-  {
-    "username": "baegopayo",
-    "fid": 448920,
-    "score": 465.78552541990194,
-    "rank": 206
-  },
-  {
-    "username": "hieuvo",
-    "fid": 470886,
-    "score": 465.29820467840864,
-    "rank": 207
-  },
-  {
-    "username": "creambread",
-    "fid": 418296,
-    "score": 463.27841573469465,
-    "rank": 208
-  },
-  {
-    "username": "abeg007.eth",
-    "fid": 474644,
-    "score": 458.5671919019486,
-    "rank": 209
-  },
-  {
-    "username": "jmggang",
-    "fid": 503541,
-    "score": 456.54542549887196,
-    "rank": 210
-  },
-  {
-    "username": "max3665",
-    "fid": 302229,
-    "score": 456.2606661151089,
-    "rank": 211
+    "username": "thekeystar.eth",
+    "fid": 397963,
+    "score": 48193.994394665075,
+    "rank": 20
   },
   {
     "username": "hi-daisy",
     "fid": 502617,
-    "score": 451.9270372446531,
-    "rank": 212
+    "score": 46272.111694795916,
+    "rank": 21
   },
   {
-    "username": "pandateemo",
-    "fid": 247653,
-    "score": 450.9367994599116,
-    "rank": 213
-  },
-  {
-    "username": "nyasu.eth",
-    "fid": 421000,
-    "score": 449.94083840698283,
-    "rank": 214
-  },
-  {
-    "username": "charming",
-    "fid": 407705,
-    "score": 448.9978738150896,
-    "rank": 215
-  },
-  {
-    "username": "ladyeebenz",
-    "fid": 239828,
-    "score": 448.01581786225086,
-    "rank": 216
-  },
-  {
-    "username": "collie",
-    "fid": 500244,
-    "score": 441.3437393127949,
-    "rank": 217
-  },
-  {
-    "username": "olamiplenty200",
-    "fid": 519114,
-    "score": 440.26975844940506,
-    "rank": 218
-  },
-  {
-    "username": "sahariarsowrob71",
-    "fid": 422514,
-    "score": 437.7448376144902,
-    "rank": 219
-  },
-  {
-    "username": "sheva7.eth",
-    "fid": 423036,
-    "score": 435.5599790862824,
-    "rank": 220
-  },
-  {
-    "username": "nutellacrepe.eth",
-    "fid": 408746,
-    "score": 434.89645852424337,
-    "rank": 221
-  },
-  {
-    "username": "non07777.eth",
-    "fid": 285462,
-    "score": 431.8601259517783,
-    "rank": 222
-  },
-  {
-    "username": "yuusukerino",
-    "fid": 353603,
-    "score": 431.3490098365275,
-    "rank": 223
-  },
-  {
-    "username": "melliflous",
-    "fid": 820161,
-    "score": 430.0584771990565,
-    "rank": 224
+    "username": "justin926",
+    "fid": 245579,
+    "score": 44068.178451553074,
+    "rank": 22
   },
   {
     "username": "seeimagery",
     "fid": 451841,
-    "score": 429.0560034292456,
-    "rank": 225
+    "score": 42255.247960753695,
+    "rank": 23
   },
   {
-    "username": "dd8",
-    "fid": 461302,
-    "score": 428.742486983398,
-    "rank": 226
+    "username": "luca1111",
+    "fid": 585995,
+    "score": 41657.57425134229,
+    "rank": 24
   },
   {
-    "username": "aylee",
-    "fid": 434358,
-    "score": 427.5940584447446,
-    "rank": 227
+    "username": "ghost0",
+    "fid": 13404,
+    "score": 37960.110817523535,
+    "rank": 25
   },
   {
-    "username": "seko",
-    "fid": 232108,
-    "score": 426.9838216047056,
-    "rank": 228
+    "username": "2034",
+    "fid": 492067,
+    "score": 36567.54558711481,
+    "rank": 26
   },
   {
-    "username": "itslemon.eth",
-    "fid": 301144,
-    "score": 422.51422770064295,
-    "rank": 229
+    "username": "brainn",
+    "fid": 469243,
+    "score": 36341.533894832304,
+    "rank": 27
   },
   {
-    "username": "adeola",
-    "fid": 509215,
-    "score": 419.68344476682125,
-    "rank": 230
+    "username": "marcelonada",
+    "fid": 330083,
+    "score": 33306.949101862345,
+    "rank": 28
   },
   {
-    "username": "saltmint",
-    "fid": 484727,
-    "score": 419.5051670998268,
-    "rank": 231
+    "username": "leovido.eth",
+    "fid": 203666,
+    "score": 32402.11958393404,
+    "rank": 29
   },
   {
-    "username": "happyquokka",
-    "fid": 316454,
-    "score": 418.6599191768305,
-    "rank": 232
+    "username": "disemino",
+    "fid": 340034,
+    "score": 30691.425942932274,
+    "rank": 30
   },
   {
-    "username": "marwaaslam",
-    "fid": 512534,
-    "score": 417.22431810712374,
-    "rank": 233
+    "username": "smashthunderston",
+    "fid": 218142,
+    "score": 29218.172090753662,
+    "rank": 31
   },
   {
-    "username": "hind",
-    "fid": 285998,
-    "score": 417.0184067612794,
-    "rank": 234
+    "username": "fuckcoolpussy.eth",
+    "fid": 409573,
+    "score": 28709.893120928522,
+    "rank": 32
   },
   {
-    "username": "imtaeni.eth",
-    "fid": 439396,
-    "score": 414.46259656151136,
-    "rank": 235
+    "username": "nutellacrepe.eth",
+    "fid": 408746,
+    "score": 28572.79117022175,
+    "rank": 33
   },
   {
-    "username": "hirohiro",
-    "fid": 383877,
-    "score": 413.13741975087015,
-    "rank": 236
+    "username": "podom.eth",
+    "fid": 416401,
+    "score": 28326.002017784092,
+    "rank": 34
   },
   {
-    "username": "bit-inko",
-    "fid": 462351,
-    "score": 412.36710618289885,
-    "rank": 237
+    "username": "jdotfinn",
+    "fid": 375536,
+    "score": 28290.146084316937,
+    "rank": 35
   },
   {
-    "username": "plantsnft",
-    "fid": 318447,
-    "score": 412.1180153336639,
-    "rank": 238
+    "username": "nftits00",
+    "fid": 389066,
+    "score": 27672.118176690645,
+    "rank": 36
   },
   {
-    "username": "nununufriend",
-    "fid": 395662,
-    "score": 410.29774547364013,
-    "rank": 239
+    "username": "mahla",
+    "fid": 422233,
+    "score": 26412.695244247603,
+    "rank": 37
   },
   {
-    "username": "paserigame",
-    "fid": 385830,
-    "score": 406.52495958300426,
-    "rank": 240
+    "username": "jiwoozoo",
+    "fid": 459170,
+    "score": 26142.445263710153,
+    "rank": 38
   },
   {
-    "username": "papikosun.eth",
-    "fid": 263309,
-    "score": 406.4434105939366,
-    "rank": 241
+    "username": "sorashido",
+    "fid": 385793,
+    "score": 25875.303074903266,
+    "rank": 39
   },
   {
-    "username": "sinek",
-    "fid": 733071,
-    "score": 405.15143610546534,
-    "rank": 242
-  },
-  {
-    "username": "lampphotography",
-    "fid": 12626,
-    "score": 404.5890711820446,
-    "rank": 243
-  },
-  {
-    "username": "mocochan",
-    "fid": 588078,
-    "score": 402.4424097104184,
-    "rank": 244
-  },
-  {
-    "username": "ali-sharafi",
-    "fid": 348569,
-    "score": 399.31329697977344,
-    "rank": 245
+    "username": "roguehax.eth",
+    "fid": 377111,
+    "score": 25089.097375640726,
+    "rank": 40
   },
   {
     "username": "nattc.eth",
     "fid": 245902,
-    "score": 397.40616131421086,
-    "rank": 246
-  },
-  {
-    "username": "artzydreams",
-    "fid": 365209,
-    "score": 396.48871557287697,
-    "rank": 247
-  },
-  {
-    "username": "hoshinoun.eth",
-    "fid": 341438,
-    "score": 395.8815197500189,
-    "rank": 248
-  },
-  {
-    "username": "rickyare21",
-    "fid": 501794,
-    "score": 393.8429109837585,
-    "rank": 249
-  },
-  {
-    "username": "aguzman.eth",
-    "fid": 501801,
-    "score": 393.56577337783824,
-    "rank": 250
-  },
-  {
-    "username": "nn0613",
-    "fid": 525136,
-    "score": 393.56524749086213,
-    "rank": 251
-  },
-  {
-    "username": "cryptmosso",
-    "fid": 426178,
-    "score": 392.3324458207819,
-    "rank": 252
-  },
-  {
-    "username": "jacque",
-    "fid": 195117,
-    "score": 392.23839858784567,
-    "rank": 253
-  },
-  {
-    "username": "mycandies.eth",
-    "fid": 381536,
-    "score": 391.5306810867815,
-    "rank": 254
-  },
-  {
-    "username": "0xgiwa.eth",
-    "fid": 274563,
-    "score": 390.3714528419615,
-    "rank": 255
-  },
-  {
-    "username": "strano.eth",
-    "fid": 278239,
-    "score": 383.6502343477921,
-    "rank": 256
-  },
-  {
-    "username": "dixon",
-    "fid": 307182,
-    "score": 383.2202688297192,
-    "rank": 257
-  },
-  {
-    "username": "kogang",
-    "fid": 415902,
-    "score": 382.60026595626664,
-    "rank": 258
-  },
-  {
-    "username": "jonna",
-    "fid": 439799,
-    "score": 381.4759697938193,
-    "rank": 259
-  },
-  {
-    "username": "lovemiso",
-    "fid": 443863,
-    "score": 381.4052241994496,
-    "rank": 260
-  },
-  {
-    "username": "chielilybell.eth",
-    "fid": 343971,
-    "score": 380.5031863852672,
-    "rank": 261
-  },
-  {
-    "username": "yoony12",
-    "fid": 418456,
-    "score": 379.8017552172255,
-    "rank": 262
-  },
-  {
-    "username": "prouddegen.eth",
-    "fid": 380660,
-    "score": 378.9848328274711,
-    "rank": 263
-  },
-  {
-    "username": "masumin",
-    "fid": 350429,
-    "score": 378.65616563863324,
-    "rank": 264
+    "score": 24884.87020542216,
+    "rank": 41
   },
   {
     "username": "kimsungok",
     "fid": 443305,
-    "score": 378.6337832446932,
-    "rank": 265
-  },
-  {
-    "username": "yoongyo",
-    "fid": 401018,
-    "score": 373.62966641640145,
-    "rank": 266
-  },
-  {
-    "username": "cristianisbased.eth",
-    "fid": 395131,
-    "score": 371.79757913220783,
-    "rank": 267
-  },
-  {
-    "username": "joohowon98",
-    "fid": 500690,
-    "score": 371.3471321891479,
-    "rank": 268
-  },
-  {
-    "username": "behzadb",
-    "fid": 404923,
-    "score": 369.6719558336208,
-    "rank": 269
-  },
-  {
-    "username": "bunglon",
-    "fid": 502822,
-    "score": 367.6159084396851,
-    "rank": 270
-  },
-  {
-    "username": "trickboy",
-    "fid": 783764,
-    "score": 366.85489649790435,
-    "rank": 271
-  },
-  {
-    "username": "matsuda",
-    "fid": 334811,
-    "score": 360.05760056154605,
-    "rank": 272
-  },
-  {
-    "username": "mferones",
-    "fid": 368412,
-    "score": 359.58913626199956,
-    "rank": 273
-  },
-  {
-    "username": "mint0133.eth",
-    "fid": 401049,
-    "score": 358.362594714838,
-    "rank": 274
-  },
-  {
-    "username": "hobbang",
-    "fid": 779772,
-    "score": 357.27588299798333,
-    "rank": 275
-  },
-  {
-    "username": "capn",
-    "fid": 318589,
-    "score": 356.85362623934515,
-    "rank": 276
-  },
-  {
-    "username": "svvvg3.eth",
-    "fid": 466111,
-    "score": 355.5192510695032,
-    "rank": 277
-  },
-  {
-    "username": "para1so",
-    "fid": 423311,
-    "score": 355.15582329785445,
-    "rank": 278
-  },
-  {
-    "username": "jinnma",
-    "fid": 299135,
-    "score": 354.13993461191814,
-    "rank": 279
-  },
-  {
-    "username": "tomos",
-    "fid": 406564,
-    "score": 352.83165654697524,
-    "rank": 280
-  },
-  {
-    "username": "daiou2917",
-    "fid": 393348,
-    "score": 352.2721625909257,
-    "rank": 281
-  },
-  {
-    "username": "juri23",
-    "fid": 495081,
-    "score": 351.88507373537107,
-    "rank": 282
-  },
-  {
-    "username": "kkoma1",
-    "fid": 500301,
-    "score": 351.54351260200195,
-    "rank": 283
-  },
-  {
-    "username": "vlady",
-    "fid": 239748,
-    "score": 349.10387782358316,
-    "rank": 284
-  },
-  {
-    "username": "asefazi",
-    "fid": 379089,
-    "score": 346.65317689991303,
-    "rank": 285
-  },
-  {
-    "username": "chii-ka",
-    "fid": 516028,
-    "score": 343.1402444365083,
-    "rank": 286
-  },
-  {
-    "username": "gutts.eth",
-    "fid": 269775,
-    "score": 340.35677697552234,
-    "rank": 287
-  },
-  {
-    "username": "aislandart",
-    "fid": 375140,
-    "score": 340.11345761799134,
-    "rank": 288
-  },
-  {
-    "username": "eiza",
-    "fid": 406815,
-    "score": 339.81659298474983,
-    "rank": 289
-  },
-  {
-    "username": "mikazuki",
-    "fid": 345093,
-    "score": 338.66276403534795,
-    "rank": 290
-  },
-  {
-    "username": "maaaaa.eth",
-    "fid": 416361,
-    "score": 338.6249342971743,
-    "rank": 291
-  },
-  {
-    "username": "astromarkc",
-    "fid": 430312,
-    "score": 335.8185491006538,
-    "rank": 292
-  },
-  {
-    "username": "aghahowa.eth",
-    "fid": 9138,
-    "score": 329.69213883755225,
-    "rank": 293
-  },
-  {
-    "username": "dibo",
-    "fid": 500235,
-    "score": 329.11463187360084,
-    "rank": 294
-  },
-  {
-    "username": "zeph",
-    "fid": 420657,
-    "score": 328.5348988730455,
-    "rank": 295
-  },
-  {
-    "username": "hamid-siemens",
-    "fid": 405729,
-    "score": 327.924697435018,
-    "rank": 296
+    "score": 24760.809576953226,
+    "rank": 42
   },
   {
     "username": "inceptionally",
     "fid": 283056,
-    "score": 326.40419006479453,
-    "rank": 297
+    "score": 24499.815285647714,
+    "rank": 43
   },
   {
-    "username": "kozikachan",
-    "fid": 420229,
-    "score": 326.2634243748208,
-    "rank": 298
+    "username": "janicka",
+    "fid": 483462,
+    "score": 24459.2376907586,
+    "rank": 44
   },
   {
-    "username": "kigarlo",
-    "fid": 348501,
-    "score": 320.90594710191823,
-    "rank": 299
+    "username": "hnwcrypto.eth",
+    "fid": 402888,
+    "score": 24008.744832659242,
+    "rank": 45
   },
   {
-    "username": "getfreddie",
-    "fid": 409032,
-    "score": 320.7664666382206,
-    "rank": 300
+    "username": "rickyare21",
+    "fid": 501794,
+    "score": 23290.13502521017,
+    "rank": 46
   },
   {
-    "username": "signaly",
-    "fid": 500193,
-    "score": 320.1475037072928,
-    "rank": 301
+    "username": "swim",
+    "fid": 268455,
+    "score": 23000.22281683208,
+    "rank": 47
   },
   {
-    "username": "zzaya",
-    "fid": 508425,
-    "score": 318.465695761285,
-    "rank": 302
+    "username": "arob1000",
+    "fid": 440747,
+    "score": 22744.854804624054,
+    "rank": 48
   },
   {
-    "username": "subcutaneous.eth",
-    "fid": 415872,
-    "score": 318.317989745382,
-    "rank": 303
+    "username": "kingofwarpscast",
+    "fid": 468087,
+    "score": 21978.00823115865,
+    "rank": 49
   },
   {
-    "username": "catswilleatyou",
-    "fid": 299247,
-    "score": 317.2823585231965,
-    "rank": 304
+    "username": "pandateemo",
+    "fid": 247653,
+    "score": 21808.41562531513,
+    "rank": 50
   },
   {
-    "username": "degen8931",
-    "fid": 420601,
-    "score": 315.74756933272386,
-    "rank": 305
+    "username": "imran1452",
+    "fid": 528149,
+    "score": 21621.260779250104,
+    "rank": 51
   },
   {
-    "username": "eggcooker",
-    "fid": 442770,
-    "score": 315.45459046523274,
-    "rank": 306
+    "username": "manuwilliams",
+    "fid": 308410,
+    "score": 21532.761683136338,
+    "rank": 52
   },
   {
-    "username": "0xusdt",
-    "fid": 449882,
-    "score": 313.8486502161924,
-    "rank": 307
+    "username": "valhalla1",
+    "fid": 346080,
+    "score": 21503.762131847914,
+    "rank": 53
   },
   {
-    "username": "sia08",
-    "fid": 435513,
-    "score": 310.9417673260691,
-    "rank": 308
+    "username": "trillobyte",
+    "fid": 340986,
+    "score": 20755.472672344218,
+    "rank": 54
   },
   {
-    "username": "jt-longo",
-    "fid": 296050,
-    "score": 310.9295156676932,
-    "rank": 309
+    "username": "greatgambino",
+    "fid": 477292,
+    "score": 20735.07163808382,
+    "rank": 55
   },
   {
-    "username": "woki",
-    "fid": 390273,
-    "score": 309.03970501189485,
-    "rank": 310
+    "username": "eiteengo",
+    "fid": 396484,
+    "score": 19938.976822235814,
+    "rank": 56
   },
   {
-    "username": null,
-    "fid": 543570,
-    "score": 307.89360613095107,
-    "rank": 311
+    "username": "lampphotography",
+    "fid": 12626,
+    "score": 19564.448243639272,
+    "rank": 57
   },
   {
-    "username": "howon",
-    "fid": 391341,
-    "score": 305.43887927113167,
-    "rank": 312
+    "username": "ercel",
+    "fid": 528550,
+    "score": 19507.64143965806,
+    "rank": 58
   },
   {
-    "username": "investanything",
-    "fid": 456735,
-    "score": 302.5469065273104,
-    "rank": 313
+    "username": "mafia9",
+    "fid": 510029,
+    "score": 19130.0515297521,
+    "rank": 59
   },
   {
-    "username": "pichi",
-    "fid": 234616,
-    "score": 302.25726359409015,
-    "rank": 314
+    "username": "flexasaurusrex",
+    "fid": 7418,
+    "score": 19039.454410114915,
+    "rank": 60
   },
   {
-    "username": "buleyouna",
-    "fid": 498568,
-    "score": 302.05591586839176,
-    "rank": 315
+    "username": "imduna.eth",
+    "fid": 483365,
+    "score": 18915.512769420027,
+    "rank": 61
   },
   {
-    "username": "hadi1370",
-    "fid": 336594,
-    "score": 298.5268302307747,
-    "rank": 316
-  },
-  {
-    "username": "samvox",
-    "fid": 437433,
-    "score": 297.49502575876693,
-    "rank": 317
-  },
-  {
-    "username": "aneanejpn",
-    "fid": 420359,
-    "score": 294.86543081274755,
-    "rank": 318
-  },
-  {
-    "username": "winerseptian",
-    "fid": 269991,
-    "score": 294.6729088741073,
-    "rank": 319
-  },
-  {
-    "username": "tera0101",
-    "fid": 538388,
-    "score": 294.6338963027167,
-    "rank": 320
-  },
-  {
-    "username": "kurita",
-    "fid": 347364,
-    "score": 293.7437798392542,
-    "rank": 321
-  },
-  {
-    "username": "sentura",
-    "fid": 810347,
-    "score": 293.095475272331,
-    "rank": 322
-  },
-  {
-    "username": "wealthmagnet",
-    "fid": 315697,
-    "score": 292.7417993671466,
-    "rank": 323
-  },
-  {
-    "username": "0624ut",
-    "fid": 633693,
-    "score": 291.78532187872185,
-    "rank": 324
-  },
-  {
-    "username": "shin411",
-    "fid": 386287,
-    "score": 291.30871603483484,
-    "rank": 325
-  },
-  {
-    "username": "godhee",
-    "fid": 401137,
-    "score": 290.06633747833916,
-    "rank": 326
-  },
-  {
-    "username": "walkbyfaith.eth",
-    "fid": 349986,
-    "score": 288.706007305712,
-    "rank": 327
-  },
-  {
-    "username": "bangeunbee",
-    "fid": 400101,
-    "score": 287.68781987116034,
-    "rank": 328
-  },
-  {
-    "username": "maheshb",
-    "fid": 323070,
-    "score": 285.6668891755457,
-    "rank": 329
-  },
-  {
-    "username": "puffmommy",
-    "fid": 484256,
-    "score": 285.39792129728147,
-    "rank": 330
-  },
-  {
-    "username": "juliitofire",
-    "fid": 380455,
-    "score": 284.81580004840566,
-    "rank": 331
-  },
-  {
-    "username": "minaabbasi",
-    "fid": 445359,
-    "score": 284.16045801644555,
-    "rank": 332
-  },
-  {
-    "username": "tasin2006.eth",
-    "fid": 400198,
-    "score": 282.93492889888506,
-    "rank": 333
-  },
-  {
-    "username": "ginyo",
-    "fid": 631749,
-    "score": 282.6035934146538,
-    "rank": 334
-  },
-  {
-    "username": "eitzi.eth",
-    "fid": 3372,
-    "score": 282.1158485239835,
-    "rank": 335
-  },
-  {
-    "username": "miiiiapp",
-    "fid": 17356,
-    "score": 282.04521268322065,
-    "rank": 336
-  },
-  {
-    "username": "kamsim",
-    "fid": 401099,
-    "score": 281.1614628084347,
-    "rank": 337
-  },
-  {
-    "username": "tieubochet.eth",
-    "fid": 260299,
-    "score": 277.58459340860776,
-    "rank": 338
-  },
-  {
-    "username": "maheenblues",
-    "fid": 461236,
-    "score": 274.93046299021995,
-    "rank": 339
-  },
-  {
-    "username": "claireujma",
-    "fid": 15776,
-    "score": 273.32361736115024,
-    "rank": 340
-  },
-  {
-    "username": "bong4950",
-    "fid": 506159,
-    "score": 271.3934455134546,
-    "rank": 341
-  },
-  {
-    "username": "samosan",
-    "fid": 398825,
-    "score": 269.8207878859483,
-    "rank": 342
-  },
-  {
-    "username": "goosebumbs77",
-    "fid": 462982,
-    "score": 266.7063483212065,
-    "rank": 343
-  },
-  {
-    "username": "terapera777",
-    "fid": 483322,
-    "score": 263.8850390663259,
-    "rank": 344
-  },
-  {
-    "username": "mehedi1976.eth",
-    "fid": 400074,
-    "score": 263.417126280065,
-    "rank": 345
-  },
-  {
-    "username": "bunyaminbulak",
-    "fid": 426338,
-    "score": 263.0283035778026,
-    "rank": 346
-  },
-  {
-    "username": "proharry",
-    "fid": 449539,
-    "score": 260.78834315036926,
-    "rank": 347
-  },
-  {
-    "username": "realfishboy",
-    "fid": 503286,
-    "score": 260.3237691322055,
-    "rank": 348
-  },
-  {
-    "username": "ghostbo4",
-    "fid": 528707,
-    "score": 256.77393485928604,
-    "rank": 349
-  },
-  {
-    "username": "jasonophoto",
-    "fid": 293760,
-    "score": 256.0474100036325,
-    "rank": 350
-  },
-  {
-    "username": "rilas00",
-    "fid": 203482,
-    "score": 255.66938624195447,
-    "rank": 351
-  },
-  {
-    "username": "sallysharifi",
-    "fid": 368345,
-    "score": 253.72935117715494,
-    "rank": 352
-  },
-  {
-    "username": "freedom2",
-    "fid": 472931,
-    "score": 253.6036522504058,
-    "rank": 353
-  },
-  {
-    "username": "zeustop",
-    "fid": 500710,
-    "score": 252.90267741661927,
-    "rank": 354
-  },
-  {
-    "username": "laaz2001",
-    "fid": 428449,
-    "score": 251.46378526030745,
-    "rank": 355
-  },
-  {
-    "username": "cyj3058",
-    "fid": 397290,
-    "score": 251.4482570543245,
-    "rank": 356
-  },
-  {
-    "username": "metadavid",
-    "fid": 243818,
-    "score": 250.34975522008222,
-    "rank": 357
-  },
-  {
-    "username": "reneecampbell",
-    "fid": 283144,
-    "score": 248.21459762128137,
-    "rank": 358
-  },
-  {
-    "username": "with-dani69",
-    "fid": 379435,
-    "score": 246.0465557799173,
-    "rank": 359
-  },
-  {
-    "username": "ruhul0.eth",
-    "fid": 511479,
-    "score": 245.56015330599317,
-    "rank": 360
-  },
-  {
-    "username": "radfishman",
-    "fid": 419168,
-    "score": 244.85024690718328,
-    "rank": 361
-  },
-  {
-    "username": "axeinfinity.eth",
-    "fid": 387283,
-    "score": 244.75670964900908,
-    "rank": 362
-  },
-  {
-    "username": "darkknightutk",
-    "fid": 268608,
-    "score": 237.74882446945546,
-    "rank": 363
-  },
-  {
-    "username": "sameer10",
-    "fid": 484959,
-    "score": 235.54657719089914,
-    "rank": 364
-  },
-  {
-    "username": "seonghyeon",
-    "fid": 488848,
-    "score": 234.0535769280935,
-    "rank": 365
-  },
-  {
-    "username": "sabato",
-    "fid": 304818,
-    "score": 231.77038441141988,
-    "rank": 366
-  },
-  {
-    "username": "ilannnnnnnnkatin",
-    "fid": 12400,
-    "score": 230.78320284764155,
-    "rank": 367
-  },
-  {
-    "username": "akins",
-    "fid": 434955,
-    "score": 230.4784405086514,
-    "rank": 368
+    "username": "lostsolx",
+    "fid": 628195,
+    "score": 18847.415781430613,
+    "rank": 62
   },
   {
     "username": "kablat.eth",
     "fid": 438822,
-    "score": 229.9458912365861,
-    "rank": 369
+    "score": 18802.20591387648,
+    "rank": 63
   },
   {
-    "username": "woawoame",
-    "fid": 401441,
-    "score": 229.82422890864146,
-    "rank": 370
+    "username": "pichi",
+    "fid": 234616,
+    "score": 17617.340686949006,
+    "rank": 64
   },
   {
-    "username": "deriniti",
-    "fid": 309242,
-    "score": 229.5997127450212,
-    "rank": 371
+    "username": "0xusdt",
+    "fid": 449882,
+    "score": 17588.446250314457,
+    "rank": 65
   },
   {
-    "username": "shishir18.eth",
-    "fid": 444156,
-    "score": 228.47754141454533,
-    "rank": 372
+    "username": "laaz2001",
+    "fid": 428449,
+    "score": 16820.696224552066,
+    "rank": 66
   },
   {
-    "username": "pinstripedgator",
-    "fid": 269405,
-    "score": 227.6738158931896,
-    "rank": 373
+    "username": "flooooooo.eth",
+    "fid": 331948,
+    "score": 16653.472764535818,
+    "rank": 67
   },
   {
-    "username": "drmat",
-    "fid": 445796,
-    "score": 227.40342033630748,
-    "rank": 374
+    "username": "plantsnft",
+    "fid": 318447,
+    "score": 16547.110116889373,
+    "rank": 68
   },
   {
-    "username": "jisoo2",
-    "fid": 434641,
-    "score": 227.3578516068093,
-    "rank": 375
+    "username": "godtina",
+    "fid": 392597,
+    "score": 16440.2994553146,
+    "rank": 69
   },
   {
-    "username": "sheena",
-    "fid": 460847,
-    "score": 225.59236346240618,
-    "rank": 376
+    "username": "wealthmagnet",
+    "fid": 315697,
+    "score": 16294.011241415237,
+    "rank": 70
   },
   {
-    "username": "herbaycity",
-    "fid": 13201,
-    "score": 224.8878826866733,
-    "rank": 377
+    "username": "staraptor.eth",
+    "fid": 417418,
+    "score": 15404.73234993376,
+    "rank": 71
   },
   {
-    "username": "toobimoobi",
-    "fid": 17360,
-    "score": 224.88366372400145,
-    "rank": 378
+    "username": "mferones",
+    "fid": 368412,
+    "score": 14724.944713712692,
+    "rank": 72
   },
   {
-    "username": "ismaile",
-    "fid": 315654,
-    "score": 223.32374345350206,
-    "rank": 379
+    "username": "marwaaslam",
+    "fid": 512534,
+    "score": 14570.78700586784,
+    "rank": 73
   },
   {
-    "username": "raj108x.eth",
-    "fid": 485585,
-    "score": 223.00536333639909,
-    "rank": 380
+    "username": "saxophone55.eth",
+    "fid": 415368,
+    "score": 14406.268877568047,
+    "rank": 74
   },
   {
-    "username": "sakil250",
-    "fid": 393452,
-    "score": 222.52505583688105,
-    "rank": 381
+    "username": "seydrango",
+    "fid": 324741,
+    "score": 14137.38889267001,
+    "rank": 75
   },
   {
-    "username": "teledildofonics",
-    "fid": 403573,
-    "score": 221.65547645473566,
-    "rank": 382
+    "username": "nyasu.eth",
+    "fid": 421000,
+    "score": 14099.946327773168,
+    "rank": 76
   },
   {
-    "username": "tausif99",
-    "fid": 497341,
-    "score": 221.5368794799763,
-    "rank": 383
+    "username": "eitzi.eth",
+    "fid": 3372,
+    "score": 13592.123209580739,
+    "rank": 77
   },
   {
-    "username": "level5",
-    "fid": 795741,
-    "score": 220.92883127007107,
-    "rank": 384
+    "username": "anco",
+    "fid": 378285,
+    "score": 13496.382918984262,
+    "rank": 78
   },
   {
-    "username": "arrakib",
-    "fid": 342995,
-    "score": 220.30696558815555,
-    "rank": 385
+    "username": "aislandart",
+    "fid": 375140,
+    "score": 13394.53791906202,
+    "rank": 79
   },
   {
-    "username": "youmii",
-    "fid": 500500,
-    "score": 219.47347118384235,
-    "rank": 386
+    "username": "ryanhube",
+    "fid": 368013,
+    "score": 13338.341075718465,
+    "rank": 80
   },
   {
-    "username": "badhon12311",
-    "fid": 292423,
-    "score": 218.98030758300075,
-    "rank": 387
+    "username": "max3665",
+    "fid": 302229,
+    "score": 13309.225057719555,
+    "rank": 81
   },
   {
-    "username": "caira",
-    "fid": 449264,
-    "score": 217.31686611363585,
-    "rank": 388
+    "username": "yoony12",
+    "fid": 418456,
+    "score": 13300.899531920986,
+    "rank": 82
   },
   {
-    "username": "onbloaded",
-    "fid": 428341,
-    "score": 217.0272570301755,
-    "rank": 389
+    "username": "prosocialise",
+    "fid": 262566,
+    "score": 13255.42251073522,
+    "rank": 83
   },
   {
-    "username": "bestenemy",
-    "fid": 508642,
-    "score": 216.28360834679,
-    "rank": 390
+    "username": "arif1122",
+    "fid": 308094,
+    "score": 13237.288622106875,
+    "rank": 84
   },
   {
-    "username": "civort",
-    "fid": 382827,
-    "score": 216.1447171437443,
-    "rank": 391
+    "username": "jacque",
+    "fid": 195117,
+    "score": 13228.446203846479,
+    "rank": 85
   },
   {
-    "username": "reggie089",
-    "fid": 454819,
-    "score": 214.9040377957139,
-    "rank": 392
+    "username": "bunglon",
+    "fid": 502822,
+    "score": 13033.284292798839,
+    "rank": 86
   },
   {
-    "username": "sharif3031",
-    "fid": 276352,
-    "score": 213.25686564382931,
-    "rank": 393
-  },
-  {
-    "username": "jafor420.eth",
-    "fid": 400227,
-    "score": 210.95843123534289,
-    "rank": 394
-  },
-  {
-    "username": "yth",
-    "fid": 326487,
-    "score": 210.72798183736788,
-    "rank": 395
-  },
-  {
-    "username": "siablo.eth",
-    "fid": 350698,
-    "score": 208.88016951534271,
-    "rank": 396
-  },
-  {
-    "username": "marrte",
-    "fid": 426963,
-    "score": 206.6729837642655,
-    "rank": 397
-  },
-  {
-    "username": "aneess",
-    "fid": 675076,
-    "score": 203.64726375037836,
-    "rank": 398
-  },
-  {
-    "username": "dzherommo",
-    "fid": 291327,
-    "score": 202.98919407801083,
-    "rank": 399
-  },
-  {
-    "username": "angelikakollin",
-    "fid": 326040,
-    "score": 198.0032587222571,
-    "rank": 400
-  },
-  {
-    "username": "kanisupi",
-    "fid": 372581,
-    "score": 197.27605703178406,
-    "rank": 401
-  },
-  {
-    "username": "anitajude",
-    "fid": 304336,
-    "score": 195.67117770644253,
-    "rank": 402
-  },
-  {
-    "username": "mightymoss",
-    "fid": 343324,
-    "score": 194.7441638813804,
-    "rank": 403
-  },
-  {
-    "username": "riddlck.eth",
-    "fid": 435085,
-    "score": 194.40529708942714,
-    "rank": 404
-  },
-  {
-    "username": "martyn25",
-    "fid": 508560,
-    "score": 191.3385795098718,
-    "rank": 405
-  },
-  {
-    "username": "1000words",
-    "fid": 403398,
-    "score": 181.5403884457144,
-    "rank": 406
-  },
-  {
-    "username": "jeroenv78",
-    "fid": 419852,
-    "score": 181.46825511899632,
-    "rank": 407
-  },
-  {
-    "username": "pelingenc",
-    "fid": 360623,
-    "score": 181.02519998388462,
-    "rank": 408
-  },
-  {
-    "username": "sohokkk",
-    "fid": 504678,
-    "score": 179.37862699824367,
-    "rank": 409
-  },
-  {
-    "username": "makshaeva",
-    "fid": 445335,
-    "score": 178.6089465530095,
-    "rank": 410
-  },
-  {
-    "username": "nick-arti",
-    "fid": 417451,
-    "score": 177.83404834391092,
-    "rank": 411
-  },
-  {
-    "username": "juhn0512",
-    "fid": 411778,
-    "score": 177.5143303009909,
-    "rank": 412
-  },
-  {
-    "username": "mikhaaa",
-    "fid": 480642,
-    "score": 177.1217544569938,
-    "rank": 413
-  },
-  {
-    "username": "shezadi",
-    "fid": 378030,
-    "score": 172.39356777500348,
-    "rank": 414
-  },
-  {
-    "username": "tahsin778",
-    "fid": 366075,
-    "score": 167.961651536541,
-    "rank": 415
-  },
-  {
-    "username": "silentbazaar",
-    "fid": 408059,
-    "score": 167.42171120211356,
-    "rank": 416
-  },
-  {
-    "username": "owo-tech3463",
-    "fid": 428228,
-    "score": 165.87154695217114,
-    "rank": 417
-  },
-  {
-    "username": "svetlana",
-    "fid": 378422,
-    "score": 165.73558703273824,
-    "rank": 418
-  },
-  {
-    "username": "ciberdelia",
-    "fid": 422910,
-    "score": 165.62669605275488,
-    "rank": 419
-  },
-  {
-    "username": "gianlucapodesta",
-    "fid": 380913,
-    "score": 164.15210684025746,
-    "rank": 420
-  },
-  {
-    "username": "elbi",
-    "fid": 273379,
-    "score": 162.55540793738285,
-    "rank": 421
-  },
-  {
-    "username": "alexescd.eth",
-    "fid": 278653,
-    "score": 162.42668288154798,
-    "rank": 422
-  },
-  {
-    "username": "herheshart",
-    "fid": 440080,
-    "score": 162.21898806534426,
-    "rank": 423
-  },
-  {
-    "username": "juujuumama",
-    "fid": 10095,
-    "score": 161.11419125640506,
-    "rank": 424
-  },
-  {
-    "username": "thepapercrane",
-    "fid": 249958,
-    "score": 160.09739248368803,
-    "rank": 425
+    "username": "tonyminh",
+    "fid": 263574,
+    "score": 12981.085065613119,
+    "rank": 87
   },
   {
     "username": "nanamika",
     "fid": 192631,
-    "score": 159.77428289453374,
-    "rank": 426
+    "score": 12980.726875286107,
+    "rank": 88
   },
   {
-    "username": "victoresteves.eth",
-    "fid": 332316,
-    "score": 159.61198392329777,
-    "rank": 427
+    "username": "wetsocks.eth",
+    "fid": 473065,
+    "score": 12546.014821011766,
+    "rank": 89
   },
   {
-    "username": "sssaid.eth",
-    "fid": 302505,
-    "score": 152.3375091596789,
-    "rank": 428
+    "username": "pohe",
+    "fid": 385627,
+    "score": 12217.78258109587,
+    "rank": 90
   },
   {
-    "username": "nickyboost",
-    "fid": 328041,
-    "score": 151.14899599438542,
-    "rank": 429
+    "username": "baybjack",
+    "fid": 784277,
+    "score": 11950.411736131386,
+    "rank": 91
   },
   {
-    "username": "dsxdavid",
-    "fid": 423378,
-    "score": 146.3780490826885,
-    "rank": 430
+    "username": "demang.eth",
+    "fid": 260433,
+    "score": 11550.990328508497,
+    "rank": 92
   },
   {
-    "username": "lucianaguerraok",
-    "fid": 326677,
-    "score": 144.24766449161297,
-    "rank": 431
+    "username": "hirohiro",
+    "fid": 383877,
+    "score": 11415.060377326477,
+    "rank": 93
   },
   {
-    "username": "aydinmustafa",
-    "fid": 420374,
-    "score": 138.71485739356393,
-    "rank": 432
+    "username": "prouddegen.eth",
+    "fid": 380660,
+    "score": 11239.433673087937,
+    "rank": 94
   },
   {
-    "username": "danimaple",
-    "fid": 500256,
-    "score": 137.75475982142999,
-    "rank": 433
+    "username": "adminbrit.eth",
+    "fid": 383360,
+    "score": 11005.58092283669,
+    "rank": 95
   },
   {
-    "username": "alexeirox.eth",
-    "fid": 380136,
-    "score": 132.96591531750303,
-    "rank": 434
+    "username": "nhp",
+    "fid": 455965,
+    "score": 10879.780033912844,
+    "rank": 96
   },
   {
-    "username": "caygeon",
-    "fid": 211535,
-    "score": 132.2933005345829,
-    "rank": 435
+    "username": "girl-ua",
+    "fid": 528914,
+    "score": 10660.230613820728,
+    "rank": 97
+  },
+  {
+    "username": "juujuumama",
+    "fid": 10095,
+    "score": 10564.041513257069,
+    "rank": 98
+  },
+  {
+    "username": "herheshart",
+    "fid": 440080,
+    "score": 10556.590736115339,
+    "rank": 99
+  },
+  {
+    "username": "astromarkc",
+    "fid": 430312,
+    "score": 10460.841956355463,
+    "rank": 100
+  },
+  {
+    "username": "baeshy",
+    "fid": 542351,
+    "score": 10204.255659607927,
+    "rank": 101
+  },
+  {
+    "username": "sohe",
+    "fid": 627302,
+    "score": 9935.808530069951,
+    "rank": 102
+  },
+  {
+    "username": "siablo.eth",
+    "fid": 350698,
+    "score": 9918.326436825355,
+    "rank": 103
+  },
+  {
+    "username": "claireujma",
+    "fid": 15776,
+    "score": 9893.172029160596,
+    "rank": 104
+  },
+  {
+    "username": "proharry",
+    "fid": 449539,
+    "score": 9839.996747783878,
+    "rank": 105
+  },
+  {
+    "username": "minaabbasi",
+    "fid": 445359,
+    "score": 9485.94384536486,
+    "rank": 106
+  },
+  {
+    "username": "teledildofonics",
+    "fid": 403573,
+    "score": 9458.649137829996,
+    "rank": 107
+  },
+  {
+    "username": "tushar12",
+    "fid": 308284,
+    "score": 9409.609154616304,
+    "rank": 108
+  },
+  {
+    "username": "svvvg3.eth",
+    "fid": 466111,
+    "score": 9194.13425579147,
+    "rank": 109
+  },
+  {
+    "username": "skrim",
+    "fid": 296241,
+    "score": 8534.749661680573,
+    "rank": 110
+  },
+  {
+    "username": "ako1988",
+    "fid": 397392,
+    "score": 8503.5781770011,
+    "rank": 111
+  },
+  {
+    "username": "collie",
+    "fid": 500244,
+    "score": 8471.740025490999,
+    "rank": 112
+  },
+  {
+    "username": "akmalthoriq",
+    "fid": 509022,
+    "score": 8335.528375405367,
+    "rank": 113
+  },
+  {
+    "username": "pelingenc",
+    "fid": 360623,
+    "score": 8325.384901527688,
+    "rank": 114
+  },
+  {
+    "username": "ruhul0.eth",
+    "fid": 511479,
+    "score": 8298.049522597457,
+    "rank": 115
+  },
+  {
+    "username": "akins",
+    "fid": 434955,
+    "score": 8270.126286295521,
+    "rank": 116
+  },
+  {
+    "username": "kylepatrick.eth",
+    "fid": 247143,
+    "score": 8250.843331425798,
+    "rank": 117
+  },
+  {
+    "username": "freymon",
+    "fid": 665530,
+    "score": 7895.274019560922,
+    "rank": 118
+  },
+  {
+    "username": "aylee",
+    "fid": 434358,
+    "score": 7733.471870284711,
+    "rank": 119
+  },
+  {
+    "username": "shin411",
+    "fid": 386287,
+    "score": 7695.290399030887,
+    "rank": 120
+  },
+  {
+    "username": "gajagoyolo",
+    "fid": 414401,
+    "score": 7667.237283451289,
+    "rank": 121
+  },
+  {
+    "username": "sallysharifi",
+    "fid": 368345,
+    "score": 7472.635053600677,
+    "rank": 122
   },
   {
     "username": "ricardotakamura",
     "fid": 14511,
-    "score": 130.79734474811198,
-    "rank": 436
+    "score": 7239.894018547024,
+    "rank": 123
   },
   {
-    "username": "407atelie",
-    "fid": 373025,
-    "score": 126.56473383751418,
-    "rank": 437
+    "username": "nn0613",
+    "fid": 525136,
+    "score": 7195.522921949597,
+    "rank": 124
   },
   {
     "username": "framesbyvik.eth",
     "fid": 382261,
-    "score": 121.90846487090434,
-    "rank": 438
+    "score": 7142.139496062855,
+    "rank": 125
   },
   {
-    "username": "evsim.eth",
-    "fid": 288578,
-    "score": 120.92866227263272,
-    "rank": 439
+    "username": "hind",
+    "fid": 285998,
+    "score": 7127.340100991325,
+    "rank": 126
+  },
+  {
+    "username": "artzydreams",
+    "fid": 365209,
+    "score": 6944.383950921736,
+    "rank": 127
+  },
+  {
+    "username": "collectorscanyon.eth",
+    "fid": 466926,
+    "score": 6824.960719932213,
+    "rank": 128
+  },
+  {
+    "username": "behzadb",
+    "fid": 404923,
+    "score": 6696.490420323314,
+    "rank": 129
+  },
+  {
+    "username": "dd8",
+    "fid": 461302,
+    "score": 6637.8377643028825,
+    "rank": 130
+  },
+  {
+    "username": "metadavid",
+    "fid": 243818,
+    "score": 6608.148891851515,
+    "rank": 131
+  },
+  {
+    "username": "gutts.eth",
+    "fid": 269775,
+    "score": 6527.205609209049,
+    "rank": 132
+  },
+  {
+    "username": "jt-longo",
+    "fid": 296050,
+    "score": 6454.025988789743,
+    "rank": 133
   },
   {
     "username": "nicculus",
     "fid": 316492,
-    "score": 115.64059156822115,
-    "rank": 440
+    "score": 6333.625935652361,
+    "rank": 134
   },
   {
-    "username": "surgeonsuresh",
-    "fid": 333772,
-    "score": 114.7467276964965,
-    "rank": 441
+    "username": "owo-tech3463",
+    "fid": 428228,
+    "score": 6284.380373108322,
+    "rank": 135
   },
   {
-    "username": "topcast1",
-    "fid": 437719,
-    "score": 114.43024460099316,
-    "rank": 442
+    "username": "nxt1995vn",
+    "fid": 306729,
+    "score": 6269.411805259116,
+    "rank": 136
   },
   {
-    "username": "angelinjoli",
-    "fid": 513728,
-    "score": 108.85296720399012,
-    "rank": 443
+    "username": "0xmelanin",
+    "fid": 420493,
+    "score": 6193.530189604491,
+    "rank": 137
   },
   {
-    "username": "travisleroy",
-    "fid": 292783,
-    "score": 107.6975755559198,
-    "rank": 444
+    "username": "xerx",
+    "fid": 422438,
+    "score": 5973.780264815072,
+    "rank": 138
   },
   {
-    "username": "danisf",
-    "fid": 284003,
-    "score": 104.27970625497173,
-    "rank": 445
+    "username": "dummie.eth",
+    "fid": 277952,
+    "score": 5970.847270627588,
+    "rank": 139
   },
   {
-    "username": "gulyildiz",
-    "fid": 354220,
-    "score": 100.37057084010802,
-    "rank": 446
+    "username": "ilannnnnnnnkatin",
+    "fid": 12400,
+    "score": 5922.5388590427965,
+    "rank": 140
   },
   {
-    "username": "rosstintexas",
-    "fid": 317501,
-    "score": 92.66710011886647,
-    "rank": 447
+    "username": "mehedi1976.eth",
+    "fid": 400074,
+    "score": 5882.17315416962,
+    "rank": 141
   },
   {
-    "username": "fernandobaggi",
-    "fid": 451952,
-    "score": 90.9964645666233,
-    "rank": 448
+    "username": "charming",
+    "fid": 407705,
+    "score": 5698.592079199089,
+    "rank": 142
   },
   {
-    "username": "just-nath",
-    "fid": 422809,
-    "score": 82.36708996692255,
-    "rank": 449
+    "username": "seanwince",
+    "fid": 8405,
+    "score": 5325.123021067687,
+    "rank": 143
   },
   {
-    "username": "platformmmm",
-    "fid": 281290,
-    "score": 76.42649799790037,
-    "rank": 450
+    "username": "chillyazz.eth",
+    "fid": 376177,
+    "score": 5310.454704956072,
+    "rank": 144
   },
   {
-    "username": "brunonacif",
-    "fid": 411656,
-    "score": 67.3544791194499,
-    "rank": 451
+    "username": "toobimoobi",
+    "fid": 17360,
+    "score": 5207.594668216957,
+    "rank": 145
   },
   {
-    "username": "mazin",
-    "fid": 373242,
-    "score": 67.1434807793332,
-    "rank": 452
-  },
-  {
-    "username": "pouyaneth.eth",
-    "fid": 14553,
-    "score": 63.016881558265915,
-    "rank": 453
-  },
-  {
-    "username": "bluretina",
-    "fid": 308827,
-    "score": 53.43476190288339,
-    "rank": 454
-  },
-  {
-    "username": "peyson.eth",
-    "fid": 269515,
-    "score": 50.66445149849712,
-    "rank": 455
-  },
-  {
-    "username": "entertainment",
-    "fid": 17454,
-    "score": 46.82098087076755,
-    "rank": 456
-  },
-  {
-    "username": "jordigandul",
-    "fid": 323063,
-    "score": 38.21698367048193,
-    "rank": 457
-  },
-  {
-    "username": "barbarabezina",
-    "fid": 399658,
-    "score": 23.02935752617049,
-    "rank": 458
-  },
-  {
-    "username": "johnnytrend.eth",
-    "fid": 349775,
-    "score": 18.878454103590652,
-    "rank": 459
-  },
-  {
-    "username": "womensmuseum",
-    "fid": 641968,
-    "score": 11.263240179461267,
-    "rank": 460
-  },
-  {
-    "username": "0xlacroix",
-    "fid": 225851,
-    "score": 4.353214059545907,
-    "rank": 461
-  },
-  {
-    "username": "garysmith16",
-    "fid": 261537,
-    "score": -4.093362609479061,
-    "rank": 462
-  },
-  {
-    "username": "111iks",
-    "fid": 307568,
-    "score": -12.478431343891966,
-    "rank": 463
-  },
-  {
-    "username": "missmary",
-    "fid": 423331,
-    "score": -28.95340858658639,
-    "rank": 464
-  },
-  {
-    "username": "slava3ngl",
-    "fid": 390598,
-    "score": -32.36273849211531,
-    "rank": 465
-  },
-  {
-    "username": "benterry",
-    "fid": 3263,
-    "score": -81.48892362760921,
-    "rank": 466
-  },
-  {
-    "username": "guillaumecornet",
-    "fid": 364017,
-    "score": -94.70839538351227,
-    "rank": 467
-  },
-  {
-    "username": "kuki224",
-    "fid": 764980,
-    "score": -141.05030517717668,
-    "rank": 468
-  },
-  {
-    "username": "einik",
-    "fid": 268977,
-    "score": -161.1734767690703,
-    "rank": 469
+    "username": "para1so",
+    "fid": 423311,
+    "score": 5140.228331573424,
+    "rank": 146
   },
   {
     "username": "ayush1939",
     "fid": 275519,
-    "score": -294.3586505447152,
-    "rank": 470
+    "score": 5128.256746609912,
+    "rank": 147
   },
   {
-    "username": "zoya0",
-    "fid": 499275,
-    "score": -376.1772487985143,
-    "rank": 471
+    "username": "pigdegen",
+    "fid": 512856,
+    "score": 5108.342015452983,
+    "rank": 148
+  },
+  {
+    "username": "hieuvo",
+    "fid": 470886,
+    "score": 5102.8806105420035,
+    "rank": 149
+  },
+  {
+    "username": "k3llogs",
+    "fid": 535208,
+    "score": 5075.363841543614,
+    "rank": 150
+  },
+  {
+    "username": "daiou2917",
+    "fid": 393348,
+    "score": 5024.926016437662,
+    "rank": 151
+  },
+  {
+    "username": "subcutaneous.eth",
+    "fid": 415872,
+    "score": 5003.669041302254,
+    "rank": 152
+  },
+  {
+    "username": "victoresteves.eth",
+    "fid": 332316,
+    "score": 4971.928807009914,
+    "rank": 153
+  },
+  {
+    "username": "izzykid",
+    "fid": 511666,
+    "score": 4935.436923378391,
+    "rank": 154
+  },
+  {
+    "username": "mehrad",
+    "fid": 270228,
+    "score": 4926.237201341747,
+    "rank": 155
+  },
+  {
+    "username": "meatpie",
+    "fid": 553958,
+    "score": 4922.792050767021,
+    "rank": 156
+  },
+  {
+    "username": "thompson",
+    "fid": 270138,
+    "score": 4849.886962187686,
+    "rank": 157
+  },
+  {
+    "username": "sahariarsowrob71",
+    "fid": 422514,
+    "score": 4844.148125486319,
+    "rank": 158
+  },
+  {
+    "username": "aguzman.eth",
+    "fid": 501801,
+    "score": 4741.261119169922,
+    "rank": 159
+  },
+  {
+    "username": "crpdaddy.eth",
+    "fid": 386213,
+    "score": 4727.933401360882,
+    "rank": 160
+  },
+  {
+    "username": "investanything",
+    "fid": 456735,
+    "score": 4657.282168039436,
+    "rank": 161
+  },
+  {
+    "username": "chii-ka",
+    "fid": 516028,
+    "score": 4638.742773606688,
+    "rank": 162
+  },
+  {
+    "username": "mappii",
+    "fid": 644667,
+    "score": 4597.119145973237,
+    "rank": 163
+  },
+  {
+    "username": "dsxdavid",
+    "fid": 423378,
+    "score": 4588.856508552708,
+    "rank": 164
+  },
+  {
+    "username": "altagers.eth",
+    "fid": 217261,
+    "score": 4566.749157902388,
+    "rank": 165
+  },
+  {
+    "username": "onbloaded",
+    "fid": 428341,
+    "score": 4367.5612324324065,
+    "rank": 166
+  },
+  {
+    "username": "3irka",
+    "fid": 511972,
+    "score": 4291.56048221516,
+    "rank": 167
+  },
+  {
+    "username": "angelikakollin",
+    "fid": 326040,
+    "score": 4159.353634469147,
+    "rank": 168
+  },
+  {
+    "username": "kanisupi",
+    "fid": 372581,
+    "score": 4093.918789377693,
+    "rank": 169
+  },
+  {
+    "username": "lucianaguerraok",
+    "fid": 326677,
+    "score": 3949.157510981141,
+    "rank": 170
+  },
+  {
+    "username": "hamid-siemens",
+    "fid": 405729,
+    "score": 3922.5649706976756,
+    "rank": 171
+  },
+  {
+    "username": "boothang",
+    "fid": 467312,
+    "score": 3882.5992840208337,
+    "rank": 172
+  },
+  {
+    "username": "yuusukerino",
+    "fid": 353603,
+    "score": 3848.568049063727,
+    "rank": 173
+  },
+  {
+    "username": "creambread",
+    "fid": 418296,
+    "score": 3824.9008820184267,
+    "rank": 174
+  },
+  {
+    "username": "aneess",
+    "fid": 675076,
+    "score": 3794.0393294370515,
+    "rank": 175
+  },
+  {
+    "username": "itslemon.eth",
+    "fid": 301144,
+    "score": 3775.7207648478943,
+    "rank": 176
+  },
+  {
+    "username": "gianlucapodesta",
+    "fid": 380913,
+    "score": 3764.6162186354804,
+    "rank": 177
+  },
+  {
+    "username": "cristianisbased.eth",
+    "fid": 395131,
+    "score": 3723.1768925368415,
+    "rank": 178
+  },
+  {
+    "username": "aydinmustafa",
+    "fid": 420374,
+    "score": 3708.829254681413,
+    "rank": 179
+  },
+  {
+    "username": "maheshb",
+    "fid": 323070,
+    "score": 3674.7620447587437,
+    "rank": 180
+  },
+  {
+    "username": "sheva7.eth",
+    "fid": 423036,
+    "score": 3666.1510931414336,
+    "rank": 181
+  },
+  {
+    "username": "hodlceo.eth",
+    "fid": 15513,
+    "score": 3655.0482488218004,
+    "rank": 182
+  },
+  {
+    "username": "alexescd.eth",
+    "fid": 278653,
+    "score": 3654.229711316548,
+    "rank": 183
+  },
+  {
+    "username": "getfreddie",
+    "fid": 409032,
+    "score": 3590.8824580723885,
+    "rank": 184
+  },
+  {
+    "username": "tanvir6.eth",
+    "fid": 456675,
+    "score": 3577.0657593518176,
+    "rank": 185
+  },
+  {
+    "username": "olamiplenty200",
+    "fid": 519114,
+    "score": 3506.713829849952,
+    "rank": 186
+  },
+  {
+    "username": "ddongguri",
+    "fid": 407704,
+    "score": 3488.9370672181435,
+    "rank": 187
+  },
+  {
+    "username": "entertainment",
+    "fid": 17454,
+    "score": 3461.029991516428,
+    "rank": 188
+  },
+  {
+    "username": "birtcorn",
+    "fid": 421001,
+    "score": 3421.347897948469,
+    "rank": 189
+  },
+  {
+    "username": "tomos",
+    "fid": 406564,
+    "score": 3406.684087390829,
+    "rank": 190
+  },
+  {
+    "username": "itsai",
+    "fid": 418671,
+    "score": 3229.216832941174,
+    "rank": 191
+  },
+  {
+    "username": "ali-sharafi",
+    "fid": 348569,
+    "score": 3221.8729063791275,
+    "rank": 192
+  },
+  {
+    "username": "nick-arti",
+    "fid": 417451,
+    "score": 3122.0521823510694,
+    "rank": 193
+  },
+  {
+    "username": "mightymoss",
+    "fid": 343324,
+    "score": 2983.226442787541,
+    "rank": 194
+  },
+  {
+    "username": "hoshinoun.eth",
+    "fid": 341438,
+    "score": 2939.201966540668,
+    "rank": 195
+  },
+  {
+    "username": "degen8931",
+    "fid": 420601,
+    "score": 2865.3145022803287,
+    "rank": 196
+  },
+  {
+    "username": "evee",
+    "fid": 500988,
+    "score": 2772.5712069351753,
+    "rank": 197
+  },
+  {
+    "username": "tahsin778",
+    "fid": 366075,
+    "score": 2736.9503031544955,
+    "rank": 198
+  },
+  {
+    "username": "tekus",
+    "fid": 646093,
+    "score": 2541.1249128608893,
+    "rank": 199
+  },
+  {
+    "username": "darcris.eth",
+    "fid": 343855,
+    "score": 2514.847501468158,
+    "rank": 200
+  },
+  {
+    "username": "danfaje",
+    "fid": 518129,
+    "score": 2500.3529618377943,
+    "rank": 201
+  },
+  {
+    "username": "sabato",
+    "fid": 304818,
+    "score": 2485.3870148453207,
+    "rank": 202
+  },
+  {
+    "username": "caygeon",
+    "fid": 211535,
+    "score": 2462.766328369806,
+    "rank": 203
+  },
+  {
+    "username": "pouyaneth.eth",
+    "fid": 14553,
+    "score": 2455.545711269558,
+    "rank": 204
+  },
+  {
+    "username": "just-nath",
+    "fid": 422809,
+    "score": 2391.1508724367236,
+    "rank": 205
+  },
+  {
+    "username": "svetlana",
+    "fid": 378422,
+    "score": 2385.688008057459,
+    "rank": 206
+  },
+  {
+    "username": "jeroenv78",
+    "fid": 419852,
+    "score": 2348.2836475752247,
+    "rank": 207
+  },
+  {
+    "username": "baegopayo",
+    "fid": 448920,
+    "score": 2255.1948462875553,
+    "rank": 208
+  },
+  {
+    "username": "dibo",
+    "fid": 500235,
+    "score": 2226.6685468414607,
+    "rank": 209
+  },
+  {
+    "username": "sinek",
+    "fid": 733071,
+    "score": 2175.1459217928905,
+    "rank": 210
+  },
+  {
+    "username": "wakkin",
+    "fid": 301385,
+    "score": 2123.1706635119817,
+    "rank": 211
+  },
+  {
+    "username": "lemontea",
+    "fid": 437666,
+    "score": 2106.868860816518,
+    "rank": 212
+  },
+  {
+    "username": "wongturn",
+    "fid": 501095,
+    "score": 2106.188803929655,
+    "rank": 213
+  },
+  {
+    "username": "bluretina",
+    "fid": 308827,
+    "score": 2061.457690306375,
+    "rank": 214
+  },
+  {
+    "username": "ginyo",
+    "fid": 631749,
+    "score": 2014.8815032212733,
+    "rank": 215
+  },
+  {
+    "username": "thepapercrane",
+    "fid": 249958,
+    "score": 1957.8999390504955,
+    "rank": 216
+  },
+  {
+    "username": "non07777.eth",
+    "fid": 285462,
+    "score": 1825.230995262416,
+    "rank": 217
+  },
+  {
+    "username": "jordigandul",
+    "fid": 323063,
+    "score": 1753.7299424748912,
+    "rank": 218
+  },
+  {
+    "username": "407atelie",
+    "fid": 373025,
+    "score": 1702.294106681821,
+    "rank": 219
+  },
+  {
+    "username": "1000words",
+    "fid": 403398,
+    "score": 1665.9026022218661,
+    "rank": 220
+  },
+  {
+    "username": "0xgiwa.eth",
+    "fid": 274563,
+    "score": 1644.288398397758,
+    "rank": 221
+  },
+  {
+    "username": "kogang",
+    "fid": 415902,
+    "score": 1637.0039901905584,
+    "rank": 222
+  },
+  {
+    "username": "yeomks",
+    "fid": 406493,
+    "score": 1587.9967497430573,
+    "rank": 223
+  },
+  {
+    "username": "maaaaa.eth",
+    "fid": 416361,
+    "score": 1568.5569817865244,
+    "rank": 224
+  },
+  {
+    "username": "mikhaaa",
+    "fid": 480642,
+    "score": 1543.3974691430114,
+    "rank": 225
+  },
+  {
+    "username": "with-dani69",
+    "fid": 379435,
+    "score": 1534.9345581189493,
+    "rank": 226
+  },
+  {
+    "username": "platformmmm",
+    "fid": 281290,
+    "score": 1531.3854118704169,
+    "rank": 227
+  },
+  {
+    "username": "psydeffects",
+    "fid": 364953,
+    "score": 1489.6424846908326,
+    "rank": 228
+  },
+  {
+    "username": "reneecampbell",
+    "fid": 283144,
+    "score": 1459.2119412091438,
+    "rank": 229
+  },
+  {
+    "username": "fluffheadchaser",
+    "fid": 306610,
+    "score": 1402.0234164919173,
+    "rank": 230
+  },
+  {
+    "username": "fernandobaggi",
+    "fid": 451952,
+    "score": 1364.0167281650909,
+    "rank": 231
+  },
+  {
+    "username": "herbaycity",
+    "fid": 13201,
+    "score": 1275.5180478683274,
+    "rank": 232
+  },
+  {
+    "username": "sheena",
+    "fid": 460847,
+    "score": 1235.6263026010329,
+    "rank": 233
+  },
+  {
+    "username": "rosstintexas",
+    "fid": 317501,
+    "score": 1201.058596264297,
+    "rank": 234
+  },
+  {
+    "username": "aneanejpn",
+    "fid": 420359,
+    "score": 1165.5415532960717,
+    "rank": 235
+  },
+  {
+    "username": "darkknightutk",
+    "fid": 268608,
+    "score": 1151.9391407678722,
+    "rank": 236
+  },
+  {
+    "username": "khentoysarad",
+    "fid": 435501,
+    "score": 1147.7861046571993,
+    "rank": 237
+  },
+  {
+    "username": "ghostbo4",
+    "fid": 528707,
+    "score": 1141.2386803594236,
+    "rank": 238
+  },
+  {
+    "username": "hadi1370",
+    "fid": 336594,
+    "score": 1114.3725024154799,
+    "rank": 239
+  },
+  {
+    "username": "juri23",
+    "fid": 495081,
+    "score": 1075.7311979608867,
+    "rank": 240
+  },
+  {
+    "username": "pinstripedgator",
+    "fid": 269405,
+    "score": 1072.1608841088896,
+    "rank": 241
+  },
+  {
+    "username": "deriniti",
+    "fid": 309242,
+    "score": 1027.430969040282,
+    "rank": 242
+  },
+  {
+    "username": "charlesac",
+    "fid": 421068,
+    "score": 986.2148119411335,
+    "rank": 243
+  },
+  {
+    "username": "milesx.eth",
+    "fid": 485965,
+    "score": 930.7194744263651,
+    "rank": 244
+  },
+  {
+    "username": "chinemelum.eth",
+    "fid": 431085,
+    "score": 927.5363810810445,
+    "rank": 245
+  },
+  {
+    "username": "perfumevv",
+    "fid": 462883,
+    "score": 924.4115839494666,
+    "rank": 246
+  },
+  {
+    "username": "barbarabezina",
+    "fid": 399658,
+    "score": 893.3892523239914,
+    "rank": 247
+  },
+  {
+    "username": "mazin",
+    "fid": 373242,
+    "score": 889.640457939242,
+    "rank": 248
+  },
+  {
+    "username": "shishir18.eth",
+    "fid": 444156,
+    "score": 843.7238145908245,
+    "rank": 249
+  },
+  {
+    "username": "travisleroy",
+    "fid": 292783,
+    "score": 842.5685890985659,
+    "rank": 250
+  },
+  {
+    "username": "jonna",
+    "fid": 439799,
+    "score": 827.6061363124938,
+    "rank": 251
+  },
+  {
+    "username": "godhee",
+    "fid": 401137,
+    "score": 807.4023606986482,
+    "rank": 252
+  },
+  {
+    "username": "samosan",
+    "fid": 398825,
+    "score": 797.6525798938455,
+    "rank": 253
+  },
+  {
+    "username": "herojik",
+    "fid": 444323,
+    "score": 753.3170913779269,
+    "rank": 254
+  },
+  {
+    "username": "sakil250",
+    "fid": 393452,
+    "score": 735.9539928465464,
+    "rank": 255
+  },
+  {
+    "username": "anitajude",
+    "fid": 304336,
+    "score": 662.5087924603167,
+    "rank": 256
+  },
+  {
+    "username": "jasonophoto",
+    "fid": 293760,
+    "score": 636.7530707423988,
+    "rank": 257
+  },
+  {
+    "username": "womensmuseum",
+    "fid": 641968,
+    "score": 633.2982256820806,
+    "rank": 258
+  },
+  {
+    "username": "chielilybell.eth",
+    "fid": 343971,
+    "score": 592.3900017818169,
+    "rank": 259
+  },
+  {
+    "username": "reggie089",
+    "fid": 454819,
+    "score": 542.2895096261583,
+    "rank": 260
+  },
+  {
+    "username": "walkbyfaith.eth",
+    "fid": 349986,
+    "score": 526.1139429093057,
+    "rank": 261
+  },
+  {
+    "username": "brunonacif",
+    "fid": 411656,
+    "score": 471.62462893301614,
+    "rank": 262
+  },
+  {
+    "username": "maheenblues",
+    "fid": 461236,
+    "score": 469.6091489333183,
+    "rank": 263
+  },
+  {
+    "username": "sgbaby.eth",
+    "fid": 474514,
+    "score": 449.59953737443357,
+    "rank": 264
+  },
+  {
+    "username": "happyquokka",
+    "fid": 316454,
+    "score": 429.90855767448977,
+    "rank": 265
+  },
+  {
+    "username": "ladyeebenz",
+    "fid": 239828,
+    "score": 381.73055554483545,
+    "rank": 266
+  },
+  {
+    "username": "nickyboost",
+    "fid": 328041,
+    "score": 379.9441857436523,
+    "rank": 267
+  },
+  {
+    "username": "khfrhn.eth",
+    "fid": 279037,
+    "score": 369.18430878620666,
+    "rank": 268
+  },
+  {
+    "username": "missmary",
+    "fid": 423331,
+    "score": 347.3277384158461,
+    "rank": 269
+  },
+  {
+    "username": "catswilleatyou",
+    "fid": 299247,
+    "score": 340.32225217536944,
+    "rank": 270
+  },
+  {
+    "username": "kurita",
+    "fid": 347364,
+    "score": 302.3614240020793,
+    "rank": 271
+  },
+  {
+    "username": "ciberdelia",
+    "fid": 422910,
+    "score": 270.38636795503083,
+    "rank": 272
+  },
+  {
+    "username": "ifewasabi",
+    "fid": 403399,
+    "score": 246.45546568587312,
+    "rank": 273
+  },
+  {
+    "username": "bluebubble",
+    "fid": 513581,
+    "score": 244.59900412811714,
+    "rank": 274
+  },
+  {
+    "username": "mugi0526",
+    "fid": 508261,
+    "score": 240.48604329952678,
+    "rank": 275
+  },
+  {
+    "username": "level5",
+    "fid": 795741,
+    "score": 238.7008938819583,
+    "rank": 276
+  },
+  {
+    "username": "caira",
+    "fid": 449264,
+    "score": 223.07271459350866,
+    "rank": 277
+  },
+  {
+    "username": "111iks",
+    "fid": 307568,
+    "score": 209.2542403873037,
+    "rank": 278
+  },
+  {
+    "username": "zuuye.eth",
+    "fid": 447195,
+    "score": 199.38619692591433,
+    "rank": 279
+  },
+  {
+    "username": "michii",
+    "fid": 486142,
+    "score": 186.24711529123317,
+    "rank": 280
+  },
+  {
+    "username": "nununufriend",
+    "fid": 395662,
+    "score": 174.07915173870566,
+    "rank": 281
+  },
+  {
+    "username": "dollypy",
+    "fid": 707086,
+    "score": 131.28962903281914,
+    "rank": 282
+  },
+  {
+    "username": "agnaagnes",
+    "fid": 779916,
+    "score": 102.95051329192634,
+    "rank": 283
+  },
+  {
+    "username": "eiza",
+    "fid": 406815,
+    "score": 49.02160253225447,
+    "rank": 284
+  },
+  {
+    "username": "tieubochet.eth",
+    "fid": 260299,
+    "score": 29.468171758518487,
+    "rank": 285
+  },
+  {
+    "username": "alexeirox.eth",
+    "fid": 380136,
+    "score": 26.3247779519836,
+    "rank": 286
+  },
+  {
+    "username": "yth",
+    "fid": 326487,
+    "score": 23.459084939190877,
+    "rank": 287
+  },
+  {
+    "username": "bestenemy",
+    "fid": 508642,
+    "score": 2.5449305158676716,
+    "rank": 288
+  },
+  {
+    "username": "sameer10",
+    "fid": 484959,
+    "score": -3.481433659820127,
+    "rank": 289
+  },
+  {
+    "username": "0xlacroix",
+    "fid": 225851,
+    "score": -8.086057877402279,
+    "rank": 290
+  },
+  {
+    "username": "angelinjoli",
+    "fid": 513728,
+    "score": -14.135567398322536,
+    "rank": 291
+  },
+  {
+    "username": "blackkhammer.eth",
+    "fid": 385766,
+    "score": -22.83452457330751,
+    "rank": 292
+  },
+  {
+    "username": "asefazi",
+    "fid": 379089,
+    "score": -23.169504163060676,
+    "rank": 293
+  },
+  {
+    "username": "odogwupete",
+    "fid": 535238,
+    "score": -32.043846181920756,
+    "rank": 294
+  },
+  {
+    "username": "riddlck.eth",
+    "fid": 435085,
+    "score": -75.08463332107823,
+    "rank": 295
+  },
+  {
+    "username": "benterry",
+    "fid": 3263,
+    "score": -82.48615754814386,
+    "rank": 296
+  },
+  {
+    "username": "happyforyou",
+    "fid": 512773,
+    "score": -93.16352289026241,
+    "rank": 297
+  },
+  {
+    "username": "capn",
+    "fid": 318589,
+    "score": -104.25283804680801,
+    "rank": 298
+  },
+  {
+    "username": "sharif3031",
+    "fid": 276352,
+    "score": -130.59259285669538,
+    "rank": 299
+  },
+  {
+    "username": "joellelb",
+    "fid": 278406,
+    "score": -150.6323350254049,
+    "rank": 300
+  },
+  {
+    "username": "slava3ngl",
+    "fid": 390598,
+    "score": -151.54320514783518,
+    "rank": 301
+  },
+  {
+    "username": "degenlady1",
+    "fid": 420958,
+    "score": -155.77709667907408,
+    "rank": 302
+  },
+  {
+    "username": "miiiiapp",
+    "fid": 17356,
+    "score": -221.60293785961846,
+    "rank": 303
+  },
+  {
+    "username": "evsim.eth",
+    "fid": 288578,
+    "score": -250.63537705424568,
+    "rank": 304
+  },
+  {
+    "username": "makshaeva",
+    "fid": 445335,
+    "score": -269.04954436400595,
+    "rank": 305
+  },
+  {
+    "username": "gulyildiz",
+    "fid": 354220,
+    "score": -284.5233299112453,
+    "rank": 306
+  },
+  {
+    "username": "skillven",
+    "fid": 512482,
+    "score": -316.8562851220524,
+    "rank": 307
+  },
+  {
+    "username": "abeg007.eth",
+    "fid": 474644,
+    "score": -428.7134916022199,
+    "rank": 308
+  },
+  {
+    "username": "outcaster.eth",
+    "fid": 389207,
+    "score": -479.5388728501986,
+    "rank": 309
+  },
+  {
+    "username": "papikosun.eth",
+    "fid": 263309,
+    "score": -492.3980051190198,
+    "rank": 310
+  },
+  {
+    "username": "elbi",
+    "fid": 273379,
+    "score": -603.792098649826,
+    "rank": 311
+  },
+  {
+    "username": "susa",
+    "fid": 445226,
+    "score": -606.0524524573448,
+    "rank": 312
+  },
+  {
+    "username": "einik",
+    "fid": 268977,
+    "score": -739.6112267677496,
+    "rank": 313
+  },
+  {
+    "username": "surgeonsuresh",
+    "fid": 333772,
+    "score": -1093.2548458371705,
+    "rank": 314
+  },
+  {
+    "username": "guillaumecornet",
+    "fid": 364017,
+    "score": -2067.809494402276,
+    "rank": 315
+  },
+  {
+    "username": "priya1",
+    "fid": 305194,
+    "score": -3061.280414632514,
+    "rank": 316
   },
   {
     "username": "wtracy",
     "fid": 198538,
-    "score": -413.5035066543989,
-    "rank": 472
-  },
-  {
-    "username": "bilalh3re",
-    "fid": 433857,
-    "score": -464.0062639101967,
-    "rank": 473
-  },
-  {
-    "username": "asmasyed",
-    "fid": 397411,
-    "score": -499.1379725524427,
-    "rank": 474
+    "score": -4357.024191699241,
+    "rank": 317
   }
 ]
