@@ -1,10 +1,13 @@
 import {
+  ACTIVE_TIP_DAYS_REQUIRED,
   ENVIRONMENT,
   OPENRANK_SNAPSHOT_INTERVAL,
   ROOT_ENDPOINT,
+  TIPPER_OPENRANK_THRESHOLD_REQUIREMENT,
   axios,
   cacheTypes,
   dayUTC,
+  getOpenRankScores,
 } from "@farther/common";
 import * as Sentry from "@sentry/node";
 import { Job, QueueEvents, Worker } from "bullmq";
@@ -25,11 +28,11 @@ import { flushCache } from "../utils/flushCache";
 import { getTipScores } from "../utils/getTipScores";
 import { dbScheduler } from "../utils/helpers";
 
-// const allScores: {
-//   username: string | null;
-//   fid: number;
-//   score: number;
-// }[] = [];
+const allScores: {
+  username: string | null;
+  fid: number;
+  score: number;
+}[] = [];
 
 type JobData = {
   fid: number;
@@ -57,6 +60,16 @@ export async function createTipperScores() {
     to,
   });
 
+  const openRankData = (
+    await getOpenRankScores({
+      fids: tippers.map((t) => t.id),
+      type: "FOLLOWING",
+      rateLimit: 10,
+    })
+  ).filter((score) => score.rank < TIPPER_OPENRANK_THRESHOLD_REQUIREMENT);
+
+  const openRankFids = openRankData.map((data) => data.fid);
+
   // Putting the hour in the job name to avoid collisions
   const date = dayjs();
   const day = date.format("YYYY-MM-DD");
@@ -68,14 +81,36 @@ export async function createTipperScores() {
 
   // Create jobs
   await createTipperScoresQueue.addBulk(
-    tippers.map((tipper, i) => {
-      const jobId = `${queueNames.CREATE_TIPPER_SCORES}-${day}-h${hour}-fid:${tipper.id}`;
-      return {
-        name: jobId,
-        data: { fid: tipper.id, from, to },
-        opts: { jobId, attempts: 5 },
-      };
-    }),
+    tippers
+      .filter((t) => openRankFids.includes(t.id))
+      .filter((tipper) => {
+        const totalActiveDays = new Set(
+          tipper.tipsGiven.map((t) => t.tipAllowanceId),
+        ).size;
+
+        const firstTip = tipper.tipsGiven.reduce((acc, t) => {
+          if (t.createdAt < acc) {
+            return t.createdAt;
+          }
+          return acc;
+        }, tipper.tipsGiven[0].createdAt);
+
+        // Must meet threshold if they started tipping more than ACTIVE_TIP_DAYS_REQUIRED days ago
+        const requireActiveDaysThreshold =
+          dayUTC().diff(firstTip, "day", true) > ACTIVE_TIP_DAYS_REQUIRED;
+
+        return requireActiveDaysThreshold
+          ? totalActiveDays >= ACTIVE_TIP_DAYS_REQUIRED
+          : true;
+      })
+      .map((tipper) => {
+        const jobId = `${queueNames.CREATE_TIPPER_SCORES}-${day}-h${hour}-fid:${tipper.id}`;
+        return {
+          name: jobId,
+          data: { fid: tipper.id, from, to },
+          opts: { jobId, attempts: 5 },
+        };
+      }),
   );
 }
 
@@ -156,11 +191,11 @@ async function createTipperScoresBatch(job: Job) {
     });
   }
 
-  // allScores.push({
-  //   username: tipperData.username,
-  //   fid: fid,
-  //   score: tipperScore.toNumber(),
-  // });
+  allScores.push({
+    username: tipperData.username,
+    fid: fid,
+    score: tipperScore.toNumber(),
+  });
 
   await flushCache({
     type: cacheTypes.USER,
@@ -185,7 +220,9 @@ queueEvents.on("completed", async (job) => {
     // await writeFile(
     //   `tipperScores.json`,
     //   JSON.stringify(
-    //     allScores.sort((a, b) => b.score - a.score),
+    //     allScores
+    //       .sort((a, b) => b.score - a.score)
+    //       .map((s, i) => ({ ...s, rank: i + 1 })),
     //     null,
     //     2,
     //   ),
