@@ -107,28 +107,16 @@ export async function getFilteredTippers(
         tipper.user.tipsGiven.map((t) => t.tipAllowanceId),
       ).size;
 
-      const firstTip = tipper.user.tipsGiven.reduce((acc, t) => {
-        if (t.createdAt < acc) {
-          return t.createdAt;
-        }
-        return acc;
-      }, tipper.user.tipsGiven[0].createdAt);
-
-      // Must meet threshold if they started tipping more than ACTIVE_TIP_DAYS_REQUIRED days ago
-      const requireActiveDaysThreshold =
-        dayUTC(now).diff(firstTip, "day", true) > ACTIVE_TIP_DAYS_REQUIRED;
-
       return (
         openRankFids.includes(tipper.user.id) &&
-        (requireActiveDaysThreshold
-          ? totalActiveDays >= ACTIVE_TIP_DAYS_REQUIRED
-          : true)
+        totalActiveDays >= ACTIVE_TIP_DAYS_REQUIRED
       );
     });
 }
 
 export async function getTippersForLeaderboard() {
   const rawTippers = await getRawLeaderboard();
+
   const tippers = await getFilteredTippers(rawTippers);
 
   return tippers;
