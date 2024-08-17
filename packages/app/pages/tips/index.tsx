@@ -109,7 +109,7 @@ function TipsPage() {
           acheived by scoring tips based on how much the recipients' engagement
           increases throughout each month. The engagement is measured by{" "}
           <ExternalLink href={OPENRANK_DOCS_URL}>OpenRank</ExternalLink>, and
-          all the tip scores are averaged to form a tipper score. At the end of
+          all the tip scores are summed to form a tipper score. At the end of
           the month, a rewards pool is distributed pro rata based on each
           tipper's score.
         </p>

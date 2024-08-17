@@ -1,4 +1,4 @@
-import { TipperScore } from "@components/tips/TipperScore";
+import { TipperRank } from "@components/tips/TipperRank";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { Popover } from "@components/ui/Popover";
@@ -148,7 +148,7 @@ function TipHistoryPage() {
             (as measured by{" "}
             <ExternalLink href={OPENRANK_DOCS_URL}>OpenRank</ExternalLink>)
             since the time the tip was made. It is updated daily up until the
-            end of the month. Your tipper score is an average of all the tip
+            end of the month. Your tipper score is the sum of all your tip
             scores.
           </p>
           <p>
@@ -186,7 +186,7 @@ function TipHistoryPage() {
   return (
     <Container variant="page">
       <h1>Tip History</h1>
-      {(user || userLoading) && <TipperScore />}
+      {(user || userLoading) && <TipperRank />}
       <div className="text-xs md:text-sm">
         {user && !isLoading && (
           <p className="text-muted mb-8">

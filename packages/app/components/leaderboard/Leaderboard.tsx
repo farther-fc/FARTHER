@@ -31,9 +31,8 @@ import React from "react";
 import { DataTableToolbar } from "./LeaderboardToolbar";
 
 const columnStyles: { [key: string]: string } = {
-  rank: "w-[28px]",
-  username: "w-[110px]",
-  tipperScore: "text-right w-[110px]",
+  username: "w-[90px]",
+  rank: "text-right w-[90px]",
   potentialTipperRewards: "text-right w-[110px]",
   currentAllowance: "text-right w-[110px]",
   orFollowingRank: "text-right w-[110px]",
@@ -44,7 +43,7 @@ const columnStyles: { [key: string]: string } = {
 export function Leaderboard() {
   const { data } = trpcClient.public.tips.leaderboard.useQuery();
   const [sorting, setSorting] = React.useState<SortingState>([
-    { id: "tipperScore", desc: true },
+    { id: "tipperRank", desc: true },
   ]);
 
   const table = useReactTable({

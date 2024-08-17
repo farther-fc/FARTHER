@@ -1,5 +1,6 @@
 import {
   ACTIVE_TIP_DAYS_REQUIRED,
+  ENVIRONMENT,
   OPENRANK_SNAPSHOT_INTERVAL,
   ROOT_ENDPOINT,
   TIPPER_OPENRANK_THRESHOLD_REQUIREMENT,
@@ -9,11 +10,11 @@ import {
   getOpenRankScores,
   getStartOfMonthUTC,
 } from "@farther/common";
+import * as Sentry from "@sentry/node";
 import { Job, QueueEvents, Worker } from "bullmq";
 import dayjs from "dayjs";
 import Decimal from "decimal.js";
-import { writeFile } from "fs/promises";
-import { prisma } from "../../prisma";
+import { Tip, prisma } from "../../prisma";
 import {
   createTipperScoresQueue,
   getJobCounts,
@@ -25,13 +26,14 @@ import { getLatestOpenRankScores } from "../getLatestOpenRankScores";
 import { getTipsFromDate } from "../getTipsFromDate";
 import { flushCache } from "../utils/flushCache";
 import { getTipScores } from "../utils/getTipScores";
+import { dbScheduler } from "../utils/helpers";
 
-const allScores: {
-  username: string | null;
-  fid: number;
-  score: number;
-  // tipScores: { hash: string; changePerToken: Decimal }[];
-}[] = [];
+// const allScores: {
+//   username: string | null;
+//   fid: number;
+//   score: number;
+//   // tipScores: { hash: string; changePerToken: Decimal }[];
+// }[] = [];
 
 type JobData = {
   fid: number;
@@ -68,29 +70,42 @@ export async function createTipperScores() {
     },
   });
 
-  const openRankData = (
+  const openRankFids = (
     await getOpenRankScores({
       fids: tippers.map((t) => t.id),
       type: "FOLLOWING",
       rateLimit: 10,
     })
-  ).filter((score) => score.rank < TIPPER_OPENRANK_THRESHOLD_REQUIREMENT);
+  )
+    .filter((score) => score.rank < TIPPER_OPENRANK_THRESHOLD_REQUIREMENT)
+    .map((data) => data.fid);
 
-  const openRankFids = openRankData.map((data) => data.fid);
+  const tippersBelowOpenRankThreshold = tippers.filter((t) =>
+    openRankFids.includes(t.id),
+  );
 
   // Putting the hour in the job name to avoid collisions
   const date = dayjs();
   const day = date.format("YYYY-MM-DD");
   const hour = date.hour();
 
+  const tippersWithEnoughActiveDays = tippersBelowOpenRankThreshold.filter(
+    (tipper) => {
+      const totalActiveDays = new Set(
+        tipper.tipsGiven.map((t) => t.tipAllowanceId),
+      ).size;
+
+      return totalActiveDays >= ACTIVE_TIP_DAYS_REQUIRED;
+    },
+  );
+
   console.log(
-    `${queueNames.CREATE_TIPPER_SCORES}: Creating ${tippers.length} jobs`,
+    `${queueNames.CREATE_TIPPER_SCORES}: Creating ${tippersWithEnoughActiveDays.length} jobs`,
   );
 
   // Create jobs
   await createTipperScoresQueue.addBulk(
-    tippers
-      .filter((t) => openRankFids.includes(t.id))
+    tippersWithEnoughActiveDays
       .filter((tipper) => {
         const totalActiveDays = new Set(
           tipper.tipsGiven.map((t) => t.tipAllowanceId),
@@ -125,18 +140,33 @@ export async function createTipperScores() {
 async function createTipperScoresBatch(job: Job) {
   const { fid, from, to } = job.data as JobData;
 
-  const tipsGivenWhereFilter = getTipsGivenWhereFilter({ from, to });
-
   const tipperData = await prisma.user.findUnique({
     where: {
       id: fid,
-      tipsGiven: {
-        some: tipsGivenWhereFilter,
-      },
     },
     include: {
       tipsGiven: {
-        where: tipsGivenWhereFilter,
+        where: {
+          invalidTipReason: null,
+          tippeeOpenRankScore: {
+            not: null,
+          },
+          tippee: {
+            NOT: {
+              tipAllowances: {
+                some: {
+                  createdAt: {
+                    gte: getStartOfMonthUTC(0),
+                  },
+                },
+              },
+            },
+          },
+          createdAt: {
+            gte: from,
+            lt: to,
+          },
+        },
       },
     },
   });
@@ -155,60 +185,56 @@ async function createTipperScoresBatch(job: Job) {
     endScores,
   });
 
-  const totalScore = tipScores.reduce(
+  const tipperScore = tipScores.reduce(
     (acc, score) => acc.add(score.changePerToken),
     new Decimal(0),
   );
 
-  // const tipUpdates: Promise<Tip>[] = [];
+  const tipUpdates: Promise<Tip>[] = [];
 
-  // tipUpdates.push(
-  //   ...tipScores.map((tip, index) =>
-  //     dbScheduler.schedule(() =>
-  //       prisma.tip.update({
-  //         where: { hash: tip.hash },
-  //         data: {
-  //           openRankChange: tipScores[index].changePerToken.toNumber(),
-  //         },
-  //       }),
-  //     ),
-  //   ),
-  // );
+  tipUpdates.push(
+    ...tipScores.map((tip, index) =>
+      dbScheduler.schedule(() =>
+        prisma.tip.update({
+          where: { hash: tip.hash },
+          data: {
+            openRankChange: tipScores[index].changePerToken.toNumber(),
+          },
+        }),
+      ),
+    ),
+  );
 
-  // await Promise.all(tipUpdates);
+  await Promise.all(tipUpdates);
 
-  // Return average
-  // const tipperScore = totalScore.div(tips.length);
-  const tipperScore = totalScore;
+  try {
+    await prisma.tipperScore.create({
+      data: {
+        userId: fid,
+        score: tipperScore.toNumber(),
+      },
+    });
+  } catch (error) {
+    Sentry.captureException(error, {
+      extra: {
+        fid,
+        tipperScore,
+        env: ENVIRONMENT,
+      },
+    });
+  }
 
-  // try {
-  //   await prisma.tipperScore.create({
-  //     data: {
-  //       userId: fid,
-  //       score: tipperScore.toNumber(),
-  //     },
-  //   });
-  // } catch (error) {
-  //   Sentry.captureException(error, {
-  //     extra: {
-  //       fid,
-  //       tipperScore,
-  //       env: ENVIRONMENT,
-  //     },
-  //   });
-  // }
-
-  // await flushCache({
-  //   type: cacheTypes.USER,
-  //   ids: [fid],
-  // });
-
-  allScores.push({
-    username: tipperData.username,
-    fid: fid,
-    score: tipperScore.toNumber(),
-    // tipScores,
+  await flushCache({
+    type: cacheTypes.USER,
+    ids: [fid],
   });
+
+  // allScores.push({
+  //   username: tipperData.username,
+  //   fid: fid,
+  //   score: tipperScore.toNumber(),
+  //   // tipScores,
+  // });
 }
 
 const queueEvents = new QueueEvents(queueNames.CREATE_TIPPER_SCORES, {
@@ -225,16 +251,16 @@ queueEvents.on("completed", async (job) => {
   console.info(`done: ${job.jobId} (${completed}/${total}).`);
 
   if (total === completed + failed) {
-    await writeFile(
-      `tipperScores.json`,
-      JSON.stringify(
-        allScores
-          .sort((a, b) => b.score - a.score)
-          .map((s, i) => ({ ...s, rank: i + 1 })),
-        null,
-        2,
-      ),
-    );
+    // await writeFile(
+    //   `tipperScores.json`,
+    //   JSON.stringify(
+    //     allScores
+    //       .sort((a, b) => b.score - a.score)
+    //       .map((s, i) => ({ ...s, rank: i + 1 })),
+    //     null,
+    //     2,
+    //   ),
+    // );
 
     await flushCache({
       type: cacheTypes.USER_TIPS,
@@ -260,17 +286,6 @@ function getTipsGivenWhereFilter({ from, to = new Date() }) {
     invalidTipReason: null,
     tippeeOpenRankScore: {
       not: null,
-    },
-    tippee: {
-      NOT: {
-        tipAllowances: {
-          some: {
-            createdAt: {
-              gte: getStartOfMonthUTC(0),
-            },
-          },
-        },
-      },
     },
     createdAt: {
       gte: from,

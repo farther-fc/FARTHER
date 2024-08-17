@@ -6,19 +6,19 @@ import { useUser } from "@lib/context/UserContext";
 import { HelpCircle } from "lucide-react";
 import numeral from "numeral";
 
-export function TipperScore() {
+export function TipperRank() {
   const { user, userLoading } = useUser();
   return user || userLoading ? (
     <LabelValue
       className="text-xl"
-      label={"Tipper Score"}
+      label={"Tipper Rank"}
       value={
         <Popover content={<TipperScoreInfo />}>
           <div className="flex group items-center">
             {userLoading ? (
               <Spinner size="xs" className="mr-2" />
             ) : (
-              numeral(user?.tipperScore).format("0,0.[00]")
+              numeral(user?.tipperRank).format("0,0.[00]")
             )}
             <HelpCircle className="ml-2 size-4 text-muted" />
           </div>
