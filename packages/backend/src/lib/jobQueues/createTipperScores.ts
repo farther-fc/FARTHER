@@ -32,7 +32,7 @@ import { dbScheduler } from "../utils/helpers";
 //   username: string | null;
 //   fid: number;
 //   score: number;
-//   // tipScores: { hash: string; changePerToken: Decimal }[];
+//   tipScores: { hash: string; changePerToken: Decimal }[];
 // }[] = [];
 
 type JobData = {
@@ -105,35 +105,14 @@ export async function createTipperScores() {
 
   // Create jobs
   await createTipperScoresQueue.addBulk(
-    tippersWithEnoughActiveDays
-      .filter((tipper) => {
-        const totalActiveDays = new Set(
-          tipper.tipsGiven.map((t) => t.tipAllowanceId),
-        ).size;
-
-        const firstTip = tipper.tipsGiven.reduce((acc, t) => {
-          if (t.createdAt < acc) {
-            return t.createdAt;
-          }
-          return acc;
-        }, tipper.tipsGiven[0].createdAt);
-
-        // Must meet threshold if they started tipping more than ACTIVE_TIP_DAYS_REQUIRED days ago
-        const requireActiveDaysThreshold =
-          dayUTC().diff(firstTip, "day", true) > ACTIVE_TIP_DAYS_REQUIRED;
-
-        return requireActiveDaysThreshold
-          ? totalActiveDays >= ACTIVE_TIP_DAYS_REQUIRED
-          : true;
-      })
-      .map((tipper) => {
-        const jobId = `${queueNames.CREATE_TIPPER_SCORES}-${day}-h${hour}-fid:${tipper.id}`;
-        return {
-          name: jobId,
-          data: { fid: tipper.id, from, to },
-          opts: { jobId, attempts: 5 },
-        };
-      }),
+    tippersWithEnoughActiveDays.map((tipper) => {
+      const jobId = `${queueNames.CREATE_TIPPER_SCORES}-${day}-h${hour}-fid:${tipper.id}`;
+      return {
+        name: jobId,
+        data: { fid: tipper.id, from, to },
+        opts: { jobId, attempts: 5 },
+      };
+    }),
   );
 }
 
@@ -173,6 +152,11 @@ async function createTipperScoresBatch(job: Job) {
 
   if (!tipperData) {
     throw new Error(`No tipper data found for fid: ${fid}`);
+  }
+
+  if (tipperData.tipsGiven.length === 0) {
+    console.log(`No tips found for fid: ${fid}`);
+    return;
   }
 
   const tips = tipperData.tipsGiven;
@@ -218,7 +202,7 @@ async function createTipperScoresBatch(job: Job) {
     Sentry.captureException(error, {
       extra: {
         fid,
-        tipperScore,
+        tipperScore: tipperScore.toNumber(),
         env: ENVIRONMENT,
       },
     });
@@ -233,7 +217,7 @@ async function createTipperScoresBatch(job: Job) {
   //   username: tipperData.username,
   //   fid: fid,
   //   score: tipperScore.toNumber(),
-  //   // tipScores,
+  //   tipScores,
   // });
 }
 
@@ -261,6 +245,16 @@ queueEvents.on("completed", async (job) => {
     //     2,
     //   ),
     // );
+
+    // const tipScores = allScores
+    //   .map((a) => a.tipScores)
+    //   .flat()
+    //   .sort((a, b) => b.changePerToken.comparedTo(a.changePerToken));
+    // const biggestScores = tipScores.slice(0, 5);
+    // const smallestScores = tipScores.slice(-5);
+
+    // console.log("Biggest scores", biggestScores);
+    // console.log("Smallest scores", smallestScores);
 
     await flushCache({
       type: cacheTypes.USER_TIPS,
