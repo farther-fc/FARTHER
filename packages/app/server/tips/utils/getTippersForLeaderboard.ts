@@ -54,13 +54,13 @@ export async function getRawLeaderboard(now = dayUTC()) {
             gte: getStartOfMonthUTC(0),
             lt: now.toDate(),
           },
+        },
+        include: {
           tippee: {
-            NOT: {
+            select: {
               tipAllowances: {
-                some: {
-                  createdAt: {
-                    gte: getStartOfMonthUTC(0),
-                  },
+                select: {
+                  id: true,
                 },
               },
             },
@@ -92,11 +92,13 @@ export async function getRawLeaderboard(now = dayUTC()) {
 export async function getFilteredTippers(
   tippers: Awaited<ReturnType<typeof getRawLeaderboard>>,
 ) {
-  const rawTippersWithTipsGiven = tippers.filter((t) => t.tipsGiven.length > 0);
+  const tippersWhoHaveTippedNonTippers = tippers.filter((t) =>
+    t.tipsGiven.some((tip) => tip.tippee.tipAllowances.length === 0),
+  );
 
   const openRankData = (
     await getOpenRankScores({
-      fids: rawTippersWithTipsGiven.map((t) => t.id),
+      fids: tippersWhoHaveTippedNonTippers.map((t) => t.id),
       type: "FOLLOWING",
       rateLimit: 10,
     })
@@ -108,22 +110,28 @@ export async function getFilteredTippers(
     openRankData.map((data) => [data.fid, data.rank]),
   );
 
-  const finalFilteredTippers = rawTippersWithTipsGiven
-    .map((user) => ({
-      user,
-      orFollowingRank: orFollowingRankMap.get(user.id),
-    }))
-    .filter((tipper) => {
+  const tippersWithValidOpenRank = tippers.filter((t) =>
+    openRankFids.includes(t.id),
+  );
+
+  const tippersWithEnoughActiveDays = tippersWithValidOpenRank.filter(
+    (tipper) => {
       const totalActiveDays = new Set(
-        tipper.user.tipsGiven.map((t) => t.tipAllowanceId),
+        tipper.tipsGiven.map((t) => t.tipAllowanceId),
       ).size;
 
-      return (
-        openRankFids.includes(tipper.user.id) &&
-        totalActiveDays >= ACTIVE_TIP_DAYS_REQUIRED
-      );
-    });
+      return totalActiveDays >= ACTIVE_TIP_DAYS_REQUIRED;
+    },
+  );
 
+  const rawTippersWithTipsGiven = tippersWithEnoughActiveDays.filter(
+    (t) => t.tipsGiven.length > 0,
+  );
+
+  const finalFilteredTippers = rawTippersWithTipsGiven.map((user) => ({
+    user,
+    orFollowingRank: orFollowingRankMap.get(user.id),
+  }));
   return finalFilteredTippers;
 }
 
