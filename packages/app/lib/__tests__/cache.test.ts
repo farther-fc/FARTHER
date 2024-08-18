@@ -6,7 +6,7 @@ import {
   dummyUserTipsMeta,
 } from "@lib/__tests__/testData";
 import { cache } from "@lib/cache";
-import kv from "@vercel/kv";
+import { kv } from "@vercel/kv";
 
 // Mock data for testing
 const user1Id = 123;
