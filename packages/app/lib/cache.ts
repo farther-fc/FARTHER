@@ -1,5 +1,5 @@
 import { CacheType, cacheTimes } from "@farther/common";
-import kv from "@vercel/kv";
+import { kv } from "@vercel/kv";
 import { getTipMeta } from "server/tips/publicGetTipsMeta";
 import { publicTipsByTipper } from "server/tips/utils/publicTipsByTipper";
 import { getLeaderboardData } from "server/tips/utils/tipsLeaderboard";
