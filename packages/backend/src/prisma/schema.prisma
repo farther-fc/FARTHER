@@ -10,26 +10,28 @@ datasource db {
 
 model User {
   // Using Farcaster FID as unique identifier
-  id        Int       @id
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id        Int         @id
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
 
-  pfpUrl              String?
-  username            String?
-  displayName         String?
-  followerCount       Int?
-  powerBadge          Boolean?
-  isBanned            Boolean        @default(false)
-  status              UserStatus?
+  pfpUrl                String?
+  username              String?
+  displayName           String?
+  followerCount         Int?
+  powerBadge            Boolean?
+  isBanned              Boolean        @default(false)
+  status                UserStatus?
+  fartherBotSubscriber  Boolean @default(false)
 
-  allocations         Allocation[]
-  tipAllowances       TipAllowance[]
-  tipsGiven           Tip[]          @relation(name: "tipper")
-  tipsReceived        Tip[]          @relation(name: "tippee")
-  openRankScores      OpenRankScore[]
-  tipperScores        TipperScore[]
+  allocations           Allocation[]
+  tipAllowances         TipAllowance[]
+  tipsGiven             Tip[]          @relation(name: "tipper")
+  tipsReceived          Tip[]          @relation(name: "tippee")
+  openRankScores        OpenRankScore[]
+  tipperScores          TipperScore[]
 
-  ethAccounts    UserEthAccount[]
+
+  ethAccounts           UserEthAccount[]
 }
 
 enum UserStatus {
@@ -182,7 +184,12 @@ enum InvalidTipReason {
   BANNED_TIPPER
   BANNED_TIPPEE
   INELIGIBLE_TIPPEE
+  // Only one tip per user per cycle
   TIPPEE_LIMIT_REACHED
+  // Limited % of allowance per week to the same tippee
+  TIPPEE_WEEKLY_THRESHOLD_REACHED
+  // Limited % of allowance per week to other tippers
+  RECIPROCATION_THRESHOLD_REACHED
 }
 
 model TipMeta {
