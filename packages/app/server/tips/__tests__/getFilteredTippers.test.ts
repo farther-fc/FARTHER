@@ -148,7 +148,7 @@ describe("getFilteredTippers", () => {
 
     expect(tippers.length).toBe(2);
 
-    const filteredTippers = await getFilteredTippers(tippers, now);
+    const filteredTippers = await getFilteredTippers(tippers);
 
     expect(filteredTippers).toHaveLength(1);
     expect(filteredTippers.map((t) => t.user.id)).toEqual([2]);
@@ -161,7 +161,7 @@ describe("getFilteredTippers", () => {
 
     expect(tippers.length).toBe(3);
 
-    const filteredTippers = await getFilteredTippers(tippers, now);
+    const filteredTippers = await getFilteredTippers(tippers);
 
     expect(filteredTippers).toHaveLength(2);
 
@@ -177,7 +177,7 @@ describe("getFilteredTippers", () => {
 
     expect(tippers.length).toBe(4);
 
-    const filteredTippers = await getFilteredTippers(tippers, now);
+    const filteredTippers = await getFilteredTippers(tippers);
 
     expect(filteredTippers).toHaveLength(2);
 
