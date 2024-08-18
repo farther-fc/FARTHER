@@ -9,7 +9,7 @@ const CURRENT_MAX_ENGAGEMENT_SCORE = 0.2;
 // counters it by increasing the impact of tips to users with higher engagement scores
 const getAdjustment = scaleSymlog()
   .domain([0, CURRENT_MAX_ENGAGEMENT_SCORE])
-  .range([0.5, 5000]);
+  .range([0.00001, 1.5]);
 
 /**
  * For each tip, this calculates the OpenRank score change of the recipient per token tipped
@@ -50,6 +50,7 @@ export function getTipScores({
     // Scale up to human readable numbers
     return {
       hash: tip.hash,
+      tippeeId: tip.tippeeId,
       changePerToken,
     };
   });

@@ -226,13 +226,16 @@ export const getUser = publicProcedure
         dbUser.tipAllowances[0]?.tips.reduce((acc, t) => t.amount + acc, 0) ||
         0;
 
+      const leaderboard = await tipsLeaderboard();
+      const rankIndex = leaderboard.findIndex((u) => u.fid === dbUser.id);
+
       return {
         fid: dbUser.id,
         username: dbUser.username,
         displayName: dbUser.displayName,
         pfpUrl: dbUser.pfpUrl,
         powerBadge: dbUser.powerBadge,
-        tipperScore,
+        tipperRank: rankIndex > -1 ? rankIndex + 1 : null,
         allocations,
         totalTipsReceived: {
           number: dbUser.tipsReceived.length || 0,

@@ -1,4 +1,8 @@
 import { AllocationType } from "@farther/backend";
+import {
+  RECIPROCATION_THRESHOLD,
+  TIPPEE_WEEKLY_THRESHOLD_RATIO,
+} from "@farther/common";
 import { routes } from "@lib/routes";
 
 export const FARTHER_CHANNEL_URL = "https://warpcast.com/~/channel/farther";
@@ -71,6 +75,8 @@ export const invalidTipReasons = {
   BANNED_TIPPER: "Banned tipper",
   TIPPEE_LIMIT_REACHED: "Already tipped recipient during this cycle",
   INELIGIBLE_TIPPEE: "Recipient must have at least 100 followers",
+  TIPPEE_WEEKLY_THRESHOLD_REACHED: `Tippers can only give ${TIPPEE_WEEKLY_THRESHOLD_RATIO * 100}% their total weekly allowance given to a single recipient`,
+  RECIPROCATION_THRESHOLD_REACHED: `Tippers can only give ${RECIPROCATION_THRESHOLD * 100}% of their total weekly allowance to other tippers`,
 } as const;
 
 export const OPENRANK_DOCS_URL =
@@ -78,3 +84,5 @@ export const OPENRANK_DOCS_URL =
 
 export const FARTHER_V2_PARAGRAPH_URL =
   "https://paragraph.xyz/@farther/farther-v2";
+
+export const TIP_REWARDS_EXPERIMENTAL_DISCLAIMER = `The tippper rewards system is in a very nascent, experimental phase which occassionally requires changes to the parameters. Scores and rewards are not locked in until the end of the month. Thank you for your understanding.`;

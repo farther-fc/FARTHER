@@ -7,7 +7,10 @@ import { ExternalLink } from "@components/ui/ExternalLink";
 import { Popover } from "@components/ui/Popover";
 import { Skeleton } from "@components/ui/Skeleton";
 import { TIPPER_REWARDS_POOL } from "@farther/common";
-import { OPENRANK_DOCS_URL } from "@lib/constants";
+import {
+  OPENRANK_DOCS_URL,
+  TIP_REWARDS_EXPERIMENTAL_DISCLAIMER,
+} from "@lib/constants";
 import { LeaderboardRow } from "@lib/types/apiTypes";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, HelpCircle } from "lucide-react";
@@ -16,12 +19,8 @@ import numeral from "numeral";
 
 export const columns: ColumnDef<LeaderboardRow>[] = [
   {
-    accessorKey: "rank",
-    header: "",
-  },
-  {
     accessorKey: "username",
-    header: "User",
+    header: "",
     cell: ({ row }) => {
       const { pfpUrl, username, fid } = row.original;
       return (
@@ -46,23 +45,25 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
     },
   },
   {
-    accessorKey: "tipperScore",
-    header: ({ column }) => (
-      <ColumnHeaderButton
-        buttonText={
-          <span className="font-bold">
-            Tipper
-            <br />
-            Score
-          </span>
-        }
-        description={<TipperScoreInfo />}
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      />
-    ),
+    accessorKey: "rank",
+    header: ({ column }) => {
+      return (
+        <ColumnHeaderButton
+          buttonText={
+            <>
+              Tipper
+              <br />
+              Rank
+            </>
+          }
+          description={<TipperScoreInfo />}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        />
+      );
+    },
     cell: ({ row }) => (
       <span className="font-bold">
-        {numeral(row.original.tipperScore).format("0,0")}
+        {numeral(row.original.rank).format("0,0")}
       </span>
     ),
   },
@@ -77,7 +78,18 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
             Rewards
           </>
         }
-        description={`Potential rewards based on the current tipper scores. The rewards pool is currently ${numeral(TIPPER_REWARDS_POOL).format("0,0a")} $farther, which is distributed pro rata at the end of the month.`}
+        description={
+          <>
+            <p>
+              Potential rewards based on the current tipper scores. The rewards
+              pool is currently ${numeral(TIPPER_REWARDS_POOL).format("0,0a")}{" "}
+              $farther, which is distributed pro rata at the end of the month.{" "}
+            </p>
+            <p>
+              <strong>{TIP_REWARDS_EXPERIMENTAL_DISCLAIMER}</strong>
+            </p>
+          </>
+        }
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       />
     ),

@@ -70,11 +70,11 @@ export function ProfileMenu() {
           <span className="mb-2 mt-0 text-xs text-muted">$farther balance</span>
           <span className="text-sm">{formatWad(balance || BigInt(0))} ✨</span>
         </div>
-        {user?.tipperScore ? (
+        {user?.tipperRank ? (
           <div className="flex flex-col p-2 text-center">
-            <span className="mb-2 mt-0 text-xs text-muted">Tipper score</span>
+            <span className="mb-2 mt-0 text-xs text-muted">Tipper rank</span>
             <span className="text-sm">
-              {numeral(user.tipperScore).format("0,0.[00]")}
+              {numeral(user.tipperRank).format("0,0.[00]")}
             </span>
           </div>
         ) : null}
