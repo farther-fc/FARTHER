@@ -54,6 +54,17 @@ export async function getRawLeaderboard(now = dayUTC()) {
             gte: getStartOfMonthUTC(0),
             lt: now.toDate(),
           },
+          tippee: {
+            NOT: {
+              tipAllowances: {
+                some: {
+                  createdAt: {
+                    gte: getStartOfMonthUTC(0),
+                  },
+                },
+              },
+            },
+          },
         },
       },
       tipAllowances: {
@@ -80,12 +91,12 @@ export async function getRawLeaderboard(now = dayUTC()) {
 
 export async function getFilteredTippers(
   tippers: Awaited<ReturnType<typeof getRawLeaderboard>>,
-  now = dayUTC(),
 ) {
-  // TODO: Remove after 8/13/2024 (will no longer be needed then)
+  const rawTippersWithTipsGiven = tippers.filter((t) => t.tipsGiven.length > 0);
+
   const openRankData = (
     await getOpenRankScores({
-      fids: tippers.map((t) => t.id),
+      fids: rawTippersWithTipsGiven.map((t) => t.id),
       type: "FOLLOWING",
       rateLimit: 10,
     })
@@ -97,7 +108,7 @@ export async function getFilteredTippers(
     openRankData.map((data) => [data.fid, data.rank]),
   );
 
-  return tippers
+  const finalFilteredTippers = rawTippersWithTipsGiven
     .map((user) => ({
       user,
       orFollowingRank: orFollowingRankMap.get(user.id),
@@ -112,6 +123,8 @@ export async function getFilteredTippers(
         totalActiveDays >= ACTIVE_TIP_DAYS_REQUIRED
       );
     });
+
+  return finalFilteredTippers;
 }
 
 export async function getTippersForLeaderboard() {
