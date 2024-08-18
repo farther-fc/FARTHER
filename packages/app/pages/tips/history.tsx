@@ -1,4 +1,3 @@
-import { TipperRank } from "@components/tips/TipperRank";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
 import { Popover } from "@components/ui/Popover";
@@ -188,7 +187,7 @@ function TipHistoryPage() {
   return (
     <Container variant="page">
       <h1>Tip History</h1>
-      {(user || userLoading) && <TipperRank />}
+      {/* {(user || userLoading) && <TipperRank />} */}
       <div className="">
         {user && !isLoading && (
           <p className="my-8">
