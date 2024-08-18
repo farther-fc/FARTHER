@@ -55,17 +55,6 @@ export async function getRawLeaderboard(now = dayUTC()) {
             lt: now.toDate(),
           },
         },
-        include: {
-          tippee: {
-            select: {
-              tipAllowances: {
-                select: {
-                  id: true,
-                },
-              },
-            },
-          },
-        },
       },
       tipAllowances: {
         orderBy: {
@@ -92,8 +81,46 @@ export async function getRawLeaderboard(now = dayUTC()) {
 export async function getFilteredTippers(
   tippers: Awaited<ReturnType<typeof getRawLeaderboard>>,
 ) {
+  const fidsOfTippersWhoHaveTippedNonTippers: number[] = [];
+
+  // Need to query like this to not exceed Vercel memory limit
+  for (const { id } of tippers) {
+    const tipper = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        tipsGiven: {
+          where: {
+            createdAt: {
+              gte: getStartOfMonthUTC(0),
+            },
+            invalidTipReason: null,
+          },
+          select: {
+            tippee: {
+              select: {
+                tipAllowances: {
+                  select: {
+                    id: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+    const includesTipsToNonTippers = tipper?.tipsGiven.some(
+      (tip) => tip.tippee.tipAllowances.length === 0,
+    );
+    if (includesTipsToNonTippers) {
+      fidsOfTippersWhoHaveTippedNonTippers.push(id);
+    }
+  }
+
   const tippersWhoHaveTippedNonTippers = tippers.filter((t) =>
-    t.tipsGiven.some((tip) => tip.tippee.tipAllowances.length === 0),
+    fidsOfTippersWhoHaveTippedNonTippers.includes(t.id),
   );
 
   const openRankData = (
