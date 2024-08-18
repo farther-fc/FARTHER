@@ -226,8 +226,8 @@ export const getUser = publicProcedure
         dbUser.tipAllowances[0]?.tips.reduce((acc, t) => t.amount + acc, 0) ||
         0;
 
-      const leaderboard = await tipsLeaderboard();
-      const rankIndex = leaderboard.findIndex((u) => u.fid === dbUser.id);
+      // const leaderboard = await tipsLeaderboard();
+      // const rankIndex = leaderboard.findIndex((u) => u.fid === dbUser.id);
 
       return {
         fid: dbUser.id,
@@ -235,7 +235,8 @@ export const getUser = publicProcedure
         displayName: dbUser.displayName,
         pfpUrl: dbUser.pfpUrl,
         powerBadge: dbUser.powerBadge,
-        tipperRank: rankIndex > -1 ? rankIndex + 1 : null,
+        // tipperRank: rankIndex > -1 ? rankIndex + 1 : null,
+        tipperRank: null,
         allocations,
         totalTipsReceived: {
           number: dbUser.tipsReceived.length || 0,
