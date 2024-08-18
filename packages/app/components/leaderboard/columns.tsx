@@ -7,7 +7,10 @@ import { ExternalLink } from "@components/ui/ExternalLink";
 import { Popover } from "@components/ui/Popover";
 import { Skeleton } from "@components/ui/Skeleton";
 import { TIPPER_REWARDS_POOL } from "@farther/common";
-import { OPENRANK_DOCS_URL } from "@lib/constants";
+import {
+  OPENRANK_DOCS_URL,
+  TIP_REWARDS_EXPERIMENTAL_DISCLAIMER,
+} from "@lib/constants";
 import { LeaderboardRow } from "@lib/types/apiTypes";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, HelpCircle } from "lucide-react";
@@ -83,11 +86,7 @@ export const columns: ColumnDef<LeaderboardRow>[] = [
               $farther, which is distributed pro rata at the end of the month.{" "}
             </p>
             <p>
-              <strong>
-                The tippper rewards system is in a very nascent, experimental
-                phase which occassionally requires changes to the parameters.
-                Potential rewards are not guaranteed.{" "}
-              </strong>
+              <strong>{TIP_REWARDS_EXPERIMENTAL_DISCLAIMER}</strong>
             </p>
           </>
         }

@@ -1,6 +1,7 @@
 import { Leaderboard } from "@components/leaderboard/Leaderboard";
 import { Container } from "@components/ui/Container";
 import { ACTIVE_TIP_DAYS_REQUIRED } from "@farther/common";
+import { TIP_REWARDS_EXPERIMENTAL_DISCLAIMER } from "@lib/constants";
 import { routes } from "@lib/routes";
 import Link from "next/link";
 
@@ -17,11 +18,7 @@ function TipsLeaderboardPage() {
           <Link href={`${routes.tips.path}#tipping-info`}>Learn more here</Link>
           .
         </p>
-        <p>
-          The tippper rewards system is in a very nascent, experimental phase
-          which occassionally requires changes to the parameters. Potential
-          rewards are not guaranteed.
-        </p>
+        <p>{TIP_REWARDS_EXPERIMENTAL_DISCLAIMER}</p>
       </div>
       <Leaderboard />
     </Container>

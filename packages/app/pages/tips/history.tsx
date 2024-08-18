@@ -8,6 +8,7 @@ import { API_BATCH_LIMIT } from "@farther/common";
 import {
   FARTHER_V2_PARAGRAPH_URL,
   OPENRANK_DOCS_URL,
+  TIP_REWARDS_EXPERIMENTAL_DISCLAIMER,
   invalidTipReasons,
 } from "@lib/constants";
 import { useMediaQuery } from "@lib/context/MediaQueryContext";
@@ -151,6 +152,7 @@ function TipHistoryPage() {
             end of the month. Your tipper score is the sum of all your tip
             scores.
           </p>
+          <p>{TIP_REWARDS_EXPERIMENTAL_DISCLAIMER}</p>
           <p>
             Learn more{" "}
             <ExternalLink href={FARTHER_V2_PARAGRAPH_URL}>here</ExternalLink>
@@ -187,11 +189,11 @@ function TipHistoryPage() {
     <Container variant="page">
       <h1>Tip History</h1>
       {(user || userLoading) && <TipperRank />}
-      <div className="text-xs md:text-sm">
+      <div className="">
         {user && !isLoading && (
-          <p className="text-muted mb-8">
+          <p className="my-8">
             {tips.length ? (
-              "These are all the tips you've given other Farcaster users."
+              TIP_REWARDS_EXPERIMENTAL_DISCLAIMER
             ) : (
               <>
                 You haven't given any tips yet. Go{" "}
