@@ -1,6 +1,6 @@
 import { InfoCard } from "@components/InfoCard";
 import { NoUserFoundCard } from "@components/NoUserFoundCard";
-import { TipperScore } from "@components/tips/TipperScore";
+import { TipperRank } from "@components/tips/TipperRank";
 import { Button } from "@components/ui/Button";
 import { Popover } from "@components/ui/Popover";
 import { Skeleton } from "@components/ui/Skeleton";
@@ -23,7 +23,7 @@ export function TipsUserInfo() {
 
   return (
     <div className="mb-14 mt-10">
-      <TipperScore />
+      <TipperRank />
       {userLoading ? (
         <>
           <Skeleton className="mt-8 h-[140px]" />

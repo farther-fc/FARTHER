@@ -302,3 +302,9 @@ export const BREADTH_RATIO_THRESHOLD = 0.3;
 
 // After this many tips, the breadth ratio will be calculated
 export const BREADTH_RATIO_TIP_COUNT_THRESHOLD = 6;
+
+// Limits the amount a tipper can give to a single user
+export const TIPPEE_WEEKLY_THRESHOLD_RATIO = 0.15;
+
+// Limits allowance given to other tippers
+export const RECIPROCATION_THRESHOLD = 0.15;

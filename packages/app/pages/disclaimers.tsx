@@ -16,6 +16,10 @@ function DisclaimersPage() {
           building.
         </p>
         <p>The Farther token has no intrinsic value.</p>
+        <p>
+          This is a very nascent, experimental project which experiencees
+          frequent iteration.
+        </p>
         <p>Nothing on this website should be construed as financial advice. </p>
         <p>
           The{" "}
