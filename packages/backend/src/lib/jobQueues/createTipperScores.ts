@@ -5,7 +5,6 @@ import {
   ROOT_ENDPOINT,
   TIPPER_OPENRANK_THRESHOLD_REQUIREMENT,
   axios,
-  cacheTypes,
   dayUTC,
   getOpenRankScores,
   getStartOfMonthUTC,
@@ -14,7 +13,8 @@ import * as Sentry from "@sentry/node";
 import { Job, QueueEvents, Worker } from "bullmq";
 import dayjs from "dayjs";
 import Decimal from "decimal.js";
-import { Tip, prisma } from "../../prisma";
+import { writeFile } from "fs/promises";
+import { prisma } from "../../prisma";
 import {
   createTipperScoresQueue,
   getJobCounts,
@@ -24,16 +24,14 @@ import {
 } from "../bullmq";
 import { getLatestOpenRankScores } from "../getLatestOpenRankScores";
 import { getTipsFromDate } from "../getTipsFromDate";
-import { flushCache } from "../utils/flushCache";
 import { getTipScores } from "../utils/getTipScores";
-import { dbScheduler } from "../utils/helpers";
 
-// const allScores: {
-//   username: string | null;
-//   fid: number;
-//   score: number;
-//   tipScores: { hash: string; changePerToken: Decimal }[];
-// }[] = [];
+const allScores: {
+  username: string | null;
+  fid: number;
+  score: number;
+  tipScores: { hash: string; changePerToken: Decimal }[];
+}[] = [];
 
 type JobData = {
   fid: number;
@@ -174,30 +172,30 @@ async function createTipperScoresBatch(job: Job) {
     new Decimal(0),
   );
 
-  const tipUpdates: Promise<Tip>[] = [];
+  // const tipUpdates: Promise<Tip>[] = [];
 
-  tipUpdates.push(
-    ...tipScores.map((tip, index) =>
-      dbScheduler.schedule(() =>
-        prisma.tip.update({
-          where: { hash: tip.hash },
-          data: {
-            openRankChange: tipScores[index].changePerToken.toNumber(),
-          },
-        }),
-      ),
-    ),
-  );
+  // tipUpdates.push(
+  //   ...tipScores.map((tip, index) =>
+  //     dbScheduler.schedule(() =>
+  //       prisma.tip.update({
+  //         where: { hash: tip.hash },
+  //         data: {
+  //           openRankChange: tipScores[index].changePerToken.toNumber(),
+  //         },
+  //       }),
+  //     ),
+  //   ),
+  // );
 
-  await Promise.all(tipUpdates);
+  // await Promise.all(tipUpdates);
 
   try {
-    await prisma.tipperScore.create({
-      data: {
-        userId: fid,
-        score: tipperScore.toNumber(),
-      },
-    });
+    // await prisma.tipperScore.create({
+    //   data: {
+    //     userId: fid,
+    //     score: tipperScore.toNumber(),
+    //   },
+    // });
   } catch (error) {
     Sentry.captureException(error, {
       extra: {
@@ -208,17 +206,17 @@ async function createTipperScoresBatch(job: Job) {
     });
   }
 
-  await flushCache({
-    type: cacheTypes.USER,
-    ids: [fid],
-  });
-
-  // allScores.push({
-  //   username: tipperData.username,
-  //   fid: fid,
-  //   score: tipperScore.toNumber(),
-  //   tipScores,
+  // await flushCache({
+  //   type: cacheTypes.USER,
+  //   ids: [fid],
   // });
+
+  allScores.push({
+    username: tipperData.username,
+    fid: fid,
+    score: tipperScore.toNumber(),
+    tipScores,
+  });
 }
 
 const queueEvents = new QueueEvents(queueNames.CREATE_TIPPER_SCORES, {
@@ -235,33 +233,33 @@ queueEvents.on("completed", async (job) => {
   console.info(`done: ${job.jobId} (${completed}/${total}).`);
 
   if (total === completed + failed) {
-    // await writeFile(
-    //   `tipperScores.json`,
-    //   JSON.stringify(
-    //     allScores
-    //       .sort((a, b) => b.score - a.score)
-    //       .map((s, i) => ({ ...s, rank: i + 1 })),
-    //     null,
-    //     2,
-    //   ),
-    // );
+    await writeFile(
+      `tipperScores.json`,
+      JSON.stringify(
+        allScores
+          .sort((a, b) => b.score - a.score)
+          .map((s, i) => ({ ...s, rank: i + 1 })),
+        null,
+        2,
+      ),
+    );
 
-    // const tipScores = allScores
-    //   .map((a) => a.tipScores)
-    //   .flat()
-    //   .sort((a, b) => b.changePerToken.comparedTo(a.changePerToken));
-    // const biggestScores = tipScores.slice(0, 5);
-    // const smallestScores = tipScores.slice(-5);
+    const tipScores = allScores
+      .map((a) => a.tipScores)
+      .flat()
+      .sort((a, b) => b.changePerToken.comparedTo(a.changePerToken));
+    const biggestScores = tipScores.slice(0, 5);
+    const smallestScores = tipScores.slice(-5);
 
-    // console.log("Biggest scores", biggestScores);
-    // console.log("Smallest scores", smallestScores);
+    console.log("Biggest scores", biggestScores);
+    console.log("Smallest scores", smallestScores);
 
-    await flushCache({
-      type: cacheTypes.USER_TIPS,
-    });
-    await flushCache({
-      type: cacheTypes.LEADERBOARD,
-    });
+    // await flushCache({
+    //   type: cacheTypes.USER_TIPS,
+    // });
+    // await flushCache({
+    //   type: cacheTypes.LEADERBOARD,
+    // });
 
     console.info(
       `ALL DONE: ${queueNames.CREATE_TIPPER_SCORES}`,

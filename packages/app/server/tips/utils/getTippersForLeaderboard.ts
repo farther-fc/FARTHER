@@ -137,7 +137,7 @@ export async function getFilteredTippers(
     openRankData.map((data) => [data.fid, data.rank]),
   );
 
-  const tippersWithValidOpenRank = tippers.filter((t) =>
+  const tippersWithValidOpenRank = tippersWhoHaveTippedNonTippers.filter((t) =>
     openRankFids.includes(t.id),
   );
 

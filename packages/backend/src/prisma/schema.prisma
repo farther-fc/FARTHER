@@ -264,5 +264,15 @@ model TipperScore {
   allocationId  String?     @unique
   allocation    Allocation? @relation(fields: [allocationId], references: [id])
 
+  snapshotId      String
+  snapshot        TipperScoreSnapshot @relation(fields: [snapshotId], references: [id])
+
   @@unique([userId, allocationId])
+}
+
+model TipperScoreSnapshot {
+  id            String          @id
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  scores        TipperScore[]
 }
