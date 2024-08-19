@@ -43,9 +43,11 @@ export async function getLeaderboardData() {
 
   const tippers = await getTippersForLeaderboard();
 
-  const totalTipperScore = tippers
-    .map((tipper) => tipper.user.tipperScores[0]?.score ?? 0)
-    .reduce((acc, score) => acc + score, 0);
+  const totalTipperScore = tippers.reduce((acc, data) => {
+    const score =
+      data.user.tipperScores[0].score > 0 ? data.user.tipperScores[0].score : 0;
+    return acc + score;
+  }, 0);
 
   const leaderboardData = tippers.map((tipper, i) => {
     const user = tipper.user;

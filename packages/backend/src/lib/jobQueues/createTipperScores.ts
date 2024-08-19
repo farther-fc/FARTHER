@@ -6,9 +6,11 @@ import {
   TIPPER_OPENRANK_THRESHOLD_REQUIREMENT,
   axios,
   cacheTypes,
+  cronSchedules,
   dayUTC,
   getOpenRankScores,
   getStartOfMonthUTC,
+  isProduction,
 } from "@farther/common";
 import * as Sentry from "@sentry/node";
 import { Job, QueueEvents, Worker } from "bullmq";
@@ -22,6 +24,7 @@ import {
   queueConnection,
   queueNames,
 } from "../bullmq";
+import { getLatestCronTime } from "../getLatestCronTime";
 import { getLatestOpenRankScores } from "../getLatestOpenRankScores";
 import { getTipsFromDate } from "../getTipsFromDate";
 import { flushCache } from "../utils/flushCache";
@@ -46,6 +49,8 @@ new Worker(queueNames.CREATE_TIPPER_SCORES, createTipperScoresBatch, {
   concurrency: 5,
 });
 
+const snapshotTimeId = getLatestCronTime(cronSchedules.CREATE_TIPPER_SCORES);
+
 export async function createTipperScores() {
   console.info(`STARTING: ${queueNames.CREATE_TIPPER_SCORES}`);
 
@@ -54,7 +59,9 @@ export async function createTipperScores() {
   const from = await getTipsFromDate();
 
   // Recent tips won't have an OpenRank score change yet
-  const to = dayUTC().subtract(OPENRANK_SNAPSHOT_INTERVAL, "hours").toDate();
+  const to = isProduction
+    ? dayUTC().subtract(OPENRANK_SNAPSHOT_INTERVAL, "hours").toDate()
+    : dayUTC().toDate();
 
   const tippers = await prisma.user.findMany({
     where: {
@@ -192,10 +199,34 @@ async function createTipperScoresBatch(job: Job) {
   await Promise.all(tipUpdates);
 
   try {
+    await prisma.tipperScoreSnapshot.upsert({
+      where: {
+        id: snapshotTimeId,
+      },
+      create: {
+        id: snapshotTimeId,
+      },
+      update: {},
+    });
+
     await prisma.tipperScore.create({
       data: {
-        userId: fid,
+        user: {
+          connectOrCreate: {
+            where: {
+              id: fid,
+            },
+            create: {
+              id: fid,
+            },
+          },
+        },
         score: tipperScore.toNumber(),
+        snapshot: {
+          connect: {
+            id: snapshotTimeId,
+          },
+        },
       },
     });
   } catch (error) {
