@@ -85,4 +85,4 @@ export const OPENRANK_DOCS_URL =
 export const FARTHER_V2_PARAGRAPH_URL =
   "https://paragraph.xyz/@farther/farther-v2";
 
-export const TIP_REWARDS_EXPERIMENTAL_DISCLAIMER = `The tippper rewards system is in a very nascent, experimental phase which occassionally requires changes to the parameters. Scores and rewards are not locked in until the end of the season. Thank you for your understanding.`;
+export const TIP_REWARDS_EXPERIMENTAL_DISCLAIMER = `The tippper rewards system is in a very nascent, experimental phase which occasionally requires changes to the parameters. Scores and rewards are not locked in until the end of the season. Thank you for your understanding.`;
