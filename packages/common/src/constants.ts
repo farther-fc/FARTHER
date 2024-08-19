@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { ENVIRONMENT } from "./env";
+import { ENVIRONMENT, isProduction } from "./env";
 
 export const TOTAL_TOKEN_SUPPLY = 1_000_000_000;
 
@@ -293,7 +293,7 @@ export const OPENRANK_HISTORY_FILE_NAME = "k3l_cast_globaltrust.csv";
 export const OPENRANK_HISTORY_FILE_URL =
   `https://k3l-cast-to-dune.s3.eu-central-1.amazonaws.com/constant/${OPENRANK_HISTORY_FILE_NAME}.gz` as const;
 
-export const ACTIVE_TIP_DAYS_REQUIRED = 5;
+export const ACTIVE_TIP_DAYS_REQUIRED = isProduction ? 5 : 1;
 
 export const TIPPER_OPENRANK_THRESHOLD_REQUIREMENT = 100_000;
 
