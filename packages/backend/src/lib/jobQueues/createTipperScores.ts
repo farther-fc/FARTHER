@@ -287,12 +287,12 @@ queueEvents.on("completed", async (job) => {
     // console.log("Biggest scores", biggestScores);
     // console.log("Smallest scores", smallestScores);
 
-    await flushCache({
-      type: cacheTypes.USER_TIPS,
-    });
-    await flushCache({
-      type: cacheTypes.LEADERBOARD,
-    });
+    // await flushCache({
+    //   type: cacheTypes.USER_TIPS,
+    // });
+    // await flushCache({
+    //   type: cacheTypes.LEADERBOARD,
+    // });
 
     console.info(
       `ALL DONE: ${queueNames.CREATE_TIPPER_SCORES}`,
