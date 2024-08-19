@@ -2,7 +2,7 @@
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["**/.env.*local"],
   "globalDotEnv": [".env"],
-  "pipeline": {
+  "tasks": {
     "generate": {
       "cache": false
     },
@@ -21,6 +21,11 @@
       "dependsOn": ["^typecheck", "^lint"]
     },
     "dev": {
+      "dependsOn": ["generate"],
+      "cache": false,
+      "persistent": true
+    },
+    "dev:local": {
       "dependsOn": ["generate"],
       "cache": false,
       "persistent": true

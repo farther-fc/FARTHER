@@ -453,14 +453,7 @@ async function getPrivateUser({
           tweets: true,
           address: true,
           isInvalidated: true,
-          airdrop: {
-            select: {
-              id: true,
-              address: true,
-              startTime: true,
-              endTime: true,
-            },
-          },
+          airdrop: true,
         },
       },
     },
