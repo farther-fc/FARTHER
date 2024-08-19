@@ -5,6 +5,7 @@ import cron from "node-cron";
 import "../instrument";
 import { distributeAllowances } from "./lib/distributeAllowances";
 import { invalidateEvangelistAllocations } from "./lib/invalidateEvangelistAllocations";
+import { createTipperScores } from "./lib/jobQueues/createTipperScores";
 import { syncTipperData } from "./lib/jobQueues/syncTipperData";
 import { syncUserData } from "./lib/jobQueues/syncUserData";
 import { tippeeOpenRankSync } from "./lib/jobQueues/tippeeOpenRankSync";
@@ -47,9 +48,9 @@ cron.schedule(
   { timezone: "Etc/UTC" },
 );
 
-// cron.schedule(cronSchedules.CREATE_TIPPER_SCORES, createTipperScores, {
-//   timezone: "Etc/UTC",
-// });
+cron.schedule(cronSchedules.CREATE_TIPPER_SCORES, createTipperScores, {
+  timezone: "Etc/UTC",
+});
 
 cron.schedule(
   cronSchedules.INVALIDATE_EVANGELISTS_WITHOUT_PB,
