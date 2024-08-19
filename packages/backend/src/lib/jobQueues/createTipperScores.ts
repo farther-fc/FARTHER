@@ -42,14 +42,13 @@ type JobData = {
   fid: number;
   from: Date;
   to: Date;
+  snapshotTimeId: string;
 };
 
 new Worker(queueNames.CREATE_TIPPER_SCORES, createTipperScoresBatch, {
   connection: queueConnection,
   concurrency: 5,
 });
-
-const snapshotTimeId = getLatestCronTime(cronSchedules.CREATE_TIPPER_SCORES);
 
 export async function createTipperScores() {
   console.info(`STARTING: ${queueNames.CREATE_TIPPER_SCORES}`);
@@ -106,8 +105,10 @@ export async function createTipperScores() {
     },
   );
 
+  const snapshotTimeId = getLatestCronTime(cronSchedules.CREATE_TIPPER_SCORES);
+
   console.log(
-    `${queueNames.CREATE_TIPPER_SCORES}: Creating ${tippersWithEnoughActiveDays.length} jobs`,
+    `${queueNames.CREATE_TIPPER_SCORES}: Creating ${tippersWithEnoughActiveDays.length} jobs at snapshot ${snapshotTimeId}`,
   );
 
   // Create jobs
@@ -116,7 +117,7 @@ export async function createTipperScores() {
       const jobId = `${queueNames.CREATE_TIPPER_SCORES}-${day}-h${hour}-fid:${tipper.id}`;
       return {
         name: jobId,
-        data: { fid: tipper.id, from, to },
+        data: { fid: tipper.id, from, to, snapshotTimeId },
         opts: { jobId, attempts: 5 },
       };
     }),
@@ -124,7 +125,7 @@ export async function createTipperScores() {
 }
 
 async function createTipperScoresBatch(job: Job) {
-  const { fid, from, to } = job.data as JobData;
+  const { fid, from, to, snapshotTimeId } = job.data as JobData;
 
   const tipperData = await prisma.user.findUnique({
     where: {
