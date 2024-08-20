@@ -105,7 +105,7 @@ export function RewardsTableRow({
         headerText: "Sablier Airstream",
         body: (
           <>
-            <p>
+            <p className="mb-4">
               This airdrop is being continuously vested for one month using a{" "}
               <ExternalLink href="https://blog.sablier.com/introducing-airstreams/">
                 Sablier Airstream
@@ -119,7 +119,7 @@ export function RewardsTableRow({
             </p>
 
             <ExternalLink href={allocation.airdrop.sablierUrl}>
-              <Button>Claim Page</Button>
+              <Button>Vist Claim Page</Button>
             </ExternalLink>
           </>
         ),

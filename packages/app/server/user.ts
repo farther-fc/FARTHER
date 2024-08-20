@@ -144,10 +144,10 @@ export const getUser = publicProcedure
         });
       }
 
-      const tipperScore = getTipperScore({
-        createdAt: dbUser.tipperScores[0]?.createdAt,
-        score: dbUser.tipperScores[0]?.score || 0,
-      });
+      // const tipperScore = getTipperScore({
+      //   createdAt: dbUser.tipperScores[0]?.createdAt,
+      //   score: dbUser.tipperScores[0]?.score || 0,
+      // });
 
       // if (tipperScore > 0) {
       //   const lastTipperAllocation = await prisma.allocation.findMany({

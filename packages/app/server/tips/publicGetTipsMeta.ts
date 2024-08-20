@@ -11,7 +11,7 @@ export const publicGetTipsMeta = publicProcedure
       type: cacheTypes.TIP_META,
     });
 
-    if (cachedData) {
+    if (cachedData?.length) {
       return cachedData;
     }
 

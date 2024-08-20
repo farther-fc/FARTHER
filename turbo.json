@@ -2,7 +2,7 @@
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["**/.env.*local"],
   "globalDotEnv": [".env"],
-  "tasks": {
+  "pipeline": {
     "generate": {
       "cache": false
     },
