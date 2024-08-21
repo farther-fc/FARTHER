@@ -1,8 +1,7 @@
 import { isNeynarSignatureValid } from "server/isNeynarSignatureValid";
-import { processTip } from "server/tips/processTip";
-import { publicProcedure } from "../trpc";
+import { publicProcedure } from "server/trpc";
 
-export const handleTip = publicProcedure.mutation(async (opts) => {
+export const handleBotReply = publicProcedure.mutation(async (opts) => {
   const body = opts.ctx.req.body;
   const bodyString = JSON.stringify(body);
 
@@ -17,6 +16,4 @@ export const handleTip = publicProcedure.mutation(async (opts) => {
 
   const castData = body.data;
   const createdAtMs = body.created_at * 1000;
-
-  await processTip({ castData, createdAtMs });
 });
