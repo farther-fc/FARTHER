@@ -65,6 +65,8 @@ export async function tipBot({
   amountTippedThisCycle,
   tipHash,
   allowableAmount,
+  weekAllowancesTotal,
+  totalWeekAmtToTippers,
 }: {
   tipper: string;
   tippee: string;
@@ -75,6 +77,8 @@ export async function tipBot({
   tipHash: string;
   // Used for invalid tips where a smaller amount would make the current tip valid
   allowableAmount?: number;
+  weekAllowancesTotal?: number;
+  totalWeekAmtToTippers?: number;
 }) {
   if (ENVIRONMENT !== "production") {
     console.error("TipBot is disabled in non-production environments");
@@ -99,6 +103,14 @@ export async function tipBot({
         allowableAmount >= TIP_MINIMUM
           ? `. Reduce the amount to ${allowableAmount} for this tip to be valid.`
           : `. The allowed amount (${allowableAmount}) is below the tip minimum (${TIP_MINIMUM}).`;
+    }
+
+    if (
+      invalidTipReason === InvalidTipReason.RECIPROCATION_THRESHOLD_REACHED &&
+      totalWeekAmtToTippers &&
+      weekAllowancesTotal
+    ) {
+      message += `\nTotal allowance in the past week: ${weekAllowancesTotal}. Total given to tippers: ${totalWeekAmtToTippers} (${(totalWeekAmtToTippers / weekAllowancesTotal) * 100}%)`;
     }
 
     message += amountAndRemaining;
