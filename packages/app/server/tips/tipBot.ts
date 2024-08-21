@@ -122,10 +122,5 @@ export async function tipBot({
 
   await neynarClient.publishCast(TIP_BOT_UUID, message, {
     replyTo: tipHash,
-    // embeds: [
-    //   {
-    //     url: "https://farther.social/tips",
-    //   },
-    // ],
   });
 }
