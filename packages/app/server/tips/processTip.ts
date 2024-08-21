@@ -113,13 +113,16 @@ export async function processTip({
       currentAmount: tipAmount,
     });
 
-  const { exceededThresholdToTippers, validAmount: tippersValidAmount } =
-    await getExceededThresholdToTippers({
-      tipsThisWeek,
-      weekAllowancesTotal,
-      currentAmount: tipAmount,
-      tippeeFid,
-    });
+  const {
+    exceededThresholdToTippers,
+    validAmount: tippersValidAmount,
+    totalWeekAmtToTippers,
+  } = await getExceededThresholdToTippers({
+    tipsThisWeek,
+    weekAllowancesTotal,
+    currentAmount: tipAmount,
+    tippeeFid,
+  });
 
   const tipsThisCycle = tipsThisWeek.filter(
     (t) => t.tipAllowanceId === latestTipAllowance.id,
@@ -223,6 +226,8 @@ export async function processTip({
     availableAllowance: availableAllowance,
     tipHash: castData.hash,
     allowableAmount,
+    weekAllowancesTotal: weekAllowancesTotal,
+    totalWeekAmtToTippers,
   });
 
   return tip;
@@ -346,18 +351,19 @@ export async function getExceededThresholdToTippers({
     };
   }
 
-  const totalWeeklyToTippers = tipsToTippers.reduce(
+  const totalWeekAmtToTippers = tipsToTippers.reduce(
     (acc, tip) => acc + tip.amount,
     0,
   );
 
   const validAmount =
-    weekAllowancesTotal * RECIPROCATION_THRESHOLD - totalWeeklyToTippers;
+    weekAllowancesTotal * RECIPROCATION_THRESHOLD - totalWeekAmtToTippers;
 
   return {
     exceededThresholdToTippers:
-      (totalWeeklyToTippers + currentAmount) / weekAllowancesTotal >
+      (totalWeekAmtToTippers + currentAmount) / weekAllowancesTotal >
       RECIPROCATION_THRESHOLD,
     validAmount: validAmount > 0 ? validAmount : 0,
+    totalWeekAmtToTippers,
   };
 }
