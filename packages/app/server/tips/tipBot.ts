@@ -117,6 +117,13 @@ export async function tipBot({
       message += `\nTotal allowance in the past week: ${numeral(weekAllowancesTotal).format("0,0")}. Total given to tippers: ${numeral(totalWeekAmtToTippers).format("0,0")} (${numeral((totalWeekAmtToTippers / weekAllowancesTotal) * 100).format("0.00")}%)`;
     }
 
+    if (
+      invalidTipReason === InvalidTipReason.RECIPROCATION_THRESHOLD_REACHED ||
+      invalidTipReason === InvalidTipReason.TIPPEE_LIMIT_REACHED
+    ) {
+      message += `\n\nPlease tip undderated users to increase your tipper score! The @hot100 is a good resource.`;
+    }
+
     message += amountAndRemaining;
   } else {
     message += `✅ Valid tip from @${tipper} to @${tippee}${amountAndRemaining}`;
