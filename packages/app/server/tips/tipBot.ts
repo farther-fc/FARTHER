@@ -2,6 +2,7 @@ import { InvalidTipReason } from "@farther/backend";
 import { ENVIRONMENT, TIP_MINIMUM } from "@farther/common";
 import { invalidTipReasons } from "@lib/constants";
 import { NeynarAPIClient } from "@neynar/nodejs-sdk";
+import numeral from "numeral";
 import { requireEnv } from "require-env-variable";
 
 const { NEYNAR_TIP_BOT_API_KEY, TIP_BOT_UUID } = requireEnv(
@@ -110,7 +111,7 @@ export async function tipBot({
       totalWeekAmtToTippers &&
       weekAllowancesTotal
     ) {
-      message += `\nTotal allowance in the past week: ${weekAllowancesTotal}. Total given to tippers: ${totalWeekAmtToTippers} (${(totalWeekAmtToTippers / weekAllowancesTotal) * 100}%)`;
+      message += `\nTotal allowance in the past week: ${weekAllowancesTotal}. Total given to tippers: ${totalWeekAmtToTippers} (${numeral((totalWeekAmtToTippers / weekAllowancesTotal) * 100).format("0.00")}%)`;
     }
 
     message += amountAndRemaining;
