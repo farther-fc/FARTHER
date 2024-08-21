@@ -75,7 +75,7 @@ export const invalidTipReasons = {
   BANNED_TIPPER: "Banned tipper",
   TIPPEE_LIMIT_REACHED: "Already tipped recipient during this cycle",
   INELIGIBLE_TIPPEE: "Recipient must have at least 100 followers",
-  TIPPEE_WEEKLY_THRESHOLD_REACHED: `Tippers can only give ${TIPPEE_WEEKLY_THRESHOLD_RATIO * 100}% their total weekly allowance given to a single recipient`,
+  TIPPEE_WEEKLY_THRESHOLD_REACHED: `Tippers can only give ${TIPPEE_WEEKLY_THRESHOLD_RATIO * 100}% of their total weekly allowance to a single recipient`,
   RECIPROCATION_THRESHOLD_REACHED: `Tippers can only give ${RECIPROCATION_THRESHOLD * 100}% of their total weekly allowance to other tippers`,
 } as const;
 

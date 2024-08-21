@@ -1,19 +1,22 @@
 import { prisma } from "@farther/backend";
 import {
   HANDLE_TIP_REGEX,
+  RECIPROCATION_THRESHOLD,
   TIPPEE_FOLLOWERS_MIN,
+  TIPPEE_WEEKLY_THRESHOLD_RATIO,
   TIP_MINIMUM,
   cacheTypes,
   getOpenRankScores,
+  getStartOfMonthUTC,
   neynar,
 } from "@farther/common";
 import { cache } from "@lib/cache";
 import { Cast } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { InvalidTipReason } from "@prisma/client";
 import * as Sentry from "@sentry/nextjs";
-import { tipBot } from "server/tips/tipBot";
-import { getLatestTipAllowance } from "./getLatestTipAllowance";
-import { isBanned } from "./isBanned";
+import { tipBot } from "./tipBot";
+import { getWeekAllowancesAndTips } from "./utils/getWeekAllowancesAndTips";
+import { isBanned } from "./utils/isBanned";
 
 type TipData = {
   allowanceId: string;
@@ -25,7 +28,7 @@ type TipData = {
   tippeeOpenRankScore: number | null;
 };
 
-export async function handleTip({
+export async function processTip({
   castData,
   createdAtMs,
 }: {
@@ -40,8 +43,6 @@ export async function handleTip({
 
   const tipper = castData.author;
   const tippeeFid = castData.parent_author.fid;
-
-  const selfTip = tipper.fid === tippeeFid;
 
   if (tippeeFid === null) {
     console.warn("No tippee found in cast", castData.hash);
@@ -73,12 +74,17 @@ export async function handleTip({
     throw new Error("No tip meta found");
   }
 
-  const tipAllowance = await getLatestTipAllowance({
+  const selfTip = tipper.fid === tippeeFid;
+
+  const invalidTime = createdAtMs < tipMeta.createdAt.getTime();
+
+  const tipAllowances = await getWeekAllowancesAndTips({
     tipperId: tipper.fid,
-    sinceWhen: tipMeta.createdAt,
   });
 
-  if (!tipAllowance) {
+  const latestTipAllowance = tipAllowances[0];
+
+  if (!latestTipAllowance) {
     console.warn(`No tip allowance found for user ${tipper.fid}`);
     tipBot({
       amountTippedThisCycle: 0,
@@ -92,32 +98,47 @@ export async function handleTip({
     return;
   }
 
-  const tipsThisCycle = await prisma.tip.findMany({
-    where: {
-      tipAllowanceId: tipAllowance.id,
-      invalidTipReason: null,
-    },
-  });
+  const tipsThisWeek = tipAllowances.map((ta) => ta.tips).flat();
+
+  const weekAllowancesTotal = tipAllowances.reduce(
+    (total, ta) => total + ta.amount,
+    0,
+  );
+
+  const { exceededThresholdToTippee, validAmount: tippeeValidAmount } =
+    getExceededThresholdToTippee({
+      tippeeFid,
+      tipsThisWeek,
+      weekAllowancesTotal,
+      currentAmount: tipAmount,
+    });
+
+  const { exceededThresholdToTippers, validAmount: tippersValidAmount } =
+    await getExceededThresholdToTippers({
+      tipsThisWeek,
+      weekAllowancesTotal,
+      currentAmount: tipAmount,
+      tippeeFid,
+    });
+
+  const tipsThisCycle = tipsThisWeek.filter(
+    (t) => t.allocationId === latestTipAllowance.id,
+  );
 
   const amountTippedSoFar = tipsThisCycle.reduce(
     (acc, tip) => acc + tip.amount,
     0,
   );
 
-  const hasAlreadyTippedTippee = tipsThisCycle.some(
+  const alreadyTippedTippee = tipsThisCycle.some(
     (tip) => tip.tippeeId === tippeeFid,
   );
 
   const amountTippedThisCycle = amountTippedSoFar + tipAmount;
   const availableAllowance =
-    tipAllowance.amount - (tipAllowance.invalidatedAmount ?? 0);
+    latestTipAllowance.amount - (latestTipAllowance.invalidatedAmount ?? 0);
 
-  const isBelowMinimum =
-    tipAmount < TIP_MINIMUM &&
-    // TODO: remove this clause after Aug 3
-    tipMeta.id !== "a8b63c87-1d52-4769-ac0c-74d3312541f0";
-
-  const invalidTime = createdAtMs >= tipMeta.createdAt.getTime();
+  const isBelowMinimum = tipAmount < TIP_MINIMUM;
 
   const exceedsAllowance = amountTippedThisCycle > availableAllowance;
 
@@ -128,7 +149,7 @@ export async function handleTip({
 
   const invalidTipReason = selfTip
     ? InvalidTipReason.SELF_TIPPING
-    : !invalidTime
+    : invalidTime
       ? InvalidTipReason.INVALID_TIME
       : tipperIsBanned
         ? InvalidTipReason.BANNED_TIPPER
@@ -136,19 +157,30 @@ export async function handleTip({
           ? InvalidTipReason.BANNED_TIPPEE
           : tippeeNotEnoughFollowers
             ? InvalidTipReason.INELIGIBLE_TIPPEE
-            : hasAlreadyTippedTippee
+            : alreadyTippedTippee
               ? InvalidTipReason.TIPPEE_LIMIT_REACHED
               : isBelowMinimum
                 ? InvalidTipReason.BELOW_MINIMUM
                 : exceedsAllowance
                   ? InvalidTipReason.INSUFFICIENT_ALLOWANCE
-                  : null;
+                  : exceededThresholdToTippee
+                    ? InvalidTipReason.TIPPEE_WEEKLY_THRESHOLD_REACHED
+                    : exceededThresholdToTippers
+                      ? InvalidTipReason.RECIPROCATION_THRESHOLD_REACHED
+                      : null;
+
+  const allowableAmount =
+    invalidTipReason === InvalidTipReason.TIPPEE_WEEKLY_THRESHOLD_REACHED
+      ? tippeeValidAmount
+      : invalidTipReason === InvalidTipReason.RECIPROCATION_THRESHOLD_REACHED
+        ? tippersValidAmount
+        : 0;
 
   let tipData: TipData;
 
   if (invalidTipReason) {
     tipData = {
-      allowanceId: tipAllowance.id,
+      allowanceId: latestTipAllowance.id,
       tipperFid: tipper.fid,
       tippeeFid: tippeeFid,
       tipAmount,
@@ -169,7 +201,7 @@ export async function handleTip({
       Sentry.captureException(error);
     }
     tipData = {
-      allowanceId: tipAllowance.id,
+      allowanceId: latestTipAllowance.id,
       castHash: castData.hash,
       tipperFid: tipper.fid,
       tippeeFid: tippeeFid,
@@ -190,6 +222,7 @@ export async function handleTip({
     tippee: tippeeNeynar.username,
     availableAllowance: availableAllowance,
     tipHash: castData.hash,
+    allowableAmount,
   });
 }
 
@@ -238,4 +271,91 @@ async function storeTip({
 
   await cache.flush({ type: cacheTypes.USER, ids: [tipperFid] });
   await cache.flush({ type: cacheTypes.USER_TIPS, ids: [tipperFid] });
+}
+
+export function getExceededThresholdToTippee({
+  tippeeFid,
+  tipsThisWeek,
+  weekAllowancesTotal,
+  currentAmount,
+}: {
+  tippeeFid: number;
+  tipsThisWeek: Awaited<
+    ReturnType<typeof getWeekAllowancesAndTips>
+  >[number]["tips"];
+  weekAllowancesTotal: number;
+  currentAmount: number;
+}) {
+  const tipsToTippee = tipsThisWeek.filter((t) => t.tippeeId === tippeeFid);
+
+  const totalWeeklyToTippee = tipsToTippee.reduce(
+    (acc, tip) => acc + tip.amount,
+    0,
+  );
+
+  const validAmount =
+    weekAllowancesTotal * TIPPEE_WEEKLY_THRESHOLD_RATIO - totalWeeklyToTippee;
+
+  return {
+    exceededThresholdToTippee:
+      (totalWeeklyToTippee + currentAmount) / weekAllowancesTotal >
+      TIPPEE_WEEKLY_THRESHOLD_RATIO,
+    validAmount: validAmount > 0 ? validAmount : 0,
+  };
+}
+
+export async function getExceededThresholdToTippers({
+  tipsThisWeek,
+  weekAllowancesTotal,
+  currentAmount,
+  tippeeFid,
+}: {
+  tipsThisWeek: Awaited<
+    ReturnType<typeof getWeekAllowancesAndTips>
+  >[number]["tips"];
+  weekAllowancesTotal: number;
+  currentAmount: number;
+  tippeeFid: number;
+}) {
+  const tipsToTippers = tipsThisWeek.filter(
+    (t) => t.tippee.tipAllowances.length > 0,
+  );
+
+  const tippee = await prisma.user.findUnique({
+    where: {
+      id: tippeeFid,
+      tipAllowances: {
+        some: {
+          createdAt: {
+            gte: getStartOfMonthUTC(0),
+          },
+        },
+      },
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  if (!tippee) {
+    return {
+      exceededThresholdToTippers: false,
+      validAmount: 0,
+    };
+  }
+
+  const totalWeeklyToTippers = tipsToTippers.reduce(
+    (acc, tip) => acc + tip.amount,
+    0,
+  );
+
+  const validAmount =
+    weekAllowancesTotal * RECIPROCATION_THRESHOLD - totalWeeklyToTippers;
+
+  return {
+    exceededThresholdToTippers:
+      (totalWeeklyToTippers + currentAmount) / weekAllowancesTotal >
+      RECIPROCATION_THRESHOLD,
+    validAmount: validAmount > 0 ? validAmount : 0,
+  };
 }
