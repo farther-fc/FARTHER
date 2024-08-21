@@ -61,7 +61,7 @@ export async function distributeAllowances() {
 
   const getAllowance = scaleLinear()
     .domain([minBreadthRatio, maxBreadthRatio])
-    .range([TIP_MINIMUM * 3, maxAllowancePerTipper]);
+    .range([TIP_MINIMUM, maxAllowancePerTipper]);
 
   const orFollowingRanks = (
     await getOpenRankScores({
