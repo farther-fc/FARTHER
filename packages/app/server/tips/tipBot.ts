@@ -1,5 +1,5 @@
 import { InvalidTipReason } from "@farther/backend";
-import { ENVIRONMENT } from "@farther/common";
+import { ENVIRONMENT, TIP_MINIMUM } from "@farther/common";
 import { invalidTipReasons } from "@lib/constants";
 import { NeynarAPIClient } from "@neynar/nodejs-sdk";
 import { requireEnv } from "require-env-variable";
@@ -95,7 +95,10 @@ export async function tipBot({
     message += `\n\n${invalidMessage}`;
 
     if (allowableAmount) {
-      message += `. Reduce the amount to ${allowableAmount} for this tip to be valid.`;
+      message +=
+        allowableAmount >= TIP_MINIMUM
+          ? `. Reduce the amount to ${allowableAmount} for this tip to be valid.`
+          : `. The allowed amount (${allowableAmount}) is below the tip minimum (${TIP_MINIMUM}).`;
     }
 
     message += amountAndRemaining;
@@ -116,9 +119,6 @@ export async function tipBot({
     message += `\n\n${amountTippedThisCycle.toLocaleString()} ✨ / ${availableAllowance.toLocaleString()} ✨ (${percentage}%)\n`;
     message += progressBar;
   }
-
-  console.log(message);
-  return;
 
   await neynarClient.publishCast(TIP_BOT_UUID, message, {
     replyTo: tipHash,

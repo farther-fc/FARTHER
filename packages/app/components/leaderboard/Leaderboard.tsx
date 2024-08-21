@@ -40,9 +40,6 @@ const columnStyles: { [key: string]: string } = {
   totalGivenAmount: "text-right w-[110px] pr-4",
 } as const;
 
-const PAGE_SIZE = 10;
-const PIXELS_PER_PAGE = 600;
-
 export function Leaderboard() {
   const { data } = trpcClient.public.tips.leaderboard.useQuery();
   const [sorting, setSorting] = React.useState<SortingState>([
@@ -67,7 +64,7 @@ export function Leaderboard() {
     <div className="space-y-4 ">
       <DataTableToolbar table={table} />
       <div className="table-container overflow-auto rounded-xl border border-ghost lg:overflow-visible ">
-        <Table className=" w-full table-fixed h-[600x]">
+        <Table className=" w-full table-fixed">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>

@@ -3,7 +3,7 @@ import "@farther/common/src/assertLocalhost";
 import { prisma } from "@farther/backend";
 import { distributeAllowances } from "@farther/backend/src/lib/distributeAllowances";
 import { TIPS_DURATION_DAYS } from "@farther/common";
-import { handleTip } from "../utils/handleTip";
+import { processTip } from "server/tips/processTip";
 import { behaviors } from "./config";
 import { createDummyCast } from "./createDummyCast";
 
@@ -75,7 +75,7 @@ async function tipsAgentModeling() {
           amount: tipAmount,
         });
 
-        await handleTip({
+        await processTip({
           castData: dummyCastData.data as any,
           createdAtMs: dummyCastData.created_at * 1000,
         });
