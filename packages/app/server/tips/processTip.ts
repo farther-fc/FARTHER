@@ -172,12 +172,13 @@ export async function processTip({
                       ? InvalidTipReason.RECIPROCATION_THRESHOLD_REACHED
                       : null;
 
-  const allowableAmount =
+  const allowableAmount = Math.floor(
     invalidTipReason === InvalidTipReason.TIPPEE_WEEKLY_THRESHOLD_REACHED
       ? tippeeValidAmount
       : invalidTipReason === InvalidTipReason.RECIPROCATION_THRESHOLD_REACHED
         ? tippersValidAmount
-        : 0;
+        : 0,
+  );
 
   let tipData: TipData;
 
