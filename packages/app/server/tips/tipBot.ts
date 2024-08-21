@@ -86,7 +86,9 @@ export async function tipBot({
     return;
   }
 
-  const remainingAllowance = availableAllowance - amountTippedThisCycle;
+  const remainingAllowance = numeral(
+    availableAllowance - amountTippedThisCycle,
+  ).format("0,0");
 
   let message = ``;
 
@@ -100,10 +102,11 @@ export async function tipBot({
     message += `\n\n${invalidMessage}`;
 
     if (allowableAmount) {
+      const formattedAllowedAmount = numeral(allowableAmount).format("0,0");
       message +=
         allowableAmount >= TIP_MINIMUM
-          ? `. Reduce the amount to ${allowableAmount} for this tip to be valid.`
-          : `. The allowed amount (${allowableAmount}) is below the tip minimum (${TIP_MINIMUM}).`;
+          ? `. Reduce the amount to ${formattedAllowedAmount} for this tip to be valid.`
+          : `. The allowed amount (${formattedAllowedAmount}) is below the tip minimum (${TIP_MINIMUM}).`;
     }
 
     if (
@@ -111,7 +114,7 @@ export async function tipBot({
       totalWeekAmtToTippers &&
       weekAllowancesTotal
     ) {
-      message += `\nTotal allowance in the past week: ${weekAllowancesTotal}. Total given to tippers: ${totalWeekAmtToTippers} (${numeral((totalWeekAmtToTippers / weekAllowancesTotal) * 100).format("0.00")}%)`;
+      message += `\nTotal allowance in the past week: ${numeral(weekAllowancesTotal).format("0,0")}. Total given to tippers: ${numeral(totalWeekAmtToTippers).format("0,0")} (${numeral((totalWeekAmtToTippers / weekAllowancesTotal) * 100).format("0.00")}%)`;
     }
 
     message += amountAndRemaining;
@@ -129,7 +132,7 @@ export async function tipBot({
       total: availableAllowance,
     });
 
-    message += `\n\n${amountTippedThisCycle.toLocaleString()} ✨ / ${availableAllowance.toLocaleString()} ✨ (${percentage}%)\n`;
+    message += `\n\n${numeral(amountTippedThisCycle).format("0,0")} ✨ / ${numeral(availableAllowance).format("0,0")} ✨ (${percentage}%)\n`;
     message += progressBar;
   }
 
