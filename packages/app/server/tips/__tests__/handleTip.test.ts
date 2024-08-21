@@ -1,14 +1,236 @@
-import { TipMeta, clearDatabase, prisma } from "@farther/backend";
-import { TIPPEE_WEEKLY_THRESHOLD_RATIO, dayUTC } from "@farther/common";
+import {
+  InvalidTipReason,
+  TipMeta,
+  clearDatabase,
+  prisma,
+} from "@farther/backend";
+import {
+  TIPPEE_WEEKLY_THRESHOLD_RATIO,
+  TIP_MINIMUM,
+  dayUTC,
+} from "@farther/common";
 import { v4 as uuidv4 } from "uuid";
+import { createDummyCast } from "../agentModeling/createDummyCast";
 import {
   getExceededThresholdToTippee,
   getExceededThresholdToTippers,
+  processTip,
 } from "../processTip";
 import { getWeekAllowancesAndTips } from "../utils/getWeekAllowancesAndTips";
 
 const DAILY_ALLOWANCE = 1000;
 const WEEKLY_ALLOWANCE = DAILY_ALLOWANCE * 7;
+
+describe("handleTip", () => {
+  afterAll(async () => {
+    await clearDatabase();
+  });
+
+  let tipMeta: TipMeta;
+
+  beforeEach(async () => {
+    await clearDatabase();
+
+    await prisma.user.createMany({
+      data: [
+        {
+          id: 1,
+        },
+        {
+          id: 2,
+        },
+      ],
+    });
+
+    tipMeta = await prisma.tipMeta.create({
+      data: {
+        tipMinimum: 123,
+        totalAllowance: 123,
+        carriedOver: 123,
+        usdPrice: 123,
+      },
+    });
+  });
+
+  it("creates valid tip if the tip amount is equal to the tip minimum", async () => {
+    await prisma.tipAllowance.create({
+      data: {
+        id: uuidv4(),
+        userId: 1,
+        amount: 10000000,
+        userBalance: "123",
+        tipMetaId: tipMeta.id,
+      },
+    });
+
+    const tip = await processTip({
+      castData: createDummyCast({
+        tipperFid: 1,
+        tippeeFid: 2,
+        amount: TIP_MINIMUM,
+      }).data as any,
+      createdAtMs: Date.now(),
+    });
+
+    expect(tip?.invalidTipReason).toBeNull();
+  });
+
+  it("creates invalid tip if the tip amount is less than the tip minimum", async () => {
+    await prisma.tipAllowance.create({
+      data: {
+        id: uuidv4(),
+        userId: 1,
+        amount: DAILY_ALLOWANCE,
+        userBalance: "123",
+        tipMetaId: tipMeta.id,
+      },
+    });
+
+    const tip = await processTip({
+      castData: createDummyCast({
+        tipperFid: 1,
+        tippeeFid: 2,
+        amount: TIP_MINIMUM - 1,
+      }).data as any,
+      createdAtMs: Date.now(),
+    });
+
+    expect(tip?.invalidTipReason).toBe(InvalidTipReason.BELOW_MINIMUM);
+  });
+
+  it("creates invalid tip if tipper has insufficient allowance", async () => {
+    await prisma.tipAllowance.create({
+      data: {
+        id: uuidv4(),
+        userId: 1,
+        amount: DAILY_ALLOWANCE,
+        userBalance: "123",
+        tipMetaId: tipMeta.id,
+      },
+    });
+
+    const tip = await processTip({
+      castData: createDummyCast({
+        tipperFid: 1,
+        tippeeFid: 2,
+        amount: DAILY_ALLOWANCE + 1,
+      }).data as any,
+      createdAtMs: Date.now(),
+    });
+
+    expect(tip?.invalidTipReason).toBe(InvalidTipReason.INSUFFICIENT_ALLOWANCE);
+  });
+
+  it("creates invalid tip if the tipper is self-tipping", async () => {
+    await prisma.tipAllowance.create({
+      data: {
+        id: uuidv4(),
+        userId: 1,
+        amount: DAILY_ALLOWANCE,
+        userBalance: "123",
+        tipMetaId: tipMeta.id,
+      },
+    });
+
+    const tip = await processTip({
+      castData: createDummyCast({
+        tipperFid: 1,
+        tippeeFid: 1,
+        amount: DAILY_ALLOWANCE,
+      }).data as any,
+      createdAtMs: Date.now(),
+    });
+
+    expect(tip?.invalidTipReason).toBe(InvalidTipReason.SELF_TIPPING);
+  });
+
+  it("creates invalid tip if the tipper is self-tipping", async () => {
+    await prisma.tipAllowance.create({
+      data: {
+        id: uuidv4(),
+        userId: 1,
+        amount: DAILY_ALLOWANCE,
+        userBalance: "123",
+        tipMetaId: tipMeta.id,
+      },
+    });
+
+    const tip = await processTip({
+      castData: createDummyCast({
+        tipperFid: 1,
+        tippeeFid: 1,
+        amount: DAILY_ALLOWANCE,
+      }).data as any,
+      createdAtMs: Date.now(),
+    });
+
+    expect(tip?.invalidTipReason).toBe(InvalidTipReason.SELF_TIPPING);
+  });
+
+  it("creates invalid tip if the tipper is banned", async () => {
+    await prisma.tipAllowance.create({
+      data: {
+        id: uuidv4(),
+        userId: 1,
+        amount: DAILY_ALLOWANCE,
+        userBalance: "123",
+        tipMetaId: tipMeta.id,
+      },
+    });
+
+    await prisma.user.update({
+      where: {
+        id: 1,
+      },
+      data: {
+        isBanned: true,
+      },
+    });
+
+    const tip = await processTip({
+      castData: createDummyCast({
+        tipperFid: 1,
+        tippeeFid: 2,
+        amount: DAILY_ALLOWANCE,
+      }).data as any,
+      createdAtMs: Date.now(),
+    });
+
+    expect(tip?.invalidTipReason).toBe(InvalidTipReason.BANNED_TIPPER);
+  });
+
+  it("creates invalid tip if the tippee is banned", async () => {
+    await prisma.tipAllowance.create({
+      data: {
+        id: uuidv4(),
+        userId: 1,
+        amount: DAILY_ALLOWANCE,
+        userBalance: "123",
+        tipMetaId: tipMeta.id,
+      },
+    });
+
+    await prisma.user.update({
+      where: {
+        id: 2,
+      },
+      data: {
+        isBanned: true,
+      },
+    });
+
+    const tip = await processTip({
+      castData: createDummyCast({
+        tipperFid: 1,
+        tippeeFid: 2,
+        amount: DAILY_ALLOWANCE,
+      }).data as any,
+      createdAtMs: Date.now(),
+    });
+
+    expect(tip?.invalidTipReason).toBe(InvalidTipReason.BANNED_TIPPEE);
+  });
+});
 
 describe("getExceededThresholdToTippee", () => {
   afterAll(async () => {

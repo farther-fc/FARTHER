@@ -122,7 +122,7 @@ export async function processTip({
     });
 
   const tipsThisCycle = tipsThisWeek.filter(
-    (t) => t.allocationId === latestTipAllowance.id,
+    (t) => t.tipAllowanceId === latestTipAllowance.id,
   );
 
   const amountTippedSoFar = tipsThisCycle.reduce(
@@ -210,7 +210,7 @@ export async function processTip({
     };
   }
 
-  await storeTip(tipData);
+  const tip = await storeTip(tipData);
 
   tipBot({
     amountTippedThisCycle: invalidTipReason
@@ -224,6 +224,8 @@ export async function processTip({
     tipHash: castData.hash,
     allowableAmount,
   });
+
+  return tip;
 }
 
 async function storeTip({
@@ -243,7 +245,7 @@ async function storeTip({
   invalidTipReason?: InvalidTipReason;
   tippeeOpenRankScore: number | null;
 }) {
-  await prisma.tip.create({
+  return await prisma.tip.create({
     data: {
       hash: castHash,
       amount: tipAmount,
