@@ -7,7 +7,6 @@ import {
   TIP_MINIMUM,
   cacheTypes,
   getOpenRankScores,
-  getStartOfMonthUTC,
   neynar,
 } from "@farther/common";
 import { cache } from "@lib/cache";
@@ -122,6 +121,7 @@ export async function processTip({
     weekAllowancesTotal,
     currentAmount: tipAmount,
     tippeeFid,
+    tipMetaId: tipMeta.id,
   });
 
   const tipsThisCycle = tipsThisWeek.filter(
@@ -317,6 +317,7 @@ export async function getExceededThresholdToTippers({
   weekAllowancesTotal,
   currentAmount,
   tippeeFid,
+  tipMetaId,
 }: {
   tipsThisWeek: Awaited<
     ReturnType<typeof getWeekAllowancesAndTips>
@@ -324,6 +325,7 @@ export async function getExceededThresholdToTippers({
   weekAllowancesTotal: number;
   currentAmount: number;
   tippeeFid: number;
+  tipMetaId: string;
 }) {
   const tipsToTippers = tipsThisWeek.filter(
     (t) => t.tippee.tipAllowances.length > 0,
@@ -334,9 +336,7 @@ export async function getExceededThresholdToTippers({
       id: tippeeFid,
       tipAllowances: {
         some: {
-          createdAt: {
-            gte: getStartOfMonthUTC(0),
-          },
+          tipMetaId,
         },
       },
     },

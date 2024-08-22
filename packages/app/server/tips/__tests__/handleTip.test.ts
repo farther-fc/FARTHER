@@ -437,6 +437,7 @@ describe("getExceededThresholdToTippers", () => {
       weekAllowancesTotal: WEEKLY_ALLOWANCE,
       currentAmount: tipAmount + 1,
       tippeeFid: 2,
+      tipMetaId: tipMeta.id,
     });
 
     expect(result.exceededThresholdToTippers).toBe(true);
@@ -493,6 +494,7 @@ describe("getExceededThresholdToTippers", () => {
       weekAllowancesTotal: WEEKLY_ALLOWANCE,
       currentAmount: tipAmount,
       tippeeFid: 2,
+      tipMetaId: tipMeta.id,
     });
 
     expect(result.exceededThresholdToTippers).toBe(false);
@@ -538,6 +540,7 @@ describe("getExceededThresholdToTippers", () => {
       weekAllowancesTotal: WEEKLY_ALLOWANCE,
       currentAmount: tipAmount,
       tippeeFid: 2,
+      tipMetaId: tipMeta.id,
     });
 
     expect(result.exceededThresholdToTippers).toBe(false);
