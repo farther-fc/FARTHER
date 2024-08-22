@@ -251,7 +251,7 @@ async function storeTip({
   invalidTipReason?: InvalidTipReason;
   tippeeOpenRankScore: number | null;
 }) {
-  return await prisma.tip.create({
+  const tip = await prisma.tip.create({
     data: {
       hash: castHash,
       amount: tipAmount,
@@ -279,6 +279,8 @@ async function storeTip({
 
   await cache.flush({ type: cacheTypes.USER, ids: [tipperFid] });
   await cache.flush({ type: cacheTypes.USER_TIPS, ids: [tipperFid] });
+
+  return tip;
 }
 
 export function getExceededThresholdToTippee({
@@ -294,6 +296,12 @@ export function getExceededThresholdToTippee({
   weekAllowancesTotal: number;
   currentAmount: number;
 }) {
+  // Temporary disable
+  return {
+    exceededThresholdToTippee: false,
+    validAmount: 0,
+  };
+
   const tipsToTippee = tipsThisWeek.filter((t) => t.tippeeId === tippeeFid);
 
   const totalWeeklyToTippee = tipsToTippee.reduce(
@@ -327,6 +335,12 @@ export async function getExceededThresholdToTippers({
   tippeeFid: number;
   tipMetaId: string;
 }) {
+  // Temporary disable
+  return {
+    exceededThresholdToTippers: false,
+    validAmount: 0,
+  };
+
   const tipsToTippers = tipsThisWeek.filter(
     (t) => t.tippee.tipAllowances.length > 0,
   );
