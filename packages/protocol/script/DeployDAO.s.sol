@@ -9,7 +9,21 @@ contract DeployDAO is Script {
     function run() public {
         vm.startBroadcast();
 
-        new FartherDAO(IVotes(0x8ad5b9007556749DE59E088c88801a3Aaa87134B));
+        // Staging
+        new FartherDAO(
+            IVotes(0xf9A98fDC95A427fCfB1506A6E8A3143119417fBA),
+            0,
+            150,
+            100_000e18
+        );
+
+        // Prod
+        // new FartherDAO(
+        //     IVotes(0x8ad5b9007556749DE59E088c88801a3Aaa87134B),
+        //     7200,
+        //     50_400,
+        //     100_000e18
+        // );
 
         vm.stopBroadcast();
     }

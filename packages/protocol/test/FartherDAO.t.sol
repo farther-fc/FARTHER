@@ -39,7 +39,12 @@ contract FartherDAOTest is TestConfig {
     }
 
     function test_deploySucceeds() external {
-        dao = new FartherDAO(token);
+        dao = new FartherDAO(
+            token,
+            VOTING_DELAY,
+            VOTING_PERIOD,
+            PROPOSAL_THRESHOLD
+        );
 
         assert(address(dao.token()) == address(token));
 
@@ -54,7 +59,12 @@ contract FartherDAOTest is TestConfig {
     }
 
     function test_proposal() external {
-        dao = new FartherDAO(token);
+        dao = new FartherDAO(
+            token,
+            VOTING_DELAY,
+            VOTING_PERIOD,
+            PROPOSAL_THRESHOLD
+        );
 
         address[] memory targets = new address[](1);
         uint256[] memory values = new uint256[](1);
@@ -72,7 +82,12 @@ contract FartherDAOTest is TestConfig {
     }
 
     function test_castVote() external {
-        dao = new FartherDAO(token);
+        dao = new FartherDAO(
+            token,
+            VOTING_DELAY,
+            VOTING_PERIOD,
+            PROPOSAL_THRESHOLD
+        );
 
         address[] memory targets = new address[](1);
         uint256[] memory values = new uint256[](1);
@@ -92,7 +107,12 @@ contract FartherDAOTest is TestConfig {
     }
 
     function test_proposalPasses() external {
-        dao = new FartherDAO(token);
+        dao = new FartherDAO(
+            token,
+            VOTING_DELAY,
+            VOTING_PERIOD,
+            PROPOSAL_THRESHOLD
+        );
 
         address[] memory targets = new address[](1);
         uint256[] memory values = new uint256[](1);
@@ -119,7 +139,12 @@ contract FartherDAOTest is TestConfig {
     }
 
     function test_quorum() external {
-        dao = new FartherDAO(token);
+        dao = new FartherDAO(
+            token,
+            VOTING_DELAY,
+            VOTING_PERIOD,
+            PROPOSAL_THRESHOLD
+        );
 
         vm.roll(block.number + 1);
 
@@ -130,7 +155,12 @@ contract FartherDAOTest is TestConfig {
     }
 
     function test_setVotingDelay() external {
-        dao = new FartherDAO(token);
+        dao = new FartherDAO(
+            token,
+            VOTING_DELAY,
+            VOTING_PERIOD,
+            PROPOSAL_THRESHOLD
+        );
 
         uint256 newVotingDelay = 100;
 
@@ -180,7 +210,12 @@ contract FartherDAOTest is TestConfig {
     }
 
     function test_setVotingPeriod() external {
-        dao = new FartherDAO(token);
+        dao = new FartherDAO(
+            token,
+            VOTING_DELAY,
+            VOTING_PERIOD,
+            PROPOSAL_THRESHOLD
+        );
 
         uint256 newVotingPeriod = 100;
 
@@ -230,7 +265,12 @@ contract FartherDAOTest is TestConfig {
     }
 
     function test_setProposalThreshold() external {
-        dao = new FartherDAO(token);
+        dao = new FartherDAO(
+            token,
+            VOTING_DELAY,
+            VOTING_PERIOD,
+            PROPOSAL_THRESHOLD
+        );
 
         uint256 newProposalThreshold = 200_000e18;
 
@@ -277,5 +317,77 @@ contract FartherDAOTest is TestConfig {
         );
 
         assertEq(dao.proposalThreshold(), newProposalThreshold);
+    }
+
+    function test_proposeTokenTransfer() external {
+        dao = new FartherDAO(
+            token,
+            VOTING_DELAY,
+            VOTING_PERIOD,
+            PROPOSAL_THRESHOLD
+        );
+
+        uint256 treasuryInitalBalance = 600_000_000e18;
+
+        uint256 whaleVoter1InitialBalance = token.balanceOf(whaleVoter1);
+
+        uint256 transferAmount = 1000e18;
+
+        // fund the treasury
+        token.transfer(address(dao), treasuryInitalBalance);
+
+        assertEq(token.balanceOf(address(dao)), treasuryInitalBalance);
+
+        address[] memory targets = new address[](1);
+        uint256[] memory values = new uint256[](1);
+        bytes[] memory calldatas = new bytes[](1);
+
+        targets[0] = address(token);
+
+        calldatas[0] = abi.encodeWithSignature(
+            "transfer(address,uint256)",
+            whaleVoter1,
+            transferAmount
+        );
+
+        // Advance the block to ensure the votes are counted correctly
+        vm.roll(block.number + 1);
+
+        vm.prank(proposer);
+        uint256 proposalId = dao.propose(
+            targets,
+            values,
+            calldatas,
+            "transfer 1000 tokens to whaleVoter1"
+        );
+
+        uint8 vote = 1;
+
+        vm.roll(block.number + dao.votingDelay() + 1);
+
+        vm.prank(whaleVoter1);
+        dao.castVote(proposalId, vote);
+        vm.prank(whaleVoter2);
+        dao.castVote(proposalId, vote);
+
+        vm.roll(block.number + dao.votingPeriod() + 1);
+
+        assert(dao.state(proposalId) == IGovernor.ProposalState.Succeeded);
+
+        dao.execute(
+            targets,
+            values,
+            calldatas,
+            keccak256("transfer 1000 tokens to whaleVoter1")
+        );
+
+        assertEq(
+            token.balanceOf(whaleVoter1),
+            whaleVoter1InitialBalance + transferAmount
+        );
+        assertEq(
+            token.balanceOf(address(dao)),
+            treasuryInitalBalance - transferAmount
+        );
     }
 }

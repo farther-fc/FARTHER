@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import {console} from "forge-std/Test.sol";
-
 import {IGovernor, Governor} from "openzeppelin/governance/Governor.sol";
 import {GovernorCountingSimple} from "openzeppelin/governance/extensions/GovernorCountingSimple.sol";
 import {GovernorVotes} from "openzeppelin/governance/extensions/GovernorVotes.sol";
@@ -16,19 +14,26 @@ contract FartherDAO is
     GovernorVotes,
     GovernorVotesQuorumFraction
 {
-    uint256 private _votingDelay = 7200; // approx 1 day of blocks
+    uint256 private _votingDelay;
 
-    uint256 private _votingPeriod = 50_400; // approx 1 week of blocks
+    uint256 private _votingPeriod;
 
-    uint256 private _proposalThreshold = 100_000e18; // 100k $farther
+    uint256 private _proposalThreshold;
 
     constructor(
-        IVotes _token
+        IVotes _token,
+        uint256 votingDelay,
+        uint256 votingPeriod,
+        uint256 proposalThreshold
     )
         Governor("FartherDAO")
         GovernorVotes(_token)
         GovernorVotesQuorumFraction(2)
-    {}
+    {
+        _votingDelay = votingDelay;
+        _votingPeriod = votingPeriod;
+        _proposalThreshold = proposalThreshold;
+    }
 
     function votingDelay() public view override returns (uint256) {
         return _votingDelay;
