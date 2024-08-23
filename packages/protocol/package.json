@@ -15,10 +15,13 @@
     "dev:deploy:token": "pnpm env:dev forge script script/DeployToken.s.sol:DeployToken --rpc-url http://127.0.0.1:8545 --private-key $DEPLOYER_PK -vvvvv --broadcast",
     "deploy:token": "forge script script/DeployToken.s.sol:DeployToken --rpc-url $NEXT_PUBLIC_BASE_RPC_URL --private-key $DEPLOYER_PK --verifier-url https://api.basescan.org/api --verify -vvvvv --broadcast",
     "deploy:airdrop": "forge script script/DeployAirdrop.s.sol:DeployAirdrop --rpc-url $NEXT_PUBLIC_BASE_RPC_URL --private-key $DEPLOYER_PK --verifier-url https://api.basescan.org/api --verify -vvvvv --broadcast",
+    "deploy:dao": "forge script script/DeployDAO.s.sol:DeployAirdrop --rpc-url $NEXT_PUBLIC_BASE_RPC_URL --private-key $DEPLOYER_PK --verifier-url https://api.basescan.org/api --verify -vvvvv --broadcast",
     "staging:deploy:token": "pnpm env:staging pnpm deploy:token",
     "prod:deploy:token": "pnpm env:prod pnpm deploy:token",
     "staging:deploy:airdrop": "pnpm env:staging pnpm deploy:airdrop",
     "prod:deploy:airdrop": "pnpm env:prod pnpm deploy:airdrop",
+    "staging:deploy:dao": "pnpm env:staging pnpm deploy:dao",
+    "prod:deploy:dao": "pnpm env:prod pnpm deploy:dao",
     "foundry": "curl -L https://foundry.paradigm.xyz | bash && source /vercel/.bashrc && foundryup && forge install",
     "typechain": "typechain --target ethers-v6 --out-dir ../common/src/typechain ./out/**/*.json",
     "test": "pnpm env:dev forge test"

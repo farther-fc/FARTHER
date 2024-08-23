@@ -9,7 +9,6 @@ import {GovernorVotes} from "openzeppelin/governance/extensions/GovernorVotes.so
 import {GovernorVotesQuorumFraction} from "openzeppelin/governance/extensions/GovernorVotesQuorumFraction.sol";
 import {IVotes} from "openzeppelin/governance/utils/IVotes.sol";
 import {IERC165} from "openzeppelin/interfaces/IERC165.sol";
-// import {FartherToken} from "./FartherToken.sol";
 
 contract FartherDAO is
     Governor,
@@ -17,6 +16,12 @@ contract FartherDAO is
     GovernorVotes,
     GovernorVotesQuorumFraction
 {
+    uint256 private _votingDelay = 7200; // approx 1 day of blocks
+
+    uint256 private _votingPeriod = 50_400; // approx 1 week of blocks
+
+    uint256 private _proposalThreshold = 100_000e18; // 100k $farther
+
     constructor(
         IVotes _token
     )
@@ -25,19 +30,17 @@ contract FartherDAO is
         GovernorVotesQuorumFraction(2)
     {}
 
-    function votingDelay() public pure override returns (uint256) {
-        return 7200; // 1 day
+    function votingDelay() public view override returns (uint256) {
+        return _votingDelay;
     }
 
-    function votingPeriod() public pure override returns (uint256) {
-        return 2592000; // 1 month
+    function votingPeriod() public view override returns (uint256) {
+        return _votingPeriod;
     }
 
-    function proposalThreshold() public pure override returns (uint256) {
-        return 100_000e18;
+    function proposalThreshold() public view override returns (uint256) {
+        return _proposalThreshold;
     }
-
-    // The functions below are overrides required by Solidity.
 
     function state(
         uint256 proposalId
@@ -45,10 +48,18 @@ contract FartherDAO is
         return super.state(proposalId);
     }
 
-    function proposalNeedsQueuing(
-        uint256 proposalId
-    ) public view virtual override(Governor) returns (bool) {
-        return super.proposalNeedsQueuing(proposalId);
+    function setVotingDelay(uint256 newVotingDelay) public onlyGovernance {
+        _votingDelay = newVotingDelay;
+    }
+
+    function setVotingPeriod(uint256 newVotingPeriod) public onlyGovernance {
+        _votingPeriod = newVotingPeriod;
+    }
+
+    function setProposalThreshold(
+        uint256 newProposalThreshold
+    ) public onlyGovernance {
+        _proposalThreshold = newProposalThreshold;
     }
 
     function _queueOperations(
