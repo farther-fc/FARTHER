@@ -7,6 +7,7 @@
     "env:prod": "dotenvx run -f ../../.env.production -- ",
     "env:staging": "dotenvx run -f ../../.env.staging -- ",
     "dev": "next dev",
+    "dev:local": "pnpm dev",
     "codegen": "pnpm env:prod graphclient build && ts-node lib/codegenPostScript.ts",
     "graph:dev": "pnpm env:staging graphclient serve-dev",
     "build:web": "pnpm next build",

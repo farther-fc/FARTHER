@@ -129,6 +129,8 @@ model Airdrop {
   startTime DateTime
   endTime   DateTime
 
+  sablierUrl       String?
+
   allocations Allocation[]
 
   @@unique([address, chainId])
