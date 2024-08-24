@@ -16,7 +16,8 @@
     "deploy:token": "forge script script/DeployToken.s.sol:DeployToken --rpc-url $NEXT_PUBLIC_BASE_RPC_URL --private-key $DEPLOYER_PK --verifier-url https://api.basescan.org/api --verify -vvvvv --broadcast",
     "deploy:airdrop": "forge script script/DeployAirdrop.s.sol:DeployAirdrop --rpc-url $NEXT_PUBLIC_BASE_RPC_URL --private-key $DEPLOYER_PK --verifier-url https://api.basescan.org/api --verify -vvvvv --broadcast",
     "deploy:dao": "forge script script/DeployDAO.s.sol:DeployDAO --rpc-url $NEXT_PUBLIC_BASE_RPC_URL --private-key $DEPLOYER_PK --verifier-url https://api.basescan.org/api --verify -vvvvv --broadcast",
-    "propose": "forge script script/Propose.s.sol:Propose --rpc-url $NEXT_PUBLIC_BASE_RPC_URL --private-key $DEPLOYER_PK --verifier-url https://api.basescan.org/api --verify -vvvvv --broadcast",
+    "propose": "forge script script/TestProposal.s.sol:Propose --rpc-url $NEXT_PUBLIC_BASE_RPC_URL --private-key $DEPLOYER_PK --verifier-url https://api.basescan.org/api --verify -vvvvv --broadcast",
+    "execute": "forge script script/TestProposal.s.sol:Execute --rpc-url $NEXT_PUBLIC_BASE_RPC_URL --private-key $DEPLOYER_PK --verifier-url https://api.basescan.org/api --verify -vvvvv --broadcast",
     "vote": "forge script script/Vote.s.sol:Vote --rpc-url $NEXT_PUBLIC_BASE_RPC_URL --private-key $DEPLOYER_PK --verifier-url https://api.basescan.org/api --verify -vvvvv --broadcast",
     "staging:deploy:token": "pnpm env:staging pnpm deploy:token",
     "prod:deploy:token": "pnpm env:prod pnpm deploy:token",
@@ -25,7 +26,7 @@
     "staging:deploy:dao": "pnpm env:staging pnpm deploy:dao",
     "prod:deploy:dao": "pnpm env:prod pnpm deploy:dao",
     "staging:propose": "pnpm env:staging pnpm propose",
-    "staging:vote": "pnpm env:staging pnpm vote",
+    "staging:execute": "pnpm env:staging pnpm execute",
     "foundry": "curl -L https://foundry.paradigm.xyz | bash && source /vercel/.bashrc && foundryup && forge install",
     "typechain": "typechain --target ethers-v6 --out-dir ../common/src/typechain ./out/**/*.json",
     "test": "pnpm env:dev forge test"
