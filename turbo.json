@@ -24,6 +24,11 @@
       "dependsOn": ["generate"],
       "cache": false,
       "persistent": true
+    },
+    "dev:local": {
+      "dependsOn": ["generate"],
+      "cache": false,
+      "persistent": true
     }
   }
 }

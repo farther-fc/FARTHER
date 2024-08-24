@@ -8,6 +8,7 @@ import {
   getMerkleRoot,
   neynar,
 } from "@farther/common";
+import { createObjectCsvWriter } from "csv-writer";
 import { v4 as uuidv4 } from "uuid";
 import { Address } from "viem";
 import { writeFile } from "../lib/utils/helpers";
@@ -35,11 +36,7 @@ async function prepareTipsDrop() {
     take: 1,
   });
 
-  if (!latestTipsAirdrop) {
-    throw new Error("No previous airdrop found");
-  }
-
-  const lastAirdropSnapshotTime = latestTipsAirdrop?.createdAt;
+  const lastAirdropSnapshotTime = latestTipsAirdrop?.createdAt || new Date(0);
 
   // Get all users who have received tips that haven't been allocated an airdrop
   const users = await prisma.user.findMany({
@@ -183,6 +180,16 @@ async function prepareTipsDrop() {
       2,
     ),
   );
+
+  const csvWriter = createObjectCsvWriter({
+    path: `airdrops/${ENVIRONMENT}/${AllocationType.TIPS.toLowerCase()}-${NEXT_AIRDROP_START_TIME.toISOString()}.csv`,
+    header: [
+      { id: "address", title: "address" },
+      { id: "amount", title: "amount" },
+    ],
+  });
+
+  await csvWriter.writeRecords(leafs);
 
   console.info({
     root,

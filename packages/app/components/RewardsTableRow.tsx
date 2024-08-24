@@ -1,5 +1,6 @@
 import { ButtonWithPopover } from "@components/buttons/ButtonWithPopover";
 import { Button } from "@components/ui/Button";
+import { ExternalLink } from "@components/ui/ExternalLink";
 import { Popover } from "@components/ui/Popover";
 import { TableCell, TableRow } from "@components/ui/Table";
 import { AllocationType } from "@farther/backend";
@@ -15,6 +16,7 @@ import {
   allocationTypeNames,
   clickIds,
 } from "@lib/constants";
+import { useModal } from "@lib/context/ModalContext";
 import { useUser } from "@lib/context/UserContext";
 import { trpcClient } from "@lib/trpcClient";
 import { GetUserOuput } from "@lib/types/apiTypes";
@@ -95,7 +97,36 @@ export function RewardsTableRow({
   const hasClaimed = isSuccess || allocation.isClaimed;
   const isTxPending = isClaimPending || (!!claimTxHash && !isSuccess);
 
+  const { openModal } = useModal();
+
   const handleClaim = async () => {
+    if (allocation.airdrop?.sablierUrl) {
+      openModal({
+        headerText: "Sablier Airstream",
+        body: (
+          <>
+            <p className="mb-4">
+              This airdrop is being continuously vested for one month using a{" "}
+              <ExternalLink href="https://blog.sablier.com/introducing-airstreams/">
+                Sablier Airstream
+              </ExternalLink>
+              . The purpose of this is to prevent market manipulation prior to
+              claims going live, and smooth distribution over time.{" "}
+              <ExternalLink href="https://warpcast.com/farther/0xa2558589">
+                Explained more here
+              </ExternalLink>
+              .
+            </p>
+
+            <ExternalLink href={allocation.airdrop.sablierUrl}>
+              <Button>Vist Claim Page</Button>
+            </ExternalLink>
+          </>
+        ),
+      });
+      return;
+    }
+
     if (!proof) {
       logError({
         error: `handleClaim clicked without proof! allocation ID: ${allocation.id}`,
@@ -181,21 +212,25 @@ export function RewardsTableRow({
   const startTimeNum = allocation.airdrop?.startTime
     ? new Date(allocation.airdrop.startTime).getTime()
     : Number.POSITIVE_INFINITY;
+
   const airdropStartTimeExceeded = Date.now() > startTimeNum;
 
   const isDisabled =
-    !proof ||
-    !airdropStartTimeExceeded ||
-    !allocation.airdrop?.address ||
-    hasClaimed ||
-    isProofLoading;
+    !allocation.airdrop?.sablierUrl &&
+    (!proof ||
+      !airdropStartTimeExceeded ||
+      !allocation.airdrop?.address ||
+      hasClaimed ||
+      isProofLoading);
 
   const buttonText = !allocation.airdrop?.startTime
     ? `Avail. ${formatAirdropTime(getStartOfMonthUTC(allocTypeHasUpcomingAirdrop ? 2 : 1))}`
     : hasClaimed
       ? "Claimed"
       : airdropStartTimeExceeded
-        ? "Claim"
+        ? allocation.airdrop?.sablierUrl
+          ? "Stream"
+          : "Claim"
         : `Avail. ${formatAirdropTime(new Date(allocation.airdrop.startTime as string))}`;
 
   const formattedAmount = formatWad(BigInt(allocation.amount));

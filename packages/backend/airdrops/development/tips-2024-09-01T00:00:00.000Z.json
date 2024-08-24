@@ -1,0 +1,25 @@
+{
+  "root": "0x94e04ec6f71dccd3cc4743f22399c19fa29d251b847cbe23a92435f4e306361d",
+  "amount": "2250000000000000000000",
+  "numberOfRecipients": 3,
+  "minUserAllocation": 450,
+  "maxUserAllocation": 1000,
+  "startTime": 1725148800,
+  "rawLeafData": [
+    {
+      "index": 0,
+      "address": "0x795050decc0322567c4f0098209d4edc5a69b9d0",
+      "amount": "800000000000000000000"
+    },
+    {
+      "index": 1,
+      "address": "0x97e3b75b2eebcc722b504851416e1410b32180a3",
+      "amount": "1000000000000000000000"
+    },
+    {
+      "index": 2,
+      "address": "0xd7029bdea1c17493893aafe29aad69ef892b8ff2",
+      "amount": "450000000000000000000"
+    }
+  ]
+}

@@ -4,7 +4,7 @@
   "scripts": {
     "build": "dotenv -- turbo build",
     "build:web": "dotenv -- turbo build:web",
-    "dev": "dotenvx run -f .env -- turbo dev",
+    "dev": "dotenvx run -f .env -- turbo dev:local",
     "dev:prod": "dotenvx run -f .env.production -- turbo dev",
     "dev:staging": "dotenvx run -f .env.staging -- turbo dev",
     "lint": "turbo lint --log-prefix=none",
