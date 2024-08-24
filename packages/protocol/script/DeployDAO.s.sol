@@ -9,21 +9,20 @@ contract DeployDAO is Script {
     function run() public {
         vm.startBroadcast();
 
-        // Staging
-        new FartherDAO(
-            IVotes(0xf9A98fDC95A427fCfB1506A6E8A3143119417fBA),
-            0,
-            150,
-            100_000e18
-        );
+        address tokenAddress = vm.envAddress("TOKEN_ADDRESS");
 
-        // Prod
-        // new FartherDAO(
-        //     IVotes(0x8ad5b9007556749DE59E088c88801a3Aaa87134B),
-        //     7200,
-        //     50_400,
-        //     100_000e18
-        // );
+        uint256 votingDelay = vm.envUint("VOTING_DELAY");
+
+        uint256 votingPeriod = vm.envUint("VOTING_PERIOD");
+
+        uint256 proposalThreshold = vm.envUint("PROPOSAL_THRESHOLD");
+
+        new FartherDAO(
+            IVotes(tokenAddress),
+            votingDelay,
+            votingPeriod,
+            proposalThreshold
+        );
 
         vm.stopBroadcast();
     }
