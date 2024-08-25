@@ -31,3 +31,8 @@ We also post bounties on bountycaster.xyz. Join the [/farther](https://warpcast.
 
 - `docker-compose up -d`
 - `pnpm dev`
+
+-----
+## Founder Timelock
+
+The founder allocation (50m $farther) is currently locked in Sablier streams. [Details here](founder-timelock.md).
