@@ -3,7 +3,6 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import cron from "node-cron";
 import "../instrument";
-import { distributeAllowances } from "./lib/distributeAllowances";
 import { invalidateEvangelistAllocations } from "./lib/invalidateEvangelistAllocations";
 import { createTipperScores } from "./lib/jobQueues/createTipperScores";
 import { syncTipperData } from "./lib/jobQueues/syncTipperData";
@@ -31,9 +30,9 @@ cron.schedule(tippeeOpenRankSchedule, tippeeOpenRankSync, {
   timezone: "Etc/UTC",
 });
 
-cron.schedule(cronSchedules.DISTRIBUTE_ALLOWANCES, distributeAllowances, {
-  timezone: "Etc/UTC",
-});
+// cron.schedule(cronSchedules.DISTRIBUTE_ALLOWANCES, distributeAllowances, {
+//   timezone: "Etc/UTC",
+// });
 
 // Eligibility is checked every hour, with a random delay to keep allowance farmers on their toes
 cron.schedule(
