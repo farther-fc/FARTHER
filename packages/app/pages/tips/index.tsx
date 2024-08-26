@@ -1,10 +1,10 @@
+import { EndStatement } from "@components/EndStatement";
 import { InfoCard } from "@components/InfoCard";
 import TipRewardsHeader from "@components/TipRewardsHeader";
 import { TipsUserInfo } from "@components/tips/TipsUserInfo";
 import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
-import { Popover } from "@components/ui/Popover";
 import { Skeleton } from "@components/ui/Skeleton";
 import {
   ACTIVE_TIP_DAYS_REQUIRED,
@@ -14,11 +14,9 @@ import {
   TIPPER_OPENRANK_THRESHOLD_REQUIREMENT,
   TIPPER_REQUIRED_FARTHER_BALANCE,
 } from "@farther/common";
-import { GODFARTHER_URL, OPENRANK_DOCS_URL } from "@lib/constants";
+import { OPENRANK_DOCS_URL } from "@lib/constants";
 import { routes } from "@lib/routes";
-import dayjs from "dayjs";
 import { useTipsMeta } from "hooks/useTipsMeta";
-import { HelpCircle } from "lucide-react";
 import Link from "next/link";
 import numeral from "numeral";
 
@@ -33,56 +31,8 @@ function TipsPage() {
         <TipRewardsHeader />
         <h4 className="text-ghost mt-8 text-sm uppercase">Current Cycle</h4>
         {!tipsMetaLoading && createdAt ? (
-          <InfoCard className="grid grid-cols-3 mt-0">
-            <div className="flex flex-col">
-              <span className="text-ghost text-sm uppercase">Start Time</span>
-              <h5 className="mt-2 mb-0">
-                {dayjs(new Date(createdAt)).format("MMM D ha")}
-              </h5>
-            </div>
-            <div className="flex flex-col items-center">
-              <span className="text-ghost text-sm uppercase">Tip minimum</span>
-              <Popover
-                content={
-                  <>
-                    This is the current minimum tip amount required to tip. It
-                    may adjust in the future. Follow{" "}
-                    <ExternalLink href={GODFARTHER_URL}>@farther</ExternalLink>{" "}
-                    for updates.
-                  </>
-                }
-              >
-                <h5 className="flex items-center mt-2 mb-0">
-                  {tipMinimum} ✨
-                  <HelpCircle className="text-muted ml-2 size-3" />
-                </h5>
-              </Popover>
-            </div>
-            <div className="flex flex-col text-right">
-              <span className="text-ghost text-sm uppercase">Tippers</span>
-              <Popover
-                content={
-                  <>
-                    You must currently have a total balance of $
-                    {TIPPER_REQUIRED_FARTHER_BALANCE.toLocaleString()} FARTHER
-                    and an{" "}
-                    <ExternalLink href={OPENRANK_DOCS_URL}>
-                      OpenRank following rank
-                    </ExternalLink>{" "}
-                    below{" "}
-                    {TIPPER_OPENRANK_THRESHOLD_REQUIREMENT.toLocaleString()} to
-                    receive a tip allowance. This number will adjust over time.
-                    If you are providing liquidity in the Uniswap 0.3% pool,
-                    that will be included.
-                  </>
-                }
-              >
-                <h5 className="flex items-center mt-2 mb-0 justify-end">
-                  {eligibleTippers}
-                  <HelpCircle className="text-muted ml-2 size-3" />
-                </h5>
-              </Popover>
-            </div>
+          <InfoCard className="mt-0">
+            <EndStatement />
           </InfoCard>
         ) : (
           <Skeleton />
