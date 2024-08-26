@@ -27,31 +27,26 @@ export default function ProfilePage() {
   const { accountAddress, user, userLoading } = useUser();
   const { handleClaimRewards, claimSuccess, claimPending } =
     useLiquidityHandlers();
-  const {
-    claimableRewards,
-    rewardsClaimed,
-    pendingBonus,
-    bonusLpRewardsDropDate,
-  } = useLiquidity();
+  const { claimableRewards, rewardsClaimed } = useLiquidity();
 
   const rows = removeFalsyValues(user?.allocations || []);
 
-  if (pendingBonus > BigInt(0)) {
-    rows.push({
-      id: "PENDING_POWER_ALLOCATION_ID",
-      type: AllocationType.LIQUIDITY,
-      isClaimed: false,
-      createdAt: bonusLpRewardsDropDate,
-      amount: pendingBonus.toString(),
-      address: accountAddress || "",
-      index: null,
-      airdrop: null,
-      baseAmount: "",
-      referenceAmount: null,
-      tweets: [],
-      isInvalidated: false,
-    });
-  }
+  // if (pendingBonus > BigInt(0)) {
+  //   rows.push({
+  //     id: "PENDING_POWER_ALLOCATION_ID",
+  //     type: AllocationType.LIQUIDITY,
+  //     isClaimed: false,
+  //     createdAt: bonusLpRewardsDropDate,
+  //     amount: pendingBonus.toString(),
+  //     address: accountAddress || "",
+  //     index: null,
+  //     airdrop: null,
+  //     baseAmount: "",
+  //     referenceAmount: null,
+  //     tweets: [],
+  //     isInvalidated: false,
+  //   });
+  // }
 
   const { openConnectModal } = useConnectModal();
 
