@@ -1,7 +1,7 @@
+import { EndStatement } from "@components/EndStatement";
 import { InfoCard } from "@components/InfoCard";
 import { RewardsTableRow } from "@components/RewardsTableRow";
 import { FartherAccountLink } from "@components/nav/FartherLinks";
-import { TipsUserInfo } from "@components/tips/TipsUserInfo";
 import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
 import { Skeleton } from "@components/ui/Skeleton";
@@ -116,11 +116,7 @@ export default function ProfilePage() {
         <h1>Profile</h1>
         <div className="border-ghost mt-12 rounded-xl">
           <h2 className="mt-0 border-none pl-0">Tips</h2>
-          <p className="text-muted mb-4">
-            Visit the <Link href={routes.tips.path}>tips page</Link> to learn
-            how tipping works.
-          </p>
-          <TipsUserInfo />
+          <EndStatement />
         </div>
         <div className="border-ghost mt-12 rounded-xl">
           <h2 className="mt-0 border-none pl-0">
