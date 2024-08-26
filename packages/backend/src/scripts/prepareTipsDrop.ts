@@ -8,9 +8,9 @@ import {
   getMerkleRoot,
   neynar,
 } from "@farther/common";
-import { createObjectCsvWriter } from "csv-writer";
 import { v4 as uuidv4 } from "uuid";
 import { Address } from "viem";
+import { createAllocationsCSV } from "../lib/createAllocationsCSV";
 import { writeFile } from "../lib/utils/helpers";
 import { AllocationType, prisma } from "../prisma";
 import { airdropSanityCheck } from "./airdropSanityCheck";
@@ -181,15 +181,7 @@ async function prepareTipsDrop() {
     ),
   );
 
-  const csvWriter = createObjectCsvWriter({
-    path: `airdrops/${ENVIRONMENT}/${AllocationType.TIPS.toLowerCase()}-${NEXT_AIRDROP_START_TIME.toISOString()}.csv`,
-    header: [
-      { id: "address", title: "address" },
-      { id: "amount", title: "amount" },
-    ],
-  });
-
-  await csvWriter.writeRecords(leafs);
+  await createAllocationsCSV({ allocationType: AllocationType.TIPS, leafs });
 
   console.info({
     root,

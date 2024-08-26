@@ -1,0 +1,362 @@
+[
+  {
+    "fid": 10,
+    "amount": "1200000000000000000000",
+    "username": "elad"
+  },
+  {
+    "fid": 51,
+    "amount": "7200000000000000000000",
+    "username": "pmarca"
+  },
+  {
+    "fid": 72,
+    "amount": "4283000000000000000000",
+    "username": "garrytan"
+  },
+  {
+    "fid": 97,
+    "amount": "32118000000000000000000",
+    "username": "nic"
+  },
+  {
+    "fid": 288,
+    "amount": "900000000000000000000",
+    "username": "rrhoover"
+  },
+  {
+    "fid": 1786,
+    "amount": "300000000000000000000",
+    "username": "a16zcrypto"
+  },
+  {
+    "fid": 1795,
+    "amount": "178000000000000000000",
+    "username": "futureartist"
+  },
+  {
+    "fid": 2742,
+    "amount": "2222000000000000000000",
+    "username": "roundpotatocat"
+  },
+  {
+    "fid": 3698,
+    "amount": "888000000000000000000",
+    "username": "rachaelrad"
+  },
+  {
+    "fid": 4578,
+    "amount": "344000000000000000000",
+    "username": "pixels"
+  },
+  {
+    "fid": 10778,
+    "amount": "2203000000000000000000",
+    "username": "presstube"
+  },
+  {
+    "fid": 13029,
+    "amount": "33671000000000000000000",
+    "username": "deafbeef"
+  },
+  {
+    "fid": 16552,
+    "amount": "200000000000000000000",
+    "username": "kamandkavand"
+  },
+  {
+    "fid": 16844,
+    "amount": "6094000000000000000000",
+    "username": "pashov"
+  },
+  {
+    "fid": 20910,
+    "amount": "1000000000000000000000",
+    "username": "zora"
+  },
+  {
+    "fid": 190075,
+    "amount": "179000000000000000000",
+    "username": "highlight"
+  },
+  {
+    "fid": 193799,
+    "amount": "40284000000000000000000",
+    "username": "geedorah"
+  },
+  {
+    "fid": 211577,
+    "amount": "1000000000000000000000",
+    "username": "0xmarcb"
+  },
+  {
+    "fid": 212722,
+    "amount": "1000000000000000000000",
+    "username": "uniswap"
+  },
+  {
+    "fid": 224529,
+    "amount": "1136000000000000000000",
+    "username": "hot100"
+  },
+  {
+    "fid": 238315,
+    "amount": "2179000000000000000000",
+    "username": "jbsdc"
+  },
+  {
+    "fid": 244227,
+    "amount": "300000000000000000000",
+    "username": "velmost"
+  },
+  {
+    "fid": 251490,
+    "amount": "821000000000000000000",
+    "username": "vincenzo"
+  },
+  {
+    "fid": 263307,
+    "amount": "1000000000000000000000",
+    "username": "satoshimilk"
+  },
+  {
+    "fid": 270678,
+    "amount": "1456000000000000000000",
+    "username": "superrare"
+  },
+  {
+    "fid": 305601,
+    "amount": "300000000000000000000",
+    "username": "moodsoup"
+  },
+  {
+    "fid": 315653,
+    "amount": "1075000000000000000000",
+    "username": "superfluid"
+  },
+  {
+    "fid": 318610,
+    "amount": "9206000000000000000000",
+    "username": "micsolana"
+  },
+  {
+    "fid": 319431,
+    "amount": "222000000000000000000",
+    "username": "ryanfmason"
+  },
+  {
+    "fid": 326251,
+    "amount": "176000000000000000000",
+    "username": "degenius"
+  },
+  {
+    "fid": 330642,
+    "amount": "1499000000000000000000",
+    "username": "bryanjohnson"
+  },
+  {
+    "fid": 332713,
+    "amount": "1000000000000000000000",
+    "username": "lovid"
+  },
+  {
+    "fid": 351017,
+    "amount": "400000000000000000000",
+    "username": "aida-studios"
+  },
+  {
+    "fid": 352218,
+    "amount": "263000000000000000000",
+    "username": "site"
+  },
+  {
+    "fid": 364246,
+    "amount": "2000000000000000000000",
+    "username": "garyedwardblum"
+  },
+  {
+    "fid": 386240,
+    "amount": "400000000000000000000",
+    "username": "shirogatya"
+  },
+  {
+    "fid": 417116,
+    "amount": "200000000000000000000",
+    "username": "subnet"
+  },
+  {
+    "fid": 460287,
+    "amount": "200000000000000000000",
+    "username": "floatybot"
+  },
+  {
+    "fid": 465479,
+    "amount": "200000000000000000000",
+    "username": "evrenselbaris"
+  },
+  {
+    "fid": 467256,
+    "amount": "600000000000000000000",
+    "username": "eawosika"
+  },
+  {
+    "fid": 471907,
+    "amount": "200000000000000000000",
+    "username": "treegens"
+  },
+  {
+    "fid": 475658,
+    "amount": "300000000000000000000",
+    "username": "taypen"
+  },
+  {
+    "fid": 488614,
+    "amount": "350000000000000000000",
+    "username": "reptile"
+  },
+  {
+    "fid": 502254,
+    "amount": "320000000000000000000",
+    "username": "masks-bot"
+  },
+  {
+    "fid": 502923,
+    "amount": "200000000000000000000",
+    "username": "diegostig1838"
+  },
+  {
+    "fid": 510194,
+    "amount": "210000000000000000000",
+    "username": "adex2020"
+  },
+  {
+    "fid": 527579,
+    "amount": "999000000000000000000",
+    "username": "soytaki"
+  },
+  {
+    "fid": 540319,
+    "amount": "179000000000000000000",
+    "username": "movieverse"
+  },
+  {
+    "fid": 566101,
+    "amount": "200000000000000000000",
+    "username": "cheapdl"
+  },
+  {
+    "fid": 571789,
+    "amount": "280000000000000000000",
+    "username": "stra"
+  },
+  {
+    "fid": 617512,
+    "amount": "8702000000000000000000",
+    "username": "charliedbecker"
+  },
+  {
+    "fid": 645771,
+    "amount": "21868000000000000000000",
+    "username": "rodeodotclub"
+  },
+  {
+    "fid": 702530,
+    "amount": "300000000000000000000",
+    "username": "huntbot"
+  },
+  {
+    "fid": 708439,
+    "amount": "200000000000000000000",
+    "username": "6255113625511319"
+  },
+  {
+    "fid": 715630,
+    "amount": "200000000000000000000",
+    "username": "dlfkhrdlfkhrmjec"
+  },
+  {
+    "fid": 728156,
+    "amount": "1500000000000000000000",
+    "username": "alandisturbed"
+  },
+  {
+    "fid": 738527,
+    "amount": "900000000000000000000",
+    "username": "scarlet-thread"
+  },
+  {
+    "fid": 768581,
+    "amount": "28473000000000000000000",
+    "username": "tayzonday"
+  },
+  {
+    "fid": 780914,
+    "amount": "1050000000000000000000",
+    "username": "kingmodaser"
+  },
+  {
+    "fid": 786858,
+    "amount": "220000000000000000000",
+    "username": "wildbot"
+  },
+  {
+    "fid": 799806,
+    "amount": "200000000000000000000",
+    "username": "minusvibe"
+  },
+  {
+    "fid": 802246,
+    "amount": "271000000000000000000",
+    "username": "burato33"
+  },
+  {
+    "fid": 807808,
+    "amount": "1200000000000000000000",
+    "username": "offmarket"
+  },
+  {
+    "fid": 811127,
+    "amount": "414000000000000000000",
+    "username": "stickmanofficial"
+  },
+  {
+    "fid": 811600,
+    "amount": "200000000000000000000",
+    "username": "jakobowsky"
+  },
+  {
+    "fid": 814745,
+    "amount": "6413000000000000000000",
+    "username": "!814745"
+  },
+  {
+    "fid": 816433,
+    "amount": "5734000000000000000000",
+    "username": "fartherbot"
+  },
+  {
+    "fid": 822887,
+    "amount": "200000000000000000000",
+    "username": "0clancelot"
+  },
+  {
+    "fid": 823422,
+    "amount": "200000000000000000000",
+    "username": "hesther"
+  },
+  {
+    "fid": 828677,
+    "amount": "200000000000000000000",
+    "username": "brucenotwayne"
+  },
+  {
+    "fid": 831902,
+    "amount": "3811000000000000000000",
+    "username": "pasternak"
+  },
+  {
+    "fid": 840105,
+    "amount": "291000000000000000000",
+    "username": "0xleila"
+  }
+]

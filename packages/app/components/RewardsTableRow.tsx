@@ -110,8 +110,7 @@ export function RewardsTableRow({
               <ExternalLink href="https://blog.sablier.com/introducing-airstreams/">
                 Sablier Airstream
               </ExternalLink>
-              . The purpose of this is to prevent market manipulation prior to
-              claims going live, and smooth distribution over time.{" "}
+              .{" "}
               <ExternalLink href="https://warpcast.com/farther/0xa2558589">
                 Explained more here
               </ExternalLink>

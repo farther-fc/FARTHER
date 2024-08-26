@@ -114,16 +114,9 @@ async function prepareLpBonusDrop() {
           previouslyAllocated[account.id]?.amount || BigInt(0);
         const amount = totalRewards - prevAllocated;
 
-        console.log({
-          totalRewards,
-          prevAllocated,
-          amount,
-        });
-
         return {
           address: account.id,
           fid: u.fid,
-          // TODO: verify this is correct
           amount,
         };
       })
