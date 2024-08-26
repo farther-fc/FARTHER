@@ -1,8 +1,6 @@
 import { InvalidTipReason } from "@farther/backend";
-import { ENVIRONMENT, TIP_MINIMUM } from "@farther/common";
-import { invalidTipReasons } from "@lib/constants";
+import { ENVIRONMENT } from "@farther/common";
 import { NeynarAPIClient } from "@neynar/nodejs-sdk";
-import numeral from "numeral";
 import { requireEnv } from "require-env-variable";
 
 const { NEYNAR_TIP_BOT_API_KEY, TIP_BOT_UUID } = requireEnv(
@@ -86,64 +84,72 @@ export async function tipBot({
     return;
   }
 
-  const remainingAllowance = numeral(
-    availableAllowance - amountTippedThisCycle,
-  ).format("0,0");
-
-  let message = ``;
-
-  const amountAndRemaining = `\n\nTip amount: ${tipAmount} ✨\nRemaining: ${remainingAllowance} ✨`;
-
-  if (invalidTipReason) {
-    message += `🚫 Invalid tip from @${tipper} to @${tippee}`;
-
-    const invalidMessage = invalidTipReasons[invalidTipReason];
-
-    message += `\n\n${invalidMessage}`;
-
-    if (allowableAmount) {
-      const formattedAllowedAmount = numeral(allowableAmount).format("0,0");
-      message +=
-        allowableAmount >= TIP_MINIMUM
-          ? `. Reduce the amount to ${formattedAllowedAmount} for this tip to be valid.`
-          : `. The allowed amount (${formattedAllowedAmount}) is below the tip minimum (${TIP_MINIMUM}).`;
-    }
-
-    if (
-      invalidTipReason === InvalidTipReason.RECIPROCATION_THRESHOLD_REACHED &&
-      totalWeekAmtToTippers &&
-      weekAllowancesTotal
-    ) {
-      message += `\nTotal allowance in the past week: ${numeral(weekAllowancesTotal).format("0,0")}. Total given to tippers: ${numeral(totalWeekAmtToTippers).format("0,0")} (${numeral((totalWeekAmtToTippers / weekAllowancesTotal) * 100).format("0.00")}%)`;
-    }
-
-    if (
-      invalidTipReason === InvalidTipReason.RECIPROCATION_THRESHOLD_REACHED ||
-      invalidTipReason === InvalidTipReason.TIPPEE_LIMIT_REACHED
-    ) {
-      message += `\n\nPlease tip undderated users to increase your tipper score! The @hot100 is a good resource.`;
-    }
-
-    message += amountAndRemaining;
-  } else {
-    message += `✅ Valid tip from @${tipper} to @${tippee}${amountAndRemaining}`;
-  }
-
-  const percentage = Math.round(
-    (amountTippedThisCycle / availableAllowance) * 100,
+  await neynarClient.publishCast(
+    TIP_BOT_UUID,
+    `The Farther tipping program has been indefinitely paused: https://warpcast.com/farther/0x3bbe8fc9`,
+    {
+      replyTo: tipHash,
+    },
   );
 
-  if (!invalidTipReason) {
-    const progressBar = createProgressBar({
-      progress: amountTippedThisCycle,
-      total: availableAllowance,
-    });
+  // const remainingAllowance = numeral(
+  //   availableAllowance - amountTippedThisCycle,
+  // ).format("0,0");
 
-    message += `\n\n${numeral(amountTippedThisCycle).format("0,0")} ✨ / ${numeral(availableAllowance).format("0,0")} ✨ (${percentage}%)\n`;
-    message += progressBar;
-  }
+  // let message = ``;
 
-  await neynarClient.publishCast(TIP_BOT_UUID, message, {
-    replyTo: tipHash,
-  });
+  // const amountAndRemaining = `\n\nTip amount: ${tipAmount} ✨\nRemaining: ${remainingAllowance} ✨`;
+
+  // if (invalidTipReason) {
+  //   message += `🚫 Invalid tip from @${tipper} to @${tippee}`;
+
+  //   const invalidMessage = invalidTipReasons[invalidTipReason];
+
+  //   message += `\n\n${invalidMessage}`;
+
+  //   if (allowableAmount) {
+  //     const formattedAllowedAmount = numeral(allowableAmount).format("0,0");
+  //     message +=
+  //       allowableAmount >= TIP_MINIMUM
+  //         ? `. Reduce the amount to ${formattedAllowedAmount} for this tip to be valid.`
+  //         : `. The allowed amount (${formattedAllowedAmount}) is below the tip minimum (${TIP_MINIMUM}).`;
+  //   }
+
+  //   if (
+  //     invalidTipReason === InvalidTipReason.RECIPROCATION_THRESHOLD_REACHED &&
+  //     totalWeekAmtToTippers &&
+  //     weekAllowancesTotal
+  //   ) {
+  //     message += `\nTotal allowance in the past week: ${numeral(weekAllowancesTotal).format("0,0")}. Total given to tippers: ${numeral(totalWeekAmtToTippers).format("0,0")} (${numeral((totalWeekAmtToTippers / weekAllowancesTotal) * 100).format("0.00")}%)`;
+  //   }
+
+  //   if (
+  //     invalidTipReason === InvalidTipReason.RECIPROCATION_THRESHOLD_REACHED ||
+  //     invalidTipReason === InvalidTipReason.TIPPEE_LIMIT_REACHED
+  //   ) {
+  //     message += `\n\nPlease tip undderated users to increase your tipper score! The @hot100 is a good resource.`;
+  //   }
+
+  //   message += amountAndRemaining;
+  // } else {
+  //   message += `✅ Valid tip from @${tipper} to @${tippee}${amountAndRemaining}`;
+  // }
+
+  // const percentage = Math.round(
+  //   (amountTippedThisCycle / availableAllowance) * 100,
+  // );
+
+  // if (!invalidTipReason) {
+  //   const progressBar = createProgressBar({
+  //     progress: amountTippedThisCycle,
+  //     total: availableAllowance,
+  //   });
+
+  //   message += `\n\n${numeral(amountTippedThisCycle).format("0,0")} ✨ / ${numeral(availableAllowance).format("0,0")} ✨ (${percentage}%)\n`;
+  //   message += progressBar;
+  // }
+
+  // await neynarClient.publishCast(TIP_BOT_UUID, message, {
+  //   replyTo: tipHash,
+  // });
 }
