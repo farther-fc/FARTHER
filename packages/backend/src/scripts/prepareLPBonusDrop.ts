@@ -15,6 +15,7 @@ import {
 import { writeFileSync } from "fs";
 import { v4 as uuidv4 } from "uuid";
 import { getLpAccounts } from "../../../app/server/liquidity/getLpAccounts";
+import { createAllocationsCSV } from "../lib/createAllocationsCSV";
 import { formatNum } from "../lib/utils/helpers";
 import { AllocationType, prisma } from "../prisma";
 import { airdropSanityCheck } from "./airdropSanityCheck";
@@ -180,6 +181,11 @@ async function prepareLpBonusDrop() {
           2,
         ),
       );
+
+      await createAllocationsCSV({
+        allocationType: AllocationType.LIQUIDITY,
+        leafs: rawLeafData,
+      });
     });
 
     const sortedallocations = allocationData.sort((a, b) => {
