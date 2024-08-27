@@ -106,19 +106,23 @@ export function RewardsTableRow({
         body: (
           <>
             <p className="mb-4">
-              This airdrop is being continuously vested for one month using a{" "}
+              This airdrop is being distributed via a{" "}
               <ExternalLink href="https://blog.sablier.com/introducing-airstreams/">
                 Sablier Airstream
               </ExternalLink>
-              .{" "}
+              . If you haven't initiated the claim yet, please click the button
+              below to visit the claim page. Once initiated, it will linearly
+              vest for 30 days.
+            </p>
+            <p>
+              This distribution process was announced{" "}
               <ExternalLink href="https://warpcast.com/farther/0xa2558589">
-                Explained more here
+                here.
               </ExternalLink>
-              .
             </p>
 
             <ExternalLink href={allocation.airdrop.sablierUrl}>
-              <Button>Vist Claim Page</Button>
+              <Button className="mt-6">Vist Claim Page</Button>
             </ExternalLink>
           </>
         ),
