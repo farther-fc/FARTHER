@@ -20,8 +20,6 @@ import { formatNum } from "../lib/utils/helpers";
 import { AllocationType, prisma } from "../prisma";
 import { airdropSanityCheck } from "./airdropSanityCheck";
 
-const AIRDROP_ID_TO_DELETE = "5638ef89-755e-4902-b005-2e151377271e";
-
 async function prepareLpBonusDrop() {
   await airdropSanityCheck({
     date: NEXT_AIRDROP_START_TIME,
@@ -145,19 +143,6 @@ async function prepareLpBonusDrop() {
     }
 
     await prisma.$transaction(async (tx) => {
-      // Delete old airdrop
-      await tx.airdrop.delete({
-        where: {
-          id: AIRDROP_ID_TO_DELETE,
-        },
-      });
-
-      await tx.allocation.deleteMany({
-        where: {
-          airdropId: AIRDROP_ID_TO_DELETE,
-        },
-      });
-
       // Create Airdrop
       const airdrop = await tx.airdrop.create({
         data: {
