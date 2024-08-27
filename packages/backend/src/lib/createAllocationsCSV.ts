@@ -1,4 +1,8 @@
-import { ENVIRONMENT, NEXT_AIRDROP_START_TIME } from "@farther/common";
+import {
+  ENVIRONMENT,
+  NEXT_AIRDROP_START_TIME,
+  WAD_SCALER,
+} from "@farther/common";
 import { AllocationType } from "@prisma/client";
 import { createObjectCsvWriter } from "csv-writer";
 import { Address } from "viem";
@@ -18,5 +22,10 @@ export async function createAllocationsCSV({
     ],
   });
 
-  await csvWriter.writeRecords(leafs);
+  await csvWriter.writeRecords(
+    leafs.map((l) => ({
+      address: l.address,
+      amount: (BigInt(l.amount) / WAD_SCALER).valueOf(),
+    })),
+  );
 }
