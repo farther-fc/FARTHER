@@ -1,3 +1,4 @@
+import { InfoCard } from "@components/InfoCard";
 import { EcosystemFundModal } from "@components/modals/EcosystemFundModal";
 import { Button } from "@components/ui/Button";
 import { ExternalLink } from "@components/ui/ExternalLink";
@@ -19,6 +20,20 @@ function TokenomicsInfo() {
 
   return (
     <>
+      <InfoCard variant="attention">
+        On September 2, 2024, token holders were given control of the treasury
+        via{" "}
+        <ExternalLink href="https://basescan.org/address/0xfC14c74D0c22d589aD2B0829e11dCe2C82C28cFC#code">
+          FartherDAO
+        </ExternalLink>
+        . The dev fund remains available for anyone interested in taking over
+        the project. Please read the{" "}
+        <ExternalLink href="https://paragraph.xyz/@farther/the-next-chapter">
+          full announcement
+        </ExternalLink>
+        . This change deprecates the allocations below but the information will
+        remain here for reference.
+      </InfoCard>
       <p>
         FARTHER address:{" "}
         <ExternalLink
