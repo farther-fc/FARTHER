@@ -1,23 +1,11 @@
 import { prisma } from "@farther/backend";
-import { cacheTypes } from "@farther/common";
-import { cache } from "@lib/cache";
 import { apiSchemas } from "@lib/types/apiSchemas";
 import { publicProcedure } from "../trpc";
 
 export const publicGetTipsMeta = publicProcedure
   .input(apiSchemas.publicGetTipsMeta.input)
   .query(async (opts) => {
-    const cachedData = await cache.get({
-      type: cacheTypes.TIP_META,
-    });
-
-    if (cachedData?.length) {
-      return cachedData;
-    }
-
     const tipMetaData = await getTipMeta(opts.input?.date);
-
-    cache.set({ type: cacheTypes.TIP_META, value: tipMetaData });
 
     return tipMetaData;
   });

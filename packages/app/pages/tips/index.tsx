@@ -5,7 +5,6 @@ import { TipsUserInfo } from "@components/tips/TipsUserInfo";
 import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
 import { ExternalLink } from "@components/ui/ExternalLink";
-import { Skeleton } from "@components/ui/Skeleton";
 import {
   ACTIVE_TIP_DAYS_REQUIRED,
   BREADTH_RATIO_TIP_COUNT_THRESHOLD,
@@ -30,13 +29,11 @@ function TipsPage() {
         <h1>Tips</h1>
         <TipRewardsHeader />
         <h4 className="text-ghost mt-8 text-sm uppercase">Current Cycle</h4>
-        {!tipsMetaLoading && createdAt ? (
-          <InfoCard className="mt-0">
-            <EndStatement />
-          </InfoCard>
-        ) : (
-          <Skeleton />
-        )}
+
+        <InfoCard className="mt-0">
+          <EndStatement />
+        </InfoCard>
+
         <div className="grid gap-x-8 grid-cols-1 md:grid-cols-2 mb-10">
           <Link href={routes.tips.subroutes.leaderboard.path}>
             <Button variant="secondary" className="mt-6 w-full">

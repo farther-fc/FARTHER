@@ -9,15 +9,10 @@ import { setAllocationClaimed } from "server/airdrop/setAllocationClaimed";
 import { flushCache, flushCacheAll } from "server/cache";
 import { publicGetPrice } from "server/getPrice";
 import { handleTip } from "server/tips/handleTip";
-import { publicTipsLeaderboard } from "server/tips/leaderboard";
 import { publicGetTipsMeta } from "server/tips/publicGetTipsMeta";
 import { publicTipsByTipper } from "server/tips/publicTipsByTipper";
 import { createContext, router } from "server/trpc";
-import {
-  getUser,
-  publicGetUserByAddress,
-  publicGetUserByFid,
-} from "server/user";
+import { getUser } from "server/user";
 
 export const appRouter = router({
   getMerkleProof,
@@ -31,13 +26,13 @@ export const appRouter = router({
     flushCache,
   }),
   public: router({
-    user: router({
-      byAddress: publicGetUserByAddress,
-      byFid: publicGetUserByFid,
-    }),
+    // user: router({
+    //   byAddress: publicGetUserByAddress,
+    //   byFid: publicGetUserByFid,
+    // }),
     tips: router({
       meta: publicGetTipsMeta,
-      leaderboard: publicTipsLeaderboard,
+      // leaderboard: publicTipsLeaderboard,
       byTipper: publicTipsByTipper,
     }),
     token: router({
