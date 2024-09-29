@@ -1,11 +1,9 @@
 import {
   cacheTimes,
-  cacheTypes,
   fetchUserByAddress,
   fetchUserByFid,
   getPowerBadgeFids,
 } from "@farther/common";
-import { cache } from "@lib/cache";
 import { PENDING_TIPS_ALLOCATION_ID } from "@lib/constants";
 import { getTipperScore } from "@lib/getTipperScore";
 import { apiSchemas } from "@lib/types/apiSchemas";
@@ -557,24 +555,7 @@ async function getPublicUserFromDb({
 }
 
 async function getPublicUser({ fid }: { fid: number }) {
-  const cachedUser = await cache.get({
-    id: fid,
-    type: cacheTypes.USER,
-  });
-
-  if (cachedUser) {
-    return cachedUser;
-  }
-
   const user = await getUncachedPublicUser({ fid });
-
-  if (user) {
-    await cache.set({
-      id: fid,
-      type: cacheTypes.USER,
-      value: user,
-    });
-  }
 
   return user;
 }
