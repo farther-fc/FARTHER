@@ -20,13 +20,10 @@ import { useUser } from "@lib/context/UserContext";
 import { routes } from "@lib/routes";
 import { formatWad, removeFalsyValues } from "@lib/utils";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import { useLiquidityHandlers } from "hooks/useLiquidityHandlers";
 import Link from "next/link";
 
 export default function ProfilePage() {
   const { accountAddress, user, userLoading } = useUser();
-  const { handleClaimRewards, claimSuccess, claimPending } =
-    useLiquidityHandlers();
   const { claimableRewards, rewardsClaimed } = useLiquidity();
 
   const rows = removeFalsyValues(user?.allocations || []);
@@ -138,10 +135,13 @@ export default function ProfilePage() {
                 claimableRewards > BigInt(0) ||
                 typeof rewardsClaimed === "string" ? (
                 <div className="mt-8">
-                  <p className="text-muted">
-                    Snapshots for airdrops take place up to a week before the
-                    end of the month.
-                  </p>
+                  <InfoCard>
+                    <strong>Note for liquidity providers:</strong> Liquidity
+                    management & rewards claims are no longer provided via
+                    farther.social due to the data provider's high service
+                    costs. However, everything is still possible via etherscan.
+                    Please email matt@farther.social for assistance.
+                  </InfoCard>
                   <Table className="mt-12">
                     <TableHeader>
                       <TableRow>
@@ -158,37 +158,6 @@ export default function ProfilePage() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {/** CLAIMABLE ONCHAIN LIQUDITY REWARDS */}
-                      {claimableRewards > BigInt(0) && (
-                        <TableRow>
-                          <TableCell className="pl-0 font-medium">
-                            <Link href={routes.liquidity.path}>
-                              Liquidity (onchain rewards)
-                            </Link>
-                          </TableCell>
-                          <TableCell></TableCell>
-                          <TableCell className="pr-1 text-right">
-                            {formatWad(claimableRewards)}
-                          </TableCell>
-                          <TableCell className="pr-0 text-right">
-                            <Button
-                              className="w-tableButton md:w-tableButtonWide ml-auto mt-2"
-                              variant="secondary"
-                              sentryId={clickIds.claimLiquidityRewards}
-                              onClick={() => handleClaimRewards()}
-                              disabled={
-                                claimSuccess ||
-                                claimPending ||
-                                claimableRewards === BigInt(0)
-                              }
-                              loading={claimPending}
-                              loadingText="Claiming"
-                            >
-                              Claim
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      )}
                       {unclaimedRewards.map((a) => (
                         <RewardsTableRow
                           key={a.id}
